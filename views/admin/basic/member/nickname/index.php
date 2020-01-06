@@ -46,7 +46,7 @@
 							<td><?php echo element('display_name', $result); ?></td>
 							<td><?php echo html_escape(element('mni_nickname', $result)); ?></td>
 							<td><?php echo display_datetime(element('mni_start_datetime', $result), 'full'); ?></td>
-							<td><?php echo element('mni_end_datetime', $result) > '0000-00-00 00:00:00' ? display_datetime(element('mni_end_datetime', $result), 'full') : '현재 사용중'; ?></td>
+							<td><?php echo element('mni_end_datetime', $result) > '1000-01-01 00:00:00' ? display_datetime(element('mni_end_datetime', $result), 'full') : '현재 사용중'; ?></td>
 						</tr>
 					<?php
 						}

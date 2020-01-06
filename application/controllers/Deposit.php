@@ -448,7 +448,7 @@ class Deposit extends CB_Controller
 			$insertdata['dep_cash'] = 0;
 			$insertdata['dep_status'] = 0;
 			$insertdata['mem_realname'] = element('depositor', $result);
-			$insertdata['dep_vbank_expire'] = element('cor_vbank_expire', $result) ? date("Y-m-d", strtotime(element('cor_vbank_expire', $result))) : '0000-00-00 00:00:00';
+			$insertdata['dep_vbank_expire'] = element('cor_vbank_expire', $result) ? date("Y-m-d", strtotime(element('cor_vbank_expire', $result))) : '1000-01-01 00:00:00';
 			$insertdata['dep_bank_info'] = element('bankname', $result) . ' ' . element('account', $result);
 			$insertdata['dep_pg'] = $this->cbconfig->item('use_payment_pg');
 			$insertdata['dep_content'] = $this->cbconfig->item('deposit_name') . ' 적립 (가상계좌)';

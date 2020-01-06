@@ -61,7 +61,7 @@
 			<div class="form-group approve_datetime">
 				<label class="col-sm-2 control-label">결제일시</label>
 				<div class="col-sm-10 form-inline">
-					<input type="text" class="form-control" name="cor_approve_datetime" id="cor_approve_datetime" value="<?php echo set_value('cor_approve_datetime', (element('cor_approve_datetime', element('data', $view)) > '0000-00-00 00:00:00' ? element('cor_approve_datetime', element('data', $view)):cdate('Y-m-d H:i:s'))); ?>" />
+					<input type="text" class="form-control" name="cor_approve_datetime" id="cor_approve_datetime" value="<?php echo set_value('cor_approve_datetime', (element('cor_approve_datetime', element('data', $view)) > '1000-01-01 00:00:00' ? element('cor_approve_datetime', element('data', $view)):cdate('Y-m-d H:i:s'))); ?>" />
 				</div>
 			</div>
 			<div class="form-group">

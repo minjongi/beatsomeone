@@ -49,7 +49,7 @@
 			<div class="form-group approve_datetime">
 				<label class="col-sm-2 control-label">결제일시</label>
 				<div class="col-sm-10 form-inline">
-					<input type="text" class="form-control" name="dep_deposit_datetime" id="dep_deposit_datetime" value="<?php echo set_value('dep_deposit_datetime', (element('dep_deposit_datetime', element('data', $view)) > '0000-00-00 00:00:00' ? element('dep_deposit_datetime', element('data', $view)):cdate('Y-m-d H:i:s'))); ?>" />
+					<input type="text" class="form-control" name="dep_deposit_datetime" id="dep_deposit_datetime" value="<?php echo set_value('dep_deposit_datetime', (element('dep_deposit_datetime', element('data', $view)) > '1000-01-01 00:00:00' ? element('dep_deposit_datetime', element('data', $view)):cdate('Y-m-d H:i:s'))); ?>" />
 				</div>
 			</div>
 			<div class="form-group">

@@ -44,7 +44,7 @@
 							<td><?php echo html_escape(element('sme_name', $result)); ?></td>
 							<td><?php echo html_escape(element('ssh_phone', $result)); ?></td>
 							<td><?php echo display_datetime(element('ssh_datetime', $result), 'full'); ?></td>
-							<td><?php echo element('ssc_booking', $result) > '0000-00-00 00:00:00' ? '예약' : ''; ?></td>
+							<td><?php echo element('ssc_booking', $result) > '1000-00-00 00:00:00' ? '예약' : ''; ?></td>
 							<td><?php echo element('ssh_success', $result) === '1'? '성공' : '실패'; ?></td>
 							<td><?php echo nl2br(html_escape(element('ssc_content', $result))); ?></td>
 							<td>

@@ -32,7 +32,7 @@
 				<td><?php echo element('display_name', $result); ?></td>
 				<td><a href="<?php echo site_url('note/view/' . element('type', $view) . '/' . element('nte_id', $result)); ?>"><?php echo html_escape(element('nte_title', $result)); ?></a></td>
 				<td><a href="<?php echo site_url('note/view/' . element('type', $view) . '/' . element('nte_id', $result)); ?>"><?php echo display_datetime(element('nte_datetime', $result), 'full'); ?></a></td>
-				<td><a href="<?php echo site_url('note/view/' . element('type', $view) . '/' . element('nte_id', $result)); ?>"><?php echo element('nte_read_datetime', $result) > '0000-00-00 00:00:00' ? display_datetime(element('nte_read_datetime', $result), 'full') : '<span style="color:#a94442;">아직 읽지 않음</span>'; ?></a></td>
+				<td><a href="<?php echo site_url('note/view/' . element('type', $view) . '/' . element('nte_id', $result)); ?>"><?php echo element('nte_read_datetime', $result) > '1000-01-01 00:00:00' ? display_datetime(element('nte_read_datetime', $result), 'full') : '<span style="color:#a94442;">아직 읽지 않음</span>'; ?></a></td>
 				<td><button class="btn-link btn-one-delete" data-one-delete-url = "<?php echo element('delete_url', $result); ?>">삭제</button></td>
 			</tr>
 		<?php

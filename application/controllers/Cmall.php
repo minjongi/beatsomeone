@@ -1274,7 +1274,7 @@ class Cmall extends CB_Controller
 			$insertdata['cor_cash'] = 0;
 			$insertdata['cor_status'] = 0;
 			$insertdata['mem_realname'] = element('depositor', $result);
-			$insertdata['cor_vbank_expire'] = element('cor_vbank_expire', $result) ? date("Y-m-d", strtotime(element('cor_vbank_expire', $result))) : '0000-00-00 00:00:00';
+			$insertdata['cor_vbank_expire'] = element('cor_vbank_expire', $result) ? date("Y-m-d", strtotime(element('cor_vbank_expire', $result))) : '1000-01-01 00:00:00';
 			$insertdata['cor_bank_info'] = element('bankname', $result) . ' ' . element('account', $result);
 			$insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
 		} elseif ($this->input->post('pay_type') === 'phone') {

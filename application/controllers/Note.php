@@ -241,7 +241,7 @@ class Note extends CB_Controller
 			$result['display_name'] = '알림';
 		}
 		if (element('nte_type', $result) === '1'
-			&& (empty($result['nte_read_datetime']) OR $result['nte_read_datetime'] <= '0000-00-00 00:00:00')) {
+			&& (empty($result['nte_read_datetime']) OR $result['nte_read_datetime'] <= '1000-01-01 00:00:00')) {
 			$updatedata = array(
 				'nte_read_datetime' => cdate('Y-m-d H:i:s'),
 			);
@@ -262,7 +262,7 @@ class Note extends CB_Controller
 			);
 			$this->db->where($where);
 			$this->db->group_start();
-			$this->db->where(array('nte_read_datetime <=' => '0000-00-00 00:00:00'));
+			$this->db->where(array('nte_read_datetime <=' => '1000-01-01 00:00:00'));
 			$this->db->or_where(array('nte_read_datetime' => null));
 			$this->db->group_end();
 			$cnt = $this->db->count_all_results('note');
@@ -735,7 +735,7 @@ class Note extends CB_Controller
 		);
 		$this->db->where($where);
 		$this->db->group_start();
-		$this->db->where(array('nte_read_datetime <=' => '0000-00-00 00:00:00'));
+		$this->db->where(array('nte_read_datetime <=' => '1000-01-01 00:00:00'));
 		$this->db->or_where(array('nte_read_datetime' => null));
 		$this->db->group_end();
 		$cnt = $this->db->count_all_results('note');

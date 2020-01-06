@@ -85,7 +85,7 @@ class Poll extends CB_Controller
 				$result['list'][$key]['brd_name'] = $this->board->item_id('brd_name', element('brd_id', $val));
 				if (element('ppo_end_datetime', $val) > cdate('Y-m-d H:i:s')
 					OR empty($val['ppo_end_datetime'])
-					OR element('ppo_end_datetime', $val) === '0000-00-00 00:00:00') {
+					OR element('ppo_end_datetime', $val) === '1000-01-01 00:00:00') {
 					$result['list'][$key]['period'] = '진행중';
 				} elseif (element('ppo_start_datetime', $val) > cdate('Y-m-d H:i:s')) {
 					$result['list'][$key]['period'] = '진행전';
@@ -238,11 +238,11 @@ class Poll extends CB_Controller
 		}
 
 		if (empty($post_poll['ppo_start_datetime'])
-			OR element('ppo_start_datetime', $post_poll) === '0000-00-00 00:00:00') {
+			OR element('ppo_start_datetime', $post_poll) === '1000-01-01 00:00:00') {
 			$post_poll['ppo_start_datetime'] = '';
 		}
 		if (empty($post_poll['ppo_end_datetime'])
-			OR element('ppo_end_datetime', $post_poll) === '0000-00-00 00:00:00') {
+			OR element('ppo_end_datetime', $post_poll) === '1000-01-01 00:00:00') {
 			$post_poll['ppo_end_datetime'] = '';
 		}
 
@@ -388,11 +388,11 @@ class Poll extends CB_Controller
 		}
 
 		if (empty($post_poll['ppo_start_datetime'])
-			OR element('ppo_start_datetime', $post_poll) === '0000-00-00 00:00:00') {
+			OR element('ppo_start_datetime', $post_poll) === '1000-01-01 00:00:00') {
 			$post_poll['ppo_start_datetime'] = '';
 		}
 		if (empty($post_poll['ppo_end_datetime'])
-			OR element('ppo_end_datetime', $post_poll) === '0000-00-00 00:00:00') {
+			OR element('ppo_end_datetime', $post_poll) === '1000-01-01 00:00:00') {
 			$post_poll['ppo_end_datetime'] = '';
 		}
 

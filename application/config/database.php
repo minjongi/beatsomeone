@@ -84,9 +84,9 @@ $query_builder = TRUE;
 $db['default'] = array(
 	//'dsn'	=> 'mysql:host=localhost;dbname=yourdatabasenamehere',
 	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
+	'username' => 'dumdum',
+	'password' => 'Dumdum2020!!',
+	'database' => 'beatsomeone',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => 'cb_',
 	'pconnect' => FALSE,

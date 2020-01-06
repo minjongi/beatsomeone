@@ -109,7 +109,7 @@ if ( ! function_exists('check_datetime') ){
 	// 일자 시간을 검사한다.
 	function check_datetime($datetime)
 	{
-		if ($datetime == "0000-00-00 00:00:00")
+		if ($datetime == "1000-01-01 00:00:00")
 			return true;
 
 		$year		= substr($datetime, 0, 4);

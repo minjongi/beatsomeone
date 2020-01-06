@@ -101,10 +101,10 @@ class Popup extends CB_Controller
 		$list_num = $result['total_rows'] - ($page - 1) * $per_page;
 		if (element('list', $result)) {
 			foreach (element('list', $result) as $key => $val) {
-				if (empty($val['pop_start_date']) OR $val['pop_start_date'] === '0000-00-00') {
+				if (empty($val['pop_start_date']) OR $val['pop_start_date'] === '1000-01-01') {
 					$result['list'][$key]['pop_start_date'] = '미지정';
 				}
-				if (empty($val['pop_end_date']) OR $val['pop_end_date'] === '0000-00-00') {
+				if (empty($val['pop_end_date']) OR $val['pop_end_date'] === '1000-01-01') {
 					$result['list'][$key]['pop_end_date'] = '미지정';
 				}
 				$result['list'][$key]['num'] = $list_num--;
@@ -274,10 +274,10 @@ class Popup extends CB_Controller
 			$view['view']['event']['formrunfalse'] = Events::trigger('formrunfalse', $eventname);
 
 			if ($pid) {
-				if (empty($getdata['pop_start_date']) OR $getdata['pop_start_date'] === '0000-00-00') {
+				if (empty($getdata['pop_start_date']) OR $getdata['pop_start_date'] === '1000-01-01') {
 					$getdata['pop_start_date'] = '';
 				}
-				if (empty($getdata['pop_end_date']) OR $getdata['pop_end_date'] === '0000-00-00') {
+				if (empty($getdata['pop_end_date']) OR $getdata['pop_end_date'] === '1000-01-01') {
 					$getdata['pop_end_date'] = '';
 				}
 				$view['view']['data'] = $getdata;

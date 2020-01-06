@@ -235,14 +235,14 @@
 				<li>
 					<span>설문기간</span>
 					기간 :
-					<input type="text" class="input datepicker " name="ppo_start_date" value="<?php echo (element('ppo_start_datetime', element('poll', $view)) >'0000-00-00 00:00:00') ? substr(element('ppo_start_datetime', element('poll', $view)),0,10) : ''; ?>" readonly="readonly" />
+					<input type="text" class="input datepicker " name="ppo_start_date" value="<?php echo (element('ppo_start_datetime', element('poll', $view)) >'1000-01-01 00:00:00') ? substr(element('ppo_start_datetime', element('poll', $view)),0,10) : ''; ?>" readonly="readonly" />
 					<select name="ppo_start_time" class="input">
 					<?php for ($i = 0; $i <24; $i++) {?>
 						<option value="<?php echo $i;?>" <?php echo (substr(element('ppo_start_datetime', element('poll', $view)),11,2) === sprintf("%02d", $i)) ? 'selected="selected"' : ''; ?>><?php echo $i;?>시</option>
 					<?php } ?>
 					</select>
 						~
-					<input type="text" class="input datepicker" name="ppo_end_date" value="<?php echo (element('ppo_end_datetime', element('poll', $view)) >'0000-00-00 00:00:00') ? substr(element('ppo_end_datetime', element('poll', $view)),0,10) : ''; ?>" readonly="readonly" />
+					<input type="text" class="input datepicker" name="ppo_end_date" value="<?php echo (element('ppo_end_datetime', element('poll', $view)) >'1000-01-01 00:00:00') ? substr(element('ppo_end_datetime', element('poll', $view)),0,10) : ''; ?>" readonly="readonly" />
 					<select name="ppo_end_time" class="input">
 						<?php for ($i = 0; $i <24; $i++) {?>
 							<option value="<?php echo $i;?>" <?php echo (substr(element('ppo_end_datetime', element('poll', $view)),11,2) === sprintf("%02d", $i)) ? 'selected="selected"' : ''; ?>><?php echo $i;?>시</option>

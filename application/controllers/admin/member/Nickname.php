@@ -91,7 +91,7 @@ class Nickname extends CB_Controller
 			$where['mni_end_datetime'] = null;
 		}
 		if ($this->input->get('use') === 'N') {
-			$where['mni_end_datetime >'] = '0000-00-00 00:00:00';
+			$where['mni_end_datetime >'] = '1000-01-01 00:00:00';
 		}
 
 		$result = $this->{$this->modelname}

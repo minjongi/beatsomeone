@@ -46,7 +46,7 @@
 							<td><?php echo html_escape(element('ssc_send_phone', $result)); ?></td>
 							<td><?php echo element('display_name', $result); ?></td>
 							<td><?php echo display_datetime(element('ssc_datetime', $result), 'full'); ?></td>
-							<td><?php echo element('ssc_booking', $result) > '0000-00-00 00:00:00' ? display_datetime(element('ssc_booking', $result), 'full') : ''; ?></td>
+							<td><?php echo element('ssc_booking', $result) > '1000-01-01 00:00:00' ? display_datetime(element('ssc_booking', $result), 'full') : ''; ?></td>
 							<td><?php echo number_format(element('ssc_total', $result)); ?></td>
 							<td><?php echo number_format(element('ssc_success', $result)); ?></td>
 							<td><?php echo number_format(element('ssc_fail', $result)); ?></td>

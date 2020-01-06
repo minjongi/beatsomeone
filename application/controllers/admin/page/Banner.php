@@ -107,10 +107,10 @@ class Banner extends CB_Controller
 				if (element('ban_image', $val)) {
 					$result['list'][$key]['thumb_url'] = thumb_url('banner', element('ban_image', $val), '80');
 				}
-				if (empty($val['ban_start_date']) OR $val['ban_start_date'] === '0000-00-00') {
+				if (empty($val['ban_start_date']) OR $val['ban_start_date'] === '1000-01-01') {
 					$result['list'][$key]['ban_start_date'] = '미지정';
 				}
-				if (empty($val['ban_end_date']) OR $val['ban_end_date'] === '0000-00-00') {
+				if (empty($val['ban_end_date']) OR $val['ban_end_date'] === '1000-01-01') {
 					$result['list'][$key]['ban_end_date'] = '미지정';
 				}
 				$result['list'][$key]['num'] = $list_num--;
@@ -332,10 +332,10 @@ class Banner extends CB_Controller
 			$view['view']['message'] = $file_error;
 
 			if ($pid) {
-				if (empty($getdata['ban_start_date']) OR $getdata['ban_start_date'] === '0000-00-00') {
+				if (empty($getdata['ban_start_date']) OR $getdata['ban_start_date'] === '1000-01-01') {
 					$getdata['ban_start_date'] = '';
 				}
-				if (empty($getdata['ban_end_date']) OR $getdata['ban_end_date'] === '0000-00-00') {
+				if (empty($getdata['ban_end_date']) OR $getdata['ban_end_date'] === '1000-01-01') {
 					$getdata['ban_end_date'] = '';
 				}
 				$view['view']['data'] = $getdata;

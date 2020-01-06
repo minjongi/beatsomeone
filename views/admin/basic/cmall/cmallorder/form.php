@@ -186,7 +186,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								?> 원
 							</td>
 						</tr>
-						<?php if (element('cor_approve_datetime', element('data', $view)) > '0000-00-00 00:00:00') { ?>
+						<?php if (element('cor_approve_datetime', element('data', $view)) > '1000-01-01 00:00:00') { ?>
 							<tr>
 								<th>결제일시</th>
 								<td><?php echo element('cor_approve_datetime', element('data', $view)); ?></td>

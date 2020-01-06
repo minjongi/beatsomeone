@@ -466,11 +466,11 @@ class Board_post extends CB_Controller
 				->get('', '', $pollwhere, '', '', 'ppi_id', 'ASC');
 
 			if (empty($poll['ppo_start_datetime'])
-				OR $poll['ppo_start_datetime'] === '0000-00-00 00:00:00') {
+				OR $poll['ppo_start_datetime'] === '1000-01-01 00:00:00') {
 				$poll['ppo_start_datetime'] = '';
 			}
 			if (empty($poll['ppo_end_datetime'])
-				OR $poll['ppo_end_datetime'] === '0000-00-00 00:00:00') {
+				OR $poll['ppo_end_datetime'] === '1000-01-01 00:00:00') {
 				$poll['ppo_end_datetime'] = '';
 			}
 			$poll['poll_period'] = '';

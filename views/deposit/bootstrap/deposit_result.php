@@ -28,7 +28,7 @@
 				<td class="text-center">결제금액</td>
 				<td><?php echo (element('dep_cash', element('data', $view))) ? number_format(abs(element('dep_cash', element('data', $view)))) : '아직 입금되지 않았습니다'; ?></td>
 			</tr>
-			<?php if (element('dep_deposit_datetime', element('data', $view)) > '0000-00-00 00:00:00') { ?>
+			<?php if (element('dep_deposit_datetime', element('data', $view)) > '1000-01-01 00:00:00') { ?>
 				<tr>
 					<td class="text-center">결제일시</td>
 					<td><?php echo element('dep_deposit_datetime', element('data', $view)); ?></td>
