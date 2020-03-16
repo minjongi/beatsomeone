@@ -7,34 +7,27 @@
                 <div class="wrap">
                     <div class="detail__music">
                         <div class="detail__music-img">
-                            <img src="https://via.placeholder.com/190x190" alt=""/>
+                            <img v-if="item" :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
                         </div>
-                        <div class="detail__music-info">
-                            <h2 class="title">Shooting Stars</h2>
-                            <p class="singer">Black Mayo</p>
-                            <div class="state">
-                                <span class="play">547</span>
+                        <div class="detail__music-info" >
+                            <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
+                            <p class="singer" v-if="meta">{{ meta.info_content_3 }}</p>
+                            <div class="state" v-if="item">
+                                <span class="play">{{ item.cit_hit }}</span>
                                 <span class="song">120</span>
-                                <span class="registed">May 20</span>
-                                <span class="etc"
-                                >Free Downloads: Tagged || Non -Exclusive/Stems/Exclusive:
-                    Untagged</span
-                                >
+                                <span class="registed">{{ releaseDt }}</span>
+                                <span class="etc">{{ item.cit_summary }}</span>
                             </div>
-                            <div class="utils">
+                            <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="" class="buy"><span>$20.00</span></a>
+                                    <a href="" class="buy"><span>{{ item.cit_price }}&#8361;</span></a>
                                     <span class="cart">700</span>
                                     <span class="talk">412</span>
                                     <span class="share">179</span>
                                     <span class="atob">91</span>
                                 </div>
-                                <div class="category">
-                                    <span>Acoustic Folk</span>
-                                    <span>Jazz</span>
-                                    <span>Ambient</span>
-                                    <span>Folk</span>
-                                    <span>Singer-Songwriter</span>
+                                <div class="category" v-if="meta">
+                                    <span v-for="genre in listGenre" :key="genre" :class="{'active' : meta.info_content_1 === genre }">{{ genre }}</span>
                                 </div>
                             </div>
                         </div>
@@ -98,6 +91,9 @@
         components: {Header,Footer,Detail_SimilarTracks,Detail_Comments,Detail_Infomation},
         data: function() {
             return {
+                item: null,
+                meta : null,
+                detail : null,
                 comment: null,
                 music: null,
                 playList : [
@@ -297,8 +293,17 @@
                         subPlayList: []
                     }
                 ],
+                listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 tabs: ['SIMILAR TRACKS','COMMENTS','INFORMATION'],
                 currentTab: 'SIMILAR TRACKS',
+            }
+        },
+        computed: {
+            releaseDt: function() {
+                if(!this.item) return null;
+                const t = new Date(Date.parse(this.item.cit_datetime));
+
+                return `${t.getMonth()} / ${t.getFullYear()}`;
             }
         },
         mounted() {
@@ -314,7 +319,7 @@
                 barGap: 2,
                 height: 200
             });
-            this.music.load("/dist/audio/testfile.mp3");
+
             this.music.on("play", () => {
                 playbtn.classList.add("playing");
             });
@@ -325,6 +330,14 @@
                 this.music.playPause();
             });
 
+        },
+        watch: {
+            detail : function(n){
+                if(n) {
+                    this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
+                }
+
+            },
         },
         methods: {
             // 탭 선택

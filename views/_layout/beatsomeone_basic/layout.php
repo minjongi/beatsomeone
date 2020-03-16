@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=1180">
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <title><?php echo html_escape(element('page_title', $layout)); ?></title>
+
     <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />
     <script src="/dist/chunk-common.js"></script>
     <script src="/dist/chunk-vendors.js"></script>
@@ -34,6 +35,10 @@
         Cookies.set('device_view_type', 'mobile', { expires: 1 });
     });
 </script>
+
+<?php echo $this->managelayout->display_js(); ?>
+
+<?php echo $this->managelayout->display_script(); ?>
 
 </html>
 

@@ -10,6 +10,9 @@
                     <div class="wrap">
                         <header class="main__section1-title">
                             <h1>HOLIDAY GIVEAWAY</h1>
+                            <h2>
+                                {{ list }}
+                            </h2>
                             <p>
                                 Finding incredible music & connecting with amazing artists
                                 and<br/>
@@ -72,7 +75,7 @@
                             <div class="playList">
                                 <!-- 아래 템플릿 문자열로 붙임 -->
                                 <ul class="playList__list" id="playList__list">
-                                    <Index_Items v-for="(item,index) in playList" :item="item" :key="index"></Index_Items>
+                                    <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
                                 </ul>
                                 <div class="playList__btnbox">
                                     <a href="#//" class="playList__more">more</a>
@@ -203,13 +206,15 @@
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
+    import axios from 'axios';
 
     export default {
         name: 'Index',
         components: {Header,Footer,Index_Items},
         data: function() {
             return {
-
+                init : {},
+                list: null,
                 currentGenre : 'All Genre',
                 listGenre: ['All Genre','Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
                 playList : [
@@ -459,11 +464,29 @@
                     .find(".options")
                     .toggle();
             });
+
+            // 메인 리스트 조회
+            this.getMainList();
+        },
+        watch: {
+            // 장르가 변경될 때
+            currentGenre: function (n,o) {
+                if(o && n !== o) {
+                    this.getMainList();
+                }
+            }
         },
         methods: {
             selectItem(i) {
                 const path = `/beatsomeone/detail?id=${i.id}`;
                 window.location.href = path;
+            },
+            getMainList() {
+                console.log('query');
+                //axios.get(`/beatsomeone/main_list?genre=${this.currentGenre}`).then(r=> {
+                axios.get(`/beatsomeone/main_list/${encodeURIComponent(this.currentGenre)}`).then(r=> {
+                    this.list = r.data;
+                });
             },
 
         },

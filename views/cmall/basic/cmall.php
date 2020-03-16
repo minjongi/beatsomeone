@@ -1,5 +1,6 @@
 <?php $this->managelayout->add_css(element('view_skin_url', $layout) . '/css/style.css'); ?>
 
+
 <h5 class="cmall-main-title">추천상품</h5>
 <div class="cmall-list">
 	<div class="row">

@@ -13,7 +13,8 @@
                     </div>
                 </div>
                 <nav class="header__nav">
-                    <a href="">HOME</a>
+                    <a href=""></a>
+                    <a href="/">HOME</a>
                     <a href="">Free Beats</a>
                     <a href="">Pricing</a>
                     <a href="">Login</a>

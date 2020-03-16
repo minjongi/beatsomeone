@@ -26,7 +26,7 @@ class Config_model extends CB_Model
 
 	public $cache_name= 'config-model-get'; // 캐시 사용시 프리픽스
 
-	public $cache_time = 86400; // 캐시 저장시간
+	public $cache_time = 1000; // 캐시 저장시간
 
 	function __construct()
 	{

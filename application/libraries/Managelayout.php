@@ -17,6 +17,7 @@ class Managelayout extends CI_Controller
 
 	private $css = array();
 	private $js = array();
+    private $script = array();
 
 	function __construct()
 	{
@@ -370,9 +371,35 @@ class Managelayout extends CI_Controller
 		$_js = $this->js;
 		if ($_js) {
 			foreach ($_js as $val) {
-				$return .= '<script type="text/javascript" src="' . $val . '"></script>';
+				$return .= '<script type="text/javascript" src="' . $val . '?tm='.(new DateTime())->getTimestamp().'"></script>';
 			}
 		}
 		return $return;
 	}
+
+    /**
+     * script를 추가합니다
+     */
+    function add_script($file = '')
+    {
+        if (empty($file)) {
+            return;
+        }
+        array_push($this->script, $file);
+    }
+
+    /**
+     * 추가된 script를 리턴합니다
+     */
+    function display_script()
+    {
+        $return = '';
+        $_script = $this->script;
+        if ($_script) {
+            foreach ($_script as $val) {
+                $return .= '<script type="text/javascript">' . $val . '</script>' . PHP_EOL;
+            }
+        }
+        return $return;
+    }
 }

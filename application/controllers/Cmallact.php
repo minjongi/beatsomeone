@@ -203,6 +203,46 @@ class Cmallact extends CB_Controller
 	}
 
 
+    /**
+     * 상품 첨부파일 샘플 다운로드 하기
+     */
+    public function download_sample($cde_id = 0)
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmallact_download';
+        $this->load->event($eventname);
+
+        $cde_id = preg_replace('/[^0-9]/', '', $cde_id);
+        if (empty($cde_id) OR $cde_id < 1) {
+            show_404();
+        }
+
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before', $eventname);
+
+        $this->load->model(array('Cmall_item_model', 'Cmall_item_detail_model', 'Cmall_order_model'));
+
+        $itemdetail = $this->Cmall_item_detail_model->get_one($cde_id);
+        $item = $this->Cmall_item_model->get_one(element('cit_id', $itemdetail));
+
+        if ( ! element('cde_id', $itemdetail)) {
+            show_404();
+        }
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('after', $eventname);
+
+        $this->load->helper('download');
+
+        // Read the file's contents
+        $data = file_get_contents(config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $itemdetail));
+        $name = element('cde_originname', $itemdetail);
+
+        force_download($name, $data);
+    }
+
+
 	/**
 	 * 찜한목록삭제 입니다
 	 */

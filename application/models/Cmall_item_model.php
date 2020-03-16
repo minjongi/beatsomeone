@@ -30,6 +30,31 @@ class Cmall_item_model extends CB_Model
 		parent::__construct();
 	}
 
+    public function get_main_list($config)
+    {
+        log_message('debug','Genre : ' . element('genre', $config));
+        $where['cit_status'] = 1;
+        if (element('genre', $config) && element('genre', $config) !== 'All Genre') {
+            $where['p1.cim_value'] = element('genre', $config);
+        }
+
+        $limit = element('limit', $config) ? element('limit', $config) : 4;
+
+        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = cmall_item.cit_id AND p1.cim_key = "info_content_1"','left');
+        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = cmall_item.cit_id AND p2.cim_key = "info_content_2"','left');
+        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = cmall_item.cit_id AND p3.cim_key = "info_content_3"','left');
+        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = cmall_item.cit_id AND m1.mem_id = 1','left');
+
+
+        $this->db->select('cmall_item.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id');
+        $this->db->where($where);
+        $this->db->limit($limit);
+        $this->db->order_by('cit_order', 'asc');
+        $qry = $this->db->get($this->_table);
+        $result = $qry->result_array();
+
+        return $result;
+    }
 
 	public function get_latest($config)
 	{

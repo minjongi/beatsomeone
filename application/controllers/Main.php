@@ -41,6 +41,12 @@ class Main extends CB_Controller
 	 */
 	public function index()
 	{
+	    // ###########################
+	    // BeatSomeone 으로 Redirect
+        // ###########################
+        $this->load->helper('url');
+        redirect('/beatsomeone/index', 'refresh');
+
 		// 이벤트 라이브러리를 로딩합니다
 		$eventname = 'event_main_index';
 		$this->load->event($eventname);
@@ -64,6 +70,7 @@ class Main extends CB_Controller
 		$view['view']['board_list'] = $board_list;
 		$view['view']['canonical'] = site_url();
 
+
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
 
@@ -77,9 +84,9 @@ class Main extends CB_Controller
 		$page_name = $this->cbconfig->item('site_page_name_main');
 
 		$layoutconfig = array(
-			'path' => 'beatsomeone',
+			'path' => 'main',
 			'layout' => 'layout',
-			'skin' => 'beatsomeone',
+			'skin' => 'main',
 			'layout_dir' => $this->cbconfig->item('layout_main'),
 			'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_main'),
 			'use_sidebar' => $this->cbconfig->item('sidebar_main'),
@@ -92,9 +99,14 @@ class Main extends CB_Controller
 			'meta_author' => $meta_author,
 			'page_name' => $page_name,
 		);
+
+
 		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+
+
 		$this->data = $view;
 		$this->layout = element('layout_skin_file', element('layout', $view));
 		$this->view = element('view_skin_file', element('layout', $view));
+
 	}
 }

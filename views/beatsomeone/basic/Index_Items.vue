@@ -1,5 +1,8 @@
 <template>
-    <li class="playList__itembox" :id="'playList__item'+ item.id">
+    <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
+<!--        <div>-->
+<!--            {{ item }}-->
+<!--        </div>-->
         <div class="playList__item playList__item--title">
             <div class="col favorite">
                 <button>즐겨찾기</button>
@@ -8,7 +11,7 @@
                 <figure>
               <span class="playList__cover">
                 <img
-                        :src="item.coverImg"
+                        :src="'/uploads/cmallitem/' + item.cit_file_1"
                         alt=""
                 />
                 <i class="label new" ng-if="item.isNew">N</i>
@@ -16,22 +19,23 @@
               </span>
                     <figcaption class="pointer" @click="selectItem(item)">
                         <h3 class="playList__title">
-                            {{ item.title }}
+                            {{ item.cit_name }}
                         </h3>
-                        <span class="playList__by">{{ item.singer }}</span>
+                        <span class="playList__by">{{ item.musician }} ( {{ item.bpm }}Bpm )</span>
                     </figcaption>
                 </figure>
 
                 <!-- 서브리스트 토글 버튼 -->
-                <button class="toggle-subList" v-if="item.subPlayList.length > 0"></button>
+                <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
             </div>
             <div class="col genre">
-                <button v-for="genre in item.genres" :key="genre.title" :class="{'active' : genre.active }">{{
-                    genre.title }}
-                </button>
+                <span v-for="genre in listGenre" :key="genre">
+                    <button :class="{'active' : item.genre === genre }">{{ genre }}</button>
+                </span>
+
             </div>
             <div class="col playbtn">
-                <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.id ">재생</button>
+                <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
                 <span class="timer">
               <span class="current"></span>
               <span class="duration">0:00</span>
@@ -45,7 +49,7 @@
                     장바구니
                     <span class="tooltip">$20.00</span>
                 </a>
-                <a href="" class="download">다운로드</a>
+                <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">다운로드</a>
                 <a href="" class="shared">공유하기</a>
             </div>
             <div class="col more">
@@ -129,24 +133,25 @@
         props: ['item'],
         data: function () {
             return {
+                listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 audio: {},
             };
         },
         methods: {
             selectItem(i) {
-                const path = `/beatsomeone/detail?id=${i.id}`;
+                const path = `/beatsomeone/detail/${i.cit_key}`;
                 window.location.href = path;
             },
             playAudio(i) {
                 this.$log({
                     i
                 });
-                if (!this.audio[i.id]) {
+                if (!this.audio[i.cit_id]) {
                     this.$nextTick(() => {
                         this.setAudioInstance(i);
                     });
                 } else {
-                    this.audio[i.id].playPause();
+                    this.audio[i.cit_id].playPause();
                 }
 
             },
@@ -159,37 +164,37 @@
                 return minutes + ":" + seconds;
             },
             setAudioInstance(item) {
-                this.audio[item.id] = window.WaveSurfer.create({
-                    container: "#playList__item" + item.id + " .wave",
+                this.audio[item.cit_id] = window.WaveSurfer.create({
+                    container: "#playList__item" + item.cit_id + " .wave",
                     waveColor: "#696969",
                     progressColor: "#c3ac45",
                     hideScrollbar: true,
                     height: 90
                 });
-                this.audio[item.id].load(item.audioFile);
-                this.audio[item.id].on("play", () => {
+                this.audio[item.cit_id].load(`/cmallact/download_sample/${item.cde_id}`);
+                this.audio[item.cit_id].on("play", () => {
                     //console.log(this.audio[item.id].getCurrentTime());
                     document
-                        .querySelector("#playList__item" + item.id)
+                        .querySelector("#playList__item" + item.cit_id)
                         .classList.add("playing");
                 });
-                this.audio[item.id].on("audioprocess", (e) => {
+                this.audio[item.cit_id].on("audioprocess", (e) => {
                     // 파일이 재생될때 계속 실행
                     document.querySelector(
-                        "#playList__item" + item.id + " .current"
+                        "#playList__item" + item.cit_id + " .current"
                     ).innerHTML = this.time_convert(parseInt(e, 10)) + " / ";
                 });
-                this.audio[item.id].on("ready", () => {
+                this.audio[item.cit_id].on("ready", () => {
                     // 파일이 로드가 다 됐을때,
                     document.querySelector(
-                        "#playList__item" + item.id + " .duration"
-                    ).innerHTML = this.time_convert(parseInt(this.audio[item.id].getDuration(), 10));
-                    this.audio[item.id].playPause();
+                        "#playList__item" + item.cit_id + " .duration"
+                    ).innerHTML = this.time_convert(parseInt(this.audio[item.cit_id].getDuration(), 10));
+                    this.audio[item.cit_id].playPause();
                 });
-                this.audio[item.id].on("pause", () => {
+                this.audio[item.cit_id].on("pause", () => {
                     //  var actionTarget = "playAction" + item.id;
                     document
-                        .querySelector("#playList__item" + item.id)
+                        .querySelector("#playList__item" + item.cit_id)
                         .classList.remove("playing");
                 });
 

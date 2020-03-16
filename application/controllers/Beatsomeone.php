@@ -41,6 +41,25 @@ class Beatsomeone extends CB_Controller
 		}
 	}
 
+    public function main_list($genre = '')
+    {
+        /**
+         * Data Querying
+         */
+        $this->load->model('Cmall_item_model');
+
+        // DB Querying (장르별 Top 5)
+        $config = array(
+            'cit_type1' => '1',
+            'limit' => '4',
+            'genre' => urldecode($genre),
+        );
+        $result = $this->Cmall_item_model->get_main_list($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
 
 	/**
  * 컨텐츠몰 메인페이지입니다
@@ -68,10 +87,11 @@ class Beatsomeone extends CB_Controller
 
         // DB Querying (장르별 Top 5)
         $config = array(
-            //'cit_type1' => '1',
-            'limit' => '5',
+            'cit_type1' => '1',
+            'limit' => '4',
         );
         $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
+        $view['view']['type2'] = 'V1';
 
 
 
@@ -105,8 +125,8 @@ class Beatsomeone extends CB_Controller
             'path' => 'beatsomeone',
             'layout' => 'layout',
             'skin' => 'beatsomeone',
-            'layout_dir' => $this->cbconfig->item('layout_cmall'),
-            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
             'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
             'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
             'skin_dir' => $this->cbconfig->item('skin_cmall'),
@@ -117,17 +137,27 @@ class Beatsomeone extends CB_Controller
             'meta_author' => $meta_author,
             'page_name' => $page_name,
         );
+        log_message('debug','##################');
+        log_message('debug',json_encode($layoutconfig));
+        log_message('debug','##################');
+
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
+
+        log_message('debug',json_encode($view['layout']));
+        log_message('debug',json_encode($this->layout));
+        log_message('debug',json_encode($this->view));
     }
 
     /**
      * Detail 입니다
      */
-    public function detail()
+    public function detail($cit_key = '')
     {
+
+        log_message('debug','$cit_key : '.$cit_key);
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_cmall_index';
         $this->load->event($eventname);
@@ -145,18 +175,25 @@ class Beatsomeone extends CB_Controller
         /**
          * Data Querying
          */
-        $this->load->model('Cmall_item_model');
+        if (empty($cit_key)) {
+            show_404();
+        }
+        $this->load->model(array('Cmall_item_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
 
-        // DB Querying (장르별 Top 5)
-        $config = array(
-            //'cit_type1' => '1',
-            'limit' => '5',
+        $where = array(
+            'cit_key' => $cit_key,
         );
-        $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
+        $view['view']['item'] = $this->Cmall_item_model->get_one('', '', $where);
+        if ( ! element('cit_id', $view['view']['item'])) {
+            show_404();
+        }
+        if ( ! element('cit_status', $view['view']['item'])) {
+            alert('이 상품은 현재 판매하지 않습니다');
+        }
+
+        $view['view']['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $view['view']['item']));
 
 
-
-        $view['view']['canonical'] = site_url('beatsomeone');
 
 
 
@@ -186,8 +223,8 @@ class Beatsomeone extends CB_Controller
             'path' => 'beatsomeone',
             'layout' => 'layout',
             'skin' => 'detail',
-            'layout_dir' => $this->cbconfig->item('layout_cmall'),
-            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
             'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
             'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
             'skin_dir' => $this->cbconfig->item('skin_cmall'),
@@ -267,8 +304,8 @@ class Beatsomeone extends CB_Controller
             'path' => 'beatsomeone',
             'layout' => 'layout',
             'skin' => 'sublist',
-            'layout_dir' => $this->cbconfig->item('layout_cmall'),
-            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
             'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
             'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
             'skin_dir' => $this->cbconfig->item('skin_cmall'),
