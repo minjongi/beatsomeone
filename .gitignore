@@ -1,5 +1,7 @@
 !.gitignore
 .DS_Store
+node_modules
+/dist
 
 application/cache/*
 !application/cache/index.html

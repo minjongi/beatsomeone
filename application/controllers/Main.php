@@ -77,9 +77,9 @@ class Main extends CB_Controller
 		$page_name = $this->cbconfig->item('site_page_name_main');
 
 		$layoutconfig = array(
-			'path' => 'main',
+			'path' => 'beatsomeone',
 			'layout' => 'layout',
-			'skin' => 'main',
+			'skin' => 'beatsomeone',
 			'layout_dir' => $this->cbconfig->item('layout_main'),
 			'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_main'),
 			'use_sidebar' => $this->cbconfig->item('sidebar_main'),

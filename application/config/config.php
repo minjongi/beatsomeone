@@ -61,7 +61,8 @@ $config['uri_segment_cmall_item'] ='item';  //Cmall item 페이지 주소
  * 서브에 설치하는 경우 올바른 예 ) http://www.test.com/subdir/
  * 서브에 설치하는 경우 잘못된 예 ) http://www.test.com/subdir/index.php
  */
-$config['base_url'] = 'http://bso.dumdum.kr/';
+//$config['base_url'] = 'http://bso.dumdum.kr/';
+$config['base_url'] = 'http://homestead.test';
 //if (empty($config['base_url'])) exit("&dollar;config&lsqb;&apos;base_url&apos;&rsqb;  need to be set up in application/config/config.php");  // base_url 의 값을 입력하신 후에는 여기 if 문 자체를 주석처리해도 좋습니다
 
 /*
@@ -524,7 +525,8 @@ $config['sess_regenerate_destroy'] = FALSE;
  * 특별한 경우가 아니면, 기본적으로 cookie_domain 값만 변경하시면 됩니다.
  */
 $config['cookie_prefix'] = '';
-$config['cookie_domain'] = '.dumdum.kr'; // .ciboard.co.kr 와 같이 맨 앞에 . 을 찍고 도메인 명을 적습니다
+//$config['cookie_domain'] = '.dumdum.kr'; // .ciboard.co.kr 와 같이 맨 앞에 . 을 찍고 도메인 명을 적습니다
+$config['cookie_domain'] = ''; // .ciboard.co.kr 와 같이 맨 앞에 . 을 찍고 도메인 명을 적습니다
 $config['cookie_path'] = '/';
 $config['cookie_secure'] = FALSE;
 $config['cookie_httponly'] = FALSE;
