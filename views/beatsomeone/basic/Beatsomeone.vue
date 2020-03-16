@@ -207,6 +207,8 @@
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
     import axios from 'axios';
+    import log from './../../../src/logger.js';
+    import Http from './../../../src/http/http.js';
 
     export default {
         name: 'Index',
@@ -286,9 +288,7 @@
                 window.location.href = path;
             },
             getMainList() {
-                console.log('query');
-                //axios.get(`/beatsomeone/main_list?genre=${this.currentGenre}`).then(r=> {
-                axios.get(`/beatsomeone/main_list/${encodeURIComponent(this.currentGenre)}`).then(r=> {
+                Http.get(`/beatsomeone/main_list/${encodeURIComponent(this.currentGenre)}`).then(r=> {
                     this.list = r.data;
                 });
             },

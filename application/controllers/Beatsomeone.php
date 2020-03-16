@@ -240,6 +240,68 @@ class Beatsomeone extends CB_Controller
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
     }
+    
+    // 음원 관련 액션
+    public function itemAction() {
+        
+        // 구매 혹은 장바구니 담기
+        // stype : order / cart
+        if ($this->input->post('stype')) {
+            // 로그인 여부 확인
+            if ( ! $mem_id) {
+                $this->session->set_flashdata(
+                    'message',
+                    '로그인 후 이용이 가능합니다'
+                );
+                redirect('login?url=' . urlencode(current_full_url()));
+            }
+
+            // 주문 상품 번호 확인
+            $cit_id = (int) $this->input->post('cit_id');
+            if (empty($cit_id) OR $cit_id < 1) {
+                show_404();
+            }
+
+            // 위시 리스트 담기
+            if ($this->input->post('stype') === 'wish') {
+                $return = $this->cmalllib->addwish($mem_id, $cit_id);
+                if ($return) {
+                    redirect('cmall/wishlist');
+                }
+            }
+            // 장바구니 담기
+            elseif ($this->input->post('stype') === 'cart'
+                && $this->input->post('chk_detail')
+                && is_array($this->input->post('chk_detail'))
+                && $this->input->post('detail_qty')) {
+                $return = $this->cmalllib->addcart(
+                    $mem_id,
+                    $cit_id,
+                    $this->input->post('chk_detail'),
+                    $this->input->post('detail_qty')
+                );
+                if ($return) {
+                    redirect('cmall/cart');
+                }
+            }
+            // 바로구매
+            elseif ($this->input->post('stype') === 'order'
+                && $this->input->post('chk_detail')
+                && is_array($this->input->post('chk_detail'))
+                && $this->input->post('detail_qty')) {
+                $return = $this->cmalllib->addorder(
+                    $mem_id,
+                    $cit_id,
+                    $this->input->post('chk_detail'),
+                    $this->input->post('detail_qty')
+                );
+                if ($return) {
+                    redirect('cmall/order');
+                }
+            }
+        }
+
+    }
 
     /**
      * Sublist 입니다

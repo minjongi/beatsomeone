@@ -304,7 +304,10 @@ class Cmall extends CB_Controller
 			''
 		);
 
+		// 구매 혹은 장바구니 담기
+        // stype : order / cart
 		if ($this->input->post('stype')) {
+		    // 로그인 여부 확인
 			if ( ! $mem_id) {
 				$this->session->set_flashdata(
 					'message',
@@ -313,17 +316,21 @@ class Cmall extends CB_Controller
 				redirect('login?url=' . urlencode(current_full_url()));
 			}
 
+			// 주문 상품 번호 확인
 			$cit_id = (int) $this->input->post('cit_id');
 			if (empty($cit_id) OR $cit_id < 1) {
 				show_404();
 			}
 
+			// 위시 리스트 담기
 			if ($this->input->post('stype') === 'wish') {
 				$return = $this->cmalllib->addwish($mem_id, $cit_id);
 				if ($return) {
 					redirect('cmall/wishlist');
 				}
-			} elseif ($this->input->post('stype') === 'cart'
+			}
+			// 장바구니 담기
+			elseif ($this->input->post('stype') === 'cart'
 				&& $this->input->post('chk_detail')
 				&& is_array($this->input->post('chk_detail'))
 				&& $this->input->post('detail_qty')) {
@@ -336,7 +343,9 @@ class Cmall extends CB_Controller
 				if ($return) {
 					redirect('cmall/cart');
 				}
-			} elseif ($this->input->post('stype') === 'order'
+			}
+			// 바로구매
+			elseif ($this->input->post('stype') === 'order'
 				&& $this->input->post('chk_detail')
 				&& is_array($this->input->post('chk_detail'))
 				&& $this->input->post('detail_qty')) {

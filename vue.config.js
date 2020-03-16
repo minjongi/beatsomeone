@@ -30,13 +30,17 @@ module.exports = {
     },
     chainWebpack: config => {
 
+
         config
             .plugin('provide')
             .use(require('webpack').ProvidePlugin, [{
                 $: 'jquery',
                 jquery: 'jquery',
                 jQuery: 'jquery',
-                'window.jQuery': 'jquery'
+                'window.jQuery': 'jquery',
+                _: 'lodash',
+                Http: [path.join(__dirname, 'src/http/http.js'), 'default'],
+                log: [path.join(__dirname, 'src/logger.js'), 'default'],
             }]);
 
         config.module

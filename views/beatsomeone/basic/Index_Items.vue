@@ -44,14 +44,17 @@
             <div class="col spectrum">
                 <div class="wave"></div>
             </div>
+
             <div class="col utils">
-                <a href="" class="cart">
-                    장바구니
+                <a @click="addCart" class="cart" >
+                    &nbsp;
                     <span class="tooltip">$20.00</span>
                 </a>
+
                 <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">다운로드</a>
                 <a href="" class="shared">공유하기</a>
             </div>
+
             <div class="col more">
                 <button>
                     more
@@ -129,6 +132,9 @@
 
 <script>
 
+    import log from './../../../src/logger.js';
+    import Http from './../../../src/http/http.js';
+
     export default {
         props: ['item'],
         data: function () {
@@ -138,6 +144,9 @@
             };
         },
         methods: {
+            addCart() {
+                log.debug('!!!');
+            },
             selectItem(i) {
                 const path = `/beatsomeone/detail/${i.cit_key}`;
                 window.location.href = path;
