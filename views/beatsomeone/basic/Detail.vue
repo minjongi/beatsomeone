@@ -1,7 +1,7 @@
 <template>
 
     <div class="wrapper">
-        <Header/>
+        <Header :is-login="isLogin"/>
         <div class="container detail">
             <div class="detail__header">
                 <div class="wrap">
@@ -91,6 +91,7 @@
         components: {Header,Footer,Detail_SimilarTracks,Detail_Comments,Detail_Infomation},
         data: function() {
             return {
+                isLogin : false,
                 item: null,
                 meta : null,
                 detail : null,

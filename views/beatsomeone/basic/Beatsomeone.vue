@@ -2,7 +2,7 @@
 
     <div class="wrapper">
 
-        <Header></Header>
+        <Header :is-login="isLogin"></Header>
 
         <div class="container">
             <div class="main">
@@ -10,9 +10,9 @@
                     <div class="wrap">
                         <header class="main__section1-title">
                             <h1>HOLIDAY GIVEAWAY</h1>
-                            <h2>
-                                {{ list }}
-                            </h2>
+<!--                            <h2>-->
+<!--                                {{ list }}-->
+<!--                            </h2>-->
                             <p>
                                 Finding incredible music & connecting with amazing artists
                                 and<br/>
@@ -213,207 +213,11 @@
         components: {Header,Footer,Index_Items},
         data: function() {
             return {
+                isLogin: false,
                 init : {},
                 list: null,
                 currentGenre : 'All Genre',
                 listGenre: ['All Genre','Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
-                playList : [
-                    {
-                        id: 1,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Celebration (Buy 1 Get 3 FR...",
-                        singer: "by Diamond Style",
-                        genres: [
-                            {
-                                active: true,
-                                title: "All Genre"
-                            },
-                            {
-                                active: true,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "Singer-Songwriter"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: [
-                            {
-                                id: 8,
-                                coverImg: "https://via.placeholder.com/55x55",
-                                isNew: true,
-                                title: "Sky Red",
-                                singer: "by Ant Chamberlain",
-                                genres: [
-                                    {
-                                        active: true,
-                                        title: "K-Pop"
-                                    },
-                                    {
-                                        active: true,
-                                        title: "Country"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Amb"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "K-Pop"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Singer-Songwriter"
-                                    }
-                                ],
-                                audioFile: "/dist/audio/testfile.mp3"
-                            },
-                            {
-                                id: 13,
-                                coverImg: "https://via.placeholder.com/55x55",
-                                isNew: true,
-                                title: "Malibu",
-                                singer: "by Mvrio",
-                                genres: [
-                                    {
-                                        active: false,
-                                        title: "Fol"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Singer-Songwriter"
-                                    }
-                                ],
-                                audioFile: "/dist/audio/testfile.mp3"
-                            },
-                            {
-                                id: 24,
-                                coverImg: "https://via.placeholder.com/55x55",
-                                isNew: true,
-                                title: "Sky Red_breathe-no bac...",
-                                singer: "by Ant Chamberlain",
-                                genres: [
-                                    {
-                                        active: true,
-                                        title: "Reggae"
-                                    },
-                                    {
-                                        active: true,
-                                        title: "R&B"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Amb"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Fol"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Singer-Songwriter"
-                                    }
-                                ],
-                                audioFile: "/dist/audio/testfile.mp3"
-                            }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "EMOTIONS",
-                        singer: "by Mvrio",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Acoustic Folk"
-                            },
-                            {
-                                active: true,
-                                title: "Electronic"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "Singer-Songwriter"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    },
-                    {
-                        id: 3,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Aishiteru (Dean Lo-Fi Inst...",
-                        singer: "by Roko Tensei",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Hip Hop"
-                            },
-                            {
-                                active: false,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "World"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    },
-                    {
-                        id: 4,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Sad Acoustic Guitar",
-                        singer: "Ryini Beats",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Acoustic Folk"
-                            },
-                            {
-                                active: false,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Free Beats"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    }
-                ],
             }
         },
         mounted() {

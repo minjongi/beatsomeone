@@ -6,6 +6,7 @@
 
 <?php echo var_dump($view) ?>
 
+<?php $this->managelayout->add_script('window.vm.$children[0].$data.isLogin = !!'. $this->member->is_member()); ?>
 <?php $this->managelayout->add_script('var __t1 = '.json_encode(element('item', $view)).'; '); ?>
 <?php $this->managelayout->add_script('var __t2 = '.json_encode(element('meta', $view)).'; '); ?>
 <?php $this->managelayout->add_script('var __t3 = '.json_encode(element('detail', $view)).'; '); ?>

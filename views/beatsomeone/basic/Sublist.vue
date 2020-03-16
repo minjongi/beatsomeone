@@ -2,7 +2,7 @@
 
     <div class="wrapper">
 
-        <Header/>
+        <Header :is-login="isLogin"/>
         <div class="container sub">
             <div class="sublist">
                 <div class="wrap">
@@ -210,6 +210,7 @@
         components: {Header,Footer,Index_Items,},
         data: function() {
             return {
+                isLogin: false,
                 listFilter: ['All Genre'
                     ,'Hip Hop'
                     ,'Pop'
