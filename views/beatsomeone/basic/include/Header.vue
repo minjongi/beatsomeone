@@ -7,10 +7,10 @@
             </h1>
             <div class="header__gnb">
                 <div class="header__search">
-                    <form action="/">
+                    <div>
                         <input type="text" v-model="searchText"/>
                         <button @click="search"></button>
-                    </form>
+                    </div>
                 </div>
                 <nav class="header__nav">
                     <a href="">HOME</a>
@@ -37,8 +37,8 @@
         },
         methods: {
             search() {
-                const path = `sublist?q=${this.searchText}`;
-                this.$router.push(path);
+                const path = `/beatsomeone/sublist?q=${this.searchText}`;
+                window.location.href = path;
             },
         },
     }

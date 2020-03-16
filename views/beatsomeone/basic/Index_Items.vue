@@ -134,14 +134,8 @@
         },
         methods: {
             selectItem(i) {
-                const path = `/detail?id=${i.id}`;
-                if (this.$route.fullPath !== path) {
-                    this.$router.push(path);
-                }
-                this.$log({
-                    'this.$route.fullPath' : this.$route.fullPath,
-                    'path' : path,
-                });
+                const path = `/beatsomeone/detail?id=${i.id}`;
+                window.location.href = path;
             },
             playAudio(i) {
                 this.$log({

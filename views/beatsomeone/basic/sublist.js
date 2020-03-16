@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import app from './beatsomeone.vue';
+import app from './Sublist.vue';
 
 
 Vue.config.productionTip = false;

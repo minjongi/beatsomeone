@@ -8,18 +8,21 @@
     <meta property="og:description" content="디스크립션"/>
     <meta property="og:title" content="타이틀"/>
     <meta name="viewport" content="width=1180">
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <title><?php echo html_escape(element('page_title', $layout)); ?></title>
-    <script src="https://unpkg.com/wavesurfer.js"></script>
-    <link rel="stylesheet" type="text/css" href="/dist/app.css" />
+    <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />
+    <script src="/dist/chunk-common.js"></script>
+    <script src="/dist/chunk-vendors.js"></script>
+
+
+    <?php echo $this->managelayout->display_css(); ?>
 </head>
 <body>
 
 <div id="app">
-
-
     <?php if (isset($yield))echo $yield; ?>
 </div>
-<!-- built files will be auto injected -->
+
 </body>
 
 

@@ -12,7 +12,9 @@ module.exports = {
     configureWebpack: {
 
         entry: {
-            app: ['./views/beatsomeone/basic/beatsomeone.js'],
+            beatsomeone: ['./views/beatsomeone/basic/beatsomeone.js'],
+            detail: ['./views/beatsomeone/basic/detail.js'],
+            sublist: ['./views/beatsomeone/basic/sublist.js'],
         },
 
         output: {
@@ -43,7 +45,7 @@ module.exports = {
             .use('file-loader')
             .loader('file-loader')
             .options({
-                publicPath : './dist/',
+                publicPath : '/dist/audio/',
                 outputPath: 'audio',
                 name : '[name].[ext]?[hash]',
             })

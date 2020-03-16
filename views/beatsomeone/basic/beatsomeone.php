@@ -1,6 +1,5 @@
 
+<?php $this->managelayout->add_css('/dist/beatsomeone.css'); ?>
+<script src="https://unpkg.com/wavesurfer.js"></script>
+<script src="/dist/beatsomeone.js"></script>
 
-<script src="/dist/chunk-vendors.js"></script>
-<script src="/dist/app.js"></script>
-
-<h1>Beat Someone!</h1>

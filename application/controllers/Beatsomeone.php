@@ -43,19 +43,19 @@ class Beatsomeone extends CB_Controller
 
 
 	/**
-	 * 컨텐츠몰 메인페이지입니다
-	 */
-	public function index()
-	{
-		// 이벤트 라이브러리를 로딩합니다
-		$eventname = 'event_cmall_index';
-		$this->load->event($eventname);
+ * 컨텐츠몰 메인페이지입니다
+ */
+    public function index()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_index';
+        $this->load->event($eventname);
 
-		$view = array();
-		$view['view'] = array();
+        $view = array();
+        $view['view'] = array();
 
-		// 이벤트가 존재하면 실행합니다
-		$view['view']['event']['before'] = Events::trigger('before', $eventname);
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
 
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
@@ -64,65 +64,226 @@ class Beatsomeone extends CB_Controller
         /**
          * Data Querying
          */
-		$this->load->model('Cmall_item_model');
+        $this->load->model('Cmall_item_model');
 
-		// DB Querying (장르별 Top 5)
-		$config = array(
-			//'cit_type1' => '1',
-			'limit' => '5',
-		);
-		$view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
-
-
-
-		$view['view']['canonical'] = site_url('beatsomeone');
+        // DB Querying (장르별 Top 5)
+        $config = array(
+            //'cit_type1' => '1',
+            'limit' => '5',
+        );
+        $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
 
 
 
-		/**
-		 * 레이아웃을 정의합니다
-		 */
-		$page_title = $this->cbconfig->item('site_meta_title_cmall');
-		$meta_description = $this->cbconfig->item('site_meta_description_cmall');
-		$meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall');
-		$meta_author = $this->cbconfig->item('site_meta_author_cmall');
-		$page_name = $this->cbconfig->item('site_page_name_cmall');
+        $view['view']['canonical'] = site_url('beatsomeone');
 
-		$searchconfig = array(
-			'{컨텐츠몰명}',
-		);
-		$replaceconfig = array(
-			$this->cbconfig->item('cmall_name'),
-		);
 
-		$page_title = str_replace($searchconfig, $replaceconfig, $page_title);
-		$meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
-		$meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
-		$meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
-		$page_name = str_replace($searchconfig, $replaceconfig, $page_name);
 
-		$layoutconfig = array(
-			'path' => 'beatsomeone',
-			'layout' => 'layout',
-			'skin' => 'beatsomeone',
-			'layout_dir' => $this->cbconfig->item('layout_cmall'),
-			'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
-			'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
-			'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
-			'skin_dir' => $this->cbconfig->item('skin_cmall'),
-			'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
-			'page_title' => $page_title,
-			'meta_description' => $meta_description,
-			'meta_keywords' => $meta_keywords,
-			'meta_author' => $meta_author,
-			'page_name' => $page_name,
-		);
-		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
-		$this->data = $view;
-		$this->layout = element('layout_skin_file', element('layout', $view));
-		$this->view = element('view_skin_file', element('layout', $view));
-	}
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = $this->cbconfig->item('site_meta_title_cmall');
+        $meta_description = $this->cbconfig->item('site_meta_description_cmall');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall');
+        $meta_author = $this->cbconfig->item('site_meta_author_cmall');
+        $page_name = $this->cbconfig->item('site_page_name_cmall');
 
+        $searchconfig = array(
+            '{컨텐츠몰명}',
+        );
+        $replaceconfig = array(
+            $this->cbconfig->item('cmall_name'),
+        );
+
+        $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
+        $meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
+        $meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
+        $meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
+        $page_name = str_replace($searchconfig, $replaceconfig, $page_name);
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'beatsomeone',
+            'layout_dir' => $this->cbconfig->item('layout_cmall'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+    /**
+     * Detail 입니다
+     */
+    public function detail()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_index';
+        $this->load->event($eventname);
+
+        $view = array();
+        $view['view'] = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+
+        /**
+         * Data Querying
+         */
+        $this->load->model('Cmall_item_model');
+
+        // DB Querying (장르별 Top 5)
+        $config = array(
+            //'cit_type1' => '1',
+            'limit' => '5',
+        );
+        $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
+
+
+
+        $view['view']['canonical'] = site_url('beatsomeone');
+
+
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = $this->cbconfig->item('site_meta_title_cmall');
+        $meta_description = $this->cbconfig->item('site_meta_description_cmall');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall');
+        $meta_author = $this->cbconfig->item('site_meta_author_cmall');
+        $page_name = $this->cbconfig->item('site_page_name_cmall');
+
+        $searchconfig = array(
+            '{컨텐츠몰명}',
+        );
+        $replaceconfig = array(
+            $this->cbconfig->item('cmall_name'),
+        );
+
+        $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
+        $meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
+        $meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
+        $meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
+        $page_name = str_replace($searchconfig, $replaceconfig, $page_name);
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'detail',
+            'layout_dir' => $this->cbconfig->item('layout_cmall'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+    /**
+     * Sublist 입니다
+     */
+    public function sublist()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_index';
+        $this->load->event($eventname);
+
+        $view = array();
+        $view['view'] = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+
+        /**
+         * Data Querying
+         */
+        $this->load->model('Cmall_item_model');
+
+        // DB Querying (장르별 Top 5)
+        $config = array(
+            //'cit_type1' => '1',
+            'limit' => '5',
+        );
+        $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
+
+
+
+        $view['view']['canonical'] = site_url('beatsomeone');
+
+
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = $this->cbconfig->item('site_meta_title_cmall');
+        $meta_description = $this->cbconfig->item('site_meta_description_cmall');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall');
+        $meta_author = $this->cbconfig->item('site_meta_author_cmall');
+        $page_name = $this->cbconfig->item('site_page_name_cmall');
+
+        $searchconfig = array(
+            '{컨텐츠몰명}',
+        );
+        $replaceconfig = array(
+            $this->cbconfig->item('cmall_name'),
+        );
+
+        $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
+        $meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
+        $meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
+        $meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
+        $page_name = str_replace($searchconfig, $replaceconfig, $page_name);
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'sublist',
+            'layout_dir' => $this->cbconfig->item('layout_cmall'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
 
 	public function lists($category_id = '')
 	{

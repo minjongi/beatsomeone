@@ -241,7 +241,7 @@
                                 title: "Singer-Songwriter"
                             }
                         ],
-                        audioFile: "/audio/testfile.mp3",
+                        audioFile: "/dist/audio/testfile.mp3",
                         subPlayList: [
                             {
                                 id: 8,
@@ -271,7 +271,7 @@
                                         title: "Singer-Songwriter"
                                     }
                                 ],
-                                audioFile: "/audio/testfile.mp3"
+                                audioFile: "/dist/audio/testfile.mp3"
                             },
                             {
                                 id: 13,
@@ -289,7 +289,7 @@
                                         title: "Singer-Songwriter"
                                     }
                                 ],
-                                audioFile: "/audio/testfile.mp3"
+                                audioFile: "/dist/audio/testfile.mp3"
                             },
                             {
                                 id: 24,
@@ -319,7 +319,7 @@
                                         title: "Singer-Songwriter"
                                     }
                                 ],
-                                audioFile: "/audio/testfile.mp3"
+                                audioFile: "/dist/audio/testfile.mp3"
                             }
                         ]
                     },
@@ -351,7 +351,7 @@
                                 title: "Singer-Songwriter"
                             }
                         ],
-                        audioFile: "/audio/testfile.mp3",
+                        audioFile: "/dist/audio/testfile.mp3",
                         subPlayList: []
                     },
                     {
@@ -382,7 +382,7 @@
                                 title: "World"
                             }
                         ],
-                        audioFile: "/audio/testfile.mp3",
+                        audioFile: "/dist/audio/testfile.mp3",
                         subPlayList: []
                     },
                     {
@@ -405,7 +405,7 @@
                                 title: "Free Beats"
                             }
                         ],
-                        audioFile: "/audio/testfile.mp3",
+                        audioFile: "/dist/audio/testfile.mp3",
                         subPlayList: []
                     }
                 ],
@@ -462,14 +462,8 @@
         },
         methods: {
             selectItem(i) {
-                const path = `/detail?id=${i.id}`;
-                if (this.$route.fullPath !== path) {
-                    this.$router.push(path);
-                }
-                this.$log({
-                    'this.$route.fullPath' : this.$route.fullPath,
-                    'path' : path,
-                });
+                const path = `/beatsomeone/detail?id=${i.id}`;
+                window.location.href = path;
             },
 
         },
