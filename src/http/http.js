@@ -43,12 +43,12 @@ export default {
         var p = _.clone(param);
 
         // param 에 포한된 Array -> String 으로 join
-        for (var o in p) {
-            if (p[o] instanceof Array) {
-                p[o] = p[o].join(',');
-                if (p[o] === '') p[o] = null;
-            }
-        }
+        // for (var o in p) {
+        //     if (p[o] instanceof Array) {
+        //         p[o] = p[o].join(',');
+        //         if (p[o] === '') p[o] = null;
+        //     }
+        // }
 
         return new Promise((resolve, reject) => {
             var url = path
@@ -62,8 +62,11 @@ export default {
                 'XMLHttpRequest';
 
             axios
-                .post(url, p, {
-
+                .post(url, $.param(p), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        "Access-Control-Allow-Origin": "*"
+                    }
                 })
                 .then(res => {
                     log.debug(
@@ -78,7 +81,7 @@ export default {
 
 
                     if (res.status !== 200) {
-                        log.error('response error', res);
+                        log.error('response error : ', res);
                         var msg = '';
                         switch (res.status) {
                             case 203:
@@ -103,6 +106,7 @@ export default {
                                     res.status;
                                 break;
                         }
+
                         log.error({
                             Action: 'ServerError',
                             Status: res.status,
@@ -113,19 +117,20 @@ export default {
 
                         reject(res);
                     }
-                    if (res.data.STS !== 0) {
-                        log.error('response error (business)', res.data);
 
-
-                        reject(res);
-                    }
 
                     //log.debug('POST <= ' + url, { status: res.status, data: res.data });
                     this.indicator(-1);
-                    resolve(res.data.DAT ? res.data.DAT : {});
+                    resolve(res.data ? res.data : {});
                 })
                 .catch(err => {
                     this.indicator(-1);
+
+                    switch (err.response.status) {
+                        case 412:
+                            window.location.href = '/login';
+                            break;
+                    }
 
                     reject(err);
                 });

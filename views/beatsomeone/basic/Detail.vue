@@ -84,7 +84,7 @@
     import Detail_SimilarTracks from "./Detail_SimilarTracks";
     import Detail_Comments from "./Detail_Comments";
     import Detail_Infomation from "./Detail_Infomation";
-    import $ from "jquery";
+
 
 
     export default {

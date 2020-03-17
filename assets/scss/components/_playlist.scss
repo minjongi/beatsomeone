@@ -53,6 +53,12 @@
         background: url("/assets/images/icon/favorite.png") no-repeat center;
       }
     }
+    .favorite.active {
+      button {
+        background: url("/assets/images/icon/favorite-active.png") no-repeat center;
+      }
+    }
+
     .name {
       padding: 0 20px;
       width: 385px;

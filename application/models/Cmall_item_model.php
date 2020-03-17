@@ -43,15 +43,48 @@ class Cmall_item_model extends CB_Model
         $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = cmall_item.cit_id AND p1.cim_key = "info_content_1"','left');
         $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = cmall_item.cit_id AND p2.cim_key = "info_content_2"','left');
         $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = cmall_item.cit_id AND p3.cim_key = "info_content_3"','left');
-        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = cmall_item.cit_id AND m1.mem_id = 1','left');
+        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = cmall_item.cit_id','left');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND m1.mem_id = "'.$this->member->item('mem_id').'"','left');
 
 
-        $this->db->select('cmall_item.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id');
+
+        $this->db->select('cmall_item.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish');
         $this->db->where($where);
         $this->db->limit($limit);
         $this->db->order_by('cit_order', 'asc');
         $qry = $this->db->get($this->_table);
         $result = $qry->result_array();
+
+        return $result;
+    }
+
+    
+    // 위시 리스트 토글링
+    public function toggle_wish_item($config)
+    {
+        $result = false;
+        // 존재 확인
+        $where['cit_id'] = element('cit_id', $config);
+        $where['mem_id'] = $this->member->item('mem_id');
+        $query = $this->db
+                ->where($where)
+                ->get('cmall_wishlist');
+
+        // 존재하면 삭제
+        if ($query->num_rows() > 0){
+            $result = $this->db
+                ->where($where)
+                ->delete('cmall_wishlist');
+        }
+        // 미존재시 추가
+        else{
+            $data = array(
+                'mem_id' => $this->member->item('mem_id'),
+                'cit_id'  => element('cit_id', $config),
+            );
+            $result = $this->db->insert('cmall_wishlist', $data);
+
+        }
 
         return $result;
     }

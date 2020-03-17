@@ -49,6 +49,12 @@
     },
     "rules": {
       "no-unused-vars": "off"
+    },
+    "globals": {
+      "_": true,
+      "log": true,
+      "Http": true,
+      "Vue": true
     }
   },
   "browserslist": [

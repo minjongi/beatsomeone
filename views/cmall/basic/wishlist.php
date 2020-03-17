@@ -1,7 +1,7 @@
 <?php $this->managelayout->add_css(element('view_skin_url', $layout) . '/css/style.css'); ?>
 
 <div class="page-header">
-	<h4>찜한 목록</h4>
+	<h4>Favorite</h4>
 </div>
 <table class="table table-striped">
 	<thead>

@@ -4,7 +4,7 @@
 <!--            {{ item }}-->
 <!--        </div>-->
         <div class="playList__item playList__item--title">
-            <div class="col favorite">
+            <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish">
                 <button>즐겨찾기</button>
             </div>
             <div class="col name">
@@ -48,7 +48,7 @@
             <div class="col utils">
                 <a @click="addCart" class="cart" >
                     &nbsp;
-                    <span class="tooltip">$20.00</span>
+                    <span class="tooltip">{{ item.cde_price }}&#8361;</span>
                 </a>
 
                 <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">다운로드</a>
@@ -132,8 +132,9 @@
 
 <script>
 
-    import log from './../../../src/logger.js';
-    import Http from './../../../src/http/http.js';
+    import { EventBus } from '*/src/eventbus';
+
+
 
     export default {
         props: ['item'],
@@ -144,8 +145,27 @@
             };
         },
         methods: {
+            toggleWish() {
+                Http.post( `/beatsomeoneApi/toggle_wish_item/${this.item.cit_id}`).then(r=> {
+                    if(r === true) {
+                        this.item.is_wish = this.item.is_wish === '1' ? '0' : '1';
+                    }
+                });
+
+            },
             addCart() {
-                log.debug('!!!');
+
+                let detail_qty = {};
+                detail_qty[this.item['cde_id']] = 1;
+                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                    if(!r) {
+                        log.debug('장바구니 담기 실패');
+                    } else {
+                        EventBus.$emit('add_cart');
+                        log.debug('장바구니 담기 성공');
+
+                    }
+                });
             },
             selectItem(i) {
                 const path = `/beatsomeone/detail/${i.cit_key}`;

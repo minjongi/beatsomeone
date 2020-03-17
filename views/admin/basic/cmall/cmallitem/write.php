@@ -166,8 +166,32 @@
 					<div class="col-sm-10">
 						<?php for ($k= 1; $k<= 10; $k++) { ?>
 							<div class="form-group form-inline">
-								기본정보 <?php echo $k; ?> 제목 <input type="text" class="form-control" name="info_title_<?php echo $k; ?>" value="<?php echo set_value('info_title_' . $k, element('info_title_' . $k, element('data', $view))); ?>" />
-								기본정보 <?php echo $k; ?> 값 <input type="text" class="form-control" name="info_content_<?php echo $k; ?>" value="<?php echo set_value('info_content_' . $k, element('info_content_' . $k, element('data', $view))); ?>" />
+                                <?php
+                                    $p = null;
+                                    $isDefault = true;
+                                    switch ($k) {
+                                        case 1:
+                                            $p = 'Genre';
+                                            $isDefault = false;
+                                        break;
+                                        case 2:
+                                            $p = 'Bpm';
+                                            $isDefault = false;
+                                            break;
+                                        case 3:
+                                            $p = 'Musician';
+                                            $isDefault = false;
+                                            break;
+                                        default:
+                                            $p = '기본정보 ' . $k;
+                                            $isDefault = true;
+                                            break;
+                                    };
+                                ?>
+                                <?php if($isDefault) { ?>
+								<?php echo $p ?> <?php echo $isDefault ? '제목' : '' ?> <input type="text" class="form-control" name="info_title_<?php echo $k; ?>" value="<?php echo set_value('info_title_' . $k, element('info_title_' . $k, element('data', $view))); ?>" />
+                                <?php } ?>
+                                <?php echo $p ?> <?php echo $isDefault ? '값' : '' ?> <input type="text" class="form-control" name="info_content_<?php echo $k; ?>" value="<?php echo set_value('info_content_' . $k, element('info_content_' . $k, element('data', $view))); ?>" />
 							</div>
 						<?php } ?>
 					</div>
@@ -236,13 +260,13 @@
 						<?php echo display_dhtml_editor('cit_content', set_value('cit_content', element('cit_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = $this->cbconfig->item('use_cmall_product_dhtml'), $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">모바일내용</label>
-					<div class="col-sm-10">
-						<?php echo display_dhtml_editor('cit_mobile_content', set_value('cit_mobile_content', element('cit_mobile_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = $this->cbconfig->item('use_cmall_product_dhtml'), $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
-						모바일 내용이 일반웹페이지 내용과 다를 경우에 입력합니다. 같은 경우는 입력하지 않으셔도 됩니다
-					</div>
-				</div>
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">모바일내용</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						--><?php //echo display_dhtml_editor('cit_mobile_content', set_value('cit_mobile_content', element('cit_mobile_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = $this->cbconfig->item('use_cmall_product_dhtml'), $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
+<!--						모바일 내용이 일반웹페이지 내용과 다를 경우에 입력합니다. 같은 경우는 입력하지 않으셔도 됩니다-->
+<!--					</div>-->
+<!--				</div>-->
 			</div>
 			<div class="box-table-header">
 				<h4><a data-toggle="collapse" href="#cmalltab5" aria-expanded="true" aria-controls="cmalltab5">상품옵션</a></h4>
@@ -314,36 +338,36 @@
 				</div>
 			<?php } ?>
 			</div>
-			<div class="box-table-header">
-				<h4><a data-toggle="collapse" href="#cmalltab4" aria-expanded="true" aria-controls="cmalltab4">상/하단 내용</a></h4>
-				<a data-toggle="collapse" href="#cmalltab4" aria-expanded="true" aria-controls="cmalltab4"><i class="fa fa-chevron-up pull-right"></i></a>
-			</div>
-			<div class="collapse in" id="cmalltab4">
-				<div class="form-group">
-					<label class="col-sm-2 control-label">일반 상단 내용</label>
-					<div class="col-sm-10">
-						<?php echo display_dhtml_editor('header_content', set_value('header_content', element('header_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = true, $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">일반 하단 내용</label>
-					<div class="col-sm-10">
-						<?php echo display_dhtml_editor('footer_content', set_value('footer_content', element('footer_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = true, $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">모바일 상단 내용</label>
-					<div class="col-sm-10">
-						<?php echo display_dhtml_editor('mobile_header_content', set_value('mobile_header_content', element('mobile_header_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = true, $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">모바일 하단 내용</label>
-					<div class="col-sm-10">
-						<?php echo display_dhtml_editor('mobile_footer_content', set_value('mobile_footer_content', element('mobile_footer_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = true, $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
-					</div>
-				</div>
-			</div>
+<!--			<div class="box-table-header">-->
+<!--				<h4><a data-toggle="collapse" href="#cmalltab4" aria-expanded="true" aria-controls="cmalltab4">상/하단 내용</a></h4>-->
+<!--				<a data-toggle="collapse" href="#cmalltab4" aria-expanded="true" aria-controls="cmalltab4"><i class="fa fa-chevron-up pull-right"></i></a>-->
+<!--			</div>-->
+<!--			<div class="collapse in" id="cmalltab4">-->
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">일반 상단 내용</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						--><?php //echo display_dhtml_editor('header_content', set_value('header_content', element('header_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = true, $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">일반 하단 내용</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						--><?php //echo display_dhtml_editor('footer_content', set_value('footer_content', element('footer_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = true, $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">모바일 상단 내용</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						--><?php //echo display_dhtml_editor('mobile_header_content', set_value('mobile_header_content', element('mobile_header_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = true, $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">모바일 하단 내용</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						--><?php //echo display_dhtml_editor('mobile_footer_content', set_value('mobile_footer_content', element('mobile_footer_content', element('data', $view))), $classname = 'form-control dhtmleditor', $is_dhtml_editor = true, $editor_type = $this->cbconfig->item('cmall_product_editor_type')); ?>
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
 			<div class="btn-group pull-right" role="group" aria-label="...">
 				<button type="button" class="btn btn-default btn-sm btn-history-back" >목록으로</button>
 				<button type="submit" class="btn btn-success btn-sm">저장하기</button>

@@ -41,26 +41,6 @@ class Beatsomeone extends CB_Controller
 		}
 	}
 
-    public function main_list($genre = '')
-    {
-        /**
-         * Data Querying
-         */
-        $this->load->model('Cmall_item_model');
-
-        // DB Querying (장르별 Top 5)
-        $config = array(
-            'cit_type1' => '1',
-            'limit' => '4',
-            'genre' => urldecode($genre),
-        );
-        $result = $this->Cmall_item_model->get_main_list($config);
-
-        $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
-    }
-
-
 	/**
  * 컨텐츠몰 메인페이지입니다
  */
@@ -137,18 +117,12 @@ class Beatsomeone extends CB_Controller
             'meta_author' => $meta_author,
             'page_name' => $page_name,
         );
-        log_message('debug','##################');
-        log_message('debug',json_encode($layoutconfig));
-        log_message('debug','##################');
 
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
 
-        log_message('debug',json_encode($view['layout']));
-        log_message('debug',json_encode($this->layout));
-        log_message('debug',json_encode($this->view));
     }
 
     /**
@@ -239,68 +213,6 @@ class Beatsomeone extends CB_Controller
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
-    }
-    
-    // 음원 관련 액션
-    public function itemAction() {
-        
-        // 구매 혹은 장바구니 담기
-        // stype : order / cart
-        if ($this->input->post('stype')) {
-            // 로그인 여부 확인
-            if ( ! $mem_id) {
-                $this->session->set_flashdata(
-                    'message',
-                    '로그인 후 이용이 가능합니다'
-                );
-                redirect('login?url=' . urlencode(current_full_url()));
-            }
-
-            // 주문 상품 번호 확인
-            $cit_id = (int) $this->input->post('cit_id');
-            if (empty($cit_id) OR $cit_id < 1) {
-                show_404();
-            }
-
-            // 위시 리스트 담기
-            if ($this->input->post('stype') === 'wish') {
-                $return = $this->cmalllib->addwish($mem_id, $cit_id);
-                if ($return) {
-                    redirect('cmall/wishlist');
-                }
-            }
-            // 장바구니 담기
-            elseif ($this->input->post('stype') === 'cart'
-                && $this->input->post('chk_detail')
-                && is_array($this->input->post('chk_detail'))
-                && $this->input->post('detail_qty')) {
-                $return = $this->cmalllib->addcart(
-                    $mem_id,
-                    $cit_id,
-                    $this->input->post('chk_detail'),
-                    $this->input->post('detail_qty')
-                );
-                if ($return) {
-                    redirect('cmall/cart');
-                }
-            }
-            // 바로구매
-            elseif ($this->input->post('stype') === 'order'
-                && $this->input->post('chk_detail')
-                && is_array($this->input->post('chk_detail'))
-                && $this->input->post('detail_qty')) {
-                $return = $this->cmalllib->addorder(
-                    $mem_id,
-                    $cit_id,
-                    $this->input->post('chk_detail'),
-                    $this->input->post('detail_qty')
-                );
-                if ($return) {
-                    redirect('cmall/order');
-                }
-            }
-        }
-
     }
 
     /**

@@ -39,3 +39,10 @@ $hook['post_system'][] = array(
 	'filename'		=> 'Member_dormant.php',
 	'filepath'		=> 'hooks'
 );
+
+$hook['post_controller'][] = array(
+    'class' => 'LogQueryHook',
+    'function' => 'log_queries',
+    'filename' => 'Log_queries.php',
+    'filepath' => 'hooks'
+);

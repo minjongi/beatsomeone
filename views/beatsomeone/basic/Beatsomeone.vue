@@ -97,18 +97,19 @@
                             </a>
                         </header>
 
+
                         <!-- 트렌딜 슬라이드 부분 -->
-                        <div class="trending">
+                        <div class="trending" >
                             <h2 class="trending__title">TRENDING MUSIC</h2>
                             <div class="trending__slider">
                                 <div class="slider">
-                                    <div v-for="index in 10" :key="index" class="trending__slide-item albumItem" @click="selectItem(index)">
-                                        <button class="albumItem__cover">
-                                            <img src="https://via.placeholder.com/190x190" alt=""/>
+                                    <div v-for="(i,index) in listTrending" :key="index" class="trending__slide-item albumItem" @click="selectItem(i)">
+                                        <button class="albumItem__cover" @click="selectItem(i)">
+                                            <img  :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
                                         </button>
                                         <a href="#//" class="albumItem__link">
-                                            <h4 class="albumItem__title">Juice Wrld Type Beat</h4>
-                                            <p class="albumItem__singer">jonathan mudiayi</p>
+                                            <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                                            <p class="albumItem__singer">{{ i.musician }}</p>
                                         </a>
                                     </div>
                                 </div>
@@ -218,21 +219,20 @@
                 isLogin: false,
                 init : {},
                 list: null,
+                listTrending: null,
                 currentGenre : 'All Genre',
                 listGenre: ['All Genre','Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
             }
         },
+        // watch: {
+        //     listTrending: function(n) {
+        //         log.debug('!!!!!!n');
+        //
+        //     }
+        // },
         mounted() {
 
-            // 메인 trend Slider
-            $(".trending__slider .slider").slick({
-                slidesToShow: 6,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 2000,
-                arrows: true,
-                dots: true
-            });
+
             // 메인페이지: 서브 앨범 슬라이드 이벤트
             $(".toggle-subList").on("click", function() {
                 var itemLength = $(this)
@@ -273,6 +273,9 @@
 
             // 메인 리스트 조회
             this.getMainList();
+
+            // Trending List
+            this.getTrendingList();
         },
         watch: {
             // 장르가 변경될 때
@@ -283,13 +286,34 @@
             }
         },
         methods: {
+            doSlide() {
+                // 메인 trend Slider
+                $(".trending__slider .slider").slick({
+                    slidesToShow: 6,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    autoplaySpeed: 2000,
+                    arrows: true,
+                    dots: true
+                });
+            },
             selectItem(i) {
-                const path = `/beatsomeone/detail?id=${i.id}`;
+                const path = `/beatsomeone/detail/${i.cit_key}`;
                 window.location.href = path;
             },
             getMainList() {
-                Http.get(`/beatsomeone/main_list/${encodeURIComponent(this.currentGenre)}`).then(r=> {
+                Http.get(`/beatsomeoneApi/main_list/${encodeURIComponent(this.currentGenre)}`).then(r=> {
                     this.list = r.data;
+                });
+            },
+            getTrendingList() {
+                Http.get(`/beatsomeoneApi/main_trending_list`).then(r=> {
+                    this.listTrending = r.data;
+                    this.$nextTick(function() {
+                        this.doSlide();
+                    });
+
+
                 });
             },
 

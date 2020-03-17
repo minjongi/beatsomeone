@@ -24,7 +24,8 @@ module.exports = {
         //watch: true,
         resolve: {
             alias: {
-                '@': path.join(__dirname, 'assets/')
+                '@': path.join(__dirname, 'assets/'),
+                '*': path.join(__dirname, './'),
             }
         },
     },
@@ -39,8 +40,9 @@ module.exports = {
                 jQuery: 'jquery',
                 'window.jQuery': 'jquery',
                 _: 'lodash',
-                Http: [path.join(__dirname, 'src/http/http.js'), 'default'],
-                log: [path.join(__dirname, 'src/logger.js'), 'default'],
+                Vue: ['vue/dist/vue.esm.js', 'default'],
+                Http: [path.join(__dirname, './src/http/http.js'), 'default'],
+                log: [path.join(__dirname, './src/logger.js'), 'default'],
             }]);
 
         config.module

@@ -14,7 +14,7 @@ echo form_open(site_url('cmall/cart'), $attributes);
 				<th>이미지</th>
 				<th>상품명</th>
 				<th>총수량</th>
-				<th>판매가</th>
+
 				<th>소계</th>
 				<th><input type="checkbox" name="chkall" id="chkall" checked="checked" /></th>
 			</tr>
@@ -41,12 +41,12 @@ echo form_open(site_url('cmall/cart'), $attributes);
 						$total_price_sum += $total_price;
 						?>
 					</ul>
-					<div class="cmall-option-change">
-						<button class="change_option" type="button" data-cit-id="<?php echo element('cit_id', $result); ?>">선택사항수정</button>
-					</div>
+<!--					<div class="cmall-option-change">-->
+<!--						<button class="change_option" type="button" data-cit-id="--><?php //echo element('cit_id', $result); ?><!--">선택사항수정</button>-->
+<!--					</div>-->
 				</td>
 				<td><?php echo number_format($total_num); ?></td>
-				<td><?php echo number_format(element('cit_price', $result)); ?></td>
+
 				<td><?php echo number_format($total_price); ?><input type="hidden" name="total_price[<?php echo element('cit_id', $result); ?>]" value="<?php echo $total_price; ?>" /></td>
 				<td><input type="checkbox" name="chk[]" class="list-chkbox" value="<?php echo element('cit_id', $result); ?>" checked="checked" /></td>
 			</tr>
@@ -56,7 +56,7 @@ echo form_open(site_url('cmall/cart'), $attributes);
 		if ( ! element('data', $view)) {
 		?>
 			<tr>
-				<td colspan="6" class="nopost">장바구니가 비어있습니다</td>
+				<td colspan="5" class="nopost">장바구니가 비어있습니다</td>
 			</tr>
 		<?php
 		}
