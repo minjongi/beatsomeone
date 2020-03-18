@@ -1,35 +1,28 @@
 <template>
-    <div class="playList">
-        <ul id="playList__list" class="playList__list">
-            <li class="playList__itembox">
-                <div class="playList__item playList__item--title">
-                    match와 location을 알아보도록 하겠습니다.
-                    BrowserRouter와 우리의 App을 연결하면 어떻게 된다고 했었나요? 라우터가 history api에 접근할 수 있고, Route에 연결된 컴포넌트에 match와 location, history props를 전달합니다. 이번 포스팅에서는 match와 location에 대해서 알아보고 path와 querystring을 받아오도록 하겠습니다.
+    <div class="information">
+        <div class="information__thumb">
+            <img src="https://via.placeholder.com/130x130" alt="">
+        </div>
+        <div class="information__user">
+            <h2 class="information__username">User name</h2>
+            <p class="information__description">Remember those walls I built Well baby they`re tumbling down And they didn`t even put up a fight They didn`t even make a sound
+                I found a way to let you in But I never really had a doubt Standing in the light of your halo I got my angel now
+                It's like I`ve been awakenedEvery rule I had you breakin`It`s the risk that I'm takin` I ain`t never gonna shut you out
+                Everywhere I`m looking now I`m surrounded by your embrace Baby I can see your halo
 
-                    import React from "react";
-                    import { Route } from "react-router-dom";
+                You know you`re my saving grace You`re everything I need and more
+                It`s written all over your face Baby I can feel your halo
+                Pray it won`t fade away I can feel your halo(halo) halo
 
-                    const App = () => {
-                    return (
+                WoahWoahWoah
 
-                    );
-                    };
+                Hit me like a ray of sun Burning through my darkest night You`re the only one that I want
+                Think I`m addicted to your light I swore I`d never fall again But this don`t even feel like falling
+                Gravity can`t forget To pull me back to the ground again It`s like I`ve been awakened
+            </p>
 
-                    const Home = ({ match, location }) => {
-                    console.log("Match");
-                    console.dir(match);
-                    console.log("Location");
-                    console.dir(location);
-                    return <h1>Home</h1>;
-                    };
-
-                    export default App;
-                    view rawApp.js hosted with ❤ by GitHub
-
-                    이전 예시에 위의 코드를 복사해서 붙여넣어주세요. 라우트가 하나이고, "/"에 연결되어 있기 때문에 앱을 실행하면 크게 Home이라는 글자가 적힌 것을 볼 수 있습니다. 페이지가 에러없이 작동되면 F12를 눌러 구글 개발자 모드를 실행하고 콘솔 창을 확인해주세요.
-                </div>
-            </li>
-        </ul>
+            <a href="" class="information__message">Message</a>
+        </div>
     </div>
 </template>
 

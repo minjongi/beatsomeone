@@ -9,20 +9,20 @@
                     <div class="detail__music">
                         <div class="detail__music-img">
                             <button class="btn-play " v-if="item">
-                                <img :src="'/uploads/cmallitem/' + item.cit_file_1" />
+                                <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
                             </button>
                         </div>
-                        <div class="detail__music-info" v-if="item && meta">
-                            <h2 class="title">{{ item.cit_name }}</h2>
-                            <p class="singer">{{ meta.info_content_3 }}</p>
-                            <div class="state">
-                                <span class="play">547</span>
+                        <div class="detail__music-info">
+                            <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
+                            <p class="singer" v-if="meta">{{ meta.info_content_3 }}</p>
+                            <div class="state" v-if="item">
+                                <span class="play">{{ item.cit_hit }}</span>
                                 <span class="song">120</span>
                                 <span class="registed">{{ releaseDt }}</span>
                             </div>
-                            <div class="utils">
+                            <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="" class="buy" v-if="detail" @click="addCart"><span>{{ detail[0].cde_price }}&#8361;</span></a>
+                                    <a href="#" class="buy" v-if="detail" @click="addCart"><span>{{ detail[0].cde_price }}&#8361;</span></a>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
 
                     <div class="detail__comment">
                         <form action="">
-                            <div class="comment">
+                            <div class="commentForm">
                                 <a href="" class="comment__user"></a>
                                 <input
                                         type="text"
@@ -42,6 +42,7 @@
                                         id="comment"
                                         max="200"
                                         v-model="comment"
+                                        @keydown.enter.prevent="sendComment"
                                 />
                                 <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
                                 <button @click="sendComment">SEND</button>
@@ -69,7 +70,7 @@
 
 <script>
 
-    require('@/assets/js/function');
+    require('@/assets_m/js/function');
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import Detail_SimilarTracks from "./Detail_SimilarTracks";
@@ -103,38 +104,43 @@
         },
         mounted() {
 
-            const playbtn = document.querySelector(".detail__player-controller");
+
 
             this.music = window.WaveSurfer.create({
-                container: document.querySelector("#detail__player-wave"),
+                container: document.querySelector(".wave"),
                 waveColor: "#696969",
                 progressColor: "#c3ac45",
                 hideScrollbar: true,
-                barWidth: 5,
-                barRadius: 2,
-                barGap: 2,
-                height: 200
+                height: 90
             });
 
-            this.music.on("play", () => {
-                playbtn.classList.add("playing");
-            });
-            this.music.on("pause", () => {
-                playbtn.classList.remove("playing");
-            });
-            playbtn.addEventListener("click", () => {
-                this.music.playPause();
-            });
+
+
 
         },
         watch: {
             detail : function(n){
                 if(n) {
-
                     this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
                 }
-
             },
+            item : function(n){
+                if(n) {
+                    this.$nextTick(function() {
+                        const playbtn = document.querySelector(".btn-play");
+                        playbtn.addEventListener("click", () => {
+                            this.music.playPause();
+                        });
+                        this.music.on("play", () => {
+                            playbtn.classList.add("playing");
+                        });
+                        this.music.on("pause", () => {
+                            playbtn.classList.remove("playing");
+                        });
+                    });
+                }
+            },
+
         },
         methods: {
             // 탭 선택
@@ -147,6 +153,9 @@
 
                 // 초기화
                 this.comment = null;
+
+                // 탭 이동
+                this.currentTab = 'COMMENTS';
             },
             // 카트 추가
             addCart() {

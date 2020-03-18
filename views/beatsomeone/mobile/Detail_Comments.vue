@@ -1,28 +1,281 @@
 <template>
-    <div class="playList">
-        <ul id="playList__list" class="playList__list">
-            <li class="playList__itembox" v-for="(c,index) in listComments" :key="index">
-                <div class="playList__item playList__item--title">
-                    <div class="col name">
-                        <figure>
-              <span class="playList__cover">
-                <img
-                        :src="c.userImg"
-                        alt=""
-                />
-              </span>
-                            <figcaption>
-                                <h3 class="playList__title">
-                                    {{ c.userId }}
-                                </h3>
-                                <span class="playList__by">{{ c.comment }}</span>
-                            </figcaption>
-                        </figure>
+    <div class="commentsbox">
+        <div class="commentsbox__row">
+            <div class="comment">
+                <div class="comment__author-img">
+                    <img src="https://via.placeholder.com/35x35" alt="">
+                </div>
+                <div class="comment__content">
+                    <div class="comment__info">
+                        <div class="writer">
+                            <span>User name blah blah</span>
+                            <a href="">신고하기</a>
+                        </div>
+
+                        <span class="comment__created-at">8 day ago</span>
+                    </div>
+                    <div class="comment__description">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                        </p>
+                        <span class="comment__sub-count">200</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 서브 코멘트 -->
+            <div class="subComment">
+                <div class="subComment__form">
+                    <form action="">
+                        <div class="commentForm">
+                            <a href="" class="comment__user"></a>
+                            <input
+                                    type="text"
+                                    placeholder="Write a comment..."
+                                    id="comment"
+                                    max="200"
+                            />
+                            <span id="commentLength">0/200</span>
+                            <button>SEND</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="commentsbox__row">
+                    <div class="comment">
+                        <div class="comment__author-img">
+                            <img src="https://via.placeholder.com/35x35" alt="">
+                        </div>
+                        <div class="comment__content">
+                            <div class="comment__info">
+                                <div class="writer">
+                                    <span>User name blah blah</span>
+                                    <a href="">신고하기</a>
+                                </div>
+
+                                <span class="comment__created-at">8 day ago</span>
+                            </div>
+                            <div class="comment__description">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                </p>
+                                <span class="comment__sub-count">200</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 서브 코멘트 -->
+                    <div class="subComment">
+                        <div class="subComment__form">
+                            <form action="">
+                                <div class="commentForm">
+                                    <a href="" class="comment__user"></a>
+                                    <input
+                                            type="text"
+                                            placeholder="Write a comment..."
+                                            id="comment"
+                                            max="200"
+                                    />
+                                    <span id="commentLength">0/200</span>
+                                    <button>SEND</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="commentsbox__row">
+                            <div class="comment">
+                                <div class="comment__author-img">
+                                    <img src="https://via.placeholder.com/35x35" alt="">
+                                </div>
+                                <div class="comment__content">
+                                    <div class="comment__info">
+                                        <div class="writer">
+                                            <span>User name blah blah</span>
+                                            <a href="">신고하기</a>
+                                        </div>
+
+                                        <span class="comment__created-at">8 day ago</span>
+                                    </div>
+                                    <div class="comment__description">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                        </p>
+                                        <span class="comment__sub-count">200</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="commentsbox__row">
+                            <div class="comment">
+                                <div class="comment__author-img">
+                                    <img src="https://via.placeholder.com/35x35" alt="">
+                                </div>
+                                <div class="comment__content">
+                                    <div class="comment__info">
+                                        <div class="writer">
+                                            <span>User name blah blah</span>
+                                            <a href="">신고하기</a>
+                                        </div>
+
+                                        <span class="comment__created-at">8 day ago</span>
+                                    </div>
+                                    <div class="comment__description">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                        </p>
+                                        <span class="comment__sub-count">200</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="commentsbox__row">
+                            <div class="comment">
+                                <div class="comment__author-img">
+                                    <img src="https://via.placeholder.com/35x35" alt="">
+                                </div>
+                                <div class="comment__content">
+                                    <div class="comment__info">
+                                        <div class="writer">
+                                            <span>User name blah blah</span>
+                                            <a href="">신고하기</a>
+                                        </div>
+
+                                        <span class="comment__created-at">8 day ago</span>
+                                    </div>
+                                    <div class="comment__description">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                        </p>
+                                        <span class="comment__sub-count">200</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="commentsbox__row">
+                            <div class="comment">
+                                <div class="comment__author-img">
+                                    <img src="https://via.placeholder.com/35x35" alt="">
+                                </div>
+                                <div class="comment__content">
+                                    <div class="comment__info">
+                                        <div class="writer">
+                                            <span>User name blah blah</span>
+                                            <a href="">신고하기</a>
+                                        </div>
+
+                                        <span class="comment__created-at">8 day ago</span>
+                                    </div>
+                                    <div class="comment__description">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?orem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                            orem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                            orem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                            orem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                        </p>
+                                        <span class="comment__sub-count">200</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
+        <div class="commentsbox__row">
+            <div class="comment">
+                <div class="comment__author-img">
+                    <img src="https://via.placeholder.com/35x35" alt="">
+                </div>
+                <div class="comment__content">
+                    <div class="comment__info">
+                        <div class="writer">
+                            <span>User name blah blah</span>
+                            <a href="">신고하기</a>
+                        </div>
+
+                        <span class="comment__created-at">8 day ago</span>
+                    </div>
+                    <div class="comment__description">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                        </p>
+                        <span class="comment__sub-count">200</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 서브 코멘트 -->
+            <div class="subComment">
+                <div class="commentsbox__row">
+                    <div class="comment">
+                        <div class="comment__author-img">
+                            <img src="https://via.placeholder.com/35x35" alt="">
+                        </div>
+                        <div class="comment__content">
+                            <div class="comment__info">
+                                <div class="writer">
+                                    <span>User name blah blah</span>
+                                    <a href="">신고하기</a>
+                                </div>
+
+                                <span class="comment__created-at">8 day ago</span>
+                            </div>
+                            <div class="comment__description">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                </p>
+                                <span class="comment__sub-count">200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="commentsbox__row">
+                    <div class="comment">
+                        <div class="comment__author-img">
+                            <img src="https://via.placeholder.com/35x35" alt="">
+                        </div>
+                        <div class="comment__content">
+                            <div class="comment__info">
+                                <div class="writer">
+                                    <span>User name blah blah</span>
+                                    <a href="">신고하기</a>
+                                </div>
+
+                                <span class="comment__created-at">8 day ago</span>
+                            </div>
+                            <div class="comment__description">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                </p>
+                                <span class="comment__sub-count">200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="commentsbox__row">
+                    <div class="comment">
+                        <div class="comment__author-img">
+                            <img src="https://via.placeholder.com/35x35" alt="">
+                        </div>
+                        <div class="comment__content">
+                            <div class="comment__info">
+                                <div class="writer">
+                                    <span>User name blah blah</span>
+                                    <a href="">신고하기</a>
+                                </div>
+
+                                <span class="comment__created-at">8 day ago</span>
+                            </div>
+                            <div class="comment__description">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur blanditiis deserunt eius fugiat fugit id libero quo tenetur veritatis?
+                                </p>
+                                <span class="comment__sub-count">200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

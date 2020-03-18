@@ -19,10 +19,14 @@
             <div class="gnb__content">
                 <a href="" class="gnb__close">닫기</a>
                 <div class="gnb__links">
+                    <a href="/cmall/wishlist">Favorite</a>
                     <a href="">Free Beats</a>
                     <a href="">Pricing</a>
-                    <a href="">Login</a>
-                    <a href="">Sign in</a>
+                    <a href="/mypage" v-if="isLogin">MyPage</a>
+                    <a href="/login/logout?/" v-if="isLogin">Logout</a>
+                    <a href="/login" v-if="!isLogin">Login</a>
+                    <a href="/register" v-if="!isLogin">Sign In</a>
+                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">(${{ cartSum }})</a>
                 </div>
 
                 <a href="" class="gnb__banner">

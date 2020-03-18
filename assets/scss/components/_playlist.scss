@@ -5,10 +5,10 @@
   .playList__itembox {
     margin-bottom: 1px;
     &.playing {
-      > .playList__item {
+      .playList__item {
         background: #2b2c30;
         .btn-play {
-          background: url("/assets/images/icon/pause.png") no-repeat center;
+          background: url("/assets/images//icon/pause.png") no-repeat center;
           background-size: auto 100%;
           opacity: 1;
         }
@@ -50,15 +50,9 @@
         height: 20px;
         cursor: pointer;
         @include textIndet;
-        background: url("/assets/images/icon/favorite.png") no-repeat center;
+        background: url("/assets/images//icon/favorite.png") no-repeat center;
       }
     }
-    .favorite.active {
-      button {
-        background: url("/assets/images/icon/favorite-active.png") no-repeat center;
-      }
-    }
-
     .name {
       padding: 0 20px;
       width: 385px;
@@ -101,7 +95,7 @@
         width: 24px;
         height: 24px;
         border: 1px solid $color-white;
-        background: url("/assets/images/icon/arrow-top.png") no-repeat center;
+        background: url("/assets/images//icon/arrow-top.png") no-repeat center;
         opacity: 0.2;
         border-radius: 50%;
         transform: rotate(180deg);
@@ -158,7 +152,7 @@
       button {
         @include textIndet;
         transition: all 0.3s;
-        background: url("/assets/images/icon/play.png") no-repeat center;
+        background: url("/assets/images//icon/play.png") no-repeat center;
         width: 35px;
         height: 35px;
         background-size: auto 100%;
@@ -200,7 +194,7 @@
         &.cart {
           width: 24px;
           height: 21px;
-          background: url("/assets/images/icon/cart.png") no-repeat center;
+          background: url("/assets/images//icon/cart.png") no-repeat center;
           position: relative;
           overflow: initial;
           .tooltip {
@@ -229,12 +223,12 @@
         &.download {
           width: 23px;
           height: 17px;
-          background: url("/assets/images/icon/download.png") no-repeat center;
+          background: url("/assets/images//icon/download.png") no-repeat center;
         }
         &.shared {
           width: 18px;
           height: 18px;
-          background: url("/assets/images/icon/shared.png") no-repeat center;
+          background: url("/assets/images//icon/shared.png") no-repeat center;
         }
       }
     }
@@ -246,7 +240,7 @@
         @include textIndet;
         width: 20px;
         height: 20px;
-        background: url("/assets/images/icon/more.png") no-repeat center;
+        background: url("/assets/images//icon/more.png") no-repeat center;
         position: relative;
         overflow: initial;
         .tooltip {

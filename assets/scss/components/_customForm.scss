@@ -9,7 +9,7 @@
   }
   .selected-option {
     height: 30px;
-    background: url("/assets/images/icon/select-arrow.png") no-repeat
+    background: url("/assets/images//icon/select-arrow.png") no-repeat
       calc(100% - 10px) center;
     color: #fff;
     padding: 0 30px 0 10px;
@@ -76,7 +76,7 @@
   input {
     &:checked + span {
       border: none;
-      background: url("/assets/images/icon/checkbox-on.png") no-repeat center;
+      background: url("/assets/images//icon/checkbox-on.png") no-repeat center;
       background-size: 15px 15px;
     }
   }

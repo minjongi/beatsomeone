@@ -1,7 +1,7 @@
 .main {
   overflow: hidden;
   .main__section1 {
-    background: url("/assets/images/main-section1-visual.png") no-repeat center top;
+    background: url("/assets/images//main-section1-visual.png") no-repeat center top;
     background-size: 100% auto;
     min-height: 100vh;
   }
@@ -21,7 +21,7 @@
   }
 
   .main__section2 {
-    background: url("/assets/images/main-section2-visual.png") no-repeat center top;
+    background: url("/assets/images//main-section2-visual.png") no-repeat center top;
     background-size: 100% auto;
     .main__section2-title {
       padding: 260px 0 330px;
@@ -84,7 +84,7 @@
         height: 50px;
         border-radius: 50%;
         @include position($left: -15px, $top: 70px);
-        background: url("/assets/images/icon/slide-arrow.png") no-repeat center;
+        background: url("/assets/images//icon/slide-arrow.png") no-repeat center;
         background-size: 50px 50px;
         z-index: 50;
         &.slick-next {

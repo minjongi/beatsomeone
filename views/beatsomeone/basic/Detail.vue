@@ -44,7 +44,7 @@
                     </div>
                     <div class="detail__comment">
                         <form action="">
-                            <div class="comment">
+                            <div class="commentForm">
                                 <a href="" class="comment__user"></a>
                                 <input
                                         type="text"
@@ -52,12 +52,14 @@
                                         id="comment"
                                         max="200"
                                         v-model="comment"
+                                        @keydown.enter.prevent="sendComment"
                                 />
                                 <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
                                 <button @click="sendComment">SEND</button>
                             </div>
                         </form>
                     </div>
+
                 </div>
             </div>
             <div class="detail__body">
@@ -160,6 +162,9 @@
 
                 // 초기화
                 this.comment = null;
+
+                // 탭 이동
+                this.currentTab = 'COMMENTS';
             },
             // 카트 추가
             addCart() {
