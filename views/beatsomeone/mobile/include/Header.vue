@@ -1,16 +1,38 @@
 <template>
 
-    <header class="header">
-        <div class="wrap">
-            <h1 class="header__logo">
-                <a href="/"><img src="@/assets_m//images/logo.png" alt=""/></a>
-            </h1>
-            <div class="header__btnbox">
-                <a href="" class="header__search"></a>
-                <a href="" class="header__nav"></a>
+    <div>
+        <header class="header">
+            <div class="wrap">
+                <h1 class="header__logo">
+                    <a href="/"><img src="@/assets_m//images/logo.png" alt=""/></a>
+                </h1>
+                <div class="header__btnbox">
+                    <a href="#" class="header__search"></a>
+                    <a href="#" class="header__nav"></a>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
+
+
+        <nav class="gnb">
+            <div class="gnb__bg"></div>
+            <div class="gnb__content">
+                <a href="" class="gnb__close">닫기</a>
+                <div class="gnb__links">
+                    <a href="">Free Beats</a>
+                    <a href="">Pricing</a>
+                    <a href="">Login</a>
+                    <a href="">Sign in</a>
+                </div>
+
+                <a href="" class="gnb__banner">
+                    <img src="@/assets_m/images/gnb-banner.png" alt="">
+                </a>
+            </div>
+
+        </nav>
+    </div>
+
 
 </template>
 

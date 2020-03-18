@@ -38,17 +38,7 @@
                 </p>
             </div>
         </div>
-        <div class="player">
-            <audio controls="controls">
-                <source src="@/assets_m/audio/testfile.mp3" type="audio/ogg" />
-                <source src="@/assets_m/audio/testfile.mp3" type="audio/mpeg" />
-                Your browser does not support the audio element.
-            </audio>
-            <div class="player__progress"></div>
-            <div class="player__content">
-                <div class="wrap"></div>
-            </div>
-        </div>
+
     </footer>
 
 </template>

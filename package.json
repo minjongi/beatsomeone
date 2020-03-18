@@ -54,7 +54,8 @@
       "_": true,
       "log": true,
       "Http": true,
-      "Vue": true
+      "Vue": true,
+      "Amplitude" : true
     }
   },
   "browserslist": [

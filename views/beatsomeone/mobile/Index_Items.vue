@@ -113,17 +113,9 @@
                         .querySelector("#playList__item" + item.cit_id)
                         .classList.add("playing");
                 });
-                this.audio[item.cit_id].on("audioprocess", (e) => {
-                    // 파일이 재생될때 계속 실행
-                    document.querySelector(
-                        "#playList__item" + item.cit_id + " .current"
-                    ).innerHTML = this.time_convert(parseInt(e, 10)) + " / ";
-                });
+
                 this.audio[item.cit_id].on("ready", () => {
                     // 파일이 로드가 다 됐을때,
-                    document.querySelector(
-                        "#playList__item" + item.cit_id + " .duration"
-                    ).innerHTML = this.time_convert(parseInt(this.audio[item.cit_id].getDuration(), 10));
                     this.audio[item.cit_id].playPause();
                 });
                 this.audio[item.cit_id].on("pause", () => {
