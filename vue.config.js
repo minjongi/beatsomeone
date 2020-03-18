@@ -15,6 +15,9 @@ module.exports = {
             beatsomeone: ['./views/beatsomeone/basic/beatsomeone.js'],
             detail: ['./views/beatsomeone/basic/detail.js'],
             sublist: ['./views/beatsomeone/basic/sublist.js'],
+            m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
+            m_detail: ['./views/beatsomeone/mobile/detail.js'],
+            m_sublist: ['./views/beatsomeone/mobile/sublist.js'],
         },
 
         output: {
@@ -24,10 +27,11 @@ module.exports = {
         //watch: true,
         resolve: {
             alias: {
-                '@': path.join(__dirname, 'assets/'),
+                '@': path.join(__dirname, './'),
                 '*': path.join(__dirname, './'),
             }
         },
+
     },
     chainWebpack: config => {
 
@@ -45,17 +49,31 @@ module.exports = {
                 log: [path.join(__dirname, './src/logger.js'), 'default'],
             }]);
 
-        config.module
-            .rule('media')
-            .test(/\.mp3$/)
-            .use('file-loader')
-            .loader('file-loader')
-            .options({
-                publicPath : '/dist/audio/',
-                outputPath: 'audio',
-                name : '[name].[ext]?[hash]',
-            })
-            .end()
+        // config.module
+        //     .rule('media')
+        //     .test(/\.mp3$/)
+        //     .use('file-loader')
+        //     .loader('file-loader')
+        //     .options({
+        //         publicPath : '/dist/audio/',
+        //         outputPath: 'audio',
+        //         name : '[name].[ext]?[hash]',
+        //     })
+        //     .end();
+
+        // config.module
+        //     .rule('image')
+        //     .test(/\.(png|jpg|gif)$/)
+        //     .use('file-loader')
+        //     .loader('file-loader')
+        //     .options({
+        //         name: '[path][name].[ext]',
+        //         // context: path.resolve(__dirname, "src/"),
+        //         // outputPath: 'dist/',
+        //         //publicPath: '../',
+        //         useRelativePaths: true
+        //     })
+        //     .end();
     },
 
 }

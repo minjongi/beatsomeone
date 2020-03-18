@@ -78,7 +78,7 @@
                                     <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
                                 </ul>
                                 <div class="playList__btnbox">
-                                    <a href="#//" class="playList__more">more</a>
+                                    <a class="playList__more" @click="moveMore">more</a>
                                 </div>
                             </div>
                         </div>
@@ -103,11 +103,13 @@
                             <h2 class="trending__title">TRENDING MUSIC</h2>
                             <div class="trending__slider">
                                 <div class="slider">
-                                    <div v-for="(i,index) in listTrending" :key="index" class="trending__slide-item albumItem" @click="selectItem(i)">
-                                        <button class="albumItem__cover" @click="selectItem(i)">
+<!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
+                                    <div v-for="(i,index) in listTrending" :key="index" class="trending__slide-item albumItem" :onclick="`window.vm.$children[0].selectItem('${i.cit_key}')`" >
+
+                                        <button class="albumItem__cover" >
                                             <img  :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
                                         </button>
-                                        <a href="#//" class="albumItem__link">
+                                        <a  class="albumItem__link" >
                                             <h4 class="albumItem__title">{{ i.cit_name }}</h4>
                                             <p class="albumItem__singer">{{ i.musician }}</p>
                                         </a>
@@ -118,7 +120,7 @@
                         <!-- 트렌드 슬라이드 끝 -->
 
                         <!-- 제휴 업체 로그 이미지  -->
-                        <div class="alliance">
+                        <div class="alliance" @click="selectItem">
                             <img src="./../../../assets/images/alliance.png" alt=""/>
                         </div>
                         <!-- 제휴업체 로그 이미지 끝 -->
@@ -129,11 +131,11 @@
                                 <p>Partner with the best team members!</p>
                             </article>
                             <article class="testimonials__lists">
-                                <figure class="card card--testimonials">
+                                <figure class="card card--testimonials" >
                                     <a href="">
                                         <div class="img">
                                             <img
-                                                    src="./../../../assets/images/dummy/testimonials1.png"
+                                                    src="@/assets/images/dummy/testimonials1.png"
                                                     alt=""
                                             />
                                         </div>
@@ -147,7 +149,7 @@
                                     <a href="">
                                         <div class="img">
                                             <img
-                                                    src="@/images/dummy/testimonials2.png"
+                                                    src="@/assets/images/dummy/testimonials2.png"
                                                     alt=""
                                             />
                                         </div>
@@ -161,7 +163,7 @@
                                     <a href="">
                                         <div class="img">
                                             <img
-                                                    src="./../../../assets/images/dummy/testimonials3.png"
+                                                    src="@/assets/images/dummy/testimonials3.png"
                                                     alt=""
                                             />
                                         </div>
@@ -200,16 +202,13 @@
 
 <script>
 
-    require('@/js/function');
-    require('@/audio/testfile.mp3');
+    require('@/assets/js/function');
 
     import $ from "jquery";
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
-    import axios from 'axios';
-    import log from './../../../src/logger.js';
-    import Http from './../../../src/http/http.js';
+    import { EventBus } from '*/src/eventbus';
 
     export default {
         name: 'Index',
@@ -220,16 +219,11 @@
                 init : {},
                 list: null,
                 listTrending: null,
+                listTestimonials: null,
                 currentGenre : 'All Genre',
                 listGenre: ['All Genre','Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
             }
         },
-        // watch: {
-        //     listTrending: function(n) {
-        //         log.debug('!!!!!!n');
-        //
-        //     }
-        // },
         mounted() {
 
 
@@ -276,6 +270,9 @@
 
             // Trending List
             this.getTrendingList();
+
+            // Testimonials List
+            this.getTestimonialsList();
         },
         watch: {
             // 장르가 변경될 때
@@ -297,8 +294,12 @@
                     dots: true
                 });
             },
+            moveMore() {
+                const path = `/beatsomeone/sublist?genre=${this.currentGenre}`;
+                window.location.href = path;
+            },
             selectItem(i) {
-                const path = `/beatsomeone/detail/${i.cit_key}`;
+                const path = `/beatsomeone/detail/${i}`;
                 window.location.href = path;
             },
             getMainList() {
@@ -312,8 +313,11 @@
                     this.$nextTick(function() {
                         this.doSlide();
                     });
-
-
+                });
+            },
+            getTestimonialsList() {
+                Http.get(`/beatsomeoneApi/main_testimonials_list`).then(r=> {
+                    this.listTestimonials = r.data;
                 });
             },
 
@@ -324,12 +328,12 @@
 </script>
 
 <style lang="scss">
-    @import './../../../assets/scss/App.scss';
+    @import '@/assets/scss/App.scss';
 
 
 </style>
 
 <style lang="css">
-    @import './../../../assets/plugins/slick/slick.css';
-    @import './../../../assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    @import '/assets/plugins/slick/slick.css';
+    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 </style>

@@ -2,12 +2,16 @@
 
     <div class="wrapper">
         <Header :is-login="isLogin"/>
+
         <div class="container detail">
             <div class="detail__header">
+<!--                <div>-->
+<!--                    <pre>{{ item }}</pre>-->
+<!--                </div>-->
                 <div class="wrap">
                     <div class="detail__music">
-                        <div class="detail__music-img">
-                            <img v-if="item" :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
+                        <div class="detail__music-img" v-if="item">
+                            <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
                         </div>
                         <div class="detail__music-info" >
                             <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
@@ -20,7 +24,7 @@
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="" class="buy"><span>{{ item.cit_price }}&#8361;</span></a>
+                                    <a href="#" class="buy" v-if="detail" @click="addCart"><span>{{ detail[0].cde_price }}&#8361;</span></a>
                                     <span class="cart">700</span>
                                     <span class="talk">412</span>
                                     <span class="share">179</span>
@@ -78,13 +82,13 @@
 
 <script>
 
-    require('@/js/function');
+    require('@/assets/js/function');
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import Detail_SimilarTracks from "./Detail_SimilarTracks";
     import Detail_Comments from "./Detail_Comments";
     import Detail_Infomation from "./Detail_Infomation";
-
+    import { EventBus } from '*/src/eventbus';
 
 
     export default {
@@ -97,203 +101,6 @@
                 detail : null,
                 comment: null,
                 music: null,
-                playList : [
-                    {
-                        id: 1,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Celebration (Buy 1 Get 3 FR...",
-                        singer: "by Diamond Style",
-                        genres: [
-                            {
-                                active: true,
-                                title: "All Genre"
-                            },
-                            {
-                                active: true,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "Singer-Songwriter"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: [
-                            {
-                                id: 8,
-                                coverImg: "https://via.placeholder.com/55x55",
-                                isNew: true,
-                                title: "Sky Red",
-                                singer: "by Ant Chamberlain",
-                                genres: [
-                                    {
-                                        active: true,
-                                        title: "K-Pop"
-                                    },
-                                    {
-                                        active: true,
-                                        title: "Country"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Amb"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "K-Pop"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Singer-Songwriter"
-                                    }
-                                ],
-                                audioFile: "/dist/audio/testfile.mp3"
-                            },
-                            {
-                                id: 13,
-                                coverImg: "https://via.placeholder.com/55x55",
-                                isNew: true,
-                                title: "Malibu",
-                                singer: "by Mvrio",
-                                genres: [
-                                    {
-                                        active: false,
-                                        title: "Fol"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Singer-Songwriter"
-                                    }
-                                ],
-                                audioFile: "/dist/audio/testfile.mp3"
-                            },
-                            {
-                                id: 24,
-                                coverImg: "https://via.placeholder.com/55x55",
-                                isNew: true,
-                                title: "Sky Red_breathe-no bac...",
-                                singer: "by Ant Chamberlain",
-                                genres: [
-                                    {
-                                        active: true,
-                                        title: "Reggae"
-                                    },
-                                    {
-                                        active: true,
-                                        title: "R&B"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Amb"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Fol"
-                                    },
-                                    {
-                                        active: false,
-                                        title: "Singer-Songwriter"
-                                    }
-                                ],
-                                audioFile: "/dist/audio/testfile.mp3"
-                            }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "EMOTIONS",
-                        singer: "by Mvrio",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Acoustic Folk"
-                            },
-                            {
-                                active: true,
-                                title: "Electronic"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "Singer-Songwriter"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    },
-                    {
-                        id: 3,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Aishiteru (Dean Lo-Fi Inst...",
-                        singer: "by Roko Tensei",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Hip Hop"
-                            },
-                            {
-                                active: false,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "World"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    },
-                    {
-                        id: 4,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Sad Acoustic Guitar",
-                        singer: "Ryini Beats",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Acoustic Folk"
-                            },
-                            {
-                                active: false,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Free Beats"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    }
-                ],
                 listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 tabs: ['SIMILAR TRACKS','COMMENTS','INFORMATION'],
                 currentTab: 'SIMILAR TRACKS',
@@ -310,6 +117,7 @@
         mounted() {
 
             const playbtn = document.querySelector(".detail__player-controller");
+
             this.music = window.WaveSurfer.create({
                 container: document.querySelector("#detail__player-wave"),
                 waveColor: "#696969",
@@ -335,6 +143,7 @@
         watch: {
             detail : function(n){
                 if(n) {
+
                     this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
                 }
 
@@ -352,6 +161,21 @@
                 // 초기화
                 this.comment = null;
             },
+            // 카트 추가
+            addCart() {
+
+                let detail_qty = {};
+                detail_qty[this.item['cde_id']] = 1;
+                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                    if(!r) {
+                        log.debug('장바구니 담기 실패');
+                    } else {
+                        EventBus.$emit('add_cart');
+                        log.debug('장바구니 담기 성공');
+
+                    }
+                });
+            },
         },
 
     }
@@ -360,12 +184,10 @@
 </script>
 
 <style lang="scss">
-    @import './../../../assets/scss/App.scss';
-
-
+    @import '@/assets/scss/App.scss';
 </style>
 
 <style lang="css">
-    @import './../../../assets/plugins/slick/slick.css';
-    @import './../../../assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    @import '/assets/plugins/slick/slick.css';
+    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 </style>

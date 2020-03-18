@@ -8,7 +8,7 @@
             <div class="header__gnb">
                 <div class="header__search">
                     <div>
-                        <input type="text" v-model="searchText"/>
+                        <input type="text" v-model="searchText" @keyup.enter="search"/>
                         <button @click="search"></button>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
         },
         watch: {
           isLogin: function (n) {
-            log.debug(`isLogin : ${n}`);
+
           },
         },
         created() {
@@ -73,7 +73,10 @@
                 });
             },
             search() {
-                const path = `/beatsomeoneApi/sublist?q=${this.searchText}`;
+                if(!this.searchText) {
+                    return;
+                }
+                const path = `/beatsomeone/search?q=${this.searchText}`;
                 window.location.href = path;
             },
         },

@@ -166,7 +166,7 @@ class Beatsomeone extends CB_Controller
         }
 
         $view['view']['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $view['view']['item']));
-
+        $view['view']['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
 
 
 

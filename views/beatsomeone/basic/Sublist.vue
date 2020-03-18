@@ -15,11 +15,12 @@
                                         <li class="filter__item" v-for="(f,index) in listFilter" :key="index">
                                             <label :for="'fillter1'+index" class="checkbox">
                                                 <input
-                                                        type="checkbox"
+                                                        type="radio"
                                                         name="filter"
                                                         hidden
                                                         :id="'fillter1'+index"
                                                         :value="f"
+                                                        v-model="currentFilter"
                                                 />
                                                 <span></span> {{ f }}
                                             </label>
@@ -36,11 +37,12 @@
                                         <li class="filter__item" v-for="(f,index) in listSubgenres" :key="index">
                                             <label :for="'fillter2'+index" class="checkbox">
                                                 <input
-                                                        type="checkbox"
+                                                        type="radio"
                                                         name="subgenres"
                                                         hidden
                                                         :id="'fillter2'+index"
                                                         :value="f"
+                                                        v-model="currentSubgenres"
                                                 />
                                                 <span></span> {{ f }}
                                             </label>
@@ -72,11 +74,12 @@
                                         <li class="filter__item" v-for="(f,index) in listMoods" :key="index">
                                             <label :for="'fillter3'+index" class="checkbox">
                                                 <input
-                                                        type="checkbox"
+                                                        type="radio"
                                                         name="moods"
                                                         hidden
                                                         :id="'fillter3'+index"
                                                         :value="f"
+                                                        v-model="currentMoods"
                                                 />
                                                 <span></span> {{ f }}
                                             </label>
@@ -93,11 +96,12 @@
                                         <li class="filter__item" v-for="(f,index) in listTrackType" :key="index">
                                             <label :for="'fillter4'+index" class="checkbox">
                                                 <input
-                                                        type="checkbox"
+                                                        type="radio"
                                                         name="trackTypes"
                                                         hidden
                                                         :id="'fillter4'+index"
                                                         :value="f"
+                                                        v-model="currentTrackType"
                                                 />
                                                 <span></span> {{ f }}
                                             </label>
@@ -133,51 +137,16 @@
                                 </div>
                             </h2>
                             <div class="topFive">
-                                <div class="trending__slide-item albumItem">
+                                <div class="trending__slide-item albumItem" v-for="(i,index) in listTop5" :key="index" @click="selectItem(i)">
                                     <button class="albumItem__cover">
-                                        <img src="https://via.placeholder.com/190x190" alt="" />
+                                        <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name" />
                                     </button>
                                     <a href="#//" class="albumItem__link">
-                                        <h4 class="albumItem__title">Juice Wrld Type Beat</h4>
-                                        <p class="albumItem__singer">jonathan mudiayi</p>
+                                        <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                                        <p class="albumItem__singer">{{ i.musician }}</p>
                                     </a>
                                 </div>
-                                <div class="trending__slide-item albumItem">
-                                    <button class="albumItem__cover">
-                                        <img src="https://via.placeholder.com/190x190" alt="" />
-                                    </button>
-                                    <a href="#//" class="albumItem__link">
-                                        <h4 class="albumItem__title">Juice Wrld Type Beat</h4>
-                                        <p class="albumItem__singer">jonathan mudiayi</p>
-                                    </a>
-                                </div>
-                                <div class="trending__slide-item albumItem">
-                                    <button class="albumItem__cover">
-                                        <img src="https://via.placeholder.com/190x190" alt="" />
-                                    </button>
-                                    <a href="#//" class="albumItem__link">
-                                        <h4 class="albumItem__title">Juice Wrld Type Beat</h4>
-                                        <p class="albumItem__singer">jonathan mudiayi</p>
-                                    </a>
-                                </div>
-                                <div class="trending__slide-item albumItem">
-                                    <button class="albumItem__cover">
-                                        <img src="https://via.placeholder.com/190x190" alt="" />
-                                    </button>
-                                    <a href="#//" class="albumItem__link">
-                                        <h4 class="albumItem__title">Juice Wrld Type Beat</h4>
-                                        <p class="albumItem__singer">jonathan mudiayi</p>
-                                    </a>
-                                </div>
-                                <div class="trending__slide-item albumItem">
-                                    <button class="albumItem__cover">
-                                        <img src="https://via.placeholder.com/190x190" alt="" />
-                                    </button>
-                                    <a href="#//" class="albumItem__link">
-                                        <h4 class="albumItem__title">Juice Wrld Type Beat</h4>
-                                        <p class="albumItem__singer">jonathan mudiayi</p>
-                                    </a>
-                                </div>
+
                             </div>
                         </div>
                         <div class="row">
@@ -186,7 +155,7 @@
                                 <!-- 아래 템플릿 문자열로 붙임 -->
                                 <ul class="playList__list" id="playList__list">
                                     <!-- 플레이리스트 들어감 -->
-                                    <Index_Items v-for="(item,index) in playList" :item="item" :key="index"></Index_Items>
+                                    <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
                                 </ul>
                             </div>
                         </div>
@@ -201,10 +170,11 @@
 <script>
 
     import $ from "jquery";
-    require('@/js/function');
+    require('@/assets/js/function');
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
+    import { EventBus } from '*/src/eventbus';
 
     export default {
         components: {Header,Footer,Index_Items,},
@@ -238,125 +208,19 @@
                     ,'Song reference'
                     ,'Songs'],
 
-                playList : [
-                    {
-                        id: 1,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Celebration (Buy 1 Get 3 FR...",
-                        singer: "by Diamond Style",
-                        genres: [
-                            {
-                                active: true,
-                                title: "All Genre"
-                            },
-                            {
-                                active: true,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "Singer-Songwriter"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    },
-                    {
-                        id: 2,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "EMOTIONS",
-                        singer: "by Mvrio",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Acoustic Folk"
-                            },
-                            {
-                                active: true,
-                                title: "Electronic"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "Singer-Songwriter"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    },
-                    {
-                        id: 3,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Aishiteru (Dean Lo-Fi Inst...",
-                        singer: "by Roko Tensei",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Hip Hop"
-                            },
-                            {
-                                active: false,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Amb"
-                            },
-                            {
-                                active: false,
-                                title: "Fol"
-                            },
-                            {
-                                active: false,
-                                title: "World"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    },
-                    {
-                        id: 4,
-                        coverImg: "https://via.placeholder.com/55x55",
-                        isNew: true,
-                        title: "Sad Acoustic Guitar",
-                        singer: "Ryini Beats",
-                        genres: [
-                            {
-                                active: true,
-                                title: "Acoustic Folk"
-                            },
-                            {
-                                active: false,
-                                title: "Jaz"
-                            },
-                            {
-                                active: false,
-                                title: "Free Beats"
-                            }
-                        ],
-                        audioFile: "/dist/audio/testfile.mp3",
-                        subPlayList: []
-                    }
-                ],
+                list: null,
+                listTop5: null,
+                currentFilter: null,
+                currentSubgenres : null,
+                currentMoods: null,
+                currentTrackType: null,
             }
+        },
+        created() {
+            this.currentFilter = this.listFilter[0];
+            this.currentSubgenres = this.listSubgenres[0];
+            this.currentMoods = this.listMoods[0];
+            this.currentTrackType = this.listTrackType[0];
         },
         mounted() {
 
@@ -401,9 +265,41 @@
                     .find(".options")
                     .toggle();
             });
+
+            this.getList();
+
+            this.getTop5List();
+
         },
         methods: {
+            addCart() {
 
+                let detail_qty = {};
+                detail_qty[this.item['cde_id']] = 1;
+                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                    if(!r) {
+                        log.debug('장바구니 담기 실패');
+                    } else {
+                        EventBus.$emit('add_cart');
+                        log.debug('장바구니 담기 성공');
+
+                    }
+                });
+            },
+            selectItem(i) {
+                const path = `/beatsomeone/detail/${i.cit_key}`;
+                window.location.href = path;
+            },
+            getList() {
+                Http.get(`/beatsomeoneApi/sublist_list`).then(r=> {
+                    this.list = r.data;
+                });
+            },
+            getTop5List() {
+                Http.get(`/beatsomeoneApi/sublist_top5_list`).then(r=> {
+                    this.listTop5 = r.data;
+                });
+            },
         },
 
     }
@@ -411,10 +307,10 @@
 </script>
 
 <style lang="scss">
-    @import './../../../assets/scss/App.scss';
+    @import '@/assets/scss/App.scss';
 </style>
 
 <style lang="css">
-    @import './../../../assets/plugins/slick/slick.css';
-    @import './../../../assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    @import '/assets/plugins/slick/slick.css';
+    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 </style>

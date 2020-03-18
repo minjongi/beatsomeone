@@ -72,6 +72,75 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    // 메인페이지 TESTIMONIALS 목록 조회
+    public function main_testimonials_list()
+    {
+
+        $this->load->model('Beatsomeone_model');
+
+        // DB Querying (Trending)
+        $config = array(
+            'limit' => '3',
+        );
+        $result = $this->Beatsomeone_model->get_main_trending_list($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    // sublist 목록 조회
+    public function sublist_list($genre = '')
+    {
+
+        $this->load->model('Cmall_item_model');
+
+        // DB Querying (장르별 Top 5)
+        $config = array(
+            'cit_type1' => '1',
+            'limit' => '10',
+            'genre' => urldecode($genre),
+        );
+        $result = $this->Cmall_item_model->get_main_list($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
+    // sublist Top 5 조회
+    public function sublist_top5_list($genre = '')
+    {
+
+        $this->load->model('Cmall_item_model');
+
+        // DB Querying (장르별 Top 5)
+        $config = array(
+            'cit_type1' => '1',
+            'limit' => '5',
+            'genre' => urldecode($genre),
+        );
+        $result = $this->Cmall_item_model->get_main_list($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    // detail similart racks 조회
+    public function detail_similartracks_list()
+    {
+        $this->load->model('Cmall_item_model');
+
+        $config = array(
+            'cit_type1' => '1',
+            'limit' => '10',
+        );
+        $result = $this->Cmall_item_model->get_main_list($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
     // 관심 항목 추가
     public function toggle_wish_item($cit_id = '')
     {
