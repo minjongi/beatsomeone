@@ -16,6 +16,7 @@
 
 
     export default {
+        props: ['item'],
         components: {Index_Items},
         data: function() {
             return {

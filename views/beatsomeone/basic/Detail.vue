@@ -55,7 +55,7 @@
                                         @keydown.enter.prevent="sendComment"
                                 />
                                 <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
-                                <button @click="sendComment">SEND</button>
+                                <button @click.prevent="sendComment">SEND</button>
                             </div>
                         </form>
                     </div>
@@ -69,9 +69,9 @@
                     </div>
 
                     <div class="detail__content">
-                        <Detail_SimilarTracks v-if="currentTab === tabs[0]"/>
-                        <Detail_Comments v-if="currentTab === tabs[1]" />
-                        <Detail_Infomation v-if="currentTab === tabs[2]" />
+                        <Detail_SimilarTracks v-if="currentTab === tabs[0]" :item="item"/>
+                        <Detail_Comments v-if="currentTab === tabs[1]" :item="item" />
+                        <Detail_Infomation v-if="currentTab === tabs[2]" :item="item" />
                     </div>
 
 
@@ -152,14 +152,28 @@
             },
         },
         methods: {
+
             // 탭 선택
             selectTab(t) {
                 this.currentTab = t;
             },
             // 코멘트 입력
             sendComment() {
+                const p = {
+                    cit_id : this.item.cit_id,
+                    cqa_title : null,
+                    cqa_content : this.comment,
+                }
                 // 코멘트 저장
+                Http.post( `/beatsomeoneApi/add_comment`,p).then(r=> {
+                    if(!r) {
+                        log.debug('Comment 저장 실패');
+                    } else {
+                        EventBus.$emit('add_comment');
+                        log.debug('Comment 저장 성공');
 
+                    }
+                });
                 // 초기화
                 this.comment = null;
 

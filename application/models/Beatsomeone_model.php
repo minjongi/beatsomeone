@@ -55,5 +55,34 @@ class Beatsomeone_model extends CB_Model
         return $result;
     }
 
+    public function get_comment_list($config)
+    {
+
+        $where['cit_id'] = element('cit_id', $config);
+
+//        if (element('cit_id', $config)) {
+//            $where['cit_id'] = element('cit_id', $config);
+//        }
+
+
+
+        //$limit = element('limit', $config) ? element('limit', $config) : 4;
+
+//        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = cmall_item.cit_id AND p1.cim_key = "info_content_1"','left');
+//        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = cmall_item.cit_id AND p2.cim_key = "info_content_2"','left');
+//        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = cmall_item.cit_id AND p3.cim_key = "info_content_3"','left');
+//        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = cmall_item.cit_id','left');
+//        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND m1.mem_id = "'.$this->member->item('mem_id').'"','left');
+
+        $this->db->select('cb_cmall_qna.*');
+        $this->db->where($where);
+        //$this->db->limit($limit);
+        $this->db->order_by('cqa_id', 'desc');
+        $qry = $this->db->get('cmall_qna');
+        $result = $qry->result_array();
+
+        return $result;
+    }
+
 
 }

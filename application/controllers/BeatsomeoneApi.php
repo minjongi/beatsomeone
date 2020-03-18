@@ -141,6 +141,61 @@ class BeatsomeoneApi extends CB_Controller
     }
 
 
+
+    // Comment 추가
+    public function add_comment()
+    {
+        $this->load->model('Cmall_qna_model');
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $content_type = $this->cbconfig->item('use_cmall_product_qna_dhtml') ? 1 : 0;
+        $cqa_secret = $this->input->post('cqa_secret') ? 1 : 0;
+        $cqa_receive_email = $this->input->post('cqa_receive_email') ? 1 : 0;
+        $cqa_receive_sms = $this->input->post('cqa_receive_sms') ? 1 : 0;
+
+        $updatedata = array(
+            'cit_id' => $this->input->post('cit_id', null, ''),
+            'cqa_title' => $this->input->post('cqa_title', null, ''),
+            'cqa_content' => $this->input->post('cqa_content', null, ''),
+            'cqa_content_html_type' => $content_type,
+            'cqa_secret' => $cqa_secret,
+            'cqa_receive_email' => $cqa_receive_email,
+            'cqa_receive_sms' => $cqa_receive_sms,
+            'cqa_datetime' => cdate('Y-m-d H:i:s'),
+            'mem_id' => $this->member->item('mem_id'),
+            'cqa_ip' => $this->input->ip_address(),
+
+        );
+
+
+        $_cqa_id = $this->Cmall_qna_model->insert($updatedata);
+
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($_cqa_id));
+    }
+
+    // Comment 조회
+    public function list_comment($cit_id = '')
+    {
+        $this->load->model('Beatsomeone_model');
+
+        $config['cit_id'] = $cit_id;
+
+        $result = $this->Beatsomeone_model
+            ->get_comment_list($config);
+
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
     // 관심 항목 추가
     public function toggle_wish_item($cit_id = '')
     {
