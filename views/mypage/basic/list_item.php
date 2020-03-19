@@ -1,53 +1,33 @@
 <?php $this->managelayout->add_css(element('view_skin_url', $layout) . '/css/style.css'); ?>
+<?php $this->managelayout->add_css('/dist/list_item.css'); ?>
+<?php $this->managelayout->add_js('/dist/chunk-vendors.js'); ?>
+<?php $this->managelayout->add_js('/dist/chunk-common.js'); ?>
+<?php $this->managelayout->add_js('/dist/list_item.js'); ?>
 
-<div class="mypage">
-	<ul class="nav nav-tabs">
+
+
+
+<div class="mypage" >
+    <ul class="nav nav-tabs">
         <li><a href="<?php echo site_url('mypage'); ?>" title="마이페이지">마이페이지</a></li>
-        <li><a href="<?php echo site_url('mypage/regist_item'); ?>" title="음원판매등록">음원판매등록</a></li>
-        <li class="active"><a href="<?php echo site_url('mypage/list_item'); ?>" title="나의음원목록">나의음원목록</a></li>
-        <li><a href="<?php echo site_url('mypage/status_item'); ?>" title="판매현황">판매현황</a></li>
+        <?php if($this->member->item('mem_usertype') == 2) { ?>
+            <li><a href="<?php echo site_url('mypage/regist_item'); ?>" title="음원판매등록">음원판매등록</a></li>
+            <li class="active"><a href="<?php echo site_url('mypage/list_item'); ?>" title="나의음원목록">나의음원목록</a></li>
+            <li><a href="<?php echo site_url('mypage/status_item'); ?>" title="판매현황">판매현황</a></li>
+        <?php } ?>
         <li><a href="<?php echo site_url('mypage/loginlog'); ?>" title="나의 로그인기록">로그인기록</a></li>
         <li><a href="<?php echo site_url('membermodify'); ?>" title="정보수정">정보수정</a></li>
         <li><a href="<?php echo site_url('membermodify/memberleave'); ?>" title="탈퇴하기">탈퇴하기</a></li>
-	</ul>
+    </ul>
 
-	<h3>나의음원목록</h3>
+    <h3>나의음원목록</h3>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>로그인여부</th>
-				<th>IP</th>
-				<th>OS</th>
-				<th>Browser</th>
-				<th>날짜</th>
-			</tr>
-		</thead>
-		<tbody>
+    <div id="app">
+        <ListItem>
 
-		<?php
-		if (element('list', element('data', $view))) {
-			foreach (element('list', element('data', $view)) as $result) {
-		?>
-			<tr>
-				<td><?php echo element('mll_success', $result) === '1' ? "<span class=\"label label-success\">로그인성공</span>":"<span class=\"label label-danger\">로그인실패</span>"; ?></td>
-				<td><?php echo html_escape(element('mll_ip', $result)); ?></td>
-				<td><?php echo html_escape(element('os', $result)); ?></td>
-				<td><?php echo html_escape(element('browsername', $result)); ?> <?php echo html_escape(element('browserversion', $result)); ?> <?php echo html_escape(element('engine', $result)); ?></td>
-				<td><?php echo display_datetime(element('mll_datetime', $result), 'full'); ?></td>
-			</tr>
-		<?php
-			}
-		}
-		if ( ! element('list', element('data', $view))) {
-		?>
-			<tr>
-				<td colspan="5" class="nopost">로그인 기록이 없습니다</td>
-			</tr>
-		<?php
-		}
-		?>
-		</tbody>
-	</table>
-	<nav><?php echo element('paging', $view); ?></nav>
+        </ListItem>
+    </div>
+
 </div>
+
+

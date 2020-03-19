@@ -15,6 +15,9 @@ module.exports = {
             beatsomeone: ['./views/beatsomeone/basic/beatsomeone.js'],
             detail: ['./views/beatsomeone/basic/detail.js'],
             sublist: ['./views/beatsomeone/basic/sublist.js'],
+            regist_item: ['./views/mypage/basic/regist_item.js'],
+            list_item: ['./views/mypage/basic/list_item.js'],
+
             m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
             m_sublist: ['./views/beatsomeone/mobile/sublist.js'],

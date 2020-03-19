@@ -125,7 +125,7 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
-    // detail similart racks 조회
+    // detail similar tracks 조회
     public function detail_similartracks_list()
     {
         $this->load->model('Cmall_item_model');
@@ -135,6 +135,27 @@ class BeatsomeoneApi extends CB_Controller
             'limit' => '10',
         );
         $result = $this->Cmall_item_model->get_main_list($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    // mypage 내음원 목록 조회
+    public function get_user_regist_item_list()
+    {
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+
+        $this->load->model('Beatsomeone_model');
+
+        $config = array(
+            'mem_id' => $this->member->item('mem_id'),
+        );
+        $result = $this->Beatsomeone_model->get_user_regist_item_list($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -191,6 +212,62 @@ class BeatsomeoneApi extends CB_Controller
             ->get_comment_list($config);
 
 
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    // GUID 생성
+    private function getGUID(){
+        if (function_exists('com_create_guid')){
+            return com_create_guid();
+        }else{
+            mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
+            $charid = strtoupper(md5(uniqid(rand(), true)));
+            $hyphen = chr(45);// "-"
+            $uuid = ''
+                .substr($charid, 0, 8).$hyphen
+                .substr($charid, 8, 4).$hyphen
+                .substr($charid,12, 4).$hyphen
+                .substr($charid,16, 4).$hyphen
+                .substr($charid,20,12);
+            return $uuid;
+        }
+    }
+
+
+
+    // 사용자 상품 등록
+    public function merge_item()
+    {
+        // Check Login
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        // Load Module
+        $this->load->model('Beatsomeone_model','Beatsomeone_model');
+        $this->load->model('Member_model','Member_model');
+
+        // Form Parse
+        $form = array(
+            "cit_name" => $this->input->post('cit_name'),
+            "cit_key" => $this->getGUID(),
+            "musician" => $this->input->post('musician'),
+            "cit_content" => $this->input->post('cit_content'),
+            "cit_price" => $this->input->post('cit_price'),
+            "genre" => $this->input->post('genre'),
+            "bpm" => $this->input->post('bpm'),
+            "mem_id" => $this->member->item('mem_id'),
+            "mem_userid" => $this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid')['mem_userid'],
+            "ip" => $this->input->ip_address(),
+        );
+
+        log_message('debug',print_r($form,true));
+
+        $result = $this->Beatsomeone_model->merge_item($form);
+
+        // Reponse
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
     }

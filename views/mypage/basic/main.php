@@ -3,9 +3,11 @@
 <div class="mypage">
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="<?php echo site_url('mypage'); ?>" title="마이페이지">마이페이지</a></li>
+        <?php if($this->member->item('mem_usertype') == 2) { ?>
 		<li><a href="<?php echo site_url('mypage/regist_item'); ?>" title="음원판매등록">음원판매등록</a></li>
         <li><a href="<?php echo site_url('mypage/list_item'); ?>" title="나의음원목록">나의음원목록</a></li>
 		<li><a href="<?php echo site_url('mypage/status_item'); ?>" title="판매현황">판매현황</a></li>
+        <?php } ?>
 		<li><a href="<?php echo site_url('mypage/loginlog'); ?>" title="나의 로그인기록">로그인기록</a></li>
 		<li><a href="<?php echo site_url('membermodify'); ?>" title="정보수정">정보수정</a></li>
 		<li><a href="<?php echo site_url('membermodify/memberleave'); ?>" title="탈퇴하기">탈퇴하기</a></li>
@@ -17,6 +19,10 @@
 			<span>아이디</span>
 			<div class="form-text"><?php echo html_escape($this->member->item('mem_userid')); ?></div>
 		</li>
+        <li>
+            <span>사용자 분류</span>
+            <div class="form-text"><?php echo html_escape($this->member->item('mem_usertype')) == 1 ? '일반회원' : '판매회원'; ?></div>
+        </li>
 		<li>
 			<span>이메일 주소</span>
 			<div class="form-text"><?php echo html_escape($this->member->item('mem_email')); ?></div>
