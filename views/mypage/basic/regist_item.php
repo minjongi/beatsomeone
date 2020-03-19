@@ -1,9 +1,11 @@
 <?php $this->managelayout->add_css(element('view_skin_url', $layout) . '/css/style.css'); ?>
 <?php $this->managelayout->add_js('/dist/chunk-vendors.js'); ?>
 <?php $this->managelayout->add_js('/dist/chunk-common.js'); ?>
-<?php $this->managelayout->add_js('/dist/regist_item.js'); ?>
+<?php $this->managelayout->add_lastjs('/dist/regist_item.js'); ?>
 
 
+
+<?php $this->managelayout->add_script('window.vm.$children[0].$data.cit_id = "'. element('cit_id', $view) .'";'); ?>
 
 <div class="mypage" >
 	<ul class="nav nav-tabs">
@@ -21,9 +23,7 @@
 	<h3>음원판매등록</h3>
 
     <div id="app">
-        <RegistItem>
 
-        </RegistItem>
     </div>
 
 </div>

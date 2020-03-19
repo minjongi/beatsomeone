@@ -1172,7 +1172,7 @@ class Mypage extends CB_Controller
     /**
      * 마이페이지>음원판매등록 입니다
      */
-    public function regist_item($pid = 0)
+    public function regist_item($cit_id = '')
     {
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_mypage_loginlog';
@@ -1189,10 +1189,14 @@ class Mypage extends CB_Controller
         $view = array();
         $view['view'] = array();
 
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+
+
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before'] = Events::trigger('before', $eventname);
-
-
 
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);

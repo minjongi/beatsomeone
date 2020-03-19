@@ -91,6 +91,28 @@ class Beatsomeone_model extends CB_Model
         return $result;
     }
 
+    // 음원 조회
+    public function get_item($p)
+    {
+
+        $where = array(
+            'cb_c.cit_id = ' => $p['cit_id'],
+        );
+        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
+        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
+        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
+        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+        $this->db->where($where);
+        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price');
+        $this->db->order_by('cit_id', 'desc');
+        $qry = $this->db->get('cmall_item as cb_c');
+
+        $result = $qry->first_row();
+
+        return $result;
+    }
+
     // 사용자 상품 등록
     public function merge_item($p)
     {

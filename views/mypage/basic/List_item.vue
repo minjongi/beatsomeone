@@ -52,7 +52,7 @@
                 });
             },
             doEdit(item) {
-
+                window.location.href = `/mypage/regist_item/${item.cit_id}`;
             },
             moveDetail(item) {
                 window.location.href = `/beatsomeone/detail/${item.cit_key}`;

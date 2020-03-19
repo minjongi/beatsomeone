@@ -40,8 +40,9 @@
         <li>
             <span>커버 이미지</span>
             <div class="form-text text-primary group">
-                <div>
-                    <img src="/uploads/cache/cmallitem/2020/03/thumb-eaa2bdc27c789ff822339b4d4092a157_80x0.png" alt="커버 이미지" title="커버 이미지" />
+                <div v-if="item.cit_file_1">
+
+                    <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt="커버 이미지" title="커버 이미지" />
                 </div>
 
                 <input type="file" name="cover_image" id="cover_image" ref="cover_image" @change="onConverFileSelected"  />
@@ -53,10 +54,10 @@
                 <input type="file" name="music_file_1" id="music_file_1" />
             </div>
         </li>
-        <li>
-            <span>데이터 </span>
-            <pre>{{ item }}</pre>
-        </li>
+<!--        <li>-->
+<!--            <span>데이터 </span>-->
+<!--            <pre>{{ item }}</pre>-->
+<!--        </li>-->
         <li>
             <span></span>
             <button type="submit" class="btn btn-success" @click="doSubmit">등록</button>
@@ -71,13 +72,31 @@
     import axios from 'axios';
 
     export default {
+
         data: function() {
             return {
+                cit_id: null,
                 item : {
+
 
                 },
 
             };
+        },
+        mounted() {
+
+        },
+        watch: {
+            cit_id: function (n) {
+                log.debug( {
+                        'cit_id': n,
+                    }
+                )
+                if(n) {
+                    this.getItem();
+                }
+
+            },
         },
         methods: {
             // 커버 선택시
@@ -86,6 +105,12 @@
                     'onConverFileSelected': this.$refs.cover_image.files[0],
                 })
                 this.item.coverImage = this.$refs.cover_image.files[0];
+            },
+            // 데이터 로딩
+            getItem() {
+                Http.get(`/beatsomeoneApi/get_item/${this.cit_id}`).then( r => {
+                    this.item = r.data;
+                });
             },
             // 저장
             doSubmit() {
