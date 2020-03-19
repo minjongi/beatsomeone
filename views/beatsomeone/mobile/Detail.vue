@@ -149,6 +149,9 @@
             },
             // 코멘트 입력
             sendComment() {
+
+                if(!this.comment) return;
+
                 // 코멘트 저장
                 const p = {
                     cit_id : this.item.cit_id,
@@ -175,8 +178,8 @@
             addCart() {
 
                 let detail_qty = {};
-                detail_qty[this.item['cde_id']] = 1;
-                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                detail_qty[this.detail[0]['cde_id']] = 1;
+                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.detail[0].cde_id],detail_qty:detail_qty,}).then(r=> {
                     if(!r) {
                         log.debug('장바구니 담기 실패');
                     } else {

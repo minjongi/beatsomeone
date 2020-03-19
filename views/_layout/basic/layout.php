@@ -58,37 +58,38 @@ var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
 				<?php } ?>
 				<?php
 				if ($this->member->is_member()) {
-					if ($this->cbconfig->item('use_notification')) {
+//					if ($this->cbconfig->item('use_notification')) {
 				?>
-					<li class="notifications"><i class="fa fa-bell-o"></i>알림 <span class="badge notification_num"><?php echo number_format((int) element('notification_num', $layout)); ?></span>
-						<div class="notifications-menu"></div>
-					</li>
-					<script type="text/javascript">
-					//<![CDATA[
-					$(document).mouseup(function (e)
-					{
-						var noticontainer = $('.notifications-menu');
-
-						if ( ! noticontainer.is(e.target) // if the target of the click isn't the container...
-							&& noticontainer.has(e.target).length === 0) // ... nor a descendant of the container
-						{
-							noticontainer.hide();
-						}
-					});
-					//]]>
-					</script>
-				<?php
-					}
-				?>
+<!--					<li class="notifications"><i class="fa fa-bell-o"></i>알림 <span class="badge notification_num">--><?php //echo number_format((int) element('notification_num', $layout)); ?><!--</span>-->
+<!--						<div class="notifications-menu"></div>-->
+<!--					</li>-->
+<!--					<script type="text/javascript">-->
+<!--					//<![CDATA[-->
+<!--					$(document).mouseup(function (e)-->
+<!--					{-->
+<!--						var noticontainer = $('.notifications-menu');-->
+<!---->
+<!--						if ( ! noticontainer.is(e.target) // if the target of the click isn't the container...-->
+<!--							&& noticontainer.has(e.target).length === 0) // ... nor a descendant of the container-->
+<!--						{-->
+<!--							noticontainer.hide();-->
+<!--						}-->
+<!--					});-->
+<!--					//]]>-->
+<!--					</script>-->
+<!--				--><?php
+//					}
+//				?>
+                    <li><i class="fa fa-user"></i><a href="<?php echo site_url('mypage'); ?>" title="마이페이지">마이페이지</a></li>
 					<li><i class="fa fa-sign-out"></i><a href="<?php echo site_url('login/logout?url=' . urlencode(current_full_url())); ?>" title="로그아웃">로그아웃</a></li>
-					<li><i class="fa fa-user"></i><a href="<?php echo site_url('mypage'); ?>" title="마이페이지">마이페이지</a></li>
+
 				<?php } else { ?>
 					<li><i class="fa fa-sign-in"></i><a href="<?php echo site_url('login?url=' . urlencode(current_full_url())); ?>" title="로그인">로그인</a></li>
 					<li><i class="fa fa-user"></i><a href="<?php echo site_url('register'); ?>" title="회원가입">회원가입</a></li>
 				<?php } ?>
-				<?php if ($this->cbconfig->item('open_currentvisitor')) { ?>
-					<li><i class="fa fa-link"></i><a href="<?php echo site_url('currentvisitor'); ?>" title="현재접속자">현재접속자</a> <span class="badge"><?php echo element('current_visitor_num', $layout); ?></span></li>
-				<?php } ?>
+<!--				--><?php //if ($this->cbconfig->item('open_currentvisitor')) { ?>
+<!--					<li><i class="fa fa-link"></i><a href="--><?php //echo site_url('currentvisitor'); ?><!--" title="현재접속자">현재접속자</a> <span class="badge">--><?php //echo element('current_visitor_num', $layout); ?><!--</span></li>-->
+<!--				--><?php //} ?>
 			</ul>
 		</div>
 	</header>
@@ -98,7 +99,8 @@ var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
 	<nav class="navbar">
 		<div class="container">
 			<div class="logo pull-left">
-				<a href="<?php echo site_url(); ?>" title="<?php echo html_escape($this->cbconfig->item('site_title'));?>"><?php echo $this->cbconfig->item('site_logo'); ?></a>
+<!--				<a href="--><?php //echo site_url(); ?><!--" title="--><?php //echo html_escape($this->cbconfig->item('site_title'));?><!--">--><?php //echo $this->cbconfig->item('site_logo'); ?><!--</a>-->
+                <a href="/"><img src="/assets/images/logo.png" alt="beat someone"/></a>
 			</div>
 			<ul class="menu pull-right">
 				<?php
@@ -141,10 +143,10 @@ var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
 				echo $menuhtml;
 				?>
 				<li>
-					<form name="header_search" id="header_search" action="<?php echo site_url('search'); ?>" onSubmit="return headerSearch(this);">
-						<input type="text" placeholder="Search" class="input" name="skeyword" accesskey="s" />
-						<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-					</form>
+<!--					<form name="header_search" id="header_search" action="--><?php //echo site_url('search'); ?><!--" onSubmit="return headerSearch(this);">-->
+<!--						<input type="text" placeholder="Search" class="input" name="skeyword" accesskey="s" />-->
+<!--						<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>-->
+<!--					</form>-->
 					<script type="text/javascript">
 					//<![CDATA[
 					$(function() {
@@ -203,9 +205,9 @@ var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
 					<li><a href="<?php echo document_url('aboutus'); ?>" title="회사소개">회사소개</a></li>
 					<li><a href="<?php echo document_url('provision'); ?>" title="이용약관">이용약관</a></li>
 					<li><a href="<?php echo document_url('privacy'); ?>" title="개인정보 취급방침">개인정보 취급방침</a></li>
-					<li><a href="<?php echo site_url('pointranking'); ?>" title="포인트 전체랭킹">포인트 전체랭킹</a></li>
-					<li><a href="<?php echo site_url('pointranking/month'); ?>" title="포인트 월별랭킹" >포인트 월별랭킹</a></li>
-					<li><a href="<?php echo site_url('levelup'); ?>" title="레벨업">레벨업</a></li>
+<!--					<li><a href="--><?php //echo site_url('pointranking'); ?><!--" title="포인트 전체랭킹">포인트 전체랭킹</a></li>-->
+<!--					<li><a href="--><?php //echo site_url('pointranking/month'); ?><!--" title="포인트 월별랭킹" >포인트 월별랭킹</a></li>-->
+<!--					<li><a href="--><?php //echo site_url('levelup'); ?><!--" title="레벨업">레벨업</a></li>-->
 				</ul>
 			</div>
 			<div class="copyright">
