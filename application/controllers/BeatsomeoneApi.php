@@ -107,6 +107,8 @@ class BeatsomeoneApi extends CB_Controller
     }
 
 
+
+
     // sublist Top 5 조회
     public function sublist_top5_list($genre = '')
     {
@@ -126,15 +128,15 @@ class BeatsomeoneApi extends CB_Controller
     }
 
     // detail similar tracks 조회
-    public function detail_similartracks_list()
+    public function detail_similartracks_list($cit_id = '')
     {
-        $this->load->model('Cmall_item_model');
+        $this->load->model('Beatsomeone_model');
+
 
         $config = array(
-            'cit_type1' => '1',
-            'limit' => '10',
+            'cit_id' => $cit_id,
         );
-        $result = $this->Cmall_item_model->get_main_list($config);
+        $result = $this->Beatsomeone_model->get_relation_list($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));

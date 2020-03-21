@@ -3,6 +3,7 @@
         <ul id="playList__list" class="playList__list">
             <!-- 플레이리스트 들어감 -->
             <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
+
         </ul>
     </div>
 </template>
@@ -22,6 +23,11 @@
             return {
                 list: null,
             }
+        },
+        watch: {
+            item: function (n) {
+                this.getList();
+            },
         },
         mounted() {
 
@@ -55,8 +61,9 @@
         },
         methods: {
             getList() {
-                Http.get(`/beatsomeoneApi/detail_similartracks_list`).then(r=> {
-                    this.list = r.data;
+                if(!this.item) return;
+                Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`).then(r=> {
+                    this.list = r;
                 });
             },
         },
