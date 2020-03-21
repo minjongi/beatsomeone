@@ -181,7 +181,7 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
-    // mypage 판매현황 조회
+    // mypage 판매내역 조회
     public function get_status_item_list()
     {
         // 비로그인 사용자 거부

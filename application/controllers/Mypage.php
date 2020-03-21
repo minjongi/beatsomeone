@@ -1170,7 +1170,7 @@ class Mypage extends CB_Controller
 
 
     /**
-     * 마이페이지>음원판매등록 입니다
+     * 마이페이지>음원등록 입니다
      */
     public function regist_item($cit_id = '')
     {
@@ -1233,7 +1233,7 @@ class Mypage extends CB_Controller
     }
 
     /**
-     * 마이페이지>나의음원목록 입니다
+     * 마이페이지>음원등록내역 입니다
      */
     public function list_item()
     {
@@ -1337,7 +1337,7 @@ class Mypage extends CB_Controller
     }
 
     /**
-     * 마이페이지>판매현황 입니다
+     * 마이페이지>판매내역 입니다
      */
     public function status_item()
     {

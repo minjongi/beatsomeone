@@ -4,9 +4,9 @@
 	<ul class="nav nav-tabs">
         <li><a href="<?php echo site_url('mypage'); ?>" title="마이페이지">마이페이지</a></li>
         <?php if($this->member->item('mem_usertype') == 2) { ?>
-            <li><a href="<?php echo site_url('mypage/regist_item'); ?>" title="음원판매등록">음원판매등록</a></li>
-            <li><a href="<?php echo site_url('mypage/list_item'); ?>" title="나의음원목록">나의음원목록</a></li>
-            <li><a href="<?php echo site_url('mypage/status_item'); ?>" title="판매현황">판매현황</a></li>
+            <li><a href="<?php echo site_url('mypage/regist_item'); ?>" title="음원등록">음원등록</a></li>
+            <li><a href="<?php echo site_url('mypage/list_item'); ?>" title="음원등록내역">음원등록내역</a></li>
+            <li><a href="<?php echo site_url('mypage/status_item'); ?>" title="판매내역">판매내역</a></li>
         <?php } ?>
         <li><a href="<?php echo site_url('mypage/loginlog'); ?>" title="나의 로그인기록">로그인기록</a></li>
         <li <?php if (uri_string() === 'membermodify') { ?>class="active" <?php } ?>><a href="<?php echo site_url('membermodify'); ?>" title="정보수정">정보수정</a></li>
