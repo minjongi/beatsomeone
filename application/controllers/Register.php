@@ -1469,7 +1469,7 @@ class Register extends CB_Controller
 			}
 			$this->session->unset_userdata('selfcertinfo');
 
-			redirect('register/result');
+			redirect('register/result_user');
 		}
 	}
 
@@ -2120,6 +2120,8 @@ class Register extends CB_Controller
             $insertdata['mem_nickname'] = $this->input->post('mem_nickname');
             $metadata['meta_nickname_datetime'] = cdate('Y-m-d H:i:s');
             $insertdata['mem_level'] = $mem_level;
+            // 뮤지션 회원은 차단 상태로 가입됨
+            $insertdata['mem_denied'] = 1;
 
             if ($selfcert_username) {
                 $insertdata['mem_username'] = $selfcert_username;
@@ -2247,7 +2249,9 @@ class Register extends CB_Controller
                 foreach ($allgroup as $gkey => $gval) {
                     if (element('mgr_is_default', $gval)) {
                         $gminsert = array(
-                            'mgr_id' => element('mgr_id', $gval),
+                            //'mgr_id' => element('mgr_id', $gval),
+                            // 뮤지션은 2번 그룹으로 가입됨
+                            'mgr_id' => 2,
                             'mem_id' => $mem_id,
                             'mgm_datetime' => cdate('Y-m-d H:i:s'),
                         );
@@ -2578,7 +2582,7 @@ class Register extends CB_Controller
             }
             $this->session->unset_userdata('selfcertinfo');
 
-            redirect('register/result');
+            redirect('register/result_musician');
         }
     }
 
