@@ -1109,7 +1109,7 @@ class Layoutskin extends CB_Controller
 			array(
 				'key' => 'register_form',
 				'name' => '회원가입 > 가입폼작성',
-				'controllers' => array('Register/form'),
+				'controllers' => array('Register/form_user'),
 				'description' => '',
 			),
 			array(

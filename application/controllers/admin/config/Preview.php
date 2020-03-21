@@ -170,7 +170,7 @@ class Preview extends CB_Controller
 			$pageurl = 'helptool/emoticon';
 		}
 		if ($pagetype === 'register') {
-			$pageurl = 'register/form';
+			$pageurl = 'register/form_user';
 		}
 
 		$previewurl = admin_url('preview/adminshow/' . $pageurl);
