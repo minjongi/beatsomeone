@@ -16,11 +16,17 @@
 
 
     export default {
+        props: ['item'],
         components: {Index_Items},
         data: function() {
             return {
                 list: null,
             }
+        },
+        watch: {
+            item: function (n) {
+                this.getList();
+            },
         },
         mounted() {
 
@@ -54,8 +60,9 @@
         },
         methods: {
             getList() {
-                Http.get(`/beatsomeoneApi/detail_similartracks_list`).then(r=> {
-                    this.list = r.data;
+                if(!this.item) return;
+                Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`).then(r=> {
+                    this.list = r;
                 });
             },
         },

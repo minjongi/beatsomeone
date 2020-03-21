@@ -41,6 +41,11 @@
                 listComments: null,
             }
         },
+        watch: {
+            item: function (n) {
+                this.getList();
+            },
+        },
         created() {
             EventBus.$on('add_comment',() => {
                 this.getList();
@@ -51,6 +56,7 @@
         },
         methods: {
             getList() {
+                if(!this.item) return;
                 Http.get(`/beatsomeoneApi/list_comment/${this.item.cit_id}`).then(r=> {
                     this.listComments = r.data;
                 });

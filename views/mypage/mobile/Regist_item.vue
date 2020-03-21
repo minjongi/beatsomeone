@@ -15,7 +15,7 @@
         </li>
         <li>
             <span>설명</span>
-            <div class="form-text text-primary group"><input type="text" id="cit_content" name="cit_content" class="form-control input" minlength="3" v-model="item.cit_content" />
+            <div class="form-text text-primary group"><textarea rows="5" type="text" id="cit_content" name="cit_content" class="form-control input" minlength="3" v-model="item.cit_content" />
                 <p class="help-block">영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요</p>
             </div>
         </li>

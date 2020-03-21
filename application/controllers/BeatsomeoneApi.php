@@ -142,6 +142,21 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    // 음반 기타정보 조회
+    public function get_item_infomation($cit_id = '')
+    {
+        $this->load->model('Beatsomeone_model');
+
+
+        $config = array(
+            'cit_id' => $cit_id,
+        );
+        $result = $this->Beatsomeone_model->get_item_infomation($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
     // mypage 내음원 목록 조회
     public function get_user_regist_item_list()
     {

@@ -113,6 +113,26 @@ class Beatsomeone_model extends CB_Model
         return $result;
     }
 
+    // 음원 기타정보 조회
+    public function get_item_infomation($p)
+    {
+
+        $where = array(
+            'cb_c.cit_id = ' => $p['cit_id'],
+        );
+        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+        $this->db->join('cb_member as cm','m.cim_value = cm.mem_id','inner');
+
+        $this->db->where($where);
+        $this->db->select('cb_c.*, cm.mem_userid, cm.mem_email, cm.mem_username, cm.mem_nickname,cm.mem_photo');
+        $this->db->order_by('cit_id', 'desc');
+        $qry = $this->db->get('cmall_item as cb_c');
+
+        $result = $qry->first_row();
+
+        return $result;
+    }
+
     // 연관 음원 조회
     public function get_relation_list($p)
     {
@@ -154,6 +174,7 @@ class Beatsomeone_model extends CB_Model
             // 상품 등록 (cmall_item)
             $data = array(
                 "cit_name" => $p["cit_name"],
+                "cit_content" => $p["cit_content"],
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
             );
             if($p["cit_file_1"]) {

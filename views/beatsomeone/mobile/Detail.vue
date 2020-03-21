@@ -54,13 +54,11 @@
             <div class="detail__body">
                 <div class="tab">
                     <div class="tab__scroll-none">
-                        <button v-for="t in tabs" :key="t" :class="{active: t === currentTab }" @click="selectTab(t)">{{ t }}</button>
+                        <button v-for="t in tabs" :key="t.title" :class="{active: t.title === currentTab }" @click="selectTab(t)">{{ t.title }}</button>
                     </div>
                 </div>
                 <div class="detail__content">
-                    <Detail_SimilarTracks v-if="currentTab === tabs[0]" :item="item"/>
-                    <Detail_Comments v-if="currentTab === tabs[1]" :item="item" />
-                    <Detail_Infomation v-if="currentTab === tabs[2]" :item="item" />
+                    <router-view :item="item"/>
                 </div>
             </div>
         </div>
@@ -73,14 +71,11 @@
     require('@/assets_m/js/function');
     import Header from "./include/Header";
     import Footer from "./include/Footer";
-    import Detail_SimilarTracks from "./Detail_SimilarTracks";
-    import Detail_Comments from "./Detail_Comments";
-    import Detail_Infomation from "./Detail_Infomation";
     import { EventBus } from '*/src/eventbus';
 
 
     export default {
-        components: {Header,Footer,Detail_SimilarTracks,Detail_Comments,Detail_Infomation},
+        components: {Header,Footer,},
         data: function() {
             return {
                 isLogin : false,
@@ -90,7 +85,7 @@
                 comment: null,
                 music: null,
                 listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
-                tabs: ['SIMILAR TRACKS','COMMENTS','INFORMATION'],
+                tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
             }
         },
@@ -104,6 +99,9 @@
         },
         mounted() {
 
+            this.currentTab = _.find(this.tabs, e => {
+                return e.path === this.$router.currentRoute.path;
+            }).title;
 
 
             this.music = window.WaveSurfer.create({
@@ -145,7 +143,8 @@
         methods: {
             // 탭 선택
             selectTab(t) {
-                this.currentTab = t;
+                this.currentTab = t.title;
+                this.$router.push({ path: t.path, params: { item: this.item} });
             },
             // 코멘트 입력
             sendComment() {
@@ -172,7 +171,7 @@
                 this.comment = null;
 
                 // 탭 이동
-                this.currentTab = 'COMMENTS';
+                this.selectTab(this.tabs[1]);
             },
             // 카트 추가
             addCart() {

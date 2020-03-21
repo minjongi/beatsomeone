@@ -1,6 +1,6 @@
 <template>
     <div class="commentsbox">
-        <div class="commentsbox__row">
+        <div class="commentsbox__row" v-if="listComments">
             <div class="comment" v-for="c in listComments" :key="c.cqa_id">
                 <div class="comment__author-img">
                     <img src="https://via.placeholder.com/50x50" alt="">
@@ -39,6 +39,11 @@
                 listComments: null,
             }
         },
+        watch: {
+            item: function (n) {
+                this.getList();
+            },
+        },
         created() {
             EventBus.$on('add_comment',() => {
                 this.getList();
@@ -49,6 +54,7 @@
         },
         methods: {
             getList() {
+                if(!this.item) return;
                 Http.get(`/beatsomeoneApi/list_comment/${this.item.cit_id}`).then(r=> {
                     this.listComments = r.data;
                 });

@@ -5,6 +5,7 @@
 
         <div class="container detail">
             <div class="detail__header">
+
 <!--                <div>-->
 <!--                    <pre>{{ detail }}</pre>-->
 <!--                </div>-->
@@ -65,13 +66,11 @@
             <div class="detail__body">
                 <div class="wrap">
                     <div class="tab">
-                        <button v-for="t in tabs" :key="t" :class="{active: t === currentTab }" @click="selectTab(t)">{{ t }}</button>
+                        <button v-for="t in tabs" :key="t.title" :class="{active: t.title === currentTab }" @click="selectTab(t)">{{ t.title }}</button>
                     </div>
 
                     <div class="detail__content">
-                        <Detail_SimilarTracks v-if="currentTab === tabs[0]" :item="item"/>
-                        <Detail_Comments v-if="currentTab === tabs[1]" :item="item" />
-                        <Detail_Infomation v-if="currentTab === tabs[2]" :item="item" />
+                        <router-view :item="item"/>
                     </div>
 
 
@@ -87,16 +86,32 @@
     require('@/assets/js/function');
     import Header from "./include/Header";
     import Footer from "./include/Footer";
-    import Detail_SimilarTracks from "./Detail_SimilarTracks";
-    import Detail_Comments from "./Detail_Comments";
-    import Detail_Infomation from "./Detail_Infomation";
+    // import Detail_SimilarTracks from "./Detail_SimilarTracks";
+    // import Detail_Comments from "./Detail_Comments";
+    // import Detail_Infomation from "./Detail_Infomation";
     import { EventBus } from '*/src/eventbus';
+    // import VueRouter  from 'vue-router';
+
+
+    // const router = new VueRouter({
+    //     routes: [
+    //         // { path: '/', component: Detail_SimilarTracks, props: { item: this.item } },
+    //         // { path: '/comments', component: Detail_Comments, props: { item: this.item }  },
+    //         // { path: '/infomation', component: Detail_Infomation, props: { item: this.item }  },
+    //         { path: '/', component: Detail_SimilarTracks},
+    //         { path: '/comments', component: Detail_Comments},
+    //         { path: '/infomation', component: Detail_Infomation},
+    //     ],
+    // });
 
 
     export default {
-        components: {Header,Footer,Detail_SimilarTracks,Detail_Comments,Detail_Infomation},
+    //     router,
+        //components: {Header,Footer,Detail_SimilarTracks,Detail_Comments,Detail_Infomation},
+        components: {Header,Footer},
         data: function() {
             return {
+
                 isLogin : false,
                 item: null,
                 meta : null,
@@ -104,7 +119,7 @@
                 comment: null,
                 music: null,
                 listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
-                tabs: ['SIMILAR TRACKS','COMMENTS','INFORMATION'],
+                tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
             }
         },
@@ -117,6 +132,10 @@
             }
         },
         mounted() {
+
+            this.currentTab = _.find(this.tabs, e => {
+                return e.path === this.$router.currentRoute.path;
+            }).title;
 
             const playbtn = document.querySelector(".detail__player-controller");
 
@@ -145,7 +164,6 @@
         watch: {
             detail : function(n){
                 if(n) {
-
                     this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
                 }
 
@@ -155,7 +173,8 @@
 
             // 탭 선택
             selectTab(t) {
-                this.currentTab = t;
+                this.currentTab = t.title;
+                this.$router.push({ path: t.path, params: { item: this.item} });
             },
             // 코멘트 입력
             sendComment() {
@@ -181,7 +200,8 @@
                 this.comment = null;
 
                 // 탭 이동
-                this.currentTab = 'COMMENTS';
+                this.selectTab(this.tabs[1]);
+
             },
             // 카트 추가
             addCart() {

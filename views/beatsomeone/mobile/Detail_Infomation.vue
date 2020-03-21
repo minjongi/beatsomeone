@@ -2,27 +2,14 @@
     <div class="playList">
         <div class="information">
             <div class="information__thumb">
-                <img src="https://via.placeholder.com/100x100" alt="">
+                <img v-if="info.mem_photo" :src="'/uploads/member_photo/' + info.mem_photo">
+                <img v-if="!info.mem_photo" src="https://via.placeholder.com/130x130" alt="">
             </div>
             <div class="information__user">
-                <h2 class="information__username">User name</h2>
-                <p class="information__description">Remember those walls I built Well baby they`re tumbling down And they didn`t even put up a fight They didn`t even make a sound
-                    I found a way to let you in But I never really had a doubt Standing in the light of your halo I got my angel now
-                    It's like I`ve been awakenedEvery rule I had you breakin`It`s the risk that I'm takin` I ain`t never gonna shut you out
-                    Everywhere I`m looking now I`m surrounded by your embrace Baby I can see your halo
+                <h2 class="information__username">{{ info.mem_username }}</h2>
+                <p class="information__description">{{ info.cit_content }}</p>
 
-                    You know you`re my saving grace You`re everything I need and more
-                    It`s written all over your face Baby I can feel your halo
-                    Pray it won`t fade away I can feel your halo(halo) halo
-
-                    WoahWoahWoah
-
-                    Hit me like a ray of sun Burning through my darkest night You`re the only one that I want
-                    Think I`m addicted to your light I swore I`d never fall again But this don`t even feel like falling
-                    Gravity can`t forget To pull me back to the ground again It`s like I`ve been awakened
-                </p>
-
-                <a href="" class="information__message">Message</a>
+<!--                <a href="" class="information__message">Message</a>-->
             </div>
         </div>
 
@@ -34,15 +21,28 @@
 <script>
 
     export default {
+        props: ['item'],
         data: function () {
             return {
-
+                info: {},
             }
         },
-        mounted() {
-
+        watch: {
+            item: function (n) {
+                this.getList();
+            },
         },
-        methods: {},
+        mounted() {
+            this.getList();
+        },
+        methods: {
+            getList() {
+                if(!this.item) return;
+                Http.post(`/beatsomeoneApi/get_item_infomation/${this.item.cit_id}`).then(r=> {
+                    this.info = r;
+                });
+            },
+        },
 
     }
 
