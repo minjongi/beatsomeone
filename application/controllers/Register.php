@@ -630,6 +630,12 @@ class Register extends CB_Controller
 				if ( ! element('use', $value)) {
 					continue;
 				}
+
+                // 일반 회원은 계좌 관련 정보를 받지 않는다
+                if ($key === 'mem_musician_bank' || $key === 'mem_musician_account' || $key === 'mem_musician_account_nm') {
+                    continue;
+                }
+
 				if (element('func', $value) === 'basic') {
 					if ($key == 'mem_username' && $selfcert_username) {
 						continue;
@@ -825,9 +831,16 @@ class Register extends CB_Controller
 			$k = 0;
 			if ($form && is_array($form)) {
 				foreach ($form as $key => $value) {
+
 					if ( ! element('use', $value)) {
 						continue;
 					}
+
+					// 일반 회원은 계좌 관련 정보를 받지 않는다
+                    if (element('field_name', $value) === 'mem_musician_bank' || element('field_name', $value) === 'mem_musician_account' || element('field_name', $value) === 'mem_musician_account_nm') {
+                        continue;
+                    }
+
 					if (element('field_name', $value) === 'mem_username' && $selfcert_username) {
 						continue;
 					}
@@ -1722,16 +1735,19 @@ class Register extends CB_Controller
             'rules' => 'trim|alphanumunder|min_length[3]|max_length[20]|callback__mem_recommend_check',
         );
 
+
         if ($this->member->is_admin() === false && ! $this->session->userdata('registeragree')) {
             $this->session->set_flashdata(
                 'message',
                 '회원가입약관동의와 개인정보취급방침동의후 회원가입이 가능합니다'
             );
-            redirect('register');
+            redirect('register_musician');
         }
 
         $registerform = $this->cbconfig->item('registerform');
         $form = json_decode($registerform, true);
+
+        log_message('debug',print_r($form,true));
 
         $config = array();
         if ($form && is_array($form)) {
@@ -1753,6 +1769,8 @@ class Register extends CB_Controller
                         continue;
                     }
 
+                
+
                     if ($key === 'mem_address') {
                         if (element('required', $value) === '1') {
                             $configbasic['mem_zipcode']['rules'] = $configbasic['mem_zipcode']['rules'] . '|required';
@@ -1767,6 +1785,7 @@ class Register extends CB_Controller
                         }
                         $config[] = $configbasic['mem_address2'];
                     } else {
+
                         if (element('required', $value) === '1') {
                             $configbasic[$value['field_name']]['rules'] = $configbasic[$value['field_name']]['rules'] . '|required';
                         }
@@ -1779,7 +1798,13 @@ class Register extends CB_Controller
                         }
                     }
                 } else {
-                    $required = element('required', $value) ? '|required' : '';
+
+                    // 뮤지션 회원은 계좌 관련 필수 입력 받는다
+                    if ($key === 'mem_musician_bank' || $key === 'mem_musician_account' || $key === 'mem_musician_account_nm') {
+                        $required = '|required';
+                    } else {
+                        $required = element('required', $value) ? '|required' : '';
+                    }
                     if (element('field_type', $value) === 'checkbox') {
                         $config[] = array(
                             'field' => element('field_name', $value) . '[]',
@@ -1796,6 +1821,9 @@ class Register extends CB_Controller
                 }
             }
         }
+
+        log_message('debug','===============================');
+        log_message('debug',print_r($config,true));
 
         if ($this->cbconfig->item('use_recaptcha')) {
             $config[] = array(
@@ -2122,6 +2150,8 @@ class Register extends CB_Controller
             $insertdata['mem_level'] = $mem_level;
             // 뮤지션 회원은 차단 상태로 가입됨
             $insertdata['mem_denied'] = 1;
+            // 뮤지션 회원은 mem_usertype = 2 로 가입
+            $insertdata['mem_usertype'] = 2;
 
             if ($selfcert_username) {
                 $insertdata['mem_username'] = $selfcert_username;
@@ -2574,12 +2604,12 @@ class Register extends CB_Controller
                 $this->input->post('mem_nickname')
             );
 
-            if ( ! $this->cbconfig->item('use_register_email_auth')) {
-                $this->session->set_userdata(
-                    'mem_id',
-                    $mem_id
-                );
-            }
+//            if ( ! $this->cbconfig->item('use_register_email_auth')) {
+//                $this->session->set_userdata(
+//                    'mem_id',
+//                    $mem_id
+//                );
+//            }
             $this->session->unset_userdata('selfcertinfo');
 
             redirect('register/result_musician');
@@ -2657,12 +2687,12 @@ class Register extends CB_Controller
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before'] = Events::trigger('before', $eventname);
 
-        $this->session->keep_flashdata('nickname');
-        $this->session->keep_flashdata('email_auth_message');
+//        $this->session->keep_flashdata('nickname');
+//        $this->session->keep_flashdata('email_auth_message');
 
-        if ( ! $this->session->flashdata('nickname')) {
-            redirect();
-        }
+//        if ( ! $this->session->flashdata('nickname')) {
+//            redirect();
+//        }
 
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);

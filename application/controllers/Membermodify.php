@@ -168,6 +168,9 @@ class Membermodify extends CB_Controller
 
 		$mem_id = (int) $this->member->item('mem_id');
 
+
+		$mem_usertype = (int) $this->member->item('mem_usertype');
+
 		$selfcert_type = $this->member->item('selfcert_type');
 		$selfcert_company = $this->member->item('selfcert_company');
 		$selfcert_phone = $this->member->item('selfcert_phone');
@@ -392,7 +395,18 @@ class Membermodify extends CB_Controller
 						$config[] = $configbasic[$value['field_name']];
 					}
 				} else {
-					$required = element('required', $value) ? '|required' : '';
+                    // 뮤지션 회원은 계좌 관련 필수 입력 받는다
+				    if($mem_usertype == 2) {
+                        if ($key === 'mem_musician_bank' || $key === 'mem_musician_account' || $key === 'mem_musician_account_nm') {
+                            $required = '|required';
+                        } else {
+                            $required = element('required', $value) ? '|required' : '';
+                        }
+                    } else {
+                        $required = element('required', $value) ? '|required' : '';
+                    }
+
+
 					if (element('field_type', $value) === 'checkbox') {
 						$config[] = array(
 							'field' => element('field_name', $value) . '[]',
@@ -542,10 +556,17 @@ class Membermodify extends CB_Controller
 			$k = 0;
 			if ($form && is_array($form)) {
 				foreach ($form as $key => $value) {
+
 					if ( ! element('use', $value)) {
 						continue;
 					}
-					if ($key === 'mem_userid' OR $key === 'mem_password' OR $key === 'mem_recommend') {
+                    // 일반 회원은 계좌 관련 정보를 받지 않는다
+                    if($mem_usertype == 1) {
+                        if ($key === 'mem_musician_bank' || $key === 'mem_musician_account' || $key === 'mem_musician_account_nm') {
+                            continue;
+                        }
+                    }
+                    if ($key === 'mem_userid' OR $key === 'mem_password' OR $key === 'mem_recommend') {
 						continue;
 					}
 					if ($key === 'mem_username' && $selfcert_username) {

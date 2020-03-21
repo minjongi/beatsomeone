@@ -56,10 +56,10 @@ class Captcha extends CB_Controller
 			'img_url' => site_url(config_item('uploads_dir') . '/captcha') . '/',
 			'img_width' => $width,
 			'img_height' => $height,
-			'font_size' => 15,
+			'font_size' => 20,
 			'font_path' => FCPATH . 'assets/fonts/BreeSerif-Regular.ttf',
 			'pool' => '23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ',
-			'word_length' => '8',
+			'word_length' => '1',
 			'img_id' => 'captcha',
 		);
 
