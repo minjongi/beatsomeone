@@ -45,13 +45,16 @@
                     <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt="커버 이미지" title="커버 이미지" />
                 </div>
 
-                <input type="file" name="cover_image" id="cover_image" ref="cover_image" @change="onConverFileSelected"  />
+                <input type="file" name="cit_file_1" id="cit_file_1" ref="cit_file_1" @change="onConverFileSelected"  />
             </div>
         </li>
         <li>
             <span>음원파일</span>
             <div class="form-text text-primary group">
-                <input type="file" name="music_file_1" id="music_file_1" />
+                <div v-if="item.cde_originname">
+                    <a>{{ item.cde_originname }}</a>
+                </div>
+                <input type="file" name="music_file_1" id="music_file_1" ref="music_file_1" @change="onMusicFileSelected"/>
             </div>
         </li>
         <li>
@@ -153,9 +156,22 @@
             // 커버 선택시
             onConverFileSelected() {
                 log.debug({
-                    'onConverFileSelected': this.$refs.cover_image.files[0],
+                    'onConverFileSelected': this.$refs.cit_file_1.files[0],
                 })
-                this.item.coverImage = this.$refs.cover_image.files[0];
+                this.item.cover_image = this.$refs.cit_file_1.files[0];
+                log.debug({
+                    'this.item.cit_file_1':this.item.cit_file_1,
+                })
+            },
+            // 음악파일 선택시
+            onMusicFileSelected() {
+                log.debug({
+                    'onMusicFileSelected': this.$refs.music_file_1.files[0],
+                })
+                this.item.music_file_1 = this.$refs.music_file_1.files[0];
+                log.debug({
+                    'this.item.music_file_1':this.item.music_file_1,
+                })
             },
             // 데이터 로딩
             getItem() {
@@ -179,13 +195,16 @@
                       'Content-Type': 'multipart/form-data'
                   }
               }).then(r=> {
-                  log.debug('RESPONSE',r);
+                  log.debug(
+                      {
+                          'MERGE SUCCESS':r.data,
+                      }
+                  )
                   alert(`${ this.cit_id ? '수정' : '등록'} 되었습니다`);
-                  if(!this.cit_id) {
-                      window.location.href = `/mypage/regist_item/${ r.data }`
-                  }
+                  window.location.href = `/mypage/regist_item/${ r.data }`
 
               }, e=> {
+                  alert(`${ this.cit_id ? '수정' : '등록'} 실패 하였습니다. 관리자에게 연락 주시기 바랍니다.`);
                   log.debug('ERROR',e);
               })
 

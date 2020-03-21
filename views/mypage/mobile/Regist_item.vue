@@ -51,6 +51,9 @@
         <li>
             <span>음원파일</span>
             <div class="form-text text-primary group">
+                <div v-if="item.cde_originname">
+                    <a>{{ item.cde_originname }}</a>
+                </div>
                 <input type="file" name="music_file_1" id="music_file_1" />
             </div>
         </li>

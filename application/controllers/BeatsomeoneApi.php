@@ -97,7 +97,7 @@ class BeatsomeoneApi extends CB_Controller
         // DB Querying (장르별 Top 5)
         $config = array(
             'cit_type1' => '1',
-            'limit' => '10',
+            'limit' => '50',
             'genre' => urldecode($genre),
         );
         $result = $this->Cmall_item_model->get_main_list($config);
@@ -341,6 +341,114 @@ class BeatsomeoneApi extends CB_Controller
         $this->load->model('Beatsomeone_model','Beatsomeone_model');
         $this->load->model('Member_model','Member_model');
 
+        // 커버 파일 UPLOAD
+        $this->load->library('upload');
+
+        log_message('debug','$_FILES : ' . print_r(json_encode($_FILES),true));
+        $cit_file = null;
+        if (isset($_FILES) && isset($_FILES['cover_image']) && isset($_FILES['cover_image']['name']) && $_FILES['cover_image']['name']) {
+            $upload_path = config_item('uploads_dir') . '/cmallitem/';
+            log_message('debug','$upload_path : ' . $upload_path);
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+            $upload_path .= cdate('Y') . '/';
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+            $upload_path .= cdate('m') . '/';
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+
+            $uploadconfig = array();
+            $uploadconfig['upload_path'] = $upload_path;
+            $uploadconfig['allowed_types'] = 'jpg|jpeg|png|gif';
+            $uploadconfig['max_size'] = '5000';
+            $uploadconfig['encrypt_name'] = true;
+
+            $this->upload->initialize($uploadconfig);
+
+            if ($this->upload->do_upload('cover_image')) {
+                $img = $this->upload->data();
+                $cit_file = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $img);
+                log_message('debug','UPLOAD SUCCESS : '.$cit_file);
+            } else {
+                $result = 'IMAGE UPLOAD ERROR';
+            }
+        }
+
+        // 음원 파일 업로드
+        $uploadfiledata = array();
+
+        if (isset($_FILES) && isset($_FILES['music_file_1']) && isset($_FILES['music_file_1']['name']) && $_FILES['music_file_1']['name']) {
+
+            $upload_path = config_item('uploads_dir') . '/cmallitemdetail/';
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+            $upload_path .= cdate('Y') . '/';
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+            $upload_path .= cdate('m') . '/';
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+
+            $uploadconfig = array();
+            $uploadconfig['upload_path'] = $upload_path;
+            $uploadconfig['allowed_types'] = '*';
+            $uploadconfig['encrypt_name'] = true;
+
+            $this->upload->initialize($uploadconfig);
+
+            if ($this->upload->do_upload('music_file_1')) {
+                $filedata = $this->upload->data();
+
+                $uploadfiledata['cde_filename'] = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $filedata);
+                $uploadfiledata['cde_originname'] = element('orig_name', $filedata);
+                $uploadfiledata['cde_filesize'] = intval(element('file_size', $filedata) * 1024);
+                $uploadfiledata['cde_type'] = str_replace('.', '', element('file_ext', $filedata));
+                $uploadfiledata['is_image'] = element('is_image', $filedata) ? element('is_image', $filedata) : 0;
+
+            } else {
+                log_message('debug','MUSIC FILE UPLOAD FAIL');
+
+                $result = 'ERROR FROM UPLOAD MP3';
+            }
+        }
+
         // Form Parse
         $form = array(
             "cit_id" => $this->input->post('cit_id'),
@@ -356,9 +464,76 @@ class BeatsomeoneApi extends CB_Controller
             "ip" => $this->input->ip_address(),
         );
 
+        if($cit_file) {
+            $form["cit_file_1"] = $cit_file;
+        } else {
+            $form["cit_file_1"] = null;
+        }
+        log_message('debug','$uploadfiledata : '. print_r($uploadfiledata,true));
+        if($uploadfiledata) {
+            $form["cde_file_1"] = $uploadfiledata;
+        }
+
+
         log_message('debug',print_r($form,true));
 
         $result = $this->Beatsomeone_model->merge_item($form);
+
+        log_message('debug','$result');
+        log_message('debug',print_r($result,true));
+
+//        if($result) {
+//            log_message('debug','UPLOAD START');
+//            $this->load->library('upload');
+//            $k = 1;
+//            log_message('debug','$_FILES : ' . print_r(json_encode($_FILES),true));
+//
+//            if (isset($_FILES) && isset($_FILES['cit_file_' . $k]) && isset($_FILES['cit_file_' . $k]['name']) && $_FILES['cit_file_' . $k]['name']) {
+//                $upload_path = config_item('uploads_dir') . '/cmallitem/';
+//                log_message('debug','$upload_path : ' . $upload_path);
+//                if (is_dir($upload_path) === false) {
+//                    mkdir($upload_path, 0707);
+//                    $file = $upload_path . 'index.php';
+//                    $f = @fopen($file, 'w');
+//                    @fwrite($f, '');
+//                    @fclose($f);
+//                    @chmod($file, 0644);
+//                }
+//                $upload_path .= cdate('Y') . '/';
+//                if (is_dir($upload_path) === false) {
+//                    mkdir($upload_path, 0707);
+//                    $file = $upload_path . 'index.php';
+//                    $f = @fopen($file, 'w');
+//                    @fwrite($f, '');
+//                    @fclose($f);
+//                    @chmod($file, 0644);
+//                }
+//                $upload_path .= cdate('m') . '/';
+//                if (is_dir($upload_path) === false) {
+//                    mkdir($upload_path, 0707);
+//                    $file = $upload_path . 'index.php';
+//                    $f = @fopen($file, 'w');
+//                    @fwrite($f, '');
+//                    @fclose($f);
+//                    @chmod($file, 0644);
+//                }
+//
+//                $uploadconfig = array();
+//                $uploadconfig['upload_path'] = $upload_path;
+//                $uploadconfig['allowed_types'] = 'jpg|jpeg|png|gif';
+//                $uploadconfig['max_size'] = '5000';
+//                $uploadconfig['encrypt_name'] = true;
+//
+//                $this->upload->initialize($uploadconfig);
+//
+//                if ($this->upload->do_upload('cit_file_' . $k)) {
+//                    $img = $this->upload->data();
+//                    $cit_file[$k] = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $img);
+//                } else {
+//                    $result = 'IMAGE UPLOAD ERROR';
+//                }
+//            }
+//        }
 
         // Reponse
         $this->output->set_content_type('text/json');

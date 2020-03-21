@@ -13,7 +13,8 @@
         </thead>
         <tbody>
             <tr v-for="o in list" :key="o.cit_key">
-                <td class="pointer" @click="moveDetail(o)"><img :src="`/uploads/cache/thumb-noimage_60x60.gif`"></td>
+                <td class="pointer" @click="moveDetail(o)"><img style="width: 60px;" :src="o.cit_file_1 ? '/uploads/cmallitem/' + o.cit_file_1 : `/uploads/cache/thumb-noimage_60x60.gif`"></td>
+
                 <td class="pointer" @click="moveDetail(o)">{{ o.cit_name }}</td>
                 <td>{{ o.musician }}</td>
                 <td>{{ o.cde_price }}</td>

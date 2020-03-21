@@ -104,7 +104,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
         $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
         $this->db->where($where);
-        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price');
+        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, m1.cde_originname');
         $this->db->order_by('cit_id', 'desc');
         $qry = $this->db->get('cmall_item as cb_c');
 
@@ -119,6 +119,8 @@ class Beatsomeone_model extends CB_Model
         // Begin Transaction
         $this->db->trans_start();
 
+        log_message('debug','MERGE_ITEM PARAMETER : '.print_r($p,true));
+
         $cit_id = null;
 
         // 만약 cit_id 존재 시 업데이트
@@ -131,13 +133,24 @@ class Beatsomeone_model extends CB_Model
                 "cit_name" => $p["cit_name"],
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
             );
+            if($p["cit_file_1"]) {
+                $data["cit_file_1"] = $p["cit_file_1"];
+            }
             $this->db->where('cit_id',$cit_id);
             $this->db->update('cmall_item', $data);
+
+
 
             // 옵션 등록 (cmall_item_detail)
             $data = array(
                 "cde_price" => $p["cit_price"],
             );
+            if(array_key_exists("cde_file_1",$p)) {
+                $data["cde_filename"] = $p["cde_file_1"]["cde_filename"];
+                $data["cde_originname"] = $p["cde_file_1"]["cde_originname"];
+                $data["cde_filesize"] = $p["cde_file_1"]["cde_filesize"];
+                $data["cde_type"] = $p["cde_file_1"]["cde_type"];
+            }
             $this->db->where('cit_id',$cit_id);
             $this->db->update('cmall_item_detail', $data);
 
@@ -173,6 +186,9 @@ class Beatsomeone_model extends CB_Model
                 "cit_datetime" => cdate('Y-m-d H:i:s'),
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
             );
+            if($p["cit_file_1"]) {
+                $data["cit_file_1"] = $p["cit_file_1"];
+            }
             $this->db->insert('cmall_item', $data);
 
             $cit_id = $this->db->insert_id();
@@ -187,6 +203,12 @@ class Beatsomeone_model extends CB_Model
                 "cde_ip" => $p["ip"],
                 "cde_status" => 1,
             );
+            if(array_key_exists("cde_file_1",$p)) {
+                $data["cde_filename"] = $p["cde_file_1"]["cde_filename"];
+                $data["cde_originname"] = $p["cde_file_1"]["cde_originname"];
+                $data["cde_filesize"] = $p["cde_file_1"]["cde_filesize"];
+                $data["cde_type"] = $p["cde_file_1"]["cde_type"];
+            }
             $this->db->insert('cmall_item_detail', $data);
 
             // 메타 등록 (cmall_item_meta)

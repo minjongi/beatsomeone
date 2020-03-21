@@ -3,6 +3,8 @@
 class LogQueryHook {
 
     function log_queries() {
+
+
         $CI =& get_instance();
         $times = $CI->db->query_times;
         $dbs    = array();
@@ -13,6 +15,8 @@ class LogQueryHook {
             $output .= "no queries\n";
         }else{
             foreach ($queries as $key=>$query){
+                if($query == 'SHOW TABLES FROM `beatsomeone`') continue;
+                if(preg_match('/FROM `cb_member`/i',$query)) continue;
                 $output .= ($output . '['.$key.']================================================'.PHP_EOL);
                 $output .= $query . "\n";
             }
@@ -23,9 +27,5 @@ class LogQueryHook {
 
         log_message('debug',$output);
 
-//        $CI->load->helper('file');
-//        if ( ! write_file(APPPATH  . "/logs/queries.log.txt", $output, 'a+')){
-//            log_message('debug','Unable to write query the file');
-//        }
     }
 }
