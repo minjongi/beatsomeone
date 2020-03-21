@@ -181,6 +181,26 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    // mypage 판매현황 조회
+    public function get_status_item_list()
+    {
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $this->load->model('Beatsomeone_model');
+
+        $config = array(
+            'mem_id' => $this->member->item('mem_id'),
+        );
+        $result = $this->Beatsomeone_model->get_user_regist_item_list($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
 
 
     // Comment 추가

@@ -8,7 +8,7 @@
             <th>가격</th>
             <th>Genre</th>
             <th>Bpm</th>
-            <th></th>
+
         </tr>
         </thead>
         <tbody>
@@ -19,9 +19,7 @@
                 <td>{{ o.cde_price }}</td>
                 <td>{{ o.genre }}</td>
                 <td>{{ o.bpm }}</td>
-                <td>
-                    <button type="button" class="btn btn-success" @click="doEdit(o)">수정</button>
-                </td>
+
             </tr>
 
             <tr v-if="list && list.length == 0">
@@ -47,13 +45,11 @@
         },
         methods: {
             getList() {
-                Http.get(`/beatsomeoneApi/get_user_regist_item_list`).then(r=> {
+                Http.get(`/beatsomeoneApi/get_status_item_list`).then(r=> {
                     this.list = r.data;
                 });
             },
-            doEdit(item) {
-                window.location.href = `/mypage/regist_item/${item.cit_id}`;
-            },
+
             moveDetail(item) {
                 window.location.href = `/beatsomeone/detail/${item.cit_key}`;
             },
