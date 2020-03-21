@@ -342,7 +342,7 @@
                 <h4><a data-toggle="collapse" href="#cmalltab7" aria-expanded="true" aria-controls="cmalltab7">관련상품</a></h4>
                 <a data-toggle="collapse" href="#cmalltab7" aria-expanded="true" aria-controls="cmalltab7"><i class="fa fa-chevron-up pull-right"></i></a>
             </div>
-<!--            --><?php //echo print_r(element('relation',element('data', $view)),true) ?>
+            <?php if(element('cit_id', element('data', $view))) { ?>
             <div class="collapse in" id="cmalltab7">
                 <div class="table-responsive">
                     <table class="table table-hover table-striped table-bordered">
@@ -354,7 +354,9 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th><a href="javascript:;" class="btn btn-xs btn-danger" onClick="add_relation();">추가</a></th>
+                            <th>
+                                <input type="text" id="t_cit_id" name="t_cit_id">
+                                <a href="javascript:;" class="btn btn-xs btn-danger" onClick="add_relation();">추가</a></th>
                             <th>상품ID</th>
                             <th>상품명</th>
                             <th>기능</th>
@@ -376,7 +378,7 @@
                                         <?php echo html_escape(element('cit_name', $detail)); ?>
                                     </td>
                                     <td>
-                                        <a href="javascript:;" class="btn btn-xs btn-danger" onClick="">삭제</a>
+                                        <a href="javascript:;" class="btn btn-xs btn-danger" onClick="remove_relation(<?php echo html_escape(element('cir_id', $detail)) ?>)">삭제</a>
                                     </td>
                                 </tr>
                                 <?php
@@ -385,11 +387,51 @@
                         ?>
                         </tbody>
                     </table>
+<!--                    --><?php //echo print_r(element('data',$view),true) ?>
                 </div>
+                <?php } else { ?>
+                <div class="collapse in" id="cmalltab7">
+                    관련상품은 신규 저장한 다음 추가할 수 있습니다 
+                </div>
+                <?php } ?>
+
                 <script type="text/javascript">
                     //<![CDATA[
                     function add_option() {
                         $('#item_option_wrap').append('<tr><td><input type="text" class="form-control" name="cde_title[]" value="" /></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
+                    }
+                    function add_relation() {
+                        console.log('CIT_ID : ' + $('#t_cit_id').val());
+
+                        if(!$('#t_cit_id').val()) return;
+
+                        var jqxhr = $.ajax({
+                            method: 'POST',
+                            url : "/admin/cmall/cmallitem/ajax_add_relation",
+                            data:  $.param({ cit_id : '<?php echo element('cit_id', element('data', $view)) ?>', cit_id_r : $('#t_cit_id').val() })
+
+                        })
+                            .done(function() {
+                                window.location.reload();
+                            })
+                            .fail(function() {
+                                alert( "등록 중 오류가 발생 하였습니다" );
+                            });
+
+                    }
+                    function remove_relation(rid) {
+                        var jqxhr = $.ajax({
+                            method: 'POST',
+                            url : "/admin/cmall/cmallitem/ajax_remove_relation",
+                            data:  $.param({ cir_id : rid })
+
+                        })
+                            .done(function() {
+                                window.location.reload();
+                            })
+                            .fail(function() {
+                                alert( "삭제 중 오류가 발생 하였습니다" );
+                            });
                     }
                     //]]>
                 </script>

@@ -164,7 +164,40 @@ class Cmallitem extends CB_Controller
 		$this->view = element('view_skin_file', element('layout', $view));
 	}
 
-	/**
+    /**
+     *  AJAX 관련 상품 추가
+     */
+	public function ajax_add_relation() {
+
+
+        $config = array(
+            'cit_id' => $this->input->post('cit_id') ,
+            'cit_id_r' => $this->input->post('cit_id_r') ,
+        );
+        $result = $this->Cmall_item_relation_model->add_relation($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
+    /**
+     *  AJAX 관련 상품 삭제
+     */
+    public function ajax_remove_relation() {
+
+
+        $config = array(
+            'cir_id' => $this->input->post('cir_id')
+        );
+        $result = $this->Cmall_item_relation_model->remove_relation($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
+    /**
 	 * 게시판 글쓰기 또는 수정 페이지를 가져오는 메소드입니다
 	 */
 	public function write($pid = 0)

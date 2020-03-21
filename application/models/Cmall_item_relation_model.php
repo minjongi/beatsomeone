@@ -30,7 +30,6 @@ Cmall_item_relation_model extends CB_Model
 
     public function get_relation_list($config)
     {
-        log_message('debug','Genre : ' . element('genre', $config));
 
         $where['cb_r.cit_id'] = element('cit_id', $config);
 
@@ -42,6 +41,31 @@ Cmall_item_relation_model extends CB_Model
         $this->db->order_by('cb_r.cit_id_r', 'asc');
         $qry = $this->db->get($this->_table . ' as cb_r');
         $result = $qry->result_array();
+
+        return $result;
+    }
+
+    public function add_relation($config)
+    {
+
+        $data = array(
+            "cit_id" => element('cit_id', $config),
+            "cit_id_r" => element('cit_id_r', $config),
+        );
+        $result = $this->db->insert($this->_table, $data);
+
+        return $result;
+    }
+
+    public function remove_relation($config)
+    {
+
+        $where = array(
+            "cir_id" => element('cir_id', $config),
+
+        );
+        $this->db->where($where);
+        $result = $this->db->delete($this->_table);
 
         return $result;
     }
