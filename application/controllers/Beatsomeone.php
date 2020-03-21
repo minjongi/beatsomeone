@@ -1677,7 +1677,7 @@ class Beatsomeone extends CB_Controller
 
 		$searchconfig = array(
 			'{컨텐츠몰명}',
-		)
+		);
 		$replaceconfig = array(
 			$this->cbconfig->item('cmall_name'),
 		);

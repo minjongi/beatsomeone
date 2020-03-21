@@ -181,6 +181,8 @@ $(document).on('click', '.viewmobileversion', function(){
 });
 </script>
 <?php echo element('popup', $layout); ?>
+<?php echo $this->managelayout->display_lastjs(); ?>
+<?php echo $this->managelayout->display_script(); ?>
 <?php echo $this->cbconfig->item('footer_script'); ?>
 
 <!--
