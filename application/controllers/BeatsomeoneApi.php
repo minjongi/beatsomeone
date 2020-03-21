@@ -256,6 +256,58 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    // 연관 음원 조회
+    public function list_relation()
+    {
+        $this->load->model('Cmall_item_relation_model');
+
+        $config = array();
+        $config['cit_id'] = $this->input->post('cit_id', null, '');
+
+        $result = $this->Cmall_item_relation_model
+            ->get_relation_list($config);
+
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    /**
+     *  연관음원 추가
+     */
+    public function add_relation() {
+
+        $this->load->model('Cmall_item_relation_model');
+
+        $config = array(
+            'cit_id' => $this->input->post('cit_id') ,
+            'cit_id_r' => $this->input->post('cit_id_r') ,
+        );
+        $result = $this->Cmall_item_relation_model->add_relation($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
+    /**
+     *  연관음원 삭제
+     */
+    public function remove_relation() {
+
+        $this->load->model('Cmall_item_relation_model');
+
+        $config = array(
+            'cir_id' => $this->input->post('cir_id')
+        );
+        $result = $this->Cmall_item_relation_model->remove_relation($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
+
     // GUID 생성
     private function getGUID(){
         if (function_exists('com_create_guid')){
@@ -291,6 +343,7 @@ class BeatsomeoneApi extends CB_Controller
 
         // Form Parse
         $form = array(
+            "cit_id" => $this->input->post('cit_id'),
             "cit_name" => $this->input->post('cit_name'),
             "cit_key" => $this->getGUID(),
             "musician" => $this->input->post('musician'),
@@ -299,7 +352,7 @@ class BeatsomeoneApi extends CB_Controller
             "genre" => $this->input->post('genre'),
             "bpm" => $this->input->post('bpm'),
             "mem_id" => $this->member->item('mem_id'),
-            "mem_userid" => $this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid')['mem_userid'],
+            "mem_userid" => element('mem_userid',$this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid')),
             "ip" => $this->input->ip_address(),
         );
 

@@ -119,59 +119,105 @@ class Beatsomeone_model extends CB_Model
         // Begin Transaction
         $this->db->trans_start();
 
-        // 상품 등록 (cmall_item)
-        $data = array(
-            "cit_name" => $p["cit_name"],
-            "cit_key" => $p["cit_key"],
-            "mem_id" => $p["mem_id"],
-            "cit_status" => 1,
-            "cit_summary" => "",
-            "cit_content" => $p["cit_content"],
-            "cit_content_html_type" => 1,
-            "cit_datetime" => cdate('Y-m-d H:i:s'),
-            "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
-        );
-        $this->db->insert('cmall_item', $data);
+        $cit_id = null;
 
-        $cit_id = $this->db->insert_id();
+        // 만약 cit_id 존재 시 업데이트
+        if($p["cit_id"]) {
 
-        // 옵션 등록 (cmall_item_detail)
-        $data = array(
-            "cit_id" => $cit_id,
-            "mem_id" => $p["mem_id"],
-            "cde_title" => '기본',
-            "cde_price" => $p["cit_price"],
-            "cde_datetime" => cdate('Y-m-d H:i:s'),
-            "cde_ip" => $p["ip"],
-            "cde_status" => 1,
-        );
-        $this->db->insert('cmall_item_detail', $data);
+            $cit_id = $p["cit_id"];
 
-        // 메타 등록 (cmall_item_meta)
-
-        $meta = array(
-            'seller_mem_id' => $p['mem_id'],
-            'seller_mem_userid' => $p['mem_userid'],
-            'ip_address' => $p['ip'],
-            'info_content_1' => $p['genre'],
-            'info_content_2' => $p['bpm'],
-            'info_content_3' => $p['musician'],
-        );
-
-        foreach ($meta as $k => $v) {
-            $mp = array(
-                "cit_id" => $cit_id,
-                'cim_key' => $k,
-                'cim_value' => $v,
+            // 상품 등록 (cmall_item)
+            $data = array(
+                "cit_name" => $p["cit_name"],
+                "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
             );
-            $this->db->insert('cmall_item_meta', $mp);
+            $this->db->where('cit_id',$cit_id);
+            $this->db->update('cmall_item', $data);
+
+            // 옵션 등록 (cmall_item_detail)
+            $data = array(
+                "cde_price" => $p["cit_price"],
+            );
+            $this->db->where('cit_id',$cit_id);
+            $this->db->update('cmall_item_detail', $data);
+
+            // 메타 등록 (cmall_item_meta)
+
+            $meta = array(
+                'info_content_1' => $p['genre'],
+                'info_content_2' => $p['bpm'],
+                'info_content_3' => $p['musician'],
+            );
+
+            foreach ($meta as $k => $v) {
+                $mp = array(
+                    'cim_value' => $v,
+                );
+                $this->db->where('cit_id',$cit_id);
+                $this->db->where('cim_key',$k);
+                $this->db->update('cmall_item_meta', $mp);
+            }
+
         }
+        // 아니면 등록
+        else {
+            // 상품 등록 (cmall_item)
+            $data = array(
+                "cit_name" => $p["cit_name"],
+                "cit_key" => $p["cit_key"],
+                "mem_id" => $p["mem_id"],
+                "cit_status" => 1,
+                "cit_summary" => "",
+                "cit_content" => $p["cit_content"],
+                "cit_content_html_type" => 1,
+                "cit_datetime" => cdate('Y-m-d H:i:s'),
+                "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
+            );
+            $this->db->insert('cmall_item', $data);
+
+            $cit_id = $this->db->insert_id();
+
+            // 옵션 등록 (cmall_item_detail)
+            $data = array(
+                "cit_id" => $cit_id,
+                "mem_id" => $p["mem_id"],
+                "cde_title" => '기본',
+                "cde_price" => $p["cit_price"],
+                "cde_datetime" => cdate('Y-m-d H:i:s'),
+                "cde_ip" => $p["ip"],
+                "cde_status" => 1,
+            );
+            $this->db->insert('cmall_item_detail', $data);
+
+            // 메타 등록 (cmall_item_meta)
+
+            $meta = array(
+                'seller_mem_id' => $p['mem_id'],
+                'seller_mem_userid' => $p['mem_userid'],
+                'ip_address' => $p['ip'],
+                'info_content_1' => $p['genre'],
+                'info_content_2' => $p['bpm'],
+                'info_content_3' => $p['musician'],
+            );
+
+            foreach ($meta as $k => $v) {
+                $mp = array(
+                    "cit_id" => $cit_id,
+                    'cim_key' => $k,
+                    'cim_value' => $v,
+                );
+                $this->db->insert('cmall_item_meta', $mp);
+            }
+
+        }
+
+
 
 
         // Commit Transaction
         $this->db->trans_complete();
 
-        return true;
+        return $cit_id;
     }
 
 
