@@ -1,44 +1,66 @@
-## 씨아이보드
+Beat Someone
+============
 
-씨아이보드는 코드이그나이터를 기반으로 만들어진 공개형 게시판 솔루션입니다.
-씨아이보드3는 Lite 버전과 Pro 버전의 2가지로 구분되어 배포됩니다.
+씨아이보드 기반의 음악 거래 사이트
 
-## Lite 버전
+## 실행방법
 
-* 환경설정 (기본화경설정 / 레이아웃관리 등)
-* 페이지관리 (메뉴관리 / 일반페이지 / 팝업관리 / FAQ 등)
-* 회원설정 (회원관리 / 회원그룹관리 / 포인트관리 / 팔로우현황 / 닉네임변경이력 등)
-* 게시판설정 (게시판관리 / 게시판그룹관리 / 태그관리 / 각종게시물히스토리관리 등)
-* 통계관리 (접속자통계 / 회원가입통계 / 인기검색어현황 등)
+* 개발 : npm run dev
+* 빌드 : npm run build
 
-## Pro 버전
+## 씨아이보드 설치시 유의사항
+* 테이블 Prefix는 CB로 고정
+* Layout은 일반으로 사용
 
-* Lite 버전의 모든 기능 포함
-* SMS 설정 (SMS환경설정 / 문자발송하기 / 휴대폰번호관리 등)
-* 컨텐츠몰관리 (주문내역 / 구매내역 / 상품관리 등)
-* 예치금관리 (결제기능 / 예치금통계 등)
-* 기타기능 (레벨업설정, 포인트랭킹, 설문조사, 출석체크, 본인인증 등)
+## DB 작업
+* SKIN 추가
+    *     insert into cb_config values ('layout_beatsomeone','beatsomeone_basic');
+    *     insert into cb_config values ('mobile_layout_beatsomeone','beatsomeone_mobile');
+    
+* 연관음반 테이블 추가
+    *       create table cb_cmall_item_relation
+            (
+                cir_id   int auto_increment
+                    primary key,
+                cit_id   int null,
+                cit_id_r int null
+            )
+                comment '컨텐츠몰 관련상품';
 
-## 서버 조건
+* 멤버타입 (일반 : 1 / 뮤지션 : 2) 컬럼 추가
+    *     alter table cb_member ADD mem_usertype int DEFAULT 1;
+    
+* 멤버 그룹 추가
+    *     delete from cb_member_group where cb_member_group.mgr_id > 1;
+    *     insert into cb_member_group(mgr_id,mgr_title,mgr_is_default,mgr_datetime,mgr_order,mgr_description) values (2,'뮤지션그룹',0,now(),2,'');
 
-PHP version 5.6 이상이 요구됩니다.
-
-## 설치방법
-
-설치방법은 씨아이보드의  [설치하기](http://www.ciboard.co.kr/tiptech/p/21) 페이지를 참조합니다
-
-## 라이센스
-
-[라이센스 페이지](http://www.ciboard.co.kr/doc/license) 를 참조해주세요.
-
-## 리소스
-
-* [Codeigniter](http://codeigniter.com)
-* [Bootstrap](http://getbootstrap.com)
-* [jQuery](http://jquery.com)
-* [jQuery Validation](http://jqueryvalidation.org)
-* [Naver Smart Editor](http://naver.github.io/smarteditor2/)
-
-## Powered By
-
-씨아이보드 : [http://www.ciboard.co.kr](http://www.ciboard.co.kr)
+## 환경설정
+* 뮤지션 회원 추가정보 (계좌)
+    * 환경설정 - 회원가입설정 - 가입폼 관리 (추가)
+        * mem_musician_bank
+            * 은행
+          	* 단일선택(select)
+          	    *     국민
+                      신한
+          		      우리
+          		      농협
+          		      카카오뱅크
+                      케이뱅크
+                      
+        * mem_musician_account
+            * 계좌번호
+            * 한줄입력형식
+            
+        * mem_musician_account_nm
+            * 예금주
+            * 한줄입력형식
+            
+      
+## 설정파일
+* /vue.config.js
+    * vuecli webpack 환경설정
+    * 페이지 추가될 경우 configureWebpack 의 entry 에 추가
+    
+* /package.json
+    * eslintConfig 에 eslint 변경사항 적용
+    

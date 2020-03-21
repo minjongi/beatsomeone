@@ -89,18 +89,18 @@ class BeatsomeoneApi extends CB_Controller
     }
 
     // sublist 목록 조회
-    public function sublist_list($genre = '')
+    public function sublist_list()
     {
 
-        $this->load->model('Cmall_item_model');
+        $this->load->model('Beatsomeone_model');
 
-        // DB Querying (장르별 Top 5)
+
         $config = array(
-            'cit_type1' => '1',
-            'limit' => '50',
-            'genre' => urldecode($genre),
+            'filter' =>  $this->input->post('filter') ,
+            'mem_id' => $this->member->item('mem_id'),
         );
-        $result = $this->Cmall_item_model->get_main_list($config);
+
+        $result = $this->Beatsomeone_model->get_sublist_list($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -110,22 +110,23 @@ class BeatsomeoneApi extends CB_Controller
 
 
     // sublist Top 5 조회
-    public function sublist_top5_list($genre = '')
+    public function sublist_top_list($genre = '')
     {
 
-        $this->load->model('Cmall_item_model');
+        $this->load->model('Beatsomeone_model');
 
-        // DB Querying (장르별 Top 5)
+
         $config = array(
-            'cit_type1' => '1',
-            'limit' => '5',
-            'genre' => urldecode($genre),
+            'filter' =>  $this->input->post('filter') ,
+            'limit' => $this->input->post('limit') ,
         );
-        $result = $this->Cmall_item_model->get_main_list($config);
+        $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
     }
+
+
 
     // detail similar tracks 조회
     public function detail_similartracks_list($cit_id = '')
@@ -135,6 +136,7 @@ class BeatsomeoneApi extends CB_Controller
 
         $config = array(
             'cit_id' => $cit_id,
+            'mem_id' => $this->member->item('mem_id'),
         );
         $result = $this->Beatsomeone_model->get_relation_list($config);
 

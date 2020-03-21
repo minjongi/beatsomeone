@@ -2,6 +2,7 @@
 
     <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
         <div class="playList__item playList__item--title">
+
             <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish">
                 <button>즐겨찾기</button>
             </div>
@@ -54,6 +55,9 @@
             toggleWish() {
                 Http.post( `/beatsomeoneApi/toggle_wish_item/${this.item.cit_id}`).then(r=> {
                     if(r === true) {
+                        // log.debug({
+                        //     'toggleWish':this.item,
+                        // })
                         this.item.is_wish = this.item.is_wish === '1' ? '0' : '1';
                     }
                 });

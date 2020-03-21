@@ -1,8 +1,8 @@
 <template>
 
     <div class="wrapper">
-
         <Header :is-login="isLogin"/>
+
         <div class="container sub">
             <div class="sublist">
                 <div class="wrap">
@@ -11,6 +11,7 @@
                             <div class="filter">
                                 <h2 class="filter__title">FILTER</h2>
                                 <div class="filter__content">
+
                                     <ul class="filter__list">
                                         <li class="filter__item" v-for="(f,index) in listFilter" :key="index">
                                             <label :for="'fillter1'+index" class="checkbox">
@@ -152,9 +153,7 @@
                         <div class="row">
                             <h2 class="section-title">PLAY LIST</h2>
                             <div class="playList">
-                                <!-- 아래 템플릿 문자열로 붙임 -->
                                 <ul class="playList__list" id="playList__list">
-                                    <!-- 플레이리스트 들어감 -->
                                     <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
                                 </ul>
                             </div>
@@ -165,6 +164,7 @@
         </div>
         <Footer/>
     </div>
+
 </template>
 
 <script>
@@ -216,6 +216,44 @@
                 currentTrackType: null,
             }
         },
+        watch: {
+            currentFilter: function(n,o) {
+                log.debug({
+                    'currentFilter' : n,
+                });
+                if(o) {
+                    this.updateAllList();
+                }
+
+            },
+            currentSubgenres: function(n,o) {
+                log.debug({
+                    'currentSubgenres' : n,
+                });
+                if(o) {
+                    this.updateAllList();
+                }
+
+            },
+            currentMoods: function(n,o) {
+                log.debug({
+                    'currentMoods' : n,
+                });
+                if(o) {
+                    this.updateAllList();
+                }
+
+            },
+            currentTrackType: function(n,o) {
+                log.debug({
+                    'currentTrackType' : n,
+                });
+                if(o) {
+                    this.updateAllList();
+                }
+
+            },
+        },
         created() {
             this.currentFilter = this.listFilter[0];
             this.currentSubgenres = this.listSubgenres[0];
@@ -266,12 +304,14 @@
                     .toggle();
             });
 
-            this.getList();
-
-            this.getTop5List();
+            this.updateAllList();
 
         },
         methods: {
+            updateAllList() {
+                this.getList();
+                this.getTopList();
+            },
             addCart() {
 
                 let detail_qty = {};
@@ -291,13 +331,30 @@
                 window.location.href = path;
             },
             getList() {
-                Http.get(`/beatsomeoneApi/sublist_list`).then(r=> {
-                    this.list = r.data;
+                const p = {
+                    filter: this.currentFilter,
+                    subgenre: this.currentSubgenres,
+                    bpmFr: this.currentBpmFr,
+                    bpmTo: this.currentBpmTo,
+                    mood: this.currentMoods,
+                    trackType: this.currentTrackType
+                }
+                Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
+                    this.list = r;
                 });
             },
-            getTop5List() {
-                Http.get(`/beatsomeoneApi/sublist_top5_list`).then(r=> {
-                    this.listTop5 = r.data;
+            getTopList() {
+                const p = {
+                    filter: this.currentFilter,
+                    subgenre: this.currentSubgenres,
+                    bpmFr: this.currentBpmFr,
+                    bpmTo: this.currentBpmTo,
+                    mood: this.currentMoods,
+                    trackType: this.currentTrackType,
+                    limit: 5
+                }
+                Http.post(`/beatsomeoneApi/sublist_top_list`,p).then(r=> {
+                    this.listTop5 = r;
                 });
             },
         },

@@ -8,7 +8,7 @@
                 <div class="comment__content">
                     <div class="comment__info">
                         <div class="writer">
-                            <span>{{ c.mem_id }}</span>
+                            <span>{{ c.mem_userid }}</span>
                             <a href="">신고하기</a>
                         </div>
 

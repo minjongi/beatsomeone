@@ -58,16 +58,73 @@ class Beatsomeone_model extends CB_Model
     public function get_comment_list($config)
     {
 
-        $where['cit_id'] = element('cit_id', $config);
-        $this->db->select('cb_cmall_qna.*');
+        $where['cmall_qna.cit_id'] = element('cit_id', $config);
+        $this->db->join('cb_cmall_item_meta as m','cb_cmall_qna.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+        $this->db->join('cb_member as mb','m.cim_value = mb.mem_id','left');
+        $this->db->select('cb_cmall_qna.*, mb.mem_userid, mb.mem_email');
         $this->db->where($where);
         //$this->db->limit($limit);
-        $this->db->order_by('cqa_id', 'desc');
+        $this->db->order_by('cb_cmall_qna.cqa_id', 'desc');
         $qry = $this->db->get('cmall_qna');
         $result = $qry->result_array();
 
         return $result;
     }
+
+    // Sublist 조회
+    public function get_sublist_list($p)
+    {
+
+
+        if($p['filter'] != 'All Genre') {
+            $this->db->where('p1.cim_value',$p['filter']);
+        }
+
+
+        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
+        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
+        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
+        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
+
+        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
+        $this->db->order_by('cit_id', 'desc');
+        $qry = $this->db->get('cmall_item as cb_c');
+
+        $result = $qry->result_array();
+
+        return $result;
+    }
+
+
+    // Sublist Top 5 조회
+    public function get_sublist_top5_list($p)
+    {
+
+
+
+        if($p['filter'] != 'All Genre') {
+            $this->db->where('p1.cim_value',$p['filter']);
+        }
+
+
+        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
+        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
+        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
+        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+
+        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price');
+        $this->db->order_by('cit_id', 'desc');
+        $this->db->limit($p['limit']);
+        $qry = $this->db->get('cmall_item as cb_c');
+
+        $result = $qry->result_array();
+
+        return $result;
+    }
+
 
     // 사용자 음원 목록 조회
     public function get_user_regist_item_list($p)
@@ -146,8 +203,9 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
         $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
         $this->db->join('cb_cmall_item_relation as r','c.cit_id = r.cit_id_r AND r.cit_id = ' . $p['cit_id'],'inner');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
         $this->db->where($where);
-        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, m1.cde_originname');
+        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, m1.cde_originname, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
         $this->db->order_by('cit_id', 'desc');
         $qry = $this->db->get('cmall_item as cb_c');
 

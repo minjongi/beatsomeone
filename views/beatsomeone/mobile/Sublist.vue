@@ -163,6 +163,7 @@
         components: {Header,Footer,Index_Items,},
         data: function() {
             return {
+                slick: null,
                 isShowFilter: false,
                 isLogin: false,
                 listFilter: ['All Genre'
@@ -201,6 +202,44 @@
                 currentBpmFr: 50,
                 currentBpmTo: 120,
             }
+        },
+        watch: {
+            currentFilter: function(n,o) {
+                log.debug({
+                    'currentFilter' : n,
+                });
+                if(o) {
+                    this.updateAllList();
+                }
+
+            },
+            currentSubgenres: function(n,o) {
+                log.debug({
+                    'currentSubgenres' : n,
+                });
+                if(o) {
+                    this.updateAllList();
+                }
+
+            },
+            currentMoods: function(n,o) {
+                log.debug({
+                    'currentMoods' : n,
+                });
+                if(o) {
+                    this.updateAllList();
+                }
+
+            },
+            currentTrackType: function(n,o) {
+                log.debug({
+                    'currentTrackType' : n,
+                });
+                if(o) {
+                    this.updateAllList();
+                }
+
+            },
         },
         created() {
             this.currentFilter = this.listFilter[0];
@@ -246,15 +285,16 @@
                     .toggle();
             });
 
-            this.getList();
-
-            this.getTop5List();
+            this.updateAllList();
 
         },
         methods: {
+            updateAllList() {
+                this.getList();
+                this.getTopList();
+            },
             doSlide() {
-                // 메인 trend Slider
-                $(".topFive .topFice__slider").slick({
+                this.slick = $(".topFive .topFice__slider").slick({
                     slidesToShow: 3,
                     slidesToScroll: 1,
                     autoplay: true,
@@ -264,6 +304,9 @@
                     arrows: false,
                     dots: true
                 });
+            },
+            removeSlide() {
+                this.slick.slick('unslick');
             },
             toggleFilter() {
                 this.isShowFilter = !this.isShowFilter;
@@ -288,13 +331,36 @@
                 window.location.href = path;
             },
             getList() {
-                Http.get(`/beatsomeoneApi/sublist_list`).then(r=> {
-                    this.list = r.data;
+                const p = {
+                    filter: this.currentFilter,
+                    subgenre: this.currentSubgenres,
+                    bpmFr: this.currentBpmFr,
+                    bpmTo: this.currentBpmTo,
+                    mood: this.currentMoods,
+                    trackType: this.currentTrackType
+                }
+                Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
+                    this.list = r;
                 });
             },
-            getTop5List() {
-                Http.get(`/beatsomeoneApi/sublist_top5_list`).then(r=> {
-                    this.listTop5 = r.data;
+            getTopList() {
+                const p = {
+                    filter: this.currentFilter,
+                    subgenre: this.currentSubgenres,
+                    bpmFr: this.currentBpmFr,
+                    bpmTo: this.currentBpmTo,
+                    mood: this.currentMoods,
+                    trackType: this.currentTrackType,
+                    limit: 5,
+                }
+                Http.post(`/beatsomeoneApi/sublist_top_list`,p).then(r=> {
+
+                    if(this.slick) {
+                        this.removeSlide();
+                    }
+
+                    this.listTop5 = r;
+
                     this.$nextTick(function() {
                         this.doSlide();
                     });

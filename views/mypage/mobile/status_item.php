@@ -20,7 +20,7 @@
         <li><a href="<?php echo site_url('membermodify/memberleave'); ?>" title="탈퇴하기">탈퇴하기</a></li>
     </ul>
 
-    <h3>음원등록내역</h3>
+    <h3>판매내역</h3>
 
     <div id="app">
     </div>
