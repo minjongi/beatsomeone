@@ -99,11 +99,11 @@ var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
 	<div class="side_wr add_side_wr">
 		<div id="isroll_wrap" class="side_inner_rel">
 			<div class="side_inner_abs">
-				<div class="m_search">
-					<form name="mobile_header_search" id="mobile_header_search" action="<?php echo site_url('search'); ?>" onSubmit="return headerSearch(this);">
-						<input type="text" placeholder="Search" class="input" name="skeyword" accesskey="s" />
-					</form>
-				</div>
+<!--				<div class="m_search">-->
+<!--					<form name="mobile_header_search" id="mobile_header_search" action="--><?php //echo site_url('search'); ?><!--" onSubmit="return headerSearch(this);">-->
+<!--						<input type="text" placeholder="Search" class="input" name="skeyword" accesskey="s" />-->
+<!--					</form>-->
+<!--				</div>-->
 				<div class="m_login">
 					<?php if ($this->member->is_member()) { ?>
 						<span><a href="<?php echo site_url('login/logout?url=' . urlencode(current_full_url())); ?>" class="btn btn-primary" title="로그아웃"><i class="fa fa-sign-out"></i> 로그아웃</a></span>
@@ -114,18 +114,18 @@ var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
 					<?php } ?>
 				</div>
 				<ul class="m_board">
-					<?php if ($this->cbconfig->item('open_currentvisitor')) { ?>
-						<li><a href="<?php echo site_url('currentvisitor'); ?>" title="현재 접속자"><span class="fa fa-link"></span> 현재 접속자</a></li>
-					<?php } ?>
-					<?php if ($this->member->is_member()) { ?>
-						<li><a href="<?php echo site_url('notification'); ?>" title="나의 알림"><span class="fa fa-bell-o"></span>알림 : <?php echo number_format((int) element('notification_num', $layout)); ?> 개</a></li>
-						<?php if ($this->cbconfig->item('use_note') && $this->member->item('mem_use_note')) { ?>
-							<li><a href="javascript:;" onClick="note_list();" title="나의 쪽지"><span class="fa fa-envelope"></span> 쪽지 : <?php echo number_format((int) $this->member->item('meta_unread_note_num')); ?> 개</a></li>
-						<?php } ?>
-						<?php if ($this->cbconfig->item('use_point')) { ?>
-							<li><a href="<?php echo site_url('mypage/point'); ?>" title="나의 포인트"><span class="fa fa-gift"></span> 포인트 : <?php echo number_format((int) $this->member->item('mem_point')); ?> 점</a></li>
-						<?php } ?>
-					<?php } ?>
+<!--					--><?php //if ($this->cbconfig->item('open_currentvisitor')) { ?>
+<!--						<li><a href="--><?php //echo site_url('currentvisitor'); ?><!--" title="현재 접속자"><span class="fa fa-link"></span> 현재 접속자</a></li>-->
+<!--					--><?php //} ?>
+<!--					--><?php //if ($this->member->is_member()) { ?>
+<!--						<li><a href="--><?php //echo site_url('notification'); ?><!--" title="나의 알림"><span class="fa fa-bell-o"></span>알림 : --><?php //echo number_format((int) element('notification_num', $layout)); ?><!-- 개</a></li>-->
+<!--						--><?php //if ($this->cbconfig->item('use_note') && $this->member->item('mem_use_note')) { ?>
+<!--							<li><a href="javascript:;" onClick="note_list();" title="나의 쪽지"><span class="fa fa-envelope"></span> 쪽지 : --><?php //echo number_format((int) $this->member->item('meta_unread_note_num')); ?><!-- 개</a></li>-->
+<!--						--><?php //} ?>
+<!--						--><?php //if ($this->cbconfig->item('use_point')) { ?>
+<!--							<li><a href="--><?php //echo site_url('mypage/point'); ?><!--" title="나의 포인트"><span class="fa fa-gift"></span> 포인트 : --><?php //echo number_format((int) $this->member->item('mem_point')); ?><!-- 점</a></li>-->
+<!--						--><?php //} ?>
+<!--					--><?php //} ?>
 				</ul>
 				<ul class="m_menu">
 					<?php
