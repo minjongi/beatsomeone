@@ -13,13 +13,14 @@ class LogQueryHook {
             $output .= "no queries\n";
         }else{
             foreach ($queries as $key=>$query){
+                $output .= ($output . '['.$key.']================================================'.PHP_EOL);
                 $output .= $query . "\n";
             }
             $took = round(doubleval($times[$key]), 3);
             $output .= "===[took:{$took}]\n\n";
         }
 
-        log_message('debug',"=============================");
+
         log_message('debug',$output);
 
 //        $CI->load->helper('file');

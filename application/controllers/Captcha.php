@@ -59,7 +59,7 @@ class Captcha extends CB_Controller
 			'font_size' => 20,
 			'font_path' => FCPATH . 'assets/fonts/BreeSerif-Regular.ttf',
 			'pool' => '23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ',
-			'word_length' => '1',
+			'word_length' => '4',
 			'img_id' => 'captcha',
 		);
 

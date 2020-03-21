@@ -24,7 +24,7 @@ class Cmallitem extends CB_Controller
 	/**
 	 * 모델을 로딩합니다
 	 */
-	protected $models = array('Cmall_item', 'Cmall_item_meta', 'Cmall_item_detail', 'Cmall_category', 'Cmall_category_rel');
+	protected $models = array('Cmall_item', 'Cmall_item_meta', 'Cmall_item_detail', 'Cmall_category', 'Cmall_category_rel','Cmall_item_relation');
 
 	/**
 	 * 이 컨트롤러의 메인 모델 이름입니다
@@ -206,6 +206,12 @@ class Cmallitem extends CB_Controller
 					$getdata['category'][] = $cv['cca_id'];
 				}
 			}
+			// 연관 상품 조회
+            $rconfig = array(
+              'cit_id' => element('cit_id', $getdata),
+            );
+			$relation = $this->Cmall_item_relation_model->get_relation_list($rconfig);
+            $getdata['relation'] = $relation;
 		} else {
 			// 기본값 설정
 			$getdata['cit_key'] = time();
@@ -678,8 +684,14 @@ class Cmallitem extends CB_Controller
 					'cit_id' => element('cit_id', $getdata),
 				);
 				$getdata['item_detail'] = $this->Cmall_item_detail_model->get('', '', $where, '', '', 'cde_id', 'ASC');
-
+                // 연관 상품 조회
+                $rconfig = array(
+                    'cit_id' => element('cit_id', $getdata),
+                );
+                $relation = $this->Cmall_item_relation_model->get_relation_list($rconfig);
+                $getdata['relation'] = $relation;
 			}
+			//.............
 			$view['view']['data'] = $getdata;
 			$view['view']['data']['item_layout_option'] = get_skin_name(
 				'_layout',

@@ -9,7 +9,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author CIBoard (develop@ciboard.co.kr)
  */
 
-class Cmall_item_model extends CB_Model
+class
+Cmall_item_model extends CB_Model
 {
 
 	/**
