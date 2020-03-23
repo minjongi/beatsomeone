@@ -5,6 +5,7 @@ Beat Someone
 
 ## 실행방법
 
+* 라이브러리 설치 : npm i
 * 개발 : npm run dev
 * 빌드 : npm run build
 
