@@ -64,4 +64,7 @@ Beat Someone
     
 * /package.json
     * eslintConfig 에 eslint 변경사항 적용
-    
+
+## 실서버 배포시
+* SQL Log hook 제거
+    * hooks/Log_queries.php 에 SQL Log 저장 부분을 비활성화 

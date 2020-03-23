@@ -86,28 +86,10 @@
     require('@/assets/js/function');
     import Header from "./include/Header";
     import Footer from "./include/Footer";
-    // import Detail_SimilarTracks from "./Detail_SimilarTracks";
-    // import Detail_Comments from "./Detail_Comments";
-    // import Detail_Infomation from "./Detail_Infomation";
+
     import { EventBus } from '*/src/eventbus';
-    // import VueRouter  from 'vue-router';
-
-
-    // const router = new VueRouter({
-    //     routes: [
-    //         // { path: '/', component: Detail_SimilarTracks, props: { item: this.item } },
-    //         // { path: '/comments', component: Detail_Comments, props: { item: this.item }  },
-    //         // { path: '/infomation', component: Detail_Infomation, props: { item: this.item }  },
-    //         { path: '/', component: Detail_SimilarTracks},
-    //         { path: '/comments', component: Detail_Comments},
-    //         { path: '/infomation', component: Detail_Infomation},
-    //     ],
-    // });
-
-
     export default {
-    //     router,
-        //components: {Header,Footer,Detail_SimilarTracks,Detail_Comments,Detail_Infomation},
+
         components: {Header,Footer},
         data: function() {
             return {
