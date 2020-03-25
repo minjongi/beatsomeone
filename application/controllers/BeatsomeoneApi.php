@@ -106,6 +106,25 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    // 연관음반 추가 대상 조회
+    public function search_item_list_for_addRelation()
+    {
+
+        $this->load->model('Beatsomeone_model');
+
+
+        $config = array(
+            'cit_id' =>  $this->input->post('cit_id') ,
+            'title' =>  $this->input->post('title') ,
+            'musician' =>  $this->input->post('musician') ,
+            'mem_id' => $this->member->item('mem_id'),
+        );
+
+        $result = $this->Beatsomeone_model->get_item_list_for_addRelation($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
 
 
 

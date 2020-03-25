@@ -65,12 +65,13 @@
         <li v-if="cit_id">
             <span>연관음원</span>
             <div class="form-text text-primary group">
+                <add-relation :cit_id="cit_id" @update="updatedRelation"></add-relation>
+                <h5>추가된 목록</h5>
                 <table class="table">
                     <thead>
                     <tr>
                         <th>
-                            <input type="number" v-model="cit_id_r">
-                            <button type="button" class="btn btn-primary" @click="addRelation()">추가</button>
+
                         </th>
                         <th>음원 제목</th>
                         <th></th>
@@ -103,9 +104,12 @@
 <script>
 
     import axios from 'axios';
+    import addRelation from './Regist_item_addRelation';
 
     export default {
-
+        components: {
+            addRelation : addRelation,
+        },
         data: function() {
             return {
                 cit_id: null,
@@ -134,16 +138,11 @@
             },
         },
         methods: {
+            updatedRelation() {
+                this.getRelationList();
+            },
             removeRelation(item) {
                 Http.post(`/beatsomeoneApi/remove_relation`,{cir_id : item.cir_id}).then( r => {
-                    this.getRelationList();
-                });
-            },
-            // 연관음원 추가
-            addRelation() {
-                if(!this.cit_id_r) return;
-                Http.post(`/beatsomeoneApi/add_relation`,{cit_id : this.cit_id, cit_id_r : this.cit_id_r }).then( r => {
-                    this.cit_id_r = null;
                     this.getRelationList();
                 });
             },

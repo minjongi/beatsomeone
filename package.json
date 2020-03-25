@@ -49,8 +49,9 @@
     },
     "rules": {
       "no-unused-vars": "off",
-      "vue/no-unused-components": "off"
-    },
+      "vue/no-unused-components": "off",
+      "vue/no-use-v-if-with-v-for" : "off"
+  },
     "globals": {
       "_": true,
       "log": true,
