@@ -43,6 +43,7 @@ var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
 </script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/sideview.js'); ?>"></script>
 </head>
+
 <body>
 <!-- start wrapper -->
 <div class="wrapper">
@@ -161,5 +162,7 @@ $(document).ready(function() {
 });
 //]]>
 </script>
+<?php echo $this->managelayout->display_js(); ?>
+<?php echo $this->managelayout->display_script(); ?>
 </body>
 </html>

@@ -303,6 +303,7 @@ $(document).on('click', '.viewmobileversion', function(){
 <?php echo element('popup', $layout); ?>
 <?php echo $this->cbconfig->item('footer_script'); ?>
 
+<?php echo $this->managelayout->display_script(); ?>
 <!--
 Layout Directory : <?php echo element('layout_skin_path', $layout); ?>,
 Layout URL : <?php echo element('layout_skin_url', $layout); ?>,

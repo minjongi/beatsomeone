@@ -25,6 +25,8 @@ module.exports = {
             m_regist_item: ['./views/mypage/mobile/regist_item.js'],
             m_list_item: ['./views/mypage/mobile/list_item.js'],
             m_status_item: ['./views/mypage/mobile/status_item.js'],
+
+            admin_cmallitem_write: ['./views/admin/basic/cmall/cmallitem/write.js'],
         },
 
         output: {

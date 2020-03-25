@@ -59,7 +59,7 @@
 
 <script>
 
-    import pagenation from './Pagenation';
+    import pagenation from '@/vue/common/Pagenation';
 
     export default {
         props: ['cit_id'],

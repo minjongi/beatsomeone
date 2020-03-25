@@ -1,3 +1,9 @@
+<?php $this->managelayout->add_css('/dist/admin_cmallitem_write.css'); ?>
+<?php $this->managelayout->add_js('/dist/chunk-vendors.js'); ?>
+<?php $this->managelayout->add_js('/dist/chunk-common.js'); ?>
+<?php $this->managelayout->add_js('/dist/admin_cmallitem_write.js'); ?>
+<?php $this->managelayout->add_script('window.vm.$children[0].$data.cit_id = "'. element('cit_id', element('data', $view)) .'";'); ?>
+
 <div class="box">
 	<div class="box-table">
 		<?php
@@ -344,6 +350,9 @@
             </div>
             <?php if(element('cit_id', element('data', $view))) { ?>
             <div class="collapse in" id="cmalltab7">
+                <div id="app">
+
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-striped table-bordered">
                         <colgroup>
@@ -354,9 +363,7 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>
-                                <input type="text" id="t_cit_id" name="t_cit_id">
-                                <a href="javascript:;" class="btn btn-xs btn-danger" onClick="add_relation();">추가</a></th>
+                            <th></th>
                             <th>상품ID</th>
                             <th>상품명</th>
                             <th>기능</th>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h5>음원 검색</h5>
+        <h5>음원 검색 </h5>
         <div>
             <table class="table">
                 <tbody>
