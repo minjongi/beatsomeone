@@ -7,7 +7,7 @@
     <meta property="og:url" content="유알엘"/>
     <meta property="og:description" content="디스크립션"/>
     <meta property="og:title" content="타이틀"/>
-    <meta name="viewport" content="width=1180">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <title><?php echo html_escape(element('page_title', $layout)); ?></title>
 

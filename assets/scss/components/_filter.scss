@@ -23,7 +23,7 @@
       content: "";
       width: 9px;
       height: 5px;
-      background: url("/assets/images//icon/arrow-top.png") no-repeat center;
+      background: url("/assets/images/icon/arrow-top.png") no-repeat center;
       display: block;
       @include position($top: calc(50% - 3px), $right: 20px);
       transition: all 0.3s;

@@ -1,0 +1,261 @@
+<template>
+    <div class="container accounts">
+        <div class="accounts__title">
+            <h1>
+                Complete sign up {{ isMusician }}
+            </h1>
+        </div>
+        <div class="login accounts__defaultLayout">
+
+                <div class="accounts__form">
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                Your username
+                                <span class="required">*</span>
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="text" v-model="user.username"
+                                        placeholder="Set a username for your profile"
+                                        required
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                Your e-mail <span class="required">*</span>
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="email" v-model="user.email"
+                                        placeholder="Type your e-mail"
+                                        required
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                Password <span class="required">*</span>
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="password"  v-model="user.password"
+                                        placeholder="Type your password"
+                                        required
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                Your e-mail <span class="required">*</span>
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="password" v-model="passwordVerify"
+                                        placeholder="Type your password again"
+                                        required
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row" v-if="isMusician">
+                        <label for="">
+                            <p class="form-title">
+                                Your Bank
+                                <span class="required">*</span>
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="text" v-model="user.bank"
+                                        placeholder="Set a Bank"
+                                        required
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row" v-if="isMusician">
+                        <label for="">
+                            <p class="form-title">
+                                Your Bank Account
+                                <span class="required">*</span>
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="text" v-model="user.bankAccount"
+                                        placeholder="Set a BankAccount"
+                                        required
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row" v-if="isMusician">
+                        <label for="">
+                            <p class="form-title">
+                                Your Bank Accounts Owner Name
+                                <span class="required">*</span>
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="text" v-model="user.bankAccountNm"
+                                        placeholder="Set a BankAccount Owner Name"
+                                        required
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <p class="form-title">USER TYPE</p>
+                        <div class="accounts__check">
+                            <label for="type1" class="radio">
+                                <input type="radio" id="type1" hidden name="TYPE" @click="user.type = 'Music Lover'" />
+                                <span></span> Music Lover
+                            </label>
+                            <label for="type2" class="radio">
+                                <input type="radio" id="type2" hidden name="TYPE" @click="user.type = 'Recording Artist'" />
+                                <span></span> Recording Artist
+                            </label>
+                            <label for="type3" class="radio">
+                                <input type="radio" id="type3" hidden name="TYPE" @click="user.type = 'Music Producer'" />
+                                <span></span> Music Producer
+                            </label>
+                            <label for="type4" class="radio">
+                                <input type="radio" id="type4" hidden name="TYPE" @click="user.type = 'Artist/Producer'" />
+                                <span></span> Artist/Producer
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accounts__privacy">
+                    <label for="privacy" class="checkbox" >
+                        <input type="checkbox" hidden id="privacy" v-model="isCheckTos" />
+                        <span></span> I have read and agree to the
+                        <a href="">Terms of service</a>
+                        &
+                        <a href="">Privacy policy.</a>
+                    </label>
+                </div>
+                <div class="accounts__btnbox border-none">
+                    <button class="btn btn--submit" @click="doNext">
+                        Sign up
+                    </button>
+                </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+
+    import { EventBus } from '*/src/eventbus';
+
+
+    export default {
+
+        data: function() {
+            return {
+                user: {
+
+                },
+                isCheckTos: false,
+                passwordVerify: null,
+            }
+        },
+        computed: {
+            isMusician: function() {
+                return this.$parent.info.userType === 'musician';
+            },
+        },
+        created() {
+
+        },
+        mounted() {
+
+
+        },
+        watch: {
+
+        },
+        methods: {
+            doValidation() {
+
+                if(!this.user.username) {
+                    alert('사용자 계정을 입력해 주세요');
+                    return false;
+                }
+
+                if(!this.user.email) {
+                    alert('email을 입력해 주세요');
+                    return false;
+                }
+
+                if(this.user.password !== this.passwordVerify) {
+                    alert('패스워드를 동일하게 입력해 주세요');
+                    return false;
+                }
+
+                if(this.user.password !== this.passwordVerify) {
+                    alert('패스워드를 동일하게 입력해 주세요');
+                    return false;
+                }
+
+                if(this.isMusician && !this.user.bankAccount) {
+                    alert('계좌번호를 입력해 주세요');
+                    return false;
+                }
+
+                if(this.isMusician && !this.user.bank) {
+                    alert('은행을 입력해 주세요');
+                    return false;
+                }
+
+                if(this.isMusician && !this.user.bankAccountNm) {
+                    alert('계좌주를 입력해 주세요');
+                    return false;
+                }
+
+
+                if(!this.user.type) {
+                    alert('사용자 종류를 선택해 주세요');
+                    return false;
+                }
+
+                if(!this.isCheckTos) {
+                    alert('약관에 동의해야 가입할 수 있습니다');
+                    return false;
+                }
+
+
+                return true;
+            },
+            doNext(type) {
+                if(this.doValidation()) {
+                    EventBus.$emit('submit_join_form',this.user);
+                    this.$router.push({path: '/4'});
+                }
+
+            },
+        },
+
+    }
+
+
+
+
+</script>
+
+<style lang="scss">
+
+
+</style>
+
+<style lang="css">
+
+</style>

@@ -1,0 +1,112 @@
+<template>
+    <div class="container accounts">
+        <div class="accounts__title">
+            <h1>
+                Complete sign up
+            </h1>
+        </div>
+        <div class="login accounts__defaultLayout">
+
+                <div class="accounts__form">
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                Introduce yourself to me
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="text" v-model="user.introduce"
+                                        placeholder="Introduce yourself to me"
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                Name of my brand shop
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="text"
+                                        placeholder="https://beatsomeone.com/comvol"
+                                        disabled
+                                />
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="accounts__btnbox">
+                    <button type="submit" class="btn btn--submit" @click="doNext">
+                        Next
+                    </button>
+                </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+
+    import { EventBus } from '*/src/eventbus';
+
+    export default {
+
+        data: function() {
+            return {
+                user: {},
+            }
+        },
+        computed: {
+            isMusician: function() {
+                return this.$parent.info.userType === 'musician';
+            },
+        },
+        created() {
+
+        },
+        mounted() {
+
+
+        },
+        watch: {
+
+        },
+        methods: {
+            doValidation() {
+
+                if(!this.user.introduce) {
+                    alert('introduce를 입력해 주세요');
+                    return false;
+                }
+
+                return true;
+            },
+            doNext(type) {
+                if(this.doValidation()) {
+                    if(!this.isMusician) {
+                        EventBus.$emit('finish_join_form',this.user);
+                    } else {
+                        EventBus.$emit('submit_join_form',this.user);
+                        this.$router.push({path: '/6'});
+                    }
+
+                }
+            },
+        },
+
+    }
+
+
+
+
+</script>
+
+<style lang="scss">
+
+
+</style>
+
+<style lang="css">
+
+</style>

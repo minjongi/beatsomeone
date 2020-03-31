@@ -1,0 +1,122 @@
+<template>
+
+    <div class="wrapper">
+
+        <Header :is-login="isLogin"></Header>
+        <div class="container accounts">
+            <div class="accounts__title">
+                <h1>
+                    Log in to continue
+                </h1>
+            </div>
+            <div class="login accounts__defaultLayout">
+
+
+                <form action="/login" method="post">
+                    <div class="accounts__form">
+                        <div class="row">
+                            <label for="">
+                                <p class="form-title">Email or username</p>
+                                <div class="input">
+                                    <input
+                                            type="text" name="mem_userid"
+                                            placeholder="Type your e-mail or username"
+                                    />
+                                </div>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label for="">
+                                <p class="form-title">Password</p>
+                                <div class="input">
+                                    <input type="text" name="mem_password" placeholder="Type your password" />
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="accounts__btnbox">
+                        <button type="submit" class="btn btn--submit">
+                            Log in
+                        </button>
+                    </div>
+                </form>
+
+                <div class="accounts__social">
+                    <h2>SNS Log in</h2>
+                    <a href=""
+                    ><img
+                            src="@/assets/images/accounts-facebook.png"
+                            alt="페이스북 로그인"
+                    /></a>
+                    <a href=""
+                    ><img
+                            src="@/assets/images/accounts-twitter.png"
+                            alt="트위터 로그인"
+                    /></a>
+                    <a href=""
+                    ><img src="@/assets/images/accounts-google.png" alt="구글 로그인"
+                    /></a>
+                    <a href=""
+                    ><img src="@/assets/images/accounts-naver.png" alt="네이버 로그인"
+                    /></a>
+                    <a href=""
+                    ><img src="@/assets/images/accounts-kakao.png" alt="카카오 로그인"
+                    /></a>
+                </div>
+
+                <div class="accounts__etc">
+                    Don`t have an account? <a href="/register">Sign up</a>
+                </div>
+            </div>
+        </div>
+        <Footer></Footer>
+    </div>
+</template>
+
+<script>
+
+
+    require('@/assets/js/function');
+
+    import Header from "@/views/beatsomeone/basic/include/Header";
+    import Footer from "@/views/beatsomeone/basic/include/Footer";
+
+    import { EventBus } from '*/src/eventbus';
+
+    export default {
+        components: {Header,Footer},
+        data: function() {
+            return {
+                isLogin: false,
+            }
+        },
+        mounted() {
+
+        },
+        watch: {
+
+        },
+        methods: {
+
+            getTestimonialsList() {
+                Http.get(`/beatsomeoneApi/main_testimonials_list`).then(r=> {
+                    this.listTestimonials = r.data;
+                });
+            },
+
+        },
+
+    }
+
+</script>
+
+<style lang="scss">
+    @import '@/assets/scss/App.scss';
+
+
+</style>
+
+<style lang="css">
+    @import '/assets/plugins/slick/slick.css';
+    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+</style>

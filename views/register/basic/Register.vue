@@ -1,165 +1,92 @@
 <template>
+    <div class="wrapper">
 
-    <div class="provision">
-        <div class="table-box">
-            <div class="table-heading">회원 유형 선택</div>
-            <div class="table-body">
-                <ol>
-                    <li>
-                        <a class="btn btn-default btn-sm" href="/register/register_user">일반 회원</a>
-                    </li>
-                    <li>
-                        <a class="btn btn-default btn-sm" href="/register/register_musician">뮤지션 회원</a>
-                    </li>
-                </ol>
-            </div>
+        <Header :is-login="isLogin"></Header>
+        <div style="margin-top: 100px;">
+            <pre>{{ info }}</pre>
+<!--            <a type="button" @click="doJoin">가입</a>-->
         </div>
+
+
+        <router-view />
+        <Footer></Footer>
     </div>
+
 </template>
 
 <script>
 
     require('@/assets/js/function');
 
-    import $ from "jquery";
-    import Header from "./include/Header";
-    import Footer from "./include/Footer";
-    import Index_Items from "./Index_Items";
+    import Header from "@/views/beatsomeone/basic/include/Header";
+    import Footer from "@/views/beatsomeone/basic/include/Footer";
     import { EventBus } from '*/src/eventbus';
 
     export default {
-        name: 'Index',
-        components: {Header,Footer,Index_Items},
+        components: {Header,Footer},
         data: function() {
             return {
+                info: {},
                 isLogin: false,
-                init : {},
-                list: null,
-                listTrending: null,
-                listTestimonials: null,
-                currentGenre : 'All Genre',
-                listGenre: ['All Genre','Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
-                listPlayer : [
-                    {
-                        id: 1,
-                        name: "I Came Running",
-                        artist: "Ancient Astronauts",
-                        album: "We Are to Answer",
-                        url: "/assets_m/audio/testfile.mp3",
-                        cover_art_url: "https://521dimensions.com/img/open-source/amplitudejs/album-art/we-are-to-answer.jpg",
-                        isNew: true,
-                    },
-                ],
             }
+        },
+        created() {
+            EventBus.$on('submit_join_form', d => {
+               Object.assign(this.info,d);
+            });
+            EventBus.$on('finish_join_form', d => {
+                Object.assign(this.info,d);
+                this.doJoin();
+            });
+
+            // this.info = {
+            //     "userType": "user",
+            //     "accountType": "email",
+            //     "username": "222",
+            //     "email": "333",
+            //     "password": "444",
+            //     "type": "Recording Artist"
+            // };
         },
         mounted() {
+            // 중간 리프레시 초기화
+            if(this.$router.currentRoute.path != '/') {
+                this.$router.push({path: '/'});
+            }
 
-
-            // 메인페이지: 서브 앨범 슬라이드 이벤트
-            $(".toggle-subList").on("click", function() {
-                var itemLength = $(this)
-                    .parents(".playList__itembox")
-                    .find(".subPlayList .playList__itembox").length;
-                $(this).toggleClass("active");
-                $(this)
-                    .parents(".playList__itembox")
-                    .toggleClass("is-show-children");
-
-                if ($(this).hasClass("active")) {
-                    // active 일때,
-                    $(this)
-                        .parents(".playList__itembox")
-                        .find(".subPlayList")
-                        .css("height", 90 * itemLength);
-                } else {
-                    // 지웟을때,
-                    $(this)
-                        .parents(".playList__itembox")
-                        .find(".subPlayList")
-                        .css("height", 0);
-                }
-            });
-
-            // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
-                $(this)
-                    .siblings(".custom-select")
-                    .removeClass("active")
-                    .find(".options")
-                    .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
-            });
-
-            // 메인 리스트 조회
-            this.getMainList();
-
-            // Trending List
-            this.getTrendingList();
-
-            // Testimonials List
-            this.getTestimonialsList();
-
-            Amplitude.init({
-                "songs": this.listPlayer,
-                delay: 3000,
-                waveforms: {
-                    sample_rate: 3000
-                }
-            });
         },
         watch: {
-            // 장르가 변경될 때
-            currentGenre: function (n,o) {
-                if(o && n !== o) {
-                    this.getMainList();
-                }
-            }
+
         },
         methods: {
-            doSlide() {
-                // 메인 trend Slider
-                $(".trending__slider .slider").slick({
-                    slidesToShow: 6,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                    autoplaySpeed: 2000,
-                    arrows: true,
-                    dots: true
-                });
-            },
-            moveMore() {
-                const path = `/beatsomeone/sublist?genre=${this.currentGenre}`;
-                window.location.href = path;
-            },
-            selectItem(i) {
-                const path = `/beatsomeone/detail/${i}`;
-                window.location.href = path;
-            },
-            getMainList() {
-                Http.get(`/beatsomeoneApi/main_list/${encodeURIComponent(this.currentGenre)}`).then(r=> {
-                    this.list = r.data;
-                });
-            },
-            getTrendingList() {
-                Http.get(`/beatsomeoneApi/main_trending_list`).then(r=> {
-                    this.listTrending = r.data;
-                    this.$nextTick(function() {
-                        this.doSlide();
-                    });
-                });
-            },
-            getTestimonialsList() {
-                Http.get(`/beatsomeoneApi/main_testimonials_list`).then(r=> {
-                    this.listTestimonials = r.data;
-                });
-            },
+            doJoin() {
 
+                const form = {
+                    user_type: this.info.userType,
+                    mem_userid : this.info.username,
+                    mem_nickname : this.info.username,
+                    mem_password : this.info.password,
+                    mem_username : this.info.firstname + this.info.lastname,
+                    mem_email : this.info.email,
+                    mem_address1 : this.info.location,
+                    mem_profile_content : this.info.introduce,
+
+                };
+
+                Http.post('/register/ajax_form_user',form).then(r => {
+                    alert('가입 되었습니다') ;
+                    window.location.href = '/';
+                },e => {
+                    alert('실패');
+                });
+
+            },
         },
 
     }
+
+
+
 
 </script>
 
@@ -170,6 +97,5 @@
 </style>
 
 <style lang="css">
-    @import '/assets/plugins/slick/slick.css';
-    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
 </style>

@@ -1,6 +1,6 @@
 .detail {
   padding-top: 55px;
-  background: url("/assets/images//detail-bg.png") no-repeat top center;
+  background: url("/assets/images/detail-bg.png") no-repeat top center;
   background-size: 100% auto;
   .tab {
     justify-content: flex-start;
@@ -22,13 +22,13 @@
     .detail__player-controller {
       width: 35px;
       height: 35px;
-      background: url("/assets/images//icon/play-yellow.png") no-repeat center;
+      background: url("/assets/images/icon/play-yellow.png") no-repeat center;
       background-size: 100% 100%;
       border-radius: 50%;
       margin-right: 20px;
       flex: none;
       &.playing {
-        background: url("/assets/images//icon/stop-yellow.png") no-repeat center;
+        background: url("/assets/images/icon/stop-yellow.png") no-repeat center;
         background-size: 100% 100%;
       }
     }
@@ -92,17 +92,17 @@
         align-items: center;
         font-size: 14px;
         .play {
-          background: url("/assets/images//icon/start.png") no-repeat left center;
+          background: url("/assets/images/icon/start.png") no-repeat left center;
           padding-left: 20px;
           margin-right: 20px;
         }
         .song {
-          background: url("/assets/images//icon/song.png") no-repeat left center;
+          background: url("/assets/images/icon/song.png") no-repeat left center;
           padding-left: 20px;
           margin-right: 20px;
         }
         .registed {
-          background: url("/assets/images//icon/time.png") no-repeat left center;
+          background: url("/assets/images/icon/time.png") no-repeat left center;
           padding-left: 20px;
           margin-right: 20px;
         }
@@ -127,7 +127,7 @@
             padding: 0 16px;
             border-radius: 3px;
             span {
-              background: url("/assets/images//icon/buy.png") no-repeat left center;
+              background: url("/assets/images/icon/buy.png") no-repeat left center;
               margin: 0;
               padding-left: 28px;
             }
@@ -139,16 +139,16 @@
             line-height: 40px;
             padding-left: 35px;
             &.cart {
-              background: url("/assets/images//icon/cart.png") no-repeat left center;
+              background: url("/assets/images/icon/cart.png") no-repeat left center;
             }
             &.talk {
-              background: url("/assets/images//icon/talk.png") no-repeat left center;
+              background: url("/assets/images/icon/talk.png") no-repeat left center;
             }
             &.share {
-              background: url("/assets/images//icon/shared.png") no-repeat left center;
+              background: url("/assets/images/icon/shared.png") no-repeat left center;
             }
             &.atob {
-              background: url("/assets/images//icon/atob.png") no-repeat left center;
+              background: url("/assets/images/icon/atob.png") no-repeat left center;
             }
           }
         }

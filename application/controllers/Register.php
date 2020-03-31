@@ -363,6 +363,142 @@ class Register extends CB_Controller
         }
     }
 
+    /**
+     * AJAX 회원가입 폼 페이지입니다
+     */
+    public function ajax_form_user()
+    {
+        if ($this->member->is_member() && ! ($this->member->is_admin() === 'super' && $this->uri->segment(1) === config_item('uri_segment_admin'))) {
+            return;
+        }
+
+        $html_content = array();
+
+
+        $mem_level = (int) $this->cbconfig->item('register_level');
+        $insertdata = array();
+        $metadata = array();
+
+        $userType =  $this->input->post('user_type');
+
+        $insertdata['mem_userid'] = $this->input->post('mem_userid');
+        $insertdata['mem_email'] = $this->input->post('mem_email');
+        $insertdata['mem_password'] = password_hash($this->input->post('mem_password'), PASSWORD_BCRYPT);
+        $insertdata['mem_nickname'] = $this->input->post('mem_nickname');
+        $metadata['meta_nickname_datetime'] = cdate('Y-m-d H:i:s');
+        $insertdata['mem_level'] = $mem_level;
+        $insertdata['mem_address1'] = $this->input->post('mem_address1', null, '');
+        $insertdata['mem_profile_content'] = $this->input->post('mem_profile_content', null, '');
+        $insertdata['mem_usertype'] = $userType == 'user' ? 1 : 2;
+        $insertdata['mem_register_datetime'] = cdate('Y-m-d H:i:s');
+        $insertdata['mem_register_ip'] = $this->input->ip_address();
+        $insertdata['mem_receive_email'] = 1;
+        $insertdata['mem_receive_sms'] = 1;
+        $insertdata['mem_use_note'] = 1;
+        $insertdata['mem_open_profile'] = 1;
+        $insertdata['mem_email_cert'] = 1;
+        // 일반 유저는 비차단, 뮤지션은 차단 상태로 가입
+        $insertdata['mem_denied'] = $userType == 'user' ? 0 : 1;
+
+        $mem_id = $this->Member_model->insert($insertdata);
+
+        $useridinsertdata = array(
+            'mem_id' => $mem_id,
+            'mem_userid' => $this->input->post('mem_userid'),
+        );
+        $this->Member_userid_model->insert($useridinsertdata);
+
+        $this->Member_meta_model->save($mem_id, $metadata);
+
+        $nickinsert = array(
+            'mem_id' => $mem_id,
+            'mni_nickname' => $this->input->post('mem_nickname'),
+            'mni_start_datetime' => cdate('Y-m-d H:i:s'),
+        );
+        $this->Member_nickname_model->insert($nickinsert);
+
+        if($this->input->post('mem_musician_bank') != null) {
+            $extradata = array(
+                'mem_musician_bank' => $this->input->post('mem_musician_bank'),
+                'mem_musician_account' => $this->input->post('mem_musician_account'),
+                'mem_musician_account_nm' => $this->input->post('mem_musician_account_nm'),
+            );
+            $this->Member_extra_vars_model->save($mem_id, $extradata);
+        }
+
+
+
+        $levelhistoryinsert = array(
+            'mem_id' => $mem_id,
+            'mlh_from' => 0,
+            'mlh_to' => $mem_level,
+            'mlh_datetime' => cdate('Y-m-d H:i:s'),
+            'mlh_reason' => '회원가입',
+            'mlh_ip' => $this->input->ip_address(),
+        );
+        $this->load->model('Member_level_history_model');
+        $this->Member_level_history_model->insert($levelhistoryinsert);
+
+        $this->load->model('Member_group_model');
+        $allgroup = $this->Member_group_model->get_all_group();
+        if ($allgroup && is_array($allgroup)) {
+            $this->load->model('Member_group_member_model');
+            foreach ($allgroup as $gkey => $gval) {
+                if (element('mgr_is_default', $gval)) {
+                    $gminsert = array(
+                        // 뮤지션은 2그룹으로, 일반은 기본 그룹으로
+                        'mgr_id' => $userType == 'user' ? element('mgr_id', $gval) : 2,
+                        'mem_id' => $mem_id,
+                        'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                    );
+                    $this->Member_group_member_model->insert($gminsert);
+                }
+            }
+        }
+
+        $this->point->insert_point(
+            $mem_id,
+            $this->cbconfig->item('point_register'),
+            '회원가입을 축하합니다',
+            'member',
+            $mem_id,
+            '회원가입'
+        );
+
+
+
+        $member_register_data = array(
+            'mem_id' => $mem_id,
+            'mrg_ip' => $this->input->ip_address(),
+            'mrg_datetime' => cdate('Y-m-d H:i:s'),
+            'mrg_useragent' => $this->agent->agent_string(),
+            'mrg_referer' => $this->session->userdata('site_referer'),
+        );
+        $recommended = '';
+        if ($this->input->post('mem_recommend')) {
+            $recommended = $this->Member_model->get_by_userid($this->input->post('mem_recommend'), 'mem_id');
+            if (element('mem_id', $recommended)) {
+                $member_register_data['mrg_recommend_mem_id'] = element('mem_id', $recommended);
+            } else {
+                $recommended['mem_id'] = 0;
+            }
+        }
+        $this->load->model('Member_register_model');
+        $this->Member_register_model->insert($member_register_data);
+
+        $this->session->set_flashdata(
+            'nickname',
+            $this->input->post('mem_nickname')
+        );
+
+        $this->session->set_userdata(
+            'mem_id',
+            $mem_id
+        );
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode('true'));
+    }
 
 	/**
 	 * 회원가입 폼 페이지입니다

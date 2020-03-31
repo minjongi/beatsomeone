@@ -34,7 +34,7 @@
     }
     button {
       @include position($top: 0, $right: 5px);
-      background: url("/assets/images//icon/search.png") no-repeat center center;
+      background: url("/assets/images/icon/search.png") no-repeat center center;
       width: 25px;
       height: 25px;
       cursor: pointer;
@@ -49,7 +49,7 @@
       border-left: 1px solid $white-line;
 
       &.header__cart {
-        background: url("/assets/images//icon/cart.png") no-repeat 1em center;
+        background: url("/assets/images/icon/cart.png") no-repeat 1em center;
         padding-left: 2.5em;
         background-size: auto 1em;
       }
