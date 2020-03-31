@@ -40,6 +40,11 @@
         background-size: 17px 17px;
       }
     }
+    .favorite.active {
+      button {
+        background: url("/assets_m/images/icon/favorite-active.png") no-repeat center;
+      }
+    }
     .name {
       flex: 1;
       @include flex();

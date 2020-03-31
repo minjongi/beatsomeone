@@ -190,6 +190,7 @@
                                                     src="@/assets/images/dummy/testimonials1.png"
                                                     alt=""
                                             />
+                                            <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
                                             <h3>WAITING (Indie Rock Type Beat)</h3>
@@ -204,6 +205,7 @@
                                                     src="@/assets/images/dummy/testimonials2.png"
                                                     alt=""
                                             />
+                                            <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
                                             <h3>WAITING (Indie Rock Type Beat)</h3>
@@ -218,6 +220,7 @@
                                                     src="@/assets/images/dummy/testimonials3.png"
                                                     alt=""
                                             />
+                                            <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
                                             <h3>WAITING (Indie Rock Type Beat)</h3>
@@ -358,11 +361,17 @@
                 // 메인 trend Slider
                 $(".trending__slider .slider").slick({
                     slidesToShow: 6,
-                    slidesToScroll: 1,
+                    slidesToScroll: 6,
                     autoplay: true,
                     autoplaySpeed: 2000,
                     arrows: true,
                     dots: true
+                    // slidesToShow: 6,
+                    // slidesToScroll: 1,
+                    // autoplay: true,
+                    // autoplaySpeed: 2000,
+                    // arrows: true,
+                    // dots: true
                 });
             },
             moveMore() {

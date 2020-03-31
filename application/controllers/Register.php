@@ -418,6 +418,7 @@ class Register extends CB_Controller
         $this->Member_nickname_model->insert($nickinsert);
 
         if($this->input->post('mem_musician_bank') != null) {
+            $this->load->model('Member_extra_vars_model');
             $extradata = array(
                 'mem_musician_bank' => $this->input->post('mem_musician_bank'),
                 'mem_musician_account' => $this->input->post('mem_musician_account'),

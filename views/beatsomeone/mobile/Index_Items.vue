@@ -27,9 +27,15 @@
                 </figure>
             </div>
             <div class="col more">
-                <button>
+
+                <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">
                     more
                 </button>
+                <span class="tooltip">
+                <a href="">action1</a>
+                <a href="">action2</a>
+                <a href="">action3</a>
+              </span>
             </div>
         </div>
     </li>
@@ -40,6 +46,8 @@
 <script>
 
     import { EventBus } from '*/src/eventbus';
+    import $ from 'jquery';
+
 
 
 
@@ -47,11 +55,23 @@
         props: ['item'],
         data: function () {
             return {
+                isOpenSubmenu: false,
                 listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 audio: {},
             };
         },
+        mounted() {
+            EventBus.$on('index_items_open_submenu',r=> {
+                if(this._uid !== r) {
+                    this.isOpenSubmenu = false;
+                }
+            });
+        },
         methods: {
+            openSubmenu() {
+                this.isOpenSubmenu = !this.isOpenSubmenu;
+                EventBus.$emit('index_items_open_submenu',this._uid);
+            },
             toggleWish() {
                 Http.post( `/beatsomeoneApi/toggle_wish_item/${this.item.cit_id}`).then(r=> {
                     if(r === true) {

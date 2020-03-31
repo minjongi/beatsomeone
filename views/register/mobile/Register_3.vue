@@ -77,7 +77,7 @@
                             </p>
                             <div class="input">
                                 <input
-                                        type="text" v-model="user.bank"
+                                        type="text" v-model="user.mem_musician_bank"
                                         placeholder="Set a Bank"
                                         required
                                 />
@@ -92,7 +92,7 @@
                             </p>
                             <div class="input">
                                 <input
-                                        type="text" v-model="user.bankAccount"
+                                        type="text" v-model="user.mem_musician_account"
                                         placeholder="Set a BankAccount"
                                         required
                                 />
@@ -107,7 +107,7 @@
                             </p>
                             <div class="input">
                                 <input
-                                        type="text" v-model="user.bankAccountNm"
+                                        type="text" v-model="user.mem_musician_account_nm"
                                         placeholder="Set a BankAccount Owner Name"
                                         required
                                 />
@@ -216,17 +216,17 @@
                     return false;
                 }
 
-                if(this.isMusician && !this.user.bank) {
+                if(this.isMusician && !this.user.mem_musician_bank) {
                     alert('은행을 입력해 주세요');
                     return false;
                 }
 
-                if(this.isMusician && !this.user.bankAccount) {
+                if(this.isMusician && !this.user.mem_musician_account) {
                     alert('계좌번호를 입력해 주세요');
                     return false;
                 }
 
-                if(this.isMusician && !this.user.bankAccountNm) {
+                if(this.isMusician && !this.user.mem_musician_account_nm) {
                     alert('계좌주를 입력해 주세요');
                     return false;
                 }

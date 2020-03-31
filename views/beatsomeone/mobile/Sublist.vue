@@ -297,6 +297,7 @@
                 this.slick = $(".topFive .topFice__slider").slick({
                     slidesToShow: 3,
                     slidesToScroll: 1,
+                    swipeToSlide: true,
                     autoplay: true,
                     autoplaySpeed: 2000,
                     centerMode: true,

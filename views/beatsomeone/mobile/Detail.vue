@@ -8,7 +8,7 @@
                 <div class="wrap">
                     <div class="detail__music">
                         <div class="detail__music-img">
-                            <button class="btn-play " v-if="item">
+                            <button class="btn-play amplitude-play-pause amplitude-paused" v-if="item">
                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
                             </button>
                         </div>
@@ -28,8 +28,22 @@
                         </div>
                     </div>
 
-                    <div class="wave">
+<!--                    <div class="wave">-->
 
+<!--                    </div>-->
+
+                    <div class="player player--static">
+                        <div class="wrap">
+                            <div class="player__top">
+                                <div class="player__progress">
+                                    <div id="progress-container">
+                                        <input type="range" class="amplitude-song-slider" step=".1"/>
+                                        <progress id="song-played-progress" class="amplitude-song-played-progress"></progress>
+                                        <progress id="song-buffered-progress" class="amplitude-buffered-progress"></progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="detail__comment">
@@ -87,6 +101,7 @@
                 listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
+                playlist: null,
             }
         },
         computed: {
@@ -104,13 +119,13 @@
             }).title;
 
 
-            this.music = window.WaveSurfer.create({
-                container: document.querySelector(".wave"),
-                waveColor: "#696969",
-                progressColor: "#c3ac45",
-                hideScrollbar: true,
-                height: 90
-            });
+            // this.music = window.WaveSurfer.create({
+            //     container: document.querySelector(".wave"),
+            //     waveColor: "#696969",
+            //     progressColor: "#c3ac45",
+            //     hideScrollbar: true,
+            //     height: 90
+            // });
 
 
 
@@ -119,25 +134,41 @@
         watch: {
             detail : function(n){
                 if(n) {
-                    this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
-                }
-            },
-            item : function(n){
-                if(n) {
-                    this.$nextTick(function() {
-                        const playbtn = document.querySelector(".btn-play");
-                        playbtn.addEventListener("click", () => {
-                            this.music.playPause();
-                        });
-                        this.music.on("play", () => {
-                            playbtn.classList.add("playing");
-                        });
-                        this.music.on("pause", () => {
-                            playbtn.classList.remove("playing");
-                        });
+                    log.debug({
+                        'watch detail' : n,
+                    })
+                    //this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
+                    // TODO : Amplitude 는 원격
+                    Amplitude.init({
+                        "songs": [{
+                            "name": "I Came Running",
+                            "artist": "Ancient Astronauts",
+                            "album": "We Are to Answer",
+                            "url": `/cmallact/download_sample/${n[0].cde_id}`,
+                            //"url" : '/assets/audio/testfile.mp3'
+                        }],
+                        waveforms: {
+                            sample_rate: 3000
+                        }
                     });
                 }
             },
+            // item : function(n){
+            //     if(n) {
+            //         this.$nextTick(function() {
+            //             const playbtn = document.querySelector(".btn-play");
+            //             playbtn.addEventListener("click", () => {
+            //                 this.music.playPause();
+            //             });
+            //             this.music.on("play", () => {
+            //                 playbtn.classList.add("playing");
+            //             });
+            //             this.music.on("pause", () => {
+            //                 playbtn.classList.remove("playing");
+            //             });
+            //         });
+            //     }
+            // },
 
         },
         methods: {
