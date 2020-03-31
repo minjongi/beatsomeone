@@ -48,22 +48,22 @@
                     <h2>SNS Log in</h2>
                     <a href=""
                     ><img
-                            src="@/assets/images/accounts-facebook.png"
+                            src="@/assets_m/images/accounts-facebook.png"
                             alt="페이스북 로그인"
                     /></a>
                     <a href=""
                     ><img
-                            src="@/assets/images/accounts-twitter.png"
+                            src="@/assets_m/images/accounts-twitter.png"
                             alt="트위터 로그인"
                     /></a>
                     <a href=""
-                    ><img src="@/assets/images/accounts-google.png" alt="구글 로그인"
+                    ><img src="@/assets_m/images/accounts-google.png" alt="구글 로그인"
                     /></a>
                     <a href=""
-                    ><img src="@/assets/images/accounts-naver.png" alt="네이버 로그인"
+                    ><img src="@/assets_m/images/accounts-naver.png" alt="네이버 로그인"
                     /></a>
                     <a href=""
-                    ><img src="@/assets/images/accounts-kakao.png" alt="카카오 로그인"
+                    ><img src="@/assets_m/images/accounts-kakao.png" alt="카카오 로그인"
                     /></a>
                 </div>
 
@@ -82,10 +82,10 @@
 <script>
 
 
-    require('@/assets/js/function');
+    require('@/assets_m/js/function');
 
-    import Header from "@/views/beatsomeone/basic/include/Header";
-    import Footer from "@/views/beatsomeone/basic/include/Footer";
+    import Header from "@/views/beatsomeone/mobile/include/Header";
+    import Footer from "@/views/beatsomeone/mobile/include/Footer";
 
     import { EventBus } from '*/src/eventbus';
 
@@ -114,12 +114,11 @@
 </script>
 
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 
 
 </style>
 
 <style lang="css">
-    @import '/assets/plugins/slick/slick.css';
-    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
 </style>

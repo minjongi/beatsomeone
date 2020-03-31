@@ -16,10 +16,10 @@
 
 <script>
 
-    require('@/assets/js/function');
+    require('@/assets_m/js/function');
 
-    import Header from "@/views/beatsomeone/basic/include/Header";
-    import Footer from "@/views/beatsomeone/basic/include/Footer";
+    import Header from "@/views/beatsomeone/mobile/include/Header";
+    import Footer from "@/views/beatsomeone/mobile/include/Footer";
     import { EventBus } from '*/src/eventbus';
 
     export default {
@@ -94,7 +94,7 @@
 </script>
 
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 
 
 </style>

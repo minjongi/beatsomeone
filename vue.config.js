@@ -20,6 +20,7 @@ module.exports = {
             status_item: ['./views/mypage/basic/status_item.js'],
             login: ['./views/login/basic/login.js'],
             register: ['./views/register/basic/register.js'],
+            findaccount: ['./views/findaccount/basic/findaccount.js'],
 
             m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
@@ -27,6 +28,9 @@ module.exports = {
             m_regist_item: ['./views/mypage/mobile/regist_item.js'],
             m_list_item: ['./views/mypage/mobile/list_item.js'],
             m_status_item: ['./views/mypage/mobile/status_item.js'],
+            m_login: ['./views/login/mobile/login.js'],
+            m_register: ['./views/register/mobile/register.js'],
+            m_findaccount: ['./views/findaccount/mobile/findaccount.js'],
 
             admin_cmallitem_write: ['./views/admin/basic/cmall/cmallitem/write.js'],
         },

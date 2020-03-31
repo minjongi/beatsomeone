@@ -1,0 +1,132 @@
+<template>
+    <div class="container accounts">
+        <div class="accounts__title">
+            <h1>
+                Complete sign up
+            </h1>
+        </div>
+        <div class="login accounts__defaultLayout">
+            <form action="">
+                <div class="accounts__form">
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                First name
+                            </p>
+                            <div class="input">
+                                <input v-model="user.firstname"
+                                        type="text"
+                                        placeholder="First name"
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                Last name
+                            </p>
+                            <div class="input">
+                                <input v-model="user.lastname"
+                                        type="text"
+                                        placeholder="Last name"
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                City of Residence, State
+                            </p>
+                            <div class="input">
+                                <input  v-model="user.location"
+                                        type="text"
+                                        placeholder="City of Residence, State"
+                                />
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="accounts__btnbox half">
+                    <button type="reset" class="btn btn--gray" @click="doSkip">
+                        Skipping
+                    </button>
+
+                    <button type="submit" class="btn btn--submit" @click="doNext">
+                        Next
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+
+<script>
+
+    import { EventBus } from '*/src/eventbus';
+
+    export default {
+
+        data: function() {
+            return {
+                user: {},
+            }
+        },
+        created() {
+
+        },
+        mounted() {
+
+
+        },
+        watch: {
+
+        },
+        methods: {
+            doValidation() {
+
+                if(!this.user.firstname) {
+                    alert('first name 을 입력해 주세요');
+                    return false;
+                }
+
+                if(!this.user.lastname) {
+                    alert('last name 을 입력해 주세요');
+                    return false;
+                }
+
+                if(!this.user.location) {
+                    alert('주소를 입력해 주세요');
+                    return false;
+                }
+
+
+                return true;
+            },
+            doNext(type) {
+                if(this.doValidation()) {
+                    EventBus.$emit('submit_join_form',this.user);
+                    this.$router.push({path: '/5'});
+                }
+            },
+            doSkip() {
+                this.$router.push({path: '/5'});
+            },
+        },
+
+    }
+
+
+
+
+</script>
+
+<style lang="scss">
+
+
+</style>
+
+<style lang="css">
+
+</style>

@@ -1,9 +1,8 @@
 import Vue from 'vue'
 
-import app from './Login.vue';
+import app from './Findaccount.vue';
 
 
-Vue.config.devtools = true;
 Vue.config.productionTip = false;
 Vue.prototype.$log = console.log.bind(console);
 
