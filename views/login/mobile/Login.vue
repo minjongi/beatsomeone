@@ -27,7 +27,9 @@
                         </div>
                         <div class="row">
                             <label for="">
-                                <p class="form-title">Password</p>
+                                <p class="form-title">Password
+                                    <a href="/findaccount">Forgot ID/password?</a>
+                                </p>
                                 <div class="input">
                                     <input type="text" name="mem_password" placeholder="Type your password" />
                                 </div>
@@ -70,9 +72,7 @@
                 <div class="accounts__etc">
                     Don`t have an account? <a href="/register">Sign up</a>
                 </div>
-                <div class="accounts__etc">
-                    Forgot your account? <a href="/findaccount">Find Account</a>
-                </div>
+
             </div>
         </div>
         <Footer></Footer>
