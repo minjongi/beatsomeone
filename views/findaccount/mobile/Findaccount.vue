@@ -12,21 +12,26 @@
                     If you enter the registered email when you sign up, your ID and
                     password will be emailed to you
                 </p>
+                <p v-if="message" v-html="message">
+                </p>
+                <p v-if="errorMsg" v-html="errorMsg">
+                </p>
             </div>
             <div class="login accounts__defaultLayout">
-                <form action="">
+                <form action="/findaccount" method="post">
+                    <input type="hidden" name="findtype" value="findidpw" />
                     <div class="accounts__form">
                         <div class="row">
                             <label for="">
                                 <p class="form-title">Email</p>
                                 <div class="input">
-                                    <input type="text" placeholder="Type your email" />
+                                    <input type="email" name="idpw_email" placeholder="Type your email" />
                                 </div>
                             </label>
                         </div>
                     </div>
                     <div class="accounts__btnbox">
-                        <button type="submit" class="btn btn--submit" @click="doSendEmail">
+                        <button type="submit" class="btn btn--submit" >
                             send
                         </button>
                     </div>
@@ -51,6 +56,8 @@
         components: {Header,Footer},
         data: function() {
             return {
+                errorMsg: null,
+                message: null,
                 isLogin: false,
             }
         },
@@ -61,11 +68,11 @@
 
         },
         methods: {
-
-            doSendEmail() {
-                // TODO : 이메일 인증은 구현되지 않았음
-                alert('이메일 인증은 구현되지 않았음')
-            },
+            //
+            // doSendEmail() {
+            //     // TODO : 이메일 인증은 구현되지 않았음
+            //     alert('이메일 인증은 구현되지 않았음')
+            // },
 
         },
 

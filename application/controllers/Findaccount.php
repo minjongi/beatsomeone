@@ -105,10 +105,13 @@ class Findaccount extends CB_Controller
 		 */
 		if ($this->form_validation->run() === false) {
 
+            log_message('debug','########### FIND ACCOUNT VIEW');
 			// 이벤트가 존재하면 실행합니다
 			$view['view']['event']['formrunfalse'] = Events::trigger('formrunfalse', $eventname);
 
 		} else {
+
+            log_message('debug','########### FIND ACCOUNT ACTION');
 
 			// 이벤트가 존재하면 실행합니다
 			$view['view']['event']['formruntrue'] = Events::trigger('formruntrue', $eventname);
@@ -123,6 +126,7 @@ class Findaccount extends CB_Controller
 					$this->load->model('Member_dormant_model');
 					$mb = $this->Member_dormant_model->get_by_email($this->input->post('idpw_email'));
 				}
+
 
 				$mem_id = (int) element('mem_id', $mb);
 				$mae_type = 3;
