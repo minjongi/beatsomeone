@@ -12,13 +12,14 @@
                             <a href="">신고하기</a>
                         </div>
 
-                        <span class="comment__created-at">8 day ago</span>
+<!--                        <span class="comment__created-at">8 day ago</span>-->
+                        <span class="comment__created-at">{{ timeago(c.cqa_datetime) }}</span>
                     </div>
                     <div class="comment__description">
                         <p>
                             {{ c.cqa_content }}
                         </p>
-                        <span class="comment__sub-count">200</span>
+<!--                        <span class="comment__sub-count">200</span>-->
                     </div>
                 </div>
             </div>
@@ -32,6 +33,7 @@
 <script>
 
     import { EventBus } from '*/src/eventbus';
+    import * as timeago from 'timeago.js';
 
     export default {
         props: ['item'],
@@ -61,6 +63,11 @@
                     this.listComments = r.data;
                 });
             },
+            timeago(date) {
+                return timeago.format(date);
+            },
+
+
 
         },
 

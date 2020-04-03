@@ -19,7 +19,7 @@
                             <p class="singer" v-if="meta">{{ meta.info_content_3 }}</p>
                             <div class="state" v-if="item">
                                 <span class="play">{{ item.cit_hit }}</span>
-                                <span class="song">120</span>
+<!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
                                 <span class="etc">{{ item.cit_summary }}</span>
                             </div>
@@ -29,7 +29,7 @@
                                     <span class="cart">700</span>
                                     <span class="talk">412</span>
                                     <span class="share">179</span>
-                                    <span class="atob">91</span>
+<!--                                    <span class="atob">91</span>-->
                                 </div>
                                 <div class="category" v-if="meta">
                                     <span v-for="genre in listGenre" :key="genre" :class="{'active' : meta.info_content_1 === genre }">{{ genre }}</span>
@@ -110,7 +110,7 @@
                 if(!this.item) return null;
                 const t = new Date(Date.parse(this.item.cit_datetime));
 
-                return `${t.getMonth()} / ${t.getFullYear()}`;
+                return `${t.getFullYear()}.${('0' + t.getMonth()).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
             }
         },
         mounted() {

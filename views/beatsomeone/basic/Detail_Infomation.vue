@@ -8,7 +8,7 @@
             <h2 class="information__username">{{ info.mem_username }}</h2>
             <p class="information__description" v-html="info.cit_content"></p>
 
-<!--            <a href="" class="information__message">Message</a>-->
+            <a href="" class="information__message">Message</a>
         </div>
     </div>
 </template>

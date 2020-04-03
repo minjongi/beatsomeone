@@ -17,7 +17,7 @@
                             <p class="singer" v-if="meta">{{ meta.info_content_3 }}</p>
                             <div class="state" v-if="item">
                                 <span class="play">{{ item.cit_hit }}</span>
-                                <span class="song">120</span>
+<!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
                             </div>
                             <div class="utils" v-if="item">
@@ -109,7 +109,7 @@
                 if(!this.item) return null;
                 const t = new Date(Date.parse(this.item.cit_datetime));
 
-                return `${t.getMonth()} / ${t.getFullYear()}`;
+                return `${t.getFullYear()}.${('0' + t.getMonth()).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
             }
         },
         mounted() {

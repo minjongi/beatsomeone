@@ -144,6 +144,19 @@
                 audio: {},
             };
         },
+        mounted() {
+            EventBus.$on('index_items_stop_all_played',r=> {
+                if(this._uid !== r) {
+                    log.debug({
+                        'index_items_stop_all_played':this.audio[this.item.cit_id],
+                    })
+                    if(this.audio[this.item.cit_id]) {
+                        this.audio[this.item.cit_id].pause();
+                    }
+
+                }
+            });
+        },
         methods: {
             toggleWish() {
                 Http.post( `/beatsomeoneApi/toggle_wish_item/${this.item.cit_id}`).then(r=> {
@@ -172,9 +185,10 @@
                 window.location.href = path;
             },
             playAudio(i) {
-                this.$log({
-                    i
-                });
+                // this.$log({
+                //     i
+                // });
+                EventBus.$emit('index_items_stop_all_played',this._uid);
                 if (!this.audio[i.cit_id]) {
                     this.$nextTick(() => {
                         this.setAudioInstance(i);

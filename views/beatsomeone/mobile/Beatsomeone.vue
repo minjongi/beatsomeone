@@ -45,7 +45,7 @@
                                     <br />
                                     OR SELL BEATS EASILY!
                                 </h1>
-                                <a href="">
+                                <a href="/register">
                                     I want to lend or sell my beat
                                 </a>
                             </div>
@@ -129,8 +129,8 @@
                                         </figure>
                                     </article>
                                     <div class="testimonials__btnbox">
-                                        <a href="">START SELLING</a>
-                                        <a href="" class="beats">BROWSE BEATS</a>
+                                        <a href="/register">START SELLING</a>
+                                        <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">BROWSE BEATS</a>
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
                                     MUSIC TO BE SHOWN ALL OVER THE WORKLD,<br />
                                     ARE YOU READY?
                                 </h1>
-                                <a href="">
+                                <a href="/register">
                                     Trust our best team members and join us!
                                 </a>
                             </div>
