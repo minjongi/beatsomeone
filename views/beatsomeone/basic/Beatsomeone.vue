@@ -146,7 +146,7 @@
                                 <br/>
                                 OR SELL BEATS EASILY!
                             </h1>
-                            <a href="">
+                            <a href="/register">
                                 I want to lend or sell my beat
                             </a>
                         </header>
@@ -232,8 +232,8 @@
                                 </figure>
                             </article>
                             <div class="testimonials__btnbox">
-                                <a href="">START SELLING</a>
-                                <a href="" class="beats">BROWSE BEATS</a>
+                                <a href="/register">START SELLING</a>
+                                <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">BROWSE BEATS</a>
                             </div>
                         </div>
 
