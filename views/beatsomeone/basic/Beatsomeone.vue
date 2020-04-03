@@ -59,6 +59,9 @@
         <div class="container">
             <div class="main">
                 <section class="main__section1">
+                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop style="position:absolute;">
+                        <source src="/uploads/data/video_bg.mp4" type="video/mp4">
+                    </video>
                     <div class="wrap">
                         <header class="main__section1-title">
                             <h1>HOLIDAY GIVEAWAY</h1>
@@ -71,7 +74,6 @@
                                 producers to collaborate with have never been easier.
                             </p>
                         </header>
-
                         <div class="main__media">
                             <div class="tab">
                                 <button v-for="g in listGenre" :key="g" :class="{active:currentGenre === g}" @click="currentGenre = g">
