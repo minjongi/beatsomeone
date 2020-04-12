@@ -30,6 +30,7 @@ class Beatsomeone_model extends CB_Model
 		parent::__construct();
 	}
 
+	// 메인 페이지 리스트
     public function get_main_list($config)
     {
         $bpm = element('bpm', $config);
@@ -53,8 +54,8 @@ class Beatsomeone_model extends CB_Model
             $where['p.voice'] = 1;
         }
 
-        // 만약 정렬 조건이 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
-        if($sort == 'Sort By Staff Picks') {
+        // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
+        if(!$sort || $sort == 'Sort By Staff Picks') {
             $where['cmall_item.cit_type1'] = 1;
             $this->db->order_by('cit_hit', 'desc');
         }
@@ -80,6 +81,44 @@ class Beatsomeone_model extends CB_Model
         $result = $qry->result_array();
 
         return $result;
+    }
+
+    // 디테일 페이지
+    public function get_detail($config)
+    {
+        $cit_key = element('cit_key', $config);
+        $cit_id = element('cit_id', $config);
+
+        log_message('debug','cit_key : ' . $cit_key);
+        log_message('debug','cit_id : ' . $cit_id);
+
+        if($cit_key) {
+            $where['cmall_item.cit_key'] = $cit_key;
+        }
+
+        if($cit_id) {
+            $where['cmall_item.cit_id'] = $cit_id;
+        }
+
+
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
+
+        $this->db->select('cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish');
+        $this->db->where($where);
+
+        $qry = $this->db->get($this->_table);
+        $result = $qry->result_array();
+
+        return $result;
+    }
+
+    public function increase_download_count($p) {
+        $cde_id = $p["cde_id"];
+
+        $this->db->where('cde_id',$cde_id);
+        $this->db->set('cde_download', 'cde_download+1', FALSE);
+        $this->db->update('cmall_item_detail');
     }
 
     public function get_main_trending_list($config)

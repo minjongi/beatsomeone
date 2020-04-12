@@ -14,15 +14,15 @@
                         </div>
                         <div class="detail__music-info">
                             <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
-                            <p class="singer" v-if="meta">{{ meta.info_content_3 }}</p>
+                            <p class="singer" v-if="item">{{ item.musician }}</p>
                             <div class="state" v-if="item">
-                                <span class="play">{{ item.cit_hit }}</span>
+                                <span class="play">{{ item.cde_download }}</span>
 <!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="#" class="buy" v-if="detail" @click="addCart"><span>{{ detail[0].cde_price }}&#8361;</span></a>
+                                    <a href="#" class="buy"  @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
                                 </div>
                             </div>
                         </div>
@@ -94,8 +94,6 @@
             return {
                 isLogin : false,
                 item: null,
-                meta : null,
-                detail : null,
                 comment: null,
                 music: null,
                 listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
@@ -147,31 +145,36 @@
 
         },
         watch: {
-            detail : function(n){
+            item : function(n){
                 if(n) {
                     log.debug({
                         'watch detail' : n,
                     })
                     //this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
-
-                    this.player = Amplitude.init({
-                        "songs": [{
-                            "name": "I Came Running",
-                            "artist": "Ancient Astronauts",
-                            "album": "We Are to Answer",
-                            "url": `/cmallact/download_sample/${n[0].cde_id}`,
-                            //"url" : '/assets/audio/testfile.mp3'
-                        }],
-                        callbacks: {
-                            play: ()=>{
-                                console.log("MAIN played")
-                                EventBus.$emit('index_items_stop_all_played',this._uid);
+                    this.$nextTick(function() {
+                        this.player = Amplitude.init({
+                            "songs": [{
+                                "name": "I Came Running",
+                                "artist": "Ancient Astronauts",
+                                "album": "We Are to Answer",
+                                "url": `/cmallact/download_sample/${n.cde_id}`,
+                                //"url" : '/assets_m/audio/testfile.mp3'
+                            }],
+                            callbacks: {
+                                play: () => {
+                                    console.log("MAIN played")
+                                    EventBus.$emit('index_items_stop_all_played', this._uid);
+                                },
+                                initialized: () => {
+                                    this.increaseMusicCount();
+                                }
+                            },
+                            waveforms: {
+                                sample_rate: 3000
                             }
-                        },
-                        waveforms: {
-                            sample_rate: 3000
-                        }
+                        });
                     });
+
                 }
             },
             // item : function(n){
@@ -229,8 +232,8 @@
             addCart() {
 
                 let detail_qty = {};
-                detail_qty[this.detail[0]['cde_id']] = 1;
-                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.detail[0].cde_id],detail_qty:detail_qty,}).then(r=> {
+                detail_qty[this.item.cde_id] = 1;
+                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
                     if(!r) {
                         log.debug('장바구니 담기 실패');
                     } else {
@@ -240,6 +243,16 @@
                     }
                 });
             },
+            // 다운로드 증가
+            increaseMusicCount() {
+                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
+                    if(!r) {
+                        log.debug('카운트 증가 실패');
+                    } else {
+                        log.debug('카운트 증가 성공');
+                    }
+                });
+            }
         },
 
     }

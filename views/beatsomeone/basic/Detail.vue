@@ -16,7 +16,7 @@
                         </div>
                         <div class="detail__music-info" >
                             <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
-                            <p class="singer" v-if="meta">{{ meta.info_content_3 }}</p>
+                            <p class="singer" v-if="item">{{ item.musician }}</p>
                             <div class="state" v-if="item">
                                 <span class="play">{{ item.cit_hit }}</span>
 <!--                                <span class="song">120</span>-->
@@ -25,14 +25,14 @@
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="#" class="buy" v-if="detail" @click="addCart"><span>{{ detail[0].cde_price }}&#8361;</span></a>
+                                    <a href="#" class="buy" v-if="item" @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
                                     <span class="cart pointer"  @click="addCart">700</span>
                                     <span class="talk pointer" @click="selectTab(tabs[1])">412</span>
                                     <span class="share pointer" @click="clickShare">179</span>
 <!--                                    <span class="atob">91</span>-->
                                 </div>
-                                <div class="category" v-if="meta">
-                                    <span v-for="genre in listGenre" :key="genre" :class="{'active' : meta.info_content_1 === genre }">{{ genre }}</span>
+                                <div class="category" v-if="item">
+                                    <span v-for="genre in listGenre" :key="genre" :class="{'active' : item.hashTag === genre }">{{ genre }}</span>
                                 </div>
                             </div>
                         </div>
@@ -96,8 +96,7 @@
 
                 isLogin : false,
                 item: null,
-                meta : null,
-                detail : null,
+
                 comment: null,
                 music: null,
                 listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
@@ -145,6 +144,9 @@
                 height: 200
             });
 
+            this.music.on("ready", () => {
+                this.increaseMusicCount();
+            });
             this.music.on("play", () => {
                 playbtn.classList.add("playing");
                 EventBus.$emit('index_items_stop_all_played',this._uid);
@@ -158,9 +160,9 @@
 
         },
         watch: {
-            detail : function(n){
+            item : function(n){
                 if(n) {
-                    this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
+                    this.music.load(`/cmallact/download_sample/${n.cde_id}`);
                 }
 
             },
@@ -203,8 +205,8 @@
             addCart() {
 
                 let detail_qty = {};
-                detail_qty[this.detail[0]['cde_id']] = 1;
-                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.detail[0].cde_id],detail_qty:detail_qty,}).then(r=> {
+                detail_qty[this.item.cde_id] = 1;
+                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
                     if(!r) {
                         log.debug('장바구니 담기 실패');
                     } else {
@@ -218,6 +220,16 @@
             clickShare() {
 
             },
+            // 다운로드 증가
+            increaseMusicCount() {
+                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
+                    if(!r) {
+                        log.debug('카운트 증가 실패');
+                    } else {
+                        log.debug('카운트 증가 성공');
+                    }
+                });
+            }
         },
 
     }

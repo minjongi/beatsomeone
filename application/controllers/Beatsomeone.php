@@ -152,21 +152,25 @@ class Beatsomeone extends CB_Controller
         if (empty($cit_key)) {
             show_404();
         }
-        $this->load->model(array('Cmall_item_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
+        $this->load->model(array('Cmall_item_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model','Beatsomeone_model'));
 
         $where = array(
             'cit_key' => $cit_key,
         );
-        $view['view']['item'] = $this->Cmall_item_model->get_one('', '', $where);
-        if ( ! element('cit_id', $view['view']['item'])) {
-            show_404();
-        }
-        if ( ! element('cit_status', $view['view']['item'])) {
-            alert('이 상품은 현재 판매하지 않습니다');
-        }
-
-        $view['view']['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $view['view']['item']));
-        $view['view']['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
+        $view['view']['item'] = $this->Beatsomeone_model->get_detail($where)[0];
+//        if ( ! element('cit_id', $view['view']['item'])) {
+//            show_404();
+//        }
+//        $view['view']['item'] = $this->Cmall_item_model->get_one('', '', $where);
+//        if ( ! element('cit_id', $view['view']['item'])) {
+//            show_404();
+//        }
+//        if ( ! element('cit_status', $view['view']['item'])) {
+//            alert('이 상품은 현재 판매하지 않습니다');
+//        }
+//
+//        $view['view']['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $view['view']['item']));
+//        $view['view']['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
 
 
 
