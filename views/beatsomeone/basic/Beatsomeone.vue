@@ -120,11 +120,11 @@
                                         <button class="option" data-value="">110 - 120</button>
                                     </div>
                                 </div>
-                                <div class="custom-select ">
-                                    <button class="selected-option">
-                                        Any Duration
-                                    </button>
-                                </div>
+<!--                                <div class="custom-select ">-->
+<!--                                    <button class="selected-option">-->
+<!--                                        Any Duration-->
+<!--                                    </button>-->
+<!--                                </div>-->
                             </div>
                             <div class="playList">
                                 <!-- 아래 템플릿 문자열로 붙임 -->
@@ -175,7 +175,7 @@
 
                         <!-- 제휴 업체 로그 이미지  -->
                         <div class="alliance" @click="selectItem">
-                            <img src="./../../../assets/images/alliance.png" alt=""/>
+                            <img src="@/assets/images/alliance.png" alt="" href="#"/>
                         </div>
                         <!-- 제휴업체 로그 이미지 끝 -->
 
@@ -381,6 +381,7 @@
                 window.location.href = path;
             },
             selectItem(i) {
+                if(typeof(i) !== 'string') return;
                 const path = `/beatsomeone/detail/${i}`;
                 window.location.href = path;
             },

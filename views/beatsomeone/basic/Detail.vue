@@ -26,9 +26,9 @@
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a href="#" class="buy" v-if="detail" @click="addCart"><span>{{ detail[0].cde_price }}&#8361;</span></a>
-                                    <span class="cart">700</span>
-                                    <span class="talk">412</span>
-                                    <span class="share">179</span>
+                                    <span class="cart pointer"  @click="addCart">700</span>
+                                    <span class="talk pointer" @click="selectTab(tabs[1])">412</span>
+                                    <span class="share pointer" @click="clickShare">179</span>
 <!--                                    <span class="atob">91</span>-->
                                 </div>
                                 <div class="category" v-if="meta">
@@ -199,6 +199,10 @@
 
                     }
                 });
+            },
+            // 공유 클릭
+            clickShare() {
+
             },
         },
 

@@ -71,7 +71,7 @@
 
                             <!-- 제휴 업체 로그 이미지  -->
                             <div class="alliance">
-                                <img src="@/assets_m/images/partner//partner-total.png" alt="" />
+                                <img src="@/assets_m/images/partner/partner-total.png" alt="" href="#" />
                             </div>
                             <!-- 제휴업체 로그 이미지 끝 -->
 

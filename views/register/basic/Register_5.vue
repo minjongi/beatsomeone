@@ -29,7 +29,7 @@
                             <div class="input">
                                 <input
                                         type="text"
-                                        placeholder="https://beatsomeone.com/comvol"
+                                        :placeholder="beandshop"
                                         disabled
                                 />
                             </div>
@@ -58,6 +58,9 @@
             }
         },
         computed: {
+            beandshop: function() {
+                return 'https://beatsomeone.com/' + this.$parent.info.username;
+            },
             isMusician: function() {
                 return this.$parent.info.userType === 'musician';
             },
@@ -84,7 +87,7 @@
             },
             doNext(type) {
                 if(this.doValidation()) {
-                    if(!this.isMusician) {
+                    if(!this.isMusician || this.$parent.info.plan === 'free') {
                         EventBus.$emit('finish_join_form',this.user);
                     } else {
                         EventBus.$emit('submit_join_form',this.user);

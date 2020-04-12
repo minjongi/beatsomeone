@@ -14,11 +14,12 @@
             <div class="accounts__switch">
                 <span class="accounts__switch-bg"></span>
                 <label for="monthly">
-                    <input type="radio" id="monthly" hidden name="bill" checked/>
+                    <input type="radio" id="monthly" value="monthly" hidden name="bill" v-model="billTerm"/>
                     <span>Bill monthly</span>
                 </label>
                 <label for="yearly">
-                    <input type="radio" id="yearly" hidden name="bill"/>
+                    <input type="radio" id="yearly" value="yearly" hidden name="bill"  v-model="billTerm"/>
+
                     <span>Bill yearly</span>
                 </label>
             </div>
@@ -58,7 +59,7 @@
                             </p>
                             <div class="input flex">
                                 <input type="text" placeholder="Number Number Number"/>
-                                <button class="btn btn--gray">Apply</button>
+                                <button class="btn " :class="{'btn--gray' : !isPromotionApplied,'btn--submit' : isPromotionApplied,}" @click="applyPromotionCode()">Apply</button>
                             </div>
                         </label>
                     </div>
@@ -89,10 +90,13 @@
         data: function () {
             return {
                 user: {},
+                billTerm: null,
+                promotionCode: null,
+                isPromotionApplied: false,
             }
         },
         created() {
-
+            this.billTerm = this.$parent.info.billTerm;
         },
         mounted() {
             var bg = document.querySelector(".accounts__switch-bg");
@@ -128,10 +132,23 @@
 
 
         },
-        watch: {},
+        watch: {
+            billTerm(n) {
+                var bg = document.querySelector(".accounts__switch-bg");
+                if(n === 'monthly') {
+                    bg.classList.remove("right");
+                } else {
+                    bg.classList.add("right");
+                }
+                EventBus.$emit('submit_join_form',{ billTerm : n});
+            },
+        },
         methods: {
             doJoin() {
                 EventBus.$emit('finish_join_form',{});
+            },
+            applyPromotionCode(){
+                this.isPromotionApplied = true;
             },
         },
 

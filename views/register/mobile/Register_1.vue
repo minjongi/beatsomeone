@@ -8,7 +8,7 @@
             <form action="">
                 <div class="accounts__case">
                     <label for="listen " class="case case--listen">
-                        <input type="radio" name="case" id="listen " hidden checked @click="currentUserType = 'user'"/>
+                        <input type="radio" name="case" id="listen " hidden  @click="currentUserType = 'user'"/>
                         <div>
                             <span class="icon"></span>
                             <p>I want to listen<br />& buy music</p>
@@ -16,7 +16,7 @@
                     </label>
 
                     <label for="monetize" class="case case--monetize">
-                        <input type="radio" name="case" id="monetize" hidden @click="currentUserType = 'musician'"/>
+                        <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'musician'"/>
                         <div>
                             <span class="icon"></span>
                             <p>I want to monetize<br />my music</p>
@@ -24,13 +24,13 @@
                     </label>
                 </div>
 
-                <div class="accounts__switch">
+                <div class="accounts__switch" v-if="currentUserType === 'musician'">
                     <span class="accounts__switch-bg"></span>
-                    <label for="monthly">
+                    <label for="monthly" @click="billTerm = 'monthly'">
                         <input type="radio" id="monthly" hidden name="bill" checked />
                         <span>Bill monthly</span>
                     </label>
-                    <label for="yearly">
+                    <label for="yearly" @click="billTerm = 'yearly'">
                         <input type="radio" id="yearly" hidden name="bill" />
                         <span>
                   Bill yearly
@@ -42,18 +42,18 @@
         </div>
 
         <div class="tab accounts__tab">
-            <button class="active" data-target="plan-free">
+            <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}">
                 FREE
             </button>
-            <button data-target="plan-marketplace">
+            <button data-target="plan-marketplace" @click="plan = 'marketplace'" :class="{'active':this.plan === 'marketplace'}" v-if="currentUserType === 'musician'">
                 MARKETPLACE
             </button>
-            <button data-target="plan-pro">
+            <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="currentUserType === 'musician'">
                 PRO PAGE
             </button>
         </div>
 
-        <div class="accounts__plan-case" id="plan-free" style="display: ;">
+        <div class="accounts__plan-case" id="plan-free"  v-if="plan === 'free'">
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
@@ -189,7 +189,7 @@
             </table>
         </div>
 
-        <div class="accounts__plan-case" id="plan-marketplace" style="display: none;">
+        <div class="accounts__plan-case" id="plan-marketplace"  v-if="plan === 'marketplace'">
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
@@ -325,7 +325,7 @@
             </table>
         </div>
 
-        <div class="accounts__plan-case" id="plan-pro" style="display: none;">
+        <div class="accounts__plan-case" id="plan-pro" v-if="plan === 'pro'" >
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
@@ -474,43 +474,60 @@
             return {
                 userType : ['user','musician'],
                 currentUserType: null,
+                billTerm : 'monthly',
+                plan: 'free',
             }
         },
+        computed: {
+            isMusician: function() {
+                return this.currentUserType === this.userType[1];
+            },
+        },
+
         created() {
-            this.currentUserType = this.userType[0];
+            this.currentUserType = this.userType[1];
         },
         mounted() {
-            var bg = document.querySelector(".accounts__switch-bg");
-            // 월간
-            document.getElementById("monthly").addEventListener("change", function() {
-                if (this.checked === true) {
-                    bg.classList.remove("right");
-                }
-            });
-            // 연간
-            document.getElementById("yearly").addEventListener("change", function() {
-                if (this.checked === true) {
-                    bg.classList.add("right");
-                }
-            });
 
-            $('.accounts__tab button').on('click', function(){
-                $('.accounts__tab button').removeClass('active');
-                $(this).addClass('active')
-                $('.accounts__plan-case').hide();
-                var target = $(this).data('target');
-                $('#'+target).show();
-            })
+
+            // $('.accounts__tab button').on('click', function(){
+            //     $('.accounts__tab button').removeClass('active');
+            //     $(this).addClass('active')
+            //     $('.accounts__plan-case').hide();
+            //     var target = $(this).data('target');
+            //     $('#'+target).show();
+            // })
 
         },
         watch: {
-
+            currentUserType(n) {
+                this.plan = 'free';
+                if(n === 'musician') {
+                    this.billTerm = 'monthly';
+                    this.$nextTick(function() {
+                        var bg = document.querySelector(".accounts__switch-bg");
+                        // 월간
+                        document.getElementById("monthly").addEventListener("change", function () {
+                            if (this.checked === true) {
+                                bg.classList.remove("right");
+                            }
+                        });
+                        // 연간
+                        document.getElementById("yearly").addEventListener("change", function () {
+                            if (this.checked === true) {
+                                bg.classList.add("right");
+                            }
+                        });
+                    });
+                }
+            }
         },
         methods: {
             doNext(type) {
-                EventBus.$emit('submit_join_form',{ userType: this.currentUserType });
+                EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: this.plan, billTerm: this.billTerm });
                 this.$router.push({path: '/2'});
             },
+
         },
 
     }

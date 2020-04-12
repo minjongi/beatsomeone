@@ -69,51 +69,51 @@
                             </div>
                         </label>
                     </div>
-                    <div class="row" v-if="isMusician">
-                        <label for="">
-                            <p class="form-title">
-                                Your Bank
-                                <span class="required">*</span>
-                            </p>
-                            <div class="input">
-                                <input
-                                        type="text" v-model="user.mem_musician_bank"
-                                        placeholder="Set a Bank"
-                                        required
-                                />
-                            </div>
-                        </label>
-                    </div>
-                    <div class="row" v-if="isMusician">
-                        <label for="">
-                            <p class="form-title">
-                                Your Bank Account
-                                <span class="required">*</span>
-                            </p>
-                            <div class="input">
-                                <input
-                                        type="text" v-model="user.mem_musician_account"
-                                        placeholder="Set a BankAccount"
-                                        required
-                                />
-                            </div>
-                        </label>
-                    </div>
-                    <div class="row" v-if="isMusician">
-                        <label for="">
-                            <p class="form-title">
-                                Your Bank Accounts Owner Name
-                                <span class="required">*</span>
-                            </p>
-                            <div class="input">
-                                <input
-                                        type="text" v-model="user.mem_musician_account_nm"
-                                        placeholder="Set a BankAccount Owner Name"
-                                        required
-                                />
-                            </div>
-                        </label>
-                    </div>
+<!--                    <div class="row" v-if="isMusician">-->
+<!--                        <label for="">-->
+<!--                            <p class="form-title">-->
+<!--                                Your Bank-->
+<!--                                <span class="required">*</span>-->
+<!--                            </p>-->
+<!--                            <div class="input">-->
+<!--                                <input-->
+<!--                                        type="text" v-model="user.mem_musician_bank"-->
+<!--                                        placeholder="Set a Bank"-->
+<!--                                        required-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <div class="row" v-if="isMusician">-->
+<!--                        <label for="">-->
+<!--                            <p class="form-title">-->
+<!--                                Your Bank Account-->
+<!--                                <span class="required">*</span>-->
+<!--                            </p>-->
+<!--                            <div class="input">-->
+<!--                                <input-->
+<!--                                        type="text" v-model="user.mem_musician_account"-->
+<!--                                        placeholder="Set a BankAccount"-->
+<!--                                        required-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <div class="row" v-if="isMusician">-->
+<!--                        <label for="">-->
+<!--                            <p class="form-title">-->
+<!--                                Your Bank Accounts Owner Name-->
+<!--                                <span class="required">*</span>-->
+<!--                            </p>-->
+<!--                            <div class="input">-->
+<!--                                <input-->
+<!--                                        type="text" v-model="user.mem_musician_account_nm"-->
+<!--                                        placeholder="Set a BankAccount Owner Name"-->
+<!--                                        required-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                        </label>-->
+<!--                    </div>-->
                     <div class="row">
                         <p class="form-title">USER TYPE</p>
                         <div class="accounts__check">
@@ -215,21 +215,21 @@
                     alert('패스워드를 동일하게 입력해 주세요');
                     return false;
                 }
-
-                if(this.isMusician && !this.user.mem_musician_bank) {
-                    alert('은행을 입력해 주세요');
-                    return false;
-                }
-
-                if(this.isMusician && !this.user.mem_musician_account) {
-                    alert('계좌번호를 입력해 주세요');
-                    return false;
-                }
-
-                if(this.isMusician && !this.user.mem_musician_account_nm) {
-                    alert('계좌주를 입력해 주세요');
-                    return false;
-                }
+                //
+                // if(this.isMusician && !this.user.mem_musician_bank) {
+                //     alert('은행을 입력해 주세요');
+                //     return false;
+                // }
+                //
+                // if(this.isMusician && !this.user.mem_musician_account) {
+                //     alert('계좌번호를 입력해 주세요');
+                //     return false;
+                // }
+                //
+                // if(this.isMusician && !this.user.mem_musician_account_nm) {
+                //     alert('계좌주를 입력해 주세요');
+                //     return false;
+                // }
 
 
                 if(!this.user.type) {

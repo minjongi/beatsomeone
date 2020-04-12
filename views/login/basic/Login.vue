@@ -29,7 +29,7 @@
                             <label for="">
                                 <p class="form-title">Password</p>
                                 <div class="input">
-                                    <input type="text" name="mem_password" placeholder="Type your password" />
+                                    <input type="password" name="mem_password" placeholder="Type your password" />
                                 </div>
                             </label>
                         </div>
