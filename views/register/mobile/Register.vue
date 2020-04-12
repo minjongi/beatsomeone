@@ -2,10 +2,10 @@
     <div class="wrapper">
 
         <Header :is-login="isLogin"></Header>
-        <div style="margin-top: 100px;">
-            <pre>{{ info }}</pre>
-<!--            <a type="button" @click="doJoin">가입</a>-->
-        </div>
+<!--        <div style="margin-top: 100px;">-->
+<!--            <pre>{{ info }}</pre>-->
+<!--&lt;!&ndash;            <a type="button" @click="doJoin">가입</a>&ndash;&gt;-->
+<!--        </div>-->
 
 
         <router-view />
@@ -48,28 +48,28 @@
             //     "type": "Recording Artist"
             // };
 
-            this.info = {
-                "userType": "musician",
-                //"plan": "pro",
-                "plan": "free",
-                //"billTerm": "monthly",
-                "billTerm": "yearly",
-                "accountType": "email",
-                "username": "1111",
-                "email": "11@11.11",
-                "password": "1111",
-                "type": "Music Lover",
-                "firstname": "111",
-                "lastname": "222",
-                "location": "222",
-                "introduce": "222"
-            };
+            // this.info = {
+            //     "userType": "musician",
+            //     //"plan": "pro",
+            //     "plan": "free",
+            //     //"billTerm": "monthly",
+            //     "billTerm": "yearly",
+            //     "accountType": "email",
+            //     "username": "1111",
+            //     "email": "11@11.11",
+            //     "password": "1111",
+            //     "type": "Music Lover",
+            //     "firstname": "111",
+            //     "lastname": "222",
+            //     "location": "222",
+            //     "introduce": "222"
+            // };
         },
         mounted() {
             // 중간 리프레시 초기화
-            // if(this.$router.currentRoute.path != '/') {
-            //     this.$router.push({path: '/'});
-            // }
+            if(this.$router.currentRoute.path != '/') {
+                this.$router.push({path: '/'});
+            }
 
         },
         watch: {

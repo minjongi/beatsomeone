@@ -8,7 +8,7 @@
                 <div class="wrap">
                     <div class="detail__music">
                         <div class="detail__music-img">
-                            <button class="btn-play amplitude-play-pause amplitude-paused" v-if="item">
+                            <button class="btn-play amplitude-play-pause " v-if="item">
                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
                             </button>
                         </div>
@@ -102,6 +102,7 @@
                 tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
                 playlist: null,
+                player: null,
             }
         },
         computed: {
@@ -112,12 +113,26 @@
                 return `${t.getFullYear()}.${('0' + t.getMonth()).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
             }
         },
+        created() {
+
+        },
         mounted() {
 
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).title;
+            EventBus.$on('index_items_stop_all_played',r=> {
+                if(this._uid !== r) {
+                    log.debug({
+                        'index_items_stop_all_played MAIN':null,
+                    })
+                    Amplitude.pause();
+                    var bg = document.querySelector(".btn-play");
+                    bg.classList.remove("amplitude-playing");
+                    bg.classList.add("amplitude-paused");
 
+                }
+            });
 
             // this.music = window.WaveSurfer.create({
             //     container: document.querySelector(".wave"),
@@ -138,8 +153,8 @@
                         'watch detail' : n,
                     })
                     //this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
-                    // TODO : Amplitude 는 원격
-                    Amplitude.init({
+
+                    this.player = Amplitude.init({
                         "songs": [{
                             "name": "I Came Running",
                             "artist": "Ancient Astronauts",
@@ -147,6 +162,12 @@
                             "url": `/cmallact/download_sample/${n[0].cde_id}`,
                             //"url" : '/assets/audio/testfile.mp3'
                         }],
+                        callbacks: {
+                            play: ()=>{
+                                console.log("MAIN played")
+                                EventBus.$emit('index_items_stop_all_played',this._uid);
+                            }
+                        },
                         waveforms: {
                             sample_rate: 3000
                         }

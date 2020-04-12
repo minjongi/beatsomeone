@@ -67,6 +67,9 @@
                 }
             });
             EventBus.$on('index_items_stop_all_played',r=> {
+                log.debug({
+                    'all stop event' : r,
+                })
                 if(this._uid !== r) {
                     log.debug({
                         'index_items_stop_all_played':this.audio[this.item.cit_id],

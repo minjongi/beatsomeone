@@ -115,6 +115,19 @@
         },
         mounted() {
 
+            EventBus.$on('index_items_stop_all_played',r=> {
+                if(this._uid !== r) {
+                    log.debug({
+                        'index_items_stop_all_played MAIN':null,
+                    })
+                    // Amplitude.pause();
+                    // var bg = document.querySelector(".btn-play");
+                    // bg.classList.remove("amplitude-playing");
+                    // bg.classList.add("amplitude-paused");
+                    this.music.pause();
+                }
+            });
+
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).title;
@@ -134,6 +147,7 @@
 
             this.music.on("play", () => {
                 playbtn.classList.add("playing");
+                EventBus.$emit('index_items_stop_all_played',this._uid);
             });
             this.music.on("pause", () => {
                 playbtn.classList.remove("playing");
