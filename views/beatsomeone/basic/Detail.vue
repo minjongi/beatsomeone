@@ -18,7 +18,7 @@
                             <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
                             <p class="singer" v-if="item">{{ item.musician }}</p>
                             <div class="state" v-if="item">
-                                <span class="play">{{ item.cit_hit }}</span>
+                                <span class="play">{{ item.cde_download }}</span>
 <!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
                                 <span class="etc">{{ item.cit_summary }}</span>
@@ -27,7 +27,7 @@
                                 <div class="utils__info">
                                     <a href="#" class="buy" v-if="item" @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
                                     <span class="cart pointer"  @click="addCart">700</span>
-                                    <span class="talk pointer" @click="selectTab(tabs[1])">412</span>
+                                    <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.comment_cnt }}</span>
                                     <span class="share pointer" @click="clickShare">179</span>
 <!--                                    <span class="atob">91</span>-->
                                 </div>
@@ -190,6 +190,7 @@
                         log.debug('Comment 저장 실패');
                     } else {
                         EventBus.$emit('add_comment');
+                        this.item.comment_cnt = Number(this.item.comment_cnt) + 1;
                         log.debug('Comment 저장 성공');
 
                     }

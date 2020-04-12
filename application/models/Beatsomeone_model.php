@@ -57,7 +57,7 @@ class Beatsomeone_model extends CB_Model
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
         if(!$sort || $sort == 'Sort By Staff Picks') {
             $where['cmall_item.cit_type1'] = 1;
-            $this->db->order_by('cit_hit', 'desc');
+            $this->db->order_by('cde_download', 'desc');
         }
         // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
         if($sort == 'Newest') {
@@ -65,14 +65,16 @@ class Beatsomeone_model extends CB_Model
         }
         // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
         if($sort == 'Top Downloads') {
-            $this->db->order_by('cit_hit', 'desc');
+            $this->db->order_by('cde_download', 'desc');
         }
 
         $limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $this->db->select('cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish');
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
+        $this->db->select($select);
         $this->db->where($where);
         $this->db->limit($limit);
 
@@ -102,9 +104,13 @@ class Beatsomeone_model extends CB_Model
 
 
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
+        $this->db->join('(select q.cit_id, count(*) as cnt from cb_cmall_qna AS q group by q.cit_id) AS q','q.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $this->db->select('cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish');
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select .= 'q.cnt AS comment_cnt, ';
+        $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
+        $this->db->select($select);
         $this->db->where($where);
 
         $qry = $this->db->get($this->_table);

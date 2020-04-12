@@ -232,6 +232,7 @@
                     document.querySelector(
                         "#playList__item" + item.cit_id + " .duration"
                     ).innerHTML = this.time_convert(parseInt(this.audio[item.cit_id].getDuration(), 10));
+                    this.increaseMusicCount();
                     this.audio[item.cit_id].playPause();
                 });
                 this.audio[item.cit_id].on("pause", () => {
@@ -244,6 +245,16 @@
                 // var actionName = "playAction" + item.id;
                 // _GLOBAL_ACTIONS[actionName] = audio;
             },
+            // 다운로드 증가
+            increaseMusicCount() {
+                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
+                    if(!r) {
+                        log.debug('카운트 증가 실패');
+                    } else {
+                        log.debug('카운트 증가 성공');
+                    }
+                });
+            }
         }
     }
 

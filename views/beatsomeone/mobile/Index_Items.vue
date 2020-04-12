@@ -157,6 +157,7 @@
                 this.audio[item.cit_id].on("ready", () => {
                     // 파일이 로드가 다 됐을때,
                     this.audio[item.cit_id].playPause();
+                    this.increaseMusicCount();
                 });
                 this.audio[item.cit_id].on("pause", () => {
                     //  var actionTarget = "playAction" + item.id;
@@ -168,6 +169,16 @@
                 // var actionName = "playAction" + item.id;
                 // _GLOBAL_ACTIONS[actionName] = audio;
             },
+            // 다운로드 증가
+            increaseMusicCount() {
+                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
+                    if(!r) {
+                        log.debug('카운트 증가 실패');
+                    } else {
+                        log.debug('카운트 증가 성공');
+                    }
+                });
+            }
         }
     }
 
