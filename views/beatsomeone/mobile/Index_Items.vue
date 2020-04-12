@@ -148,6 +148,7 @@
                 this.audio[item.cit_id].load(`/cmallact/download_sample/${item.cde_id}`);
                 this.audio[item.cit_id].on("play", () => {
                     //console.log(this.audio[item.id].getCurrentTime());
+                    EventBus.$emit('index_items_stop_all_played',this._uid);
                     document
                         .querySelector("#playList__item" + item.cit_id)
                         .classList.add("playing");

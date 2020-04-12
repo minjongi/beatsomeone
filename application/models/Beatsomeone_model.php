@@ -30,6 +30,58 @@ class Beatsomeone_model extends CB_Model
 		parent::__construct();
 	}
 
+    public function get_main_list($config)
+    {
+        $bpm = element('bpm', $config);
+        $sort = element('sort', $config);
+        $voice = element('voice', $config);
+        log_message('debug','Genre : ' . element('genre', $config));
+        log_message('debug','Bpm : ' . $bpm);
+        log_message('debug','Sort : ' . $sort);
+        log_message('debug','Voice : ' . $voice);
+
+        $where['cit_status'] = 1;
+        if (element('genre', $config) && element('genre', $config) !== 'All Genre') {
+            $where['p.genre'] = element('genre', $config);
+        }
+
+        if ($bpm) {
+            $where['p.bpm <='] = $bpm + 0;
+            $where['p.bpm >='] = $bpm - 10;
+        }
+        if ($voice == 'true') {
+            $where['p.voice'] = 1;
+        }
+
+        // 만약 정렬 조건이 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
+        if($sort == 'Sort By Staff Picks') {
+            $where['cmall_item.cit_type1'] = 1;
+            $this->db->order_by('cit_hit', 'desc');
+        }
+        // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
+        if($sort == 'Newest') {
+            $this->db->order_by('cit_datetime', 'desc');
+        }
+        // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
+        if($sort == 'Top Downloads') {
+            $this->db->order_by('cit_hit', 'desc');
+        }
+
+        $limit = element('limit', $config) ? element('limit', $config) : 4;
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
+
+        $this->db->select('cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish');
+        $this->db->where($where);
+        $this->db->limit($limit);
+
+
+        $qry = $this->db->get($this->_table);
+        $result = $qry->result_array();
+
+        return $result;
+    }
+
     public function get_main_trending_list($config)
     {
 

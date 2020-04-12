@@ -65,15 +65,16 @@
                     <div class="wrap">
                         <header class="main__section1-title">
                             <h1>HOLIDAY GIVEAWAY</h1>
-<!--                            <h2>-->
-<!--                                {{ list }}-->
-<!--                            </h2>-->
+                            <h2>
+                                {{param}}
+                            </h2>
                             <p>
                                 Finding incredible music & connecting with amazing artists
                                 and<br/>
                                 producers to collaborate with have never been easier.
                             </p>
                         </header>
+
                         <div class="main__media">
                             <div class="tab">
                                 <button v-for="g in listGenre" :key="g" :class="{active:currentGenre === g}" @click="currentGenre = g">
@@ -83,41 +84,27 @@
                             <div class="filter">
                                 <label for="voice" class="switch">
                                     Voice
-                                    <input type="checkbox" hidden id="voice"/>
+                                    <input type="checkbox" hidden id="voice" v-model="param.voice"/>
                                     <span></span>
                                 </label>
                                 <div class="custom-select ">
                                     <button class="selected-option">
-                                        Sort By Staff Picks
+                                        {{ param.sort }}
                                     </button>
                                     <div class="options">
-                                        <button class="option" data-value="">
-                                            Top Downloads
+                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o;">
+                                            {{ o }}
                                         </button>
-                                        <button class="option" data-value="">
-                                            Sort By Staff Picks
-                                        </button>
-                                        <button class="option" data-value="">
-                                            Top Downloads
-                                        </button>
-                                        <button class="option" data-value="">Newest</button>
                                     </div>
                                 </div>
                                 <div class="custom-select ">
                                     <button class="selected-option">
-                                        BPM
+                                        {{ param.bpm.t }}
                                     </button>
                                     <div class="options">
-                                        <button class="option" data-value="">
-                                            80 - 90
+                                        <button class="option" data-value="" v-for="(o,i) in listBpm" :key="i" @click="param.bpm = o;">
+                                            {{ o.t }}
                                         </button>
-                                        <button class="option" data-value="">
-                                            90 - 100
-                                        </button>
-                                        <button class="option" data-value="">
-                                            100 - 110
-                                        </button>
-                                        <button class="option" data-value="">110 - 120</button>
                                     </div>
                                 </div>
 <!--                                <div class="custom-select ">-->
@@ -279,6 +266,14 @@
                 listTestimonials: null,
                 currentGenre : 'All Genre',
                 listGenre: ['All Genre','Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
+                listSort: ['Sort By Staff Picks','Top Downloads','Newest'],
+                listBpm: [
+                    {t: 'BPM',v:null},
+                    {t: '80-90',v:90},
+                    {t: '90-100',v:100},
+                    {t: '100-110',v:110},
+                    {t: '110-120',v:120},
+                ],
                 listPlayer : [
                     {
                         id: 1,
@@ -290,6 +285,12 @@
                         isNew: true,
                     },
                 ],
+
+                param: {
+                    voice: false,
+                    sort: 'Sort By Staff Picks',
+                    bpm: {t: 'BPM',v:null},
+                },
             }
         },
         mounted() {
@@ -356,6 +357,13 @@
                 if(o && n !== o) {
                     this.getMainList();
                 }
+            },
+            // 검색조건 변경
+            param: {
+                deep: true,
+                handler() {
+                    this.getMainList();
+                }
             }
         },
         methods: {
@@ -386,7 +394,12 @@
                 window.location.href = path;
             },
             getMainList() {
-                Http.get(`/beatsomeoneApi/main_list/${encodeURIComponent(this.currentGenre)}`).then(r=> {
+                var p = {
+                    bpm: this.param.bpm.v,
+                    voice : this.param.voice,
+                    sort: this.param.sort
+                }
+                Http.get(`/beatsomeoneApi/main_list/${encodeURIComponent(this.currentGenre)}?${$.param(p)}`).then(r=> {
                     this.list = r.data;
                 });
             },

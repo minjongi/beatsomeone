@@ -42,15 +42,19 @@ class BeatsomeoneApi extends CB_Controller
     public function main_list($genre = '')
     {
 
-        $this->load->model('Cmall_item_model');
+        $this->load->model('Beatsomeone_model');
 
         // DB Querying (장르별 Top 5)
         $config = array(
             'cit_type1' => '1',
             'limit' => '4',
             'genre' => urldecode($genre),
+            'bpm' => $this->input->get('bpm'),
+            'sort' => $this->input->get('sort'),
+            'voice' => $this->input->get('voice'),
+
         );
-        $result = $this->Cmall_item_model->get_main_list($config);
+        $result = $this->Beatsomeone_model->get_main_list($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
