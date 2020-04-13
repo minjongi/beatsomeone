@@ -196,57 +196,183 @@ class Beatsomeone_model extends CB_Model
     }
 
     // Sublist 조회
-    public function get_sublist_list($p)
+    public function get_sublist_list($config)
     {
 
+        $genre = element('genre', $config);
+        $subgenre = element('subgenre', $config);
+        $bpmFr = element('bpmFr', $config);
+        $bpmTo = element('bpmTo', $config);
+        $moods = element('moods', $config);
+        $trackType = element('trackType', $config);
 
-        if($p['filter'] != 'All Genre') {
-            $this->db->where('p1.cim_value',$p['filter']);
+        log_message('debug','$bpmFr : ' . $bpmFr);
+        log_message('debug','$bpmTo : ' . $bpmTo);
+        log_message('debug','$genre : ' . $genre);
+        log_message('debug','$subgenre : ' . $subgenre);
+        log_message('debug','$moods : ' . $moods);
+        log_message('debug','$trackType : ' . $trackType);
+
+
+        $where['cit_status'] = 1;
+        // Genre
+        if ($genre && $genre !== 'All Genre') {
+            $this->db->where('p.genre',$genre);
         }
 
+        // SubGenre
+        if ($subgenre && $subgenre !== 'All') {
+            $this->db->where('p.subgenre',$subgenre);
+        }
+        // Bpm
+        if ($bpmFr) {
+            $this->db->where('p.bpm >=',$bpmFr + 0);
+        }
+        if ($bpmTo) {
+            $this->db->where('p.bpm <=',$bpmTo + 0);
+        }
+        // Moods
+        if ($moods && $moods !== 'All') {
+            $this->db->where('p.moods',$moods);
+        }
+        // Track Type
+        if ($trackType && $trackType !== 'All types') {
+            $this->db->where('p.trackType',$trackType);
+        }
 
-        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
-        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
-        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
-        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
-        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
+        // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
+//        if(!$sort || $sort == 'Sort By Staff Picks') {
+//            $where['cmall_item.cit_type1'] = 1;
+//            $this->db->order_by('cde_download', 'desc');
+//        }
+//        // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
+//        if($sort == 'Newest') {
+//            $this->db->order_by('cit_datetime', 'desc');
+//        }
+//        // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
+//        if($sort == 'Top Downloads') {
+//            $this->db->order_by('cde_download', 'desc');
+//        }
 
-        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
-        $this->db->order_by('cit_id', 'desc');
-        $qry = $this->db->get('cmall_item as cb_c');
+        //$limit = element('limit', $config) ? element('limit', $config) : 4;
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
+        $this->db->select($select);
+        $this->db->where($where);
+        //$this->db->limit($limit);
+
+
+        $qry = $this->db->get($this->_table);
         $result = $qry->result_array();
 
         return $result;
+
+//        if($p['filter'] != 'All Genre') {
+//            $this->db->where('p1.cim_value',$p['filter']);
+//        }
+//
+//
+//        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+//        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
+//        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
+//        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
+//        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+//        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
+//
+//        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
+//        $this->db->order_by('cit_id', 'desc');
+//        $qry = $this->db->get('cmall_item as cb_c');
+//
+//        $result = $qry->result_array();
+//
+//        return $result;
     }
 
 
     // Sublist Top 5 조회
-    public function get_sublist_top5_list($p)
+    public function get_sublist_top5_list($config)
     {
 
+        $genre = element('genre', $config);
+        $subgenre = element('subgenre', $config);
+        $bpmFr = element('bpmFr', $config);
+        $bpmTo = element('bpmTo', $config);
+        $moods = element('moods', $config);
+        $trackType = element('trackType', $config);
 
 
-        if($p['filter'] != 'All Genre') {
-            $this->db->where('p1.cim_value',$p['filter']);
+
+        $where['cit_status'] = 1;
+        // Genre
+        if ($genre && $genre !== 'All Genre') {
+            $this->db->where('p.genre',$genre);
         }
 
+        // SubGenre
+        if ($subgenre && $subgenre !== 'All') {
+            $this->db->where('p.subgenre',$subgenre);
+        }
+        // Bpm
+        if ($bpmFr) {
+            $this->db->where('p.bpm >=',$bpmFr + 0);
+        }
+        if ($bpmTo) {
+            $this->db->where('p.bpm <=',$bpmTo + 0);
+        }
 
-        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
-        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
-        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
-        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+        // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
+//        if(!$sort || $sort == 'Sort By Staff Picks') {
+//            $where['cmall_item.cit_type1'] = 1;
+//            $this->db->order_by('cde_download', 'desc');
+//        }
+//        // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
+//        if($sort == 'Newest') {
+//            $this->db->order_by('cit_datetime', 'desc');
+//        }
+//        // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
+//        if($sort == 'Top Downloads') {
+//            $this->db->order_by('cde_download', 'desc');
+//        }
 
-        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price');
-        $this->db->order_by('cit_id', 'desc');
-        $this->db->limit($p['limit']);
-        $qry = $this->db->get('cmall_item as cb_c');
+        //$limit = element('limit', $config) ? element('limit', $config) : 4;
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
+        $this->db->select($select);
+        $this->db->where($where);
+        $this->db->limit($config['limit']);
+
+
+        $qry = $this->db->get($this->_table);
         $result = $qry->result_array();
 
         return $result;
+
+
+//        if($p['filter'] != 'All Genre') {
+//            $this->db->where('p1.cim_value',$p['filter']);
+//        }
+//
+//
+//        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+//        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
+//        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
+//        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
+//        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+//
+//        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price');
+//        $this->db->order_by('cit_id', 'desc');
+//        $this->db->limit($p['limit']);
+//        $qry = $this->db->get('cmall_item as cb_c');
+//
+//        $result = $qry->result_array();
+//
+//        return $result;
     }
 
 

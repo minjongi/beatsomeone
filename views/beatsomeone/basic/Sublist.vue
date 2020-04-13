@@ -21,7 +21,7 @@
                                                         hidden
                                                         :id="'fillter1'+index"
                                                         :value="f"
-                                                        v-model="currentFilter"
+                                                        v-model="param.currentGenre"
                                                 />
                                                 <span></span> {{ f }}
                                             </label>
@@ -43,7 +43,7 @@
                                                         hidden
                                                         :id="'fillter2'+index"
                                                         :value="f"
-                                                        v-model="currentSubgenres"
+                                                        v-model="param.currentSubgenres"
                                                 />
                                                 <span></span> {{ f }}
                                             </label>
@@ -62,7 +62,7 @@
                                     <div class="bpmRangeInfo">
                                         <input type="text" readonly id="bpm-start" />
                                         <span> - </span>
-                                        <input type="text" readonly id="bpm-end" />
+                                        <input type="text" readonly id="bpm-end"/>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                                         hidden
                                                         :id="'fillter3'+index"
                                                         :value="f"
-                                                        v-model="currentMoods"
+                                                        v-model="param.currentMoods"
                                                 />
                                                 <span></span> {{ f }}
                                             </label>
@@ -102,7 +102,7 @@
                                                         hidden
                                                         :id="'fillter4'+index"
                                                         :value="f"
-                                                        v-model="currentTrackType"
+                                                        v-model="param.currentTrackType"
                                                 />
                                                 <span></span> {{ f }}
                                             </label>
@@ -181,84 +181,44 @@
         data: function() {
             return {
                 isLogin: false,
-                listFilter: ['All Genre'
-                    ,'Hip Hop'
-                    ,'Pop'
-                    ,'R&B'
-                    ,'Rock'
-                    ,'Electronic'
-                    ,'Reggae'
-                    ,'World'],
-                listSubgenres: ['All'
-                    ,'Rock'
-                    ,'Hip Hop'
-                    ,'Electronic'
-                    ,'R&B'
-                    ,'Country'
-                    ,'K-pop'],
-                listMoods: ['All'
-                    ,'Accomplished'
-                    ,'Adored'
-                    ,'Angry'
-                    ,'Annoyed'],
-                listTrackType: ['All types'
-                    ,'Beats'
-                    ,'Beats with chorus'
-                    ,'Vocals'
-                    ,'Song reference'
-                    ,'Songs'],
+                listFilter: ['All Genre','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
+                listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
+                listMoods: ['All','Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
+                listTrackType: ['All types','Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
 
                 list: null,
                 listTop5: null,
-                currentFilter: null,
-                currentSubgenres : null,
-                currentMoods: null,
-                currentTrackType: null,
+                param: {
+                    currentGenre: null,
+                    currentSubgenres : null,
+                    currentMoods: null,
+                    currentTrackType: null,
+                    currentBpmFr: 0,
+                    currentBpmTo : 120,
+                },
+
+
             }
         },
         watch: {
-            currentFilter: function(n,o) {
-                log.debug({
-                    'currentFilter' : n,
-                });
-                if(o) {
-                    this.updateAllList();
+            // 검색조건 변경
+            param: {
+                deep: true,
+                handler(n,o) {
+                    log.debug({
+                        'change param' : n,
+                    });
+                    if(o) {
+                        this.updateAllList();
+                    }
                 }
-
-            },
-            currentSubgenres: function(n,o) {
-                log.debug({
-                    'currentSubgenres' : n,
-                });
-                if(o) {
-                    this.updateAllList();
-                }
-
-            },
-            currentMoods: function(n,o) {
-                log.debug({
-                    'currentMoods' : n,
-                });
-                if(o) {
-                    this.updateAllList();
-                }
-
-            },
-            currentTrackType: function(n,o) {
-                log.debug({
-                    'currentTrackType' : n,
-                });
-                if(o) {
-                    this.updateAllList();
-                }
-
             },
         },
         created() {
-            this.currentFilter = this.listFilter[0];
-            this.currentSubgenres = this.listSubgenres[0];
-            this.currentMoods = this.listMoods[0];
-            this.currentTrackType = this.listTrackType[0];
+            this.param.currentGenre = this.listFilter[0];
+            this.param.currentSubgenres = this.listSubgenres[0];
+            this.param.currentMoods = this.listMoods[0];
+            this.param.currentTrackType = this.listTrackType[0];
         },
         mounted() {
 
@@ -280,13 +240,20 @@
                     max: 170,
                     from: 0,
                     to: 125,
-                    onStart: function(data) {
+                    onStart: (data) => {
                         $("#bpm-start").val(data.from_pretty);
                         $("#bpm-end").val(data.to_pretty);
+                        this.param.currentBpmFr = data.from_pretty;
+                        this.param.currentBpmTo = data.to_pretty;
                     },
-                    onChange: function(data) {
+                    onChange: (data) => {
+                        log.debug({
+                          'rpm onChange':data,
+                        })
                         $("#bpm-start").val(data.from_pretty);
                         $("#bpm-end").val(data.to_pretty);
+                        this.param.currentBpmFr = data.from_pretty;
+                        this.param.currentBpmTo = data.to_pretty;
                     }
                 });
             }
@@ -308,10 +275,10 @@
 
         },
         methods: {
-            updateAllList() {
+            updateAllList:  _.debounce(function() {
                 this.getList();
                 this.getTopList();
-            },
+            },100),
             addCart() {
 
                 let detail_qty = {};
@@ -332,12 +299,12 @@
             },
             getList() {
                 const p = {
-                    filter: this.currentFilter,
-                    subgenre: this.currentSubgenres,
-                    bpmFr: this.currentBpmFr,
-                    bpmTo: this.currentBpmTo,
-                    mood: this.currentMoods,
-                    trackType: this.currentTrackType
+                    genre: this.param.currentGenre,
+                    subgenre: this.param.currentSubgenres,
+                    bpmFr: this.param.currentBpmFr,
+                    bpmTo: this.param.currentBpmTo,
+                    moods: this.param.currentMoods,
+                    trackType: this.param.currentTrackType
                 }
                 Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
                     this.list = r;
@@ -345,12 +312,12 @@
             },
             getTopList() {
                 const p = {
-                    filter: this.currentFilter,
-                    subgenre: this.currentSubgenres,
-                    bpmFr: this.currentBpmFr,
-                    bpmTo: this.currentBpmTo,
-                    mood: this.currentMoods,
-                    trackType: this.currentTrackType,
+                    genre: this.param.currentGenre,
+                    subgenre: this.param.currentSubgenres,
+                    bpmFr: this.param.currentBpmFr,
+                    bpmTo: this.param.currentBpmTo,
+                    moods: this.param.currentMoods,
+                    trackType: this.param.currentTrackType,
                     limit: 5
                 }
                 Http.post(`/beatsomeoneApi/sublist_top_list`,p).then(r=> {

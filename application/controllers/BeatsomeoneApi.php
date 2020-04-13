@@ -132,11 +132,38 @@ class BeatsomeoneApi extends CB_Controller
 
 
         $config = array(
-            'filter' =>  $this->input->post('filter') ,
+            'genre' =>  $this->input->post('genre') ,
+            'subgenre' =>  $this->input->post('subgenre') ,
+            'bpmFr' =>  $this->input->post('bpmFr') ,
+            'bpmTo' =>  $this->input->post('bpmTo') ,
+            'moods' =>  $this->input->post('moods') ,
+            'trackType' =>  $this->input->post('trackType') ,
             'mem_id' => $this->member->item('mem_id'),
         );
 
         $result = $this->Beatsomeone_model->get_sublist_list($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    // sublist Top 5 조회
+    public function sublist_top_list($genre = '')
+    {
+
+        $this->load->model('Beatsomeone_model');
+
+
+        $config = array(
+            'genre' =>  $this->input->post('genre') ,
+            'subgenre' =>  $this->input->post('subgenre') ,
+            'bpmFr' =>  $this->input->post('bpmFr') ,
+            'bpmTo' =>  $this->input->post('bpmTo') ,
+            'moods' =>  $this->input->post('moods') ,
+            'trackType' =>  $this->input->post('trackType') ,
+            'limit' => $this->input->post('limit') ,
+        );
+        $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -164,22 +191,7 @@ class BeatsomeoneApi extends CB_Controller
 
 
 
-    // sublist Top 5 조회
-    public function sublist_top_list($genre = '')
-    {
 
-        $this->load->model('Beatsomeone_model');
-
-
-        $config = array(
-            'filter' =>  $this->input->post('filter') ,
-            'limit' => $this->input->post('limit') ,
-        );
-        $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
-
-        $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
-    }
 
 
 
