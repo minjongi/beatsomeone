@@ -195,7 +195,7 @@
                     <p>
                         MARKETPLACE
                     </p>
-                    <h2><span>$</span> 0.00<em>/mo</em></h2>
+                    <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(2)">Get Started</a>
@@ -331,7 +331,7 @@
                     <p>
                         PRO PAGE
                     </p>
-                    <h2><span>$</span> 0.00<em>/mo</em></h2>
+                    <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(3)">Get Started</a>
@@ -476,16 +476,31 @@
                 currentUserType: null,
                 billTerm : 'monthly',
                 plan: 'free',
+                listPlan : null,
+            }
+        },
+        filters: {
+            money (value) {
+                if (!value) return '';
+                value = parseFloat(value.toString());
+                return value.toFixed(2);
             }
         },
         computed: {
             isMusician: function() {
                 return this.currentUserType === this.userType[1];
             },
+            marketplacePlan: function () {
+                return this.listPlan ? _.find(this.listPlan,{'plan':'MARKETPLACE'}) : null;
+            },
+            proPlan: function () {
+                return this.listPlan ? _.find(this.listPlan,{'plan':'PRO PAGE'}) : null;
+            },
         },
 
         created() {
             this.currentUserType = this.userType[1];
+            this.fetchData();
         },
         mounted() {
 
@@ -527,7 +542,11 @@
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: this.plan, billTerm: this.billTerm });
                 this.$router.push({path: '/2'});
             },
-
+            fetchData() {
+                Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
+                    this.listPlan = r;
+                });
+            },
         },
 
     }

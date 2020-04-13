@@ -359,6 +359,19 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    // 등록 비용 플랜 조회
+    public function get_register_plan_cost()
+    {
+        $this->load->model('Beatsomeone_model');
+
+        $result = $this->Beatsomeone_model
+            ->get_register_plan_cost();
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
     // Comment 조회
     public function list_comment($cit_id = '')
     {

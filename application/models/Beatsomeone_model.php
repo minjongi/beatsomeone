@@ -175,19 +175,9 @@ class Beatsomeone_model extends CB_Model
     // Item 공유 횟수 증가
     public function increase_item_share_count($config)
     {
-
-        //$where['cmall_item.cit_id'] = element('cit_id', $config);
-        $this->db->where('cit_id', $config['cit_id'])
-            ->set('cit_share_count','cit_share_count + 1',false);
-
-
-//        $set = array(
-//            'cit_share_count' => 'cit_share_count + 1'
-//        );
-
-        $result = $this->db->update('cmall_item');
-
-        return $result;
+        return $this->db->where('cit_id', $config['cit_id'])
+            ->set('cit_share_count','cit_share_count + 1',false)
+            ->update('cmall_item');
     }
 
     // 연관 추가 등록 : 연관추가할 음원 조회
@@ -384,6 +374,18 @@ class Beatsomeone_model extends CB_Model
 
     }
 
+
+    // 등록 비용 플랜 조회
+    public function get_register_plan_cost()
+    {
+
+        $this->db->select('*');
+        $qry = $this->db->get('cb_bs_register_plan_cost');
+
+        $result = $qry->result_array();
+
+        return $result;
+    }
 
     // 사용자 음원 목록 조회
     public function get_user_regist_item_list($p)
