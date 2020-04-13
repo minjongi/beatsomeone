@@ -50,8 +50,8 @@
 
             // this.info = {
             //     "userType": "musician",
-            //     //"plan": "pro",
-            //     "plan": "free",
+            //     "plan": "pro",
+            //     //"plan": "free",
             //     //"billTerm": "monthly",
             //     "billTerm": "yearly",
             //     "accountType": "email",

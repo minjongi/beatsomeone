@@ -27,7 +27,7 @@
             <div class="accounts__plan-price">
                 <h2>
                     <span>$</span>
-                    200.00
+                    {{ cost | money }}
                 </h2>
                 <div class="_saving">Instant Savings of <span>$100.00</span></div>
             </div>
@@ -92,10 +92,46 @@
                 billTerm: null,
                 promotionCode: null,
                 isPromotionApplied: false,
+                listPlan: null,
             }
+        },
+        filters: {
+            money (value) {
+                if (!value) return '';
+                value = parseFloat(value.toString());
+                return value.toFixed(2);
+            }
+        },
+        computed: {
+            marketplacePlan: function () {
+                return this.listPlan ? _.find(this.listPlan,{'plan':'MARKETPLACE'}) : null;
+            },
+            proPlan: function () {
+                return this.listPlan ? _.find(this.listPlan,{'plan':'PRO PAGE'}) : null;
+            },
+            cost: function () {
+                if(!this.listPlan) return null;
+                let cost = 0;
+                const info = this.$parent.info;
+                if(info.plan === 'pro') {
+                    if(info.billTerm === 'yearly') {
+                        cost = this.proPlan.yearly_d;
+                    } else {
+                        cost = this.proPlan.monthly_d;
+                    }
+                } else {
+                    if(info.billTerm === 'yearly') {
+                        cost = this.marketplacePlan.yearly_d;
+                    } else {
+                        cost = this.marketplacePlan.monthly_d;
+                    }
+                }
+                return cost;
+            },
         },
         created() {
             this.billTerm = this.$parent.info.billTerm;
+            this.fetchData();
         },
         mounted() {
             var bg = document.querySelector(".accounts__switch-bg");
@@ -131,6 +167,11 @@
             },
             applyPromotionCode(){
                 this.isPromotionApplied = true;
+            },
+            fetchData() {
+                Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
+                    this.listPlan = r;
+                });
             },
         },
 
