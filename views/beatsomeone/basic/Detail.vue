@@ -31,8 +31,11 @@
                                     <span class="share pointer" @click="clickShare">179</span>
 <!--                                    <span class="atob">91</span>-->
                                 </div>
+
                                 <div class="category" v-if="item">
-                                    <span v-for="genre in listGenre" :key="genre" :class="{'active' : item.hashTag === genre }">{{ genre }}</span>
+                                     <span class="pointer" v-for="(t,i) in hashtag" :key="i" @click="clickHash(t)">
+                                        {{ t }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +102,7 @@
 
                 comment: null,
                 music: null,
-                listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
+                //listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
             }
@@ -110,8 +113,12 @@
                 const t = new Date(Date.parse(this.item.cit_datetime));
 
                 return `${t.getFullYear()}.${('0' + t.getMonth()).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
-            }
+            },
+            hashtag() {
+                return this.item.hashTag ? this.item.hashTag.split(' ') : '';
+            },
         },
+
         mounted() {
 
             EventBus.$on('index_items_stop_all_played',r=> {
@@ -230,6 +237,11 @@
                         log.debug('카운트 증가 성공');
                     }
                 });
+            },
+            // 해쉬 클릭
+            clickHash(h) {
+                const path = `/beatsomeone/sublist?search=${h}`;
+                window.location.href = path;
             }
         },
 

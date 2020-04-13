@@ -132,6 +132,7 @@ class BeatsomeoneApi extends CB_Controller
 
 
         $config = array(
+            'sort' =>  $this->input->post('sort') ,
             'search' =>  $this->input->post('search') ,
             'genre' =>  $this->input->post('genre') ,
             'subgenre' =>  $this->input->post('subgenre') ,
@@ -156,6 +157,7 @@ class BeatsomeoneApi extends CB_Controller
 
 
         $config = array(
+            'sort' =>  $this->input->post('sort') ,
             'search' =>  $this->input->post('search') ,
             'genre' =>  $this->input->post('genre') ,
             'subgenre' =>  $this->input->post('subgenre') ,

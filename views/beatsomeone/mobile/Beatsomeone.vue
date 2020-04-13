@@ -228,7 +228,7 @@
                 listTrending: null,
                 listTestimonials: null,
                 currentGenre : 'All Genre',
-                listGenre: ['All Genre','Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
+                listGenre: ['All Genre','Hip Hop','Pop','R&B','Rock','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
                 listPlayer : [
                     {
                         id: 1,

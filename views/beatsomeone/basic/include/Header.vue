@@ -76,7 +76,7 @@
                 // if(!this.searchText) {
                 //     return;
                 // }
-                const path = `/beatsomeone/sublist?search=${this.searchText ?? ''}`;
+                const path = `/beatsomeone/sublist?genre=All Genre&search=${this.searchText ?? ''}`;
                 window.location.href = path;
             },
         },

@@ -120,19 +120,12 @@
                                     <span>SORT BY</span>
                                     <div class="custom-select ">
                                         <button class="selected-option">
-                                            All select
+                                            {{ param.sort }}
                                         </button>
                                         <div class="options">
-                                            <button class="option" data-value="">
-                                                sort1
+                                            <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o;">
+                                                {{ o }}
                                             </button>
-                                            <button class="option" data-value="">
-                                                sort2
-                                            </button>
-                                            <button class="option" data-value="">
-                                                sort3
-                                            </button>
-                                            <button class="option" data-value="">Newest</button>
                                         </div>
                                     </div>
                                 </div>
@@ -181,6 +174,7 @@
         data: function() {
             return {
                 isLogin: false,
+                listSort: ['All Select','Sort By Staff Picks','Top Downloads','Newest'],
                 listFilter: ['All Genre','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
                 listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
                 listMoods: ['All','Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
@@ -196,6 +190,7 @@
                     currentBpmFr: 0,
                     currentBpmTo : 120,
                     search: null,
+                    sort: 'All Select',
                 },
 
 
@@ -266,7 +261,8 @@
 
 
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", () => {
+            $(".custom-select").on("click", function() {
+
                 $(this)
                     .siblings(".custom-select")
                     .removeClass("active")
@@ -306,6 +302,7 @@
             },
             getList() {
                 const p = {
+                    sort: this.param.sort,
                     genre: this.param.currentGenre,
                     subgenre: this.param.currentSubgenres,
                     bpmFr: this.param.currentBpmFr,
@@ -320,6 +317,7 @@
             },
             getTopList() {
                 const p = {
+                    sort: this.param.sort,
                     genre: this.param.currentGenre,
                     subgenre: this.param.currentSubgenres,
                     bpmFr: this.param.currentBpmFr,

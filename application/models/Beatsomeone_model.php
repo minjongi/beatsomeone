@@ -203,6 +203,7 @@ class Beatsomeone_model extends CB_Model
     // Sublist 조회
     public function get_sublist_list($config)
     {
+        $sort = element('sort', $config);
         $search = element('search', $config);
         $genre = element('genre', $config);
         $subgenre = element('subgenre', $config);
@@ -211,6 +212,7 @@ class Beatsomeone_model extends CB_Model
         $moods = element('moods', $config);
         $trackType = element('trackType', $config);
 
+        log_message('debug','$sort : ' . $sort);
         log_message('debug','$search : ' . $search);
         log_message('debug','$bpmFr : ' . $bpmFr);
         log_message('debug','$bpmTo : ' . $bpmTo);
@@ -223,7 +225,7 @@ class Beatsomeone_model extends CB_Model
         $where['cit_status'] = 1;
         // search
         if ($search) {
-            $this->db->where("p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%'",null,false);
+            $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
         }
         // Genre
         if ($genre && $genre !== 'All Genre') {
@@ -250,19 +252,23 @@ class Beatsomeone_model extends CB_Model
             $this->db->where('p.trackType',$trackType);
         }
 
+        // 만약 정렬 조건이 없거나 [All Select] 인경우에는 조회수 높은 순으로 조회
+        if(!$sort || $sort == 'All Select') {
+            $this->db->order_by('cmall_item.cit_hit', 'desc');
+        }
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
-//        if(!$sort || $sort == 'Sort By Staff Picks') {
-//            $where['cmall_item.cit_type1'] = 1;
-//            $this->db->order_by('cde_download', 'desc');
-//        }
-//        // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
-//        if($sort == 'Newest') {
-//            $this->db->order_by('cit_datetime', 'desc');
-//        }
-//        // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
-//        if($sort == 'Top Downloads') {
-//            $this->db->order_by('cde_download', 'desc');
-//        }
+        if($sort == 'Sort By Staff Picks') {
+            $where['cmall_item.cit_type1'] = 1;
+            $this->db->order_by('cde_download', 'desc');
+        }
+        // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
+        if($sort == 'Newest') {
+            $this->db->order_by('cit_datetime', 'desc');
+        }
+        // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
+        if($sort == 'Top Downloads') {
+            $this->db->order_by('cde_download', 'desc');
+        }
 
         //$limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
@@ -286,6 +292,7 @@ class Beatsomeone_model extends CB_Model
     // Sublist Top 5 조회
     public function get_sublist_top5_list($config)
     {
+        $sort = element('sort', $config);
         $search = element('search', $config);
         $genre = element('genre', $config);
         $subgenre = element('subgenre', $config);
@@ -318,19 +325,23 @@ class Beatsomeone_model extends CB_Model
             $this->db->where('p.bpm <=',$bpmTo + 0);
         }
 
+        // 만약 정렬 조건이 없거나 [All Select] 인경우에는 조회수 높은 순으로 조회
+        if(!$sort || $sort == 'All Select') {
+            $this->db->order_by('cmall_item.cit_hit', 'desc');
+        }
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
-//        if(!$sort || $sort == 'Sort By Staff Picks') {
-//            $where['cmall_item.cit_type1'] = 1;
-//            $this->db->order_by('cde_download', 'desc');
-//        }
-//        // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
-//        if($sort == 'Newest') {
-//            $this->db->order_by('cit_datetime', 'desc');
-//        }
-//        // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
-//        if($sort == 'Top Downloads') {
-//            $this->db->order_by('cde_download', 'desc');
-//        }
+        if($sort == 'Sort By Staff Picks') {
+            $where['cmall_item.cit_type1'] = 1;
+            $this->db->order_by('cde_download', 'desc');
+        }
+        // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
+        if($sort == 'Newest') {
+            $this->db->order_by('cit_datetime', 'desc');
+        }
+        // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
+        if($sort == 'Top Downloads') {
+            $this->db->order_by('cde_download', 'desc');
+        }
 
         //$limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
