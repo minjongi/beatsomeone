@@ -1,5 +1,5 @@
 <template>
-    <div class="playList">
+    <div class="playList"  v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
         <ul id="playList__list" class="playList__list">
             <!-- 플레이리스트 들어감 -->
             <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
@@ -21,6 +21,7 @@
         components: {Index_Items},
         data: function() {
             return {
+                offset: 0,
                 list: null,
             }
         },
@@ -62,10 +63,24 @@
         methods: {
             getList() {
                 if(!this.item) return;
-                Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`).then(r=> {
+                const p = {
+                    limit: 20,
+                    offset: this.offset,
+                }
+                Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
                     this.list = r;
                 });
             },
+            getListMore: _.debounce(function() {
+                const p = {
+                    limit: 10,
+                    offset: this.offset,
+                }
+                Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
+                    this.list = this.list.concat(r);
+                    this.offset = this.list.length;
+                });
+            },1000),
         },
 
     }

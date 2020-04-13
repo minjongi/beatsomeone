@@ -132,6 +132,8 @@ class BeatsomeoneApi extends CB_Controller
 
 
         $config = array(
+            'limit' =>  $this->input->post('limit') ,
+            'offset' =>  $this->input->post('offset') ,
             'sort' =>  $this->input->post('sort') ,
             'search' =>  $this->input->post('search') ,
             'genre' =>  $this->input->post('genre') ,
@@ -206,9 +208,13 @@ class BeatsomeoneApi extends CB_Controller
 
 
         $config = array(
+            'limit' =>  $this->input->post('limit') ,
+            'offset' =>  $this->input->post('offset') ,
             'cit_id' => $cit_id,
             'mem_id' => $this->member->item('mem_id'),
         );
+        log_message('debug','$cit_id : ' . $cit_id);
+        log_message('debug','$CONFIG : ' . print_r($config,true));
         $result = $this->Beatsomeone_model->get_relation_list($config);
 
         $this->output->set_content_type('text/json');

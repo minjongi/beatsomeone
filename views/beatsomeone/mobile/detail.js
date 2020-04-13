@@ -5,7 +5,9 @@ import Detail_Infomation from "./Detail_Infomation";
 import VueRouter  from 'vue-router';
 
 import app from './Detail.vue';
-
+// register globally
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(infiniteScroll);
 Vue.use(VueRouter);
 
 

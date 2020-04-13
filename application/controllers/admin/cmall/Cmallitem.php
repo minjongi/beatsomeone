@@ -800,7 +800,12 @@ class Cmallitem extends CB_Controller
 				'cit_price' => $cit_price,
 				'cit_updated_datetime' => cdate('Y-m-d H:i:s'),
 				'cit_download_days' => $cit_download_days,
+
 			);
+
+			if($cit_status && !element('cit_start_datetime', $getdata)) {
+                $updatedata['cit_start_datetime'] = cdate('Y-m-d H:i:s');
+			}
 
 			for ($k = 1; $k <= 10; $k++) {
 				if ($this->input->post('cit_file_' . $k . '_del')) {
@@ -840,7 +845,8 @@ class Cmallitem extends CB_Controller
 
 			if ($this->input->post($primary_key)) {
 				$this->{$this->modelname}->update($this->input->post($primary_key), $updatedata);
-				$this->Cmall_item_meta_model->save($pid, $metadata);
+
+                $this->Cmall_item_meta_model->save($pid, $metadata);
 				$this->Cmall_category_rel_model->save_category($this->input->post($primary_key), $cmall_category);
 
 				$this->session->set_flashdata(

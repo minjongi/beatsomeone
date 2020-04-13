@@ -145,11 +145,15 @@
                         </div>
                         <div class="row">
                             <h2 class="section-title">PLAY LIST</h2>
-                            <div class="playList">
+                            <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
                                 <ul class="playList__list" id="playList__list">
                                     <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
                                 </ul>
                             </div>
+                            <div>
+                                <button @click="getListMore">추가로딩</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -169,6 +173,8 @@
     import Index_Items from "./Index_Items";
     import { EventBus } from '*/src/eventbus';
 
+
+
     export default {
         components: {Header,Footer,Index_Items,},
         data: function() {
@@ -182,6 +188,7 @@
 
                 list: null,
                 listTop5: null,
+                offset: 0,
                 param: {
                     currentGenre: null,
                     currentSubgenres : null,
@@ -275,9 +282,11 @@
             });
 
 
+            //this.onScroll();
 
         },
         methods: {
+
             updateAllList:  _.debounce(function() {
                 this.getList();
                 this.getTopList();
@@ -302,6 +311,8 @@
             },
             getList() {
                 const p = {
+                    limit: 10,
+                    offset: 0,
                     sort: this.param.sort,
                     genre: this.param.currentGenre,
                     subgenre: this.param.currentSubgenres,
@@ -313,8 +324,34 @@
                 }
                 Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
                     this.list = r;
+                    this.offset = this.list.length;
                 });
             },
+            getListMore: _.debounce(function() {
+                const p = {
+                    limit: 10,
+                    offset: this.offset,
+                    sort: this.param.sort,
+                    genre: this.param.currentGenre,
+                    subgenre: this.param.currentSubgenres,
+                    bpmFr: this.param.currentBpmFr,
+                    bpmTo: this.param.currentBpmTo,
+                    moods: this.param.currentMoods,
+                    trackType: this.param.currentTrackType,
+                    search: this.param.search
+                }
+                Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
+                    this.list = this.list.concat(r);
+                    this.offset = this.list.length;
+                    // log.debug({
+                    //     'read more':r,
+                    // })
+                    // if(r && r.length > 0) {
+                    //     //this.offset = r[r.length - 1].cit_id;
+                    //     this.offset = this.list.length;
+                    // }
+                });
+            },1000),
             getTopList() {
                 const p = {
                     sort: this.param.sort,

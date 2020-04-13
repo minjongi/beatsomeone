@@ -135,7 +135,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="playList">
+                        <div class="playList"  v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
                             <!-- 아래 템플릿 문자열로 붙임 -->
                             <ul class="playList__list" id="playList__list">
                                 <!-- 플레이리스트 들어감 -->
@@ -170,7 +170,8 @@
                 listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
                 listMoods: ['All','Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
                 listTrackType: ['All types','Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
-
+                offset: 0,
+                last_offset: 0,
                 list: null,
                 listTop5: null,
                 param: {
@@ -315,17 +316,42 @@
             },
             getList() {
                 const p = {
+                    limit: 10,
+                    offset: 0,
+                    sort: this.param.sort,
                     genre: this.param.currentGenre,
                     subgenre: this.param.currentSubgenres,
                     bpmFr: this.param.currentBpmFr,
                     bpmTo: this.param.currentBpmTo,
                     moods: this.param.currentMoods,
                     trackType: this.param.currentTrackType,
+                    search: this.param.search
                 }
                 Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
                     this.list = r;
+                    this.offset = this.list.length;
                 });
             },
+            getListMore: _.debounce(function() {
+                //if(this.last_offset === this.offset) return;
+                const p = {
+                    limit: 10,
+                    offset: this.offset,
+                    sort: this.param.sort,
+                    genre: this.param.currentGenre,
+                    subgenre: this.param.currentSubgenres,
+                    bpmFr: this.param.currentBpmFr,
+                    bpmTo: this.param.currentBpmTo,
+                    moods: this.param.currentMoods,
+                    trackType: this.param.currentTrackType,
+                    search: this.param.search
+                }
+                Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
+                    this.list = this.list.concat(r);
+                    this.last_offset = this.offset;
+                    this.offset = this.list.length;
+                });
+            },1000),
             getTopList() {
                 const p = {
                     genre: this.param.currentGenre,

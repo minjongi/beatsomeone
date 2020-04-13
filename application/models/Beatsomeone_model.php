@@ -203,6 +203,8 @@ class Beatsomeone_model extends CB_Model
     // Sublist 조회
     public function get_sublist_list($config)
     {
+        $limit = element('limit', $config);
+        $offset = element('offset', $config);
         $sort = element('sort', $config);
         $search = element('search', $config);
         $genre = element('genre', $config);
@@ -212,6 +214,8 @@ class Beatsomeone_model extends CB_Model
         $moods = element('moods', $config);
         $trackType = element('trackType', $config);
 
+        log_message('debug','$limit : ' . $limit);
+        log_message('debug','$offset : ' . $offset);
         log_message('debug','$sort : ' . $sort);
         log_message('debug','$search : ' . $search);
         log_message('debug','$bpmFr : ' . $bpmFr);
@@ -278,7 +282,8 @@ class Beatsomeone_model extends CB_Model
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
-        //$this->db->limit($limit);
+        $this->db->limit($limit);
+        $this->db->offset($offset);
 
 
         $qry = $this->db->get($this->_table);
@@ -428,27 +433,58 @@ class Beatsomeone_model extends CB_Model
     }
 
     // 연관 음원 조회
-    public function get_relation_list($p)
+    public function get_relation_list($config)
     {
+        $limit = element('limit', $config);
+        $offset = element('offset', $config);
+        $mem_id = element('mem_id', $config);
+        $cit_id = element('cit_id', $config);
 
-        $where = array(
-//            'cb_c.cit_id = ' => $p['cit_id'],
-        );
-        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
-        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
-        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
-        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
-        $this->db->join('cb_cmall_item_relation as r','c.cit_id = r.cit_id_r AND r.cit_id = ' . $p['cit_id'],'inner');
-        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
+        log_message('debug','$limit : ' . $limit);
+        log_message('debug','$offset : ' . $offset);
+        log_message('debug','$cit_id : ' . $cit_id);
+        log_message('debug','$mem_id : ' . $mem_id);
+
+
+        $where['cit_status'] = 1;
+
+
+
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$mem_id.'"','left');
+        $this->db->join('cb_cmall_item_relation as r','cmall_item.cit_id = r.cit_id_r AND r.cit_id = "' . $cit_id.'"','inner');
+
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
+        $this->db->select($select);
         $this->db->where($where);
-        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, m1.cde_originname, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
-        $this->db->order_by('cit_id', 'desc');
-        $qry = $this->db->get('cmall_item as cb_c');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('cde_download', 'desc');
 
+        $qry = $this->db->get($this->_table);
         $result = $qry->result_array();
 
         return $result;
+
+//        $where = array(
+////            'cb_c.cit_id = ' => $p['cit_id'],
+//        );
+//        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+//        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
+//        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
+//        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
+//        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+//        $this->db->join('cb_cmall_item_relation as r','c.cit_id = r.cit_id_r AND r.cit_id = ' . $p['cit_id'],'inner');
+//        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
+//        $this->db->where($where);
+//        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, m1.cde_originname, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
+//        $this->db->order_by('cit_id', 'desc');
+//        $qry = $this->db->get('cmall_item as cb_c');
+//
+//        $result = $qry->result_array();
+//
+//        return $result;
     }
 
     // 사용자 상품 등록
