@@ -28,7 +28,7 @@
                                     <a href="#" class="buy" v-if="item" @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
                                     <span class="cart pointer"  @click="addCart">{{ item.sell_cnt }}</span>
                                     <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.comment_cnt }}</span>
-                                    <span class="share pointer" @click="clickShare">179</span>
+                                    <span class="share pointer" @click="clickShare">{{ item.cit_share_count }}</span>
 <!--                                    <span class="atob">91</span>-->
                                 </div>
 
@@ -226,7 +226,13 @@
             },
             // 공유 클릭
             clickShare() {
-
+                Http.post( `/beatsomeoneApi/increase_item_share_count`,{cit_id:this.item.cit_id}).then(r=> {
+                    if(!r) {
+                        log.debug('공유 카운트 증가 실패');
+                    } else {
+                        log.debug('공유 카운트 증가 성공');
+                    }
+                });
             },
             // 다운로드 증가
             increaseMusicCount() {

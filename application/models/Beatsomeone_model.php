@@ -161,14 +161,31 @@ class Beatsomeone_model extends CB_Model
     {
 
         $where['cmall_qna.cit_id'] = element('cit_id', $config);
-        $this->db->join('cb_cmall_item_meta as m','cb_cmall_qna.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-        $this->db->join('cb_member as mb','m.cim_value = mb.mem_id','left');
-        $this->db->select('cb_cmall_qna.*, mb.mem_userid, mb.mem_email');
+
         $this->db->where($where);
         //$this->db->limit($limit);
         $this->db->order_by('cb_cmall_qna.cqa_id', 'desc');
         $qry = $this->db->get('cmall_qna');
         $result = $qry->result_array();
+
+        return $result;
+
+    }
+
+    // Item 공유 횟수 증가
+    public function increase_item_share_count($config)
+    {
+
+        //$where['cmall_item.cit_id'] = element('cit_id', $config);
+        $this->db->where('cit_id', $config['cit_id'])
+            ->set('cit_share_count','cit_share_count + 1',false);
+
+
+//        $set = array(
+//            'cit_share_count' => 'cit_share_count + 1'
+//        );
+
+        $result = $this->db->update('cmall_item');
 
         return $result;
     }
