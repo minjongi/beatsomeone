@@ -29,8 +29,8 @@
                 <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
             </div>
             <div class="col genre">
-                <span v-for="genre in hashtag" :key="genre">
-                    <button :class="{'active' : item.genre === genre }">{{ genre }}</button>
+                <span v-for="(t,i) in hashtag" :key="i">
+                    <button @click="clickHash(t)">{{ t }}</button>
                 </span>
 
             </div>
@@ -259,7 +259,13 @@
                         log.debug('카운트 증가 성공');
                     }
                 });
+            },
+            // 해쉬 클릭
+            clickHash(h) {
+                const path = `/beatsomeone/sublist?search=${h}`;
+                window.location.href = path;
             }
+
         }
     }
 

@@ -65,9 +65,9 @@
                     <div class="wrap">
                         <header class="main__section1-title">
                             <h1>HOLIDAY GIVEAWAY</h1>
-                            <h2>
-                                {{param}}
-                            </h2>
+<!--                            <h2>-->
+<!--                                {{param}}-->
+<!--                            </h2>-->
                             <p>
                                 Finding incredible music & connecting with amazing artists
                                 and<br/>
@@ -265,7 +265,7 @@
                 listTrending: null,
                 listTestimonials: null,
                 currentGenre : 'All Genre',
-                listGenre: ['All Genre','Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
+                listGenre: ['All Genre','Hip Hop','Pop','R&B','Rock','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
                 listSort: ['Sort By Staff Picks','Top Downloads','Newest'],
                 listBpm: [
                     {t: 'BPM',v:null},

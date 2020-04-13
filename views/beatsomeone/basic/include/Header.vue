@@ -73,10 +73,10 @@
                 });
             },
             search() {
-                if(!this.searchText) {
-                    return;
-                }
-                const path = `/beatsomeone/search?q=${this.searchText}`;
+                // if(!this.searchText) {
+                //     return;
+                // }
+                const path = `/beatsomeone/sublist?search=${this.searchText ?? ''}`;
                 window.location.href = path;
             },
         },

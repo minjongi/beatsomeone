@@ -195,6 +195,7 @@
                     currentTrackType: null,
                     currentBpmFr: 0,
                     currentBpmTo : 120,
+                    search: null,
                 },
 
 
@@ -310,7 +311,8 @@
                     bpmFr: this.param.currentBpmFr,
                     bpmTo: this.param.currentBpmTo,
                     moods: this.param.currentMoods,
-                    trackType: this.param.currentTrackType
+                    trackType: this.param.currentTrackType,
+                    search: this.param.search
                 }
                 Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
                     this.list = r;
@@ -324,6 +326,7 @@
                     bpmTo: this.param.currentBpmTo,
                     moods: this.param.currentMoods,
                     trackType: this.param.currentTrackType,
+                    search: this.param.search,
                     limit: 5
                 }
                 Http.post(`/beatsomeoneApi/sublist_top_list`,p).then(r=> {
