@@ -60,7 +60,7 @@
                                         <input type="text" />
                                     </div>
                                     <div class="bpmRangeInfo">
-                                        <input type="text" readonly id="bpm-start" />
+                                        <input type="text" readonly id="bpm-start" v-model="param.currentBpmFr" />
                                         <span> - </span>
                                         <input type="text" readonly id="bpm-end"/>
                                     </div>
@@ -219,6 +219,8 @@
             this.param.currentSubgenres = this.listSubgenres[0];
             this.param.currentMoods = this.listMoods[0];
             this.param.currentTrackType = this.listTrackType[0];
+
+            this.updateAllList();
         },
         mounted() {
 
@@ -241,6 +243,9 @@
                     from: 0,
                     to: 125,
                     onStart: (data) => {
+                        log.debug({
+                            'rpm onStart':data,
+                        })
                         $("#bpm-start").val(data.from_pretty);
                         $("#bpm-end").val(data.to_pretty);
                         this.param.currentBpmFr = data.from_pretty;
@@ -258,8 +263,9 @@
                 });
             }
 
+
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".custom-select").on("click", () => {
                 $(this)
                     .siblings(".custom-select")
                     .removeClass("active")
@@ -271,7 +277,7 @@
                     .toggle();
             });
 
-            this.updateAllList();
+
 
         },
         methods: {

@@ -34,25 +34,25 @@ $(function() {
     }
   })
 
-  // BPM range
-  if ($(".bpmRange").length) {
-    $(".bpmRange input").ionRangeSlider({
-      skin: "round",
-      type: "double",
-      min: 0,
-      max: 170,
-      from: 0,
-      to: 125,
-      onStart: function(data) {
-        $("#bpm-start").val(data.from_pretty);
-        $("#bpm-end").val(data.to_pretty);
-      },
-      onChange: function(data) {
-        $("#bpm-start").val(data.from_pretty);
-        $("#bpm-end").val(data.to_pretty);
-      }
-    });
-  }
+  // // BPM range
+  // if ($(".bpmRange").length) {
+  //   $(".bpmRange input").ionRangeSlider({
+  //     skin: "round",
+  //     type: "double",
+  //     min: 0,
+  //     max: 170,
+  //     from: 0,
+  //     to: 125,
+  //     onStart: function(data) {
+  //       $("#bpm-start").val(data.from_pretty);
+  //       $("#bpm-end").val(data.to_pretty);
+  //     },
+  //     onChange: function(data) {
+  //       $("#bpm-start").val(data.from_pretty);
+  //       $("#bpm-end").val(data.to_pretty);
+  //     }
+  //   });
+  // }
   // 메인 trend Slider
   // var slideOption = {
   //   slidesToShow: 3,
