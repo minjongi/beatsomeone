@@ -167,41 +167,166 @@
 						<div class="help-block">요약설명을 입력해주세요</div>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">기본정보</label>
-					<div class="col-sm-10">
-						<?php for ($k= 1; $k<= 10; $k++) { ?>
-							<div class="form-group form-inline">
+                <?php for ($k= 1; $k<= 8; $k++) { ?>
+                    <?php
+                    $p = null;
+                    $isDefault = true;
+                    switch ($k) {
+                        case 1:
+                            $p = 'Genre';
+                            $isDefault = false;
+                            break;
+                        case 2:
+                            $p = 'Bpm';
+                            $isDefault = false;
+                            break;
+                        case 3:
+                            $p = 'Musician';
+                            $isDefault = false;
+                            break;
+                        case 4:
+                            $p = 'Subgenre';
+                            $isDefault = false;
+                            break;
+                        case 5:
+                            $p = 'moods';
+                            $isDefault = false;
+                            break;
+                        case 6:
+                            $p = 'trackType';
+                            $isDefault = false;
+                            break;
+                        case 7:
+                            $p = 'hashTag';
+                            $isDefault = false;
+                            break;
+                        case 8:
+                            $p = 'voice';
+                            $isDefault = false;
+                            break;
+                        default:
+                            $p = '기본정보 ' . $k;
+                            $isDefault = true;
+                            break;
+                    };
+                    ?>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><?php echo $p ?> </label>
+                    <div class="col-sm-10">
+                        <?php if($p == 'voice') { ?>
+                            <input type="checkbox" name="info_content_<?php echo $k; ?>" value="1" <?php echo set_checkbox('info_content_' . $k, '1', (element('info_content_' . $k, element('data', $view)) ? true : false)); ?> />
+
+                        <?php } else if($p == 'Genre') { ?>
+                            <select name="info_content_<?php echo $k; ?>"  class="form-control" >
                                 <?php
-                                    $p = null;
-                                    $isDefault = true;
-                                    switch ($k) {
-                                        case 1:
-                                            $p = 'Genre';
-                                            $isDefault = false;
-                                        break;
-                                        case 2:
-                                            $p = 'Bpm';
-                                            $isDefault = false;
-                                            break;
-                                        case 3:
-                                            $p = 'Musician';
-                                            $isDefault = false;
-                                            break;
-                                        default:
-                                            $p = '기본정보 ' . $k;
-                                            $isDefault = true;
-                                            break;
-                                    };
+                                    $list = array('Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World');
+                                    for($i=0; $i<sizeof($list); $i++) {
+                                        $checked = element('info_content_' . $k, element('data', $view)) == $list[$i];
+                                    ?>
+                                        <option value="<?php echo $list[$i] ?>" <?php echo $checked == 1 ? 'selected' : '' ?>><?php echo $list[$i] ?></option>
+                                    <?php
+                                    }
                                 ?>
-                                <?php if($isDefault) { ?>
-								<?php echo $p ?> <?php echo $isDefault ? '제목' : '' ?> <input type="text" class="form-control" name="info_title_<?php echo $k; ?>" value="<?php echo set_value('info_title_' . $k, element('info_title_' . $k, element('data', $view))); ?>" />
-                                <?php } ?>
-                                <?php echo $p ?> <?php echo $isDefault ? '값' : '' ?> <input type="text" class="form-control" name="info_content_<?php echo $k; ?>" value="<?php echo set_value('info_content_' . $k, element('info_content_' . $k, element('data', $view))); ?>" />
-							</div>
-						<?php } ?>
-					</div>
-				</div>
+                            </select>
+                        <?php } else if($p == 'Subgenre') { ?>
+                        <select name="info_content_<?php echo $k; ?>"  class="form-control" >
+                            <?php
+                            $list = array('Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World');
+                            for($i=0; $i<sizeof($list); $i++) {
+                                $checked = element('info_content_' . $k, element('data', $view)) == $list[$i];
+                                ?>
+                                <option value="<?php echo $list[$i] ?>" <?php echo $checked == 1 ? 'selected' : '' ?>><?php echo $list[$i] ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                        <?php } else if($p == 'moods') { ?>
+                            <select name="info_content_<?php echo $k; ?>"  class="form-control" >
+                                <?php
+                                $list = array('Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful');
+                                for($i=0; $i<sizeof($list); $i++) {
+                                    $checked = element('info_content_' . $k, element('data', $view)) == $list[$i];
+                                    ?>
+                                    <option value="<?php echo $list[$i] ?>" <?php echo $checked == 1 ? 'selected' : '' ?>><?php echo $list[$i] ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        <?php } else if($p == 'trackType') { ?>
+                            <select name="info_content_<?php echo $k; ?>"  class="form-control" >
+                                <?php
+                                $list = array('Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs');
+                                for($i=0; $i<sizeof($list); $i++) {
+                                    $checked = element('info_content_' . $k, element('data', $view)) == $list[$i];
+                                    ?>
+                                    <option value="<?php echo $list[$i] ?>" <?php echo $checked == 1 ? 'selected' : '' ?>><?php echo $list[$i] ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        <?php } else { ?>
+                            <input type="text" class="form-control" name="info_content_<?php echo $k; ?>" value="<?php echo set_value('info_content_' . $k, element('info_content_' . $k, element('data', $view))); ?>" />
+                        <?php } ?>
+
+                    </div>
+                </div>
+
+                <?php } ?>
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">기본정보</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						--><?php //for ($k= 1; $k<= 10; $k++) { ?>
+<!--							<div class="form-group form-inline">-->
+<!--                                --><?php
+//                                    $p = null;
+//                                    $isDefault = true;
+//                                    switch ($k) {
+//                                        case 1:
+//                                            $p = 'Genre';
+//                                            $isDefault = false;
+//                                        break;
+//                                        case 2:
+//                                            $p = 'Bpm';
+//                                            $isDefault = false;
+//                                            break;
+//                                        case 3:
+//                                            $p = 'Musician';
+//                                            $isDefault = false;
+//                                            break;
+//                                        case 4:
+//                                            $p = 'Subgenre';
+//                                            $isDefault = false;
+//                                            break;
+//                                        case 5:
+//                                            $p = 'moods';
+//                                            $isDefault = false;
+//                                            break;
+//                                        case 6:
+//                                            $p = 'trackType';
+//                                            $isDefault = false;
+//                                            break;
+//                                        case 7:
+//                                            $p = 'hashTag';
+//                                            $isDefault = false;
+//                                            break;
+//                                        case 8:
+//                                            $p = 'voice';
+//                                            $isDefault = false;
+//                                            break;
+//                                        default:
+//                                            $p = '기본정보 ' . $k;
+//                                            $isDefault = true;
+//                                            break;
+//                                    };
+//                                ?>
+<!--                                --><?php //if($isDefault) { ?>
+<!--								--><?php //echo $p ?><!-- --><?php //echo $isDefault ? '제목' : '' ?><!-- <input type="text" class="form-control" name="info_title_--><?php //echo $k; ?><!--" value="--><?php //echo set_value('info_title_' . $k, element('info_title_' . $k, element('data', $view))); ?><!--" />-->
+<!--                                --><?php //} ?>
+<!--                                --><?php //echo $p ?><!-- --><?php //echo $isDefault ? '값' : '' ?><!-- <input type="text" class="form-control" name="info_content_--><?php //echo $k; ?><!--" value="--><?php //echo set_value('info_content_' . $k, element('info_content_' . $k, element('data', $view))); ?><!--" />-->
+<!--							</div>-->
+<!--						--><?php //} ?>
+<!--					</div>-->
+<!--				</div>-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">사용자데모</label>
 					<div class="col-sm-10">

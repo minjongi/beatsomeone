@@ -29,7 +29,7 @@
                 <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
             </div>
             <div class="col genre">
-                <span v-for="genre in listGenre" :key="genre">
+                <span v-for="genre in hashtag" :key="genre">
                     <button :class="{'active' : item.genre === genre }">{{ genre }}</button>
                 </span>
 
@@ -94,7 +94,7 @@
                         </figure>
                     </div>
                     <div class="col genre">
-                        <button v-for="(genre,index) in playList.genres" :key="index"
+                        <button v-for="(genre,index) in hashtag" :key="index"
                                 :class="{'active' : genre.active }">{{ genre.title }}
                         </button>
                     </div>
@@ -140,9 +140,14 @@
         props: ['item'],
         data: function () {
             return {
-                listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
+                //listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 audio: {},
             };
+        },
+        computed: {
+            hashtag() {
+                return this.item.hashTag ? this.item.hashTag.split(' ') : '';
+            },
         },
         mounted() {
             EventBus.$on('index_items_stop_all_played',r=> {

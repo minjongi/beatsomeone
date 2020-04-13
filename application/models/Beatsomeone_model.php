@@ -105,10 +105,15 @@ class Beatsomeone_model extends CB_Model
 
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('(select q.cit_id, count(*) as cnt from cb_cmall_qna AS q group by q.cit_id) AS q','q.cit_id = cmall_item.cit_id','left');
+        // 판매갯수
+        $this->db->join('(select cit_id, count(*) as cnt from cb_cmall_order_detail as d where cod_status = \'deposit\' group by cit_id) AS t1','t1.cit_id = cmall_item.cit_id','left');
+        // 장바구니 갯수
+        $this->db->join('(select cit_id, count(*) as cnt from cb_cmall_cart as c group by cit_id) AS t2','t2.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
         $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
         $select .= 'q.cnt AS comment_cnt, ';
+        $select .= 'IFNULL(t1.cnt,0) + IFNULL(t2.cnt,0)  AS sell_cnt, ';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);

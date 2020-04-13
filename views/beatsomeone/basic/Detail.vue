@@ -26,7 +26,7 @@
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a href="#" class="buy" v-if="item" @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
-                                    <span class="cart pointer"  @click="addCart">700</span>
+                                    <span class="cart pointer"  @click="addCart">{{ item.sell_cnt }}</span>
                                     <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.comment_cnt }}</span>
                                     <span class="share pointer" @click="clickShare">179</span>
 <!--                                    <span class="atob">91</span>-->
