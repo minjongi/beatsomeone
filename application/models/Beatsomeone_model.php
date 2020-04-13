@@ -387,6 +387,12 @@ class Beatsomeone_model extends CB_Model
         return $result;
     }
 
+    // 등록 비용 플랜 저장
+    public function merge_register_plan_cost($p)
+    {
+        return $this->db->update_batch('cb_bs_register_plan_cost',$p, 'plan');
+    }
+
     // 사용자 음원 목록 조회
     public function get_user_regist_item_list($p)
     {

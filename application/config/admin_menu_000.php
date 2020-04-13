@@ -18,6 +18,7 @@ $config['admin_page_menu']['config'] =
 			'cbconfigs'				=> array('기본환경설정', ''), // 2차 메뉴, 순서대로 (메뉴명, a태그에 속성 부여)
 			'layoutskin'			=> array('레이아웃/메타태그', ''),
 			'memberconfig'			=> array('회원가입설정', ''),
+            'bsregisterplancost'	=> array('회원 플랜 정책', ''),
 			'emailform'				=> array('메일/쪽지발송양식', ''),
 			'rssconfig'				=> array('RSS 피드 / 사이트맵', ''),
 			'testemail'				=> array('메일발송테스트', ''),
