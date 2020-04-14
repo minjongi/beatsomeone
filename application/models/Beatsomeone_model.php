@@ -516,7 +516,7 @@ class Beatsomeone_model extends CB_Model
         // Begin Transaction
         $this->db->trans_start();
 
-        log_message('debug','MERGE_ITEM PARAMETER : '.print_r($p,true));
+        //log_message('debug','MERGE_ITEM PARAMETER : '.print_r($p,true));
 
         $cit_id = null;
 
@@ -542,10 +542,8 @@ class Beatsomeone_model extends CB_Model
 
 
             // 음원 파일
-            $data = array(
-                "cde_price" => $p["cit_price"],
-            );
             for($i=0; $i<3; $i++) {
+                // 파일 변경시
                 if(array_key_exists("cde_file_".($i + 1),$p)) {
                     $data = $p["cde_file_" . ($i + 1)];
                     if ($data) {
@@ -557,12 +555,47 @@ class Beatsomeone_model extends CB_Model
 
                         $cde_id = $p['cde_id_'.($i+1)];
                         if($cde_id != 'null' && $cde_id != null) {
+
+                            log_message('debug','CHANGE AND UPDATE DETAIL FILE ('.($i + 1).') : '.print_r($data,true));
+
                             $this->db->where('cit_id',$cit_id);
                             $this->db->where('cde_id',$cde_id);
                             $this->db->update('cmall_item_detail', $data);
                         } else {
                             $this->db->insert('cmall_item_detail', $data);
                         }
+                    }
+                }
+                // 파일 미변경시
+                else {
+                    if($i == 0) {
+                        $uploadfiledata['cde_title'] = 'LEASE';
+                        $uploadfiledata['cde_price'] = $p['licenseLeasePriceKR'];
+                        $uploadfiledata['cde_price_d'] = $p['licenseLeasePriceDL'];
+                        $uploadfiledata['cde_quantity'] = $p['licenseLeasePriceQuantity'];
+                    }
+                    // Stem
+                    else if($i == 1) {
+                        $uploadfiledata['cde_title'] = 'STEM';
+                        $uploadfiledata['cde_price'] = $p['licenseStemPriceKR'];
+                        $uploadfiledata['cde_price_d'] = $p['licenseStemPriceDL'];
+                        $uploadfiledata['cde_quantity'] = $p['licenseStemPriceQuantity'];
+                    }
+                    // Tagged
+                    else if($i == 2) {
+                        $uploadfiledata['cde_title'] = 'TAGGED';
+                        $uploadfiledata['cde_price'] = 0;
+                        $uploadfiledata['cde_price_d'] = 0;
+                        $uploadfiledata['cde_quantity'] = 0;
+                    }
+                    $cde_id = $p['cde_id_'.($i+1)];
+                    if($cde_id != 'null' && $cde_id != null) {
+
+                        log_message('debug','UPDATE DETAIL FILE ('.($i + 1).') : '.print_r($uploadfiledata,true));
+
+                        $this->db->where('cit_id',$cit_id);
+                        $this->db->where('cde_id',$cde_id);
+                        $this->db->update('cmall_item_detail', $uploadfiledata);
                     }
                 }
             }

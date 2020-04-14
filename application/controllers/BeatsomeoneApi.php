@@ -506,6 +506,7 @@ class BeatsomeoneApi extends CB_Controller
             "cde_id_2" => $this->input->post('cde_id_2'),
             "cde_id_3" => $this->input->post('cde_id_3'),
             "cit_start_datetime" => $this->input->post('releaseDate') . ' ' . $this->input->post('releaseTime') . ':00',
+            "cit_file_1" => $this->input->post('cit_file_1'),
         );
 
 
