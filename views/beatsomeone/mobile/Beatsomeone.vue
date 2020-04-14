@@ -28,11 +28,11 @@
                             </div>
                             <div class="playList">
                                 <!-- 아래 템플릿 문자열로 붙임 -->
-                                <ul class="playList__list" id="playList__list">
+                                <transition-group class="playList__list" id="playList__list" name="flip-list" tag="ul">
                                     <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
-                                </ul>
+                                </transition-group>
                                 <div class="playList__btnbox">
-                                    <a href="#//" class="playList__more" @click="moveMore">more</a>
+                                    <a href="#//" class="playList__more pointer" @click="moveMore">more</a>
                                 </div>
                             </div>
                         </div>
@@ -242,6 +242,16 @@
                 ],
             }
         },
+        created() {
+            // 메인 리스트 조회
+            this.getMainList();
+
+            // Trending List
+            this.getTrendingList();
+
+            // Testimonials List
+            this.getTestimonialsList();
+        },
         mounted() {
 
 
@@ -283,14 +293,7 @@
                     .toggle();
             });
 
-            // 메인 리스트 조회
-            this.getMainList();
 
-            // Trending List
-            this.getTrendingList();
-
-            // Testimonials List
-            this.getTestimonialsList();
 
             Amplitude.init({
                 "songs": this.listPlayer,
@@ -365,4 +368,16 @@
 <style lang="css">
     @import '/assets_m/plugins/slick/slick.css';
     @import '/assets_m/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .flip-list-move {
+        transition: transform 1s;
+    }
+
+    .flip-list-enter, .flip-list-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+
+    .flip-list-enter-active, .flip-list-leave-active {
+        transition: opacity .4s;
+    }
 </style>

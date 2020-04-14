@@ -140,10 +140,10 @@
                     <div class="row">
                         <div class="playList"  v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
                             <!-- 아래 템플릿 문자열로 붙임 -->
-                            <ul class="playList__list" id="playList__list">
+                            <transition-group class="playList__list" id="playList__list" name="flip-list" tag="ul">
                                 <!-- 플레이리스트 들어감 -->
                                 <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
-                            </ul>
+                            </transition-group>
                         </div>
                     </div>
                 </div>
@@ -391,4 +391,16 @@
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .flip-list-move {
+        transition: transform 1s;
+    }
+
+    .flip-list-enter, .flip-list-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+
+    .flip-list-enter-active, .flip-list-leave-active {
+        transition: opacity .4s;
+    }
 </style>

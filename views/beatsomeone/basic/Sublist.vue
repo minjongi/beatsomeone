@@ -134,6 +134,7 @@
                                 </div>
                             </h2>
                             <div class="topFive">
+
                                 <div class="trending__slide-item albumItem" v-for="(i,index) in listTop5" :key="index" @click="selectItem(i)">
                                     <button class="albumItem__cover">
                                         <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name" />
@@ -144,14 +145,17 @@
                                     </a>
                                 </div>
 
+
                             </div>
                         </div>
                         <div class="row">
                             <h2 class="section-title">PLAY LIST</h2>
                             <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
-                                <ul class="playList__list" id="playList__list">
+<!--                                <ul class="playList__list" id="playList__list">-->
+                                    <transition-group class="playList__list" id="playList__list" name="flip-list" tag="ul">
                                     <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
-                                </ul>
+                                    </transition-group>
+<!--                                </ul>-->
                             </div>
                             <div>
                                 <button @click="getListMore">추가로딩</button>
@@ -384,4 +388,17 @@
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .flip-list-move {
+        transition: transform 1s;
+    }
+
+    .flip-list-enter, .flip-list-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+
+    .flip-list-enter-active, .flip-list-leave-active {
+        transition: opacity .4s;
+    }
+
 </style>
