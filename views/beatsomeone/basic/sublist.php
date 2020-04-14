@@ -1,4 +1,3 @@
-
 <?php $this->managelayout->add_css('/dist/sublist.css'); ?>
 <script src="https://unpkg.com/wavesurfer.js"></script>
 <?php $this->managelayout->add_js('/dist/sublist.js'); ?>

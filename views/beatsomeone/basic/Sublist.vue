@@ -150,7 +150,7 @@
                         </div>
                         <div class="row">
                             <h2 class="section-title">PLAY LIST</h2>
-                            <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
+                            <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
 
                                     <transition-group
                                             name="staggered-fade"
@@ -161,12 +161,8 @@
                                             v-on:leave="leave">
                                         <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
                                     </transition-group>
-
+                                <Loader v-if="busy && false" key="loader" style="margin-top: 40px;"></Loader>
                             </div>
-                            <div>
-                                <button @click="getListMore">추가로딩</button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -186,12 +182,10 @@
     import Index_Items from "./Index_Items";
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
-
-
-
+    import Loader from '*/vue/common/Loader';
 
     export default {
-        components: {Header,Footer,Index_Items,},
+        components: {Header,Footer,Index_Items,Loader,},
         data: function() {
             return {
                 isLogin: false,
@@ -204,6 +198,8 @@
                 list: null,
                 listTop5: null,
                 offset: 0,
+                last_offset: 0,
+                busy: false,
                 param: {
                     currentGenre: null,
                     currentSubgenres : null,
@@ -223,9 +219,9 @@
             param: {
                 deep: true,
                 handler(n,o) {
-                    log.debug({
-                        'change param' : n,
-                    });
+                    // log.debug({
+                    //     'change param' : n,
+                    // });
                     if(o) {
                         this.updateAllList();
                     }
@@ -261,18 +257,18 @@
                     from: 0,
                     to: 125,
                     onStart: (data) => {
-                        log.debug({
-                            'rpm onStart':data,
-                        })
+                        // log.debug({
+                        //     'rpm onStart':data,
+                        // })
                         $("#bpm-start").val(data.from_pretty);
                         $("#bpm-end").val(data.to_pretty);
                         this.param.currentBpmFr = data.from_pretty;
                         this.param.currentBpmTo = data.to_pretty;
                     },
                     onChange: (data) => {
-                        log.debug({
-                          'rpm onChange':data,
-                        })
+                        // log.debug({
+                        //   'rpm onChange':data,
+                        // })
                         $("#bpm-start").val(data.from_pretty);
                         $("#bpm-end").val(data.to_pretty);
                         this.param.currentBpmFr = data.from_pretty;
@@ -301,7 +297,12 @@
 
         },
         methods: {
-
+            loading() {
+                if(this.busy) return;
+                if(this.last_offset === this.offset) return;
+                this.busy = true;
+                this.getListMore();
+            },
             updateAllList:  _.debounce(function() {
                 this.getList();
                 this.getTopList();
@@ -343,6 +344,7 @@
                 });
             },
             getListMore: _.debounce(function() {
+                this.busy = true;
                 const p = {
                     limit: 10,
                     offset: this.offset,
@@ -357,7 +359,9 @@
                 }
                 Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
                     this.list = this.list.concat(r);
+                    this.last_offset = this.offset;
                     this.offset = this.list.length;
+                    this.busy = false;
                     // log.debug({
                     //     'read more':r,
                     // })
@@ -422,16 +426,5 @@
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
-    .flip-list-move {
-        transition: transform 1s;
-    }
-
-    .flip-list-enter, .flip-list-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        opacity: 0;
-    }
-
-    .flip-list-enter-active, .flip-list-leave-active {
-        transition: opacity .4s;
-    }
 
 </style>

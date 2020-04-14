@@ -72,9 +72,11 @@
                     </div>
                 </div>
                 <div class="detail__content">
-                    <keep-alive>
-                    <router-view :item="item"/>
-                    </keep-alive>
+                    <transition name="fade" mode="out-in">
+                        <keep-alive>
+                            <router-view :item="item"/>
+                        </keep-alive>
+                    </transition>
                 </div>
             </div>
         </div>
@@ -264,6 +266,12 @@
 
 <style lang="scss">
     @import '@/assets_m/scss/App.scss';
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
 </style>
 
 <style lang="css">

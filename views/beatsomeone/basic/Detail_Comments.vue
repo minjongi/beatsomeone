@@ -2,13 +2,14 @@
     <div class="commentsbox">
         <div class="commentsbox__row" v-if="listComments">
             <div class="comment" v-for="c in listComments" :key="c.cqa_id">
-                <div class="comment__author-img">
-                    <img src="https://via.placeholder.com/50x50" alt="">
+                <div class="comment__author-img" v-if="c">
+                    <img v-if="!c.mem_photo" src="https://via.placeholder.com/50x50" alt="">
+                    <img v-if="c.mem_photo" :src="'/uploads/member_photo/' + c.mem_photo" alt="">
                 </div>
                 <div class="comment__content">
                     <div class="comment__info">
                         <div class="writer">
-                            <span>{{ c.mem_userid }}</span>
+                            <span>{{ c.mem_nickname }}</span>
                             <a href="">신고하기</a>
                         </div>
 

@@ -162,8 +162,9 @@ class Beatsomeone_model extends CB_Model
 
         $where['cmall_qna.cit_id'] = element('cit_id', $config);
 
-        $this->db->where($where);
-        //$this->db->limit($limit);
+        $this->db->where($where)
+            ->join('cb_member as m','m.mem_id = cb_cmall_qna.mem_id','left')
+            ->select('cb_cmall_qna.*, m.mem_nickname, m.mem_photo');
         $this->db->order_by('cb_cmall_qna.cqa_id', 'desc');
         $qry = $this->db->get('cmall_qna');
         $result = $qry->result_array();

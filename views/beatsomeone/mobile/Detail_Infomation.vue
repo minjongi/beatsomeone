@@ -1,6 +1,6 @@
 <template>
     <div class="playList">
-        <div class="information">
+        <div class="information" v-if="info">
             <div class="information__thumb">
                 <img v-if="info.mem_photo" :src="'/uploads/member_photo/' + info.mem_photo">
                 <img v-if="!info.mem_photo" src="https://via.placeholder.com/130x130" alt="">
@@ -24,7 +24,7 @@
         props: ['item'],
         data: function () {
             return {
-                info: {},
+                info: null,
             }
         },
         watch: {
