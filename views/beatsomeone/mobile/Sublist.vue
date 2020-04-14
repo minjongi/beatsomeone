@@ -117,6 +117,9 @@
                 <!-- 필터 끝 -->
                 <div class="sublist__content">
                     <div class="row">
+                        <h2 class="section-title" v-if="param.search">
+                            <div class="wrap">Search results for '{{ param.search }}'</div>
+                        </h2>
                         <h2 class="section-title">
                             <div class="wrap">TOP <span class="number">5</span></div>
                         </h2>

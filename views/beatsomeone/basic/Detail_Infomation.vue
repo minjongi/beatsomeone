@@ -28,8 +28,11 @@
                 this.getList();
             },
         },
-        mounted() {
+        created() {
             this.getList();
+        },
+        mounted() {
+
         },
         methods: {
             getList() {

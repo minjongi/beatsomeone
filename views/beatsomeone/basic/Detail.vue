@@ -73,7 +73,9 @@
                     </div>
 
                     <div class="detail__content">
-                        <router-view :item="item"/>
+                        <keep-alive>
+                            <router-view :item="item"/>
+                        </keep-alive>
                     </div>
 
 

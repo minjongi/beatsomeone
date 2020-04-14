@@ -72,7 +72,9 @@
                     </div>
                 </div>
                 <div class="detail__content">
+                    <keep-alive>
                     <router-view :item="item"/>
+                    </keep-alive>
                 </div>
             </div>
         </div>

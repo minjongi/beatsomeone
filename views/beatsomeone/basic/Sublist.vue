@@ -114,6 +114,9 @@
                     </div>
                     <div class="sublist__content">
                         <div class="row">
+                            <h1 class="section-title" v-if="param.search">
+                                Search results for '{{ param.search }}'
+                            </h1>
                             <h2 class="section-title">
                                 TOP <span class="number">5</span>
                                 <div class="sort">

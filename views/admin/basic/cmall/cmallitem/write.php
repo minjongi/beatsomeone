@@ -155,12 +155,13 @@
 				<a data-toggle="collapse" href="#cmalltab3" aria-expanded="true" aria-controls="cmalltab3"><i class="fa fa-chevron-up pull-right"></i></a>
 			</div>
 			<div class="collapse in" id="cmalltab3">
-				<div class="form-group">
-					<label class="col-sm-2 control-label">판매가격</label>
-					<div class="col-sm-10 form-inline">
-						<input type="number" class="form-control" name="cit_price" value="<?php echo set_value('cit_price', element('cit_price', element('data', $view))); ?>" /> 원
-					</div>
-				</div>
+                <input type="hidden" class="form-control" name="cit_price" value="<?php echo set_value('cit_price', element('cit_price', element('data', $view))); ?>" />
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">판매가격</label>-->
+<!--					<div class="col-sm-10 form-inline">-->
+<!--						<input type="number" class="form-control" name="cit_price" value="--><?php //echo set_value('cit_price', element('cit_price', element('data', $view))); ?><!--" /> 원-->
+<!--					</div>-->
+<!--				</div>-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">기본설명</label>
 					<div class="col-sm-10">
