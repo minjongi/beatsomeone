@@ -115,7 +115,7 @@
                 return `${t.getFullYear()}.${('0' + t.getMonth()).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
             },
             hashtag() {
-                return this.item.hashTag ? this.item.hashTag.split(' ') : '';
+                return this.item.hashTag ? this.item.hashTag.split(',') : '';
             },
         },
 

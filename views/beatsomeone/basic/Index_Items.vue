@@ -146,7 +146,7 @@
         },
         computed: {
             hashtag() {
-                return this.item.hashTag ? this.item.hashTag.split(' ') : '';
+                return this.item.hashTag ? this.item.hashTag.split(',') : '';
             },
         },
         mounted() {
