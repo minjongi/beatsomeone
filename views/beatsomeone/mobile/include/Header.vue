@@ -8,16 +8,16 @@
                 </h1>
                 <div class="header__btnbox">
                     <a href="#" class="header__search"></a>
-                    <a href="#" class="header__nav"></a>
+                    <a class="header__nav" @click="toggleOpenMenu"></a>
                 </div>
             </div>
         </header>
 
-
-        <nav class="gnb">
+        <transition name="slide">
+        <nav class="gnb" v-if="isOpen" >
             <div class="gnb__bg"></div>
             <div class="gnb__content">
-                <a href="" class="gnb__close">닫기</a>
+                <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
                     <a href="/cmall/wishlist">Favorite</a>
                     <a href="">Free Beats</a>
@@ -35,6 +35,7 @@
             </div>
 
         </nav>
+        </transition>
     </div>
 
 
@@ -56,6 +57,7 @@
             return {
                 searchText: null,
                 cartSum: 0,
+                isOpen: false,
             };
         },
         watch: {
@@ -72,6 +74,9 @@
             this.updateCartSum();
         },
         methods: {
+            toggleOpenMenu() {
+              this.isOpen = !this.isOpen;
+            },
             updateCartSum() {
                 Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
                     if(r >= 0) {
@@ -91,6 +96,17 @@
 
 </script>
 
-<style scoped="scoped">
+<style scoped="scoped" type="css">
+    .slide-enter-active,
+    .slide-leave-active
+    {
+        transition: transform 0.2s ease;
+    }
+
+    .slide-enter,
+    .slide-leave-to {
+        transform: translateX(-100%);
+        transition: all 150ms ease-in 0s
+    }
 
 </style>

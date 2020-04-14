@@ -113,14 +113,14 @@ $(function() {
       .toggle();
   });
 
-  $('.header__nav').on('click', function(e) {
-    e.preventDefault();
-    $('.gnb').show();
-  })
-  $('.gnb__bg').add('.gnb__close').on('click', function(e) {
-    e.preventDefault();
-    $('.gnb').hide();
-  })
+  // $('.header__nav').on('click', function(e) {
+  //   e.preventDefault();
+  //   $('.gnb').show();
+  // })
+  // $('.gnb__bg').add('.gnb__close').on('click', function(e) {
+  //   e.preventDefault();
+  //   $('.gnb').hide();
+  // })
 });
 // 윈도우 스크롤 했을때,
 $(window).scroll(function() {

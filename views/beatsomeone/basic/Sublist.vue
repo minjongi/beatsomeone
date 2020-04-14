@@ -151,11 +151,17 @@
                         <div class="row">
                             <h2 class="section-title">PLAY LIST</h2>
                             <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
-<!--                                <ul class="playList__list" id="playList__list">-->
-                                    <transition-group class="playList__list" id="playList__list" name="flip-list" tag="ul">
-                                    <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
+
+                                    <transition-group
+                                            name="staggered-fade"
+                                            tag="ul"
+                                            v-bind:css="false"
+                                            v-on:before-enter="beforeEnter"
+                                            v-on:enter="enter"
+                                            v-on:leave="leave">
+                                        <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
                                     </transition-group>
-<!--                                </ul>-->
+
                             </div>
                             <div>
                                 <button @click="getListMore">추가로딩</button>
@@ -179,6 +185,8 @@
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
     import { EventBus } from '*/src/eventbus';
+    import Velocity from "velocity-animate";
+
 
 
 
@@ -375,6 +383,31 @@
                     this.listTop5 = r;
                 });
             },
+            beforeEnter: function (el) {
+                el.style.opacity = 0
+                el.style.height = 0
+            },
+            enter: function (el, done) {
+                var delay = el.dataset.index * 150
+                setTimeout(function () {
+                    Velocity(
+                        el,
+                        { opacity: 1, height: 90, 'margin-bottom': 1,  },
+                        { complete: done }
+                    )
+                }, delay)
+            },
+            leave: function (el, done) {
+                var delay = el.dataset.index * 150
+                setTimeout(function () {
+                    Velocity(
+                        el,
+                        { opacity: 0, height: 0, 'margin-bottom': 0,  },
+
+                        { complete: done }
+                    )
+                }, delay)
+            }
         },
 
     }

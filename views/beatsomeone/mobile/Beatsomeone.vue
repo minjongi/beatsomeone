@@ -28,8 +28,14 @@
                             </div>
                             <div class="playList">
                                 <!-- 아래 템플릿 문자열로 붙임 -->
-                                <transition-group class="playList__list" id="playList__list" name="flip-list" tag="ul">
-                                    <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
+                                <transition-group
+                                        name="staggered-fade"
+                                        tag="ul"
+                                        v-bind:css="false"
+                                        v-on:before-enter="beforeEnter"
+                                        v-on:enter="enter"
+                                        v-on:leave="leave">
+                                    <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
                                 </transition-group>
                                 <div class="playList__btnbox">
                                     <a href="#//" class="playList__more pointer" @click="moveMore">more</a>
@@ -216,6 +222,7 @@
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
     import { EventBus } from '*/src/eventbus';
+    import Velocity from "velocity-animate";
 
     export default {
         name: 'Index',
@@ -352,6 +359,30 @@
                     this.listTestimonials = r.data;
                 });
             },
+            beforeEnter: function (el) {
+                el.style.opacity = 0
+                el.style.height = 0
+            },
+            enter: function (el, done) {
+                var delay = el.dataset.index * 150
+                setTimeout(function () {
+                    Velocity(
+                        el,
+                        { opacity: 1, height: 55, 'margin-bottom': 1,  },
+                        { complete: done }
+                    )
+                }, delay)
+            },
+            leave: function (el, done) {
+                var delay = el.dataset.index * 150
+                setTimeout(function () {
+                    Velocity(
+                        el,
+                        { opacity: 0, height: 0, 'margin-bottom': 0, display:'none'  },
+                        { complete: done }
+                    )
+                }, delay)
+            }
 
         },
 

@@ -58,6 +58,7 @@
                 isOpenSubmenu: false,
                 listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 audio: {},
+
             };
         },
         mounted() {

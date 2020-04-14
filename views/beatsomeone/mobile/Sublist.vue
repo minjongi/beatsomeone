@@ -138,12 +138,22 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="playList"  v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
+                        <div class="playList"  v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
                             <!-- 아래 템플릿 문자열로 붙임 -->
-                            <transition-group class="playList__list" id="playList__list" name="flip-list" tag="ul">
+                            <transition-group
+                                    name="staggered-fade"
+                                    tag="ul"
+                                    v-bind:css="false"
+                                    v-on:before-enter="beforeEnter"
+                                    v-on:enter="enter"
+                                    v-on:leave="leave">
                                 <!-- 플레이리스트 들어감 -->
-                                <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
+                                <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
                             </transition-group>
+                            <div v-if="busy && false">
+                                <Loader key="loader" ></Loader>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -161,9 +171,11 @@
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
     import { EventBus } from '*/src/eventbus';
+    import Velocity from "velocity-animate";
+    import Loader from '*/vue/common/Loader';
 
     export default {
-        components: {Header,Footer,Index_Items,},
+        components: {Header,Footer,Index_Items,Loader},
         data: function() {
             return {
                 slick: null,
@@ -185,6 +197,7 @@
                     currentBpmFr: 0,
                     currentBpmTo : 120,
                 },
+                busy: false,
             }
         },
         watch: {
@@ -192,9 +205,9 @@
             param: {
                 deep: true,
                 handler(n,o) {
-                    log.debug({
-                        'change param' : n,
-                    });
+                    // log.debug({
+                    //     'change param' : n,
+                    // });
                     if(o) {
                         this.updateAllList();
                     }
@@ -247,9 +260,9 @@
                         this.param.currentBpmTo = data.to_pretty;
                     },
                     onChange: (data) => {
-                        log.debug({
-                            'rpm onChange':data,
-                        })
+                        // log.debug({
+                        //     'rpm onChange':data,
+                        // })
                         $("#bpm-start").val(data.from_pretty);
                         $("#bpm-end").val(data.to_pretty);
                         this.param.currentBpmFr = data.from_pretty;
@@ -275,6 +288,12 @@
 
         },
         methods: {
+            loading() {
+                if(this.busy) return;
+                if(this.last_offset === this.offset) return;
+                this.busy = true;
+                this.getListMore();
+            },
             updateAllList:  _.debounce(function() {
                 this.getList();
                 this.getTopList();
@@ -336,7 +355,9 @@
                 });
             },
             getListMore: _.debounce(function() {
-                //if(this.last_offset === this.offset) return;
+
+                //if(this.busy) return;
+                this.busy = true;
                 const p = {
                     limit: 10,
                     offset: this.offset,
@@ -353,6 +374,7 @@
                     this.list = this.list.concat(r);
                     this.last_offset = this.offset;
                     this.offset = this.list.length;
+                    this.busy = false;
                 });
             },1000),
             getTopList() {
@@ -378,6 +400,30 @@
                     });
                 });
             },
+            beforeEnter: function (el) {
+                el.style.opacity = 0
+                el.style.height = 0
+            },
+            enter: function (el, done) {
+                var delay = el.dataset.index * 150
+                setTimeout(function () {
+                    Velocity(
+                        el,
+                        { opacity: 1, height: 55, 'margin-bottom': 1,  },
+                        { complete: done }
+                    )
+                }, delay)
+            },
+            leave: function (el, done) {
+                var delay = el.dataset.index * 150
+                setTimeout(function () {
+                    Velocity(
+                        el,
+                        { opacity: 0, height: 0, 'margin-bottom': 0,  },
+                        { complete: done }
+                    )
+                }, delay)
+            }
         },
 
     }
@@ -392,15 +438,5 @@
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
-    .flip-list-move {
-        transition: transform 1s;
-    }
 
-    .flip-list-enter, .flip-list-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        opacity: 0;
-    }
-
-    .flip-list-enter-active, .flip-list-leave-active {
-        transition: opacity .4s;
-    }
 </style>
