@@ -655,8 +655,8 @@ class BeatsomeoneApi extends CB_Controller
 
         $result = $this->Beatsomeone_model->merge_item($form);
 
-        log_message('debug','$result');
-        log_message('debug',print_r($result,true));
+        //log_message('debug','$result');
+        //log_message('debug',print_r($result,true));
 
 
         // Reponse

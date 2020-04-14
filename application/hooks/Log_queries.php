@@ -26,7 +26,7 @@ class LogQueryHook {
         }
 
 
-        log_message('debug',$output);
+        //log_message('debug',$output);
 
     }
 }

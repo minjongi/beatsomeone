@@ -88,16 +88,21 @@
 
         <li>
             <span>BASIC LEASE LICENSE (MP3 or WAV) PRICE</span>
-            <input type="text" id="licenseLeasePriceKR" name="licenseLeasePriceKR" class="form-control input" v-model="item.licenseLeasePriceKR" />
-            <input type="text" id="licenseLeasePriceDL" name="licenseLeasePriceDL" class="form-control input" v-model="item.licenseLeasePriceDL" />
-            <input type="text" id="licenseLeasePriceQuantity" name="licenseLeasePriceQuantity" class="form-control input" v-model="item.licenseLeasePriceQuantity" />
+            <div class="form-text text-primary group">
+                <input type="text" id="licenseLeasePriceKR" name="licenseLeasePriceKR" class="form-control input" v-model="item.licenseLeasePriceKR" />
+                <input type="text" id="licenseLeasePriceDL" name="licenseLeasePriceDL" class="form-control input" v-model="item.licenseLeasePriceDL" />
+                <input type="text" id="licenseLeasePriceQuantity" name="licenseLeasePriceQuantity" class="form-control input" v-model="item.licenseLeasePriceQuantity" />
+            </div>
         </li>
         <li>
             <span>UNLIMITED STEMS LICENSE PRICE</span>
-            <input type="text" id="licenseStemPriceKR" name="licenseStemPriceKR" class="form-control input" v-model="item.licenseStemPriceKR" />
-            <input type="text" id="licenseStemPriceDL" name="licenseStemPriceDL" class="form-control input" v-model="item.licenseStemPriceDL" />
-            <input type="text" id="licenseStemPriceQuantity" name="licenseStemPriceQuantity" class="form-control input" v-model="item.licenseStemPriceQuantity" />
+            <div class="form-text text-primary group">
+                <input type="text" id="licenseStemPriceKR" name="licenseStemPriceKR" class="form-control input" v-model="item.licenseStemPriceKR" />
+                <input type="text" id="licenseStemPriceDL" name="licenseStemPriceDL" class="form-control input" v-model="item.licenseStemPriceDL" />
+                <input type="text" id="licenseStemPriceQuantity" name="licenseStemPriceQuantity" class="form-control input" v-model="item.licenseStemPriceQuantity" />
+            </div>
         </li>
+
 
         <li>
             <h4><span>Track Details</span></h4>
@@ -231,9 +236,7 @@
                     ,bpm                                : '120'
                     ,cit_content                        : '테스트 음원 테스트'
                     ,musician                           : '테스트 뮤지션'
-                    ,cde_id_1 : 1
-                    ,cde_id_2 : 2
-                    ,cde_id_3 : 3
+
                     ,voice : 0
                 },
                 listRelation: null,
@@ -306,6 +309,7 @@
             getItem() {
                 Http.get(`/beatsomeoneApi/get_item/${this.cit_id}`).then( r => {
                     // 전처리
+                    r.data.cde_id_1 = r.data.cde_id;
                     r.data.releaseDate = moment(r.data.cit_start_datetime).format('YYYY-MM-DD');
                     r.data.releaseTime = moment(r.data.cit_start_datetime).format('HH:mm');
                     r.data.url = 'http://beatsomeone.com/beatsomeone/detail/' + r.data.cit_key;

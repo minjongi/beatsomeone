@@ -555,9 +555,10 @@ class Beatsomeone_model extends CB_Model
                         $data['cde_ip'] = $p["ip"];
                         $data['cde_status'] = 1;
 
-                        if($p['cde_id_'.($i+1)] != 'null') {
+                        $cde_id = $p['cde_id_'.($i+1)];
+                        if($cde_id != 'null' && $cde_id != null) {
                             $this->db->where('cit_id',$cit_id);
-                            $this->db->where('cde_id',$p['cde_id_'.($i+1)]);
+                            $this->db->where('cde_id',$cde_id);
                             $this->db->update('cmall_item_detail', $data);
                         } else {
                             $this->db->insert('cmall_item_detail', $data);
