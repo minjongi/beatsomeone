@@ -17,7 +17,7 @@ class LogQueryHook {
             foreach ($queries as $key=>$query){
                 if($query == 'SHOW TABLES FROM `beatsomeone`') continue;
                 if(preg_match('/FROM `cb_member`/i',$query)) continue;
-                log_message('debug','['.$key.']'.PHP_EOL.$query .'\n');
+                log_message('debug','['.$key.']'.PHP_EOL.$query .PHP_EOL);
             }
         }
 

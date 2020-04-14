@@ -331,7 +331,7 @@ class Beatsomeone_model extends CB_Model
         $where['cit_status'] = 1;
         // search
         if ($search) {
-            $this->db->where("p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%'",null,false);
+            $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
         }
         // Genre
         if ($genre && $genre !== 'All Genre') {
@@ -369,11 +369,11 @@ class Beatsomeone_model extends CB_Model
         }
 
         //$limit = element('limit', $config) ? element('limit', $config) : 4;
-        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
-        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','inner');
+
 
         $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, ';
-        $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
+
         $this->db->select($select);
         $this->db->where($where);
         $this->db->limit($config['limit']);
