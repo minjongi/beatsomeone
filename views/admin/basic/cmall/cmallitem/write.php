@@ -14,78 +14,78 @@
 		echo form_open_multipart(current_full_url(), $attributes);
 		?>
 			<input type="hidden" name="<?php echo element('primary_key', $view); ?>"	value="<?php echo element(element('primary_key', $view), element('data', $view)); ?>" />
-			<div class="box-table-header">
-				<h4><a data-toggle="collapse" href="#cmalltab1" aria-expanded="true" aria-controls="cmalltab1">카테고리</a></h4>
-				<a data-toggle="collapse" href="#cmalltab1" aria-expanded="true" aria-controls="cmalltab1"><i class="fa fa-chevron-up pull-right"></i></a>
-			</div>
-			<div class="collapse in" id="cmalltab1">
-				<div class="form-group">
-					<label class="col-sm-2 control-label">카테고리</label>
-					<div class="col-sm-10">
-						<?php
-						$open = false;
-						$category = element('all_category', element('data', $view));
-						$item_category = element('category', element('data', $view));
-						if (element(0, $category)) {
-							$i = 0;
-							foreach (element(0, $category) as $key => $val) {
-								$display = (is_array($item_category) && in_array(element('cca_id', $val), $item_category)) ? "block" : 'none';
-								if ($i%3== 0) {
-									echo '<div>';
-									$open = true;
-								}
-								echo '<div class="checkbox-inline" style="vertical-align:top;">';
-								$cat_checked = (is_array($item_category) && in_array(element('cca_id', $val), $item_category)) ? 'checked="checked"' : '';
-								echo '<label for="cca_id_' . element('cca_id', $val) . '"><input type="checkbox" name="cmall_category[]" value="' . element('cca_id', $val) . '" ' . $cat_checked . ' id="cca_id_' . element('cca_id', $val) . '" onclick="display_cmall_category(this.checked,\'catwrap_' . element('cca_id', $val) . '\');" />' . element('cca_value', $val) . '</label> ';
-								echo get_subcat($category, $item_category, element('cca_id', $val), $display);
-								echo '</div>';
-								if ($i%3== 2) {
-									echo '</div>';
-									$open = false;
-								}
-								$i++;
-							}
-							if ($open) {
-								echo '</div>';
-								$open = false;
-							}
-						}
-						function get_subcat($category, $item_category, $key, $display)
-						{
-
-							$subcat = element($key, $category);
-							$html = '';
-							if ($subcat) {
-								$html .= '<div class="form-group" id="catwrap_' . $key . '" style="vertical-align:margin-left:10px;top;display:' . $display . ';" >';
-								foreach ($subcat as $skey => $sval) {
-									$display = (is_array($item_category) && in_array(element('cca_id', $sval), $item_category)) ? 'block' : 'none';
-									$cat_checked = (is_array($item_category) && in_array(element('cca_id', $sval), $item_category)) ? 'checked="checked"' : '';
-									$html .= '<div class="checkbox-inline" style="vertical-align:top;margin-left:10px;">';
-									$html .= '<label for="cca_id_' . element('cca_id', $sval) . '"><input type="checkbox" name="cmall_category[]" value="' . element('cca_id', $sval) . '" ' . $cat_checked . ' id="cca_id_' . element('cca_id', $sval) . '" onclick="display_cmall_category(this.checked,\'catwrap_' . element('cca_id', $sval) . '\');" /> ' . element('cca_value', $sval) . '</label>';
-									$html .= get_subcat($category, $item_category, element('cca_id', $sval), $display);
-									$html .= '</div>';
-								}
-								$html .= '</div>';
-							}
-							return $html;
-						}
-
-						?>
-						<script type="text/javascript">
-						//<![CDATA[
-						function display_cmall_category(check, idname) {
-							if (check === true) {
-								$('#' + idname).show();
-							} else {
-								$('#' + idname).hide();
-								$('#' + idname).find('input:checkbox').attr('checked', false);
-							}
-						}
-						//]]>
-						</script>
-					</div>
-				</div>
-			</div>
+<!--			<div class="box-table-header">-->
+<!--				<h4><a data-toggle="collapse" href="#cmalltab1" aria-expanded="true" aria-controls="cmalltab1">카테고리</a></h4>-->
+<!--				<a data-toggle="collapse" href="#cmalltab1" aria-expanded="true" aria-controls="cmalltab1"><i class="fa fa-chevron-up pull-right"></i></a>-->
+<!--			</div>-->
+<!--			<div class="collapse in" id="cmalltab1">-->
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">카테고리</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						--><?php
+//						$open = false;
+//						$category = element('all_category', element('data', $view));
+//						$item_category = element('category', element('data', $view));
+//						if (element(0, $category)) {
+//							$i = 0;
+//							foreach (element(0, $category) as $key => $val) {
+//								$display = (is_array($item_category) && in_array(element('cca_id', $val), $item_category)) ? "block" : 'none';
+//								if ($i%3== 0) {
+//									echo '<div>';
+//									$open = true;
+//								}
+//								echo '<div class="checkbox-inline" style="vertical-align:top;">';
+//								$cat_checked = (is_array($item_category) && in_array(element('cca_id', $val), $item_category)) ? 'checked="checked"' : '';
+//								echo '<label for="cca_id_' . element('cca_id', $val) . '"><input type="checkbox" name="cmall_category[]" value="' . element('cca_id', $val) . '" ' . $cat_checked . ' id="cca_id_' . element('cca_id', $val) . '" onclick="display_cmall_category(this.checked,\'catwrap_' . element('cca_id', $val) . '\');" />' . element('cca_value', $val) . '</label> ';
+//								echo get_subcat($category, $item_category, element('cca_id', $val), $display);
+//								echo '</div>';
+//								if ($i%3== 2) {
+//									echo '</div>';
+//									$open = false;
+//								}
+//								$i++;
+//							}
+//							if ($open) {
+//								echo '</div>';
+//								$open = false;
+//							}
+//						}
+//						function get_subcat($category, $item_category, $key, $display)
+//						{
+//
+//							$subcat = element($key, $category);
+//							$html = '';
+//							if ($subcat) {
+//								$html .= '<div class="form-group" id="catwrap_' . $key . '" style="vertical-align:margin-left:10px;top;display:' . $display . ';" >';
+//								foreach ($subcat as $skey => $sval) {
+//									$display = (is_array($item_category) && in_array(element('cca_id', $sval), $item_category)) ? 'block' : 'none';
+//									$cat_checked = (is_array($item_category) && in_array(element('cca_id', $sval), $item_category)) ? 'checked="checked"' : '';
+//									$html .= '<div class="checkbox-inline" style="vertical-align:top;margin-left:10px;">';
+//									$html .= '<label for="cca_id_' . element('cca_id', $sval) . '"><input type="checkbox" name="cmall_category[]" value="' . element('cca_id', $sval) . '" ' . $cat_checked . ' id="cca_id_' . element('cca_id', $sval) . '" onclick="display_cmall_category(this.checked,\'catwrap_' . element('cca_id', $sval) . '\');" /> ' . element('cca_value', $sval) . '</label>';
+//									$html .= get_subcat($category, $item_category, element('cca_id', $sval), $display);
+//									$html .= '</div>';
+//								}
+//								$html .= '</div>';
+//							}
+//							return $html;
+//						}
+//
+//						?>
+<!--						<script type="text/javascript">-->
+<!--						//<![CDATA[-->
+<!--						function display_cmall_category(check, idname) {-->
+<!--							if (check === true) {-->
+<!--								$('#' + idname).show();-->
+<!--							} else {-->
+<!--								$('#' + idname).hide();-->
+<!--								$('#' + idname).find('input:checkbox').attr('checked', false);-->
+<!--							}-->
+<!--						}-->
+<!--						//]]>-->
+<!--						</script>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
 			<div class="box-table-header">
 				<h4><a data-toggle="collapse" href="#cmalltab2" aria-expanded="true" aria-controls="cmalltab2">기본정보</a></h4>
 				<a data-toggle="collapse" href="#cmalltab2" aria-expanded="true" aria-controls="cmalltab2"><i class="fa fa-chevron-up pull-right"></i></a>
@@ -103,51 +103,52 @@
 						<input type="text" class="form-control" name="cit_name" value="<?php echo set_value('cit_name', element('cit_name', element('data', $view))); ?>" />
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">정렬순서</label>
-					<div class="col-sm-10 form-inline">
-						<input type="number" class="form-control" name="cit_order" value="<?php echo set_value('cit_order', element('cit_order', element('data', $view))); ?>" />
-						<div class="help-inline">정렬순서가 낮은 상품이 먼저 나옵니다</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">PC 레이아웃/스킨</label>
-					<div class="col-sm-10 form-inline">
-						레이아웃 -
-						<select name="item_layout" id="item_layout" class="form-control" >
-							<?php echo element('item_layout_option', element('data', $view)); ?>
-						</select>
-						사이드바 -
-						<select class="form-control" name="item_sidebar" id="item_sidebar">
-							<option value="">기본설정따름</option>
-							<option value="1" <?php echo set_select('item_sidebar', '1', (element('item_sidebar', element('data', $view)) === '1' ? true : false)); ?> >사용</option>
-							<option value="2" <?php echo set_select('item_sidebar', '2', (element('item_sidebar', element('data', $view)) === '2' ? true : false)); ?> >사용하지않음</option>
-						</select>
-						스킨 -
-						<select name="item_skin" id="item_skin" class="form-control" >
-							<?php echo element('item_skin_option', element('data', $view)); ?>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">모바일 레이아웃/스킨</label>
-					<div class="col-sm-10 form-inline">
-						레이아웃 -
-						<select name="item_mobile_layout" id="item_mobile_layout" class="form-control" >
-						<?php echo element('item_mobile_layout_option', element('data', $view)); ?>
-						</select>
-						사이드바 -
-						<select class="form-control" name="item_mobile_sidebar" id="item_mobile_sidebar">
-							<option value="">기본설정따름</option>
-							<option value="1" <?php echo set_select('item_mobile_sidebar', '1', (element('item_mobile_sidebar', element('data', $view)) === '1' ? true : false)); ?> >사용</option>
-							<option value="2" <?php echo set_select('item_mobile_sidebar', '2', (element('item_mobile_sidebar', element('data', $view)) === '2' ? true : false)); ?> >사용하지않음</option>
-						</select>
-						스킨 -
-						<select name="item_mobile_skin" id="item_mobile_skin" class="form-control" >
-							<?php echo element('item_mobile_skin_option', element('data', $view)); ?>
-						</select>
-					</div>
-				</div>
+                <input type="hidden" class="form-control" name="cit_order" value="<?php echo set_value('cit_order', element('cit_order', element('data', $view))); ?>" />
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">정렬순서</label>-->
+<!--					<div class="col-sm-10 form-inline">-->
+<!--						<input type="number" class="form-control" name="cit_order" value="--><?php //echo set_value('cit_order', element('cit_order', element('data', $view))); ?><!--" />-->
+<!--						<div class="help-inline">정렬순서가 낮은 상품이 먼저 나옵니다</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">PC 레이아웃/스킨</label>-->
+<!--					<div class="col-sm-10 form-inline">-->
+<!--						레이아웃 --->
+<!--						<select name="item_layout" id="item_layout" class="form-control" >-->
+<!--							--><?php //echo element('item_layout_option', element('data', $view)); ?>
+<!--						</select>-->
+<!--						사이드바 --->
+<!--						<select class="form-control" name="item_sidebar" id="item_sidebar">-->
+<!--							<option value="">기본설정따름</option>-->
+<!--							<option value="1" --><?php //echo set_select('item_sidebar', '1', (element('item_sidebar', element('data', $view)) === '1' ? true : false)); ?><!-- >사용</option>-->
+<!--							<option value="2" --><?php //echo set_select('item_sidebar', '2', (element('item_sidebar', element('data', $view)) === '2' ? true : false)); ?><!-- >사용하지않음</option>-->
+<!--						</select>-->
+<!--						스킨 --->
+<!--						<select name="item_skin" id="item_skin" class="form-control" >-->
+<!--							--><?php //echo element('item_skin_option', element('data', $view)); ?>
+<!--						</select>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">모바일 레이아웃/스킨</label>-->
+<!--					<div class="col-sm-10 form-inline">-->
+<!--						레이아웃 --->
+<!--						<select name="item_mobile_layout" id="item_mobile_layout" class="form-control" >-->
+<!--						--><?php //echo element('item_mobile_layout_option', element('data', $view)); ?>
+<!--						</select>-->
+<!--						사이드바 --->
+<!--						<select class="form-control" name="item_mobile_sidebar" id="item_mobile_sidebar">-->
+<!--							<option value="">기본설정따름</option>-->
+<!--							<option value="1" --><?php //echo set_select('item_mobile_sidebar', '1', (element('item_mobile_sidebar', element('data', $view)) === '1' ? true : false)); ?><!-- >사용</option>-->
+<!--							<option value="2" --><?php //echo set_select('item_mobile_sidebar', '2', (element('item_mobile_sidebar', element('data', $view)) === '2' ? true : false)); ?><!-- >사용하지않음</option>-->
+<!--						</select>-->
+<!--						스킨 --->
+<!--						<select name="item_mobile_skin" id="item_mobile_skin" class="form-control" >-->
+<!--							--><?php //echo element('item_mobile_skin_option', element('data', $view)); ?>
+<!--						</select>-->
+<!--					</div>-->
+<!--				</div>-->
 			</div>
 			<div class="box-table-header">
 				<h4><a data-toggle="collapse" href="#cmalltab3" aria-expanded="true" aria-controls="cmalltab3">세부정보</a></h4>
@@ -327,18 +328,18 @@
 <!--						--><?php //} ?>
 <!--					</div>-->
 <!--				</div>-->
-				<div class="form-group">
-					<label class="col-sm-2 control-label">사용자데모</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" name="demo_user_link" value="<?php echo set_value('demo_user_link', element('demo_user_link', element('data', $view))); ?>" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">관리자데모</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" name="demo_admin_link" value="<?php echo set_value('demo_admin_link', element('demo_admin_link', element('data', $view))); ?>" />
-					</div>
-				</div>
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">사용자데모</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						<input type="text" class="form-control" name="demo_user_link" value="--><?php //echo set_value('demo_user_link', element('demo_user_link', element('data', $view))); ?><!--" />-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">관리자데모</label>-->
+<!--					<div class="col-sm-10">-->
+<!--						<input type="text" class="form-control" name="demo_admin_link" value="--><?php //echo set_value('demo_admin_link', element('demo_admin_link', element('data', $view))); ?><!--" />-->
+<!--					</div>-->
+<!--				</div>-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">상품유형</label>
 					<div class="col-sm-10">
@@ -366,13 +367,14 @@
 						<div class="help-inline" >체크를 해제하시면 상품 리스트에서 사라지며, 구매할 수 없습니다. </div>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">다운로드 가능기간</label>
-					<div class="col-sm-10 form-inline">
-						<input type="number" class="form-control" name="cit_download_days" value="<?php echo set_value('cit_download_days', (int) element('cit_download_days', element('data', $view))); ?>" />일
-						<div class="help-inline" >해당기간동안 계속 다운로드 받을 수 있습니다. 0 이면 기간제한 없이 한번 결제후 언제든지 다운로드가 가능합니다</div>
-					</div>
-				</div>
+                <input type="hidden" class="form-control" name="cit_download_days" value="<?php echo set_value('cit_download_days', (int) element('cit_download_days', element('data', $view))); ?>" />
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label">다운로드 가능기간</label>-->
+<!--					<div class="col-sm-10 form-inline">-->
+<!--						<input type="number" class="form-control" name="cit_download_days" value="--><?php //echo set_value('cit_download_days', (int) element('cit_download_days', element('data', $view))); ?><!--" />일-->
+<!--						<div class="help-inline" >해당기간동안 계속 다운로드 받을 수 있습니다. 0 이면 기간제한 없이 한번 결제후 언제든지 다운로드가 가능합니다</div>-->
+<!--					</div>-->
+<!--				</div>-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">판매자 회원아이디</label>
 					<div class="col-sm-10 form-inline">
@@ -420,7 +422,20 @@
 							foreach (element('item_detail', element('data', $view)) as $detail) {
 						?>
 							<tr>
-								<td><input type="text" class="form-control" name="cde_title_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo html_escape(element('cde_title', $detail)); ?>" /></td>
+								<td>
+                                    <select name="cde_title_update[<?php echo html_escape(element('cde_id', $detail)); ?>]"  class="form-control" >
+                                        <?php
+                                        $list = array('LEASE','STEM','TAGGED');
+                                        for($i=0; $i<sizeof($list); $i++) {
+                                            $checked = element('cde_title', $detail) == $list[$i];
+                                            ?>
+                                            <option value="<?php echo $list[$i] ?>" <?php echo $checked == 1 ? 'selected' : '' ?>><?php echo $list[$i] ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+<!--                                    <input type="text" class="form-control" name="cde_title_update[--><?php //echo html_escape(element('cde_id', $detail)); ?><!--]" value="--><?php //echo html_escape(element('cde_title', $detail)); ?><!--" />-->
+                                </td>
 								<td class="form-inline">
 									<input type="file" class="form-control" name="cde_file_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" />
 									<?php if (element('cde_filename', $detail)) { ?>
@@ -437,20 +452,23 @@
 						</tbody>
 					</table>
 				</div>
-				<script type="text/javascript">
-				//<![CDATA[
-				function add_option() {
-					$('#item_option_wrap').append('<tr><td><input type="text" class="form-control" name="cde_title[]" value="" /></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
-				}
-				//]]>
-				</script>
+<!--				<script type="text/javascript">-->
+<!--				//<![CDATA[-->
+<!--				function add_option() {-->
+<!--					//$('#item_option_wrap').append('<tr><td><input type="text" class="form-control" name="cde_title[]" value="" /></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');-->
+<!---->
+<!--                    $('#item_option_wrap').append('<tr><td><select class="form-control" name="cde_title[]"><option value="LEASE">LEASE</option><option value="STEM">STEM</option><option value="TAGGED">TAGGED</option></select></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');-->
+<!---->
+<!--				}-->
+<!--				//]]>-->
+<!--				</script>-->
 			</div>
 			<div class="box-table-header">
 				<h4><a data-toggle="collapse" href="#cmalltab6" aria-expanded="true" aria-controls="cmalltab6">이미지</a></h4>
 				<a data-toggle="collapse" href="#cmalltab6" aria-expanded="true" aria-controls="cmalltab6"><i class="fa fa-chevron-up pull-right"></i></a>
 			</div>
 			<div class="collapse in" id="cmalltab6">
-			<?php for ($k = 1; $k<= 10; $k++) { ?>
+			<?php for ($k = 1; $k<= 1; $k++) { ?>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">이미지 <?php echo $k; ?></label>
 					<div class="col-sm-10 form-inline">
@@ -530,7 +548,8 @@
                 <script type="text/javascript">
                     //<![CDATA[
                     function add_option() {
-                        $('#item_option_wrap').append('<tr><td><input type="text" class="form-control" name="cde_title[]" value="" /></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
+                        //$('#item_option_wrap').append('<tr><td><input type="text" class="form-control" name="cde_title[]" value="" /></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
+                        $('#item_option_wrap').append('<tr><td><select class="form-control" name="cde_title[]"><option value="LEASE">LEASE</option><option value="STEM">STEM</option><option value="TAGGED">TAGGED</option></select></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
                     }
                     function add_relation() {
                         console.log('CIT_ID : ' + $('#t_cit_id').val());
@@ -631,8 +650,9 @@ jQuery(function($) {
 			var max_io_price = 0;
 			var is_price_chk = false;
 
-			$("input[name^=cde_title]").each(function(index) {
-				if($.trim($(this).val()).length > 0) {
+			$("select[name^=cde_title]").each(function(index) {
+
+                if($.trim($(this).val()).length > 0) {
 					option_count++;
 					is_price_chk = false;
 
