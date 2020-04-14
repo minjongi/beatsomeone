@@ -1,14 +1,14 @@
 <template>
-    <nav>
+    <nav id="pagenation">
 
         <ul class="pagination">
-            <li v-if="isPrev">
+            <li v-if="isPrev" class="mblock">
                 <a @click="doClick( start - 1)">&lt;</a>
             </li>
-            <li v-for="i in display" :key="i" :class="{'active': current === start + i + addon }" v-if="start + i <= max">
+            <li class="mblock" v-for="i in display" :key="i" :class="{'active': current === start + i + addon }" v-if="start + i <= max">
                 <a @click="doClick(start + i + addon )">{{ start + i + addon  }}</a>
             </li>
-            <li v-if="isNext">
+            <li class="mblock" v-if="isNext">
                 <a @click="doClick(start + display)">&gt;</a>
             </li>
         </ul>
@@ -82,7 +82,7 @@
 </script>
 
 <style scoped="scoped" lang="scss">
-    nav > ul > li {
+    nav > ul.pagination > li.mblock {
         display: inline-block !important;
         margin-right: 5px !important;
 

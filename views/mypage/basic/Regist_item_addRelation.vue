@@ -70,7 +70,7 @@
             return {
                 page: {
                     display: 10,
-                    perPage : 2,
+                    perPage : 5,
                     total : 0,
                     current : 1,
                     list: null,
@@ -123,9 +123,13 @@
 
 </script>
 
-<style scoped="scoped">
-    nav > ul > li {
+<style >
+    nav > ul.pagination > li.mblock {
         display: inline-block !important;
         margin-right: 5px !important;
+    }
+
+    nav > ul.pagination > li.mblock > a {
+        cursor: pointer;
     }
 </style>

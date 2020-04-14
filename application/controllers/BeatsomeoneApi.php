@@ -472,10 +472,44 @@ class BeatsomeoneApi extends CB_Controller
         $this->load->model('Beatsomeone_model','Beatsomeone_model');
         $this->load->model('Member_model','Member_model');
 
-        // 커버 파일 UPLOAD
+        // 파일 UPLOAD
         $this->load->library('upload');
 
-        log_message('debug','$_FILES : ' . print_r(json_encode($_FILES),true));
+        // Form Parse
+        $form = array(
+            "cit_id" => $this->input->post('cit_id'),
+            "cit_name" => $this->input->post('cit_name'),
+            "cit_key" => $this->getGUID(),
+            "musician" => $this->input->post('musician'),
+            "cit_content" => $this->input->post('cit_content'),
+            "genre" => $this->input->post('genre'),
+            "subgenre" => $this->input->post('subgenre'),
+            "hashTag" => $this->input->post('hashTag'),
+            "trackType" => $this->input->post('trackType'),
+            "bpm" => $this->input->post('bpm'),
+            "mem_id" => $this->member->item('mem_id'),
+            "mem_userid" => element('mem_userid',$this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid')),
+            "ip" => $this->input->ip_address(),
+            "releaseDate" => $this->input->post('releaseDate'),
+            "releaseTime" => $this->input->post('releaseTime'),
+            "linkURL" => $this->input->post('linkURL'),
+            "linkURLPassword" => $this->input->post('linkURLPassword'),
+            "licenseLeasePriceKR" => $this->input->post('licenseLeasePriceKR'),
+            "licenseLeasePriceDL" => $this->input->post('licenseLeasePriceDL'),
+            "licenseLeasePriceQuantity" => $this->input->post('licenseLeasePriceQuantity'),
+            "licenseStemPriceKR" => $this->input->post('licenseStemPriceKR'),
+            "licenseStemPriceDL" => $this->input->post('licenseStemPriceDL'),
+            "licenseStemPriceQuantity" => $this->input->post('licenseStemPriceQuantity'),
+            "moods" => $this->input->post('moods'),
+            "voice" => $this->input->post('voice'),
+            "cde_id_1" => $this->input->post('cde_id_1'),
+            "cde_id_2" => $this->input->post('cde_id_2'),
+            "cde_id_3" => $this->input->post('cde_id_3'),
+            "cit_start_datetime" => $this->input->post('releaseDate') . ' ' . $this->input->post('releaseTime') . ':00',
+        );
+
+
+
         $cit_file = null;
         if (isset($_FILES) && isset($_FILES['cover_image']) && isset($_FILES['cover_image']['name']) && $_FILES['cover_image']['name']) {
             $upload_path = config_item('uploads_dir') . '/cmallitem/';
@@ -518,7 +552,10 @@ class BeatsomeoneApi extends CB_Controller
             if ($this->upload->do_upload('cover_image')) {
                 $img = $this->upload->data();
                 $cit_file = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $img);
-                log_message('debug','UPLOAD SUCCESS : '.$cit_file);
+
+                log_message('debug','ARTWORK FILE UPLOAD SUCCESS');
+                log_message('debug',print_r($uploadconfig,true));
+                $form["cit_file_1"] = $cit_file;
             } else {
                 $result = 'IMAGE UPLOAD ERROR';
             }
@@ -527,84 +564,92 @@ class BeatsomeoneApi extends CB_Controller
         // 음원 파일 업로드
         $uploadfiledata = array();
 
-        if (isset($_FILES) && isset($_FILES['music_file_1']) && isset($_FILES['music_file_1']['name']) && $_FILES['music_file_1']['name']) {
+        for($i=0; $i<3; $i++) {
 
-            $upload_path = config_item('uploads_dir') . '/cmallitemdetail/';
-            if (is_dir($upload_path) === false) {
-                mkdir($upload_path, 0707);
-                $file = $upload_path . 'index.php';
-                $f = @fopen($file, 'w');
-                @fwrite($f, '');
-                @fclose($f);
-                @chmod($file, 0644);
-            }
-            $upload_path .= cdate('Y') . '/';
-            if (is_dir($upload_path) === false) {
-                mkdir($upload_path, 0707);
-                $file = $upload_path . 'index.php';
-                $f = @fopen($file, 'w');
-                @fwrite($f, '');
-                @fclose($f);
-                @chmod($file, 0644);
-            }
-            $upload_path .= cdate('m') . '/';
-            if (is_dir($upload_path) === false) {
-                mkdir($upload_path, 0707);
-                $file = $upload_path . 'index.php';
-                $f = @fopen($file, 'w');
-                @fwrite($f, '');
-                @fclose($f);
-                @chmod($file, 0644);
-            }
+            $filename = 'music_file_'.($i+1);
 
-            $uploadconfig = array();
-            $uploadconfig['upload_path'] = $upload_path;
-            $uploadconfig['allowed_types'] = '*';
-            $uploadconfig['encrypt_name'] = true;
+            if (isset($_FILES) && isset($_FILES[$filename]) && isset($_FILES[$filename]['name']) && $_FILES[$filename]['name']) {
 
-            $this->upload->initialize($uploadconfig);
+                $upload_path = config_item('uploads_dir') . '/cmallitemdetail/';
+                if (is_dir($upload_path) === false) {
+                    mkdir($upload_path, 0707);
+                    $file = $upload_path . 'index.php';
+                    $f = @fopen($file, 'w');
+                    @fwrite($f, '');
+                    @fclose($f);
+                    @chmod($file, 0644);
+                }
+                $upload_path .= cdate('Y') . '/';
+                if (is_dir($upload_path) === false) {
+                    mkdir($upload_path, 0707);
+                    $file = $upload_path . 'index.php';
+                    $f = @fopen($file, 'w');
+                    @fwrite($f, '');
+                    @fclose($f);
+                    @chmod($file, 0644);
+                }
+                $upload_path .= cdate('m') . '/';
+                if (is_dir($upload_path) === false) {
+                    mkdir($upload_path, 0707);
+                    $file = $upload_path . 'index.php';
+                    $f = @fopen($file, 'w');
+                    @fwrite($f, '');
+                    @fclose($f);
+                    @chmod($file, 0644);
+                }
 
-            if ($this->upload->do_upload('music_file_1')) {
-                $filedata = $this->upload->data();
+                $uploadconfig = array();
+                $uploadconfig['upload_path'] = $upload_path;
+                $uploadconfig['allowed_types'] = '*';
+                $uploadconfig['encrypt_name'] = true;
 
-                $uploadfiledata['cde_filename'] = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $filedata);
-                $uploadfiledata['cde_originname'] = element('orig_name', $filedata);
-                $uploadfiledata['cde_filesize'] = intval(element('file_size', $filedata) * 1024);
-                $uploadfiledata['cde_type'] = str_replace('.', '', element('file_ext', $filedata));
-                $uploadfiledata['is_image'] = element('is_image', $filedata) ? element('is_image', $filedata) : 0;
+                $this->upload->initialize($uploadconfig);
 
-            } else {
-                log_message('debug','MUSIC FILE UPLOAD FAIL');
+                if ($this->upload->do_upload($filename)) {
 
-                $result = 'ERROR FROM UPLOAD MP3';
+
+                    $filedata = $this->upload->data();
+
+                    // 음원별 상세 정보 저장
+                    // 일반음원
+                    if($i == 0) {
+                        $uploadfiledata['cde_title'] = 'LEASE';
+                        $uploadfiledata['cde_price'] = $form['licenseLeasePriceKR'];
+                        $uploadfiledata['cde_price_d'] = $form['licenseLeasePriceDL'];
+                        $uploadfiledata['cde_quantity'] = $form['licenseLeasePriceQuantity'];
+                    }
+                    // Stem
+                    else if($i == 1) {
+                        $uploadfiledata['cde_title'] = 'STEM';
+                        $uploadfiledata['cde_price'] = $form['licenseStemPriceKR'];
+                        $uploadfiledata['cde_price_d'] = $form['licenseStemPriceDL'];
+                        $uploadfiledata['cde_quantity'] = $form['licenseStemPriceQuantity'];
+                    }
+                    // Tagged
+                    else if($i == 2) {
+                        $uploadfiledata['cde_title'] = 'TAGGED';
+                        $uploadfiledata['cde_price'] = 0;
+                        $uploadfiledata['cde_price_d'] = 0;
+                        $uploadfiledata['cde_quantity'] = 0;
+                    }
+
+                    $uploadfiledata['cde_filename'] = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $filedata);
+                    $uploadfiledata['cde_originname'] = element('orig_name', $filedata);
+                    $uploadfiledata['cde_filesize'] = intval(element('file_size', $filedata) * 1024);
+                    $uploadfiledata['cde_type'] = str_replace('.', '', element('file_ext', $filedata));
+                    $uploadfiledata['cde_is_image'] = element('is_image', $filedata) ? element('is_image', $filedata) : 0;
+                    $form["cde_file_".($i+1)] = $uploadfiledata;
+
+                    log_message('debug','MUSIC FILE '. ($i+1). ' UPLOAD SUCCESS');
+                    log_message('debug',print_r($uploadfiledata,true));
+
+                } else {
+                    log_message('debug','MUSIC FILE UPLOAD FAIL');
+
+                    $result = 'ERROR FROM UPLOAD MP3';
+                }
             }
         }
-
-        // Form Parse
-        $form = array(
-            "cit_id" => $this->input->post('cit_id'),
-            "cit_name" => $this->input->post('cit_name'),
-            "cit_key" => $this->getGUID(),
-            "musician" => $this->input->post('musician'),
-            "cit_content" => $this->input->post('cit_content'),
-            "cit_price" => $this->input->post('cit_price'),
-            "genre" => $this->input->post('genre'),
-            "bpm" => $this->input->post('bpm'),
-            "mem_id" => $this->member->item('mem_id'),
-            "mem_userid" => element('mem_userid',$this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid')),
-            "ip" => $this->input->ip_address(),
-        );
-
-        if($cit_file) {
-            $form["cit_file_1"] = $cit_file;
-        } else {
-            $form["cit_file_1"] = null;
-        }
-        log_message('debug','$uploadfiledata : '. print_r($uploadfiledata,true));
-        if($uploadfiledata) {
-            $form["cde_file_1"] = $uploadfiledata;
-        }
-
 
         log_message('debug',print_r($form,true));
 
@@ -613,58 +658,6 @@ class BeatsomeoneApi extends CB_Controller
         log_message('debug','$result');
         log_message('debug',print_r($result,true));
 
-//        if($result) {
-//            log_message('debug','UPLOAD START');
-//            $this->load->library('upload');
-//            $k = 1;
-//            log_message('debug','$_FILES : ' . print_r(json_encode($_FILES),true));
-//
-//            if (isset($_FILES) && isset($_FILES['cit_file_' . $k]) && isset($_FILES['cit_file_' . $k]['name']) && $_FILES['cit_file_' . $k]['name']) {
-//                $upload_path = config_item('uploads_dir') . '/cmallitem/';
-//                log_message('debug','$upload_path : ' . $upload_path);
-//                if (is_dir($upload_path) === false) {
-//                    mkdir($upload_path, 0707);
-//                    $file = $upload_path . 'index.php';
-//                    $f = @fopen($file, 'w');
-//                    @fwrite($f, '');
-//                    @fclose($f);
-//                    @chmod($file, 0644);
-//                }
-//                $upload_path .= cdate('Y') . '/';
-//                if (is_dir($upload_path) === false) {
-//                    mkdir($upload_path, 0707);
-//                    $file = $upload_path . 'index.php';
-//                    $f = @fopen($file, 'w');
-//                    @fwrite($f, '');
-//                    @fclose($f);
-//                    @chmod($file, 0644);
-//                }
-//                $upload_path .= cdate('m') . '/';
-//                if (is_dir($upload_path) === false) {
-//                    mkdir($upload_path, 0707);
-//                    $file = $upload_path . 'index.php';
-//                    $f = @fopen($file, 'w');
-//                    @fwrite($f, '');
-//                    @fclose($f);
-//                    @chmod($file, 0644);
-//                }
-//
-//                $uploadconfig = array();
-//                $uploadconfig['upload_path'] = $upload_path;
-//                $uploadconfig['allowed_types'] = 'jpg|jpeg|png|gif';
-//                $uploadconfig['max_size'] = '5000';
-//                $uploadconfig['encrypt_name'] = true;
-//
-//                $this->upload->initialize($uploadconfig);
-//
-//                if ($this->upload->do_upload('cit_file_' . $k)) {
-//                    $img = $this->upload->data();
-//                    $cit_file[$k] = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $img);
-//                } else {
-//                    $result = 'IMAGE UPLOAD ERROR';
-//                }
-//            }
-//        }
 
         // Reponse
         $this->output->set_content_type('text/json');

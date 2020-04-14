@@ -28,7 +28,7 @@
                 <h2>
                     <span>$</span>
                     {{ cost | money }}
-                </h2>
+                 </h2>
                 <div class="_saving">Instant Savings of <span>$100.00</span></div>
             </div>
 

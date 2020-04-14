@@ -191,20 +191,33 @@ class Beatsomeone_model extends CB_Model
             $this->db->where('p3.cim_value like','%'.$p['musician'].'%');
         }
 
-        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
-        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
-        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
-        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
-        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
 
-        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
+        $select = 'c.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice ';
+        $select .= ',p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, p.cde_originname, p.cde_quantity ';
+        $select .= ',p.cde_id_2, p.cde_price_2,p.cde_price_d_2, p.cde_download_2, p.cde_originname_2, p.cde_quantity_2 ';
+        $select .= ',p.cde_id_3, p.cde_price_3,p.cde_price_d_3, p.cde_download_3, p.cde_originname_3, p.cde_quantity_3 ';
+        $this->db->select($select);
         $this->db->order_by('cit_id', 'desc');
         $qry = $this->db->get('cmall_item as cb_c');
 
-        $result = $qry->result_array();
+        return $qry->result_array();
 
-        return $result;
+//
+//        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+//        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
+//        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
+//        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
+//        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+//        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
+//
+//        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
+//        $this->db->order_by('cit_id', 'desc');
+//        $qry = $this->db->get('cmall_item as cb_c');
+//
+//        $result = $qry->result_array();
+//
+//        return $result;
     }
 
     // Sublist 조회
@@ -285,7 +298,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, ';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
@@ -359,7 +372,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, ';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
@@ -400,19 +413,19 @@ class Beatsomeone_model extends CB_Model
         $where = array(
             'm.cim_value = ' => $p['mem_id'],
         );
-        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
-        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
-        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
-        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
+        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','inner');
         $this->db->where($where);
-        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price');
+        $select = 'c.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice ';
+        $select .= ',p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, p.cde_originname, p.cde_quantity ';
+        $select .= ',p.cde_id_2, p.cde_price_2,p.cde_price_d_2, p.cde_download_2, p.cde_originname_2, p.cde_quantity_2 ';
+        $select .= ',p.cde_id_3, p.cde_price_3,p.cde_price_d_3, p.cde_download_3, p.cde_originname_3, p.cde_quantity_3 ';
+        $this->db->select($select);
         $this->db->order_by('cit_id', 'desc');
         $qry = $this->db->get('cmall_item as cb_c');
 
-        $result = $qry->result_array();
+        return $qry->result_array();
 
-        return $result;
     }
 
     // 음원 조회
@@ -420,17 +433,20 @@ class Beatsomeone_model extends CB_Model
     {
 
         $where = array(
-            'cb_c.cit_id = ' => $p['cit_id'],
+            'cmall_item.cit_id = ' => $p['cit_id'],
         );
-        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
-        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
-        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
-        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
+        $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
+
+
+
         $this->db->where($where);
-        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, m1.cde_originname');
-        $this->db->order_by('cit_id', 'desc');
-        $qry = $this->db->get('cmall_item as cb_c');
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice ';
+        $select .= ',p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, p.cde_originname, p.cde_quantity ';
+        $select .= ',p.cde_id_2, p.cde_price_2,p.cde_price_d_2, p.cde_download_2, p.cde_originname_2, p.cde_quantity_2 ';
+        $select .= ',p.cde_id_3, p.cde_price_3,p.cde_price_d_3, p.cde_download_3, p.cde_originname_3, p.cde_quantity_3 ';
+        $this->db->select($select);
+        $qry = $this->db->get('cmall_item');
 
         $result = $qry->first_row();
 
@@ -492,24 +508,6 @@ class Beatsomeone_model extends CB_Model
 
         return $result;
 
-//        $where = array(
-////            'cb_c.cit_id = ' => $p['cit_id'],
-//        );
-//        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-//        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
-//        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
-//        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
-//        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
-//        $this->db->join('cb_cmall_item_relation as r','c.cit_id = r.cit_id_r AND r.cit_id = ' . $p['cit_id'],'inner');
-//        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
-//        $this->db->where($where);
-//        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, m1.cde_originname, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
-//        $this->db->order_by('cit_id', 'desc');
-//        $qry = $this->db->get('cmall_item as cb_c');
-//
-//        $result = $qry->result_array();
-//
-//        return $result;
     }
 
     // 사용자 상품 등록
@@ -532,6 +530,8 @@ class Beatsomeone_model extends CB_Model
                 "cit_name" => $p["cit_name"],
                 "cit_content" => $p["cit_content"],
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
+                'cit_start_datetime' => $p['cit_start_datetime'],
+
             );
             if($p["cit_file_1"]) {
                 $data["cit_file_1"] = $p["cit_file_1"];
@@ -541,18 +541,32 @@ class Beatsomeone_model extends CB_Model
 
 
 
-            // 옵션 등록 (cmall_item_detail)
+            // 음원 파일
             $data = array(
                 "cde_price" => $p["cit_price"],
             );
-            if(array_key_exists("cde_file_1",$p)) {
-                $data["cde_filename"] = $p["cde_file_1"]["cde_filename"];
-                $data["cde_originname"] = $p["cde_file_1"]["cde_originname"];
-                $data["cde_filesize"] = $p["cde_file_1"]["cde_filesize"];
-                $data["cde_type"] = $p["cde_file_1"]["cde_type"];
+            for($i=0; $i<3; $i++) {
+                if(array_key_exists("cde_file_".($i + 1),$p)) {
+                    $data = $p["cde_file_" . ($i + 1)];
+                    if ($data) {
+                        $data['cit_id'] = $cit_id;
+                        $data['mem_id'] = $p["mem_id"];
+                        $data['cde_datetime'] = cdate('Y-m-d H:i:s');
+                        $data['cde_ip'] = $p["ip"];
+                        $data['cde_status'] = 1;
+
+                        if($p['cde_id_'.($i+1)] != 'null') {
+                            $this->db->where('cit_id',$cit_id);
+                            $this->db->where('cde_id',$p['cde_id_'.($i+1)]);
+                            $this->db->update('cmall_item_detail', $data);
+                        } else {
+                            $this->db->insert('cmall_item_detail', $data);
+                        }
+                    }
+                }
             }
-            $this->db->where('cit_id',$cit_id);
-            $this->db->update('cmall_item_detail', $data);
+
+
 
             // 메타 등록 (cmall_item_meta)
 
@@ -560,6 +574,11 @@ class Beatsomeone_model extends CB_Model
                 'info_content_1' => $p['genre'],
                 'info_content_2' => $p['bpm'],
                 'info_content_3' => $p['musician'],
+                'info_content_4' => $p['subgenre'],
+                'info_content_5' => $p['moods'],
+                'info_content_6' => $p['trackType'],
+                'info_content_7' => $p['hashTag'],
+                'info_content_8' => $p['voice'],
             );
 
             foreach ($meta as $k => $v) {
@@ -585,6 +604,7 @@ class Beatsomeone_model extends CB_Model
                 "cit_content_html_type" => 1,
                 "cit_datetime" => cdate('Y-m-d H:i:s'),
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
+                'cit_start_datetime' => $p['cit_start_datetime'],
             );
             if($p["cit_file_1"]) {
                 $data["cit_file_1"] = $p["cit_file_1"];
@@ -593,23 +613,39 @@ class Beatsomeone_model extends CB_Model
 
             $cit_id = $this->db->insert_id();
 
-            // 옵션 등록 (cmall_item_detail)
-            $data = array(
-                "cit_id" => $cit_id,
-                "mem_id" => $p["mem_id"],
-                "cde_title" => '기본',
-                "cde_price" => $p["cit_price"],
-                "cde_datetime" => cdate('Y-m-d H:i:s'),
-                "cde_ip" => $p["ip"],
-                "cde_status" => 1,
-            );
-            if(array_key_exists("cde_file_1",$p)) {
-                $data["cde_filename"] = $p["cde_file_1"]["cde_filename"];
-                $data["cde_originname"] = $p["cde_file_1"]["cde_originname"];
-                $data["cde_filesize"] = $p["cde_file_1"]["cde_filesize"];
-                $data["cde_type"] = $p["cde_file_1"]["cde_type"];
+            // 음원 파일 등록
+            for($i=0; $i<3; $i++) {
+                if (array_key_exists("cde_file_" . ($i + 1), $p)) {
+                    $data = $p["cde_file_" . ($i + 1)];
+                    if ($data) {
+                        $data['cit_id'] = $cit_id;
+                        $data['mem_id'] = $p["mem_id"];
+                        $data['cde_datetime'] = cdate('Y-m-d H:i:s');
+                        $data['cde_ip'] = $p["ip"];
+                        $data['cde_status'] = 1;
+                        $this->db->insert('cmall_item_detail', $data);
+                    }
+                }
             }
-            $this->db->insert('cmall_item_detail', $data);
+
+//                $data = array(
+//                    "cit_id" => $cit_id,
+//                    "mem_id" => $p["mem_id"],
+////                "cde_title" => '기본',
+////                "cde_price" => $p["cit_price"],
+//                    "cde_datetime" => cdate('Y-m-d H:i:s'),
+//                    "cde_ip" => $p["ip"],
+//                    "cde_status" => 1,
+//                );
+//                if(array_key_exists("cde_file_1",$p)) {
+//                    $data["cde_filename"] = $p["cde_file_1"]["cde_filename"];
+//                    $data["cde_originname"] = $p["cde_file_1"]["cde_originname"];
+//                    $data["cde_filesize"] = $p["cde_file_1"]["cde_filesize"];
+//                    $data["cde_type"] = $p["cde_file_1"]["cde_type"];
+//                }
+//                $this->db->insert('cmall_item_detail', $data);
+
+
 
             // 메타 등록 (cmall_item_meta)
 
@@ -620,6 +656,11 @@ class Beatsomeone_model extends CB_Model
                 'info_content_1' => $p['genre'],
                 'info_content_2' => $p['bpm'],
                 'info_content_3' => $p['musician'],
+                'info_content_4' => $p['subgenre'],
+                'info_content_5' => $p['moods'],
+                'info_content_6' => $p['trackType'],
+                'info_content_7' => $p['hashTag'],
+                'info_content_8' => $p['voice'],
             );
 
             foreach ($meta as $k => $v) {
