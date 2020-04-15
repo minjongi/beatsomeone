@@ -29,7 +29,7 @@
                     <img data-amplitude-song-info="cover_art_url" class="album-art"/>
                   </span>
                                 <figcaption>
-                                    <h3 class="playList__title song-title" data-amplitude-song-info="name" >
+                                    <h3 class="playList__title song-title" data-amplitude-song-info="name">
                                     </h3>
                                     <span class="playList__by song-artist" data-amplitude-song-info="artist"></span>
                                 </figcaption>
@@ -59,15 +59,16 @@
         <div class="container">
             <div class="main">
                 <section class="main__section1">
-                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop style="position:absolute;">
+                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop
+                           style="position:absolute;">
                         <source src="/uploads/data/video_bg.mp4" type="video/mp4">
                     </video>
                     <div class="wrap">
                         <header class="main__section1-title">
                             <h1>HOLIDAY GIVEAWAY</h1>
-<!--                            <h2>-->
-<!--                                {{param}}-->
-<!--                            </h2>-->
+                            <!--                            <h2>-->
+                            <!--                                {{param}}-->
+                            <!--                            </h2>-->
                             <p>
                                 Finding incredible music & connecting with amazing artists
                                 and<br/>
@@ -77,7 +78,8 @@
 
                         <div class="main__media">
                             <div class="tab">
-                                <button v-for="g in listGenre" :key="g" :class="{active:currentGenre === g}" @click="currentGenre = g">
+                                <button v-for="g in listGenre" :key="g" :class="{active:currentGenre === g}"
+                                        @click="currentGenre = g">
                                     {{ g }}
                                 </button>
                             </div>
@@ -92,7 +94,8 @@
                                         {{ param.sort }}
                                     </button>
                                     <div class="options">
-                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o;">
+                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i"
+                                                @click="param.sort = o;">
                                             {{ o }}
                                         </button>
                                     </div>
@@ -102,31 +105,35 @@
                                         {{ param.bpm.t }}
                                     </button>
                                     <div class="options">
-                                        <button class="option" data-value="" v-for="(o,i) in listBpm" :key="i" @click="param.bpm = o;">
+                                        <button class="option" data-value="" v-for="(o,i) in listBpm" :key="i"
+                                                @click="param.bpm = o;">
                                             {{ o.t }}
                                         </button>
                                     </div>
                                 </div>
-<!--                                <div class="custom-select ">-->
-<!--                                    <button class="selected-option">-->
-<!--                                        Any Duration-->
-<!--                                    </button>-->
-<!--                                </div>-->
+                                <!--                                <div class="custom-select ">-->
+                                <!--                                    <button class="selected-option">-->
+                                <!--                                        Any Duration-->
+                                <!--                                    </button>-->
+                                <!--                                </div>-->
                             </div>
 
                             <div class="playList">
                                 <!-- 아래 템플릿 문자열로 붙임 -->
 
 
-                                <transition-group
-                                        name="staggered-fade"
-                                        tag="ul"
-                                        v-bind:css="false"
-                                        v-on:before-enter="beforeEnter"
-                                        v-on:enter="enter"
-                                        v-on:leave="leave">
+<!--                                <transition-group-->
+<!--                                        name="staggered-fade"-->
+<!--                                        tag="ul"-->
+<!--                                        v-bind:css="false"-->
+<!--                                        v-on:before-enter="beforeEnter"-->
+<!--                                        v-on:enter="enter"-->
+<!--                                        v-on:leave="leave">                                -->
+<!--                                    <Index_Items v-for="item in list" :item="item" :key="item.cit_key"></Index_Items>-->
+<!--                                </transition-group>-->
+                                <ul>
                                     <Index_Items v-for="item in list" :item="item" :key="item.cit_key"></Index_Items>
-                                </transition-group>
+                                </ul>
                                 <div class="playList__btnbox">
                                     <a class="playList__more" @click="moveMore">more</a>
                                 </div>
@@ -150,17 +157,19 @@
 
 
                         <!-- 트렌딜 슬라이드 부분 -->
-                        <div class="trending" >
+                        <div class="trending">
                             <h2 class="trending__title">TRENDING MUSIC</h2>
                             <div class="trending__slider">
                                 <div class="slider">
-<!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
-                                    <div v-for="(i,index) in listTrending" :key="index" class="trending__slide-item albumItem" :onclick="`window.vm.$children[0].selectItem('${i.cit_key}')`" >
+                                    <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
+                                    <div v-for="(i,index) in listTrending" :key="index"
+                                         class="trending__slide-item albumItem"
+                                         :onclick="`window.vm.$children[0].selectItem('${i.cit_key}')`">
 
-                                        <button class="albumItem__cover" >
-                                            <img  :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
+                                        <button class="albumItem__cover">
+                                            <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
                                         </button>
-                                        <a  class="albumItem__link" >
+                                        <a class="albumItem__link">
                                             <h4 class="albumItem__title">{{ i.cit_name }}</h4>
                                             <p class="albumItem__singer">{{ i.musician }}</p>
                                         </a>
@@ -182,7 +191,7 @@
                                 <p>Partner with the best team members!</p>
                             </article>
                             <article class="testimonials__lists">
-                                <figure class="card card--testimonials" >
+                                <figure class="card card--testimonials">
                                     <a href="">
                                         <div class="img">
                                             <img
@@ -262,30 +271,30 @@
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
-    import { EventBus } from '*/src/eventbus';
+    import {EventBus} from '*/src/eventbus';
     import Velocity from 'velocity-animate';
 
     export default {
         name: 'Index',
-        components: {Header,Footer,Index_Items},
-        data: function() {
+        components: {Header, Footer, Index_Items},
+        data: function () {
             return {
                 isLogin: false,
-                init : {},
+                init: {},
                 list: null,
                 listTrending: null,
                 listTestimonials: null,
-                currentGenre : 'All Genre',
-                listGenre: ['All Genre','Hip Hop','Pop','R&B','Rock','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
-                listSort: ['Sort By Staff Picks','Top Downloads','Newest'],
+                currentGenre: 'All Genre',
+                listGenre: ['All Genre', 'Hip Hop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'K-Pop', 'Free Beats'],
+                listSort: ['Sort By Staff Picks', 'Top Downloads', 'Newest'],
                 listBpm: [
-                    {t: 'BPM',v:null},
-                    {t: '80-90',v:90},
-                    {t: '90-100',v:100},
-                    {t: '100-110',v:110},
-                    {t: '110-120',v:120},
+                    {t: 'BPM', v: null},
+                    {t: '80-90', v: 90},
+                    {t: '90-100', v: 100},
+                    {t: '100-110', v: 110},
+                    {t: '110-120', v: 120},
                 ],
-                listPlayer : [
+                listPlayer: [
                     {
                         id: 1,
                         name: "I Came Running",
@@ -300,7 +309,7 @@
                 param: {
                     voice: false,
                     sort: 'Sort By Staff Picks',
-                    bpm: {t: 'BPM',v:null},
+                    bpm: {t: 'BPM', v: null},
                 },
             }
         },
@@ -309,7 +318,7 @@
 
 
             // 메인페이지: 서브 앨범 슬라이드 이벤트
-            $(".toggle-subList").on("click", function() {
+            $(".toggle-subList").on("click", function () {
                 var itemLength = $(this)
                     .parents(".playList__itembox")
                     .find(".subPlayList .playList__itembox").length;
@@ -334,7 +343,7 @@
             });
 
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".custom-select").on("click", function () {
                 $(this)
                     .siblings(".custom-select")
                     .removeClass("active")
@@ -365,8 +374,8 @@
         },
         watch: {
             // 장르가 변경될 때
-            currentGenre: function (n,o) {
-                if(o && n !== o) {
+            currentGenre: function (n, o) {
+                if (o && n !== o) {
                     this.getMainList();
                 }
             },
@@ -401,30 +410,30 @@
                 window.location.href = path;
             },
             selectItem(i) {
-                if(typeof(i) !== 'string') return;
+                if (typeof (i) !== 'string') return;
                 const path = `/beatsomeone/detail/${i}`;
                 window.location.href = path;
             },
             getMainList() {
                 var p = {
                     bpm: this.param.bpm.v,
-                    voice : this.param.voice,
+                    voice: this.param.voice,
                     sort: this.param.sort
                 }
-                Http.get(`/beatsomeoneApi/main_list/${encodeURIComponent(this.currentGenre)}?${$.param(p)}`).then(r=> {
+                Http.get(`/beatsomeoneApi/main_list/${encodeURIComponent(this.currentGenre)}?${$.param(p)}`).then(r => {
                     this.list = r.data;
                 });
             },
             getTrendingList() {
-                Http.get(`/beatsomeoneApi/main_trending_list`).then(r=> {
+                Http.get(`/beatsomeoneApi/main_trending_list`).then(r => {
                     this.listTrending = r.data;
-                    this.$nextTick(function() {
+                    this.$nextTick(function () {
                         this.doSlide();
                     });
                 });
             },
             getTestimonialsList() {
-                Http.get(`/beatsomeoneApi/main_testimonials_list`).then(r=> {
+                Http.get(`/beatsomeoneApi/main_testimonials_list`).then(r => {
                     this.listTestimonials = r.data;
                 });
             },
@@ -437,8 +446,8 @@
                 setTimeout(function () {
                     Velocity(
                         el,
-                        { opacity: 1, height: 90, 'margin-bottom': 1,  },
-                        { complete: done }
+                        {opacity: 1, height: 90, 'margin-bottom': 1,},
+                        {complete: done}
                     )
                 }, delay)
             },
@@ -447,8 +456,8 @@
                 setTimeout(function () {
                     Velocity(
                         el,
-                        { opacity: 0, height: 0, 'margin-bottom': 0,  },
-                        { complete: done }
+                        {opacity: 0, height: 0, 'margin-bottom': 0,},
+                        {complete: done}
                     )
                 }, delay)
             }

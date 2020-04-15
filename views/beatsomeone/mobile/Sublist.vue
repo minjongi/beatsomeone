@@ -140,16 +140,19 @@
                     <div class="row">
                         <div class="playList"  v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
                             <!-- 아래 템플릿 문자열로 붙임 -->
-                            <transition-group
-                                    name="staggered-fade"
-                                    tag="ul"
-                                    v-bind:css="false"
-                                    v-on:before-enter="beforeEnter"
-                                    v-on:enter="enter"
-                                    v-on:leave="leave">
-                                <!-- 플레이리스트 들어감 -->
+<!--                            <transition-group-->
+<!--                                    name="staggered-fade"-->
+<!--                                    tag="ul"-->
+<!--                                    v-bind:css="false"-->
+<!--                                    v-on:before-enter="beforeEnter"-->
+<!--                                    v-on:enter="enter"-->
+<!--                                    v-on:leave="leave">-->
+<!--                                &lt;!&ndash; 플레이리스트 들어감 &ndash;&gt;-->
+<!--                                <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
+<!--                            </transition-group>-->
+                            <ul>
                                 <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
-                            </transition-group>
+                            </ul>
                             <div v-if="busy && false">
                                 <Loader key="loader" ></Loader>
                             </div>

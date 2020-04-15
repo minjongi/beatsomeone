@@ -28,15 +28,18 @@
                             </div>
                             <div class="playList">
                                 <!-- 아래 템플릿 문자열로 붙임 -->
-                                <transition-group
-                                        name="staggered-fade"
-                                        tag="ul"
-                                        v-bind:css="false"
-                                        v-on:before-enter="beforeEnter"
-                                        v-on:enter="enter"
-                                        v-on:leave="leave">
+<!--                                <transition-group-->
+<!--                                        name="staggered-fade"-->
+<!--                                        tag="ul"-->
+<!--                                        v-bind:css="false"-->
+<!--                                        v-on:before-enter="beforeEnter"-->
+<!--                                        v-on:enter="enter"-->
+<!--                                        v-on:leave="leave">-->
+<!--                                    <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
+<!--                                </transition-group>-->
+                                <ul>
                                     <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
-                                </transition-group>
+                                </ul>
                                 <div class="playList__btnbox">
                                     <a href="#//" class="playList__more pointer" @click="moveMore">more</a>
                                 </div>
@@ -400,15 +403,5 @@
     @import '/assets_m/plugins/slick/slick.css';
     @import '/assets_m/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
-    .flip-list-move {
-        transition: transform 1s;
-    }
 
-    .flip-list-enter, .flip-list-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        opacity: 0;
-    }
-
-    .flip-list-enter-active, .flip-list-leave-active {
-        transition: opacity .4s;
-    }
 </style>
