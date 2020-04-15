@@ -80,6 +80,7 @@
                 </div>
             </div>
         </div>
+        <main-player></main-player>
         <Footer/>
     </div>
 </template>
@@ -90,10 +91,10 @@
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import { EventBus } from '*/src/eventbus';
-
+    import MainPlayer from "@/vue/common/MobileMainPlayer";
 
     export default {
-        components: {Header,Footer,},
+        components: {Header,Footer,MainPlayer},
         data: function() {
             return {
                 isLogin : false,
@@ -124,15 +125,14 @@
                 return e.path === this.$router.currentRoute.path;
             }).title;
             EventBus.$on('index_items_stop_all_played',r=> {
-                if(this._uid !== r) {
-                    log.debug({
-                        'index_items_stop_all_played MAIN':null,
-                    })
+                if(this._uid !== r._uid) {
+                    // log.debug({
+                    //     'index_items_stop_all_played MAIN':null,
+                    // })
                     Amplitude.pause();
                     var bg = document.querySelector(".btn-play");
                     bg.classList.remove("amplitude-playing");
                     bg.classList.add("amplitude-paused");
-
                 }
             });
 
@@ -158,19 +158,18 @@
                     this.$nextTick(function() {
                         this.player = Amplitude.init({
                             "songs": [{
-                                "name": "I Came Running",
-                                "artist": "Ancient Astronauts",
-                                "album": "We Are to Answer",
+                                "name": n.cit_name,
+                                "artist": n.musician,
                                 "url": `/cmallact/download_sample/${n.cde_id}`,
-                                //"url" : '/assets_m/audio/testfile.mp3'
                             }],
                             callbacks: {
                                 play: () => {
-                                    console.log("MAIN played")
-                                    EventBus.$emit('index_items_stop_all_played', this._uid);
+                                    //console.log("MAIN played")
+                                    //EventBus.$emit('index_items_stop_all_played', {'_uid':this._uid,'item':this.item});
+                                    EventBus.$emit('stop_main_player',{'_uid':this._uid,'item':this.item});
                                 },
                                 initialized: () => {
-                                    this.increaseMusicCount();
+                                    //this.increaseMusicCount();
                                 }
                             },
                             waveforms: {

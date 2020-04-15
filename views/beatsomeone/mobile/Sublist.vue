@@ -162,6 +162,7 @@
                 </div>
             </div>
         </div>
+        <main-player></main-player>
         <Footer/>
     </div>
 </template>
@@ -176,9 +177,10 @@
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
     import Loader from '*/vue/common/Loader';
+    import MainPlayer from "@/vue/common/MobileMainPlayer";
 
     export default {
-        components: {Header,Footer,Index_Items,Loader},
+        components: {Header,Footer,Index_Items,Loader,MainPlayer},
         data: function() {
             return {
                 slick: null,

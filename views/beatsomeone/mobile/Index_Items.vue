@@ -120,14 +120,14 @@
                 // this.$log({
                 //     i
                 // });
-                EventBus.$emit('index_items_stop_all_played',this._uid);
-                if (!this.audio[i.cit_id]) {
-                    this.$nextTick(() => {
-                        this.setAudioInstance(i);
-                    });
-                } else {
-                    this.audio[i.cit_id].playPause();
-                }
+                EventBus.$emit('index_items_stop_all_played',{'_uid':this._uid,'item':this.item});
+                // if (!this.audio[i.cit_id]) {
+                //     this.$nextTick(() => {
+                //         this.setAudioInstance(i);
+                //     });
+                // } else {
+                //     this.audio[i.cit_id].playPause();
+                // }
 
             },
             time_convert(num) {
@@ -139,47 +139,47 @@
                 return minutes + ":" + seconds;
             },
             setAudioInstance(item) {
-                this.audio[item.cit_id] = window.WaveSurfer.create({
-                    container: "#playList__item" + item.cit_id + " .wave",
-                    waveColor: "#696969",
-                    progressColor: "#c3ac45",
-                    hideScrollbar: true,
-                    height: 90
-                });
-                this.audio[item.cit_id].load(`/cmallact/download_sample/${item.cde_id}`);
-                this.audio[item.cit_id].on("play", () => {
-                    //console.log(this.audio[item.id].getCurrentTime());
-                    EventBus.$emit('index_items_stop_all_played',this._uid);
-                    document
-                        .querySelector("#playList__item" + item.cit_id)
-                        .classList.add("playing");
-                });
-
-                this.audio[item.cit_id].on("ready", () => {
-                    // 파일이 로드가 다 됐을때,
-                    this.audio[item.cit_id].playPause();
-                    this.increaseMusicCount();
-                });
-                this.audio[item.cit_id].on("pause", () => {
-                    //  var actionTarget = "playAction" + item.id;
-                    document
-                        .querySelector("#playList__item" + item.cit_id)
-                        .classList.remove("playing");
-                });
+                // this.audio[item.cit_id] = window.WaveSurfer.create({
+                //     container: "#playList__item" + item.cit_id + " .wave",
+                //     waveColor: "#696969",
+                //     progressColor: "#c3ac45",
+                //     hideScrollbar: true,
+                //     height: 90
+                // });
+                // this.audio[item.cit_id].load(`/cmallact/download_sample/${item.cde_id}`);
+                // this.audio[item.cit_id].on("play", () => {
+                //     //console.log(this.audio[item.id].getCurrentTime());
+                //     EventBus.$emit('index_items_stop_all_played',this._uid);
+                //     document
+                //         .querySelector("#playList__item" + item.cit_id)
+                //         .classList.add("playing");
+                // });
+                //
+                // this.audio[item.cit_id].on("ready", () => {
+                //     // 파일이 로드가 다 됐을때,
+                //     this.audio[item.cit_id].playPause();
+                //     this.increaseMusicCount();
+                // });
+                // this.audio[item.cit_id].on("pause", () => {
+                //     //  var actionTarget = "playAction" + item.id;
+                //     document
+                //         .querySelector("#playList__item" + item.cit_id)
+                //         .classList.remove("playing");
+                // });
 
                 // var actionName = "playAction" + item.id;
                 // _GLOBAL_ACTIONS[actionName] = audio;
             },
             // 다운로드 증가
-            increaseMusicCount() {
-                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
-                    if(!r) {
-                        log.debug('카운트 증가 실패');
-                    } else {
-                        log.debug('카운트 증가 성공');
-                    }
-                });
-            }
+            // increaseMusicCount() {
+            //     Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
+            //         if(!r) {
+            //             log.debug('카운트 증가 실패');
+            //         } else {
+            //             log.debug('카운트 증가 성공');
+            //         }
+            //     });
+            // }
         }
     }
 

@@ -1,6 +1,6 @@
 <?php $this->managelayout->add_css('/dist/m_beatsomeone.css'); ?>
-<script src="https://unpkg.com/wavesurfer.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/amplitudejs@5.0.3/dist/amplitude.js"></script>
+<!--<script src="https://unpkg.com/wavesurfer.js"></script>-->
+<!--<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/amplitudejs@5.0.3/dist/amplitude.js"></script>-->
 
 <?php $this->managelayout->add_js('/dist/m_beatsomeone.js'); ?>
 

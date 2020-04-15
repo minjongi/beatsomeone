@@ -84,6 +84,7 @@
                 </div>
             </div>
         </div>
+        <main-player></main-player>
         <Footer/>
     </div>
 </template>
@@ -95,9 +96,11 @@
     import Footer from "./include/Footer";
 
     import { EventBus } from '*/src/eventbus';
+    import MainPlayer from "@/vue/common/MainPlayer";
+
     export default {
 
-        components: {Header,Footer},
+        components: {Header,Footer,MainPlayer},
         data: function() {
             return {
 
@@ -126,10 +129,9 @@
         mounted() {
 
             EventBus.$on('index_items_stop_all_played',r=> {
-                if(this._uid !== r) {
-                    log.debug({
-                        'index_items_stop_all_played MAIN':null,
-                    })
+
+                if(this._uid !== r._uid) {
+
                     // Amplitude.pause();
                     // var bg = document.querySelector(".btn-play");
                     // bg.classList.remove("amplitude-playing");
@@ -160,7 +162,8 @@
             });
             this.music.on("play", () => {
                 playbtn.classList.add("playing");
-                EventBus.$emit('index_items_stop_all_played',this._uid);
+                //EventBus.$emit('index_items_stop_all_played',{'_uid':this._uid,'item':this.item});
+                EventBus.$emit('stop_main_player',{'_uid':this._uid,'item':this.item});
             });
             this.music.on("pause", () => {
                 playbtn.classList.remove("playing");

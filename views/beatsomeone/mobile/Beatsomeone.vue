@@ -160,57 +160,8 @@
                 </div>
             </div>
         </div>
-        <div class="player">
-            <div class="wrap">
-                <div class="player__top">
-                    <div class="player__progress">
-                        <div id="waveform">
-                            <!-- Here be waveform -->
-                        </div>
+        <main-player></main-player>
 
-                        <div id="progress-container">
-                            <input type="range" class="amplitude-song-slider" step=".1"/>
-                            <progress id="song-played-progress" class="amplitude-song-played-progress"></progress>
-                            <progress id="song-buffered-progress" class="amplitude-buffered-progress"></progress>
-                        </div>
-                    </div>
-                </div>
-                <div class="player__bottom">
-                    <div class="player__info">
-                        <div class="col name">
-                            <figure>
-                  <span class="playList__cover">
-                    <img data-amplitude-song-info="cover_art_url" class="album-art"/>
-                  </span>
-                                <figcaption>
-                                    <h3 class="playList__title song-title" data-amplitude-song-info="name" >
-                                    </h3>
-                                    <span class="playList__by song-artist" data-amplitude-song-info="artist"></span>
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                    <div id="central-controls" class="player__controller">
-                        <div class="amplitude-prev" id="previous"></div>
-                        <div class="amplitude-play-pause amplitude-paused" id="play-pause"></div>
-                        <div class="amplitude-next" id="next"></div>
-                    </div>
-                    <button class="player__util-toggle-btn"></button>
-                    <div class="player__util">
-                        <div class="player__shuffle amplitude-shuffle amplitude-shuffle-off" id="shuffle-right"></div>
-                        <div class="player__repeat amplitude-repeat amplitude-repeat-off" id="repeat"></div>
-                        <div id="volume-container" class="player__volume">
-                            <div class="volume-controls">
-                                <div class="amplitude-mute"></div>
-                                <input type="range" class="amplitude-volume-slider">
-                                <div class="ms-range-fix"></div>
-                            </div>
-                            <div class="amplitude-shuffle amplitude-shuffle-off" id="shuffle-right"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 
@@ -226,10 +177,11 @@
     import Index_Items from "./Index_Items";
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
+    import MainPlayer from "@/vue/common/MobileMainPlayer";
 
     export default {
         name: 'Index',
-        components: {Header,Footer,Index_Items},
+        components: {Header,Footer,Index_Items,MainPlayer},
         data: function() {
             return {
                 isLogin: false,
@@ -239,17 +191,7 @@
                 listTestimonials: null,
                 currentGenre : 'All Genre',
                 listGenre: ['All Genre','Hip Hop','Pop','R&B','Rock','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
-                listPlayer : [
-                    {
-                        id: 1,
-                        name: "I Came Running",
-                        artist: "Ancient Astronauts",
-                        album: "We Are to Answer",
-                        url: "/assets_m/audio/testfile.mp3",
-                        cover_art_url: "https://521dimensions.com/img/open-source/amplitudejs/album-art/we-are-to-answer.jpg",
-                        isNew: true,
-                    },
-                ],
+
             }
         },
         created() {
@@ -305,13 +247,13 @@
 
 
 
-            Amplitude.init({
-                "songs": this.listPlayer,
-                delay: 3000,
-                waveforms: {
-                    sample_rate: 3000
-                }
-            });
+            // Amplitude.init({
+            //     "songs": this.listPlayer,
+            //     delay: 3000,
+            //     waveforms: {
+            //         sample_rate: 3000
+            //     }
+            // });
         },
         watch: {
             // 장르가 변경될 때
