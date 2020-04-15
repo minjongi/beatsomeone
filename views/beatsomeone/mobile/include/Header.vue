@@ -17,7 +17,7 @@
             <div class="gnb__bg" ></div>
         </div>
 
-        <transition name="slide-fade">
+<!--        <transition name="slide-fade">-->
         <nav class="gnb" v-if="isOpen" >
 
             <div class="gnb__content">
@@ -39,7 +39,7 @@
             </div>
 
         </nav>
-        </transition>
+<!--        </transition>-->
     </div>
 
 
