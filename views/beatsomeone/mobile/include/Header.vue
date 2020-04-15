@@ -13,9 +13,13 @@
             </div>
         </header>
 
-        <transition name="slide">
+        <div class="gnb" v-if="isOpen">
+            <div class="gnb__bg" ></div>
+        </div>
+
+        <transition name="slide-fade">
         <nav class="gnb" v-if="isOpen" >
-            <div class="gnb__bg"></div>
+
             <div class="gnb__content">
                 <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
@@ -76,6 +80,7 @@
         methods: {
             toggleOpenMenu() {
               this.isOpen = !this.isOpen;
+
             },
             updateCartSum() {
                 Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
@@ -97,16 +102,16 @@
 </script>
 
 <style scoped="scoped" type="css">
-    .slide-enter-active,
-    .slide-leave-active
-    {
-        transition: transform 0.2s ease;
+    .slide-fade-enter-active {
+        transition: all .3s ease;
     }
-
-    .slide-enter,
-    .slide-leave-to {
-        transform: translateX(-100%);
-        transition: all 150ms ease-in 0s
+    .slide-fade-leave-active {
+        transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active below version 2.1.8 */ {
+        transform: translateX(100px);
+        opacity: 0;
     }
 
 </style>

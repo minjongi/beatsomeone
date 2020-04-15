@@ -2,8 +2,10 @@
   @include position(
     $position: fixed,
     $bottom: 0,
-    $left: 0
+    $left: 0,
   );
+
+
   background: rgba(28,29,35, .7);
   width: 100%;
   z-index: 1000;
