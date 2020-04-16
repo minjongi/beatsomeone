@@ -28,7 +28,7 @@
             </div>
             <div class="col genre">
                 <span v-for="(t,i) in hashtag" :key="i">
-                    <button @click="clickHash(t)">{{ t }}</button>
+                    <button @click="clickHash(t)" v-hover="'active'">{{ t }}</button>
                 </span>
 
             </div>
@@ -75,6 +75,8 @@
     import $ from 'jquery';
     import WaveSurfer from 'wavesurfer.js';
 
+
+
     export default {
         props: ['item'],
         data: function () {
@@ -91,6 +93,23 @@
             hashtag() {
                 return this.item.hashTag ? this.item.hashTag.split(',') : '';
             },
+        },
+        directives: {
+            hover:{
+                bind(el, binding, vnode) {
+                    const { value="" } = binding;
+                    el.addEventListener('mouseenter',()=> {
+                        el.classList.add(value)
+                    });
+                    el.addEventListener('mouseleave',()=> {
+                        el.classList.remove(value)
+                    });
+                },
+                unbind(el, binding, vnode) {
+                    el.removeEventListener('mouseenter');
+                    el.removeEventListener('mouseleave')
+                }
+            }
         },
         // beforeDestroy() {
         //     this.ws.destroy();
