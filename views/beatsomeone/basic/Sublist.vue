@@ -152,24 +152,21 @@
                             <h2 class="section-title">PLAY LIST</h2>
                             <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
 
-<!--                                    <transition-group-->
-<!--                                            name="staggered-fade"-->
-<!--                                            tag="ul"-->
-<!--                                            v-bind:css="false"-->
-<!--                                            v-on:before-enter="beforeEnter"-->
-<!--                                            v-on:enter="enter"-->
-<!--                                            v-on:leave="leave">-->
-<!--                                        <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
-<!--                                    </transition-group>-->
-                                <ul>
+                                    <transition-group
+                                            name="staggered-fade"
+                                            tag="ul"
+                                            v-bind:css="false"
+                                            v-on:before-enter="beforeEnter"
+                                            v-on:enter="enter"
+                                            v-on:leave="leave">
                                     <template v-for="item in list"  >
                                         <KeepAliveGlobal :key="item.cit_key">
                                             <Index_Items :item="item" :key="item.cit_key"></Index_Items>
                                         </KeepAliveGlobal>
                                     </template>
-<!--                                    <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
-                                </ul>
-                                <Loader v-if="busy && false" key="loader" style="margin-top: 40px;"></Loader>
+                                    </transition-group>
+
+                                <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
                             </div>
                         </div>
                     </div>

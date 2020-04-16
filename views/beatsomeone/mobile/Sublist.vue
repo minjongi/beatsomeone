@@ -139,25 +139,20 @@
                     </div>
                     <div class="row">
                         <div class="playList"  v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
-                            <!-- 아래 템플릿 문자열로 붙임 -->
-<!--                            <transition-group-->
-<!--                                    name="staggered-fade"-->
-<!--                                    tag="ul"-->
-<!--                                    v-bind:css="false"-->
-<!--                                    v-on:before-enter="beforeEnter"-->
-<!--                                    v-on:enter="enter"-->
-<!--                                    v-on:leave="leave">-->
-<!--                                &lt;!&ndash; 플레이리스트 들어감 &ndash;&gt;-->
-<!--                                <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
-<!--                            </transition-group>-->
-                            <ul>
+                            <transition-group
+                                    name="staggered-fade"
+                                    tag="ul"
+                                    v-bind:css="false"
+                                    v-on:before-enter="beforeEnter"
+                                    v-on:enter="enter"
+                                    v-on:leave="leave">
                                 <template v-for="item in list"  >
                                     <KeepAliveGlobal :key="item.cit_key">
                                         <Index_Items :item="item" :key="item.cit_key"></Index_Items>
                                     </KeepAliveGlobal>
                                 </template>
-                            </ul>
-                            <div v-if="busy && false">
+                            </transition-group>
+                            <div v-if="busy">
                                 <Loader key="loader" ></Loader>
                             </div>
 
