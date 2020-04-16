@@ -33,9 +33,9 @@
                     </div>
                 </div>
                 <div id="central-controls" class="player__controller">
-                    <div class="amplitude-prev" id="previous" @click="prev"></div>
-                    <div class="amplitude-play-pause amplitude-paused" id="play-pause" @click="togglePlay"></div>
-                    <div class="amplitude-next" id="next" @click="next"></div>
+                    <div class="play-prev" id="previous" @click="prev"></div>
+                    <div class="play-play-pause" id="main-play-pause" @click="togglePlay"></div>
+                    <div class="play-next" id="next" @click="next"></div>
                 </div>
 
             </div>
@@ -151,7 +151,7 @@
             stop() {
                 this.isPlay = false;
                 EventBus.$emit('main_player_stop', {'_uid':this.currentMusic._uid,'item':this.currentMusic});
-                $('#play-pause').removeClass('amplitude-playing').addClass('amplitude-paused');
+                $('#main-play-pause').removeClass('play-playing').addClass('play-paused');
 
             },
             start() {
@@ -163,7 +163,7 @@
                 EventBus.$emit('main_player_play', {'_uid':this.currentMusic._uid,'item':this.currentMusic});
 
                 this.isPlay = true;
-                $('#play-pause').addClass('amplitude-playing').removeClass('amplitude-paused');
+                $('#main-play-pause').addClass('play-playing').removeClass('play-paused');
 
             },
 
@@ -215,5 +215,35 @@
         wave {
             border-right: 0 !important;
         }
+    }
+
+    .player .player__controller .play-prev {
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        background: url("/assets_m/images/icon/prev.png") no-repeat center;
+        background-size: 100% 100%;
+        opacity: 0.3;
+    }
+    .player .player__controller .play-play-pause {
+        cursor: pointer;
+        width: 35px;
+        height: 35px;
+        background: url("/assets_m/images/icon/pause.png") no-repeat center;
+        background-size: 100% 100%;
+        opacity: 1;
+        margin: 0 5px;
+    }
+    .player .player__controller .play-play-pause.play-paused {
+        background: url("/assets_m/images/icon/play.png") no-repeat center;
+        background-size: 100% 100%;
+    }
+    .player .player__controller .play-next {
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        background: url("/assets_m/images/icon/next.png") no-repeat center;
+        background-size: 100% 100%;
+        opacity: 0.3;
     }
 </style>

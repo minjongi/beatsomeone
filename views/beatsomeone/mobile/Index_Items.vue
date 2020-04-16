@@ -78,11 +78,11 @@
             });
 
             EventBus.$on('player_request_start',r=> {
-                log.debug({
-                    'ON ITEM: player_request_start':r,
-                    'R' : this.item.cit_id === r.item.cit_id,
-                    'this.item.cit_id':this.item.cit_id,
-                })
+                // log.debug({
+                //     'ON ITEM: player_request_start':r,
+                //     'R' : this.item.cit_id === r.item.cit_id,
+                //     'this.item.cit_id':this.item.cit_id,
+                // })
                 if(this._uid != r.item._uid) {
                     this.stop();
                 }
@@ -90,26 +90,24 @@
             });
             // 메인 플레이어 재생 시작
             EventBus.$on('main_player_play',r=> {
-                log.debug({
-                    '_uid':this._uid,
-                    'R _uid' : r._uid,
-                    'EQ':this._uid == r._uid,
-                })
+                // log.debug({
+                //     '_uid':this._uid,
+                //     'R _uid' : r._uid,
+                //     'EQ':this._uid == r._uid,
+                // })
                 if(this._uid == r._uid) {
                     this.start();
-
                 } else {
-
                     this.stop();
                 }
             });
             // 메인 플레이어 재생 종료
             EventBus.$on('main_player_stop',r=> {
-                log.debug({
-                    'ON ITEM: main_player_stop':r,
-                    'R' : this.item.cit_id === r.item.id,
-                    'this.item.cit_id':this.item.cit_id,
-                })
+                // log.debug({
+                //     'ON ITEM: main_player_stop':r,
+                //     'R' : this.item.cit_id === r.item.id,
+                //     'this.item.cit_id':this.item.cit_id,
+                // })
                 if(this._uid === r._uid) {
 
                     this.stop();
@@ -127,9 +125,9 @@
                 }
 
                 const el = $('#playList__item'+this.item.cit_id);
-                log.debug({
-                    'STOP el':el,
-                })
+                // log.debug({
+                //     'STOP el':el,
+                // })
                 el.removeClass('playing');
                 this.isPlay = false;
             },
@@ -143,9 +141,9 @@
                 //     this.ws.play();
                 // }
                 const el = $('#playList__item'+this.item.cit_id);
-                log.debug({
-                    'START el':el,
-                })
+                // log.debug({
+                //     'START el':el,
+                // })
                 el.addClass('playing');
                 this.isPlay = true;
             },

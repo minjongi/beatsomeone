@@ -128,16 +128,37 @@
 
         mounted() {
 
-            EventBus.$on('index_items_stop_all_played',r=> {
 
-                if(this._uid !== r._uid) {
+            EventBus.$on('player_request_start',r=> {
 
-                    // Amplitude.pause();
-                    // var bg = document.querySelector(".btn-play");
-                    // bg.classList.remove("amplitude-playing");
-                    // bg.classList.add("amplitude-paused");
+                log.debug({
+                    'DETAIL : player_request_start':r,
+                })
+
+                if(this._uid != r._uid) {
                     this.music.pause();
                 }
+
+            });
+
+            EventBus.$on('main_player_play',r=> {
+
+                log.debug({
+                    'DETAIL : main_player_play':r,
+                })
+
+                if(this._uid != r._uid) {
+                    this.music.pause();
+                }
+
+            });
+
+            EventBus.$on('player_request_start',r=> {
+
+                if(this._uid != r._uid) {
+                    this.music.pause();
+                }
+
             });
 
             this.currentTab = _.find(this.tabs, e => {

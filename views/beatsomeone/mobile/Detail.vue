@@ -124,17 +124,49 @@
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).title;
-            EventBus.$on('index_items_stop_all_played',r=> {
-                if(this._uid !== r._uid) {
-                    // log.debug({
-                    //     'index_items_stop_all_played MAIN':null,
-                    // })
+
+            EventBus.$on('player_request_start',r=> {
+
+                log.debug({
+                    'DETAIL : player_request_start':r,
+                })
+
+                if(this._uid != r._uid) {
                     Amplitude.pause();
                     var bg = document.querySelector(".btn-play");
                     bg.classList.remove("amplitude-playing");
                     bg.classList.add("amplitude-paused");
                 }
+
             });
+
+            EventBus.$on('main_player_play',r=> {
+
+                log.debug({
+                    'DETAIL : main_player_play':r,
+                })
+
+                if(this._uid != r._uid) {
+                    Amplitude.pause();
+                    var bg = document.querySelector(".btn-play");
+                    bg.classList.remove("amplitude-playing");
+                    bg.classList.add("amplitude-paused");
+                }
+
+            });
+
+
+            // EventBus.$on('index_items_stop_all_played',r=> {
+            //     if(this._uid !== r._uid) {
+            //         // log.debug({
+            //         //     'index_items_stop_all_played MAIN':null,
+            //         // })
+            //         Amplitude.pause();
+            //         var bg = document.querySelector(".btn-play");
+            //         bg.classList.remove("amplitude-playing");
+            //         bg.classList.add("amplitude-paused");
+            //     }
+            // });
 
             // this.music = window.WaveSurfer.create({
             //     container: document.querySelector(".wave"),
@@ -199,6 +231,12 @@
 
         },
         methods: {
+            stop() {
+                Amplitude.pause();
+                var bg = document.querySelector(".btn-play");
+                bg.classList.remove("amplitude-playing");
+                bg.classList.add("amplitude-paused");
+            },
             // 탭 선택
             selectTab(t) {
                 this.currentTab = t.title;
