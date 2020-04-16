@@ -162,7 +162,12 @@
 <!--                                        <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
 <!--                                    </transition-group>-->
                                 <ul>
-                                    <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
+                                    <template v-for="item in list"  >
+                                        <KeepAliveGlobal :key="item.cit_key">
+                                            <Index_Items :item="item" :key="item.cit_key"></Index_Items>
+                                        </KeepAliveGlobal>
+                                    </template>
+<!--                                    <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
                                 </ul>
                                 <Loader v-if="busy && false" key="loader" style="margin-top: 40px;"></Loader>
                             </div>
@@ -188,9 +193,10 @@
     import Velocity from "velocity-animate";
     import Loader from '*/vue/common/Loader';
     import MainPlayer from "@/vue/common/MainPlayer";
+    import KeepAliveGlobal from 'vue-keep-alive-global';
 
     export default {
-        components: {Header,Footer,Index_Items,Loader,MainPlayer},
+        components: {Header,Footer,Index_Items,Loader,MainPlayer,KeepAliveGlobal},
         data: function() {
             return {
                 isLogin: false,

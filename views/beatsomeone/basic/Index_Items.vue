@@ -64,66 +64,7 @@
                 </button>
             </div>
         </div>
-        <!-- 서브 앨범들 -->
-        <ul class="subPlayList">
-            <li v-for="playList in item.subPlayList" :key="playList.id" :id="'playList__item'+ playList.id "
-                class="playList__itembox">
-                <div class="playList__item playList__item--sub" id="">
-                    <div class="col favorite">
-                        <button>즐겨찾기</button>
-                    </div>
-                    <div class="col name">
-                        <figure>
-                  <span class="playList__cover">
-                    <img
-                            :src="playList.coverImg"
-                            alt=""
-                    />
 
-                    <i class="label new" v-if="playList.isNew">N</i>
-
-                  </span>
-                            <figcaption class="pointer" @click="selectItem(playList)">
-                                <h3 class="">
-                                    {{ playList.title }}
-                                </h3>
-                                <span class="playList__by">{{ playList.singer }}</span>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <div class="col genre">
-                        <button v-for="(genre,index) in hashtag" :key="index"
-                                :class="{'active' : genre.active }">{{ genre.title }}
-                        </button>
-                    </div>
-                    <div class="col playbtn">
-                        <button class="btn-play" @click="playAudio(playList)" :data-action="'playAction' + playList.id">
-                            재생
-                        </button>
-                        <span class="timer">
-                  <span class="current">0:00 / </span>
-                  <span class="duration">0:00</span>
-                </span>
-                    </div>
-                    <div class="col spectrum">
-                        <div class="wave"></div>
-                    </div>
-                    <div class="col utils">
-                        <a href="" class="cart">
-                            장바구니
-                            <span class="tooltip">$20.00</span>
-                        </a>
-                        <a href="" class="download">다운로드</a>
-                        <a href="" class="shared">공유하기</a>
-                    </div>
-                    <div class="col more">
-                        <button>more</button>
-                        <span class="tooltip">$20.00</span>
-                    </div>
-                </div>
-            </li>
-
-        </ul>
     </li>
 </template>
 
@@ -151,6 +92,9 @@
                 return this.item.hashTag ? this.item.hashTag.split(',') : '';
             },
         },
+        // beforeDestroy() {
+        //     this.ws.destroy();
+        // },
         mounted() {
             EventBus.$on('index_items_open_submenu',r=> {
                 if(this._uid !== r) {
@@ -159,19 +103,24 @@
             });
 
             EventBus.$on('player_request_start',r=> {
-                if(this.item.cit_id != r.item.id) {
+                log.debug({
+                    'ON ITEM: player_request_start':r,
+                    'R' : this.item.cit_id === r.item.cit_id,
+                    'this.item.cit_id':this.item.cit_id,
+                })
+                if(this._uid != r.item._uid) {
                     this.stop();
                 }
 
             });
             // 메인 플레이어 재생 시작
             EventBus.$on('main_player_play',r=> {
-                // log.debug({
-                //     'ON ITEM: main_player_play':r,
-                //     'R' : this.item.cit_id === r.item.id,
-                //     'this.item.cit_id':this.item.cit_id,
-                // })
-                if(this.item.cit_id === r.item.id) {
+                log.debug({
+                    '_uid':this._uid,
+                    'R _uid' : r._uid,
+                    'EQ':this._uid == r._uid,
+                })
+                if(this._uid == r._uid) {
                     this.start();
 
                 } else {
@@ -181,31 +130,47 @@
             });
             // 메인 플레이어 재생 종료
             EventBus.$on('main_player_stop',r=> {
-                // log.debug({
-                //     'ON ITEM: main_player_stop':r,
-                //     'R' : this.item.cit_id === r.item.id,
-                //     'this.item.cit_id':this.item.cit_id,
-                // })
-                if(this.item.cit_id === r.item.id) {
+                log.debug({
+                    'ON ITEM: main_player_stop':r,
+                    'R' : this.item.cit_id === r.item.id,
+                    'this.item.cit_id':this.item.cit_id,
+                })
+                if(this._uid === r._uid) {
 
                     this.stop();
                 }
             });
 
-            this.setAudioInstance(this.item);
+            // this.setAudioInstance(this.item);
+
+
         },
         methods: {
             stop() {
-                this.ws.pause();
+                if(this.ws) {
+                    this.ws.pause();
+                }
+
                 const el = $('#playList__item'+this.item.cit_id);
+                log.debug({
+                  'STOP el':el,
+                })
                 el.removeClass('playing');
                 this.isPlay = false;
             },
             start() {
-                this.ws.play();
+                log.debug('ITEM : start');
+                if(this.ws) {
+                    this.ws.play();
+                }
 
-
+                // if(this.isReady && !this.ws.isPlaying()) {
+                //     this.ws.play();
+                // }
                 const el = $('#playList__item'+this.item.cit_id);
+                log.debug({
+                    'START el':el,
+                })
                 el.addClass('playing');
                 this.isPlay = true;
             },
@@ -243,16 +208,22 @@
                 window.location.href = path;
             },
             playAudio(i) {
-                if(!this.isReady) return;
+
+                // if(!this.isReady) return;
 
                 // 재생 시작
                 if(!this.isPlay) {
                     // log.debug({
                     //     'EMIT ITEM : item player_request_start':this.item,
                     // });
-                    EventBus.$emit('player_request_start',{'_uid':this._uid,'item':this.item,'ws':this.ws});
 
+                    if(!this.ws ) {
+                        this.setAudioInstance(this.item);
+                    }
+
+                    EventBus.$emit('player_request_start',{'_uid':this._uid,'item':this.item,'ws':this.ws});
                     this.start();
+
                 }
                 // 중지
                 else {
@@ -288,22 +259,46 @@
 
                 this.ws.on("play", () => {
 
-
+                    // document
+                    //     .querySelector("#playList__item" + item.id)
+                    //     .classList.add("playing");
+                    //this.start();
+                    const el = document.querySelector(
+                        "#playList__item" + this.item.cit_id
+                    );
+                    if(el) {
+                        el.classList.add("playing");
+                    }
                 });
 
                 this.ws.on("audioprocess", (e) => {
-                    // 파일이 재생될때 계속 실행
-                    document.querySelector(
+                    const el = document.querySelector(
                         "#playList__item" + this.item.cit_id + " .current"
-                    ).innerHTML = this.time_convert(parseInt(e, 10)) + " / ";
+                    );
+                    if(el) {
+                        el.innerHTML = this.time_convert(parseInt(e, 10)) + " / ";
+                    }
+
                 });
 
                 this.ws.on("ready", () => {
 
-                    document.querySelector(
+                    const el = document.querySelector(
                         "#playList__item" + this.item.cit_id + " .duration"
-                    ).innerHTML = this.time_convert(parseInt(this.ws.getDuration(), 10));
+                    );
+                    if(el) {
+                        el.innerHTML = this.time_convert(parseInt(this.ws.getDuration(), 10));
+                    }
+
+
+
+
+                    if(this.isPlay) {
+                        this.ws.play();
+                    }
+
                     this.isReady = true;
+
                 });
                 this.ws.on("pause", () => {
 

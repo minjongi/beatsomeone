@@ -151,7 +151,11 @@
 <!--                                <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
 <!--                            </transition-group>-->
                             <ul>
-                                <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
+                                <template v-for="item in list"  >
+                                    <KeepAliveGlobal :key="item.cit_key">
+                                        <Index_Items :item="item" :key="item.cit_key"></Index_Items>
+                                    </KeepAliveGlobal>
+                                </template>
                             </ul>
                             <div v-if="busy && false">
                                 <Loader key="loader" ></Loader>
@@ -178,9 +182,10 @@
     import Velocity from "velocity-animate";
     import Loader from '*/vue/common/Loader';
     import MainPlayer from "@/vue/common/MobileMainPlayer";
+    import KeepAliveGlobal from 'vue-keep-alive-global';
 
     export default {
-        components: {Header,Footer,Index_Items,Loader,MainPlayer},
+        components: {Header,Footer,Index_Items,Loader,MainPlayer,KeepAliveGlobal},
         data: function() {
             return {
                 slick: null,

@@ -43,6 +43,7 @@
 </template>
 
 
+
 <script>
 
     import { EventBus } from '*/src/eventbus';
@@ -66,6 +67,9 @@
                 return this.item.hashTag ? this.item.hashTag.split(',') : '';
             },
         },
+        // beforeDestroy() {
+        //     this.ws.destroy();
+        // },
         mounted() {
             EventBus.$on('index_items_open_submenu',r=> {
                 if(this._uid !== r) {
@@ -79,7 +83,7 @@
                     'R' : this.item.cit_id === r.item.cit_id,
                     'this.item.cit_id':this.item.cit_id,
                 })
-                if(this.item.cit_id != r.item.cit_id) {
+                if(this._uid != r.item._uid) {
                     this.stop();
                 }
 
@@ -87,11 +91,11 @@
             // 메인 플레이어 재생 시작
             EventBus.$on('main_player_play',r=> {
                 log.debug({
-                    'ON ITEM: main_player_play':r,
-                    'R' : this.item.cit_id === r.item.id,
-                    'this.item.cit_id':this.item.cit_id,
+                    '_uid':this._uid,
+                    'R _uid' : r._uid,
+                    'EQ':this._uid == r._uid,
                 })
-                if(this.item.cit_id === r.item.id) {
+                if(this._uid == r._uid) {
                     this.start();
 
                 } else {
@@ -106,28 +110,42 @@
                     'R' : this.item.cit_id === r.item.id,
                     'this.item.cit_id':this.item.cit_id,
                 })
-                if(this.item.cit_id === r.item.id) {
+                if(this._uid === r._uid) {
 
                     this.stop();
                 }
             });
 
-            this.setAudioInstance(this.item);
+            // this.setAudioInstance(this.item);
+
+
         },
         methods: {
             stop() {
-                this.ws.pause();
+                if(this.ws) {
+                    this.ws.pause();
+                }
+
                 const el = $('#playList__item'+this.item.cit_id);
+                log.debug({
+                    'STOP el':el,
+                })
                 el.removeClass('playing');
                 this.isPlay = false;
             },
             start() {
                 log.debug('ITEM : start');
-                this.ws.play();
+                if(this.ws) {
+                    this.ws.play();
+                }
+
                 // if(this.isReady && !this.ws.isPlaying()) {
                 //     this.ws.play();
                 // }
                 const el = $('#playList__item'+this.item.cit_id);
+                log.debug({
+                    'START el':el,
+                })
                 el.addClass('playing');
                 this.isPlay = true;
             },
@@ -173,9 +191,14 @@
                     // log.debug({
                     //     'EMIT ITEM : item player_request_start':this.item,
                     // });
-                    EventBus.$emit('player_request_start',{'_uid':this._uid,'item':this.item,'ws':this.ws});
 
+                    if(!this.ws ) {
+                        this.setAudioInstance(this.item);
+                    }
+
+                    EventBus.$emit('player_request_start',{'_uid':this._uid,'item':this.item,'ws':this.ws});
                     this.start();
+
                 }
                 // 중지
                 else {
@@ -211,33 +234,45 @@
 
                 this.ws.on("play", () => {
 
+                    // document
+                    //     .querySelector("#playList__item" + item.id)
+                    //     .classList.add("playing");
                     //this.start();
+                    const el = document.querySelector(
+                        "#playList__item" + this.item.cit_id
+                    );
+                    if(el) {
+                        el.classList.add("playing");
+                    }
                 });
 
                 this.ws.on("audioprocess", (e) => {
-                    // // 파일이 재생될때 계속 실행
-                    // document.querySelector(
-                    //     "#playList__item" + this.item.cit_id + " .current"
-                    // ).innerHTML = this.time_convert(parseInt(e, 10)) + " / ";
+                    const el = document.querySelector(
+                        "#playList__item" + this.item.cit_id + " .current"
+                    );
+                    if(el) {
+                        el.innerHTML = this.time_convert(parseInt(e, 10)) + " / ";
+                    }
+
                 });
 
                 this.ws.on("ready", () => {
 
-                    // document.querySelector(
-                    //     "#playList__item" + this.item.cit_id + " .duration"
-                    // ).innerHTML = this.time_convert(parseInt(this.ws.getDuration(), 10));
-                    // if(!this.ws.isPlaying()) {
-                    //
-                    // }
+                    const el = document.querySelector(
+                        "#playList__item" + this.item.cit_id + " .duration"
+                    );
+                    if(el) {
+                        el.innerHTML = this.time_convert(parseInt(this.ws.getDuration(), 10));
+                    }
+
+
+
+
                     if(this.isPlay) {
                         this.ws.play();
                     }
-                    // if(this.ws.isPlaying()) {
-                    //     this.ws.play();
-                    // }
-                    this.isReady = true;
-                    //this.start();
 
+                    this.isReady = true;
 
                 });
                 this.ws.on("pause", () => {

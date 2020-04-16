@@ -68,6 +68,7 @@
                 }
                 Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
                     this.list = r;
+                    this.offset = this.list.length;
                 });
             },
             getListMore: _.debounce(function() {

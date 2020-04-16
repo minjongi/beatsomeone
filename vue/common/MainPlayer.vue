@@ -56,7 +56,7 @@
             return {
                 isPlay: false,
                 listPlayer: [],
-                ws: null,
+                //ws: null,
                 currentIndex: -1,
                 currentSeekTime: 0,
                 prevWs: null,
@@ -71,6 +71,7 @@
                 if(!r.item) return;
 
                 const i = {
+                    _uid: r._uid,
                     id: r.item.cit_id,
                     name : r.item.cit_name,
                     artist: r.item.musician,
@@ -85,17 +86,18 @@
                     this.listPlayer.push(i);
                     this.initMinimap(r.ws);
                 }
-                // 기존 재생하던 곡이면
-                else if(i.id === this.currentMusic.id) {
-                    this.start();
-                }
+                    // // 기존 재생하던 곡이면
+                    // else if(i.id === this.currentMusic.id) {
+                    //
+                    //     //this.start();
+                    // }
                 // 기존 재생 목록에 있으면
                 else {
                     log.debug('MAIN : RESTART ON LIST');
                     this.currentIndex = _.findIndex(this.listPlayer,{id:r.item.cit_id});
                     this.initMinimap(r.ws);
-
                 }
+                this.start();
 
             });
 
@@ -128,6 +130,7 @@
                 ws.addPlugin(MinimapPlugin.create({
                     container: '#minimap',
                 })).initPlugin('minimap');
+
                 this.prevWs = ws;
 
             },
@@ -147,7 +150,7 @@
             },
             stop() {
                 this.isPlay = false;
-                EventBus.$emit('main_player_stop', {'_uid':this._uid,'item':this.currentMusic});
+                EventBus.$emit('main_player_stop', {'_uid':this.currentMusic._uid,'item':this.currentMusic});
                 $('#play-pause').removeClass('amplitude-playing').addClass('amplitude-paused');
 
             },
@@ -157,8 +160,9 @@
                     'list':this.listPlayer,
                     'currentIndex':this.currentIndex,
                 })
+                EventBus.$emit('main_player_play', {'_uid':this.currentMusic._uid,'item':this.currentMusic});
+
                 this.isPlay = true;
-                EventBus.$emit('main_player_play', {'_uid':this._uid,'item':this.currentMusic});
                 $('#play-pause').addClass('amplitude-playing').removeClass('amplitude-paused');
 
             },
@@ -171,11 +175,14 @@
 
                 // 재생중 중지
                 if(this.isPlay) {
-                    this.stop();
+                    log.debug('MAIN: stop');
 
+                    this.stop();
                 }
                 // 재생
                 else {
+                    log.debug('MAIN: play');
+
                     this.start();
 
                 }
@@ -183,15 +190,15 @@
 
             },
             // 다운로드 증가
-            increaseMusicCount(item) {
-                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:item.cde_id}).then(r=> {
-                    if(!r) {
-                        log.debug('카운트 증가 실패');
-                    } else {
-                        log.debug('카운트 증가 성공');
-                    }
-                });
-            }
+            // increaseMusicCount(item) {
+            //     Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:item.cde_id}).then(r=> {
+            //         if(!r) {
+            //             log.debug('카운트 증가 실패');
+            //         } else {
+            //             log.debug('카운트 증가 성공');
+            //         }
+            //     });
+            // }
         },
 
     }

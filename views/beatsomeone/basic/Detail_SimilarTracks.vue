@@ -2,7 +2,7 @@
     <div class="playList"  v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
         <ul id="playList__list" class="playList__list">
             <!-- 플레이리스트 들어감 -->
-            <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
+            <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_id"></Index_Items>
 
         </ul>
     </div>
@@ -69,6 +69,7 @@
                 }
                 Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
                     this.list = r;
+                    this.offset = this.list.length;
                 });
             },
             getListMore: _.debounce(function() {

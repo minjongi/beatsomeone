@@ -38,7 +38,11 @@
 <!--                                    <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>-->
 <!--                                </transition-group>-->
                                 <ul>
-                                    <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_key"></Index_Items>
+                                    <template v-for="item in list"  >
+                                        <KeepAliveGlobal :key="item.cit_key">
+                                            <Index_Items :item="item" :key="item.cit_key"></Index_Items>
+                                        </KeepAliveGlobal>
+                                    </template>
                                 </ul>
                                 <div class="playList__btnbox">
                                     <a href="#//" class="playList__more pointer" @click="moveMore">more</a>
@@ -177,11 +181,12 @@
     import Index_Items from "./Index_Items";
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
-    import MainPlayer from "@/vue/common/MobileMainPlayer";
+    import MainPlayer from "@/vue/common/MainPlayer";
+    import KeepAliveGlobal from 'vue-keep-alive-global';
 
     export default {
         name: 'Index',
-        components: {Header,Footer,Index_Items,MainPlayer},
+        components: {Header,Footer,Index_Items,MainPlayer,KeepAliveGlobal},
         data: function() {
             return {
                 isLogin: false,
