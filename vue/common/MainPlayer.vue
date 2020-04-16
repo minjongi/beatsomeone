@@ -14,7 +14,11 @@
                     <!--                    </div>-->
                 </div>
             </div>
+
             <div class="player__bottom">
+                <div class="player__favorite" v-if="currentMusic">
+                    <button :class="{active : currentMusic.is_wish === '1', 'noactive':currentMusic.is_wish === '0' }" @click="toggleWish" ></button>
+                </div>
                 <div class="player__info">
                     <div class="col name" v-if="currentMusic">
                         <figure>
@@ -72,6 +76,7 @@
 
                 const i = {
                     _uid: r._uid,
+                    is_wish: r.item.is_wish,
                     id: r.item.cit_id,
                     name : r.item.cit_name,
                     artist: r.item.musician,
@@ -189,6 +194,14 @@
 
 
             },
+            toggleWish() {
+                Http.post( `/beatsomeoneApi/toggle_wish_item/${this.currentMusic.id}`).then(r=> {
+                    if(r === true) {
+                        this.currentMusic.is_wish = this.currentMusic.is_wish === '1' ? '0' : '1';
+                    }
+                });
+
+            },
             // 다운로드 증가
             // increaseMusicCount(item) {
             //     Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:item.cde_id}).then(r=> {
@@ -205,7 +218,7 @@
 
 </script>
 
-<style lang="scss">
+<style scoped="scoped" lang="scss">
 
     .spectrum {
 
@@ -219,16 +232,16 @@
 
     .player .player__controller .play-prev {
         cursor: pointer;
-        width: 25px;
-        height: 25px;
+        width: 40px;
+        height: 40px;
         background: url("/assets_m/images/icon/prev.png") no-repeat center;
         background-size: 100% 100%;
         opacity: 0.3;
     }
     .player .player__controller .play-play-pause {
         cursor: pointer;
-        width: 35px;
-        height: 35px;
+        width: 50px;
+        height: 50px;
         background: url("/assets_m/images/icon/pause.png") no-repeat center;
         background-size: 100% 100%;
         opacity: 1;
@@ -240,8 +253,8 @@
     }
     .player .player__controller .play-next {
         cursor: pointer;
-        width: 25px;
-        height: 25px;
+        width: 40px;
+        height: 40px;
         background: url("/assets_m/images/icon/next.png") no-repeat center;
         background-size: 100% 100%;
         opacity: 0.3;

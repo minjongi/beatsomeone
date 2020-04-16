@@ -40,7 +40,14 @@
     button {
       width: 20px;
       height: 20px;
-      background: url("/assets/images/icon/favorite.png") no-repeat center
+
+    }
+    .noactive {
+      background: url("/assets/images/icon/favorite.png") no-repeat center;
+    }
+
+    .active {
+      background: url("/assets/images/icon/favorite-active.png") no-repeat center
     }
   }
   .player__info {

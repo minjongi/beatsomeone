@@ -181,7 +181,7 @@
     import Index_Items from "./Index_Items";
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
-    import MainPlayer from "@/vue/common/MainPlayer";
+    import MainPlayer from "@/vue/common/MobileMainPlayer";
     import KeepAliveGlobal from 'vue-keep-alive-global';
 
     export default {

@@ -152,14 +152,14 @@
                 }
 
                 const el = $('#playList__item'+this.item.cit_id);
-                log.debug({
-                  'STOP el':el,
-                })
+                // log.debug({
+                //   'STOP el':el,
+                // })
                 el.removeClass('playing');
                 this.isPlay = false;
             },
-            start() {
-                log.debug('ITEM : start');
+            start(isInit) {
+                // log.debug('ITEM : start');
                 if(this.ws) {
                     this.ws.play();
                 }
@@ -168,11 +168,14 @@
                 //     this.ws.play();
                 // }
                 const el = $('#playList__item'+this.item.cit_id);
-                log.debug({
-                    'START el':el,
-                })
+                // log.debug({
+                //     'START el':el,
+                // })
                 el.addClass('playing');
-                this.isPlay = true;
+                if(!isInit) {
+                    this.isPlay = true;
+                }
+
             },
             openSubmenu() {
                 this.isOpenSubmenu = !this.isOpenSubmenu;
@@ -294,7 +297,7 @@
 
 
                     if(this.isPlay) {
-                        this.ws.play();
+                        this.start(true);
                     }
 
                     this.isReady = true;

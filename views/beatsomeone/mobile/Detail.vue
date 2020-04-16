@@ -91,7 +91,7 @@
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import { EventBus } from '*/src/eventbus';
-    import MainPlayer from "@/vue/common/MainPlayer";
+    import MainPlayer from "@/vue/common/MobileMainPlayer";
 
     export default {
         components: {Header,Footer,MainPlayer},

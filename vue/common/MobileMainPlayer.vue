@@ -33,9 +33,9 @@
                     </div>
                 </div>
                 <div id="central-controls" class="player__controller">
-                    <div class="amplitude-prev" id="previous" @click="prev"></div>
-                    <div class="amplitude-play-pause amplitude-paused" id="play-pause" @click="togglePlay"></div>
-                    <div class="amplitude-next" id="next" @click="next"></div>
+                    <div class="play-prev" id="previous" @click="prev"></div>
+                    <div class="play-play-pause" id="main-play-pause" @click="togglePlay"></div>
+                    <div class="play-next" id="next" @click="next"></div>
                 </div>
 
             </div>
@@ -71,6 +71,7 @@
                 if(!r.item) return;
 
                 const i = {
+                    _uid: r._uid,
                     id: r.item.cit_id,
                     name : r.item.cit_name,
                     artist: r.item.musician,
@@ -85,11 +86,11 @@
                     this.listPlayer.push(i);
                     this.initMinimap(r.ws);
                 }
-                // // 기존 재생하던 곡이면
-                // else if(i.id === this.currentMusic.id) {
-                //
-                //     //this.start();
-                // }
+                    // // 기존 재생하던 곡이면
+                    // else if(i.id === this.currentMusic.id) {
+                    //
+                    //     //this.start();
+                    // }
                 // 기존 재생 목록에 있으면
                 else {
                     log.debug('MAIN : RESTART ON LIST');
@@ -149,8 +150,8 @@
             },
             stop() {
                 this.isPlay = false;
-                EventBus.$emit('main_player_stop', {'_uid':this._uid,'item':this.currentMusic});
-                $('#play-pause').removeClass('amplitude-playing').addClass('amplitude-paused');
+                EventBus.$emit('main_player_stop', {'_uid':this.currentMusic._uid,'item':this.currentMusic});
+                $('#main-play-pause').removeClass('play-playing').addClass('play-paused');
 
             },
             start() {
@@ -159,10 +160,10 @@
                     'list':this.listPlayer,
                     'currentIndex':this.currentIndex,
                 })
-                EventBus.$emit('main_player_play', {'_uid':this._uid,'item':this.currentMusic});
+                EventBus.$emit('main_player_play', {'_uid':this.currentMusic._uid,'item':this.currentMusic});
 
                 this.isPlay = true;
-                $('#play-pause').addClass('amplitude-playing').removeClass('amplitude-paused');
+                $('#main-play-pause').addClass('play-playing').removeClass('play-paused');
 
             },
 
@@ -189,22 +190,22 @@
 
             },
             // 다운로드 증가
-            increaseMusicCount(item) {
-                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:item.cde_id}).then(r=> {
-                    if(!r) {
-                        log.debug('카운트 증가 실패');
-                    } else {
-                        log.debug('카운트 증가 성공');
-                    }
-                });
-            }
+            // increaseMusicCount(item) {
+            //     Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:item.cde_id}).then(r=> {
+            //         if(!r) {
+            //             log.debug('카운트 증가 실패');
+            //         } else {
+            //             log.debug('카운트 증가 성공');
+            //         }
+            //     });
+            // }
         },
 
     }
 
 </script>
 
-<style lang="scss">
+<style scoped="scoped" lang="scss">
 
     .spectrum {
 
@@ -214,5 +215,35 @@
         wave {
             border-right: 0 !important;
         }
+    }
+
+    .player .player__controller .play-prev {
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        background: url("/assets_m/images/icon/prev.png") no-repeat center;
+        background-size: 100% 100%;
+        opacity: 0.3;
+    }
+    .player .player__controller .play-play-pause {
+        cursor: pointer;
+        width: 35px;
+        height: 35px;
+        background: url("/assets_m/images/icon/pause.png") no-repeat center;
+        background-size: 100% 100%;
+        opacity: 1;
+        margin: 0 5px;
+    }
+    .player .player__controller .play-play-pause.play-paused {
+        background: url("/assets_m/images/icon/play.png") no-repeat center;
+        background-size: 100% 100%;
+    }
+    .player .player__controller .play-next {
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        background: url("/assets_m/images/icon/next.png") no-repeat center;
+        background-size: 100% 100%;
+        opacity: 0.3;
     }
 </style>
