@@ -1,8 +1,6 @@
 <template>
     <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
-<!--        <div>-->
-<!--            {{ item }}-->
-<!--        </div>-->
+
         <div class="playList__item playList__item--title">
             <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish">
                 <button>즐겨찾기</button>
@@ -37,7 +35,7 @@
             <div class="col playbtn">
                 <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
                 <span class="timer">
-              <span class="current"></span>
+              <span class="current">0:00 / </span>
               <span class="duration">0:00</span>
             </span>
             </div>
@@ -103,7 +101,7 @@
                             재생
                         </button>
                         <span class="timer">
-                  <span class="current"></span>
+                  <span class="current">0:00 / </span>
                   <span class="duration">0:00</span>
                 </span>
                     </div>
@@ -133,15 +131,19 @@
 <script>
 
     import { EventBus } from '*/src/eventbus';
-
-
+    import $ from 'jquery';
+    import WaveSurfer from 'wavesurfer.js';
 
     export default {
         props: ['item'],
         data: function () {
             return {
-                //listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
-                audio: {},
+                isOpenSubmenu: false,
+                listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
+                ws: null,
+                isPlay: false,
+                isReady: false,
+
             };
         },
         computed: {
@@ -150,22 +152,73 @@
             },
         },
         mounted() {
-            EventBus.$on('index_items_stop_all_played',r=> {
-                if(this._uid !== r._uid) {
-                    // log.debug({
-                    //     'index_items_stop_all_played':this.audio[this.item.cit_id],
-                    // })
-                    if(this.audio[this.item.cit_id]) {
-                        this.audio[this.item.cit_id].pause();
-                    }
-
+            EventBus.$on('index_items_open_submenu',r=> {
+                if(this._uid !== r) {
+                    this.isOpenSubmenu = false;
                 }
             });
+
+            EventBus.$on('player_request_start',r=> {
+                if(this.item.cit_id != r.item.id) {
+                    this.stop();
+                }
+
+            });
+            // 메인 플레이어 재생 시작
+            EventBus.$on('main_player_play',r=> {
+                // log.debug({
+                //     'ON ITEM: main_player_play':r,
+                //     'R' : this.item.cit_id === r.item.id,
+                //     'this.item.cit_id':this.item.cit_id,
+                // })
+                if(this.item.cit_id === r.item.id) {
+                    this.start();
+
+                } else {
+
+                    this.stop();
+                }
+            });
+            // 메인 플레이어 재생 종료
+            EventBus.$on('main_player_stop',r=> {
+                // log.debug({
+                //     'ON ITEM: main_player_stop':r,
+                //     'R' : this.item.cit_id === r.item.id,
+                //     'this.item.cit_id':this.item.cit_id,
+                // })
+                if(this.item.cit_id === r.item.id) {
+
+                    this.stop();
+                }
+            });
+
+            this.setAudioInstance(this.item);
         },
         methods: {
+            stop() {
+                this.ws.pause();
+                const el = $('#playList__item'+this.item.cit_id);
+                el.removeClass('playing');
+                this.isPlay = false;
+            },
+            start() {
+                this.ws.play();
+
+
+                const el = $('#playList__item'+this.item.cit_id);
+                el.addClass('playing');
+                this.isPlay = true;
+            },
+            openSubmenu() {
+                this.isOpenSubmenu = !this.isOpenSubmenu;
+                EventBus.$emit('index_items_open_submenu',this._uid);
+            },
             toggleWish() {
                 Http.post( `/beatsomeoneApi/toggle_wish_item/${this.item.cit_id}`).then(r=> {
                     if(r === true) {
+                        // log.debug({
+                        //     'toggleWish':this.item,
+                        // })
                         this.item.is_wish = this.item.is_wish === '1' ? '0' : '1';
                     }
                 });
@@ -190,17 +243,26 @@
                 window.location.href = path;
             },
             playAudio(i) {
-                // this.$log({
-                //     i
-                // });
-                EventBus.$emit('index_items_stop_all_played',{'_uid':this._uid,'item':this.item});
-                // if (!this.audio[i.cit_id]) {
-                //     this.$nextTick(() => {
-                //         this.setAudioInstance(i);
-                //     });
-                // } else {
-                //     this.audio[i.cit_id].playPause();
-                // }
+                if(!this.isReady) return;
+
+                // 재생 시작
+                if(!this.isPlay) {
+                    // log.debug({
+                    //     'EMIT ITEM : item player_request_start':this.item,
+                    // });
+                    EventBus.$emit('player_request_start',{'_uid':this._uid,'item':this.item,'ws':this.ws});
+
+                    this.start();
+                }
+                // 중지
+                else {
+                    // log.debug({
+                    //     'EMIT ITEM : item player_request_stop':this.item,
+                    // });
+                    EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':this.item,'ws':this.ws});
+
+                    this.stop();
+                }
 
             },
             time_convert(num) {
@@ -212,62 +274,61 @@
                 return minutes + ":" + seconds;
             },
             setAudioInstance(item) {
-                // this.audio[item.cit_id] = window.WaveSurfer.create({
-                //     container: "#playList__item" + item.cit_id + " .wave",
-                //     waveColor: "#696969",
-                //     progressColor: "#c3ac45",
-                //     hideScrollbar: true,
-                //     height: 90
-                // });
-                               // this.audio[item.cit_id].load(`/cmallact/download_sample/${item.cde_id}`);
-                // this.audio[item.cit_id].on("play", () => {
-                //     EventBus.$emit('index_items_stop_all_played',{'_uid':this._uid,'item':this.item});
-                //     document
-                //         .querySelector("#playList__item" + item.cit_id)
-                //         .classList.add("playing");
-                // });
-                // this.audio[item.cit_id].on("audioprocess", (e) => {
-                //     // 파일이 재생될때 계속 실행
-                //     document.querySelector(
-                //         "#playList__item" + item.cit_id + " .current"
-                //     ).innerHTML = this.time_convert(parseInt(e, 10)) + " / ";
-                // });
-                // this.audio[item.cit_id].on("ready", () => {
-                //     // 파일이 로드가 다 됐을때,
-                //     document.querySelector(
-                //         "#playList__item" + item.cit_id + " .duration"
-                //     ).innerHTML = this.time_convert(parseInt(this.audio[item.cit_id].getDuration(), 10));
-                //     this.increaseMusicCount();
-                //     this.audio[item.cit_id].playPause();
-                // });
-                // this.audio[item.cit_id].on("pause", () => {
-                //     //  var actionTarget = "playAction" + item.id;
-                //     document
-                //         .querySelector("#playList__item" + item.cit_id)
-                //         .classList.remove("playing");
-                // });
+                this.ws = WaveSurfer.create({
+                    container: "#playList__item" + item.cit_id + " .wave",
+                    waveColor: "#696969",
+                    progressColor: "#c3ac45",
+                    hideScrollbar: true,
+                    height: 50,
 
-                // var actionName = "playAction" + item.id;
-                // _GLOBAL_ACTIONS[actionName] = audio;
+                });
+                if(item.cde_id) {
+                    this.ws.load(`/cmallact/download_sample/${item.cde_id}`);
+                }
+
+                this.ws.on("play", () => {
+
+
+                });
+
+                this.ws.on("audioprocess", (e) => {
+                    // 파일이 재생될때 계속 실행
+                    document.querySelector(
+                        "#playList__item" + this.item.cit_id + " .current"
+                    ).innerHTML = this.time_convert(parseInt(e, 10)) + " / ";
+                });
+
+                this.ws.on("ready", () => {
+
+                    document.querySelector(
+                        "#playList__item" + this.item.cit_id + " .duration"
+                    ).innerHTML = this.time_convert(parseInt(this.ws.getDuration(), 10));
+                    this.isReady = true;
+                });
+                this.ws.on("pause", () => {
+
+                });
+
             },
-            // 다운로드 증가
-            // increaseMusicCount() {
-            //     Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
-            //         if(!r) {
-            //             log.debug('카운트 증가 실패');
-            //         } else {
-            //             log.debug('카운트 증가 성공');
-            //         }
-            //     });
-            // },
+            //다운로드 증가
+            increaseMusicCount() {
+                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
+                    if(!r) {
+                        log.debug('카운트 증가 실패');
+                    } else {
+                        log.debug('카운트 증가 성공');
+                    }
+                });
+            },
             // 해쉬 클릭
             clickHash(h) {
                 const path = `/beatsomeone/sublist?search=${h}`;
                 window.location.href = path;
             }
-
         }
     }
+
+
 
 </script>
 

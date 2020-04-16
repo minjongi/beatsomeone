@@ -237,7 +237,15 @@ class Cmallact extends CB_Controller
 
         // Read the file's contents
         $data = file_get_contents(config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $itemdetail));
+
         $name = element('cde_originname', $itemdetail);
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.basename($name).'"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . strlen($data));
 
         force_download($name, $data);
     }

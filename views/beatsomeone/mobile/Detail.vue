@@ -38,8 +38,8 @@
                                 <div class="player__progress">
                                     <div id="progress-container">
                                         <input type="range" class="amplitude-song-slider" step=".1"/>
-                                        <progress id="song-played-progress" class="amplitude-song-played-progress"></progress>
-                                        <progress id="song-buffered-progress" class="amplitude-buffered-progress"></progress>
+                                        <progress id="song-played-progress" class="amplitude-song-played-progress" data-amplitude-song-index="0"></progress>
+                                        <progress id="song-buffered-progress" class="amplitude-buffered-progress" data-amplitude-song-index="0"></progress>
                                     </div>
                                 </div>
                             </div>
