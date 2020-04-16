@@ -253,7 +253,7 @@
                     waveColor: "#696969",
                     progressColor: "#c3ac45",
                     hideScrollbar: true,
-                    height: 50,
+                    height: 40,
 
                 });
                 if(item.cde_id) {
@@ -330,6 +330,11 @@
 
 </script>
 
-<style scoped="scoped">
+<style scoped="scoped" lang="scss">
+
+    .timer {
+        margin-left:20px !important;
+        width:63px;
+    }
 
 </style>

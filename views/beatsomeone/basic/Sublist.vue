@@ -431,11 +431,11 @@
 
 <style lang="scss">
     @import '@/assets/scss/App.scss';
+
 </style>
 
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-
 
 </style>
