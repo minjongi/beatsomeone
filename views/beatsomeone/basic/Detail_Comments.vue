@@ -12,6 +12,7 @@
                             <span>{{ c.mem_nickname }}</span>
                             <a href="">신고하기</a>
                         </div>
+                        
 
 <!--                        <span class="comment__created-at">8 day ago</span>-->
                         <span class="comment__created-at">{{ timeago(c.cqa_datetime) }}</span>

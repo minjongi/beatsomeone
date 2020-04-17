@@ -66,6 +66,7 @@
 
                 </div>
             </div>
+
             <div class="detail__body">
                 <div class="wrap">
                     <div class="tab">

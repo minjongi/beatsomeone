@@ -273,6 +273,7 @@
         methods: {
             updatedRelation() {
                 this.getRelationList();
+
             },
             removeRelation(item) {
                 Http.post(`/beatsomeoneApi/remove_relation`,{cir_id : item.cir_id}).then( r => {

@@ -65,6 +65,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="detail__body">
                 <div class="tab">
                     <div class="tab__scroll-none">

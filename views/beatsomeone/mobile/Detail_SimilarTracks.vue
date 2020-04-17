@@ -8,13 +8,14 @@
                     v-on:before-enter="beforeEnter"
                     v-on:enter="enter"
                     v-on:leave="leave">
-            <!-- 플레이리스트 들어감 -->
+
             <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
             </transition-group>
         </ul>
         <div v-if="busy">
             <Loader key="loader" ></Loader>
         </div>
+
     </div>
 </template>
 
