@@ -40,9 +40,9 @@ $hook['post_system'][] = array(
 	'filepath'		=> 'hooks'
 );
 
-$hook['post_controller'][] = array(
-    'class' => 'LogQueryHook',
-    'function' => 'log_queries',
-    'filename' => 'Log_queries.php',
-    'filepath' => 'hooks'
-);
+//$hook['post_controller'][] = array(
+//    'class' => 'LogQueryHook',
+//    'function' => 'log_queries',
+//    'filename' => 'Log_queries.php',
+//    'filepath' => 'hooks'
+//);

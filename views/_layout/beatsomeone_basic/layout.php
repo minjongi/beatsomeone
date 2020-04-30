@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1420">
     <meta property="og:image" content="이미지"/>
     <meta property="og:url" content="유알엘"/>
     <meta property="og:description" content="디스크립션"/>

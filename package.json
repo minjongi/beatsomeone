@@ -12,6 +12,7 @@
     "amplitudejs": "^5.0.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "vue-flatpickr-component": "^8.1.2",
     "jquery": "^3.4.1",
     "jsdom": "^16.2.1",
     "location": "0.0.1",
