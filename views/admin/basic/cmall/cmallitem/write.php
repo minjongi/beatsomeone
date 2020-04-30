@@ -103,7 +103,7 @@
 						<input type="text" class="form-control" name="cit_name" value="<?php echo set_value('cit_name', element('cit_name', element('data', $view))); ?>" />
 					</div>
 				</div>
-                <input type="hidden" class="form-control" name="cit_order" value="<?php echo set_value('cit_order', element('cit_order', element('data', $view))); ?>" />
+                <input type="hidden" class="form-control" name="cit_order" value="<?php echo set_value('cit_order', element('cit_order', element('data', $view))) ?? 0; ?>" />
 <!--				<div class="form-group">-->
 <!--					<label class="col-sm-2 control-label">정렬순서</label>-->
 <!--					<div class="col-sm-10 form-inline">-->
@@ -155,7 +155,7 @@
 				<a data-toggle="collapse" href="#cmalltab3" aria-expanded="true" aria-controls="cmalltab3"><i class="fa fa-chevron-up pull-right"></i></a>
 			</div>
 			<div class="collapse in" id="cmalltab3">
-                <input type="hidden" class="form-control" name="cit_price" value="<?php echo set_value('cit_price', element('cit_price', element('data', $view))); ?>" />
+                <input type="hidden" class="form-control" name="cit_price" value="<?php echo set_value('cit_price', element('cit_price', element('data', $view))) ?? 0; ?>" />
 <!--				<div class="form-group">-->
 <!--					<label class="col-sm-2 control-label">판매가격</label>-->
 <!--					<div class="col-sm-10 form-inline">-->
@@ -633,8 +633,8 @@ jQuery(function($) {
 		rules: {
 			cit_key: {required:true, minlength:3, maxlength:50, alpha_dash : true},
 			cit_name: 'required',
-			cit_order: 'required',
-			cit_price: { required:true, number:true },
+			// cit_order: 'required',
+			// cit_price: { required:true, number:true },
 			cit_content : {<?php echo ($this->cbconfig->item('use_cmall_product_dhtml')) ? 'required_' . $this->cbconfig->item('cmall_product_editor_type') : 'required'; ?> : true },
 			cit_mobile_content : {<?php echo ($this->cbconfig->item('use_cmall_product_dhtml')) ? 'valid_' . $this->cbconfig->item('cmall_product_editor_type') : ''; ?> : true },
 			header_content : { valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true },

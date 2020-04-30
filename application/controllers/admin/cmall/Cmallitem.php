@@ -270,11 +270,11 @@ class Cmallitem extends CB_Controller
 				'label' => '상품명',
 				'rules' => 'trim|required',
 			),
-			array(
-				'field' => 'cit_order',
-				'label' => '상품정렬순서',
-				'rules' => 'trim|required|numeric',
-			),
+//			array(
+//				'field' => 'cit_order',
+//				'label' => '상품정렬순서',
+//				'rules' => 'trim|required|numeric',
+//			),
 			array(
 				'field' => 'cit_type1',
 				'label' => '추천',

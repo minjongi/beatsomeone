@@ -1,9 +1,17 @@
 .main {
   overflow: hidden;
+
   .main__section1 {
     background: url("/assets/images/main-section1-visual.png") no-repeat center top;
     background-size: 100% auto;
     min-height: 100vh;
+
+    #videoBG {
+      position:absolute;
+      width:100%;
+      top: 0;
+      left: 0;
+    }
   }
   .main__section1-title {
     padding: 180px 80px 0;

@@ -1,16 +1,14 @@
 <template>
 
     <div class="wrapper">
-
         <Header :is-login="isLogin"></Header>
         <main-player></main-player>
 
         <div class="container">
             <div class="main">
                 <section class="main__section1">
-                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop
-                           style="position:absolute;">
-                        <source src="/uploads/data/video_bg.mp4" type="video/mp4">
+                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop>
+                        <source src="/uploads/data/bg-pc.mp4" type="video/mp4">
                     </video>
                     <div class="wrap">
                         <header class="main__section1-title">
