@@ -5,7 +5,7 @@
         </h1>
         <div class="accounts__title">
             <h1>
-                Marketplace Plan
+                {{$parent.info.plan}} Plan
             </h1>
         </div>
 
@@ -14,11 +14,11 @@
             <div class="accounts__switch">
                 <span class="accounts__switch-bg"></span>
                 <label for="monthly">
-                    <input type="radio" id="monthly" value="monthly" hidden name="bill" v-model="billTerm"/>
+                    <input type="radio" id="monthly" value="monthly" hidden name="bill" v-model="billTerm" />
                     <span>Bill monthly</span>
                 </label>
                 <label for="yearly">
-                    <input type="radio" id="yearly" value="yearly" hidden name="bill"  v-model="billTerm"/>
+                    <input type="radio" id="yearly" value="yearly" hidden name="bill"  v-model="billTerm" />
 
                     <span>Bill yearly</span>
                 </label>
@@ -94,6 +94,7 @@
                 promotionCode: null,
                 isPromotionApplied: false,
                 listPlan: null,
+                cost: null,
             }
         },
         filters: {
@@ -109,25 +110,6 @@
             },
             proPlan: function () {
                 return this.listPlan ? _.find(this.listPlan,{'plan':'PRO PAGE'}) : null;
-            },
-            cost: function () {
-                if(!this.listPlan) return null;
-                let cost = 0;
-                const info = this.$parent.info;
-                if(info.plan === 'pro') {
-                    if(info.billTerm === 'yearly') {
-                        cost = this.proPlan.yearly_d;
-                    } else {
-                        cost = this.proPlan.monthly_d;
-                    }
-                } else {
-                    if(info.billTerm === 'yearly') {
-                        cost = this.marketplacePlan.yearly_d;
-                    } else {
-                        cost = this.marketplacePlan.monthly_d;
-                    }
-                }
-                return cost;
             },
         },
         created() {
@@ -177,6 +159,7 @@
                     bg.classList.add("right");
                 }
                 EventBus.$emit('submit_join_form',{ billTerm : n});
+                this.setCost();
             },
         },
         methods: {
@@ -189,7 +172,26 @@
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
                     this.listPlan = r;
+                    this.setCost();
                 });
+            },
+            setCost: function () {
+                if(!this.listPlan) return null;
+                let cost = 0;
+                const info = this.$parent.info;
+                if(info.plan === 'Pro Page') {
+                    if(info.billTerm === 'yearly') {
+                        this.cost = this.proPlan.yearly_d;
+                    } else {
+                        this.cost = this.proPlan.monthly_d;
+                    }
+                } else {
+                    if(info.billTerm === 'yearly') {
+                        this.cost = this.marketplacePlan.yearly_d;
+                    } else {
+                        this.cost = this.marketplacePlan.monthly_d;
+                    }
+                }
             },
         },
 
