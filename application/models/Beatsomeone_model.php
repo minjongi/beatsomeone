@@ -203,22 +203,6 @@ class Beatsomeone_model extends CB_Model
         $qry = $this->db->get('cmall_item as cb_c');
 
         return $qry->result_array();
-
-//
-//        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-//        $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = c.cit_id AND p1.cim_key = "info_content_1"','left');
-//        $this->db->join('cb_cmall_item_meta as p2','p2.cit_id = c.cit_id AND p2.cim_key = "info_content_2"','left');
-//        $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = c.cit_id AND p3.cim_key = "info_content_3"','left');
-//        $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = c.cit_id','left');
-//        $this->db->join('cb_cmall_wishlist as w','w.cit_id = c.cit_id AND w.mem_id = "'.$p['mem_id'].'"','left');
-//
-//        $this->db->select('cb_c.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (case when w.cwi_id is not null then 1 else 0 end) as is_wish');
-//        $this->db->order_by('cit_id', 'desc');
-//        $qry = $this->db->get('cmall_item as cb_c');
-//
-//        $result = $qry->result_array();
-//
-//        return $result;
     }
 
     // Sublist 조회
@@ -439,8 +423,6 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-
-
         $this->db->where($where);
         $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice ';
         $select .= ',p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, p.cde_originname, p.cde_quantity ';
@@ -482,15 +464,7 @@ class Beatsomeone_model extends CB_Model
         $mem_id = element('mem_id', $config);
         $cit_id = element('cit_id', $config);
 
-        log_message('debug','$limit : ' . $limit);
-        log_message('debug','$offset : ' . $offset);
-        log_message('debug','$cit_id : ' . $cit_id);
-        log_message('debug','$mem_id : ' . $mem_id);
-
-
         $where['cit_status'] = 1;
-
-
 
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$mem_id.'"','left');
@@ -517,13 +491,11 @@ class Beatsomeone_model extends CB_Model
         // Begin Transaction
         $this->db->trans_start();
 
-        //log_message('debug','MERGE_ITEM PARAMETER : '.print_r($p,true));
-
         $cit_id = null;
+        $fileList = ['unTaggedFile' => 'LEASE', 'stemFile' => 'STEM', 'streamingFile' => 'TAGGED'];
 
         // 만약 cit_id 존재 시 업데이트
         if($p["cit_id"]) {
-
             $cit_id = $p["cit_id"];
 
             // 상품 등록 (cmall_item)
@@ -532,88 +504,88 @@ class Beatsomeone_model extends CB_Model
                 "cit_content" => $p["cit_content"],
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
                 'cit_start_datetime' => $p['cit_start_datetime'],
-
             );
-            if($p["cit_file_1"]) {
-                $data["cit_file_1"] = $p["cit_file_1"];
+            if (!empty($p["artwork"]['filename'])) {
+                $data["cit_file_1"] = $p["artwork"]['filename'];
             }
             $this->db->where('cit_id',$cit_id);
             $this->db->update('cmall_item', $data);
 
-
-
-            // 음원 파일
-            for($i=0; $i<3; $i++) {
-                // 파일 변경시
-                if(array_key_exists("cde_file_".($i + 1),$p)) {
-                    $data = $p["cde_file_" . ($i + 1)];
-                    if ($data) {
-                        $data['cit_id'] = $cit_id;
-                        $data['mem_id'] = $p["mem_id"];
-                        $data['cde_datetime'] = cdate('Y-m-d H:i:s');
-                        $data['cde_ip'] = $p["ip"];
-                        $data['cde_status'] = 1;
-
-                        $cde_id = $p['cde_id_'.($i+1)];
-                        if($cde_id != 'null' && $cde_id != null) {
-
-                            log_message('debug','CHANGE AND UPDATE DETAIL FILE ('.($i + 1).') : '.print_r($data,true));
-
-                            $this->db->where('cit_id',$cit_id);
-                            $this->db->where('cde_id',$cde_id);
-                            $this->db->update('cmall_item_detail', $data);
-                        } else {
-                            $this->db->insert('cmall_item_detail', $data);
-                        }
-                    }
+            foreach ($fileList as $fileType => $fileTitle) {
+                $uploadFileData['cde_title'] = $fileTitle;
+                if ($fileType === 'unTaggedFile') {
+                    $cde_id = $p['cde_id'] ?? null;
+                    $uploadFileData['cde_price'] = $p['licenseLeasePriceKRW'];
+                    $uploadFileData['cde_price_d'] = $p['licenseLeasePriceUSD'];
+                    $uploadFileData['cde_quantity'] = $p['licenseLeaseQuantity'];
+                } else if ($fileType === 'stemFile') {
+                    $cde_id = $p['cde_id_2'] ?? null;
+                    $uploadFileData['cde_price'] = $p['licenseStemPriceKRW'];
+                    $uploadFileData['cde_price_d'] = $p['licenseStemPriceUSD'];
+                    $uploadFileData['cde_quantity'] = $p['licenseStemQuantity'];
+                } else if ($fileType === 'streamingFile') {
+                    $cde_id = $p['cde_id_3'] ?? null;
+                    $uploadFileData['cde_price'] = 0;
+                    $uploadFileData['cde_price_d'] = 0;
+                    $uploadFileData['cde_quantity'] = 0;
                 }
-                // 파일 미변경시
-                else {
-                    if($i == 0) {
-                        $uploadfiledata['cde_title'] = 'LEASE';
-                        $uploadfiledata['cde_price'] = $p['licenseLeasePriceKR'];
-                        $uploadfiledata['cde_price_d'] = $p['licenseLeasePriceDL'];
-                        $uploadfiledata['cde_quantity'] = $p['licenseLeasePriceQuantity'];
-                    }
-                    // Stem
-                    else if($i == 1) {
-                        $uploadfiledata['cde_title'] = 'STEM';
-                        $uploadfiledata['cde_price'] = $p['licenseStemPriceKR'];
-                        $uploadfiledata['cde_price_d'] = $p['licenseStemPriceDL'];
-                        $uploadfiledata['cde_quantity'] = $p['licenseStemPriceQuantity'];
-                    }
-                    // Tagged
-                    else if($i == 2) {
-                        $uploadfiledata['cde_title'] = 'TAGGED';
-                        $uploadfiledata['cde_price'] = 0;
-                        $uploadfiledata['cde_price_d'] = 0;
-                        $uploadfiledata['cde_quantity'] = 0;
-                    }
-                    $cde_id = $p['cde_id_'.($i+1)];
-                    if($cde_id != 'null' && $cde_id != null) {
 
-                        log_message('debug','UPDATE DETAIL FILE ('.($i + 1).') : '.print_r($uploadfiledata,true));
-
-                        $this->db->where('cit_id',$cit_id);
-                        $this->db->where('cde_id',$cde_id);
-                        $this->db->update('cmall_item_detail', $uploadfiledata);
+                if (empty($p[$fileType])) {
+                    if ($fileType === 'streamingFile') {
+                        continue;
                     }
+                    $this->db->where('cde_id',$cde_id);
+                    $this->db->update('cmall_item_detail', $uploadFileData);
+                    continue;
+                }
+
+                $uploadFileData['cde_filename'] = $p[$fileType]['filename'];
+                $uploadFileData['cde_originname'] = element('originname', $p[$fileType]);
+                $uploadFileData['cde_filesize'] = intval(element('filesize', $p[$fileType]) * 1024);
+                $uploadFileData['cde_type'] = str_replace('.', '', element('type', $p[$fileType]));
+                $uploadFileData['cde_is_image'] = element('is_image', $p[$fileType]) ? element('is_image', $p[$fileType]) : 0;
+
+                if (!empty($cde_id)) {
+                    $this->db->where('cde_id',$cde_id);
+                    $this->db->update('cmall_item_detail', $uploadFileData);
+                    continue;
+                }
+
+                $uploadFileData['cit_id'] = $cit_id;
+                $uploadFileData['mem_id'] = $p["mem_id"];
+                $uploadFileData['cde_datetime'] = cdate('Y-m-d H:i:s');
+                $uploadFileData['cde_ip'] = $p["ip"];
+                $uploadFileData['cde_status'] = 1;
+
+                $this->db->insert('cmall_item_detail', $uploadFileData);
+            }
+
+            $hashTag = '';
+            if (!empty($p['hashTag'])) {
+                $hashTag = implode(',', $p['hashTag']);
+                foreach ($p['hashTag'] as $tagName) {
+                    $tmpData = $this->db->query("SELECT cht_id FROM cb_cmall_item_hash_tag WHERE tag_name = ?", $tagName)->row_array();
+                    if (empty($tmpData['cht_id'])) {
+                        $this->db->insert('cmall_item_hash_tag', ['tag_name' => $tagName, 'tagged_count' => 1]);
+                        continue;
+                    }
+
+                    $this->db->where('cht_id', $tmpData['cht_id']);
+                    $this->db->set('tagged_count', 'tagged_count + 1', false);
+                    $this->db->update('cmall_item_hash_tag');
                 }
             }
 
-
-
             // 메타 등록 (cmall_item_meta)
-
             $meta = array(
-                'info_content_1' => $p['genre'],
-                'info_content_2' => $p['bpm'],
-                'info_content_3' => $p['musician'],
-                'info_content_4' => $p['subgenre'],
-                'info_content_5' => $p['moods'],
-                'info_content_6' => $p['trackType'],
-                'info_content_7' => $p['hashTag'],
-                'info_content_8' => $p['voice'],
+                'info_content_1' => $p['genre'] ?? '',
+                'info_content_2' => $p['bpm'] ?? '',
+                'info_content_3' => $p['musician'] ?? '',
+                'info_content_4' => $p['subgenre'] ?? '',
+                'info_content_5' => $p['moods'] ?? '',
+                'info_content_6' => $p['trackType'] ?? '',
+                'info_content_7' => $hashTag ?? '',
+                'info_content_8' => $p['voice'] ?? '',
             );
 
             foreach ($meta as $k => $v) {
@@ -624,14 +596,14 @@ class Beatsomeone_model extends CB_Model
                 $this->db->where('cim_key',$k);
                 $this->db->update('cmall_item_meta', $mp);
             }
-
         }
         // 아니면 등록
         else {
             // 상품 등록 (cmall_item)
+            $cit_key = uniqid();
             $data = array(
                 "cit_name" => $p["cit_name"],
-                "cit_key" => $p["cit_key"],
+                "cit_key" => $cit_key,
                 "mem_id" => $p["mem_id"],
                 "cit_status" => 1,
                 "cit_summary" => "",
@@ -641,61 +613,77 @@ class Beatsomeone_model extends CB_Model
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
                 'cit_start_datetime' => $p['cit_start_datetime'],
             );
-            if($p["cit_file_1"]) {
-                $data["cit_file_1"] = $p["cit_file_1"];
+            if (!empty($p["artwork"]['filename'])) {
+                $data["cit_file_1"] = $p["artwork"]['filename'];
             }
             $this->db->insert('cmall_item', $data);
 
             $cit_id = $this->db->insert_id();
 
-            // 음원 파일 등록
-            for($i=0; $i<3; $i++) {
-                if (array_key_exists("cde_file_" . ($i + 1), $p)) {
-                    $data = $p["cde_file_" . ($i + 1)];
-                    if ($data) {
-                        $data['cit_id'] = $cit_id;
-                        $data['mem_id'] = $p["mem_id"];
-                        $data['cde_datetime'] = cdate('Y-m-d H:i:s');
-                        $data['cde_ip'] = $p["ip"];
-                        $data['cde_status'] = 1;
-                        $this->db->insert('cmall_item_detail', $data);
+            foreach ($fileList as $fileType => $fileTitle) {
+                if (empty($p[$fileType])) {
+                    continue;
+                }
+                $uploadFileData['cde_title'] = $fileTitle;
+
+                if ($fileType === 'unTaggedFile') {
+                    $uploadFileData['cde_price'] = $p['licenseLeasePriceKRW'];
+                    $uploadFileData['cde_price_d'] = $p['licenseLeasePriceUSD'];
+                    $uploadFileData['cde_quantity'] = $p['licenseLeaseQuantity'];
+                } else if ($fileType === 'stemFile') {
+                    $uploadFileData['cde_price'] = $p['licenseStemPriceKRW'];
+                    $uploadFileData['cde_price_d'] = $p['licenseStemPriceUSD'];
+                    $uploadFileData['cde_quantity'] = $p['licenseStemQuantity'];
+                } else if ($fileType === 'streamingFile') {
+                    $uploadFileData['cde_price'] = 0;
+                    $uploadFileData['cde_price_d'] = 0;
+                    $uploadFileData['cde_quantity'] = 0;
+                }
+
+                $uploadFileData['cde_filename'] = $p[$fileType]['filename'];
+                $uploadFileData['cde_originname'] = element('originname', $p[$fileType]);
+                $uploadFileData['cde_filesize'] = intval(element('filesize', $p[$fileType]) * 1024);
+                $uploadFileData['cde_type'] = str_replace('.', '', element('type', $p[$fileType]));
+                $uploadFileData['cde_is_image'] = element('is_image', $p[$fileType]) ? element('is_image', $p[$fileType]) : 0;
+
+                $uploadFileData['cit_id'] = $cit_id;
+                $uploadFileData['mem_id'] = $p["mem_id"];
+                $uploadFileData['cde_datetime'] = cdate('Y-m-d H:i:s');
+                $uploadFileData['cde_ip'] = $p["ip"];
+                $uploadFileData['cde_status'] = 1;
+
+                $this->db->insert('cmall_item_detail', $uploadFileData);
+            }
+
+            $hashTag = '';
+            if (!empty($p['hashTag'])) {
+                $hashTag = implode(',', $p['hashTag']);
+                foreach ($p['hashTag'] as $tagName) {
+                    $tmpData = $this->db->query("SELECT cht_id FROM cb_cmall_item_hash_tag WHERE tag_name = ?", $tagName)->row_array();
+                    if (empty($tmpData['cht_id'])) {
+                        $this->db->insert('cmall_item_hash_tag', ['tag_name' => $tagName, 'tagged_count' => 1]);
+                        continue;
                     }
+
+                    $this->db->where('cht_id', $tmpData['cht_id']);
+                    $this->db->set('tagged_count', 'tagged_count + 1', false);
+                    $this->db->update('cmall_item_hash_tag');
                 }
             }
 
-//                $data = array(
-//                    "cit_id" => $cit_id,
-//                    "mem_id" => $p["mem_id"],
-////                "cde_title" => '기본',
-////                "cde_price" => $p["cit_price"],
-//                    "cde_datetime" => cdate('Y-m-d H:i:s'),
-//                    "cde_ip" => $p["ip"],
-//                    "cde_status" => 1,
-//                );
-//                if(array_key_exists("cde_file_1",$p)) {
-//                    $data["cde_filename"] = $p["cde_file_1"]["cde_filename"];
-//                    $data["cde_originname"] = $p["cde_file_1"]["cde_originname"];
-//                    $data["cde_filesize"] = $p["cde_file_1"]["cde_filesize"];
-//                    $data["cde_type"] = $p["cde_file_1"]["cde_type"];
-//                }
-//                $this->db->insert('cmall_item_detail', $data);
-
-
-
             // 메타 등록 (cmall_item_meta)
-
             $meta = array(
-                'seller_mem_id' => $p['mem_id'],
-                'seller_mem_userid' => $p['mem_userid'],
-                'ip_address' => $p['ip'],
-                'info_content_1' => $p['genre'],
-                'info_content_2' => $p['bpm'],
-                'info_content_3' => $p['musician'],
-                'info_content_4' => $p['subgenre'],
-                'info_content_5' => $p['moods'],
-                'info_content_6' => $p['trackType'],
-                'info_content_7' => $p['hashTag'],
-                'info_content_8' => $p['voice'],
+                'seller_mem_id' => $p['mem_id'] ?? '',
+                'seller_mem_userid' => $p['mem_userid'] ?? '',
+                'ip_address' => $p['ip'] ?? '',
+                'info_content_1' => $p['genre'] ?? '',
+                'info_content_2' => $p['bpm'] ?? '',
+                'info_content_3' => $p['musician'] ?? '',
+                'info_content_4' => $p['subgenre'] ?? '',
+                'info_content_5' => $p['moods'] ?? '',
+                'info_content_6' => $p['trackType'] ?? '',
+                'info_content_7' => $hashTag ?? '',
+                'info_content_8' => $p['voice'] ?? '',
             );
 
             foreach ($meta as $k => $v) {
@@ -706,17 +694,11 @@ class Beatsomeone_model extends CB_Model
                 );
                 $this->db->insert('cmall_item_meta', $mp);
             }
-
         }
-
-
-
 
         // Commit Transaction
         $this->db->trans_complete();
 
         return $cit_id;
     }
-
-
 }

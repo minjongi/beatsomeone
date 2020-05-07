@@ -24,18 +24,21 @@
                                 <label class="form-item">
                                     <p class="form-title">TAGS (10)</p>
                                     <div class="input">
-                                        <input type="text" v-model.trim="item.hashTag" placeholder="Tags (,)Comma Separated" maxlength="200" id="tags" @input="chkHashTag"/>
+                                        <input type="text" v-model.trim="item.hashTag" placeholder="Tags (,)Comma Separated"
+                                               maxlength="200" id="tags" @input="chkHashTag"/>
                                         <span class="form-unit"><span ref="hashTagCount">0</span>/10</span>
                                     </div>
                                 </label>
 
-                                <div class="row">
+                                <div class="">
                                     <div class="col">
                                         <label class="form-item">
                                             <p class="form-title required">TRACK TYPE</p>
                                             <select v-model="item.trackType" class="custom-select-basic">
                                                 <option value="">Select</option>
-                                                <option v-for="(item, index) in listTrackType" :key="'trackType' + index" :value="item">{{ item }}</option>
+                                                <option v-for="(item, index) in listTrackType" :key="'trackType' + index"
+                                                        :value="item">{{ item }}
+                                                </option>
                                             </select>
                                         </label>
                                     </div>
@@ -57,8 +60,11 @@
                                             <img src="/assets/images/icon/note1.png" alt="">
                                         </div>
                                         <div class="addAudioFile__info">
-                                            <FileUpload name="unTaggedFile" id="unTaggedFile" ref="unTaggedFile" target="/beatsomeoneApi/upload_item_file" action="POST" hidden
-                                                        v-on:progress="unTaggedFileProgressUpload" v-on:start="unTaggedFileStartUpload" v-on:finish="unTaggedFileFinishUpload"/>
+                                            <FileUpload name="unTaggedFile" id="unTaggedFile" ref="unTaggedFile"
+                                                        target="/beatsomeoneApi/upload_item_file" action="POST" hidden
+                                                        v-on:progress="unTaggedFileProgressUpload"
+                                                        v-on:start="unTaggedFileStartUpload"
+                                                        v-on:finish="unTaggedFileFinishUpload"/>
                                             <p>Un-Tagged WAV or MP3</p>
                                             <span class="format">{{ !!item.unTaggedFileName ? item.unTaggedFileName : '.WAV (or.MP3)' }}</span>
                                             <div class="addAudioFile__progress">
@@ -71,8 +77,10 @@
                                             <img src="/assets/images/icon/note2.png" alt="">
                                         </div>
                                         <div class="addAudioFile__info">
-                                            <FileUpload name="stemFile" id="stemFile" ref="stemFile" target="/beatsomeoneApi/upload_item_file" action="POST" hidden
-                                                        v-on:progress="stemFileProgressUpload" v-on:start="stemFileStartUpload" v-on:finish="stemFileFinishUpload"/>
+                                            <FileUpload name="stemFile" id="stemFile" ref="stemFile"
+                                                        target="/beatsomeoneApi/upload_item_file" action="POST" hidden
+                                                        v-on:progress="stemFileProgressUpload" v-on:start="stemFileStartUpload"
+                                                        v-on:finish="stemFileFinishUpload"/>
                                             <p>Track Stems ZIP or RAR</p>
                                             <span class="format">{{ !!item.stemFileName ? item.stemFileName : '.ZIP (or.RAR)' }}</span>
                                             <div class="addAudioFile__progress">
@@ -88,8 +96,11 @@
                                             <img src="/assets/images/icon/note3.png" alt="">
                                         </div>
                                         <div class="addAudioFile__info">
-                                            <FileUpload name="streamingFile" id="streamingFile" ref="streamingFile" target="/beatsomeoneApi/upload_item_file" action="POST" hidden
-                                                        v-on:progress="streamingFileProgressUpload" v-on:start="streamingFileStartUpload" v-on:finish="streamingFileFinishUpload"/>
+                                            <FileUpload name="streamingFile" id="streamingFile" ref="streamingFile"
+                                                        target="/beatsomeoneApi/upload_item_file" action="POST" hidden
+                                                        v-on:progress="streamingFileProgressUpload"
+                                                        v-on:start="streamingFileStartUpload"
+                                                        v-on:finish="streamingFileFinishUpload"/>
                                             <p>Custom tagged audio WAV or MP3</p>
                                             <span class="format">{{ !!item.streamingFileName ? item.streamingFileName : '.WAV (or.MP3)' }}</span>
                                             <div class="addAudioFile__progress">
@@ -104,9 +115,12 @@
                             <div class="form-item">
                                 <p class="form-title">Artwork</p>
                                 <div class="artwork">
-                                    <FileUpload name="artworkFile" id="artworkFile" target="/beatsomeoneApi/upload_artwork_file" action="POST" hidden v-on:start="artworkStartUpload" v-on:finish="artworkFinishUpload"/>
+                                    <FileUpload name="artworkFile" id="artworkFile" target="/beatsomeoneApi/upload_artwork_file"
+                                                action="POST" hidden v-on:start="artworkStartUpload"
+                                                v-on:finish="artworkFinishUpload"/>
                                     <label for="artworkFile" class="artwork-box">
-                                        <img :src="'/' + (!!item.artworkPath ? item.artworkPath : 'assets/images/artwork.png')" alt="" id="artworkImg" ref="artworkImg">
+                                        <img :src="'/' + (!!item.artworkPath ? item.artworkPath : 'assets/images/artwork.png')"
+                                             alt="" id="artworkImg" ref="artworkImg">
                                     </label>
                                     <div class="artwork__info">
                                         Preferred: 1500x1500px, Minimum: 500x500px<br/><br/>
@@ -121,7 +135,7 @@
                             <div class="form-item">
                                 <p class="form-title">URL OF YOUR TRACK</p>
                                 <div class="input">
-                                    <input type="text" placeholder="" readonly v-model="item.url"/>
+                                    <input type="text" class="artworkDoemin" placeholder="" readonly v-model="item.url"/>
                                     <button class="form-copy" type="button">Copy</button>
                                 </div>
                             </div>
@@ -135,7 +149,8 @@
                     <div class="registered__section-content">
                         <div class="row row--notice">
                             <div class="registered__notice">
-                                <h2>NOTICE</h2> If you enter a dollar or won, the exchange rate will be reflected automatically.
+                                <h2>NOTICE</h2>
+                                <p>If you enter a dollar or won, the exchange rate will be reflected automatically.</p>
                             </div>
                         </div>
                         <div class="row">
@@ -148,26 +163,26 @@
                                         </label>
                                     </div>
                                     <div class="row row--inner">
+                                    <span class="col">
+                                        <div class="input">
+                                            <input type="number" placeholder="KRW" v-model="item.licenseLeasePriceKRW"/>
+                                        </div>
+                                    </span>
                                         <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="KRW" v-model="item.licenseLeasePriceKRW"/>
-                                            </div>
-                                        </span>
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="USD" v-model="item.licenseLeasePriceUSD"/>
-                                            </div>
-                                        </span>
+                                        <div class="input">
+                                            <input type="number" placeholder="USD" v-model="item.licenseLeasePriceUSD"/>
+                                        </div>
+                                    </span>
                                     </div>
                                     <div class="row row--inner">
+                                    <span class="col">
+                                        <p>Inventory quantity</p>
+                                    </span>
                                         <span class="col">
-                                            <p>Inventory quantity</p>
-                                        </span>
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="0" v-model="item.licenseLeaseQuantity"/>
-                                            </div>
-                                        </span>
+                                        <div class="input">
+                                            <input type="number" placeholder="0" v-model="item.licenseLeaseQuantity"/>
+                                        </div>
+                                    </span>
                                     </div>
                                     <p class="form-info mt-15">
                                         · Leases licenses for uploaded MP3 or WAV files.<br/><br/>
@@ -186,16 +201,16 @@
                                         </label>
                                     </div>
                                     <div class="row row--inner">
+                                    <span class="col">
+                                        <div class="input">
+                                            <input type="number" placeholder="KRW" v-model="item.licenseStemPriceKRW"/>
+                                        </div>
+                                    </span>
                                         <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="KRW" v-model="item.licenseStemPriceKRW"/>
-                                            </div>
-                                        </span>
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="USD" v-model="item.licenseStemPriceUSD"/>
-                                            </div>
-                                        </span>
+                                        <div class="input">
+                                            <input type="number" placeholder="USD" v-model="item.licenseStemPriceUSD"/>
+                                        </div>
+                                    </span>
                                     </div>
                                     <div class="row row--inner">
                                         <span class="col">
@@ -205,12 +220,14 @@
                                         </span>
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="1" readonly class="disabled" v-model="item.licenseStemQuantity"/>
+                                                <input type="number" placeholder="1" readonly class="disabled"
+                                                       v-model="item.licenseStemQuantity"/>
                                             </div>
                                         </span>
                                     </div>
                                     <p class="form-info mt-15">
-                                        · Sell mastering licenses including uploaded MP3 or WAV files and STEMS configurations.<br/><br/>
+                                        · Sell mastering licenses including uploaded MP3 or WAV files and STEMS
+                                        configurations.<br/><br/>
                                         · UNLIMITED
                                     </p>
                                 </div>
@@ -229,21 +246,27 @@
                                     <p class="form-title required">PRIMARY GENRE</p>
                                     <select v-model="item.genre" class="custom-select-basic">
                                         <option value="">Select</option>
-                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ item
+                                            }}
+                                        </option>
                                     </select>
                                 </label>
                                 <label class="form-item">
                                     <p class="form-title ">SUBGENRE</p>
                                     <select v-model="item.subgenre" class="custom-select-basic">
                                         <option value="">Select</option>
-                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{
+                                            item }}
+                                        </option>
                                     </select>
                                 </label>
                                 <label class="form-item">
                                     <p class="form-title required">PRIMARY MOOD</p>
                                     <select v-model="item.moods" class="custom-select-basic">
                                         <option value="">Select</option>
-                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ item
+                                            }}
+                                        </option>
                                     </select>
                                 </label>
                             </div>
@@ -275,7 +298,7 @@
 </template>
 
 <script>
-    require('@/assets/js/function')
+    require('@/assets_m/js/function');
     import Header from "../include/Header"
     import Footer from "../include/Footer"
     import Loader from '*/vue/common/Loader'
@@ -514,7 +537,7 @@
 </script>
 
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 </style>
 
 <style scoped="scoped" lang="css">
