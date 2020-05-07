@@ -2,12 +2,17 @@
   margin-top: 15px !important;
 }
 .registered {
-  padding-top: 140px;
-
+  padding-top: 80px;
 
   .row {
-    display: flex;
+    display: block;
     flex-wrap: wrap;
+    & > .col {
+      margin-top: 25px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
     &.row--notice {
       margin-bottom: 50px;
     }
@@ -18,21 +23,28 @@
       }
     }
 
-    .row .col:first-child {
-      margin-right: 10px;
-      & > p {
-        line-height: 55px;
-        padding:0 20px;
+    .row{
+      display: flex;
+      .col {
+        margin-top: 0;
+      }
+      .col:first-child {
+        margin-right: 10px;
+        & > p {
+          line-height: 55px;
+          padding:0 10px;
+          font-size: 12px;
+        }
       }
     }
+
     &:nth-child(n + 2) {
       margin-top: 25px;
     }
     .col {
       flex: 1;
-      &:first-child {
-        margin-right: 40px;
-      }
+      margin-top: 25px;
+
       > * {
         margin-top: 25px;
         &:first-child {
@@ -41,13 +53,9 @@
       }
     }
   }
-
-
   .registered__notice {
-
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     color:#fff;
     font-size: 15px;
     h2 {
@@ -56,12 +64,16 @@
       flex: none;
       width: 75px;
     }
+    p {
+      flex: 1;
+    }
   }
   .registered__title {
-    margin-bottom: 70px;
+    margin-bottom: 30px;
     text-align: center;
     h1 {
-      font-size: 45px;
+      flex: none;
+      font-size: 25px;
       font-weight: 600;
     }
   }
@@ -72,13 +84,13 @@
       margin-bottom: 0;
     }
     .registered__section-title {
-      font-size: 24px;
+      font-size: 18px;
       line-height: 40px;
       font-weight: 600;
       color:#fff;
     }
     .registered__section-content {
-      padding: 50px;
+      padding: 15px;
       background:#1c1b1f;
     }
   }
@@ -94,9 +106,15 @@
       line-height: 18px;
     }
     .form-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       margin-bottom: 10px;
+      .checkbox {
+        font-size: 14px;
+        span {
+          margin-right: 5px;
+        }
+      }
       &.required {
         &:after {
           content:' *';
@@ -110,25 +128,13 @@
       border-radius: 3px;
       width: 100%;
       background:#303136;
-      button {
-        width: 100%;
-        text-align: left;
-        padding:0 20px;
-      }
-      .selected-option {
+      select{
         height: 55px;
-      }
-      .options {
-        max-height: 400px;
-        overflow: auto;
-        top: 55px;
-        button {
-          height: 40px;
-          border-bottom:1px solid #414245;
-          &:hover {
-            background:#1c1d23;
-          }
-        }
+        color:#fff;
+        padding:0 20px;
+        width: 100%;
+        background: url("/assets_m/images/icon/select-arrow.png") no-repeat
+        calc(100% - 20px) center;
       }
     }
     .input {
@@ -152,12 +158,10 @@
         font-size: 14px;
       }
       .datepicker {
-        background: url('/assets/images/icon/calendar.png') #303136 no-repeat calc(100% - 20px) center;
-        &:hover {
-          background: url('/assets/images/icon/calendar-white.png') #303136 no-repeat calc(100% - 20px) center;
-        }
+        line-height: 55px;
+        background: url('/assets_m/images/icon/calendar.png') #303136 no-repeat calc(100% - 20px) center;
         &.active {
-          background: url('/assets/images/icon/calendar-white.png') #303136 no-repeat calc(100% - 20px) center;
+          background: url('/assets_m/images/icon/calendar-white.png') #303136 no-repeat calc(100% - 20px) center;
         }
       }
       textarea {
@@ -194,10 +198,12 @@
   .artwork {
     background:#303136;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    height: 155px;
-    padding:0 40px 0 50px;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
 
     .artwork-box {
       width: 100px;
@@ -206,24 +212,21 @@
       img {
         vertical-align: middle;
         width: 100px;
-        max-height: 73px;
+        max-height: 100%;
       }
     }
     .artwork__info {
       font-size: 13px;
       line-height: 18px;
       color:rgba(255,255,255,.3);
-      padding-left: 30px;
+      margin:25px 0 30px;
       flex: 1;
-
       a {
         text-decoration: underline;
         color:rgba(255,255,255,.3);
-
       }
     }
     .artwork-upload {
-      margin-left: auto;
       line-height: 50px;
       cursor: pointer;
       border-radius: 3px;
@@ -235,8 +238,11 @@
     }
   }
 
+  .artworkDoemin {
+    padding-right: 70px !important;
+  }
   .btnbox {
-    margin-top: 60px;
+    margin-top: 30px;
     text-align: center;
     width: 100%;
     *.red {
@@ -261,10 +267,11 @@
   }
 
   .registered__btnbox {
-    margin-top: 60px;
+    margin-top: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding:0 15px;
     .btn {
       width: 220px;
       line-height: 50px;
@@ -286,12 +293,14 @@
 
 
 .collaborators-table {
-  border-bottom: 1px solid rgba(255, 255, 255, .3);
   padding-bottom: 30px;
   th, td {
-    padding:0 20px;
+  }
+  tr:nth-child(2n + 3) th {
+    padding-top: 30px;
   }
   th {
+
     color:#fff;
     font-size: 15px;
     font-weight: 600;
@@ -300,11 +309,12 @@
   td {
     color:rgba(255,255,255,.3);
     font-size: 13px;
-    padding:15px 20px;
+    padding:5px 0px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, .3);
   }
 }
 .collaborators-info {
-  margin-top: 60px;
+  margin-top: 30px;
   color:rgba(255,255,255,.3);
   h4 {
     font-size: 16px;
