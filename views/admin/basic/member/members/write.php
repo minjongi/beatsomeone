@@ -43,6 +43,17 @@
 					<input type="text" class="form-control" name="mem_nickname" value="<?php echo set_value('mem_nickname', element('mem_nickname', element('data', $view))); ?>" />
 				</div>
 			</div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">회원분류 <?= element('mem_usertype', element('data', $view)) ?></label>
+                <div class="col-sm-10">
+                    <label for="mem_usertype_1" class="checkbox-inline">
+                        <input type="radio" name="mem_usertype" id="mem_usertype_1" value="1" <?php echo set_checkbox('mem_usertype', 1, (element('mem_usertype', element('data', $view)) != 2 ? true : false)); ?> /> 일반회원
+                    </label>
+                    <label for="mem_usertype_2" class="checkbox-inline">
+                        <input type="radio" name="mem_usertype" id="mem_usertype_2" value="2" <?php echo set_checkbox('mem_usertype', 2, (element('mem_usertype', element('data', $view)) == 2 ? true : false)); ?> /> 판매회원
+                    </label>
+                </div>
+            </div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">회원그룹</label>
 				<div class="col-sm-10">
