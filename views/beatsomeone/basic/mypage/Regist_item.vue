@@ -42,8 +42,8 @@
                                     <div class="col">
                                         <label class="form-item">
                                             <p class="form-title required">RELEASE DATE</p>
-                                            <div class="input">
-                                                <flat-pickr :config="{enableTime: true, dateFormat: 'Y-m-d H:i'}" v-model="item.cit_start_datetime" placeholder="Date Time" class="datepicker"/>
+                                            <div class="input" @click="closeCal">
+                                                <flat-pickr ref="cal" :config="{enableTime: true, dateFormat: 'Y-m-d H:i'}" v-model="item.cit_start_datetime" placeholder="Date Time" class="datepicker" data-toggle data-close/>
                                             </div>
                                         </label>
                                     </div>
@@ -150,12 +150,12 @@
                                     <div class="row row--inner">
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="KRW" v-model="item.licenseLeasePriceKRW"/>
+                                                <input type="number" placeholder="KRW" v-model.number="item.licenseLeasePriceKRW" ref="licenseLeasePriceKRW" @input="onlyNumber($event, 'licenseLeasePriceKRW')"/>
                                             </div>
                                         </span>
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="USD" v-model="item.licenseLeasePriceUSD"/>
+                                                <input type="number" placeholder="USD" v-model.number="item.licenseLeasePriceUSD" ref="licenseLeasePriceUSD" @input="onlyNumber($event, 'licenseLeasePriceUSD')"/>
                                             </div>
                                         </span>
                                     </div>
@@ -165,7 +165,7 @@
                                         </span>
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="0" v-model="item.licenseLeaseQuantity"/>
+                                                <input type="number" placeholder="0" v-model.number="item.licenseLeaseQuantity" ref="licenseLeaseQuantity" @input="onlyNumber($event, 'licenseLeaseQuantity')"/>
                                             </div>
                                         </span>
                                     </div>
@@ -188,12 +188,12 @@
                                     <div class="row row--inner">
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="KRW" v-model="item.licenseStemPriceKRW"/>
+                                                <input type="number" placeholder="KRW" v-model.number="item.licenseStemPriceKRW" ref="licenseStemPriceKRW" @input="onlyNumber($event, 'licenseStemPriceKRW')"/>
                                             </div>
                                         </span>
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="USD" v-model="item.licenseStemPriceUSD"/>
+                                                <input type="number" placeholder="USD" v-model.number="item.licenseStemPriceUSD" ref="licenseStemPriceUSD" @input="onlyNumber($event, 'licenseStemPriceUSD')"/>
                                             </div>
                                         </span>
                                     </div>
@@ -205,7 +205,7 @@
                                         </span>
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="1" readonly class="disabled" v-model="item.licenseStemQuantity"/>
+                                                <input type="number" placeholder="1" readonly class="disabled" v-model.number="item.licenseStemQuantity" ref="licenseStemQuantity" @input="onlyNumber($event, 'licenseStemQuantity')"/>
                                             </div>
                                         </span>
                                     </div>
@@ -257,7 +257,7 @@
                                 <label class="form-item">
                                     <p class="form-title ">BPM(Beats per minute)</p>
                                     <div class="input">
-                                        <input type="number" v-model.trim="item.bpm"/>
+                                        <input type="number" v-model.trim="item.bpm" ref="bpm" @input="onlyNumber($event, 'bpm')"/>
                                     </div>
                                 </label>
                             </div>
@@ -267,7 +267,7 @@
             </section>
             <div class="registered__btnbox">
                 <a href="/beatsomeone/sublist" class="btn btn--list waves-effect">List</a>
-                <button type="submit" class="btn btn--save waves-effect" @click="doSubmit">Save</button>
+                <button type="submit" class="btn btn--save waves-effect" @click="doSubmit" ref="doSubmit">Save</button>
             </div>
         </div>
         <Footer/>
@@ -300,13 +300,13 @@
                     trackType: '',
                     cit_start_datetime: null,
                     url: '',
-                    licenseLeaseUseYn: '',
-                    licenseLeasePriceKRW: '',
-                    licenseLeasePriceUSD: '',
+                    licenseLeaseUseYn: false,
+                    licenseLeasePriceKRW: '22000',
+                    licenseLeasePriceUSD: '20.00',
                     licenseLeaseQuantity: '',
-                    licenseStemUseYn: '',
-                    licenseStemPriceKRW: '',
-                    licenseStemPriceUSD: '',
+                    licenseStemUseYn: false,
+                    licenseStemPriceKRW: '330000',
+                    licenseStemPriceUSD: '280.00',
                     licenseStemQuantity: 1,
                     genre: '',
                     subgenre: '',
@@ -331,6 +331,8 @@
                 listGenre: ['Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
                 listMoods: ['Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
                 listTrackType: ['Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
+                releaseDate: false,
+                processStatus: false
             };
         },
         watch: {
@@ -345,6 +347,15 @@
             },
         },
         methods: {
+            onlyNumber(event, key) {
+                this.$refs[key].value = this.item[key]
+            },
+            closeCal() {
+                if (this.releaseDate) {
+                    this.$refs.cal.$el._flatpickr.close()
+                }
+                this.releaseDate = !this.releaseDate
+            },
             unTaggedFileStartUpload(e) {
                 this.startUpload('unTaggedFile', e);
             },
@@ -408,7 +419,7 @@
                 }
 
                 this.item.artwork = data
-                this.$refs['artworkImg'].src = '/' + this.item.artwork.filename
+                this.$refs['artworkImg'].src = '/uploads/cmallitem/' + this.item.artwork.filename
             },
             chkHashTag() {
                 let hashTag = this.item.hashTag.split(',')
@@ -425,13 +436,18 @@
             getItem() {
                 Http.get(`/beatsomeoneApi/get_item/${this.cit_id}`).then(r => {
                     // 전처리
+
+                    console.log(r.data);
+
                     r.data.cde_id_1 = r.data.cde_id || 0;
                     r.data.cde_id_2 = r.data.cde_id_2 || 0;
                     r.data.cde_id_3 = r.data.cde_id_3 || 0;
                     r.data.url = 'http://beatsomeone.com/beatsomeone/detail/' + r.data.cit_key;
+                    r.data.licenseLeaseUseYn =  r.data.cit_lease_license_use == 1 ? true : false;
                     r.data.licenseLeasePriceKRW = r.data.cde_price;
                     r.data.licenseLeasePriceUSD = r.data.cde_price_d;
                     r.data.licenseLeaseQuantity = r.data.cde_quantity;
+                    r.data.licenseStemUseYn =  r.data.cit_mastering_license_use == 1 ? true : false;
                     r.data.licenseStemPriceKRW = r.data.cde_price_2;
                     r.data.licenseStemPriceUSD = r.data.cde_price_d_2;
                     r.data.licenseStemQuantity = 1;
@@ -445,6 +461,10 @@
             },
             // 저장
             doSubmit() {
+                if (this.processStatus) {
+                    return false
+                }
+
                 const f = new FormData();
 
                 if (!this.item.cit_name) {
@@ -492,6 +512,11 @@
                 if (this.cit_id) {
                     f.append('cit_id', this.cit_id)
                 }
+
+                this.processStatus = true
+                this.$refs.doSubmit.disabled = true
+                this.$refs.doSubmit.innerHTML = 'Processing...'
+
                 axios.post('/beatsomeoneApi/merge_item', f, {
                     headers: {
                         'Content-Type': 'multipart/form-data'

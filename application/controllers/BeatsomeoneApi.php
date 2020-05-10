@@ -483,9 +483,11 @@ class BeatsomeoneApi extends CB_Controller
             'trackType' => $this->input->post('trackType'),
             'cit_start_datetime' => $this->input->post('cit_start_datetime'),
             'linkUrl' => $this->input->post('linkUrl'),
+            'licenseLeaseUseYn' => $this->input->post('licenseLeaseUseYn') === 'true' ? 1 : 0,
             'licenseLeasePriceKRW' => $this->input->post('licenseLeasePriceKRW'),
             'licenseLeasePriceUSD' => $this->input->post('licenseLeasePriceUSD'),
             'licenseLeaseQuantity' => $this->input->post('licenseLeaseQuantity'),
+            'licenseStemUseYn' => $this->input->post('licenseStemUseYn') === 'true' ? 1 : 0,
             'licenseStemPriceKRW' => $this->input->post('licenseStemPriceKRW'),
             'licenseStemPriceUSD' => $this->input->post('licenseStemPriceUSD'),
             'licenseStemQuantity' => $this->input->post('licenseStemQuantity'),
@@ -539,7 +541,7 @@ class BeatsomeoneApi extends CB_Controller
             return;
         }
 
-        $result = $this->upload_file('cmallitemdetail', '*');
+        $result = $this->upload_file('cmallitemdetail', 'wav|mp3|zip|rar');
 
         // Reponse
         $this->output->set_content_type('text/json');
@@ -609,7 +611,7 @@ class BeatsomeoneApi extends CB_Controller
             $filedata = $this->upload->data();
 
             // 상세 정보 저장
-            $result['filename'] = $upload_path . '/' . element('file_name', $filedata);
+            $result['filename'] = str_replace(config_item('uploads_dir') . '/' . $baseDir . '/', '', $upload_path) . '/' . element('file_name', $filedata);
             $result['originname'] = element('orig_name', $filedata);
             $result['filesize'] = intval(element('file_size', $filedata) * 1024);
             $result['type'] = str_replace('.', '', element('file_ext', $filedata));
