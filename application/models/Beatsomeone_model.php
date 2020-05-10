@@ -504,6 +504,8 @@ class Beatsomeone_model extends CB_Model
                 "cit_content" => $p["cit_content"],
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
                 'cit_start_datetime' => $p['cit_start_datetime'],
+                'cit_lease_license_use' => $p['licenseLeaseUseYn'],
+                'cit_mastering_license_use' => $p['licenseStemUseYn']
             );
             if (!empty($p["artwork"]['filename'])) {
                 $data["cit_file_1"] = $p["artwork"]['filename'];
@@ -612,6 +614,8 @@ class Beatsomeone_model extends CB_Model
                 "cit_datetime" => cdate('Y-m-d H:i:s'),
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
                 'cit_start_datetime' => $p['cit_start_datetime'],
+                'cit_lease_license_use' => $p['licenseLeaseUseYn'],
+                'cit_mastering_license_use' => $p['licenseStemUseYn']
             );
             if (!empty($p["artwork"]['filename'])) {
                 $data["cit_file_1"] = $p["artwork"]['filename'];
