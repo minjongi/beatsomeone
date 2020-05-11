@@ -30,7 +30,7 @@
                     <span>$</span>
                     {{ cost | money }}
                 </h2>
-                <div class="_saving">Instant Savings of <span>$100.00</span></div>
+                <div class="_saving">Instant Savings of <span id="disBill">$0.000</span></div>
             </div>
 
             <div class="accounts__payments">
@@ -182,14 +182,18 @@
                 if(info.plan === 'Pro Page') {
                     if(info.billTerm === 'yearly') {
                         this.cost = this.proPlan.yearly_d;
+                        $('#disBill').text("$"+this.proPlan.yearly_discount_amt_d);
                     } else {
                         this.cost = this.proPlan.monthly_d;
+                        $('#disBill').text("$0.000");
                     }
                 } else {
                     if(info.billTerm === 'yearly') {
                         this.cost = this.marketplacePlan.yearly_d;
+                        $('#disBill').text("$"+this.marketplacePlan.yearly_discount_amt_d);
                     } else {
                         this.cost = this.marketplacePlan.monthly_d;
+                        $('#disBill').text("$0.000");
                     }
                 }
             },

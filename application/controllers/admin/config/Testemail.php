@@ -150,16 +150,7 @@ class Testemail extends CB_Controller
 	        
 	        // PHPMailer object
 	        $mail = $this->phpmailer_lib->load();
-	        
-	        // SMTP configuration
-	        $mail->isSMTP();
-	        $mail->Host     = 'smtp.daum.net';
-	        $mail->SMTPAuth = true;
-	        $mail->Username = 'support@beatsomeone.com';
-	        $mail->Password = 'ejaeja12!@';
-	        $mail->SMTPSecure = 'ssl';
-	        $mail->Port     = 465;
-	        $mail->CharSet  = 'utf-8';
+
 	        
 	        $mail->setFrom(element('webmaster_email', $getdata), element('webmaster_name', $getdata));
 	        $mail->addReplyTo(element('webmaster_email', $getdata), element('webmaster_name', $getdata));

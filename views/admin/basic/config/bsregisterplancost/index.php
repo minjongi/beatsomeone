@@ -96,7 +96,7 @@
                                     <input type="number" name="p_yearly_discount_amt" class="form-control" value="<?php echo set_value('p_yearly_discount_amt', element('yearly_discount_amt', element('data', $view)[1])); ?>" />원
                                 </div>
                                 <div>
-                                    <input type="number" name="p_yearly_discount_amt_d" class="form-control" value="<?php echo set_value('p_yearly_discount_amt_d', element('yearly_discount_amt_d', element('data', $view)[0])); ?>" />$
+                                    <input type="number" name="p_yearly_discount_amt_d" class="form-control" value="<?php echo set_value('p_yearly_discount_amt_d', element('yearly_discount_amt_d', element('data', $view)[1])); ?>" />$
                                 </div>
                             </td>
                         </tr>
