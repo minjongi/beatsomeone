@@ -215,12 +215,12 @@
                             PLAN
                         </p>
                         <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
-                        <a href="#" class="btn btn--start" @click="doNext('marketplace')">Get Started</a>
+                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">Get Started</a>
                     </th>
                     <th>
                         <p>PRO PAGE PLAN<br /><span>(Unlimited)</span></p>
                         <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
-                        <a href="#" class="btn btn--start" @click="doNext('pro')">Get Started</a>
+                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">Get Started</a>
                     </th>
                 </tr>
                 </thead>

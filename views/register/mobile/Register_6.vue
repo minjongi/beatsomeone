@@ -5,7 +5,7 @@
         </h1>
         <div class="accounts__title">
             <h1>
-                Marketplace Plan
+                {{$parent.info.plan}} Plan
             </h1>
         </div>
 
@@ -29,7 +29,7 @@
                     <span>$</span>
                     {{ cost | money }}
                  </h2>
-                <div class="_saving">Instant Savings of <span>$100.00</span></div>
+                <div class="_saving">Instant Savings of <span id="disBill">$0.000</span></div>
             </div>
 
             <div class="accounts__payments">
@@ -93,6 +93,7 @@
                 promotionCode: null,
                 isPromotionApplied: false,
                 listPlan: null,
+                cost: null,
             }
         },
         filters: {
@@ -108,25 +109,6 @@
             },
             proPlan: function () {
                 return this.listPlan ? _.find(this.listPlan,{'plan':'PRO PAGE'}) : null;
-            },
-            cost: function () {
-                if(!this.listPlan) return null;
-                let cost = 0;
-                const info = this.$parent.info;
-                if(info.plan === 'pro') {
-                    if(info.billTerm === 'yearly') {
-                        cost = this.proPlan.yearly_d;
-                    } else {
-                        cost = this.proPlan.monthly_d;
-                    }
-                } else {
-                    if(info.billTerm === 'yearly') {
-                        cost = this.marketplacePlan.yearly_d;
-                    } else {
-                        cost = this.marketplacePlan.monthly_d;
-                    }
-                }
-                return cost;
             },
         },
         created() {
@@ -159,6 +141,7 @@
                     bg.classList.add("right");
                 }
                 EventBus.$emit('submit_join_form',{ billTerm : n});
+                this.setCost();
             },
         },
         methods: {
@@ -171,7 +154,30 @@
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
                     this.listPlan = r;
+                    this.setCost();
                 });
+            },
+            setCost: function () {
+                if(!this.listPlan) return null;
+                let cost = 0;
+                const info = this.$parent.info;
+                if(info.plan === 'Pro Page') {
+                    if(info.billTerm === 'yearly') {
+                        this.cost = this.proPlan.yearly_d;
+                        $('#disBill').text("$"+this.proPlan.yearly_discount_amt_d);
+                    } else {
+                        this.cost = this.proPlan.monthly_d;
+                        $('#disBill').text("$0.000");
+                    }
+                } else {
+                    if(info.billTerm === 'yearly') {
+                        this.cost = this.marketplacePlan.yearly_d;
+                        $('#disBill').text("$"+this.marketplacePlan.yearly_discount_amt_d);
+                    } else {
+                        this.cost = this.marketplacePlan.monthly_d;
+                        $('#disBill').text("$0.000");
+                    }
+                }
             },
         },
 

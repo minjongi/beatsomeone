@@ -393,7 +393,7 @@ class Social extends CB_Controller
 			$name = (string) $xml->response->name;
 			$birthday = (string) $xml->response->birthday;
 
-			if (empty($nickname)) {
+			if (empty($name)) {
 				$this->session->unset_userdata('naver_access_token');
 				alert_close('이름 정보를 확인할 수 없어 로그인할 수 없습니다');
 			}
@@ -404,18 +404,23 @@ class Social extends CB_Controller
 				'profile_image' => $profile_image,
 				'age' => $age,
 				'gender' => $gender,
-				'id' => $id,
+				//'id' => $id,
+				'id' => $email,
 				'name' => $name,
 				'birthday' => $birthday,
 				'update_datetime' => cdate('Y-m-d H:i:s'),
 				'ip_address' => $this->input->ip_address(),
 			);
-			$this->Social_model->save('naver', $naver_id, $socialdata);
+			//$this->Social_model->save('naver', $naver_id, $socialdata);
+			$this->Social_model->save('naver', $email, $socialdata);
+
+        	log_message("info", "socialdata=".print_r($socialdata, true));
 
 			// 이벤트가 존재하면 실행합니다
 			Events::trigger('after', $eventname);
 
-			$this->_common_login('naver', $naver_id);
+			//$this->_common_login('naver', $naver_id);
+			$this->_common_login('naver', $email);
 		}
 
 		if ($this->input->get('code')) {
@@ -494,7 +499,7 @@ class Social extends CB_Controller
 		}
 
 		if ($this->session->userdata('kakao_access_token')) {
-			$url = 'https://kapi.kakao.com/v1/user/me';
+			$url = 'https://kapi.kakao.com/v2/user/me';
 
 			$ch = curl_init();
 			curl_setopt ($ch, CURLOPT_URL, $url);
@@ -509,12 +514,20 @@ class Social extends CB_Controller
 			$result = curl_exec($ch);
 			curl_close($ch);
 
+        	log_message("info", "result=".print_r($result, true));
 			$json = json_decode($result, true);
+        	log_message("info", "json=".print_r($json, true));
 
 			$kakao_id = element('id', $json);
 			$nickname = element('nickname', element('properties', $json));
 			$profile_image = element('profile_image', element('properties', $json));
 			$thumbnail_image = element('thumbnail_image', element('properties', $json));
+
+
+        	log_message("info", "kakao_id=".print_r($kakao_id, true));
+        	log_message("info", "nickname=".print_r($nickname, true));
+        	log_message("info", "profile_image=".print_r($profile_image, true));
+        	log_message("info", "thumbnail_image=".print_r($thumbnail_image, true));
 
 			if (empty($nickname)) {
 				$this->session->unset_userdata('kakao_access_token');
@@ -675,6 +688,10 @@ class Social extends CB_Controller
 		$eventname = 'event_social_common_login';
 		$this->load->event($eventname);
 
+        log_message("error", "_common_login start!!!!");
+        log_message('debug',print_r($social_type, true));
+        log_message('debug',print_r($social_id, true));
+
 		if (empty($social_type)) {
 			return;
 		}
@@ -780,6 +797,8 @@ class Social extends CB_Controller
 						$socialinfo[$sval['soc_key']] = $sval['soc_value'];
 					}
 				}
+
+        		log_message('debug',print_r($socialdata));
 
 				$nickname = '';
 				$user_id = '';

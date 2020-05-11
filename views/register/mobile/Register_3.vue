@@ -141,9 +141,9 @@
                     <label for="privacy" class="checkbox" >
                         <input type="checkbox" hidden id="privacy" v-model="isCheckTos" />
                         <span></span> I have read and agree to the
-                        <a href="">Terms of service</a>
+                        <a @click="doTermsOfService">Terms of service</a>
                         &
-                        <a href="">Privacy policy.</a>
+                        <a @click="doPrivacyPolicy">Privacy policy.</a>
                     </label>
                 </div>
                 <div class="accounts__btnbox border-none">
@@ -251,6 +251,12 @@
                     this.$router.push({path: '/4'});
                 }
 
+            },
+            doTermsOfService() {
+                this.$router.push({path: '/TermsOfService'});
+            },
+            doPrivacyPolicy() {
+                this.$router.push({path: '/PrivacyPolicy'});
             },
             validateUsername() {
                 if(!this.user.username) return;

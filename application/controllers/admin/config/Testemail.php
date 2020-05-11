@@ -100,7 +100,32 @@ class Testemail extends CB_Controller
 			// 이벤트가 존재하면 실행합니다
 			$view['view']['event']['formruntrue'] = Events::trigger('formruntrue', $eventname);
 
-			$this->load->library('email');
+			/*
+			$config_email1 = array(
+		    	'protocol' => 'smtp', // 'mail', 'sendmail', or 'smtp'
+			    'smtp_host' => 'smtp.daum.net', 
+			    'smtp_port' => 465,
+			    'smtp_user' => 'beatsomeone@daum.net',
+			    'smtp_pass' => 'ejaeja12!@',
+			    'smtp_crypto' => 'ssl', //can be 'ssl' or 'tls' for example
+			    'mailtype' => 'text', //plaintext 'text' mails or 'html'
+			    'smtp_timeout' => '4', //in seconds
+			    'charset' => 'iso-8859-1',
+			    'wordwrap' => TRUE
+			);
+			$config_email2 = Array(
+			    'protocol' => 'smtp',
+			    'smtp_host' => 'ssl://smtp.daum.net',
+			    'smtp_port' => 465,
+			    'smtp_user' => 'beatsomeone@daum.net',
+			    'smtp_pass' => 'ejaeja12!@',
+			    'mailtype'  => 'html', 
+			    'charset'   => 'iso-8859-1'
+			);
+			$this->load->library('email', $config_email1);
+			$this->email->set_newline("\r\n");
+
+			//$this->load->library('email');
 			$this->email->from(element('webmaster_email', $getdata), element('webmaster_name', $getdata));
 			$this->email->to($this->input->post('recv_email'));
 
@@ -109,12 +134,51 @@ class Testemail extends CB_Controller
 			$message = $this->load->view('admin/' . ADMIN_SKIN . '/' . $this->pagedir . '/email_form', $emailform, true);
 			$this->email->message($message);
 
+
 			if ($this->email->send() === false) {
 				$view['view']['alert_message'] = '이메일을 발송하지 못하였습니다. 메일 설정을 확인하여주세요';
 			} else {
 				$view['view']['alert_message'] = '이메일을 발송하였습니다';
 			}
+
 			//echo $this->email->print_debugger();
+			*/
+
+
+	        // Load PHPMailer library
+	        $this->load->library('phpmailer_lib');
+	        
+	        // PHPMailer object
+	        $mail = $this->phpmailer_lib->load();
+
+	        
+	        $mail->setFrom(element('webmaster_email', $getdata), element('webmaster_name', $getdata));
+	        $mail->addReplyTo(element('webmaster_email', $getdata), element('webmaster_name', $getdata));
+	        
+	        // Add a recipient
+	        $mail->addAddress($this->input->post('recv_email'));
+	        
+	        // Email subject
+	        $mail->Subject = '이메일 발송 테스트입니다';
+	        
+	        // Set email format to HTML
+	        $mail->isHTML(true);
+	        
+	        // Email body content
+	        $mailContent = "<h1>이메일 발송 테스트입니다</h1>
+	            <p>This is a test email sending using SMTP mail server with PHPMailer.</p>";
+	        $mail->Body = $mailContent;
+	        
+	        // Send email
+	        if(!$mail->send()){
+	            echo 'Message could not be sent.';
+	            echo 'Mailer Error: ' . $mail->ErrorInfo;
+				$view['view']['alert_message'] = '이메일을 발송하지 못하였습니다. 메일 설정을 확인하여주세요';
+	        }else{
+	            echo 'Message has been sent';
+				$view['view']['alert_message'] = '이메일을 발송하였습니다';
+	        }
+
 
 		}
 

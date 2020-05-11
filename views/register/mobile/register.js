@@ -9,6 +9,8 @@ import Register_3 from "./Register_3";
 import Register_4 from "./Register_4";
 import Register_5 from "./Register_5";
 import Register_6 from "./Register_6";
+import Register_TermsOfService from "./Register_TermsOfService";
+import Register_PrivacyPolicy from "./Register_PrivacyPolicy";
 Vue.use(VueRouter);
 
 
@@ -23,6 +25,8 @@ const router = new VueRouter({
     { path: '/4', component: Register_4},
     { path: '/5', component: Register_5},
     { path: '/6', component: Register_6},
+    { path: '/TermsOfService', component: Register_TermsOfService},
+    { path: '/PrivacyPolicy', component: Register_PrivacyPolicy},
   ],
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }

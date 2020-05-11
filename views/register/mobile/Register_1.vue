@@ -539,6 +539,11 @@
         },
         methods: {
             doNext(type) {
+                if(type==2){
+                    this.plan = "Marketplace";
+                }else if(type==3){
+                    this.plan = "Pro Page";
+                }
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: this.plan, billTerm: this.billTerm });
                 this.$router.push({path: '/2'});
             },
