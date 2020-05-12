@@ -58,8 +58,8 @@
                                 Promo code
                             </p>
                             <div class="input flex">
-                                <input type="text" placeholder="Number Number Number"/>
-                                <button class="btn " :class="{'btn--gray' : !isPromotionApplied,'btn--submit' : isPromotionApplied,}" @click="applyPromotionCode()">Apply</button>
+                                <input type="text" placeholder="Number Number Number" v-model="promocode" />
+                                <button class="btn " :class="{'btn--gray' : !isPromotionApplied,'btn--submit' : isPromotionApplied,}" >Apply</button>
                             </div>
                         </label>
                     </div>
@@ -95,6 +95,7 @@
                 isPromotionApplied: false,
                 listPlan: null,
                 cost: null,
+                promocode: null,
             }
         },
         filters: {
@@ -161,6 +162,13 @@
                 EventBus.$emit('submit_join_form',{ billTerm : n});
                 this.setCost();
             },
+            promocode(n){
+                if(0< n.length){
+                    this.isPromotionApplied = true;
+                }else{
+                    this.isPromotionApplied = false;
+                }
+            }
         },
         methods: {
             doJoin() {
