@@ -6,7 +6,7 @@
         <div class="container accounts">
             <div class="accounts__title">
                 <h1>
-                    Log in to continue
+                    {{ $t('loginToContinue') }}
                 </h1>
             </div>
             <div class="login accounts__defaultLayout">
@@ -17,7 +17,7 @@
                     <div class="accounts__form">
                         <div class="row">
                             <label for="">
-                                <p class="form-title">Email or username</p>
+                                <p class="form-title">{{ $t('emailOrUsername') }}</p>
                                 <div class="input">
                                     <input ref="userid"
                                             type="text" name="mem_userid"
@@ -28,9 +28,9 @@
                         </div>
                         <div class="row">
                             <label for="">
-                                <p class="form-title">Password</p>
+                                <p class="form-title">{{ $t('password') }}</p>
                                 <div class="input">
-                                    <input type="password" name="mem_password" placeholder="Type your password" />
+                                    <input type="password" name="mem_password" :placeholder="$t('typeYourPassword')" />
                                 </div>
                             </label>
                         </div>
@@ -40,39 +40,39 @@
                     </div>
                     <div class="accounts__btnbox">
                         <button type="submit" class="btn btn--submit">
-                            Log in
+                            {{ $t('login') }}
                         </button>
                     </div>
                 </form>
 
                 <div class="accounts__social">
-                    <h2>SNS Log in</h2>
+                    <h2>{{ $t('snsLogin') }}</h2>
                     <a href=""
                     ><img
                             src="@/assets/images/accounts-facebook.png"
-                            alt="페이스북 로그인"
+                            :alt="$t('loginFacebook')"
                     /></a>
                     <a href=""
                     ><img
                             src="@/assets/images/accounts-twitter.png"
-                            alt="트위터 로그인"
+                            :alt="$t('loginTwitter')"
                     /></a>
                     <a href=""
-                    ><img src="@/assets/images/accounts-google.png" alt="구글 로그인"
+                    ><img src="@/assets/images/accounts-google.png" :alt="$t('loginGoogle')"
                     /></a>
                     <a href=""
-                    ><img src="@/assets/images/accounts-naver.png" alt="네이버 로그인"
+                    ><img src="@/assets/images/accounts-naver.png" :alt="$t('loginNaver')"
                     /></a>
                     <a href=""
-                    ><img src="@/assets/images/accounts-kakao.png" alt="카카오 로그인"
+                    ><img src="@/assets/images/accounts-kakao.png" :alt="$t('loginKakao')"
                     /></a>
                 </div>
 
                 <div class="accounts__etc">
-                    Don`t have an account? <a href="/register">Sign up</a>
+                    {{ $t('dontHaveAccount') }} <a href="/register">{{ $t('signup') }}</a>
                 </div>
                 <div class="accounts__etc">
-                    Forgot your account? <a href="/findaccount">Find Account</a>
+                    {{ $t('forgotYourAccount') }} <a href="/findaccount">{{ $t('findAccount') }}</a>
                 </div>
             </div>
         </div>

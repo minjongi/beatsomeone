@@ -2,7 +2,7 @@
     <div class="container accounts">
         <div class="accounts__title">
             <h1>
-                Complete sign up
+                {{ $t('completeSignup') }}
             </h1>
         </div>
         <div class="login accounts__defaultLayout">
@@ -11,12 +11,12 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                Introduce yourself to me
+                                {{ $t('introYourself') }}
                             </p>
                             <div class="input">
                                 <input
                                         type="text" v-model="user.introduce"
-                                        placeholder="Introduce yourself to me"
+                                        :placeholder="$t('introYourself')"
                                 />
                             </div>
                         </label>
@@ -24,12 +24,12 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                Name of my brand shop
+                                {{ $t('nameOfMyBrandShop') }}
                             </p>
                             <div class="input">
                                 <input
                                         type="text"
-                                        :placeholder="beandshop"
+                                        :placeholder="$t('nameOfMyBrandShop')"
                                         disabled
                                 />
                             </div>
@@ -38,10 +38,9 @@
                 </div>
                 <div class="accounts__btnbox">
                     <button type="submit" class="btn btn--submit" @click="doNext">
-                        Next
+                        {{ $t('next') }}
                     </button>
                 </div>
-
         </div>
     </div>
 </template>

@@ -52,14 +52,14 @@
                                 <a href="" class="comment__user"></a>
                                 <input
                                         type="text"
-                                        placeholder="Write a comment..."
+                                        :placeholder="$t('writeComment')"
                                         id="comment"
                                         max="200"
                                         v-model="comment"
                                         @keydown.enter.prevent="sendComment"
                                 />
                                 <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
-                                <button @click.prevent="sendComment">SEND</button>
+                                <button @click.prevent="sendComment">{{ $t('send') }}</button>
                             </div>
                         </form>
                     </div>
@@ -114,6 +114,13 @@
                 tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
             }
+        },
+        created() {
+            this.tabs = [
+                {path: '/', title: this.$t('similarTrack')},
+                {path: '/comments', title: this.$t('comments')},
+                {path: '/infomation', title: this.$t('information')}
+            ]
         },
         computed: {
             releaseDt: function() {

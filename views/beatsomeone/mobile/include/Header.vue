@@ -29,7 +29,7 @@
                     <a href="/mypage" v-if="isLogin">MyPage</a>
                     <a href="/login/logout?/" v-if="isLogin">Logout</a>
                     <a href="/login" v-if="!isLogin">Login</a>
-                    <a href="/register" v-if="!isLogin">Sign In</a>
+                    <a href="/register" v-if="!isLogin">Sign Up</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">(${{ cartSum }})</a>
                 </div>
 

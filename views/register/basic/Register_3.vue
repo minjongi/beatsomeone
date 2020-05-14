@@ -11,7 +11,7 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                Your username
+                                {{ $t('yourUsername') }}
                                 <span class="required">*</span>
                             </p>
                             <div class="input">
@@ -30,7 +30,7 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                Your e-mail <span class="required">*</span>
+                                {{ $t('yourEmail') }} <span class="required">*</span>
                             </p>
                             <div class="input">
                                 <input
@@ -44,12 +44,12 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                Password <span class="required">*</span>
+                                {{ $t('password') }} <span class="required">*</span>
                             </p>
                             <div class="input">
                                 <input
                                         type="password"  v-model="user.password"
-                                        placeholder="Type your password"
+                                        :placeholder="$t('typeYourPassword')"
                                         required
                                 />
                             </div>
@@ -58,12 +58,12 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                Password Verify <span class="required">*</span>
+                                {{ $t('passwordVerify') }} <span class="required">*</span>
                             </p>
                             <div class="input">
                                 <input
                                         type="password" v-model="passwordVerify"
-                                        placeholder="Type your password again"
+                                        :placeholder="$t('typeYourPasswordAgain')"
                                         required
                                 />
                             </div>
@@ -115,23 +115,23 @@
 <!--                        </label>-->
 <!--                    </div>-->
                     <div class="row">
-                        <p class="form-title">USER TYPE</p>
+                        <p class="form-title">{{ $t('userType') }}</p>
                         <div class="accounts__check">
                             <label for="type1" class="radio">
                                 <input type="radio" id="type1" hidden name="TYPE" @click="user.type = 'Music Lover'" />
-                                <span></span> Music Lover
+                                <span></span> {{ $t('musicLover') }}
                             </label>
                             <label for="type2" class="radio">
                                 <input type="radio" id="type2" hidden name="TYPE" @click="user.type = 'Recording Artist'" />
-                                <span></span> Recording Artist
+                                <span></span> {{ $t('recordingArtist') }}
                             </label>
                             <label for="type3" class="radio">
                                 <input type="radio" id="type3" hidden name="TYPE" @click="user.type = 'Music Producer'" />
-                                <span></span> Music Producer
+                                <span></span> {{ $t('musicProducer') }}
                             </label>
                             <label for="type4" class="radio">
                                 <input type="radio" id="type4" hidden name="TYPE" @click="user.type = 'Artist/Producer'" />
-                                <span></span> Artist/Producer
+                                <span></span> {{ $t('artist') }}/{{ $t('producer') }}
                             </label>
                         </div>
                     </div>
@@ -140,15 +140,15 @@
                 <div class="accounts__privacy">
                     <label for="privacy" class="checkbox" >
                         <input type="checkbox" hidden id="privacy" v-model="isCheckTos" />
-                        <span></span> I have read and agree to the
-                        <a @click="doTermsOfService">Terms of service</a>
+                        <span></span> {{ $t('agreeToTermMsg') }}
+                        <a @click="doTermsOfService">{{ $t('termsOfService') }}</a>
                         &
-                        <a @click="doPrivacyPolicy">Privacy policy.</a>
+                        <a @click="doPrivacyPolicy">{{ $t('privacyPolicy') }}.</a>
                     </label>
                 </div>
                 <div class="accounts__btnbox border-none">
                     <button class="btn btn--submit" @click="doNext">
-                        Sign up
+                        {{ $t('signup') }}
                     </button>
                 </div>
 
