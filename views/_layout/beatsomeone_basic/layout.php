@@ -1,3 +1,6 @@
+<?php
+$this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view) . '";');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

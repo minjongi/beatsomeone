@@ -3,28 +3,28 @@
         <Header :is-login="isLogin"/>
         <div class="container registered">
             <div class="registered__title">
-                <h1>Track Metadata Editor</h1>
+                <h1>{{ $t('trackMetadataEditor') }}</h1>
             </div>
             <section class="registered__section">
                 <div class="wrap">
-                    <h2 class="registered__section-title">General Information</h2>
+                    <h2 class="registered__section-title">{{ $t('generalInfo') }}</h2>
                     <div class="registered__section-content">
                         <div class="row">
                             <div class="col">
                                 <label class="form-item">
-                                    <p class="form-title required">TITLE</p>
+                                    <p class="form-title required">{{ $t('trackName') }}</p>
                                     <div class="input">
-                                        <input type="text" v-model.trim="item.cit_name" placeholder="New Track" required/>
+                                        <input type="text" v-model.trim="item.cit_name" :placeholder="$t('newTrack')" required/>
                                     </div>
                                     <span class="form-info">
-                                        9 out of 60 Maximum characters allowed
+                                        {{ $t('allowedCharLength') }}
                                     </span>
                                 </label>
 
                                 <label class="form-item">
-                                    <p class="form-title">TAGS (10)</p>
+                                    <p class="form-title">{{ $t('tags') }} (10)</p>
                                     <div class="input">
-                                        <input type="text" v-model.trim="item.hashTag" placeholder="Tags (,)Comma Separated"
+                                        <input type="text" v-model.trim="item.hashTag" :placeholder="$t('tagsSeparatedComma')"
                                                maxlength="200" id="tags" @input="chkHashTag"/>
                                         <span class="form-unit"><span ref="hashTagCount">0</span>/10</span>
                                     </div>
@@ -33,9 +33,9 @@
                                 <div class="">
                                     <div class="col">
                                         <label class="form-item">
-                                            <p class="form-title required">TRACK TYPE</p>
+                                            <p class="form-title required">{{ $t('trackType1') }}</p>
                                             <select v-model="item.trackType" class="custom-select-basic">
-                                                <option value="">Select</option>
+                                                <option value="">{{ $t('select') }}</option>
                                                 <option v-for="(item, index) in listTrackType" :key="'trackType' + index"
                                                         :value="item">{{ item }}
                                                 </option>
@@ -44,9 +44,9 @@
                                     </div>
                                     <div class="col">
                                         <label class="form-item">
-                                            <p class="form-title required">RELEASE DATE</p>
+                                            <p class="form-title required">{{ $t('releaseDate') }}</p>
                                             <div class="input">
-                                                <flat-pickr :config="{enableTime: true, dateFormat: 'Y-m-d H:i'}" v-model="item.cit_start_datetime" placeholder="Date Time" class="datepicker"/>
+                                                <flat-pickr :config="{enableTime: true, dateFormat: 'Y-m-d H:i'}" v-model="item.cit_start_datetime" :placeholder="$t('dateTime')" class="datepicker"/>
                                             </div>
                                         </label>
                                     </div>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-item">
-                                    <p class="form-title required">AUDIOFILES FOR DOWNLOAD</p>
+                                    <p class="form-title required">{{ $t('audiofilesForDownload') }}</p>
                                     <label for="unTaggedFile" class="addAudioFile waves-effect ">
                                         <div class="addAudioFile__icon">
                                             <img src="/assets/images/icon/note1.png" alt="">
@@ -65,7 +65,7 @@
                                                         v-on:progress="unTaggedFileProgressUpload"
                                                         v-on:start="unTaggedFileStartUpload"
                                                         v-on:finish="unTaggedFileFinishUpload"/>
-                                            <p>Un-Tagged WAV or MP3</p>
+                                            <p>{{ $t('unTaggedWavOrMp3') }}</p>
                                             <span class="format">{{ !!item.unTaggedFileName ? item.unTaggedFileName : '.WAV (or.MP3)' }}</span>
                                             <div class="addAudioFile__progress">
                                                 <span ref="unTaggedFileProgressBar"></span>
@@ -81,7 +81,7 @@
                                                         target="/beatsomeoneApi/upload_item_file" action="POST" hidden
                                                         v-on:progress="stemFileProgressUpload" v-on:start="stemFileStartUpload"
                                                         v-on:finish="stemFileFinishUpload"/>
-                                            <p>Track Stems ZIP or RAR</p>
+                                            <p>{{ $t('trackStems') }} ZIP or RAR</p>
                                             <span class="format">{{ !!item.stemFileName ? item.stemFileName : '.ZIP (or.RAR)' }}</span>
                                             <div class="addAudioFile__progress">
                                                 <span ref="stemFileProgressBar"></span>
@@ -90,7 +90,7 @@
                                     </label>
                                 </div>
                                 <div class="form-item">
-                                    <p class="form-title">AUDIOFILES FOR STREAMING</p>
+                                    <p class="form-title">{{ $t('audiofilesForStreaming') }}</p>
                                     <label for="streamingFile" class="addAudioFile waves-effect">
                                         <div class="addAudioFile__icon">
                                             <img src="/assets/images/icon/note3.png" alt="">
@@ -101,7 +101,7 @@
                                                         v-on:progress="streamingFileProgressUpload"
                                                         v-on:start="streamingFileStartUpload"
                                                         v-on:finish="streamingFileFinishUpload"/>
-                                            <p>Custom tagged audio WAV or MP3</p>
+                                            <p>{{ $t('customTaggedAudio') }} WAV or MP3</p>
                                             <span class="format">{{ !!item.streamingFileName ? item.streamingFileName : '.WAV (or.MP3)' }}</span>
                                             <div class="addAudioFile__progress">
                                                 <span ref="streamingFileProgressBar"></span>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="row">
                             <div class="form-item">
-                                <p class="form-title">Artwork</p>
+                                <p class="form-title">{{ $t('trackImage') }}</p>
                                 <div class="artwork">
                                     <FileUpload name="artworkFile" id="artworkFile" target="/beatsomeoneApi/upload_artwork_file"
                                                 action="POST" hidden v-on:start="artworkStartUpload"
@@ -123,20 +123,20 @@
                                              alt="" id="artworkImg" ref="artworkImg">
                                     </label>
                                     <div class="artwork__info">
-                                        Preferred: 1500x1500px, Minimum: 500x500px<br/><br/>
-                                        Got Photoshop? Make your own using our free template.<br/>
-                                        <a href="" download>Download PSD Template.</a>
+                                        {{ $t('preferredImageSize') }}<br/><br/>
+                                        {{ $t('makeImageMsg') }}<br/>
+                                        <a href="" download>{{ $t('downloadPSDTemplate') }}</a>
                                     </div>
-                                    <label for="artworkFile" class="artwork-upload waves-effect">Upload Artwork</label>
+                                    <label for="artworkFile" class="artwork-upload waves-effect">{{ $t('uploadTrackImage') }}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-item">
-                                <p class="form-title">URL OF YOUR TRACK</p>
+                                <p class="form-title">{{ $t('urlOfYourTrack') }}</p>
                                 <div class="input">
                                     <input type="text" class="artworkDoemin" placeholder="" readonly v-model="item.url"/>
-                                    <button class="form-copy" type="button">Copy</button>
+                                    <button class="form-copy" type="button">{{ $t('copy') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -145,12 +145,12 @@
             </section>
             <section class="registered__section">
                 <div class="wrap">
-                    <h2 class="registered__section-title">Selling Preferences</h2>
+                    <h2 class="registered__section-title">{{ $t('sellingPreferences') }}</h2>
                     <div class="registered__section-content">
                         <div class="row row--notice">
                             <div class="registered__notice">
-                                <h2>NOTICE</h2>
-                                <p>If you enter a dollar or won, the exchange rate will be reflected automatically.</p>
+                                <h2>{{ $t('notice') }}</h2>
+                                <p>{{ $t('exchangeRateWillBeReflectedAutomatically') }}.</p>
                             </div>
                         </div>
                         <div class="row">
@@ -159,7 +159,7 @@
                                     <div class="form-title">
                                         <label for="c1" class="checkbox">
                                             <input type="checkbox" hidden="" id="c1" v-model="item.licenseLeaseUseYn">
-                                            <span></span> BASIC LEASE LICENSE (MP3 or WAV) PRICE
+                                            <span></span> {{ $t('basicLeaseLicensePrice') }}
                                         </label>
                                     </div>
                                     <div class="row row--inner">
@@ -176,7 +176,7 @@
                                     </div>
                                     <div class="row row--inner">
                                     <span class="col">
-                                        <p>Inventory quantity</p>
+                                        <p>{{ $t('inventoryQuantity') }}</p>
                                     </span>
                                         <span class="col">
                                         <div class="input">
@@ -185,10 +185,10 @@
                                     </span>
                                     </div>
                                     <p class="form-info mt-15">
-                                        · Leases licenses for uploaded MP3 or WAV files.<br/><br/>
-                                        · The terms of lease are limited to 60 days of service /<br/>
-                                        no arbitrary editing / Rented members cannot be re-rented to others /<br/>
-                                        no other activities not authorized by the platform
+                                        · {{ $t('itemRegMsg1') }}<br/><br/>
+                                        · {{ $t('itemRegMsg2') }} /<br/>
+                                        {{ $t('itemRegMsg3') }} /<br/>
+                                        {{ $t('itemRegMsg4') }}
                                     </p>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                                     <div class="form-title">
                                         <label for="c2" class="checkbox">
                                             <input type="checkbox" hidden="" id="c2" v-model="item.licenseStemUseYn">
-                                            <span></span> MASTERING LICENSE (MP3 or WAV and STEMS) PRICE
+                                            <span></span> {{ $t('masteringLicensePrice') }}
                                         </label>
                                     </div>
                                     <div class="row row--inner">
@@ -215,7 +215,7 @@
                                     <div class="row row--inner">
                                         <span class="col">
                                             <p>
-                                                Inventory quantity
+                                                {{ $t('inventoryQuantity') }}
                                             </p>
                                         </span>
                                         <span class="col">
@@ -226,9 +226,8 @@
                                         </span>
                                     </div>
                                     <p class="form-info mt-15">
-                                        · Sell mastering licenses including uploaded MP3 or WAV files and STEMS
-                                        configurations.<br/><br/>
-                                        · UNLIMITED
+                                        · {{ $t('itemRegMsg5') }}<br/><br/>
+                                        · {{ $t('itemRegMsg6') }}
                                     </p>
                                 </div>
                             </div>
@@ -238,47 +237,41 @@
             </section>
             <section class="registered__section">
                 <div class="wrap">
-                    <h2 class="registered__section-title">Track Details</h2>
+                    <h2 class="registered__section-title">{{ $t('trackDetails') }}</h2>
                     <div class="registered__section-content">
                         <div class="row">
                             <div class="col">
                                 <label class="form-item">
-                                    <p class="form-title required">PRIMARY GENRE</p>
+                                    <p class="form-title required">{{ $t('primaryGenre') }}</p>
                                     <select v-model="item.genre" class="custom-select-basic">
-                                        <option value="">Select</option>
-                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ item
-                                            }}
-                                        </option>
+                                        <option value="">{{ $t('select') }}</option>
+                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ item }}</option>
                                     </select>
                                 </label>
                                 <label class="form-item">
-                                    <p class="form-title ">SUBGENRE</p>
+                                    <p class="form-title ">{{ $t('subGenre') }}</p>
                                     <select v-model="item.subgenre" class="custom-select-basic">
-                                        <option value="">Select</option>
-                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{
-                                            item }}
-                                        </option>
+                                        <option value="">{{ $t('select') }}</option>
+                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{ item }}</option>
                                     </select>
                                 </label>
                                 <label class="form-item">
-                                    <p class="form-title required">PRIMARY MOOD</p>
+                                    <p class="form-title required">{{ $t('primaryMood') }}</p>
                                     <select v-model="item.moods" class="custom-select-basic">
-                                        <option value="">Select</option>
-                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ item
-                                            }}
-                                        </option>
+                                        <option value="">{{ $t('select') }}</option>
+                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ item }}</option>
                                     </select>
                                 </label>
                             </div>
                             <div class="col">
                                 <label class="form-item">
-                                    <p class="form-title ">DESCRIPTION</p>
+                                    <p class="form-title ">{{ $t('description') }}</p>
                                     <div class="input">
-                                        <textarea v-model.trim="item.cit_content" placeholder="Enter Description"></textarea>
+                                        <textarea v-model.trim="item.cit_content" :placeholder="$t('enterDescription')"></textarea>
                                     </div>
                                 </label>
                                 <label class="form-item">
-                                    <p class="form-title ">BPM(Beats per minute)</p>
+                                    <p class="form-title ">{{ $t('bpmDesc') }}</p>
                                     <div class="input">
                                         <input type="number" v-model.trim="item.bpm"/>
                                     </div>
@@ -289,8 +282,8 @@
                 </div>
             </section>
             <div class="registered__btnbox">
-                <a href="/beatsomeone/sublist" class="btn btn--list waves-effect">List</a>
-                <button type="submit" class="btn btn--save waves-effect" @click="doSubmit">Save</button>
+                <a href="/beatsomeone/sublist" class="btn btn--list waves-effect">{{ $t('list') }}</a>
+                <button type="submit" class="btn btn--save waves-effect" @click="doSubmit">{{ $t('save') }}</button>
             </div>
         </div>
         <Footer/>

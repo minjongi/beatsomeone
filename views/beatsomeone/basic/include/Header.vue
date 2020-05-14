@@ -16,15 +16,15 @@
 
 
                     <a href=""></a>
-                    <a href="/cmall/wishlist">Favorite</a>
-                    <a href="">Free Beats</a>
-                    <a href="">Pricing</a>
-                    <a href="/mypage" v-if="isLogin">MyPage</a>
+                    <a href="/cmall/wishlist">{{ $t('favorite') }}</a>
+                    <a href="">{{ $t('freeBeats') }}</a>
+                    <a href="">{{ $t('pricing') }}</a>
+                    <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
 
 
-                    <a href="/login/logout?/" v-if="isLogin">Logout</a>
-                    <a href="/login" v-if="!isLogin">Login</a>
-                    <a href="/register" v-if="!isLogin">Sign In</a>
+                    <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
+                    <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
+                    <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">(${{ cartSum }})</a>
                 </nav>
             </div>

@@ -62,6 +62,7 @@ module.exports = {
                 Vue: ['vue/dist/vue.esm.js', 'default'],
                 Http: [path.join(__dirname, './src/http/http.js'), 'default'],
                 log: [path.join(__dirname, './src/logger.js'), 'default'],
+                i18n: [path.join(__dirname, './src/i18n/i18n.js'), 'default'],
             }]);
 
         // config.module

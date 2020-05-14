@@ -29,7 +29,9 @@
     "vue-router": "^3.1.6",
     "vue-simple-upload": "^0.1.6",
     "wavesurfer.js": "^3.3.2",
-    "xmlhttprequest": "^1.8.0"
+    "xmlhttprequest": "^1.8.0",
+    "vue-cookies": "^1.7.0",
+    "vue-i18n": "^8.17.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",
@@ -40,7 +42,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.1.2",
     "file-loader": "^5.1.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "postcss-loader": "^3.0.0",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
@@ -69,7 +71,8 @@
       "log": true,
       "Http": true,
       "Vue": true,
-      "Amplitude": true
+      "Amplitude": true,
+      "i18n": true
     }
   },
   "browserslist": [

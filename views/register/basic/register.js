@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter  from 'vue-router';
 import app from './Register.vue';
-
+// i18n
+import i18n from '*/src/i18n/i18n'
 
 import Register_1 from "./Register_1";
 import Register_2 from "./Register_2";
@@ -35,6 +36,7 @@ const router = new VueRouter({
 
 
 window.vm = new Vue({
+  i18n,
   router,
   render: h => h(app),
 }).$mount('#app')

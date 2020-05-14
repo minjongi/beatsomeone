@@ -12,38 +12,34 @@
                     </video>
                     <div class="wrap">
                         <header class="main__section1-title">
-                            <h1>HOLIDAY GIVEAWAY</h1>
-                            <!--                            <h2>-->
-                            <!--                                {{param}}-->
-                            <!--                            </h2>-->
+                            <h1>{{ $t('holidayGiveaway') }}</h1>
                             <p>
-                                Finding incredible music & connecting with amazing artists
-                                and<br/>
-                                producers to collaborate with have never been easier.
+                                {{ $t('findingMusicMsg') }}<br/>
+                                {{ $t('mainMsg2') }}
                             </p>
                         </header>
 
                         <div class="main__media">
                             <div class="tab">
-                                <button v-for="g in listGenre" :key="g" :class="{active:currentGenre === g}"
+                                <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}"
                                         @click="currentGenre = g">
-                                    {{ g }}
+                                    {{ listGenreName[i] }}
                                 </button>
                             </div>
                             <div class="filter">
                                 <label for="voice" class="switch">
-                                    Voice
+                                    {{ $t('voice') }}
                                     <input type="checkbox" hidden id="voice" v-model="param.voice"/>
                                     <span></span>
                                 </label>
                                 <div class="custom-select ">
                                     <button class="selected-option">
-                                        {{ param.sort }}
+                                        {{ listSortParamName }}
                                     </button>
                                     <div class="options">
                                         <button class="option" data-value="" v-for="(o,i) in listSort" :key="i"
-                                                @click="param.sort = o;">
-                                            {{ o }}
+                                                @click="param.sort = o">
+                                            {{ listSortName[i] }}
                                         </button>
                                     </div>
                                 </div>
@@ -53,16 +49,11 @@
                                     </button>
                                     <div class="options">
                                         <button class="option" data-value="" v-for="(o,i) in listBpm" :key="i"
-                                                @click="param.bpm = o;">
+                                                @click="param.bpm = o">
                                             {{ o.t }}
                                         </button>
                                     </div>
                                 </div>
-                                <!--                                <div class="custom-select ">-->
-                                <!--                                    <button class="selected-option">-->
-                                <!--                                        Any Duration-->
-                                <!--                                    </button>-->
-                                <!--                                </div>-->
                             </div>
 
 
@@ -77,14 +68,14 @@
                                         v-on:before-enter="beforeEnter"
                                         v-on:enter="enter"
                                         v-on:leave="leave">
-                                    <template v-for="item in list"  >
+                                    <template v-for="item in list">
                                         <KeepAliveGlobal :key="item.cit_key">
                                             <Index_Items :item="item" :key="item.cit_key"></Index_Items>
                                         </KeepAliveGlobal>
                                     </template>
                                 </transition-group>
                                 <div class="playList__btnbox">
-                                    <a class="playList__more" @click="moveMore">more</a>
+                                    <a class="playList__more" @click="moveMore">{{ $t('more') }}</a>
                                 </div>
 
                             </div>
@@ -97,19 +88,18 @@
                     <div class="wrap">
                         <header class="main__section2-title">
                             <h1>
-                                ANYONE CAN BORROW
-                                <br/>
-                                OR SELL BEATS EASILY!
+                                {{ $t('bitTradingMessage1') }}<br/>
+                                {{ $t('bitTradingMessage2') }}
                             </h1>
                             <a href="/register">
-                                I want to lend or sell my beat
+                                {{ $t('lendOrSellMyBeat') }}
                             </a>
                         </header>
 
 
                         <!-- 트렌딜 슬라이드 부분 -->
                         <div class="trending">
-                            <h2 class="trending__title">TRENDING MUSIC</h2>
+                            <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
                             <div class="trending__slider">
                                 <div class="slider">
                                     <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
@@ -138,8 +128,8 @@
 
                         <div class="testimonials">
                             <article class="testimonials__title">
-                                <h1>TESTIMONIALS</h1>
-                                <p>Partner with the best team members!</p>
+                                <h1>{{ $t('testimonials') }}</h1>
+                                <p>{{ $t('bestTeamMember') }}</p>
                             </article>
                             <article class="testimonials__lists">
                                 <figure class="card card--testimonials">
@@ -189,19 +179,20 @@
                                 </figure>
                             </article>
                             <div class="testimonials__btnbox">
-                                <a href="/register">START SELLING</a>
-                                <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">BROWSE BEATS</a>
+                                <a href="/register">{{ $t('startSelling') }}</a>
+                                <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
                             </div>
                         </div>
 
                         <div class="main__desc">
                             <h1>
-                                NOW IT'S TIME FOR YOUR BEATS AND<br/>
-                                MUSIC TO BE SHOWN ALL OVER THE WORKLD,<br/>
-                                ARE YOU READY?
+                                {{ $t('musicWorldMsg1') }}<br/>
+                                {{ $t('musicWorldMsg2') }}<br/>
+                                {{ $t('areYouReady') }}
+
                             </h1>
                             <a href="">
-                                Trust our best team members and join us!
+                                {{ $t('trustOurTeamMsg') }}
                             </a>
                         </div>
                     </div>
@@ -229,7 +220,7 @@
 
     export default {
         name: 'Index',
-        components: {Header, Footer, Index_Items,MainPlayer,KeepAliveGlobal},
+        components: {Header, Footer, Index_Items, MainPlayer, KeepAliveGlobal},
         data: function () {
             return {
                 isLogin: false,
@@ -238,8 +229,10 @@
                 listTrending: null,
                 listTestimonials: null,
                 currentGenre: 'All Genre',
-                listGenre: ['All Genre', 'Hip Hop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'K-Pop', 'Free Beats'],
+                listGenre: ['All Genre', 'Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
+                listGenreName: {},
                 listSort: ['Sort By Staff Picks', 'Top Downloads', 'Newest'],
+                listSortName: {},
                 listBpm: [
                     {t: 'BPM', v: null},
                     {t: '80-90', v: 90},
@@ -247,8 +240,6 @@
                     {t: '100-110', v: 110},
                     {t: '110-120', v: 120},
                 ],
-
-
                 param: {
                     voice: false,
                     sort: 'Sort By Staff Picks',
@@ -256,10 +247,29 @@
                 },
             }
         },
+        created() {
+            this.listGenreName = [
+                this.$t('allGenre'),
+                'Hip Hop',
+                'K-Pop',
+                'Pop',
+                'R&B',
+                'Rock',
+                'Electronic',
+                'Reggae',
+                'Country',
+                'World',
+                this.$t('freeBeats')
+            ]
 
+            this.listSortName = [
+                this.$t('sortByStaffPick'),
+                this.$t('topDownloads'),
+                this.$t('newest')
+            ]
+        },
         mounted() {
-
-
+            console.log(i18n)
             // 메인페이지: 서브 앨범 슬라이드 이벤트
             $(".toggle-subList").on("click", function () {
                 var itemLength = $(this)
@@ -314,6 +324,11 @@
             //         sample_rate: 3000
             //     }
             // });
+        },
+        computed: {
+            listSortParamName() {
+                return this.listSortName[this.listSort.indexOf(this.param.sort)]
+            }
         },
         watch: {
             // 장르가 변경될 때
