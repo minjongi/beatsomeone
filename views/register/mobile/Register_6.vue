@@ -29,12 +29,12 @@
                     <span>$</span>
                     {{ cost | money }}
                  </h2>
-                <div class="_saving">Instant Savings of <span id="disBill">$0.000</span></div>
+                <div class="_saving">Instant Savings of &#36;<span>{{disBill}}</span></div>
             </div>
 
             <div class="accounts__payments">
                 <label for="promoCode" class="checkbox">
-                    <input type="checkbox" hidden id="promoCode"/>
+                    <input type="checkbox" hidden id="promoCode" @change="promoCheckYn($event)" />
                     <span></span> I have a promo code
                 </label>
                 <div class="accounts__form">
@@ -57,8 +57,8 @@
                                 Promo code
                             </p>
                             <div class="input flex">
-                                <input type="text" placeholder="Number Number Number" v-model="promocode" />
-                                <button class="btn " :class="{'btn--gray' : !isPromotionApplied,'btn--submit' : isPromotionApplied,}" >Apply</button>
+                                <input type="text" placeholder="Number Number Number" ref="pv" v-model="promoValue" />
+                                <button class="btn " :class="{'btn--gray' : !isPromotionApplied,'btn--submit' : isPromotionApplied,}" @click="promoApply()">Apply</button>
                             </div>
                         </label>
                     </div>
@@ -94,7 +94,8 @@
                 isPromotionApplied: false,
                 listPlan: null,
                 cost: null,
-                promocode: null,
+                promoValue: null,
+                disBill : "0.000",
             }
         },
         filters: {
@@ -118,20 +119,6 @@
         },
         mounted() {
             var bg = document.querySelector(".accounts__switch-bg");
-
-            document.getElementById('promoCode').addEventListener('change', function(){
-                var _no = document.getElementById('nopromo')
-                var _ok = document.getElementById('okpromo')
-                if( this.checked === true ) {
-                    _no.style.display = 'none';
-                    _ok.style.display = 'block';
-                } else {
-                    _no.style.display = 'block';
-                    _ok.style.display = 'none';
-                }
-            })
-
-
         },
         watch: {
             billTerm(n) {
@@ -144,20 +131,18 @@
                 EventBus.$emit('submit_join_form',{ billTerm : n});
                 this.setCost();
             },
-            promocode(n){
+            promoValue(n){
                 if(0< n.length){
                     this.isPromotionApplied = true;
                 }else{
                     this.isPromotionApplied = false;
                 }
+                EventBus.$emit('submit_join_form',{ promoValue : n});
             }
         },
         methods: {
             doJoin() {
-                EventBus.$emit('finish_join_form',{});
-            },
-            applyPromotionCode(){
-                this.isPromotionApplied = true;
+                EventBus.$emit('finish_join_form',{ "promo_code" : this.promoValue});
             },
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
@@ -165,27 +150,59 @@
                     this.setCost();
                 });
             },
+            promoCheckYn(event) {
+                var _no = document.getElementById('nopromo')
+                var _ok = document.getElementById('okpromo')
+                if( event.target.checked === true ) {
+                    _no.style.display = 'none';
+                    _ok.style.display = 'block';
+                    this.promoValue = '';
+                } else {
+                    _no.style.display = 'block';
+                    _ok.style.display = 'none';
+                }
+                this.setCost();
+            },
+            promoApply() {
+                Http.post('/register/ajax_promocode_check', {'code' : this.promoValue}).then(r=> {
+                    if(r["result"] == "available"){
+                        if(r["data"]["type"] == "m" && this.$parent.info.billTerm == "monthly"){
+                            alert(r["reason"]);
+                            this.cost = String((1 - parseInt(r["data"]["disrate"])/100) * this.cost);
+                            this.$refs.pv.readOnly = true;
+                        }else{
+                            alert("쿠폰 사용 조건이 아닙니다.");
+                            this.setCost();
+                        }
+                    }else{
+                        alert(r["reason"]);
+                        this.setCost();
+                    }
+                });
+            },
             setCost: function () {
                 if(!this.listPlan) return null;
                 let cost = 0;
                 const info = this.$parent.info;
+                this.$refs.pv.readOnly = false;
                 if(info.plan === 'Pro Page') {
                     if(info.billTerm === 'yearly') {
                         this.cost = this.proPlan.yearly_d;
-                        $('#disBill').text("$"+this.proPlan.yearly_discount_amt_d);
+                        this.disBill = this.proPlan.yearly_discount_amt_d;
                     } else {
                         this.cost = this.proPlan.monthly_d;
-                        $('#disBill').text("$0.000");
+                        this.disBill = "0.000";
                     }
                 } else {
                     if(info.billTerm === 'yearly') {
                         this.cost = this.marketplacePlan.yearly_d;
-                        $('#disBill').text("$"+this.marketplacePlan.yearly_discount_amt_d);
+                        this.disBill = this.marketplacePlan.yearly_discount_amt_d;
                     } else {
                         this.cost = this.marketplacePlan.monthly_d;
-                        $('#disBill').text("$0.000");
+                        this.disBill = "0.000";
                     }
                 }
+                this.promoValue = '';
             },
         },
 
