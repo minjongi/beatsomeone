@@ -1,96 +1,365 @@
 <template>
-
-    <div class="container accounts accounts--start">
-<ng-component _nghost-xtr-c13="" class="ng-star-inserted"><mp-landing-header _ngcontent-xtr-c13="" _nghost-xtr-c14=""><header _ngcontent-xtr-c14="" class="showing-banner"><div _ngcontent-xtr-c14=""><div _ngcontent-xtr-c14="" class="bs-logo" routerlink="/discover" tabindex="0"><button _ngcontent-xtr-c14="" mat-icon-button="" class="mat-icon-button mat-button-base"><span class="mat-button-wrapper"><i _ngcontent-xtr-c14="" class="icon-logo"></i></span><div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div><div class="mat-button-focus-overlay"></div></button></div><div _ngcontent-xtr-c14="" class="menu"><a _ngcontent-xtr-c14="" routerlink="/" href="/">Home</a><a _ngcontent-xtr-c14="" class="features"> Features <i _ngcontent-xtr-c14="" class="icon-arrow"></i><div _ngcontent-xtr-c14="" class="dropdown-menu"><!----><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Selling Music </a><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Pro Page </a><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Blaze Player </a><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Monetization </a><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Testimonials </a><div _ngcontent-xtr-c14="" class="dropdown-menu-border"></div></div></a><a _ngcontent-xtr-c14="" class="genres"> Genres <i _ngcontent-xtr-c14="" class="icon-arrow"></i><div _ngcontent-xtr-c14="" class="dropdown-menu"><!----><a _ngcontent-xtr-c14="" href="/charts" class="ng-star-inserted">All Genre</a><a _ngcontent-xtr-c14="" href="/genre/hip-hop" class="ng-star-inserted">Hip Hop</a><a _ngcontent-xtr-c14="" href="/genre/pop" class="ng-star-inserted">Pop</a><a _ngcontent-xtr-c14="" href="/genre/rb" class="ng-star-inserted">R&amp;B</a><a _ngcontent-xtr-c14="" href="/genre/rock" class="ng-star-inserted">Rock</a><a _ngcontent-xtr-c14="" href="/genre/electronic" class="ng-star-inserted">Electronic</a><a _ngcontent-xtr-c14="" href="/genre/reggae" class="ng-star-inserted">Reggae</a><a _ngcontent-xtr-c14="" href="/genre/country" class="ng-star-inserted">Country</a><a _ngcontent-xtr-c14="" href="/genre/world" class="ng-star-inserted">World</a><div _ngcontent-xtr-c14="" class="dropdown-menu-border"></div></div></a><a _ngcontent-xtr-c14="" routerlink="/free-beats" href="/free-beats">Free Beats</a><a _ngcontent-xtr-c14="" routerlink="/pricing" href="/pricing">Pricing</a><!----><!----><button _ngcontent-xtr-c14="" class="btn-login mat-button mat-button-base ng-star-inserted" mat-button="" type="button"><span class="mat-button-wrapper"> LOG IN </span><div class="mat-button-ripple mat-ripple" matripple=""></div><div class="mat-button-focus-overlay"></div></button><!----><button _ngcontent-xtr-c14="" class="btn-signup mat-button mat-button-base ng-star-inserted" id="btn-signup-header" mat-button="" routerlink="/pricing" type="button" tabindex="0"><span class="mat-button-wrapper"> SIGN UP </span><div class="mat-button-ripple mat-ripple" matripple=""></div><div class="mat-button-focus-overlay"></div></button></div><button _ngcontent-xtr-c14="" class="ic-menu mat-icon-button mat-button-base" mat-icon-button=""><span class="mat-button-wrapper"><i _ngcontent-xtr-c14="" class="icon-hamburger"></i></span><div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div><div class="mat-button-focus-overlay"></div></button></div></header><nav _ngcontent-xtr-c14="" class="hide showing-banner"><div _ngcontent-xtr-c14="" class="bs-logo" routerlink="/discover" tabindex="0"><button _ngcontent-xtr-c14="" mat-icon-button="" class="mat-icon-button mat-button-base"><span class="mat-button-wrapper"><i _ngcontent-xtr-c14="" class="icon-logo"></i></span><div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div><div class="mat-button-focus-overlay"></div></button></div><button _ngcontent-xtr-c14="" class="btn-close-menu mat-icon-button mat-button-base" mat-icon-button=""><span class="mat-button-wrapper"><i _ngcontent-xtr-c14="" class="icon-close"></i></span><div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div><div class="mat-button-focus-overlay"></div></button><div _ngcontent-xtr-c14="" class="menu"><a _ngcontent-xtr-c14="" routerlink="/" href="/">Home</a><a _ngcontent-xtr-c14="" class="features"> Features <i _ngcontent-xtr-c14="" class="icon-arrow"></i><div _ngcontent-xtr-c14="" class="dropdown-menu closed"><!----><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Selling Music </a><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Pro Page </a><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Blaze Player </a><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Monetization </a><a _ngcontent-xtr-c14="" pagescroll="" routerlink="/" href="/" class="ng-star-inserted"> Testimonials </a><div _ngcontent-xtr-c14="" class="dropdown-menu-border"></div></div></a><a _ngcontent-xtr-c14="" class="genres"> Genres <i _ngcontent-xtr-c14="" class="icon-arrow"></i><div _ngcontent-xtr-c14="" class="dropdown-menu closed"><!----><a _ngcontent-xtr-c14="" href="/terms-of-service/charts" class="ng-star-inserted"> All Genre </a><a _ngcontent-xtr-c14="" href="/genre/hip-hop" class="ng-star-inserted"> Hip Hop </a><a _ngcontent-xtr-c14="" href="/genre/pop" class="ng-star-inserted"> Pop </a><a _ngcontent-xtr-c14="" href="/genre/rb" class="ng-star-inserted"> R&amp;B </a><a _ngcontent-xtr-c14="" href="/genre/rock" class="ng-star-inserted"> Rock </a><a _ngcontent-xtr-c14="" href="/genre/electronic" class="ng-star-inserted"> Electronic </a><a _ngcontent-xtr-c14="" href="/genre/reggae" class="ng-star-inserted"> Reggae </a><a _ngcontent-xtr-c14="" href="/genre/country" class="ng-star-inserted"> Country </a><a _ngcontent-xtr-c14="" href="/genre/world" class="ng-star-inserted"> World </a><div _ngcontent-xtr-c14="" class="dropdown-menu-border"></div></div></a><a _ngcontent-xtr-c14="" routerlink="/free-beats" href="/free-beats">Free Beats</a><a _ngcontent-xtr-c14="" routerlink="/pricing" href="/pricing">Pricing</a><!----><div _ngcontent-xtr-c14="" class="buttons"><!----><button _ngcontent-xtr-c14="" class="btn-login mat-button mat-button-base ng-star-inserted" mat-button="" type="button"><span class="mat-button-wrapper"> LOG IN </span><div class="mat-button-ripple mat-ripple" matripple=""></div><div class="mat-button-focus-overlay"></div></button><!----><button _ngcontent-xtr-c14="" class="btn-signup mat-button mat-button-base ng-star-inserted" id="btn-signup-nav" mat-button="" routerlink="/pricing" type="button" tabindex="0"><span class="mat-button-wrapper"> SIGN UP </span><div class="mat-button-ripple mat-ripple" matripple=""></div><div class="mat-button-focus-overlay"></div></button></div></div></nav></mp-landing-header><div _ngcontent-xtr-c13="" class="terms-of-service"><div _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""></p><h1 _ngcontent-xtr-c13="">BeatStars Inc. Terms &amp; Conditions</h1><i _ngcontent-xtr-c13="">Effective date: May 25, 2018</i><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">BeatStars Inc. ("BeatStars", "us", "we", or "our") operates the BeatStars.com website, BeatStars mobile applications and other related websites and applications (the "Service").</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">Set forth below are the terms and conditions governing the Service, which may expand or change from time to time. As used herein, the term "you" or "your" refers to an individual, representing yourself or, if applicable, acting as legal representative for a group, business entity or corporation.</p><br _ngcontent-xtr-c13=""><h3 _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">CAREFULLY READ THESE TERMS AND CONDITIONS. BY AVAILING YOURSELF OF THE WEBSITE OR RELATED SERVICES, YOU ARE CONSENTING TO BE BOUND BY THESE TERMS AND CONDITIONS AS SUCH TERMS MAY BE MODIFIED FROM TIME TO TIME AS DESCRIBED BELOW.</strong></h3><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">Use of Materials Found on the Website:</strong> The information, artwork, text, video, audio, pictures, software and other intellectual property (collectively, "Materials") contained on the Website are protected by copyright and international laws. You may only access and use the Materials for personal or educational purposes or as expressly provided for in applicable BeatStars.com program terms and conditions. You may not otherwise reproduce, distribute, publicly perform, publicly display, modify or create derivative works of the Materials, unless authorized by the appropriate copyright owner(s). In the event that you print Materials found on the Website, you must include any copyright notice originally included with the Materials on all copies. You may not link directly to any media file located on a BeatStars.com server, except where explictly allowed to do so. You should not attempt to claim any Materials as your own work. Any computer software downloadable or otherwise available on the Website is provided subject to the terms of the applicable license agreement. Before using any BeatStars.com logo or trademark, please contact BeatStars.com.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">Copyright and Trademark Infringement Policy and Notification Procedure:</strong> BeatStars.com does not own the musical compositions, sound recordings, art or other written or visual images (collectively, the "Content") posted by third parties to the Website. All Content is posted by an individual, group or company (collectively, the "Artist") who has represented and warranted to BeatStars.com that, among other things, neither the Content nor the names, trademarks and service marks under which Content is promoted (collectively, the "Name") infringes any third party's copyright, patent, trademark, trade secret or other proprietary rights, rights of publicity or privacy, or moral rights (see the section titled 'Representations and Warranties' of the current BeatStars.com Music Submission Agreement at <a _ngcontent-xtr-c13="" href="https://beatstars.zendesk.com/hc/en-us" target="_blank"> https://beatstars.zendesk.com/hc/en-us </a>). Buyers are subject to clear any samples on any composition purchased.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">Since BeatStars.com is not in a position to determine who has the prevailing claim to use any particular Content or Name posted to the Website, its policy on such matters is that they be resolved directly by the parties alleging misuse of their Content and/or Name (the "Complainants") and the Artists. We recommend that Complainants immediately notify Artists about allegations of infringement by going to the Artist's page on the Website, clicking the Contact link and contacting the Artist directly. It has been BeatStars.com's experience that most Artists are honest and responsible citizens who may not realize they are engaged in infringing activities. Typically, once notified of a claim, Artists voluntarily cease using such infringing Content and/or Name on the Website and elsewhere.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">Complainants may notify BeatStars.com concerning any Content and/or Name being used on the Website in violation of their rights by sending an email to <a _ngcontent-xtr-c13="" href="mailto:info@beatstars.com">info@beatstars.com</a>. BeatStars.com only shall use information provided by Complainants in accordance with its then-current Privacy Policy and as reasonably necessary to address any allegations contained therein, which may include disclosing some or all of the information to Artists. In most cases, soon after receiving written notice alleging infringement, BeatStars.com either will remove the allegedly infringing Content and/or Name from those web pages identified or, at its election, remove those web pages.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="" id="refund-policy"><strong _ngcontent-xtr-c13="">Refund policy:</strong> BeatStars.com does not offer refunds. If there are any issues with a premium service or an ordered item please contact BeatStars.com immediately, we aim to solve any issue amicably. Premium services (recurring billings) can be cancelled anytime for any reason. Cancellations by the individual, group or company that signed up for the premium service (collectively, the "Subscriber") will be effective after the paid period. In case of cancellation by the Subscriber the period that is already paid for will not be reimbursed. The premium service will then remain active until the end of the paid period. BeatStars.com reserves the right to cancel premium services for any reason at any time without notification. If BeatStars.com cancels a premium service before its expiration date, Subscriber might be entitled to a pro-rated refund of the last payment. No refund will be given if user violated the Terms and Conditions of Web Site Use, or the Music Submission Agreement.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">Premium service can be cancelled by emailing <a _ngcontent-xtr-c13="" href="mailto:info@beatstars.com">info@beatstars.com</a> with cancellation request and artist name or order ID. Cancellation will be confirmed by email.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">Your Conduct:</strong> You shall use the Website for lawful purposes only. You shall not post or transmit via the Website any material which violates or infringes in any way upon the rights of others, which is unlawful, threatening, abusive, defamatory, invasive of privacy or publicity rights, vulgar, obscene, profane or otherwise objectionable, which encourages conduct that would constitute a criminal offense, give rise to civil liability or otherwise violate any law, or which, without BeatStars.com's express prior approval, contains advertising or any solicitation with respect to products or services.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">In addition, if we feel that a user abuses the BeatStars.com site in any way, we reserve the right to share certain information with third parties. Abuses include (but are not limited to) posssible copyright infringement, possible libel and slander, possible credit card fraud. BeatStars.com reserves the right to refuse service, terminate accounts, and/or cancel orders at its sole discretion and without notification..</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">Content:</strong> The Website offers a wide selection and variety of content to our members and users. Content may contain profanity or otherwise inappropriate or offensive material for children or other members and/or users. Members and/or users must evaluate and bear the risk associated with the use of the Website and related services. BeatStars.com suggests that parents should supervise their children"s on-line activities and consider using parental control tools available to help provide an appropriate on-line environment for their children. Users are also encouraged to contact BeatStars.com for evaluation of possible offensive material. BeatStars.com reserves the right to act on such notices at its sole discretion.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">Warranty Disclaimer:</strong> YOU EXPRESSLY AGREE THAT USE OF THE WEBSITE AND RELATED SERVICES IS AT YOUR SOLE RISK. THE WEBSITE, MATERIALS AND RELATED SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. BEATSTARS.COM INC MAKES NO REPRESENTATIONS OR WARRANTIES WITH REGARD TO THE WEBSITE OR ANY MATERIALS THEREIN, WHETHER EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE, INCLUDING, WITHOUT LIMITATION, ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT OR ANY IMPLIED WARRANTY ARISING OUT OF COURSE OF PERFORMANCE, COURSE OF DEALING OR USAGE OF TRADE. IN ADDITION, BEATSTARS.COM INC MAKES NO REPRESENTATION THAT THE OPERATION OF THE WEBSITE WILL BE UNINTERRUPTED OR ERROR-FREE. BEATSTARS.COM INC WILL NOT BE LIABLE FOR THE CONSEQUENCES OF ANY INTERRUPTIONS OR ERRORS ON THE WEBSITE. IT IS YOUR RESPONSIBILITY TO EVALUATE THE ACCURACY, COMPLETENESS OR USEFULNESS OF ANY OPINION, ADVICE, INFORMATION OR OTHER CONTENT OR MATERIALS PROVIDED IN CONNECTION WITH OR OTHERWISE AVAILABLE THROUGH THE WEBSITE. PLEASE SEEK THE ADVICE OF PROFESSIONALS, AS APPROPRIATE, REGARDING THE EVALUATION OF ANY SUCH OPINION, ADVICE, INFORMATION OR OTHER CONTENT. UNDER NO CIRCUMSTANCE WILL BEATSTARS.COM INC BE LIABLE FOR ANY LOSS OR DAMAGE CAUSED BY YOUR RELIANCE ON INFORMATION OBTAINED THROUGH THE WEBSITE, OTHER THAN AS REQUIRED UNDER APPLICABLE CONSUMER-PROTECTION LAW. SOME JURISDICTIONS DO NOT ALLOW THE DISCLAIMER OF CERTAIN WARRANTIES OR LIMITATION OF CERTAIN TYPES OF DAMAGES, SO SOME OF THE ABOVE DISCLAIMER MAY NOT APPLY TO YOU AND NOTHING CONTAINED HEREIN SHOULD BE CONSTRUED AS EXCLUDING OR LIMITING ANY LIABILITY BEYOND WHAT IS PERMITTED UNDER APPLICABLE LAW.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">Limitation of Liability:</strong> By availing yourself of the Website, Materials or related services, you agree to release and hold BeatStars.com and the employees, officers, directors, shareholders, agents, representatives of BeatStars.com, its affiliates, subsidiaries, advertising, promotion and fulfillment agencies, any entity controlling, controlled by or under common control with BeatStars.com, any third-party providers or sources of information or data and legal advisers (collectively, "BeatStars.com Affiliates") harmless from any and all losses, damages, rights, claims and actions of any kind arising from or related to the Website, Materials or related services including but not limited to: (a) telephone, electronic, hardware or software, network, Internet or computer malfunctions, failures or difficulties of any kind; (b) failed, incomplete, garbled or delayed computer transmissions; (c) any condition caused by events beyond the control of BeatStars.com that may cause the Website or related services to be disrupted or corrupted; (d) any injuries, losses or damages of any kind arising in connection with or as a result of your use of the Website, Materials or related services; or (e) any printing or typographical errors in any materials associated with the Website, Materials or related services. In addition, you agree to defend, indemnify and hold BeatStars.com Affiliates harmless from any claim, suit or demand, including reasonable attorney's fees, made by a third party due to or arising out of your utilizing the Website, Materials or related services, your violation or breach of these Terms and Conditions, your violation of any rights of a third party, or any other act or omission by you. IN NO EVENT WILL BEATSTARS.COM BE LIABLE FOR ANY INDIRECT, STATUTORY, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR ANY LOSS OF REVENUE ARISING OUT OF YOUR AVAILMENT OF MATERIALS (HOWEVER ARISING, INCLUDING NEGLIGENCE), EVEN IF BEATSTARS.COM WAS ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">General Provisions:</strong> You agree to comply with all applicable laws regarding the transmission of technical data exported from the United States or the country in which you reside. Your correspondence or business dealings with, or participation in promotions of or with parties found on or through the Website, including payment and delivery of related goods or services, and any other terms, conditions, warranties or representations applicable to such dealings, are solely between you and such parties. These Terms and Conditions are governed in all respects by the laws of the State of Texas as such laws are applied to agreements entered into and to be performed entirely within Texas between Texas residents. Legal proceedings related to the matters herein shall be brought in and adjudicated solely in the courts of Austin, Texas, United States of America. Both parties consent to extra-territorial service of process and submit to the jurisdiction of said courts. If any provision of these Terms and Conditions is held to be invalid or unenforceable, such provision shall be struck and the remaining provisions shall be enforced. BeatStars.com's failure to act with respect to a breach by you or others does not waive its right to act with respect to subsequent or similar breaches. These Terms and Conditions set forth the entire understanding and agreement of the parties as to the subject matter hereof and supersede all prior proposals, discussions or agreements with respect thereto. A printed version of these Terms and Conditions and of any notice given in electronic form shall be admissible in judicial or administrative proceedings based upon or relating to these Terms and Conditions to the same extent and subject to the same conditions as other business documents and records originally generated and maintained in printed form.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">Age requirements for use of the Service:</strong> This Service is available for individuals aged 13 years or older. If you are 13 or older but under the age of 18, you should review these terms and conditions with your parent or guardian to make sure that you and your parent or guardian understand these terms and conditions.</p><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">Modification of Terms and Conditions:</strong> From time to time BeatStars.com may modify these Terms and Conditions in its sole discretion. When such modification is made, BeatStars.com will post a revised version of these Terms and Conditions on the Website. Modifications will be effective when they are posted. BeatStars.com is not required to provide you with notification that any such modification has been made. It is your responsibility to review these Terms and Conditions from time to time to be aware of any such modifications. Each time you log on to the Website, you will be deemed to have accepted any such modifications.</p><br _ngcontent-xtr-c13=""><h2 _ngcontent-xtr-c13="">Music Distribution Agreement</h2><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">1) Term and Territory</strong><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="a"><li _ngcontent-xtr-c13="">The term of this Agreement shall be for one (1) year (the “Initial Term”). The Initial Term shall automatically renew for successive one (1) year periods (the “Renewal Term”). The Initial Term and Renewal Term(s), if any, are collectively referred to as the “Term.” Either party may terminate this Agreement during the Term subject to the provisions outlined below. </li><li _ngcontent-xtr-c13="">The territory for this Agreement shall be the world (the “Territory”). Licensor may indicate any territorial restrictions regarding specific “Content” (as defined below) on Content Submission Form A, attached to this Agreement. </li></ol><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">2) Content</strong><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="a"><li _ngcontent-xtr-c13=""> Sound Recordings.<br _ngcontent-xtr-c13=""> Licensor owns and/or controls one hundred percent (100%) of the sound recordings as well as the copyrights in and to the sound recordings listed on the attached Content Submission Form (the “Masters”). </li><li _ngcontent-xtr-c13=""> Compositions.<br _ngcontent-xtr-c13=""> Licensor either: <ol _ngcontent-xtr-c13="" type="i"><li _ngcontent-xtr-c13="">owns and/or controls the compositions embodied on the Masters (the “Compositions”) as well as the copyrights in and to the Compositions; or </li><li _ngcontent-xtr-c13="">has mechanical licenses and all other permissions required to use the Compositions as contemplated in this Agreement. </li></ol></li><li _ngcontent-xtr-c13=""> Licensor may have other works whether audiovisual, visual or otherwise which Licensor would like Licensee to include in this Agreement. </li><li _ngcontent-xtr-c13=""> In this Agreement, the Masters and the Compositions and the Additional Works, if any, are collectively referred to as the “Content.” </li></ol><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">3) Grant of Rights</strong><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">Licensor hereby licenses the Content to Licensee for distribution and exploitation as follows:</p><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="1"><li _ngcontent-xtr-c13=""> The non-exclusive electronic, digital, and mobile rights in the Content to create digital and/or electronic copies and compilations, to distribute, to sell, and to publicly perform the Content via all electronic, digital, and mobile platforms owned and/or controlled by third parties with whom Licensee has or enters into agreements with during the Term (“Licensee Partners”). <ol _ngcontent-xtr-c13="" type="i"><li _ngcontent-xtr-c13="">Licensor will have an online account with Licensee known as the “Dashboard.” The Dashboard enables Licensor to see its activities with Licensee Partners. </li></ol></li><li _ngcontent-xtr-c13=""> The right to: <ol _ngcontent-xtr-c13="" type="i"><li _ngcontent-xtr-c13="">perform the Content in streaming format on Licensee’s website or other websites owned and/or controlled by Licensee Partners; </li><li _ngcontent-xtr-c13="">publicly display and make available for download as part of the sale of the Masters, the lyrics of the Compositions; </li><li _ngcontent-xtr-c13="">collect monies for the playing of the Masters on non-interactive webcasts and streaming of the Masters (payable by SoundExchange in the USA). This collection right is only for Licensor’s Masters. Any monies collected on behalf of Licensor for webcasts or streams are included in “Revenue” (defined below) and are subject to the payment provisions of this Agreement; </li><li _ngcontent-xtr-c13="">with prior written approval from Licensor, include the Content in audio and/or audiovisual compilation(s) for sale via physical distribution, and in such cases, to manufacture, make copies of, distribute, and sell physical embodiments of the Content; </li><li _ngcontent-xtr-c13="">release, advertise, and sell electronic files or equivalent electronic form(s) of the Content and to permit others to do so under the trademark “BeatStars” or under any trademark used by Licensee; </li><li _ngcontent-xtr-c13="">sub-license the rights granted by Licensor to Licensee in this Agreement as necessary to Licensee Partners, solely to fulfill the purposes of this Agreement including but not limited to those rights necessary to promote, market, advertise, distribute and sell the Content to consumers. Licensee’s grant of rights to Licensee Partners for use of the Content shall always be subject to the terms and limitations of this Agreement. </li></ol></li></ol><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">4) Promotional &amp; Other Rights</strong><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="a"><li _ngcontent-xtr-c13=""> Unless otherwise instructed in writing by Licensor, Licensee shall have the non-exclusive right, in its sole discretion and in line with customary practices, to market the Masters and other Content as applicable, for promotional purposes and without compensation to Licensor. </li><li _ngcontent-xtr-c13=""> In order for Licensee to provide marketing and licensing services under this Agreement, Licensor grants Licensee the right to: <ol _ngcontent-xtr-c13="" type="i"><li _ngcontent-xtr-c13="">publicly perform the Masters (and other Content as applicable) on Licensee’s websites and permit Licensee Partners to publicly perform the Masters on their website(s) on a gratis basis for the purposes of promoting the sale of the Content. Licensor hereby acknowledges that Licensee and Licensee Partners shall be exempt from any payments of performance royalties otherwise due to owners of sound recordings for digital performances of the same if the use is for promotional purposes. Licensee shall require Licensee Partners to pay any public performance royalties which may be due to publishers/writers of the Compositions for promotional uses of the Compositions; </li><li _ngcontent-xtr-c13=""> include the Masters in one or more streaming electronic radio formats to promote and market the Masters; </li><li _ngcontent-xtr-c13=""> print, publish, disseminate, and otherwise use and permit others to use the “NIL Materials” (defined below) for the purposes of trade, advertising, and other exploitations solely in connection with the marketing, sale, and exploitation of the Content. The “NIL Materials” are defined as the approved likeness, approved biography, approved photos, and other approved promotional material provided by Licensor, including the name, both legal and professional, whether presently or hereafter used by Licensor, and name(s) of others whose work is embodied on the Content including the “Performer” (as defined below). All NIL Materials provided by Licensor to Licensee shall be deemed approved. All material provided by Licensor to Licensee may be edited to fit the format of the specific use without further approval from Licensor. Licensee shall have the right to permit Licensee Partners, successors and designees the right to use the approved NIL Materials as outlined in this subparagraph. “Performer(s)” as used in this Agreement means any person whose musical, vocal or production services are embodied on the Content. </li></ol></li></ol><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">5) Payment</strong><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="a"><li _ngcontent-xtr-c13=""> Licensee shall pay Licensor the percentages of “Revenue” as outlined on Revenue Shares in Appendix A of this Agreement and forming a part of it. </li><li _ngcontent-xtr-c13=""> “Revenue” means income actually received by or credited to Licensee that is derived solely from the exploitation of the Content less mechanical royalties, if any. Income received by Licensee may be subject to taxes, surcharges or fees imposed by government agencies or Licensee Partners before payment is sent to Licensee. Licensee shall have no obligation to pay Licensor Revenue which Licensee has not actually received until such time as Licensee receives such Revenue: <ol _ngcontent-xtr-c13="" type="i"><li _ngcontent-xtr-c13="">In certain emerging digital media markets (“New Territories”), Licensee has entered into an agreement with one or more Licensee Partner(s) to manage the distribution and appropriate marketing of the Content in that specific New Territory. As such these particular Licensee Partners retain a higher percentage of the income from the distribution, marketing and sales of the Content than is typically maintained in developed digital media markets prior to paying Licensee. </li><li _ngcontent-xtr-c13=""> Licensor shall always have the option to withhold or withdraw Content from New Territories. </li></ol></li><li _ngcontent-xtr-c13=""> Revenue shall be paid monthly on the 15th of each month or the following business day if such date occurs on a weekend or holiday. Each payment will be accompanied by a detailed statement showing all sales and other Revenue-generating exploitations of the Content. If Licensor has not received payment or a statement indicating that no payment is due by the 20th day of the month, Licensor shall promptly advise Licensee that Licensor has not received payment or a statement. Licensee shall investigate the situation and assure that payment and/or a statement are sent to Licensor. In no event shall Licensee be deemed in breach of its payment obligations under this Agreement if Licensor has not received payment or a statement on the 15th of the month. However, Licensee may be deemed in breach of its payment obligations if Licensee fails to make payments or provide a statement thirty (30) days after receiving notice from Licensor as outlined above. </li><li _ngcontent-xtr-c13=""> No payment shall be made to Licensor in any month when less than one hundred fifty U.S. dollars ($150) is due and payable to Licensor via paper check or Paypal. In the event payment is not made to Licensor for this reason, such amounts below one hundred fifty U.S. dollars ($150) as applicable, will accrue to Licensor’s account and shall be paid in the first month in which Licensor’s account reflects a balance greater than one hundred fifty U.S. dollars ($150) as applicable. </li><li _ngcontent-xtr-c13=""> All payments to Licensor from Licensee under this Agreement shall be made via paper check or Paypal. </li><li _ngcontent-xtr-c13=""> Licensor hereby acknowledges that in the United States among the ways that mechanical royalties for digital sales are customarily paid include: (i) payment directly to the publishers/writers by the music services/retailers, and (ii) an all-in payment as part of the fee paid by the music services/retailers to Licensee and are not paid separately to the publishers/writers of compositions. In those instances when Licensee receives what is considered the mechanical royalty as part of the fee from Licensee Partners, the portion deemed the mechanical payment shall be included in Revenue paid to Licensor. Licensor shall be fully and solely responsible for paying the mechanical royalty to the appropriate publishers/writers for use of the Compositions under this Agreement. </li></ol><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">6) Accountings &amp; Audits</strong><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">All statements shall be binding upon Licensor and not subject to objection by Licensor unless specific objection in writing, stating the basis thereof, is given to Licensee within two (2) years from the date the statement is rendered, viewed, and/or downloaded. Licensor shall have two (2) years from the date each statement is rendered, viewed and/or downloaded to conduct an inspection of Licensee’s books and records specifically relating to Licensor’s sales and payment activity. Such inspection shall take place at the location where Licensee normally keeps such books and records and shall be conducted during normal business hours. All such inspections shall be made upon prior written notice to Licensee at least thirty (30) days prior to the date Licensor intends to conduct such inspection. Licensor may only inspect records relating to each statement once and may only conduct such an inspection once a year. Licensee shall have the absolute right in accounting to Licensor to rely upon the statements received by Licensee from third parties and shall not be liable in any manner whatsoever for any error, omission, or other inaccuracy of any such statement(s) or information received by Licensee. However, if Licensee knows or has a reliable business reason to know of an error, omission or other inaccuracy in such third party statement or information, Licensee shall promptly act to correct it and when corrected, Licensee shall appropriately correct Licensor’s statement and Revenue.</p><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">7) Confidentiality</strong><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13="">Licensee and Licensor shall keep the terms and conditions of this Agreement confidential both during the Term and thereafter, and shall not disclose any information concerning the terms and conditions of this Agreement to any other person or entity. Each party may refer generally to the existence of this Agreement but shall not reveal the terms of this Agreement, including but not limited to the payment provisions, other confidential information, proprietary information, business plans, business models, customers, clients, technology, products, or any other information which either party identifies as confidential (collectively, the “Confidential Information”) without the prior written consent of the other party. Either party may disclose the Confidential Information on a “need to know” basis to its attorneys, financial, and other advisors who are under a duty of confidentiality to the disclosing party without the prior written consent of the other party so long as those agents are informed of this Confidentiality provision and agree to be bound by it and maintain the Confidential Information confidential. If required by law or governmental regulation, either party may disclose the Confidential Information only after it provides the other party with notice of the potential disclosure and the other party has the opportunity to narrow the information to be disclosed or dispute the disclosure. Nothing in this provision shall prohibit either party from disclosing that an agreement exists between Licensor and Licensee so long as the terms and conditions of this Agreement are not disclosed.</p><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">8) Representations and Warranties</strong><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><em _ngcontent-xtr-c13="">A. Licensor’s representations and warranties.</em></p><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="a"><li _ngcontent-xtr-c13=""> Licensor warrants, represents, and agrees that: <ol _ngcontent-xtr-c13="" type="i"><li _ngcontent-xtr-c13=""> unless otherwise noted, Licensor possesses all rights in and to the Content to enable Licensee to use the Content as contemplated in this Agreement. In the event Licensor does not possess all of the full and exclusive rights to the Content, Licensor shall inform Licensee upon delivery of the Content, which right(s) Licensor does not own or control. Licensor shall provide Licensee with any documentation requested by Licensee evidencing rights to use the Content intended under this Agreement; </li><li _ngcontent-xtr-c13=""> Licensor has the full right, power, and authority to enter into and fully perform this Agreement and all of Licensor’s obligations under this Agreement and to grant Licensee the rights granted in this Agreement. Licensor has not granted and will not grant or attempt to grant to any other person, firm, corporation or entity, rights of any kind which are inconsistent with the grant of rights to Licensee or which would in any way impair the rights granted to Licensee under this Agreement during the Term. </li></ol></li><li _ngcontent-xtr-c13=""> Licensor explicitly warrants and represents that: <ol _ngcontent-xtr-c13=""><li _ngcontent-xtr-c13=""> the Content contains NO unauthorized “Samples.” “Samples” as used herein means any portion(s) or interpolation(s) of third party master recording(s) and/or composition(s), video(s) and/or other material(s), or portions thereof whether musical, lyrical or otherwise, not owned and/or controlled by Licensor. Licensor explicitly warrants and represents that the Content, the sale, distribution, and exploitation of the Content, or any uses of the Content contemplated herein shall not violate any law or infringe upon any common law or statutory rights of any person, corporation, or entity, including without limitation contractual rights, copyrights, trademarks, and rights of privacy or publicity; </li><li _ngcontent-xtr-c13=""> as required for use of the Compositions contemplated under this Agreement, except for those Compositions subject to paragraph 5 above, Licensor has obtained mechanical licenses for all Compositions and that Licensor shall administer and pay all mechanical royalty payments to the publishers/writers of the Compositions. </li></ol></li><li _ngcontent-xtr-c13=""> Licensor shall make any and all payments, which may be due to artists, producers, musicians, Performers, writers and publishers when not otherwise addressed in this Agreement and all others whose work and/or performances are embodied on the Content and/or all artwork submitted by Licensor. </li></ol><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""><em _ngcontent-xtr-c13="">B. Licensee representations and warranties.</em></p><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="a"><li _ngcontent-xtr-c13=""> Licensee warrants, represents, and agrees that: <ol _ngcontent-xtr-c13="" type="i"><li _ngcontent-xtr-c13=""> Licensee has the right, power, and authority to enter into and fully perform this Agreement and all of its obligations under this Agreement; </li><li _ngcontent-xtr-c13=""> Licensee shall, at its sole cost and expense, encode and deliver the Content to Licensee Partners.</li></ol></li></ol><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">9) Indemnification</strong><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="a"><li _ngcontent-xtr-c13=""> Each party (the “Indemnifying Party”) will indemnify, defend, and hold harmless the other party and its affiliates, their respective officers, directors, employees, and agents (“Indemnified Party”) from and against any and all losses, liabilities, claims, obligations, costs, and expenses (including reasonable attorney’s fees) which result from or arise in connection with or are related in any way to a breach by the Indemnifying Party of any of its representations and warranties in this Agreement. If a third party asserts a claim or allegation which, if proven, would constitute a breach by the Indemnifying Party of any of its representations, warranties, covenants and or obligations under this Agreement, the Indemnified Party shall promptly notify the Indemnifying Party in writing. The Indemnifying Party shall have the right at its own expense to participate in the defense thereof with counsel of its own choosing, provided however that the Indemnified Party’s decision in connection with the defense or settlement of any such claim or demand shall be final. No Indemnified Party shall effect any settlement of any pending or threatened proceeding with respect to which indemnity could have been sought under this Agreement by the Indemnified Party without the prior written consent of the Indemnifying Party. </li><li _ngcontent-xtr-c13=""> Licensor shall indemnify Licensee, its officers, directors, employees, and agents from and against all third party claims, actions or demands against Licensee for use of the Content as granted in this Agreement which may constitute infringement of copyright and/or trademark, and violate rights of privacy and/or publicity. Licensor explicitly indemnifies Licensee from and against any and all actions, demands, or claims brought against Licensee for non-payment or insufficient payment of mechanical royalties. </li></ol><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">10) Termination</strong><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13=""><li _ngcontent-xtr-c13=""> After the Initial Term, Licensor may terminate this Agreement upon sixty (60) days written notice to Licensee and Licensee must confirm in writing receipt of such notice. Upon termination or expiration of this Agreement, the rights granted to Licensee hereunder shall automatically revert to Licensor. Additionally, Licensor may, upon sixty (60) days written notice to Licensee, terminate this Agreement with respect to any particular Master, Composition or Additional Work without effecting this Agreement for the remaining Masters, Compositions and/or Additional Works. </li><li _ngcontent-xtr-c13=""> After the Initial Term, Licensee has the right to terminate this Agreement upon sixty (60) days written notice to the Licensor. Notwithstanding the foregoing, should Licensee file for chapter 7 or chapter 11 bankruptcy proceeding, termination of this Agreement is immediate and all Content shall be returned to the Licensor. </li><li _ngcontent-xtr-c13=""> Upon termination or expiration of this Agreement for any reason, Licensee shall cease all use and distribution of the Content and shall demand that Licensee Partners cease all use and distribution of the Content. Licensee shall promptly delete all forms of the Content from its website and demand that Licensee Partners delete all forms of Content from their websites within sixty (60) days of termination of this Agreement. </li></ol><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">11) Survival of Revenues</strong><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""> Upon expiration or termination of this Agreement, all Revenues received by Licensee for the Content shall continue to be subject to the payment provisions outlined in paragraph 5 above for so long as Licensee receives such Revenues. After termination or expiration of this Agreement, the minimum payment threshold referenced in paragraph 5 shall not apply and Licensee shall pay Licensor its percentage of all Revenues received regardless of the amount payable. </p><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">12) Mediation &amp; Arbitration</strong><br _ngcontent-xtr-c13=""><p _ngcontent-xtr-c13=""> If a dispute arises out of or relates to this Agreement, or if there is a breach of this Agreement, and the dispute cannot be settled or resolved, then the dispute or breach shall be settled by arbitration administered by the American Arbitration Association under its Commercial Arbitration Rules. The controversy or claim shall be settled by three (3) arbitrators, and all hearings shall be held in Austin, Texas. Judgment on the award rendered by the arbitrators may be entered in any court having jurisdiction. In rendering the award, the arbitrators shall interpret this Agreement in accordance with the substantive laws of Texas without regard to its conflict of laws rule. Notwithstanding the foregoing, if a third party claim is brought against Licensee for copyright infringement, violation of rights of publicity, rights of privacy, or other unauthorized use of Content which is contrary to the rights granted by Licensor to Licensee in this Agreement, Licensee shall not be bound by this Arbitration provision and may defend itself and make a claim against Licensor in the appropriate court of law and/or equity. </p><br _ngcontent-xtr-c13=""><strong _ngcontent-xtr-c13="">13) Miscellaneous</strong><br _ngcontent-xtr-c13=""><ol _ngcontent-xtr-c13="" type="a"><li _ngcontent-xtr-c13=""> Under no situation or circumstance shall Licensee be required to accept any or all Content submitted by Licensor. Licensor has none of the rights granted under this Agreement unless Licensee officially accepts Content in writing (including via e-mail). Licensee will use reasonable efforts to make the Content available for sale on third party services, carriers, websites, and/or other platforms but makes no guarantee as to the timeliness of such availability or the manner in which it is presented by Licensee Partners to the public. Licensor understands and agrees that Licensee shall not be liable for any actual or potential lost revenue due to a delay or failure to have the Content available via third party services, carriers, websites, and/or other platforms. However, Licensee will work with Licensor and Licensee Partners to facilitate as many of Licensor’s preferences as possible. </li><li _ngcontent-xtr-c13=""> If any part of this Agreement is deemed invalid or unenforceable, it shall not affect the validity or enforceability of the remainder of this Agreement, which shall remain in full force and effect as if such invalid or unenforceable provision(s) were not a part hereof. </li><li _ngcontent-xtr-c13=""> This Agreement shall be binding upon and shall inure to the benefit of the parties and their respective heirs, executors, successors in interest, and assigns. </li><li _ngcontent-xtr-c13=""> In entering into and performing this Agreement, Licensor and Licensee each have the status of independent contractors. This Agreement shall not be deemed to create a partnership or joint venture between the parties and neither is the other’s partner or employee. </li><li _ngcontent-xtr-c13=""> This Agreement and the document at <a _ngcontent-xtr-c13="" href="https://beatstars.zendesk.com/hc/en-us" target="_blank">https://beatstars.zendesk.com/hc/en-us</a> contain the entire understanding between the parties with respect to the subject matter hereof and may only be modified, altered, or amended by a written agreement signed by all parties. For purposes of this provision, a written modification, alteration, or amendment shall include e-mail transmission with proof of receipt and acceptance by the receiving party. </li><li _ngcontent-xtr-c13=""> Licensor agrees that it enters into this Agreement with all knowledge of its terms, freely and voluntarily, and with a complete understanding of all the consequences of entering into this Agreement. Licensor acknowledges that it has been represented in the negotiation and execution of this Agreement by an independent attorney of Licensor’s choice who is familiar with the practices of the entertainment industry or Licensor has willingly refrained from so doing. </li><li _ngcontent-xtr-c13=""> Subject to and in accordance with paragraph 12 above, this Agreement shall be governed by and construed in accordance with the laws of the State of without giving effect to any choice of law principles. </li><li _ngcontent-xtr-c13=""> All notices and communication desired or required between the parties may be made via e-mail transmission, provided however that the sending party obtain proof of receipt of such communication by the recipient either by return e-mail, follow up telephone call, or facsimile. Notices that pertain to any claim referenced in paragraph 9 shall be given in writing and delivered in any of the following ways: personally, via a commercial carrier which provides proof of delivery whether or not such delivery is made overnight with the postage prepaid. </li></ol><p _ngcontent-xtr-c13=""> The Parties have entered into this Agreement on the date first written above. </p><br _ngcontent-xtr-c13=""><h3 _ngcontent-xtr-c13="">Appendix A - Revenue Shares</h3><br _ngcontent-xtr-c13=""><pre _ngcontent-xtr-c13="">    <strong _ngcontent-xtr-c13="">Revenue Shares For <strong _ngcontent-xtr-c13="">Pro</strong> &amp; <strong _ngcontent-xtr-c13="">Unlimited</strong> Members</strong>
-    Licensee shall pay Licensor the following percentage of “Revenue” as defined in the Agreement:
-
-    For Revenue received for full Master downloads and for “<strong _ngcontent-xtr-c13="">Streaming</strong>” of Masters:
-
-            <strong _ngcontent-xtr-c13="">Eighty</strong> Percent (<strong _ngcontent-xtr-c13="">80%</strong>)
-
-    For Revenue received for Music Videos.
-
-            <strong _ngcontent-xtr-c13="">Eighty</strong> Percent (<strong _ngcontent-xtr-c13="">80%</strong>)
-
-    For Revenue received for <strong _ngcontent-xtr-c13="">Ring Tones</strong>, <strong _ngcontent-xtr-c13="">True Tones</strong> and <strong _ngcontent-xtr-c13="">Ring Back Tones</strong>:
-
-            <strong _ngcontent-xtr-c13="">Eighty</strong> Percent (<strong _ngcontent-xtr-c13="">80%</strong>)
-
-    If applicable subject to an Addendum,
-    For Revenue received for <strong _ngcontent-xtr-c13="">synchronization/licensing</strong>:
-
-            <strong _ngcontent-xtr-c13="">Eighty</strong> Percent (<strong _ngcontent-xtr-c13="">80%</strong>)
-
-    For all other sales not included above:
-    (by way of example only, “<strong _ngcontent-xtr-c13="">wallpapers</strong>” or images, sponsorship opportunities and other Revenue generated as a result of strategic partnerships)
-
-            <strong _ngcontent-xtr-c13="">Eighty</strong> Percent (<strong _ngcontent-xtr-c13="">80%</strong>)
-
-     ---
-
-    Revenue Shares For <strong _ngcontent-xtr-c13="">FREE</strong> &amp; <strong _ngcontent-xtr-c13="">Gold</strong> Members
-    Licensee shall pay Licensor the following percentage of “Revenue” as defined in the Agreement:
-
-    For Revenue received for full Master downloads and for “<strong _ngcontent-xtr-c13="">Streaming</strong>” of Masters:
-
-            <strong _ngcontent-xtr-c13="">Seventy</strong> Percent (<strong _ngcontent-xtr-c13="">70%</strong>)
-
-    For Revenue received for Music Videos.
-
-            <strong _ngcontent-xtr-c13="">Seventy</strong> Percent (<strong _ngcontent-xtr-c13="">70%</strong>)
-
-    For Revenue received for <strong _ngcontent-xtr-c13="">Ring Tones</strong>, <strong _ngcontent-xtr-c13="">True Tones</strong> and <strong _ngcontent-xtr-c13="">Ring Back Tones</strong>:
-
-            <strong _ngcontent-xtr-c13="">Seventy</strong> Percent (<strong _ngcontent-xtr-c13="">70%</strong>)
-
-    If applicable subject to an Addendum,
-    For Revenue received for <strong _ngcontent-xtr-c13="">synchronization/licensing</strong>:
-
-            <strong _ngcontent-xtr-c13="">Seventy</strong> Percent (<strong _ngcontent-xtr-c13="">70%</strong>)
-
-    For all other sales not included above:
-    (by way of example only, “<strong _ngcontent-xtr-c13="">wallpapers</strong>” or images, sponsorship opportunities and other Revenue generated as a result of strategic partnerships)
-
-            <strong _ngcontent-xtr-c13="">Seventy</strong> Percent (<strong _ngcontent-xtr-c13="">70%</strong>)
-    </pre></div></div><mp-landing-footer _ngcontent-xtr-c13="" _nghost-xtr-c15=""><div _ngcontent-xtr-c15="" class="landing-footer"><div _ngcontent-xtr-c15="" class="top-footer"><div _ngcontent-xtr-c15="" class="menu"><section _ngcontent-xtr-c15="" class="beatstars"><h1 _ngcontent-xtr-c15="">BeatStars</h1><ul _ngcontent-xtr-c15=""><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" routerlink="/about" href="/about">About Us</a></li><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" href="https://blog.beatstars.com/category/jobs/" target="_blank">Careers</a></li><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" href="https://merch.beatstars.com/" target="_blank">Merch</a></li><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" href="https://blog.beatstars.com" target="_blank">Blog</a></li></ul></section><!----><section _ngcontent-xtr-c15="" class="features ng-star-inserted"><h1 _ngcontent-xtr-c15="">Features</h1><ul _ngcontent-xtr-c15=""><!----><li _ngcontent-xtr-c15="" class="ng-star-inserted"><a _ngcontent-xtr-c15="" pagescroll="" routerlink="/" href="/"> Selling Music </a></li><li _ngcontent-xtr-c15="" class="ng-star-inserted"><a _ngcontent-xtr-c15="" pagescroll="" routerlink="/" href="/"> Pro Page </a></li><li _ngcontent-xtr-c15="" class="ng-star-inserted"><a _ngcontent-xtr-c15="" pagescroll="" routerlink="/" href="/"> Blaze Player </a></li><li _ngcontent-xtr-c15="" class="ng-star-inserted"><a _ngcontent-xtr-c15="" pagescroll="" routerlink="/" href="/"> Monetization </a></li><li _ngcontent-xtr-c15="" class="ng-star-inserted"><a _ngcontent-xtr-c15="" pagescroll="" routerlink="/" href="/"> Testimonials </a></li></ul></section><section _ngcontent-xtr-c15="" class="support"><h1 _ngcontent-xtr-c15="">Support</h1><ul _ngcontent-xtr-c15=""><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" href="https://beatstars.zendesk.com/hc/en-us" target="_blank">Help</a></li><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" routerlink="/terms-of-service" href="/terms-of-service">Terms &amp; Conditions</a></li><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" routerlink="/cookie-policy" href="/cookie-policy">Cookie Policy</a></li><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" routerlink="/privacy-policy" href="/privacy-policy">Privacy Policy</a></li><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" routerlink="/copyright-complaint" href="/copyright-complaint">Copyright Complaint</a></li><li _ngcontent-xtr-c15=""><a _ngcontent-xtr-c15="" routerlink="/contact-us" href="/contact-us">Contact Us</a></li></ul></section><section _ngcontent-xtr-c15="" class="blog-posts"><h1 _ngcontent-xtr-c15="">New from our blog</h1><!----><ul _ngcontent-xtr-c15="" class="ng-star-inserted"><!----><li _ngcontent-xtr-c15="" class="ng-star-inserted"><a _ngcontent-xtr-c15="" target="_blank" href="https://blog.beatstars.com/sell-merch-beatstars-connect-printful/"><img _ngcontent-xtr-c15="" src="https://blog.beatstars.com/wp-content/uploads/2020/01/1-150x88.jpg"><p _ngcontent-xtr-c15="">Sell Merch On BeatStars: How To Connect Printful</p></a></li><li _ngcontent-xtr-c15="" class="ng-star-inserted"><a _ngcontent-xtr-c15="" target="_blank" href="https://blog.beatstars.com/beatstars-fixes-new-features-updates-log-7/"><img _ngcontent-xtr-c15="" src="https://blog.beatstars.com/wp-content/uploads/2020/01/Log-7-Blog-Beatstars-150x88.jpg"><p _ngcontent-xtr-c15="">BeatStars: New Features, Updates &amp; Fixes (LOG 7)</p></a></li></ul></section></div></div><div _ngcontent-xtr-c15="" class="bottom-footer"><div _ngcontent-xtr-c15="" class="social"><section _ngcontent-xtr-c15="" class="mobile-apps"><h1 _ngcontent-xtr-c15="">Take Beats on the GO!</h1><div _ngcontent-xtr-c15="" class="app-btns"><a _ngcontent-xtr-c15="" class="btn-ios" href="https://apple.co/2EkJxCw" target="_blank"><img _ngcontent-xtr-c15="" alt="iOS logo" src="/assets/img/info-banner/appstore.png"></a><a _ngcontent-xtr-c15="" class="btn-android" href="https://play.google.com/store/apps/details?id=com.beatstars.mobile" target="_blank"><img _ngcontent-xtr-c15="" alt="Android logo" src="/assets/img/info-banner/googleplay.png"></a></div></section><section _ngcontent-xtr-c15="" class="social-networks"><h1 _ngcontent-xtr-c15="">Check our social media</h1><div _ngcontent-xtr-c15="" class="social-btns"><a _ngcontent-xtr-c15="" href="https://www.youtube.com/user/OfficialBeatStars" target="_blank"><div _ngcontent-xtr-c15=""><i _ngcontent-xtr-c15="" class="icon-youtube"></i></div></a><a _ngcontent-xtr-c15="" href="https://www.instagram.com/beatstars/" target="_blank"><div _ngcontent-xtr-c15=""><i _ngcontent-xtr-c15="" class="icon-instagram"></i></div></a><a _ngcontent-xtr-c15="" href="https://www.facebook.com/beatstars/" target="_blank"><div _ngcontent-xtr-c15=""><i _ngcontent-xtr-c15="" class="icon-facebook-simple"></i></div></a><a _ngcontent-xtr-c15="" href="https://soundcloud.com/beatstars" target="_blank"><div _ngcontent-xtr-c15=""><i _ngcontent-xtr-c15="" class="icon-soundcloud"></i></div></a><a _ngcontent-xtr-c15="" href="https://twitter.com/BeatStars" target="_blank"><div _ngcontent-xtr-c15=""><i _ngcontent-xtr-c15="" class="icon-twitter"></i></div></a></div></section><section _ngcontent-xtr-c15="" class="newsletter"><h1 _ngcontent-xtr-c15="">Log in to our Newsletter</h1><form _ngcontent-xtr-c15="" class="subscribe-form ng-untouched ng-pristine ng-valid" novalidate=""><div _ngcontent-xtr-c15="" class="subscribe-container"><div _ngcontent-xtr-c15="" class="input-text"><input _ngcontent-xtr-c15="" name="subscribeInput" placeholder="Your E-mail" type="email" class="ng-untouched ng-pristine ng-valid"></div><button _ngcontent-xtr-c15="" class="btn-subscribe mat-button mat-button-base" mat-button="" type="submit"><span class="mat-button-wrapper"> Subscribe </span><div class="mat-button-ripple mat-ripple" matripple=""></div><div class="mat-button-focus-overlay"></div></button></div><span _ngcontent-xtr-c15=""> No spam. Only Valuable Stuff.</span></form></section></div><div _ngcontent-xtr-c15="" class="copyright"><span _ngcontent-xtr-c15="">Copyright @ 2020 BeatStars. All rights reserved</span><!----><span _ngcontent-xtr-c15="" class="ng-star-inserted">• Version: 0.0.820</span><!----><span _ngcontent-xtr-c15="" class="ng-star-inserted">/3.1.14</span></div></div></div></mp-landing-footer></ng-component>
+    <div>
+        <div _ngcontent-xtr-c13="" class="privacy-policy">
+            <div _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13=""></p>
+                <p _ngcontent-xtr-c13="">주식회사 덤덤(이하 ‘회사’라고 합니다.)은 유무선 인터넷 음악 유통 플랫폼(웹, 모바일 웹•앱 서비스를 포함합니다.)인 비트썸원(beatsomeone) 및 비트썸원 관련 제반 서비스를 이용하는 회원의 개인정보 보호를 소중하게 생각하고, 회원의 개인정보를 보호하기 위하여 항상 최선을 다해 노력하고 있습니다
+                    회사는 개인정보 보호 관련 주요 법률인 개인정보 보호법, 정보통신망 이용촉진 및 정보보호 등에 관한 법률(이하 “정보통신망법”이라고 합니다.)을 비롯한 모든 개인정보 보호 관련 법률 규정 및 관련 국가기관 등이 제정한 고시, 훈령, 지침 등을 준수합니다.
+                    회사는 아래와 같이 개인정보처리방침을 제정하여 이를 준수하고 있으며, 이를 회사가 운영하는 서비스(웹 및 모바일 사이트 및 스마트폰 앱을 포함합니다.)에 공개하여 회원이 언제나 용이하게 열람할 수 있도록 합니다.
+                    본 개인정보처리방침은 비트썸원 서비스 및 비트썸원 관련 제반 서비스를 이용하는 회원에 대하여 적용되며, 회원이 제공하는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보 보호를 위하여 어떠한 조치를 취하고 있는지 아래와 같은 내용을 담고 있습니다.</p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 개인정보의 수집∙이용 목적</h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">회원 가입, 서비스 및 고객센터 이용, 이벤트 참여, 팩스/전화 문의 등의 과정에서 필요 최소한의 개인정보를 수집하고 있으며, 이를 사전에 고지하고 동의를 구하고 있습니다.
+                    - 비트썸원 서비스의 본질적인 기능 수행을 위해 필요한 필수정보를 수집합니다.
+                    - 선택적인 목적(부가적인 서비스 또는 기능을 제공)을 위해 추가적으로 요구하는 정보는 선택항목으로 구분하여 수집합니다. (선택적 목적에 동의하지 않아도 서비스 이용에는 제한이 없습니다.)
+                    - 서비스 이용 기록, IP Address, 쿠키, 접속기기 모델명 및 OS정보 등은 자동으로 생성되어 수집되며, 서비스에 대한 부정이용 방지, 이용 내역 확인, 접속 빈도 및 이용 통계, 고객 문의 사항 처리, 그리고 서비스 개선 등의 목적에 활용됩니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">회원가입 단계에서 수집하는 개인정보</h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>수집∙이용 목적</th>
+                                <th>이용목적</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    필수항목
+                                </td>
+                                <td>
+                                    이름, 생년월일, 아이디, 비밀번호, 이메일, 닉네임, 휴대폰번호, 성별, 만 14세 미만 아동의 경우, 법정대리인 정보(법정대리인명, 성별, 생년월일, 휴대폰번호, 통신사업자, 내/외국인 여부, 암호화된 이용자 확인값(CI))
+                                </td>
+                                <td rowspan="2">
+                                    - 회원 식별 및 가입의사 확인, 회원제 서비스 운영
+                                    - (만 14세 미만 아동의 경우) 법정대리인 동의 여부 확인
+                                    - 서비스 고지사항(이벤트 당첨안내 포함) 전달, 고객문의 처리 등 중요 공지 전달을 위한 의사소통 경로 확보
+                                    - 서비스 관련 제반 법령 위반 행위 및 서비스 부정이용 행위 제재
+                                    이벤트∙신규/개편 상품∙서비스 안내∙고지 등 홍보∙마케팅 활용
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    선택항목
+                                </td>
+                                <td>
+                                    계정 연결시 : 계정, 프로필정보, 카카오톡 및 SNS 가입 여부
+                                    휴대폰번호, 이메일
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 수집하는 개인정보의 보유 및 이용기간</h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">
+                    회원 탈퇴, 개인정보의 수집 및 이용목적이 달성된 경우 회원의 개인정보를 지체 없이 파기합니다. 단, 아래 각 사유 및 기간에 한하여 예외적으로 회원의 개인정보를 보유합니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">1. 회사 내부 방침에 의한 경우
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">(1) 불량이용자의 재가입 방지, 부정이용 방지, 서비스 요금 미납 고객에 대한 요금 청구, 기타 민원 대응
+                    - 보유기간 : 회원 탈퇴 후 12개월간 (단, 미납 요금청구의 경우 요금 완납시, 민원 대응의 경우 민원 해결시까지)
+                    - 보유정보 : 아이디, 이름, 이메일, 휴대폰번호, 암호화된 동일인 식별정보, 가입일, 탈퇴일 등
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">2. 회원이 직접 개인정보의 보존을 요청한 경우 또는 회사가 개별적으로 회원의 동의를 얻은 경우
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">- 보유기간 및 보유정보 : 회원의 요청 또는 동의를 얻은 항목•기간에 한하여 해당 기간 동안 보유
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">3. 법령에 의거, 이용자의 동의 없이 보존할 것을 정한 경우
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>근거법령</th>
+                                <th>보존정보</th>
+                                <th>보존기간</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    전자상거래 등에서의 소비자보호에 관한 법률
+                                </td>
+                                <td>
+                                    계약 또는 청약철회에 관한 기록
+                                </td>
+                                <td>
+                                    5년
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    전자상거래 등에서의 소비자보호에 관한 법률, 상법, 국세기본법, 소득세법, 법인세법, 부가가치세법
+                                </td>
+                                <td>
+                                    대금 결제 및 재화 등의 공급에 관한 기록, 상업장부와 영업에 관한 전표, 증빙서류
+                                </td>
+                                <td>
+                                    3년
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    전자상거래 등에서의 소비자보호에 관한 법률
+                                </td>
+                                <td>
+                                    소비자의 불만 또는 분쟁처리에 관한 기록
+                                </td>
+                                <td>
+                                    3년
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    통신비밀보호법
+                                </td>
+                                <td>
+                                    사이트 방문에 관한 기록
+                                </td>
+                                <td>
+                                    3개월
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">4. 개인정보 유효기간제의 적용
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">회사는 정보통신망법 관련 조항에 따라 회원이 1년(이하 “개인정보유효기간”이라고 합니다.)동안 서비스를 이용한 사실 또는 활동한 기록이 없는 경우, 개인정보의 안전한 보호 및 피해 발생을 방지하기 위해 '정보통신망법 제29조'에 근거하여 이용자에게 사전통지하고 개인정보를 별도로 분리하여 저장 관리합니다. 회사는 유효기간이 도래하기 30일 전까지 이메일, 문자메시지, 휴대전화 등 회원이 입력한 연락수단을 통하여 사전통지합니다.
+                    <br>
+                    개인정보유효기간제에 의해 별도 분리된 경우라도 회원이 서비스 재이용을 원하실 경우에는, 본인확인 절차를 거쳐 서비스를 재이용하실 수 있습니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 수집한 개인정보의 이용 및 제3자 제공
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">1. 고객의 개인정보를 이용약관 및 개인정보처리방침 등을 통해 고객에게 알리고 동의를 얻은 범위 내에서 사용하며, 동 범위를 넘어 이용하거나 제3자에게 제공하지 않습니다. 개인정보를 제3자에게 제공하는 경우, 사전에 회원에게 ‘제공받는 자, 제공 받는 자의 이용 목적, 제공하는 개인정보 항목, 보유 및 기간을 고지 후 동의 를 구하며, 회원이 동의하지 않는 경우 제공하지 않도록 합니다. 다만, 회원이 해당 제휴서비스를 이용함에 있어 개인정보의 제3자 제공을 하지 않으면 제휴서비스를 이용할 수 없거나 제휴서비스 혜택을 적용 받을 수 없는 경우에는 그 취지 및 동의 거부시 불이익에 대하여 안내합니다.
+                    2. 다만, 정보통신망법 등 법령에서 정하는 사유로서, 다음의 각 경우에는 회원의 동의 없이 회원의 개인정보를 이용하거나 제3자에게 제공할 수 있습니다.
+                    (1) 서비스 제공에 따른 요금정산을 위하여 필요한 경우
+                    (2) 통신비밀보호법, 국세기본법, 정보통신망법, 전기통신사업법, 지방세법, 형사소송법 등 다른 법률에 특별한 규정이 있는 경우
+                    단, '법률에 특별한 규정이 있는 경우'로 행정목적이나 수사목적으로 행정관청 또는 수사기관이 요구해 온 경우라도 무조건 회원의 개인정보를 제공하지 않으며, 법률에 규정된 바에 따라 영장 또는 기관장의 직인이 날인된 서면에 의한 경우 등 관련 자료에 의하여 법률이 요구하는 자료라는 점을 확인할 수 있는 경우에 한하여 제공합니다.
+                    3. 회사는 서비스 이용 및 이벤트 진행을 위해 아래와 같이 개인정보를 제공하고 있습니다.
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>근거법령</th>
+                                <th>보존정보</th>
+                                <th>보존기간</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    제공받는 자
+                                </td>
+                                <td>
+                                    제공항목
+                                </td>
+                                <td>
+                                    제공목적
+                                </td>
+                                <td>
+                                    보유 및 이용기간
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    이벤트 주관사(건별 별도 고지)
+                                </td>
+                                <td>
+                                    이름, 휴대폰번호, (배송상품의 경우)주소(※이벤트에 따라 상이할 수 있음)
+                                </td>
+                                <td>
+                                    이벤트 당첨자 추첨 및 경품 배송
+                                </td>
+                                <td>
+                                    이벤트 종료 후 3개월 간 보유하여, 원칙적으로 이용목적이 달성되는 경우 지체 없이 파기합니다
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 개인정보의 처리위탁
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">회사는 다음과 같이 개인정보 처리업무를 외부 전문업체에 위탁하여 운영하고 있습니다. 아래 각 수탁업자는 계약기간 동안 필요한 범위 내에서 회원의 개인정보를 보유하는 것을 원칙으로 하며, 수탁업자에 대하여 관계법령에서 법정 보유기간을 명시하고 있는 경우는 해당 업체업체는 해당 기간 동안 보유합니다.
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>수탁업체명</th>
+                                <th>위탁업무의 내용</th>
+                                <th>위탁기간</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    주식회사 모빌리언스
+                                </td>
+                                <td>
+                                    신용카드, 계좌이체 결제 대행
+                                </td>
+                                <td>
+                                    위탁계약 종료시까지
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    페이팔
+                                </td>
+                                <td>
+                                    신용카드, 계좌이체 결제 대행
+                                </td>
+                                <td>
+                                    위탁계약 종료시까지
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    위탁업무계약서 내지 별도의 정보보호서약(특약) 등을 통하여 개인정보보호 관련 법규의 준수, 개인정보에 관한 비밀유지, 제3자 제공에 대한 금지, 사고시의 책임부담, 위탁기간, 처리 종료 후의 개인정보의 반환 또는 파기 의무 등을 규정하고, 이를 준수하도록 관리하고 있습니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 개인정보의 파기절차 및 방법
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">수집한 개인정보의 이용목적이 달성된 후에는 보관기간 및 이용기간에 따라 해당 정보를 지체 없이 파기합니다. 파기절차 및 방법은 다음과 같습니다.
+                    1. 파기절차
+                    고객이 서비스 가입 등을 위해 기재한 개인정보는 서비스 해지 등 이용목적이 달성된 후 내부 방침 및 기타 관련 법령에 의한 보존 사유에 따라 일정기간 동안 저장된 후(● 수집하는 개인정보의 보유 및 이용기간 참조) 삭제되거나 파기합니다.
+                    2. 파기방법
+                    서면양식에 기재하거나, 종이에 출력된 개인정보는 분쇄기로 분쇄 또는 소각하거나 화학약품 처리를 하여 용해하여 파기하고, 전자적 파일형태로 저장된 개인정보는 기록을 재생할 수 없는 기술적 방법을 사용하여 삭제합니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 회원 및 법정 대리인의 권리와 그 행사 방법
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">1. 회원은 언제든지 등록되어 있는 회원의 개인정보를 열람하거나 정정하실 수 있습니다. 개인정보 열람 및 정정을 하고자 할 경우에는 「회원정보변경」을 클릭하여 직접 열람 또는 정정하실 수 있습니다.
+                    2. 회원 가입 등을 통해 개인정보의 수집/이용/제공에 대해 동의하신 내용은 언제든지 철회하실 수 있습니다. 개인정보의 처리에 대한 동의 철회(회원탈퇴)는 「회원탈퇴」를 클릭하여 직접 신청하실 수 있습니다.
+                    3. 불가피한 사유로 직접 개인정보의 정정, 삭제(회원탈퇴)가 어려운 경우에 한해, 서면, 전화, 이메일 등을 통하여 정정, 삭제를 요청하실 수 있으며, 회사는 지체없이 조치합니다.
+                    4. 회원 또는 회원의 법정대리인이 개인정보에 대한 열람•증명 또는 정정을 요청하는 경우에는 회원의 요청에 성실하게 대응하며, 개인정보에 오류가 있거나 보존기간을 경과한 것이 판명되는 등 정정 또는 삭제할 필요가 있다고 인정되는 경우, 지체 없이 조치합니다.
+                    5. 회사는 만 14세 미만 아동(이하 '아동')이 제공한 개인정보로 인하여 아동 및 법정대리인이 불이익을 입지 않도록 보호 조치를 취하고 있습니다.
+                    (1) 아동의 서비스가입을 위한 개인정보를 수집하거나 최초 서비스 가입 시 얻은 동의의 범위를 넘어 이동의 개인정보를 이용하거나 제3자에게 제공하고자 하는 경우에는 해당 아동의 법정대리인의 동의를 얻도록 하고 있습니다.
+                    (2) 법정대리인의 동의를 얻기 위하여 법정대리인의 성명, 연락처 등 필요한 최소한의 정보를 요구할 수 있습니다. 이 경우 개인정보의 수집•이용 또는 제공 목적 및 법정대리인의 동의가 필요하다는 취지를 아동이 쉽게 이해 할 수 있는 평이한 표현으로 아동에게 고지 합니다.
+                    (3) 법정대리인의 동의를 얻기 위하여 수집한 법정대리인의 개인정보를 해당 법정대리인의 동의 여부를 확인하는 목적 외의 용도로 이를 이용하거나 제3자에게 제공하지 않습니다.
+                    (4) 법정대리인은 만 14세 미만 아동의 개인정보 수집•이용 또는 제공에 대한 동의를 철회할 수 있으며, 만 14세 미만 아동이 제공한 개인정보에 대한 열람 또는 오류의 정정을 요구할 수 있습니다.
+                    6. 위 4.항 및 5.항의 경우 다른 법령에서 그 개인정보가 수집 또는 보관의 대상으로 명시되어 있는 경우 등 개인정보에 대한 열람∙증명 또는 정정 요청에 대하여 연기 또는 제한∙거절할 경우에는 회원이 기재한 이메일 또는 고객지원센터를 통하여 그 사유 및 고객 등이 이의를 제기할 수 있는 방법을 알려드립니다.
+                    7. 유선 또는 서면을 통하여 회원 본인 또는 만 14세 미만 아동인 회원의 법정대리인이 열람, 증명을 요구하는 경우에는 본인 확인 내지 대리관계를 증명하는 위임장 및 인감증명서, 요청인 또는 대리인의 신분증 사본 등의 증표를 제시 받아 진정한 본인 의사와 대리인 여부를 확인합니다.
+                    8. 회원 또는 법정대리인의 요청에 의해 해지 또는 삭제, 정정된 개인정보는 "개인정보의 보관기간 및 이용기간"에 명시된 바에 따라 처리되고, 그 외의 용도로 열람 또는 이용할 수 없도록 처리하고 있습니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 회원 및 법정 대리인의 권리와 그 행사 방법
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">1. 회원은 개인정보의 자기결정권 확보 및 비트썸원 서비스의 변경, 중단/종료 등 중요한 사항에 대한 정보를 적시에 수령할 수 있도록 자신의 개인정보를 최신의 상태로 정확하게 입력하여 불의의 사고를 사전에 예방하여야 합니다. 부정확한 정보의 입력으로 인해 발생하는 결과에 대한 책임은 회원에게 있으며 타인의 정보의 도용 등 허위정보를 입력할 경우 회원자격이 상실될 수 있습니다.
+                    2. 회원은 개인정보를 보호 받을 권리와 함께 스스로를 보호하고 타인의 정보를 침해하지 않을 의무도 가지고 있습니다. 회원은 자신의 아이디, 비밀번호를 포함한 개인정보가 유출되지 않도록 신중히 관리하여야 하며, 게시물을 포함한 타인의 개인정보 및 명예를 훼손하지 않도록 유의해야 합니다. 만약 이 같은 책임을 다하지 못하고 타인의 정보를 훼손할 경우에는 정보통신망법 등 관련 법령에 의해 처벌 받을 수 있습니다.
+                    3. 특히, 공동으로 사용하는 PC 및 기타 단말에서 서비스를 이용한 후 서비스를 종료하는 경우에는 반드시 로그아웃 처리 후 해당 홈페이지를 종료하시기 바랍니다. 그렇지 않을 경우, 해당 브라우저를 통하여 회원의 개인정보가 타인에게 쉽게 유출, 변경될 위험이 있습니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 개인정보 보호를 위한 기술적/관리적 대책
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">1. 회사는 회원의 개인정보 보호를 가장 중요시하며, 회원의 개인정보가 훼손•침해 또는 누설되지 않도록 최선을 다하고 있습니다. 회사의 귀책사유에 의하여 회원의 개인정보에 대한 침해사고가 발생하는 경우에는 개인정보보호법 및 정보통신망법 등 관련 법령에서 정하는 절차와 방법에 따라 회원에게 고지하고, 관련 기관에 신고합니다. 다만, 관련 법령에 따라 기술적인 보안조치를 했음에도 불구하고, 해킹 등 기본적인 네트워크상의 위험성에 의해 발생하는 예기치 못한 사고로 인한 정보의 훼손 및 방문자가 작성한 게시물에 의한 각종 분쟁에 관해서는 책임이 없습니다.
+                    2. 회사는 회원의 개인정보와 관련한 불만 처리 및 피해구제 등을 위하여 아래와 같이 개인정보보호책임자를 지정하고 개인정보보호 조직을 운영하고 있습니다. 회사는 개인정보의 열람•정정•동의 철회•유효기간 연장 등 회원의 개인정보 보호 관련 문의에 대하여 고객지원센터에서 신속하고 성실하게 답변을 드리도록 하고 있습니다. 또한, 회원이 개인정보보호담당자와 연락을 원하실 경우 아래의 연락처 또는 이메일로 연락을 주시면 문의사항에 대하여 신속하고 성실하게 답변해드리겠습니다.
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="2">개인정보보호책임자 및 담당부서</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    책임자
+                                </td>
+                                <td>
+                                    김용환
+                                </td>
+                            <tr>
+                                <td>
+                                    연락처
+                                </td>
+                                <td>
+                                    070-4323-0000
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    담당부서
+                                </td>
+                                <td>
+                                    운영팀
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    이메일
+                                </td>
+                                <td>
+                                    support@beatsomeone.com
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    3. 기타 개인정보 침해에 관한 상담이 필요한 경우에는 한국인터넷진흥원 개인정보침해신고센터, 경찰청 사이버안전국 등에 문의하실 수 있습니다.
+                    [한국인터넷진흥원 개인정보침해신고센터]
+                    - 전화 : (국번없이) 118
+                    - URL : http://www.i-privacy.kr, http://privacy.kisa.or.kr
+                    [경찰청 사이버안전국]
+                    - 전화 : (국번없이) 182
+                    - URL : http://cyberbureau.police.go.kr
+                    [대검찰청 사이버범죄수사단]
+                    - 전화 : (국번없이) 1301
+                    - URL : http://www.spo.go.kr
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 개인정보처리방침의 고지 또는 통지 방법
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">1. 개인정보처리방침은 관련 법령 및 지침의 변경, 내부 운영 방침 등의 변경에 따라 변경될 수 있습니다. 개인정보처리방침에 대한 내용 추가, 삭제 및 수정이 있을 시에는 개정 최소 7일 전부터 홈페이지의 '공지사항'을 통해 변경이유 및 그 내용을 공지합니다. 다만, 개인정보의 수집 및 활용 등에 있어 회원의 권리의 중요한 변경이 있을 경우에는 최소 30일 전에 공지합니다.
+                    2. 영업의 전부 또는 일부를 양도하거나 합병•상속 등으로 그 권리•의무를 이전하는 경우 서면•전자우편 등을 통하여 회원에게 개별적으로 통지함과 동시에 홈페이지 첫 화면에서 식별할 수 있도록 표기하여 30일 이상 그 사실을 공지합니다. 다만, 서면/전자우편 기타의 방법에 의한 통지는 과실 없이 고객의 연락처를 알지 못하거나 천재/지변 기타 통지할 수 없는 정당한 이유가 있는 경우에는 2곳 이상의 중앙일간지(고객의 대부분이 특정 지역에 거주하는 경우에는 그 지역을 보급구역으로 하는 일간지로 할 수 있습니다)에 1회 이상 공고하는 것으로 갈음합니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 개인정보의 자동 수집 장치의 설치/운영 및 그 거부에 관한 사항
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">1. 인터넷 서비스를 통하여 고객의 정보를 저장하고 수시로 찾아내는 쿠키(cookie)를 설치/ 운용하고 있습니다. 쿠키란 웹 서버가 웹 브라우저에 보내어 저장했다가 서버의 부가적인 요청이 있을 때 다시 서버로 보내주는 문자열 정보를 말합니다. 회원이 웹사이트에 접속을 하면 회원의 브라우저에 있는 쿠키의 내용을 읽고, 추가정보를 찾아 접속에 따른 성명 등의 추가 입력 없이 서비스를 제공할 수 있습니다.
+                    2. 쿠키(cookie)정보는 다음의 목적을 위해 사용될 수 있습니다.
+                    (1) 개인의 관심 분야에 따라 차별화된 정보를 제공
+                    (2) 회원과 비회원의 접속 빈도 또는 머문 시간 등을 분석하여 이용자의 취향과 관심분야를 파악하여 타겟(target) 마케팅에 활용
+                    (3) 관심 있게 둘러본 내용들에 대한 자취를 추적하여 다음 번 접속 때 개인 맞춤 서비스를 제공
+                    (4) 유료서비스 이용 시 이용기간 안내
+                    (5) 고객들의 습관을 분석하여 서비스 개편 등의 척도로 활용
+                    3. 회원은 쿠키(cookie) 설치에 대한 선택권을 가지고 있습니다.
+                    웹 브라우저 상단의 “도구>인터넷옵션>개인정보>고급”에서 모든 쿠키를 다 받아들이거나, 쿠키(cookie)가 설치될 때 통지를 보내도록 하거나, 아니면 모든 쿠키(cookie)를 거부할 수 있습니다. 단, 회원이 쿠키(cookie) 설치를 거부하였을 경우 서비스 이용에 불편이 있거나, 서비스 제공에 어려움이 있을 수 있을 수 있습니다.
+                    4. 쿠키(cookie)는 브라우저의 종료시나 로그아웃 시 만료됩니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 링크 사이트
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13="">1. 홈페이지를 통하여 회원에게 다른 회사의 웹사이트 또는 자료에 대한 링크를 제공할 수 있습니다. 이 경우 외부사이트로부터 제공 받는 서비스나 자료의 유용성에 대해 책임을 부담하거나 이를 보증하지 아니합니다.
+                    2. 홈페이지에 포함되어 있는 링크를 클릭(click)하여 타 사이트(site)의 페이지로 옮겨갈 경우 해당 사이트의 이용에 관하여는 더 이상 비트썸원의 「개인정보처리방침」이 적용되지 아니합니다.
+                </p><br _ngcontent-xtr-c13="">
+                <h1 _ngcontent-xtr-c13="">● 부칙
+                </h1><br _ngcontent-xtr-c13="">
+                <p _ngcontent-xtr-c13=""> (시행일) 이 약관은 2020년 06월 01일부터 시행됩니다.
+                </p><br _ngcontent-xtr-c13="">
+            </div>
+        </div>
     </div>
 </template>
-
 <script>
+import { EventBus } from '*/src/eventbus';
 
-    import { EventBus } from '*/src/eventbus';
+export default {
+    data: function() {
+        return {
+            info: {},
+            isLogin: false,
+        }
+    },
+    created() {
 
-    export default {
-        data: function() {
-            return {
-                info: {},
-                isLogin: false,
-            }
-        },
-        created() {
+    },
+    mounted() {
 
-        },
-        mounted() {
+    },
+    watch: {
 
-        },
-        watch: {
+    },
+    methods: {},
 
-        },
-        methods: {
-        },
-
-    }
-
-
-
-
+}
 </script>
-
 <style lang="scss">
-
-
 </style>
-
 <style lang="css">
-
+.privacy-policy {
+    display: flex;
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
 </style>

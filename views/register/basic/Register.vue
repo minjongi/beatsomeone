@@ -90,7 +90,7 @@
                     mem_musician_bank : this.info.mem_musician_bank,
                     mem_musician_account_nm : this.info.mem_musician_account_nm,
                     mem_musician_account : this.info.mem_musician_account,
-
+                    promo_code : this.info.promo_code
                 };
 
                 Http.post('/register/ajax_form_user',form).then(r => {

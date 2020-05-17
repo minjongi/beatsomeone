@@ -18,7 +18,7 @@ class Register extends CB_Controller
 	/**
 	 * 모델을 로딩합니다
 	 */
-	protected $models = array('Member_nickname', 'Member_meta', 'Member_auth_email', 'Member_userid');
+	protected $models = array('Member_nickname', 'Member_meta', 'Member_auth_email', 'Member_userid', 'Promo');
 
 	/**
 	 * 헬퍼를 로딩합니다
@@ -427,6 +427,11 @@ class Register extends CB_Controller
             );
             $this->Member_extra_vars_model->save($mem_id, $extradata);
         }
+
+        log_message('debug', 'promo_code=' . $this->input->post('promo_code'));
+        $rst = $this->Promo_model->use_code($this->input->post('promo_code'));
+        log_message('debug', var_export($rst));
+        log_message('debug',print_r($rst,true));
 
 
 
@@ -3145,6 +3150,56 @@ class Register extends CB_Controller
 		);
 		exit(json_encode($result));
 	}
+
+
+    public function ajax_promocode_check()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_register_ajax_promocode_check';
+        $this->load->event($eventname);
+
+        $result = array();
+        $this->output->set_content_type('application/json');
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before', $eventname);
+
+        $code = trim($this->input->post('code'));
+        if (empty($code)) {
+            $result = array(
+                'result' => 'no',
+                'reason' => '쿠폰 번호를 입력해주세요',
+            );
+            exit(json_encode($result));
+        }
+
+        $rst = $this->Promo_model->get_code($this->input->post('code'));
+        if ($rst && is_array($rst)) {
+
+            if($rst['useyn'] == 'n'){
+                $result = array(
+                    'result' => 'available',
+                    'reason' => '사용 가능한 쿠폰입니다',
+                    'data' => $rst,
+                );
+                exit(json_encode($result));
+            }else{
+                $result = array(
+                    'result' => 'no',
+                    'reason' => '사용이 불가능한 쿠폰입니다',
+                );
+                exit(json_encode($result));
+            }
+
+        }else{
+            $result = array(
+                'result' => 'no',
+                'reason' => '사용 가능한 쿠폰이 아닙니다.',
+            );
+            exit(json_encode($result));
+        }
+
+    }
 
 
 	/**

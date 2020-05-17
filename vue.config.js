@@ -16,7 +16,8 @@ module.exports = {
             detail: ['./views/beatsomeone/basic/detail.js'],
             sublist: ['./views/beatsomeone/basic/sublist.js'],
             regist_item: ['./views/beatsomeone/basic/mypage/regist_item.js'],
-            list_item: ['./views/mypage/basic/list_item.js'],
+            list_item: ['./views/beatsomeone/basic/mypage/list_item.js'],
+            //list_item: ['./views/mypage/basic/list_item.js'],
             status_item: ['./views/mypage/basic/status_item.js'],
             login: ['./views/login/basic/login.js'],
             register: ['./views/register/basic/register.js'],
@@ -25,7 +26,7 @@ module.exports = {
             m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
             m_sublist: ['./views/beatsomeone/mobile/sublist.js'],
-            m_regist_item: ['./views/beatsomeone/mobile/mypage/regist_item.js'],
+            m_regist_item: ['./views/mypage/mobile/regist_item.js'],
             m_list_item: ['./views/mypage/mobile/list_item.js'],
             m_status_item: ['./views/mypage/mobile/status_item.js'],
             m_login: ['./views/login/mobile/login.js'],
@@ -62,7 +63,6 @@ module.exports = {
                 Vue: ['vue/dist/vue.esm.js', 'default'],
                 Http: [path.join(__dirname, './src/http/http.js'), 'default'],
                 log: [path.join(__dirname, './src/logger.js'), 'default'],
-                i18n: [path.join(__dirname, './src/i18n/i18n.js'), 'default'],
             }]);
 
         // config.module
