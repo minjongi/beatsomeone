@@ -1244,7 +1244,6 @@ class Mypage extends CB_Controller
 //            'page_name' => $page_name,
 //        );
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
-
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
@@ -1253,11 +1252,12 @@ class Mypage extends CB_Controller
     /**
      * 마이페이지>음원등록내역 입니다
      */
-    public function list_item()
+    public function list_item($cit_id = '')
     {
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_mypage_loginlog';
         $this->load->event($eventname);
+        $this->load->helper( array('cmall'));
 
         /**
          * 로그인이 필요한 페이지입니다
@@ -1272,6 +1272,11 @@ class Mypage extends CB_Controller
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before'] = Events::trigger('before', $eventname);
 
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+        
         /**
          * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
          */
@@ -1333,6 +1338,23 @@ class Mypage extends CB_Controller
         $page_name = $this->cbconfig->item('site_page_name_mypage_loginlog');
 
         $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'mypage/list_item',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+        /*
+        $layoutconfig = array(
             'path' => 'mypage',
             'layout' => 'layout',
             'skin' => 'list_item',
@@ -1348,6 +1370,7 @@ class Mypage extends CB_Controller
             'meta_author' => $meta_author,
             'page_name' => $page_name,
         );
+        */
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
