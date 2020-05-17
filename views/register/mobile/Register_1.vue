@@ -201,7 +201,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
+                    <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
                     <td>
                         O%
                     </td>
