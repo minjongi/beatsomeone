@@ -84,22 +84,20 @@
         },
         methods: {
             doValidation() {
-
                 if(!this.user.firstname) {
-                    alert('first name 을 입력해 주세요');
+                    alert(this.$t('enterYourFirstName'));
                     return false;
                 }
 
                 if(!this.user.lastname) {
-                    alert('last name 을 입력해 주세요');
+                    alert(this.$t('enterYourLastName'));
                     return false;
                 }
 
                 if(!this.user.location) {
-                    alert('주소를 입력해 주세요');
+                    alert(this.$t('enterYourAddress'));
                     return false;
                 }
-
 
                 return true;
             },

@@ -73,32 +73,32 @@
                 <tbody>
 
                 <tr>
-                    <td>개인 메시지(채팅) 기능</td>
-                    <td>무제한</td>
+                    <td>{{ $t('unlimited1') }}개인 메시지(채팅) 기능</td>
+                    <td>{{ $t('unlimited1') }}무제한</td>
                 </tr>
                 <tr>
-                    <td>무료비트 다운로드</td>
+                    <td>{{ $t('unlimited1') }}무료비트 다운로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>구매 음원 파일 저장</td>
+                    <td>{{ $t('unlimited1') }}구매 음원 파일 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>구매 음원 라이센스 저장</td>
+                    <td>{{ $t('unlimited1') }}구매 음원 라이센스 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>미리듣기 스트리밍 서비스</td>
+                    <td>{{ $t('unlimited1') }}미리듣기 스트리밍 서비스</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -134,29 +134,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>업로드 트랙 제한</td>
-                    <td>무제한</td>
+                    <td>{{ $t('unlimited1') }}업로드 트랙 제한</td>
+                    <td>{{ $t('unlimited1') }}무제한</td>
                 </tr>
                 <tr>
-                    <td>Stems 트랙 업로드</td>
+                    <td>{{ $t('unlimited1') }}Stems 트랙 업로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>판매 수수료</td>
+                    <td>{{ $t('unlimited1') }}판매 수수료</td>
                     <td>
                         10%
                     </td>
                 </tr>
                 <tr>
-                    <td>개인 메시지(채팅) 기능</td>
+                    <td>{{ $t('unlimited1') }}개인 메시지(채팅) 기능</td>
                     <td>
                         20
                     </td>
                 </tr>
                 <tr>
-                    <td>판매 통계 제공</td>
+                    <td>{{ $t('unlimited1') }}판매 통계 제공</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -191,29 +191,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>업로드 트랙 제한</td>
-                    <td>무제한</td>
+                    <td>{{ $t('uploadTracksLimit') }}</td>
+                    <td>{{ $t('unlimited1') }}무제한</td>
                 </tr>
                 <tr>
-                    <td>Stems 트랙 업로드</td>
+                    <td>{{ $t('uploadTrackStems') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>판매 수수료</td>
+                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
                     <td>
                         O%
                     </td>
                 </tr>
                 <tr>
-                    <td>개인 메시지(채팅) 기능</td>
+                    <td>{{ $t('personalChatFunction') }}</td>
                     <td>
-                        무제한
+                        {{ $t('unlimited1') }}
                     </td>
                 </tr>
                 <tr>
-                    <td>판매 통계 제공</td>
+                    <td>{{ $t('salesStatistics') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>

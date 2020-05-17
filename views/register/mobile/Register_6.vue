@@ -163,7 +163,7 @@
                             this.cost = String((1 - parseInt(r["data"]["disrate"])/100) * this.cost);
                             this.$refs.pv.readOnly = true;
                         }else{
-                            alert("쿠폰 사용 조건이 아닙니다.");
+                            alert(this.$t('notConditionOfCouponUse'));
                             this.setCost();
                         }
                     }else{

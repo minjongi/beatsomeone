@@ -76,7 +76,7 @@
             doValidation() {
 
                 if(!this.user.introduce) {
-                    alert('introduce를 입력해 주세요');
+                    alert(this.$t('enterYourSelfIntroduction'));
                     return false;
                 }
 
