@@ -7,6 +7,7 @@
                     <a href="/"><img src="@/assets_m//images/logo.png" alt=""/></a>
                 </h1>
                 <div class="header__btnbox">
+                    <a href="#" class="header__locale" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                     <a href="#" class="header__search"></a>
                     <a class="header__nav" @click="toggleOpenMenu"></a>
                 </div>
@@ -31,7 +32,6 @@
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">(${{ cartSum }})</a>
-                    <a href="#" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </div>
 
                 <a href="" class="gnb__banner">
