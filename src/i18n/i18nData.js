@@ -219,6 +219,8 @@ export default {
         enterYourAddress: '주소를 입력해 주세요',
         enterYourSelfIntroduction: '자기소개를 입력해 주세요',
         notConditionOfCouponUse: '쿠폰 사용 조건이 아닙니다',
+        master: 'Master',
+        platinum: 'Platinum',
     }, // ko
     en: {
         currencySymbol: '$',

@@ -123,14 +123,14 @@
                     </th>
                     <th>
                         <p>
-                            {{ $t('marketPlace') }}<br />
+                            {{ $t('platinum') }}<br />
                         </p>
                         <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                         <a href="#" class="btn btn--start" @click="doNext('Marketplace')">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
-                            {{ $t('proPagePlan') }}<br />
+                            {{ $t('master') }}<br />
                         </p>
                         <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                         <a href="#" class="btn btn--start" @click="doNext('Pro Page')">{{ $t('getStarted') }}</a>
@@ -223,6 +223,7 @@
                 currentUserType: null,
                 billTerm : 'monthly',
                 listPlan : null,
+                planName: 'free',
 
             }
         },
@@ -290,7 +291,12 @@
         },
         methods: {
             doNext(plan) {
-                EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: plan, billTerm: this.billTerm  });
+                if(plan=="Marketplace"){
+                    this.planName = this.$t('Platinum');
+                }else if(plan=="Pro Page"){
+                    this.planName = this.$t('Master');
+                }
+                EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: plan, planName: this.planName, billTerm: this.billTerm  });
                 this.$router.push({path: '/2'});
             },
             fetchData() {
