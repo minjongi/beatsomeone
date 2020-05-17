@@ -8,26 +8,21 @@
                     v-on:before-enter="beforeEnter"
                     v-on:enter="enter"
                     v-on:leave="leave">
-
             <Index_Items v-for="(item,index) in list" :item="item" :key="index"></Index_Items>
             </transition-group>
         </ul>
         <div v-if="busy">
             <Loader key="loader" ></Loader>
         </div>
-
     </div>
 </template>
 
-
 <script>
-
     import $ from "jquery";
     import Loader from '*/vue/common/Loader';
 
     import Index_Items from "./Index_Items";
     import Velocity from "velocity-animate";
-
 
     export default {
         props: ['item'],

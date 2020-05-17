@@ -1,5 +1,5 @@
 <template>
-    <div class="playList"  v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
+    <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
         <ul id="playList__list" class="playList__list">
             <transition-group
                     name="staggered-fade"
@@ -17,16 +17,12 @@
     </div>
 </template>
 
-
-
 <script>
-
     import $ from "jquery";
     import Loader from '*/vue/common/Loader';
 
     import Index_Items from "./Index_Items";
     import Velocity from "velocity-animate";
-
 
     export default {
         props: ['item'],

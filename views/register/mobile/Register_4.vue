@@ -2,7 +2,7 @@
     <div class="container accounts">
         <div class="accounts__title">
             <h1>
-                Complete sign up
+                {{ $t('completeSignup') }}
             </h1>
         </div>
         <div class="login accounts__defaultLayout">
@@ -11,12 +11,12 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                First name
+                                {{ $t('firstName') }}
                             </p>
                             <div class="input">
                                 <input v-model="user.firstname"
                                         type="text"
-                                        placeholder="First name"
+                                       :placeholder="$t('firstName')"
                                 />
                             </div>
                         </label>
@@ -24,12 +24,12 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                Last name
+                                {{ $t('lastName') }}
                             </p>
                             <div class="input">
                                 <input v-model="user.lastname"
                                         type="text"
-                                        placeholder="Last name"
+                                       :placeholder="$t('lastName')"
                                 />
                             </div>
                         </label>
@@ -37,12 +37,12 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                City of Residence, State
+                                {{ $t('cityOfResidenceState') }}
                             </p>
                             <div class="input">
                                 <input  v-model="user.location"
                                         type="text"
-                                        placeholder="City of Residence, State"
+                                        :placeholder="$t('cityOfResidenceState')"
                                 />
                             </div>
                         </label>
@@ -50,11 +50,11 @@
                 </div>
                 <div class="accounts__btnbox half">
                     <button type="reset" class="btn btn--gray" @click="doSkip">
-                        Skipping
+                        {{ $t('skipping') }}
                     </button>
 
                     <button type="submit" class="btn btn--submit" @click="doNext">
-                        Next
+                        {{ $t('next') }}
                     </button>
                 </div>
             </form>
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-
     import { EventBus } from '*/src/eventbus';
 
     export default {
@@ -85,22 +84,20 @@
         },
         methods: {
             doValidation() {
-
                 if(!this.user.firstname) {
-                    alert('first name 을 입력해 주세요');
+                    alert(this.$t('enterYourFirstName'));
                     return false;
                 }
 
                 if(!this.user.lastname) {
-                    alert('last name 을 입력해 주세요');
+                    alert(this.$t('enterYourLastName'));
                     return false;
                 }
 
                 if(!this.user.location) {
-                    alert('주소를 입력해 주세요');
+                    alert(this.$t('enterYourAddress'));
                     return false;
                 }
-
 
                 return true;
             },
@@ -114,16 +111,10 @@
                 this.$router.push({path: '/5'});
             },
         },
-
     }
-
-
-
-
 </script>
 
 <style lang="scss">
-
 
 </style>
 

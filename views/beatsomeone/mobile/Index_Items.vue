@@ -1,10 +1,8 @@
 <template>
-
     <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
         <div class="playList__item playList__item--title">
-
             <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish">
-                <button>즐겨찾기</button>
+                <button>{{ $t('favorite') }}</button>
             </div>
             <div class="col name">
                 <figure>
@@ -27,9 +25,8 @@
                 </figure>
             </div>
             <div class="col more">
-
                 <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">
-                    more
+                    {{ $t('more') }}
                 </button>
                 <span class="tooltip">
                 <a href="">action1</a>
@@ -39,13 +36,9 @@
             </div>
         </div>
     </li>
-
 </template>
 
-
-
 <script>
-
     import { EventBus } from '*/src/eventbus';
     import $ from 'jquery';
     import WaveSurfer from 'wavesurfer.js';
@@ -55,11 +48,9 @@
         data: function () {
             return {
                 isOpenSubmenu: false,
-                listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 ws: null,
                 isPlay: false,
                 isReady: false,
-
             };
         },
         computed: {
@@ -115,8 +106,6 @@
             });
 
             // this.setAudioInstance(this.item);
-
-
         },
         methods: {
             stop() {
@@ -160,10 +149,8 @@
                         this.item.is_wish = this.item.is_wish === '1' ? '0' : '1';
                     }
                 });
-
             },
             addCart() {
-
                 let detail_qty = {};
                 detail_qty[this.item['cde_id']] = 1;
                 Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
@@ -172,7 +159,6 @@
                     } else {
                         EventBus.$emit('add_cart');
                         log.debug('장바구니 담기 성공');
-
                     }
                 });
             },
@@ -181,7 +167,6 @@
                 window.location.href = path;
             },
             playAudio(i) {
-
                 // if(!this.isReady) return;
 
                 // 재생 시작
@@ -207,7 +192,6 @@
 
                     this.stop();
                 }
-
             },
             time_convert(num) {
                 var minutes = Math.floor(num / 60);
@@ -295,11 +279,7 @@
             }
         }
     }
-
-
-
 </script>
 
 <style scoped="scoped">
-
 </style>

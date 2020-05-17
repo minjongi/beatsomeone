@@ -2,44 +2,44 @@
     <div class="container accounts">
         <div class="accounts__title">
             <h1>
-                Sign Up
+                {{ $t('signup') }}
             </h1>
             <p>
-                Create a beatsomeone account & start monetizing your beats!
+                {{ $t('createMsg') }}
             </p>
         </div>
         <div class="login accounts__defaultLayout">
             <div class="accounts__btnbox border-none">
                 <button type="submit" class="btn btn--white" @click="doNext('email')">
                     <img src="@/assets/images/icon/email.png" alt="" />
-                    Sign up with Email
+                    {{ $t('signupWithEmail') }}
                 </button>
             </div>
 
             <div class="accounts__social">
-                <h2>SNS Log in</h2>
+                <h2>{{ $t('snsLogin') }}</h2>
                 <a href="#" @click="social_connect_on('facebook')"><img
                         src="@/assets/images/accounts-facebook.png"
-                        alt="페이스북 로그인"
+                        :alt="$t('loginFacebook')"
                 /></a>
                 <a href="#"  @click="social_connect_on('twitter')"
                 ><img
                         src="@/assets/images/accounts-twitter.png"
-                        alt="트위터 로그인"
+                        :alt="$t('loginTwitter')"
                 /></a>
                 <a href="#"  @click="social_connect_on('google')"
-                ><img src="@/assets/images/accounts-google.png" alt="구글 로그인"
+                ><img src="@/assets/images/accounts-google.png" :alt="$t('loginGoogle')"
                 /></a>
                 <a href="#"  @click="social_connect_on('naver')"
-                ><img src="@/assets/images/accounts-naver.png" alt="네이버 로그인"
+                ><img src="@/assets/images/accounts-naver.png" :alt="$t('loginNaver')"
                 /></a>
                 <a href="#"  @click="social_connect_on('kakao')"
-                ><img src="@/assets/images/accounts-kakao.png" alt="카카오 로그인"
+                ><img src="@/assets/images/accounts-kakao.png" :alt="$t('loginKakao')"
                 /></a>
             </div>
 
             <div class="accounts__etc">
-                Already have an account? <a href="/login">Login</a>
+                {{ $t('alreadyAccount') }} <a href="/login">{{ $t('login') }}</a>
             </div>
         </div>
     </div>

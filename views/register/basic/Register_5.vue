@@ -29,7 +29,7 @@
                             <div class="input">
                                 <input
                                         type="text"
-                                        :placeholder="$t('nameOfMyBrandShop')"
+                                        :placeholder="beandshop"
                                         disabled
                                 />
                             </div>
@@ -46,11 +46,9 @@
 </template>
 
 <script>
-
     import { EventBus } from '*/src/eventbus';
 
     export default {
-
         data: function() {
             return {
                 user: {},
@@ -69,7 +67,6 @@
         },
         mounted() {
 
-
         },
         watch: {
 
@@ -78,7 +75,7 @@
             doValidation() {
 
                 if(!this.user.introduce) {
-                    alert('introduce를 입력해 주세요');
+                    alert(this.$t('enterYourSelfIntroduction'));
                     return false;
                 }
 
@@ -96,16 +93,10 @@
                 }
             },
         },
-
     }
-
-
-
-
 </script>
 
 <style lang="scss">
-
 
 </style>
 

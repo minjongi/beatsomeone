@@ -1,7 +1,7 @@
 <template>
     <div class="container accounts accounts--start">
         <div class="accounts__title">
-            <h1>Do you create beats?<br />Then join us!</h1>
+            <h1>{{ $t('doYouCreateBeats') }}<br />{{ $t('thenJoin') }}</h1>
         </div>
 
         <div class="login accounts__defaultLayout">
@@ -11,7 +11,7 @@
                         <input type="radio" name="case" id="listen " hidden  @click="currentUserType = 'user'"/>
                         <div>
                             <span class="icon"></span>
-                            <p>I want to listen<br />& buy music</p>
+                            <p>{{ $t ('listenAndBuyMusic1') }}<br />{{ $t ('listenAndBuyMusic2') }}</p>
                         </div>
                     </label>
 
@@ -19,7 +19,7 @@
                         <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'musician'"/>
                         <div>
                             <span class="icon"></span>
-                            <p>I want to monetize<br />my music</p>
+                            <p>{{ $t('monetizeMyMusic1') }}<br />{{ $t('monetizeMyMusic2') }}</p>
                         </div>
                     </label>
                 </div>
@@ -28,14 +28,14 @@
                     <span class="accounts__switch-bg"></span>
                     <label for="monthly" @click="billTerm = 'monthly'">
                         <input type="radio" id="monthly" hidden name="bill" checked />
-                        <span>Bill monthly</span>
+                        <span>{{ $t('billMonthly') }}</span>
                     </label>
                     <label for="yearly" @click="billTerm = 'yearly'">
                         <input type="radio" id="yearly" hidden name="bill" />
                         <span>
-                  Bill yearly
-                  <em>Save 20% or more</em>
-                </span>
+                            {{ $t('billYearly') }}
+                            <em>{{ $t('save20') }}</em>
+                        </span>
                     </label>
                 </div>
             </form>
@@ -43,7 +43,7 @@
 
         <div class="tab accounts__tab">
             <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}">
-                FREE
+                {{ $t('free') }}
             </button>
             <button data-target="plan-marketplace" @click="plan = 'marketplace'" :class="{'active':this.plan === 'marketplace'}" v-if="currentUserType === 'musician'">
                 {{ $t('marketPlace') }}
@@ -57,12 +57,12 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        FREE
+                        {{ $t('free') }}
                     </p>
                     <h2><span>$</span> 0.00<em>/mo</em></h2>
                 </div>
                 <div class="right">
-                    <a href="#" class="btn btn--start" @click="doNext(1)">Get Started</a>
+                    <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
                 </div>
             </div>
             <table>
@@ -73,32 +73,32 @@
                 <tbody>
 
                 <tr>
-                    <td>개인 메시지(채팅) 기능</td>
-                    <td>무제한</td>
+                    <td>{{ $t('unlimited1') }}개인 메시지(채팅) 기능</td>
+                    <td>{{ $t('unlimited1') }}무제한</td>
                 </tr>
                 <tr>
-                    <td>무료비트 다운로드</td>
+                    <td>{{ $t('unlimited1') }}무료비트 다운로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>구매 음원 파일 저장</td>
+                    <td>{{ $t('unlimited1') }}구매 음원 파일 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>구매 음원 라이센스 저장</td>
+                    <td>{{ $t('unlimited1') }}구매 음원 라이센스 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>미리듣기 스트리밍 서비스</td>
+                    <td>{{ $t('unlimited1') }}미리듣기 스트리밍 서비스</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -107,7 +107,7 @@
 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="#" class="btn btn--start" @click="doNext(1)">Get Started</a>
+                        <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
 <!--                </tfoot>-->
@@ -124,7 +124,7 @@
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
                 <div class="right">
-                    <a href="#" class="btn btn--start" @click="doNext(2)">Get Started</a>
+                    <a href="#" class="btn btn--start" @click="doNext(2)">{{ $t('getStarted') }}</a>
                 </div>
             </div>
             <table>
@@ -134,29 +134,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>업로드 트랙 제한</td>
-                    <td>무제한</td>
+                    <td>{{ $t('unlimited1') }}업로드 트랙 제한</td>
+                    <td>{{ $t('unlimited1') }}무제한</td>
                 </tr>
                 <tr>
-                    <td>Stems 트랙 업로드</td>
+                    <td>{{ $t('unlimited1') }}Stems 트랙 업로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>판매 수수료</td>
+                    <td>{{ $t('unlimited1') }}판매 수수료</td>
                     <td>
                         10%
                     </td>
                 </tr>
                 <tr>
-                    <td>개인 메시지(채팅) 기능</td>
+                    <td>{{ $t('unlimited1') }}개인 메시지(채팅) 기능</td>
                     <td>
                         20
                     </td>
                 </tr>
                 <tr>
-                    <td>판매 통계 제공</td>
+                    <td>{{ $t('unlimited1') }}판매 통계 제공</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -164,7 +164,7 @@
 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="#" class="btn btn--start" @click="doNext(2)">Get Started</a>
+                        <a href="#" class="btn btn--start" @click="doNext(2)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
 <!--                </tfoot>-->
@@ -181,7 +181,7 @@
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
                 <div class="right">
-                    <a href="#" class="btn btn--start" @click="doNext(3)">Get Started</a>
+                    <a href="#" class="btn btn--start" @click="doNext(3)">{{ $t('getStarted') }}</a>
                 </div>
             </div>
             <table>
@@ -191,29 +191,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>업로드 트랙 제한</td>
-                    <td>무제한</td>
+                    <td>{{ $t('uploadTracksLimit') }}</td>
+                    <td>{{ $t('unlimited1') }}무제한</td>
                 </tr>
                 <tr>
-                    <td>Stems 트랙 업로드</td>
+                    <td>{{ $t('uploadTrackStems') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>판매 수수료</td>
+                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
                     <td>
                         O%
                     </td>
                 </tr>
                 <tr>
-                    <td>개인 메시지(채팅) 기능</td>
+                    <td>{{ $t('personalChatFunction') }}</td>
                     <td>
-                        무제한
+                        {{ $t('unlimited1') }}
                     </td>
                 </tr>
                 <tr>
-                    <td>판매 통계 제공</td>
+                    <td>{{ $t('salesStatistics') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -221,7 +221,7 @@
 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="#" class="btn btn--start" @click="doNext(3)">Get Started</a>
+                        <a href="#" class="btn btn--start" @click="doNext(3)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
 <!--                </tfoot>-->
@@ -233,7 +233,6 @@
 </template>
 
 <script>
-
     import { EventBus } from '*/src/eventbus';
     import $ from 'jquery'
 
@@ -271,8 +270,6 @@
             this.fetchData();
         },
         mounted() {
-
-
             // $('.accounts__tab button').on('click', function(){
             //     $('.accounts__tab button').removeClass('active');
             //     $(this).addClass('active')
@@ -280,7 +277,6 @@
             //     var target = $(this).data('target');
             //     $('#'+target).show();
             // })
-
         },
         watch: {
             currentUserType(n) {
@@ -321,16 +317,10 @@
                 });
             },
         },
-
     }
-
-
-
-
 </script>
 
 <style lang="scss">
-
     .btn--start {
         margin-top: 10px;
         width: 100% !important;
@@ -339,8 +329,6 @@
     div.right {
         width: 100px !important;
     }
-
-
 </style>
 
 <style lang="css">

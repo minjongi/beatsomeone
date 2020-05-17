@@ -2,7 +2,7 @@
     <div class="container accounts">
         <div class="accounts__title">
             <h1>
-                Complete sign up
+                {{ $t('completeSignup') }}
             </h1>
         </div>
         <div class="login accounts__defaultLayout">
@@ -17,7 +17,7 @@
                             <div class="input">
                                 <input ref="username"
                                         type="text" v-model="user.username" v-on:blur="validateUsername"
-                                        placeholder="Set a username for your profile"
+                                        :placeholder="$t('setUsername')"
                                         required
                                 />
                             </div>
@@ -35,7 +35,7 @@
                             <div class="input">
                                 <input
                                         type="email" v-model="user.email" v-on:blur="validateEmail"
-                                        placeholder="Type your e-mail"
+                                        :placeholder="$t('typeYourEmail')"
                                         required
                                 />
                             </div>

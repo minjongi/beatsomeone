@@ -9,18 +9,18 @@
                     <a href="" class="sns__insta"
                     ><img
                             src="/assets/images/icon/instagram.png"
-                            alt="인스타그렘으로 바로가기"
+                            alt="instagram"
                     /></a>
                     <a href="" class="sns__insta"
-                    ><img src="/assets/images/icon/youtube.png" alt="유튜브로 바로가기"
+                    ><img src="/assets/images/icon/youtube.png" alt="youtube"
                     /></a>
                     <a href="" class="sns__insta"
                     ><img
                             src="/assets/images/icon/facebook.png"
-                            alt="페이스북으로 바로가기"
+                            alt="facebook"
                     /></a>
                     <a href="" class="sns__insta"
-                    ><img src="/assets/images/icon/twitter.png" alt="트위터로 바로가기"
+                    ><img src="/assets/images/icon/twitter.png" alt="twitter"
                     /></a>
                 </div>
             </div>
@@ -98,7 +98,6 @@
 </template>
 
 <script>
-
     export default {
         name: 'Footer',
         methods: {
@@ -107,7 +106,6 @@
             },
         },
     }
-
 </script>
 
 <style scoped="scoped">
