@@ -49,7 +49,7 @@
                 {{ $t('marketPlace') }}
             </button>
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="currentUserType === 'musician'">
-                {{ $t('proPage') }}
+                {{ $t('proPagePlan') }}
             </button>
         </div>
 
@@ -71,112 +71,38 @@
                     <col width="120" />
                 </colgroup>
                 <tbody>
+
                 <tr>
-                    <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>10</td>
+                    <td>개인 메시지(채팅) 기능</td>
+                    <td>무제한</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('uploadTrackStems') }}</td>
+                    <td>무료비트 다운로드</td>
                     <td>
                         <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('sellSoundKits') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>{{ $t('sellCustomServices') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('proPageSalesRevenue') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('instantPayments') }}</td>
+                    <td>구매 음원 파일 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
+
                 </tr>
                 <tr>
-                    <td>{{ $t('acceptPayPalPayments') }}</td>
+                    <td>구매 음원 라이센스 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
+
                 </tr>
                 <tr>
-                    <td>{{ $t('acceptStripePayments') }}</td>
+                    <td>미리듣기 스트리밍 서비스</td>
                     <td>
                         <span class="check">O</span>
                     </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('sellOnBeatStarsMarketplace') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
-                    <td>
-                        30%
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('embeddableBlazePlayer') }}</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('monthlyPrivateMessages') }}</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('numberOfLicenseAgreementsForSale') }}</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('premiumStatistics') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('salesStatistics') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('submissionsPerOpportunity') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('widgets') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('soundCloudMonetization') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('audiomackMonetization') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+
                 </tr>
 <!--                <tfoot>-->
                 <tr>
@@ -193,7 +119,7 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        {{ $t('marketPlace') }}
+                        {{ $t('marketPlace') }}<br />
                     </p>
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
@@ -208,108 +134,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>10</td>
+                    <td>업로드 트랙 제한</td>
+                    <td>무제한</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('uploadTrackStems') }}</td>
+                    <td>Stems 트랙 업로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('sellSoundKits') }}</td>
+                    <td>판매 수수료</td>
                     <td>
-                        <span class="un-check">X</span>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>{{ $t('sellCustomServices') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
+                        10%
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('proPageSalesRevenue') }}</td>
+                    <td>개인 메시지(채팅) 기능</td>
                     <td>
-                        <span class="un-check">X</span>
+                        20
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('instantPayments') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('acceptPayPalPayments') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('acceptStripePayments') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('sellOnBeatStarsMarketplace') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
-                    <td>
-                        30%
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('embeddableBlazePlayer') }}</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('monthlyPrivateMessages') }}</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('numberOfLicenseAgreementsForSale') }}</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('premiumStatistics') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('salesStatistics') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('submissionsPerOpportunity') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('widgets') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('soundCloudMonetization') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('audiomackMonetization') }}</td>
+                    <td>판매 통계 제공</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -329,7 +176,7 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        {{ $t('proPage') }}
+                        {{ $t('proPagePlan') }}<br />
                     </p>
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
@@ -344,108 +191,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>10</td>
+                    <td>업로드 트랙 제한</td>
+                    <td>무제한</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('uploadTrackStems') }}</td>
+                    <td>Stems 트랙 업로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('sellSoundKits') }}</td>
+                    <td>판매 수수료</td>
                     <td>
-                        <span class="un-check">X</span>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>{{ $t('sellCustomServices') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
+                        O%
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('proPageSalesRevenue') }}</td>
+                    <td>개인 메시지(채팅) 기능</td>
                     <td>
-                        <span class="un-check">X</span>
+                        무제한
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('instantPayments') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('acceptPayPalPayments') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('acceptStripePayments') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('sellOnBeatStarsMarketplace') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
-                    <td>
-                        30%
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('embeddableBlazePlayer') }}</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('monthlyPrivateMessages') }}</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('numberOfLicenseAgreementsForSale') }}</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>{{ $t('premiumStatistics') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('salesStatistics') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('submissionsPerOpportunity') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('widgets') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('soundCloudMonetization') }}</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ $t('audiomackMonetization') }}</td>
+                    <td>판매 통계 제공</td>
                     <td>
                         <span class="check">O</span>
                     </td>

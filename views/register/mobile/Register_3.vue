@@ -34,10 +34,13 @@
                             </p>
                             <div class="input">
                                 <input
-                                        type="email" v-model="user.email"
+                                        type="email" v-model="user.email" v-on:blur="validateEmail"
                                         :placeholder="$t('typeYourEmail')"
                                         required
                                 />
+                            </div>
+                            <div v-if="errorValidEmail">
+                                {{ errorValidEmail }}
                             </div>
                         </label>
                     </div>
@@ -166,6 +169,7 @@
 
                 },
                 errorValidUserId : null,
+                errorValidEmail : null,
                 isCheckTos: false,
                 passwordVerify: null,
             }
@@ -194,6 +198,10 @@
 
                 if(this.errorValidUserId) {
                     alert(this.errorValidUserId);
+                    return false;
+                }
+                if(this.errorValidEmail) {
+                    alert(this.errorValidEmail);
                     return false;
                 }
 
@@ -263,6 +271,17 @@
                         //alert(r.reason);
                     } else {
                         this.errorValidUserId = null;
+                    }
+
+                });
+            },
+            validateEmail() {
+                if(!this.user.email) return;
+                Http.post('/register/ajax_email_check',{'email' : this.user.email}).then(r=> {
+                    if(r.result !== 'available') {
+                        this.errorValidEmail = r.reason;
+                    } else {
+                        this.errorValidEmail = null;
                     }
 
                 });
