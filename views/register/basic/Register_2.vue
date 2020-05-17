@@ -78,8 +78,8 @@
                 window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
             },
             social_connect_on_done(social_type) {
-                $('.social-' + social_type + '-on').css('display', 'inline-block');
-                $('.social-' + social_type + '-off').css('display', 'none');
+                //$('.social-' + social_type + '-on').css('display', 'inline-block');
+                //$('.social-' + social_type + '-off').css('display', 'none');
                 alert('연동되었습니다');
             },
             social_connect_off(social_type) {
@@ -90,6 +90,7 @@
                 if ( ! confirm('정말로 연동을 해제하시겠습니까?')) {
                     return false;
                 }
+                /*
                 $.ajax({
                     url : '/social/social_connect_off/' + social_type,
                     type : 'post',
@@ -103,11 +104,12 @@
                             alert(data.error);
                             return false;
                         } else if (data.success) {
-                            $('.social-' + social_type + '-on').css('display', 'none');
-                            $('.social-' + social_type + '-off').css('display', 'inline-block');
+                            //$('.social-' + social_type + '-on').css('display', 'none');
+                            //$('.social-' + social_type + '-off').css('display', 'inline-block');
                         }
                     }
                 });
+                */
             },
         },
 

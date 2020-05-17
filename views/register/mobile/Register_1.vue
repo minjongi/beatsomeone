@@ -46,10 +46,10 @@
                 FREE
             </button>
             <button data-target="plan-marketplace" @click="plan = 'marketplace'" :class="{'active':this.plan === 'marketplace'}" v-if="currentUserType === 'musician'">
-                MARKETPLACE
+                {{ $t('marketPlace') }}
             </button>
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="currentUserType === 'musician'">
-                PRO PAGE
+                {{ $t('proPagePlan') }}
             </button>
         </div>
 
@@ -71,112 +71,38 @@
                     <col width="120" />
                 </colgroup>
                 <tbody>
+
                 <tr>
-                    <td>Upload Tracks Limit</td>
-                    <td>10</td>
+                    <td>개인 메시지(채팅) 기능</td>
+                    <td>무제한</td>
                 </tr>
                 <tr>
-                    <td>Upload Track Stems</td>
+                    <td>무료비트 다운로드</td>
                     <td>
                         <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sell Sound Kits</td>
-                    <td>
-                        <span class="un-check">X</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>Sell Custom Services</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Pro Page Sales Revenue</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Instant Payments</td>
+                    <td>구매 음원 파일 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
+
                 </tr>
                 <tr>
-                    <td>Accept PayPal payments</td>
+                    <td>구매 음원 라이센스 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
+
                 </tr>
                 <tr>
-                    <td>Accept Stripe payments</td>
+                    <td>미리듣기 스트리밍 서비스</td>
                     <td>
                         <span class="check">O</span>
                     </td>
-                </tr>
-                <tr>
-                    <td>Sell On BeatStars Marketplace</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>BeatStars Marketplace Commission</td>
-                    <td>
-                        30%
-                    </td>
-                </tr>
-                <tr>
-                    <td>Embeddable Blaze Player</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>Monthly Private Messages</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>Number of License Agreements for Sale</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>Premium Statistics</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sales Statistics</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Submissions per Opportunity</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Widgets</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>SoundCloud Monetization</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Audiomack Monetization</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+
                 </tr>
 <!--                <tfoot>-->
                 <tr>
@@ -193,7 +119,7 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        MARKETPLACE
+                        {{ $t('marketPlace') }}<br />
                     </p>
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
@@ -208,108 +134,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>Upload Tracks Limit</td>
-                    <td>10</td>
+                    <td>업로드 트랙 제한</td>
+                    <td>무제한</td>
                 </tr>
                 <tr>
-                    <td>Upload Track Stems</td>
+                    <td>Stems 트랙 업로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sell Sound Kits</td>
+                    <td>판매 수수료</td>
                     <td>
-                        <span class="un-check">X</span>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>Sell Custom Services</td>
-                    <td>
-                        <span class="un-check">X</span>
+                        10%
                     </td>
                 </tr>
                 <tr>
-                    <td>Pro Page Sales Revenue</td>
+                    <td>개인 메시지(채팅) 기능</td>
                     <td>
-                        <span class="un-check">X</span>
+                        20
                     </td>
                 </tr>
                 <tr>
-                    <td>Instant Payments</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Accept PayPal payments</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Accept Stripe payments</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sell On BeatStars Marketplace</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>BeatStars Marketplace Commission</td>
-                    <td>
-                        30%
-                    </td>
-                </tr>
-                <tr>
-                    <td>Embeddable Blaze Player</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>Monthly Private Messages</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>Number of License Agreements for Sale</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>Premium Statistics</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sales Statistics</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Submissions per Opportunity</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Widgets</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>SoundCloud Monetization</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Audiomack Monetization</td>
+                    <td>판매 통계 제공</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -329,7 +176,7 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        PRO PAGE
+                        {{ $t('proPagePlan') }}<br />
                     </p>
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
@@ -344,108 +191,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>Upload Tracks Limit</td>
-                    <td>10</td>
+                    <td>업로드 트랙 제한</td>
+                    <td>무제한</td>
                 </tr>
                 <tr>
-                    <td>Upload Track Stems</td>
+                    <td>Stems 트랙 업로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sell Sound Kits</td>
+                    <td>판매 수수료</td>
                     <td>
-                        <span class="un-check">X</span>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>Sell Custom Services</td>
-                    <td>
-                        <span class="un-check">X</span>
+                        O%
                     </td>
                 </tr>
                 <tr>
-                    <td>Pro Page Sales Revenue</td>
+                    <td>개인 메시지(채팅) 기능</td>
                     <td>
-                        <span class="un-check">X</span>
+                        무제한
                     </td>
                 </tr>
                 <tr>
-                    <td>Instant Payments</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Accept PayPal payments</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Accept Stripe payments</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sell On BeatStars Marketplace</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>BeatStars Marketplace Commission</td>
-                    <td>
-                        30%
-                    </td>
-                </tr>
-                <tr>
-                    <td>Embeddable Blaze Player</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>Monthly Private Messages</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>Number of License Agreements for Sale</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>Premium Statistics</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sales Statistics</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Submissions per Opportunity</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Widgets</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>SoundCloud Monetization</td>
-                    <td>
-                        <span class="un-check">X</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Audiomack Monetization</td>
+                    <td>판매 통계 제공</td>
                     <td>
                         <span class="check">O</span>
                     </td>
