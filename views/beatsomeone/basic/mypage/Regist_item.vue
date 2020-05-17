@@ -51,7 +51,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-item">
-                                    <p class="form-title required">{{ $t('audiofilesForDownload') }}</p>
+                                    <p class="form-title">{{ $t('audiofilesForDownload') }}</p>
                                     <label for="unTaggedFile" class="addAudioFile waves-effect ">
                                         <div class="addAudioFile__icon">
                                             <img src="/assets/images/icon/note1.png" alt="">
@@ -59,7 +59,7 @@
                                         <div class="addAudioFile__info">
                                             <FileUpload name="unTaggedFile" id="unTaggedFile" ref="unTaggedFile" target="/beatsomeoneApi/upload_item_file" action="POST" hidden
                                                         v-on:progress="unTaggedFileProgressUpload" v-on:start="unTaggedFileStartUpload" v-on:finish="unTaggedFileFinishUpload"/>
-                                            <p>{{ $t('unTaggedWavOrMp3') }}</p>
+                                            <p class="form-title required">{{ $t('unTaggedWavOrMp3') }}</p>
                                             <span class="format">{{ !!item.unTaggedFileName ? item.unTaggedFileName : '.WAV (or.MP3)' }}</span>
                                             <div class="addAudioFile__progress">
                                                 <span ref="unTaggedFileProgressBar"></span>
@@ -150,12 +150,12 @@
                                     <div class="row row--inner">
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="KRW" v-model.number="item.licenseLeasePriceKRW" ref="licenseLeasePriceKRW" @input="onlyNumber($event, 'licenseLeasePriceKRW')"/>
+                                                <input type="number" placeholder="KRW 22000" v-model.number="item.licenseLeasePriceKRW" ref="licenseLeasePriceKRW" @input="onlyNumber($event, 'licenseLeasePriceKRW')"/>
                                             </div>
                                         </span>
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="USD" v-model.number="item.licenseLeasePriceUSD" ref="licenseLeasePriceUSD" @input="onlyNumber($event, 'licenseLeasePriceUSD')"/>
+                                                <input type="number" placeholder="USD 20.00" v-model.number="item.licenseLeasePriceUSD" ref="licenseLeasePriceUSD" @input="onlyNumber($event, 'licenseLeasePriceUSD')"/>
                                             </div>
                                         </span>
                                     </div>
@@ -188,12 +188,12 @@
                                     <div class="row row--inner">
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="KRW" v-model.number="item.licenseStemPriceKRW" ref="licenseStemPriceKRW" @input="onlyNumber($event, 'licenseStemPriceKRW')"/>
+                                                <input type="number" placeholder="KRW 330000" v-model.number="item.licenseStemPriceKRW" ref="licenseStemPriceKRW" @input="onlyNumber($event, 'licenseStemPriceKRW')"/>
                                             </div>
                                         </span>
                                         <span class="col">
                                             <div class="input">
-                                                <input type="number" placeholder="USD" v-model.number="item.licenseStemPriceUSD" ref="licenseStemPriceUSD" @input="onlyNumber($event, 'licenseStemPriceUSD')"/>
+                                                <input type="number" placeholder="USD 280.00" v-model.number="item.licenseStemPriceUSD" ref="licenseStemPriceUSD" @input="onlyNumber($event, 'licenseStemPriceUSD')"/>
                                             </div>
                                         </span>
                                     </div>
@@ -294,6 +294,7 @@
             return {
                 isLogin: false,
                 cit_id: null,
+                cit_key: null,
                 item: {
                     cit_name: '',
                     hashTag: '',
@@ -337,14 +338,15 @@
         },
         watch: {
             cit_id: function (n) {
-                log.debug({
-                        'cit_id': n,
-                    }
-                )
                 if (n) {
                     this.getItem();
                 }
             },
+            cit_key: function (n) {
+                if (n) {
+                    this.item.url = 'http://beatsomeone.com/beatsomeone/detail/' + n;
+                }
+            }
         },
         methods: {
             onlyNumber(event, key) {
@@ -436,9 +438,6 @@
             getItem() {
                 Http.get(`/beatsomeoneApi/get_item/${this.cit_id}`).then(r => {
                     // 전처리
-
-                    console.log(r.data);
-
                     r.data.cde_id_1 = r.data.cde_id || 0;
                     r.data.cde_id_2 = r.data.cde_id_2 || 0;
                     r.data.cde_id_3 = r.data.cde_id_3 || 0;
@@ -468,37 +467,39 @@
                 const f = new FormData();
 
                 if (!this.item.cit_name) {
-                    alert('제목을 입력해 주세요')
+                    alert(this.$t('enterSubject'))
                     return false
                 }
                 if (!this.item.trackType) {
-                    alert('트랙타입을 선택해 주세요')
+                    alert(this.$t('selectTrackType'))
                     return false
                 }
                 if (!this.item.cit_start_datetime) {
-                    alert('발매일을 선택해 주세요')
+                    alert(this.$t('selectReleaseDate'))
                     return false
                 }
                 if (!this.item.unTaggedFile && !this.item.unTaggedFileName) {
-                    alert('음원을 등록해 주세요')
+                    alert(this.$t('registerSoundSource'))
                     return false
                 }
-                if (!this.item.stemFile && !this.item.stemFileName) {
-                    alert('음원을 선택해 주세요')
+
+                if (!!this.item.licenseStemUseYn && !this.item.stemFile && !this.item.stemFileName) {
+                    alert(this.$t('attachStemsFile'))
                     return false
                 }
+
                 if (!this.item.genre) {
-                    alert('유형을 선택해 주세요')
+                    alert(this.$t('selectType'))
                     return false
                 }
                 if (!this.item.moods) {
-                    alert('무드를 선택해 주세요')
+                    alert(this.$t('chooseMood'))
                     return false
                 }
 
                 for (let key in this.uploadInProgress) {
                     if (this.uploadInProgress[key]) {
-                        alert('파일 업로드 중입니다')
+                        alert(this.$t('uploadingFiles'))
                         return false
                     }
                 }
@@ -511,6 +512,10 @@
 
                 if (this.cit_id) {
                     f.append('cit_id', this.cit_id)
+                }
+
+                if (this.cit_key) {
+                    f.append('cit_key', this.cit_key)
                 }
 
                 this.processStatus = true
@@ -527,10 +532,10 @@
                             'MERGE SUCCESS': r.data,
                         }
                     )
-                    alert(`${this.cit_id ? '수정' : '등록'} 되었습니다`);
+                    alert(this.cit_id ? this.$t('itIsChanged') : this.$t('hasBeenRegistered'))
                     window.location.href = '/mypage/regist_item/' + r.data
                 }, e => {
-                    alert(`${this.cit_id ? '수정' : '등록'} 실패 하였습니다. 관리자에게 연락 주시기 바랍니다.`)
+                    alert(this.cit_id ? this.$t('modificationFailedMsg') : this.$t('registrationFailedMsg'))
                     log.debug('ERROR', e)
                 })
             },

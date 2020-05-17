@@ -5,7 +5,7 @@
         </h1>
         <div class="accounts__title">
             <h1>
-                {{$parent.info.plan}} {{ $t('plan') }}
+                {{$parent.info.planName}}
             </h1>
         </div>
         <div class="login accounts__defaultLayout">

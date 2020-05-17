@@ -7,7 +7,7 @@
             </div>
             <section class="registered__section">
                 <div class="wrap">
-                    <h2 class="registered__section-title">{{ $t('generalInfo') }}</h2>
+                    <h2 class="registered__section-title">{{ $t('generalInfo') }}123123123</h2>
                     <div class="registered__section-content">
                         <div class="row">
                             <div class="col">
@@ -54,7 +54,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-item">
-                                    <p class="form-title required">{{ $t('audiofilesForDownload') }}</p>
+                                    <p class="form-title">{{ $t('audiofilesForDownload') }}</p>
                                     <label for="unTaggedFile" class="addAudioFile waves-effect ">
                                         <div class="addAudioFile__icon">
                                             <img src="/assets/images/icon/note1.png" alt="">
@@ -65,7 +65,7 @@
                                                         v-on:progress="unTaggedFileProgressUpload"
                                                         v-on:start="unTaggedFileStartUpload"
                                                         v-on:finish="unTaggedFileFinishUpload"/>
-                                            <p>{{ $t('unTaggedWavOrMp3') }}</p>
+                                            <p class="form-title required">{{ $t('unTaggedWavOrMp3') }}</p>
                                             <span class="format">{{ !!item.unTaggedFileName ? item.unTaggedFileName : '.WAV (or.MP3)' }}</span>
                                             <div class="addAudioFile__progress">
                                                 <span ref="unTaggedFileProgressBar"></span>
@@ -464,37 +464,37 @@
                 const f = new FormData();
 
                 if (!this.item.cit_name) {
-                    alert('제목을 입력해 주세요')
+                    alert(this.$t('enterSubject'))
                     return false
                 }
                 if (!this.item.trackType) {
-                    alert('트랙타입을 선택해 주세요')
+                    alert(this.$t('selectTrackType'))
                     return false
                 }
                 if (!this.item.cit_start_datetime) {
-                    alert('발매일을 선택해 주세요')
+                    alert(this.$t('selectReleaseDate'))
                     return false
                 }
                 if (!this.item.unTaggedFile && !this.item.unTaggedFileName) {
-                    alert('음원을 등록해 주세요')
+                    alert(this.$t('registerSoundSource'))
                     return false
                 }
-                if (!this.item.stemFile && !this.item.stemFileName) {
-                    alert('음원을 선택해 주세요')
+                if (!!this.item.licenseStemUseYn && !this.item.stemFile && !this.item.stemFileName) {
+                    alert(this.$t('attachStemsFile'))
                     return false
                 }
                 if (!this.item.genre) {
-                    alert('유형을 선택해 주세요')
+                    alert(this.$t('selectType'))
                     return false
                 }
                 if (!this.item.moods) {
-                    alert('무드를 선택해 주세요')
+                    alert(this.$t('chooseMood'))
                     return false
                 }
 
                 for (let key in this.uploadInProgress) {
                     if (this.uploadInProgress[key]) {
-                        alert('파일 업로드 중입니다')
+                        alert(this.$t('uploadingFiles'))
                         return false
                     }
                 }
@@ -518,16 +518,17 @@
                             'MERGE SUCCESS': r.data,
                         }
                     )
-                    alert(`${this.cit_id ? '수정' : '등록'} 되었습니다`);
+                    alert(this.cit_id ? this.$t('itIsChanged') : this.$t('hasBeenRegistered'))
                     window.location.href = '/mypage/regist_item/' + r.data
                 }, e => {
-                    alert(`${this.cit_id ? '수정' : '등록'} 실패 하였습니다. 관리자에게 연락 주시기 바랍니다.`)
+                    alert(this.cit_id ? this.$t('modificationFailedMsg') : this.$t('registrationFailedMsg'))
                     log.debug('ERROR', e)
                 })
             },
         }
     }
 </script>
+
 
 <style lang="scss">
     @import '@/assets_m/scss/App.scss';

@@ -108,17 +108,11 @@
                 item: null,
                 comment: null,
                 music: null,
-                tabs: [{path: '/', title: 'SIMILAR TRACKS'}, {path: '/comments', title: 'COMMENTS'}, {path: '/infomation', title: 'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
             }
         },
-        created() {
-            this.tabs = [
-                {path: '/', title: this.$t('similarTrack')},
-                {path: '/comments', title: this.$t('comments')},
-                {path: '/infomation', title: this.$t('information')}
-            ]
-        },
+
+
         computed: {
             releaseDt: function() {
                 if(!this.item) return null;
@@ -129,6 +123,13 @@
             hashtag() {
                 return this.item.hashTag ? this.item.hashTag.split(',') : '';
             },
+            tabs() {
+                return [
+                    {path: '/', title: this.$t('similarTrack')},
+                    {path: '/comments', title: this.$t('comments')},
+                    {path: '/infomation', title: this.$t('information')}
+                ]
+            }
         },
 
         mounted() {

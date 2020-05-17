@@ -46,10 +46,10 @@
                 {{ $t('free') }}
             </button>
             <button data-target="plan-marketplace" @click="plan = 'marketplace'" :class="{'active':this.plan === 'marketplace'}" v-if="currentUserType === 'musician'">
-                {{ $t('marketPlace') }}
+                {{ $t('platinum') }}
             </button>
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="currentUserType === 'musician'">
-                {{ $t('proPagePlan') }}
+                {{ $t('master') }}
             </button>
         </div>
 
@@ -119,7 +119,7 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        {{ $t('marketPlace') }}<br />
+                        {{ $t('platinum') }}<br />
                     </p>
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
@@ -176,7 +176,7 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        {{ $t('proPagePlan') }}<br />
+                        {{ $t('master') }}<br />
                     </p>
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
@@ -243,6 +243,7 @@
                 currentUserType: null,
                 billTerm : 'monthly',
                 plan: 'free',
+                planName: 'free',
                 listPlan : null,
             }
         },
@@ -305,10 +306,12 @@
             doNext(type) {
                 if(type==2){
                     this.plan = "Marketplace";
+                    this.planName = this.$t('Platinum');
                 }else if(type==3){
                     this.plan = "Pro Page";
+                    this.planName = this.$t('Master');
                 }
-                EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: this.plan, billTerm: this.billTerm });
+                EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: this.plan, planName: this.planName, billTerm: this.billTerm });
                 this.$router.push({path: '/2'});
             },
             fetchData() {

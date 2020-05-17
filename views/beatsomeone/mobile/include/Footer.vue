@@ -38,21 +38,12 @@
                 </p>
             </div>
         </div>
-        <div style="text-align:center;margin-top: 10px;">
-            <button @click="setLocale('ko')" style="border:1px solid #ffda2a;color:#ffffff;padding:5px 20px;border-radius: 3px;font-size:10px;margin-right:5px;">한국어</button>
-            <button @click="setLocale('en')" style="border:1px solid #ffda2a;color:#ffffff;padding:5px 20px;border-radius: 3px;font-size:10px;">영어</button>
-        </div>
     </footer>
 </template>
 
 <script>
     export default {
-        name: 'Footer',
-        methods: {
-            setLocale(locale) {
-                i18n.locale = locale
-            },
-        },
+        name: 'Footer'
     }
 </script>
 

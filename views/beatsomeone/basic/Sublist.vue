@@ -202,12 +202,6 @@
                 listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
                 listMoods: ['All','Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
                 listTrackType: ['All types','Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
-                listSortName: [],
-                listFilterName: [],
-                listSubgenresName: [],
-                listMoodsName: [],
-                listTrackTypeName: [],
-
                 list: null,
                 listTop5: null,
                 offset: 0,
@@ -242,57 +236,6 @@
             },
         },
         created() {
-            this.listSortName = [
-                this.$t('allSelect'),
-                this.$t('sortByStaffPick'),
-                this.$t('topDownloads'),
-                this.$t('newest')
-            ]
-
-            this.listFilterName = [
-                this.$t('allGenre'),
-                'Hip Hop',
-                'K-Pop',
-                'Pop',
-                'R&B',
-                'Rock',
-                'Electronic',
-                'Reggae',
-                'Country',
-                'World',
-                this.$t('freeBeats')
-            ]
-
-            this.listSubgenresName = [
-                this.$t('all'),
-                'Hip Hop',
-                'K-Pop',
-                'Pop',
-                'R&B',
-                'Rock',
-                'Electronic',
-                'Reggae',
-                'Country',
-                'World',
-                this.$t('freeBeats')
-            ]
-
-            this.listMoods = [
-                'All',
-                'Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy',
-                'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed',
-                'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic',
-                'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic',
-                'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper',
-                'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved',
-                'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad',
-                'Scared', 'Silly', 'Soulful'
-            ]
-            this.listTrackTypeName = [
-                'All types',
-                'Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'
-            ]
-
             this.param.currentGenre = this.listFilter[0];
             this.param.currentSubgenres = this.listSubgenres[0];
             this.param.currentMoods = this.listMoods[0];
@@ -363,6 +306,63 @@
         computed: {
             listSortParamName() {
                 return this.listSortName[this.listSort.indexOf(this.param.sort)]
+            },
+            listSortName() {
+                return [
+                    this.$t('allSelect'),
+                    this.$t('sortByStaffPick'),
+                    this.$t('topDownloads'),
+                    this.$t('newest')
+                ]
+            },
+            listFilterName() {
+                return [
+                    this.$t('allGenre'),
+                    'Hip Hop',
+                    'K-Pop',
+                    'Pop',
+                    'R&B',
+                    'Rock',
+                    'Electronic',
+                    'Reggae',
+                    'Country',
+                    'World',
+                    this.$t('freeBeats')
+                ]
+            },
+            listSubgenresName() {
+                return [
+                    this.$t('all'),
+                    'Hip Hop',
+                    'K-Pop',
+                    'Pop',
+                    'R&B',
+                    'Rock',
+                    'Electronic',
+                    'Reggae',
+                    'Country',
+                    'World',
+                    this.$t('freeBeats')
+                ]
+            },
+            listMoodsName() {
+                return [
+                    'All',
+                    'Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy',
+                    'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed',
+                    'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic',
+                    'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic',
+                    'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper',
+                    'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved',
+                    'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad',
+                    'Scared', 'Silly', 'Soulful'
+                ]
+            },
+            listTrackTypeName() {
+                return [
+                    'All types',
+                    'Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'
+                ]
             }
         },
         methods: {

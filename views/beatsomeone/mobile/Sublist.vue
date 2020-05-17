@@ -190,10 +190,6 @@
                 listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
                 listMoods: ['All','Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
                 listTrackType: ['All types','Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
-                listFilterName: [],
-                listSubgenresName: [],
-                listMoodsName: [],
-                listTrackTypeName: [],
                 offset: 0,
                 last_offset: 0,
                 list: null,
@@ -224,50 +220,6 @@
             },
         },
         created() {
-            this.listFilterName = [
-                this.$t('allGenre'),
-                'Hip Hop',
-                'K-Pop',
-                'Pop',
-                'R&B',
-                'Rock',
-                'Electronic',
-                'Reggae',
-                'Country',
-                'World',
-                this.$t('freeBeats')
-            ]
-
-            this.listSubgenresName = [
-                this.$t('all'),
-                'Hip Hop',
-                'K-Pop',
-                'Pop',
-                'R&B',
-                'Rock',
-                'Electronic',
-                'Reggae',
-                'Country',
-                'World',
-                this.$t('freeBeats')
-            ]
-
-            this.listMoods = [
-                'All',
-                'Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy',
-                'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed',
-                'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic',
-                'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic',
-                'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper',
-                'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved',
-                'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad',
-                'Scared', 'Silly', 'Soulful'
-            ]
-            this.listTrackTypeName = [
-                'All types',
-                'Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'
-            ]
-
             this.param.currentGenre = this.listFilter[0];
             this.param.currentSubgenres = this.listSubgenres[0];
             this.param.currentMoods = this.listMoods[0];
@@ -275,7 +227,6 @@
         },
 
         mounted() {
-
             $(".filter__title").on("click", function() {
                 $(this).toggleClass("folded");
                 $(this)
@@ -339,6 +290,57 @@
 
             this.updateAllList();
 
+        },
+        computed: {
+            listFilterName() {
+                return [
+                    this.$t('allGenre'),
+                    'Hip Hop',
+                    'K-Pop',
+                    'Pop',
+                    'R&B',
+                    'Rock',
+                    'Electronic',
+                    'Reggae',
+                    'Country',
+                    'World',
+                    this.$t('freeBeats')
+                ]
+            },
+            listSubgenresName() {
+                return [
+                    this.$t('all'),
+                    'Hip Hop',
+                    'K-Pop',
+                    'Pop',
+                    'R&B',
+                    'Rock',
+                    'Electronic',
+                    'Reggae',
+                    'Country',
+                    'World',
+                    this.$t('freeBeats')
+                ]
+            },
+            listMoodsName() {
+                return [
+                    'All',
+                    'Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy',
+                    'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed',
+                    'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic',
+                    'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic',
+                    'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper',
+                    'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved',
+                    'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad',
+                    'Scared', 'Silly', 'Soulful'
+                ]
+            },
+            listTrackTypeName() {
+                return [
+                    'All types',
+                    'Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'
+                ]
+            }
         },
         methods: {
             loading() {

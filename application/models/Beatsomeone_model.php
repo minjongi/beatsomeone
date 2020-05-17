@@ -602,7 +602,7 @@ class Beatsomeone_model extends CB_Model
         // 아니면 등록
         else {
             // 상품 등록 (cmall_item)
-            $cit_key = uniqid();
+            $cit_key = empty($p["cit_key"]) ? uniqid() : $p["cit_key"];
             $data = array(
                 "cit_name" => $p["cit_name"],
                 "cit_key" => $cit_key,
