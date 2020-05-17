@@ -59,7 +59,7 @@
                                         @keydown.enter.prevent="sendComment"
                                 />
                                 <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
-                                <button @click="sendComment">SEND</button>
+                                <button @click="sendComment">{{ $t('send') }}</button>
                             </div>
                         </form>
                     </div>
@@ -102,7 +102,6 @@
                 item: null,
                 comment: null,
                 music: null,
-                listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
                 playlist: null,
@@ -118,7 +117,11 @@
             }
         },
         created() {
-
+            this.tabs = [
+                {path: '/', title: this.$t('similarTrack')},
+                {path: '/comments', title: this.$t('comments')},
+                {path: '/infomation', title: this.$t('information')}
+            ]
         },
         mounted() {
 

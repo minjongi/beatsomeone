@@ -1,64 +1,60 @@
 <template>
     <div class="container accounts accounts--result">
         <h1 class="accounts__result-title">
-            Join us with the various payment methods available!
+            {{ $t('paymentMethodMsg') }}
         </h1>
         <div class="accounts__title">
             <h1>
-                {{$parent.info.plan}} Plan
+                {{$parent.info.plan}} {{ $t('plan') }}
             </h1>
         </div>
-
         <div class="login accounts__defaultLayout">
-
             <div class="accounts__switch">
                 <span class="accounts__switch-bg " ></span>
                 <label for="monthly">
                     <input type="radio" id="monthly" value="monthly" hidden name="bill" v-model="billTerm"/>
-                    <span>Bill monthly</span>
+                    <span>{{ $t('billMonthly') }}</span>
                 </label>
                 <label for="yearly">
                     <input type="radio" id="yearly" value="yearly" hidden name="bill"  v-model="billTerm"/>
-                    <span>Bill yearly</span>
+                    <span>{{ $t('billYearly') }}</span>
                 </label>
             </div>
-
-
             <div class="accounts__plan-price">
                 <h2>
                     <span>$</span>
                     {{ cost | money }}
-                 </h2>
-                <div class="_saving">Instant Savings of <span id="disBill">$0.000</span></div>
+                </h2>
+                <div class="_saving">{{ $t('instantSaving') }} <span id="disBill">{{ $t('currencySymbol') }}0.000</span></div>
             </div>
 
             <div class="accounts__payments">
                 <label for="promoCode" class="checkbox">
                     <input type="checkbox" hidden id="promoCode"/>
-                    <span></span> I have a promo code
+                    <span></span> {{ $t('havePromoCode') }}
                 </label>
                 <div class="accounts__form">
                     <div class="row" id="nopromo">
-                        <p class="form-title">결제수단(영문일 시 14pt Bold 사용)</p>
+                        <p class="form-title">{{ $t('payMethod') }}</p>
                         <div class="accounts__check">
                             <label for="type1" class="radio">
                                 <input type="radio" id="type1" hidden name="payments"/>
-                                <span></span> 신용카드
+                                <span></span> {{ $t('creditCard') }}
                             </label>
                             <label for="type2" class="radio">
                                 <input type="radio" id="type2" hidden name="payments" checked/>
-                                <span></span> 실시간계좌이체
+                                <span></span> {{ $t('realtimeBankTransfer') }}
                             </label>
                         </div>
                     </div>
                     <div class="row" style="display: none;" id="okpromo">
                         <label for="">
                             <p class="form-title">
-                                Promo code
+                                {{ $t('promoCode') }}
                             </p>
                             <div class="input flex">
-                                <input type="text" placeholder="Number Number Number"/>
-                                <button class="btn " :class="{'btn--gray' : !isPromotionApplied,'btn--submit' : isPromotionApplied,}" @click="applyPromotionCode()">Apply</button>
+                                <input type="text" :placeholder="$t('number')"/>
+                                <button class="btn " :class="{'btn--gray' : !isPromotionApplied,'btn--submit' : isPromotionApplied,}" @click="applyPromotionCode()">{{ $t('apply') }}</button>
                             </div>
                         </label>
                     </div>
@@ -66,12 +62,10 @@
 
                 <div class="accounts__btnbox">
                     <button type="submit" class="btn btn--submit" @click="doJoin">
-                        Checkout
+                        {{ $t('checkout') }}
                     </button>
                     <p>
-                        All sales are final and non-refundable. Please make sure to
-                        fully read the <a href="">BeatSomeone Refund Policy</a>. before
-                        you proceed.
+                        {{ $t('refundPolicyMsg') }}
                     </p>
                 </div>
 
@@ -81,11 +75,9 @@
 </template>
 
 <script>
-
     import {EventBus} from '*/src/eventbus';
 
     export default {
-
         data: function () {
             return {
                 user: {},
@@ -129,8 +121,6 @@
                     _ok.style.display = 'none';
                 }
             })
-
-
         },
         watch: {
             billTerm(n) {
@@ -164,30 +154,30 @@
                 if(info.plan === 'Pro Page') {
                     if(info.billTerm === 'yearly') {
                         this.cost = this.proPlan.yearly_d;
+                        // eslint-disable-next-line no-undef
                         $('#disBill').text("$"+this.proPlan.yearly_discount_amt_d);
                     } else {
                         this.cost = this.proPlan.monthly_d;
+                        // eslint-disable-next-line no-undef
                         $('#disBill').text("$0.000");
                     }
                 } else {
                     if(info.billTerm === 'yearly') {
                         this.cost = this.marketplacePlan.yearly_d;
+                        // eslint-disable-next-line no-undef
                         $('#disBill').text("$"+this.marketplacePlan.yearly_discount_amt_d);
                     } else {
                         this.cost = this.marketplacePlan.monthly_d;
+                        // eslint-disable-next-line no-undef
                         $('#disBill').text("$0.000");
                     }
                 }
             },
         },
-
     }
-
-
 </script>
 
 <style lang="scss">
-
 
 </style>
 

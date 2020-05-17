@@ -29,7 +29,7 @@
                             <div class="input">
                                 <input
                                         type="text"
-                                        :placeholder="$t('nameOfMyBrandShop')"
+                                        :placeholder="beandshop"
                                         disabled
                                 />
                             </div>
@@ -46,11 +46,9 @@
 </template>
 
 <script>
-
     import { EventBus } from '*/src/eventbus';
 
     export default {
-
         data: function() {
             return {
                 user: {},
@@ -68,7 +66,6 @@
 
         },
         mounted() {
-
 
         },
         watch: {
@@ -96,16 +93,10 @@
                 }
             },
         },
-
     }
-
-
-
-
 </script>
 
 <style lang="scss">
-
 
 </style>
 

@@ -104,14 +104,11 @@
         components: {Header,Footer,MainPlayer},
         data: function() {
             return {
-
-                isLogin : false,
+                isLogin: false,
                 item: null,
-
                 comment: null,
                 music: null,
-                //listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
-                tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
+                tabs: [{path: '/', title: 'SIMILAR TRACKS'}, {path: '/comments', title: 'COMMENTS'}, {path: '/infomation', title: 'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
             }
         },

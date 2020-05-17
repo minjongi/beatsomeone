@@ -63,7 +63,6 @@
 </template>
 
 <script>
-
     import { EventBus } from '*/src/eventbus';
 
     export default {
@@ -114,16 +113,10 @@
                 this.$router.push({path: '/5'});
             },
         },
-
     }
-
-
-
-
 </script>
 
 <style lang="scss">
-
 
 </style>
 

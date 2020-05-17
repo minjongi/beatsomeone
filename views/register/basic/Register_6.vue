@@ -8,9 +8,7 @@
                 {{$parent.info.plan}} {{ $t('plan') }}
             </h1>
         </div>
-
         <div class="login accounts__defaultLayout">
-
             <div class="accounts__switch">
                 <span class="accounts__switch-bg"></span>
                 <label for="monthly">
@@ -19,12 +17,9 @@
                 </label>
                 <label for="yearly">
                     <input type="radio" id="yearly" value="yearly" hidden name="bill"  v-model="billTerm" />
-
                     <span>{{ $t('billYearly') }}</span>
                 </label>
             </div>
-
-
             <div class="accounts__plan-price">
                 <h2>
                     <span>$</span>
@@ -80,11 +75,9 @@
 </template>
 
 <script>
-
     import {EventBus} from '*/src/eventbus';
 
     export default {
-
         data: function () {
             return {
                 user: {},
@@ -145,8 +138,6 @@
                     _ok.style.display = 'none';
                 }
             })
-
-
         },
         watch: {
             billTerm(n) {
@@ -196,14 +187,10 @@
                 }
             },
         },
-
     }
-
-
 </script>
 
 <style lang="scss">
-
 
 </style>
 

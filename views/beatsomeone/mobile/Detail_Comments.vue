@@ -10,7 +10,7 @@
                     <div class="comment__info">
                         <div class="writer">
                             <span>{{ c.mem_nickname }}</span>
-                            <a href="">신고하기</a>
+                            <a href="">{{ $t('report') }}</a>
                         </div>
 
 <!--                        <span class="comment__created-at">8 day ago</span>-->

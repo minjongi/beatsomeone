@@ -1,7 +1,5 @@
 <template>
-
     <div class="wrapper">
-
         <Header :is-login="isLogin"></Header>
         <div class="container accounts">
             <div class="accounts__title">
@@ -10,9 +8,6 @@
                 </h1>
             </div>
             <div class="login accounts__defaultLayout">
-
-
-
                 <form action="/login" method="post">
                     <div class="accounts__form">
                         <div class="row">
@@ -21,7 +16,7 @@
                                 <div class="input">
                                     <input ref="userid"
                                             type="text" name="mem_userid"
-                                            placeholder="Type your e-mail or username"
+                                           :placeholder="$t('typeEmailOrUsername')"
                                     />
                                 </div>
                             </label>
@@ -81,8 +76,6 @@
 </template>
 
 <script>
-
-
     require('@/assets/js/function');
 
     import Header from "@/views/beatsomeone/basic/include/Header";
@@ -102,22 +95,14 @@
             this.$refs.userid.focus();
         },
         watch: {
-
         },
         methods: {
-
-
-
         },
-
     }
-
 </script>
 
 <style lang="scss">
     @import '@/assets/scss/App.scss';
-
-
 </style>
 
 <style lang="css">

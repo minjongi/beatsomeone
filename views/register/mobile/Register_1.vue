@@ -1,7 +1,7 @@
 <template>
     <div class="container accounts accounts--start">
         <div class="accounts__title">
-            <h1>Do you create beats?<br />Then join us!</h1>
+            <h1>{{ $t('doYouCreateBeats') }}<br />{{ $t('thenJoin') }}</h1>
         </div>
 
         <div class="login accounts__defaultLayout">
@@ -11,7 +11,7 @@
                         <input type="radio" name="case" id="listen " hidden  @click="currentUserType = 'user'"/>
                         <div>
                             <span class="icon"></span>
-                            <p>I want to listen<br />& buy music</p>
+                            <p>{{ $t ('listenAndBuyMusic1') }}<br />{{ $t ('listenAndBuyMusic2') }}</p>
                         </div>
                     </label>
 
@@ -19,7 +19,7 @@
                         <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'musician'"/>
                         <div>
                             <span class="icon"></span>
-                            <p>I want to monetize<br />my music</p>
+                            <p>{{ $t('monetizeMyMusic1') }}<br />{{ $t('monetizeMyMusic2') }}</p>
                         </div>
                     </label>
                 </div>
@@ -28,14 +28,14 @@
                     <span class="accounts__switch-bg"></span>
                     <label for="monthly" @click="billTerm = 'monthly'">
                         <input type="radio" id="monthly" hidden name="bill" checked />
-                        <span>Bill monthly</span>
+                        <span>{{ $t('billMonthly') }}</span>
                     </label>
                     <label for="yearly" @click="billTerm = 'yearly'">
                         <input type="radio" id="yearly" hidden name="bill" />
                         <span>
-                  Bill yearly
-                  <em>Save 20% or more</em>
-                </span>
+                            {{ $t('billYearly') }}
+                            <em>{{ $t('save20') }}</em>
+                        </span>
                     </label>
                 </div>
             </form>
@@ -43,13 +43,13 @@
 
         <div class="tab accounts__tab">
             <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}">
-                FREE
+                {{ $t('free') }}
             </button>
             <button data-target="plan-marketplace" @click="plan = 'marketplace'" :class="{'active':this.plan === 'marketplace'}" v-if="currentUserType === 'musician'">
-                MARKETPLACE
+                {{ $t('marketPlace') }}
             </button>
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="currentUserType === 'musician'">
-                PRO PAGE
+                {{ $t('proPage') }}
             </button>
         </div>
 
@@ -57,12 +57,12 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        FREE
+                        {{ $t('free') }}
                     </p>
                     <h2><span>$</span> 0.00<em>/mo</em></h2>
                 </div>
                 <div class="right">
-                    <a href="#" class="btn btn--start" @click="doNext(1)">Get Started</a>
+                    <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
                 </div>
             </div>
             <table>
@@ -72,108 +72,108 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>Upload Tracks Limit</td>
+                    <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>10</td>
                 </tr>
                 <tr>
-                    <td>Upload Track Stems</td>
+                    <td>{{ $t('uploadTrackStems') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sell Sound Kits</td>
+                    <td>{{ $t('sellSoundKits') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>Sell Custom Services</td>
+                    <td>{{ $t('sellCustomServices') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Pro Page Sales Revenue</td>
+                    <td>{{ $t('proPageSalesRevenue') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Instant Payments</td>
+                    <td>{{ $t('instantPayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Accept PayPal payments</td>
+                    <td>{{ $t('acceptPayPalPayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Accept Stripe payments</td>
+                    <td>{{ $t('acceptStripePayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sell On BeatStars Marketplace</td>
+                    <td>{{ $t('sellOnBeatStarsMarketplace') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>BeatStars Marketplace Commission</td>
+                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
                     <td>
                         30%
                     </td>
                 </tr>
                 <tr>
-                    <td>Embeddable Blaze Player</td>
+                    <td>{{ $t('embeddableBlazePlayer') }}</td>
                     <td>1</td>
                 </tr>
                 <tr>
-                    <td>Monthly Private Messages</td>
+                    <td>{{ $t('monthlyPrivateMessages') }}</td>
                     <td>5</td>
                 </tr>
                 <tr>
-                    <td>Number of License Agreements for Sale</td>
+                    <td>{{ $t('numberOfLicenseAgreementsForSale') }}</td>
                     <td>2</td>
                 </tr>
                 <tr>
-                    <td>Premium Statistics</td>
+                    <td>{{ $t('premiumStatistics') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sales Statistics</td>
+                    <td>{{ $t('salesStatistics') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Submissions per Opportunity</td>
+                    <td>{{ $t('submissionsPerOpportunity') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Widgets</td>
+                    <td>{{ $t('widgets') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>SoundCloud Monetization</td>
+                    <td>{{ $t('soundCloudMonetization') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Audiomack Monetization</td>
+                    <td>{{ $t('audiomackMonetization') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -181,7 +181,7 @@
 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="#" class="btn btn--start" @click="doNext(1)">Get Started</a>
+                        <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
 <!--                </tfoot>-->
@@ -193,12 +193,12 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        MARKETPLACE
+                        {{ $t('marketPlace') }}
                     </p>
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
                 <div class="right">
-                    <a href="#" class="btn btn--start" @click="doNext(2)">Get Started</a>
+                    <a href="#" class="btn btn--start" @click="doNext(2)">{{ $t('getStarted') }}</a>
                 </div>
             </div>
             <table>
@@ -208,108 +208,108 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>Upload Tracks Limit</td>
+                    <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>10</td>
                 </tr>
                 <tr>
-                    <td>Upload Track Stems</td>
+                    <td>{{ $t('uploadTrackStems') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sell Sound Kits</td>
+                    <td>{{ $t('sellSoundKits') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>Sell Custom Services</td>
+                    <td>{{ $t('sellCustomServices') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Pro Page Sales Revenue</td>
+                    <td>{{ $t('proPageSalesRevenue') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Instant Payments</td>
+                    <td>{{ $t('instantPayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Accept PayPal payments</td>
+                    <td>{{ $t('acceptPayPalPayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Accept Stripe payments</td>
+                    <td>{{ $t('acceptStripePayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sell On BeatStars Marketplace</td>
+                    <td>{{ $t('sellOnBeatStarsMarketplace') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>BeatStars Marketplace Commission</td>
+                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
                     <td>
                         30%
                     </td>
                 </tr>
                 <tr>
-                    <td>Embeddable Blaze Player</td>
+                    <td>{{ $t('embeddableBlazePlayer') }}</td>
                     <td>1</td>
                 </tr>
                 <tr>
-                    <td>Monthly Private Messages</td>
+                    <td>{{ $t('monthlyPrivateMessages') }}</td>
                     <td>5</td>
                 </tr>
                 <tr>
-                    <td>Number of License Agreements for Sale</td>
+                    <td>{{ $t('numberOfLicenseAgreementsForSale') }}</td>
                     <td>2</td>
                 </tr>
                 <tr>
-                    <td>Premium Statistics</td>
+                    <td>{{ $t('premiumStatistics') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sales Statistics</td>
+                    <td>{{ $t('salesStatistics') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Submissions per Opportunity</td>
+                    <td>{{ $t('submissionsPerOpportunity') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Widgets</td>
+                    <td>{{ $t('widgets') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>SoundCloud Monetization</td>
+                    <td>{{ $t('soundCloudMonetization') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Audiomack Monetization</td>
+                    <td>{{ $t('audiomackMonetization') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -317,7 +317,7 @@
 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="#" class="btn btn--start" @click="doNext(2)">Get Started</a>
+                        <a href="#" class="btn btn--start" @click="doNext(2)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
 <!--                </tfoot>-->
@@ -329,12 +329,12 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        PRO PAGE
+                        {{ $t('proPage') }}
                     </p>
                     <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
                 <div class="right">
-                    <a href="#" class="btn btn--start" @click="doNext(3)">Get Started</a>
+                    <a href="#" class="btn btn--start" @click="doNext(3)">{{ $t('getStarted') }}</a>
                 </div>
             </div>
             <table>
@@ -344,108 +344,108 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>Upload Tracks Limit</td>
+                    <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>10</td>
                 </tr>
                 <tr>
-                    <td>Upload Track Stems</td>
+                    <td>{{ $t('uploadTrackStems') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sell Sound Kits</td>
+                    <td>{{ $t('sellSoundKits') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>Sell Custom Services</td>
+                    <td>{{ $t('sellCustomServices') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Pro Page Sales Revenue</td>
+                    <td>{{ $t('proPageSalesRevenue') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Instant Payments</td>
+                    <td>{{ $t('instantPayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Accept PayPal payments</td>
+                    <td>{{ $t('acceptPayPalPayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Accept Stripe payments</td>
+                    <td>{{ $t('acceptStripePayments') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sell On BeatStars Marketplace</td>
+                    <td>{{ $t('sellOnBeatStarsMarketplace') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>BeatStars Marketplace Commission</td>
+                    <td>{{ $t('beatStarsMarketplaceCommission') }}</td>
                     <td>
                         30%
                     </td>
                 </tr>
                 <tr>
-                    <td>Embeddable Blaze Player</td>
+                    <td>{{ $t('embeddableBlazePlayer') }}</td>
                     <td>1</td>
                 </tr>
                 <tr>
-                    <td>Monthly Private Messages</td>
+                    <td>{{ $t('monthlyPrivateMessages') }}</td>
                     <td>5</td>
                 </tr>
                 <tr>
-                    <td>Number of License Agreements for Sale</td>
+                    <td>{{ $t('numberOfLicenseAgreementsForSale') }}</td>
                     <td>2</td>
                 </tr>
                 <tr>
-                    <td>Premium Statistics</td>
+                    <td>{{ $t('premiumStatistics') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Sales Statistics</td>
+                    <td>{{ $t('salesStatistics') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Submissions per Opportunity</td>
+                    <td>{{ $t('submissionsPerOpportunity') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Widgets</td>
+                    <td>{{ $t('widgets') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>SoundCloud Monetization</td>
+                    <td>{{ $t('soundCloudMonetization') }}</td>
                     <td>
                         <span class="un-check">X</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>Audiomack Monetization</td>
+                    <td>{{ $t('audiomackMonetization') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -453,7 +453,7 @@
 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="#" class="btn btn--start" @click="doNext(3)">Get Started</a>
+                        <a href="#" class="btn btn--start" @click="doNext(3)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
 <!--                </tfoot>-->
@@ -465,7 +465,6 @@
 </template>
 
 <script>
-
     import { EventBus } from '*/src/eventbus';
     import $ from 'jquery'
 
@@ -503,8 +502,6 @@
             this.fetchData();
         },
         mounted() {
-
-
             // $('.accounts__tab button').on('click', function(){
             //     $('.accounts__tab button').removeClass('active');
             //     $(this).addClass('active')
@@ -512,7 +509,6 @@
             //     var target = $(this).data('target');
             //     $('#'+target).show();
             // })
-
         },
         watch: {
             currentUserType(n) {
@@ -553,16 +549,10 @@
                 });
             },
         },
-
     }
-
-
-
-
 </script>
 
 <style lang="scss">
-
     .btn--start {
         margin-top: 10px;
         width: 100% !important;
@@ -571,8 +561,6 @@
     div.right {
         width: 100px !important;
     }
-
-
 </style>
 
 <style lang="css">

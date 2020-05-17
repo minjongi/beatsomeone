@@ -1,37 +1,33 @@
 <template>
-
     <div class="wrapper">
-
         <Header :is-login="isLogin"></Header>
         <div class="container accounts">
             <div class="accounts__title">
                 <h1>
-                    Log in to continue
+                    {{ $t('loginToContinue') }}
                 </h1>
             </div>
             <div class="login accounts__defaultLayout">
-
-
                 <form action="/login" method="post">
                     <div class="accounts__form">
                         <div class="row">
                             <label for="">
-                                <p class="form-title">Email or username</p>
+                                <p class="form-title">{{ $t('emailOrUsername') }}</p>
                                 <div class="input">
                                     <input ref="userid"
                                             type="text" name="mem_userid"
-                                            placeholder="Type your e-mail or username"
+                                           :placeholder="$t('typeEmailOrUsername')"
                                     />
                                 </div>
                             </label>
                         </div>
                         <div class="row">
                             <label for="">
-                                <p class="form-title">Password
-                                    <a href="/findaccount">Forgot ID/password?</a>
+                                <p class="form-title">{{ $t('password') }}
+                                    <a href="/findaccount">{{ $t('forgotYourAccount') }}</a>
                                 </p>
                                 <div class="input">
-                                    <input type="password" name="mem_password" placeholder="Type your password" />
+                                    <input type="password" name="mem_password" :placeholder="$t('typeYourPassword')" />
                                 </div>
                             </label>
                         </div>
@@ -41,7 +37,7 @@
                     </div>
                     <div class="accounts__btnbox">
                         <button type="submit" class="btn btn--submit">
-                            Log in
+                            {{ $t('login') }}
                         </button>
                     </div>
                 </form>
@@ -51,28 +47,26 @@
                     <a href=""
                     ><img
                             src="@/assets_m/images/accounts-facebook.png"
-                            alt="페이스북 로그인"
+                            :alt="$t('loginFacebook')"
                     /></a>
                     <a href=""
                     ><img
                             src="@/assets_m/images/accounts-twitter.png"
-                            alt="트위터 로그인"
+                            :alt="$t('loginTwitter')"
                     /></a>
                     <a href=""
-                    ><img src="@/assets_m/images/accounts-google.png" alt="구글 로그인"
+                    ><img src="@/assets_m/images/accounts-google.png" :alt="$t('loginGoogle')"
                     /></a>
                     <a href=""
-                    ><img src="@/assets_m/images/accounts-naver.png" alt="네이버 로그인"
+                    ><img src="@/assets_m/images/accounts-naver.png" :alt="$t('loginNaver')"
                     /></a>
                     <a href=""
-                    ><img src="@/assets_m/images/accounts-kakao.png" alt="카카오 로그인"
+                    ><img src="@/assets_m/images/accounts-kakao.png" :alt="$t('loginKakao')"
                     /></a>
                 </div>
-
                 <div class="accounts__etc">
-                    Don`t have an account? <a href="/register">Sign up</a>
+                    {{ $t('dontHaveAccount') }} <a href="/register">{{ $t('signup') }}</a>
                 </div>
-
             </div>
         </div>
         <Footer></Footer>
@@ -80,8 +74,6 @@
 </template>
 
 <script>
-
-
     require('@/assets_m/js/function');
 
     import Header from "@/views/beatsomeone/mobile/include/Header";
@@ -101,22 +93,14 @@
             this.$refs.userid.focus();
         },
         watch: {
-
         },
         methods: {
-
-
-
         },
-
     }
-
 </script>
 
 <style lang="scss">
     @import '@/assets_m/scss/App.scss';
-
-
 </style>
 
 <style lang="css">

@@ -81,7 +81,7 @@
                                                         target="/beatsomeoneApi/upload_item_file" action="POST" hidden
                                                         v-on:progress="stemFileProgressUpload" v-on:start="stemFileStartUpload"
                                                         v-on:finish="stemFileFinishUpload"/>
-                                            <p>{{ $t('trackStems') }} ZIP or RAR</p>
+                                            <p>{{ $t('stemsZIPorRAR') }}</p>
                                             <span class="format">{{ !!item.stemFileName ? item.stemFileName : '.ZIP (or.RAR)' }}</span>
                                             <div class="addAudioFile__progress">
                                                 <span ref="stemFileProgressBar"></span>

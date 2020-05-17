@@ -104,7 +104,7 @@
                                                         :value="f"
                                                         v-model="param.currentTrackType"
                                                 />
-                                                <span></span> {{ listTrackTypeName[index] }} {{ f }}
+                                                <span></span> {{ listTrackTypeName[index] }}
                                             </label>
                                         </li>
                                     </ul>

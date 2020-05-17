@@ -10,10 +10,10 @@
                     <section class="main__section1">
                         <header class="main__section1-title">
                             <div class="wrap">
-                                <h1>HOLIDAY GIVEAWAY</h1>
+                                <h1>{{ $t('holidayGiveaway') }}</h1>
                                 <p>
-                                    Finding incredible music & connecting with amazing artists and
-                                    producers to collaborate with have never been easier.
+                                    {{ $t('findingMusicMsg') }}
+                                    {{ $t('mainMsg2') }}
                                 </p>
                             </div>
                         </header>
@@ -21,8 +21,8 @@
                         <div class="main__media">
                             <div class="tab">
                                 <div class="tab__scroll">
-                                    <button v-for="g in listGenre" :key="g" :class="{active:currentGenre === g}" @click="currentGenre = g">
-                                        {{ g }}
+                                    <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}" @click="currentGenre = g">
+                                        {{ listGenreName[i] }}
                                     </button>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                                     </template>
                                 </transition-group>
                                 <div class="playList__btnbox">
-                                    <a href="#//" class="playList__more pointer" @click="moveMore">more</a>
+                                    <a class="playList__more pointer" @click="moveMore">{{ $t('more') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -50,19 +50,18 @@
                         <header class="main__section2-title">
                             <div class="wrap">
                                 <h1>
-                                    ANYONE CAN BORROW
-                                    <br />
-                                    OR SELL BEATS EASILY!
+                                    {{ $t('bitTradingMessage1') }}<br/>
+                                    {{ $t('bitTradingMessage2') }}
                                 </h1>
                                 <a href="/register">
-                                    I want to lend or sell my beat
+                                    {{ $t('lendOrSellMyBeat') }}
                                 </a>
                             </div>
                         </header>
 
                         <!-- 트렌딜 슬라이드 부분 -->
                         <div class="trending">
-                            <h2 class="trending__title">TRENDING MUSIC</h2>
+                            <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
                             <div class="trending__slider">
                                 <div class="slider">
                                     <div class="trending__slide-item albumItem" v-for="(i,index) in listTrending" :key="index" :onclick="`window.vm.$children[0].selectItem('${i.cit_key}')`">
@@ -87,8 +86,8 @@
                             <div class="testimonials">
                                 <div class="wrap">
                                     <article class="testimonials__title">
-                                        <h1>TESTIMONIALS</h1>
-                                        <p>Partner with the best team members!</p>
+                                        <h1>{{ $t('testimonials') }}</h1>
+                                        <p>{{ $t('bestTeamMember') }}</p>
                                     </article>
                                     <article class="testimonials__lists">
                                         <figure class="card card--testimonials">
@@ -138,20 +137,20 @@
                                         </figure>
                                     </article>
                                     <div class="testimonials__btnbox">
-                                        <a href="/register">START SELLING</a>
-                                        <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">BROWSE BEATS</a>
+                                        <a href="/register">{{ $t('startSelling') }}</a>
+                                        <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="main__desc">
                                 <h1>
-                                    NOW IT'S TIME FOR YOUR BEATS AND<br />
-                                    MUSIC TO BE SHOWN ALL OVER THE WORKLD,<br />
-                                    ARE YOU READY?
+                                    {{ $t('musicWorldMsg1') }}<br/>
+                                    {{ $t('musicWorldMsg2') }}<br/>
+                                    {{ $t('areYouReady') }}
                                 </h1>
                                 <a href="/register">
-                                    Trust our best team members and join us!
+                                    {{ $t('trustOurTeamMsg') }}
                                 </a>
                             </div>
                         </div>
@@ -191,11 +190,25 @@
                 listTrending: null,
                 listTestimonials: null,
                 currentGenre : 'All Genre',
-                listGenre: ['All Genre','Hip Hop','Pop','R&B','Rock','Electronic','Reggae','Country','World','K-Pop','Free Beats'],
-
+                listGenre: ['All Genre', 'Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
+                listGenreName: {},
             }
         },
         created() {
+            this.listGenreName = [
+                this.$t('allGenre'),
+                'Hip Hop',
+                'K-Pop',
+                'Pop',
+                'R&B',
+                'Rock',
+                'Electronic',
+                'Reggae',
+                'Country',
+                'World',
+                this.$t('freeBeats')
+            ]
+
             // 메인 리스트 조회
             this.getMainList();
 

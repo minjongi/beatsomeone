@@ -77,7 +77,6 @@
         },
         methods: {
             doJoin() {
-
                 const form = {
                     user_type: this.info.userType,
                     mem_userid : this.info.username,
@@ -94,26 +93,18 @@
                 };
 
                 Http.post('/register/ajax_form_user',form).then(r => {
-                    alert('가입 되었습니다') ;
+                    alert(this.$t('registerSuccess')) ;
                     window.location.href = '/';
                 },e => {
-                    alert('가입 실패');
+                    alert(this.$t('registerFail'));
                 });
-
             },
         },
-
     }
-
-
-
-
 </script>
 
 <style lang="scss">
     @import '@/assets_m/scss/App.scss';
-
-
 </style>
 
 <style lang="css">

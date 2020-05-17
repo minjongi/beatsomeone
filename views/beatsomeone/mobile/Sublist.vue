@@ -10,7 +10,7 @@
                     <div class="sublist__filter-content">
                         <div class="row">
                             <div class="filter">
-                                <h2 class="filter__title">FILTER</h2>
+                                <h2 class="filter__title">{{ $t('filter') }}</h2>
                                 <div class="filter__content">
                                     <ul class="filter__list">
                                         <li class="filter__item" v-for="(f,index) in listFilter" :key="index">
@@ -23,7 +23,7 @@
                                                         :value="f"
                                                         v-model="param.currentGenre"
                                                 />
-                                                <span></span> {{ f }}
+                                                <span></span> {{ listFilterName[index] }}
                                             </label>
                                         </li>
                                     </ul>
@@ -32,7 +32,7 @@
                         </div>
                         <div class="row">
                             <div class="filter">
-                                <h2 class="filter__title">Subgenres</h2>
+                                <h2 class="filter__title">{{ $t('subGenres') }}</h2>
                                 <div class="filter__content">
                                     <ul class="filter__list">
                                         <li class="filter__item" v-for="(f,index) in listSubgenres" :key="index">
@@ -45,7 +45,7 @@
                                                         :value="f"
                                                         v-model="param.currentSubgenres"
                                                 />
-                                                <span></span> {{ f }}
+                                                <span></span> {{ listSubgenresName[index] }}
                                             </label>
                                         </li>
                                     </ul>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="row">
                             <div class="filter">
-                                <h2 class="filter__title folded">Moods</h2>
+                                <h2 class="filter__title folded">{{ $t('moods') }}</h2>
                                 <div class="filter__content" style="display: none;">
                                     <ul class="filter__list">
                                         <li class="filter__item" v-for="(f,index) in listMoods" :key="index">
@@ -82,7 +82,7 @@
                                                         :value="f"
                                                         v-model="param.currentMoods"
                                                 />
-                                                <span></span> {{ f }}
+                                                <span></span> {{ listMoodsName[index] }}
                                             </label>
                                         </li>
                                     </ul>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="row">
                             <div class="filter">
-                                <h2 class="filter__title folded">Track Type</h2>
+                                <h2 class="filter__title folded">{{ $t('trackType') }}</h2>
                                 <div class="filter__content" style="display: none;">
                                     <ul class="filter__list">
                                         <li class="filter__item" v-for="(f,index) in listTrackType" :key="index">
@@ -104,7 +104,7 @@
                                                         :value="f"
                                                         v-model="param.currentTrackType"
                                                 />
-                                                <span></span> {{ f }}
+                                                <span></span> {{ listTrackTypeName[index] }}
                                             </label>
                                         </li>
                                     </ul>
@@ -118,7 +118,7 @@
                 <div class="sublist__content">
                     <div class="row">
                         <h2 class="section-title" v-if="param.search">
-                            <div class="wrap">Search results for '{{ param.search }}'</div>
+                            <div class="wrap">{{ $t('searchResultsFor') }} '{{ param.search }}'</div>
                         </h2>
                         <h2 class="section-title">
                             <div class="wrap">TOP <span class="number">5</span></div>
@@ -129,7 +129,7 @@
                                     <button class="albumItem__cover">
                                         <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name" />
                                     </button>
-                                    <a href="#//" class="albumItem__link">
+                                    <a class="albumItem__link">
                                         <h4 class="albumItem__title">{{ i.cit_name }}</h4>
                                         <p class="albumItem__singer">{{ i.musician }}</p>
                                     </a>
@@ -186,10 +186,14 @@
                 slick: null,
                 isShowFilter: false,
                 isLogin: false,
-                listFilter: ['All Genre','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
-                listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
+                listFilter: ['All Genre','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
+                listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
                 listMoods: ['All','Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
                 listTrackType: ['All types','Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
+                listFilterName: [],
+                listSubgenresName: [],
+                listMoodsName: [],
+                listTrackTypeName: [],
                 offset: 0,
                 last_offset: 0,
                 list: null,
@@ -220,6 +224,50 @@
             },
         },
         created() {
+            this.listFilterName = [
+                this.$t('allGenre'),
+                'Hip Hop',
+                'K-Pop',
+                'Pop',
+                'R&B',
+                'Rock',
+                'Electronic',
+                'Reggae',
+                'Country',
+                'World',
+                this.$t('freeBeats')
+            ]
+
+            this.listSubgenresName = [
+                this.$t('all'),
+                'Hip Hop',
+                'K-Pop',
+                'Pop',
+                'R&B',
+                'Rock',
+                'Electronic',
+                'Reggae',
+                'Country',
+                'World',
+                this.$t('freeBeats')
+            ]
+
+            this.listMoods = [
+                'All',
+                'Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy',
+                'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed',
+                'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic',
+                'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic',
+                'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper',
+                'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved',
+                'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad',
+                'Scared', 'Silly', 'Soulful'
+            ]
+            this.listTrackTypeName = [
+                'All types',
+                'Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'
+            ]
+
             this.param.currentGenre = this.listFilter[0];
             this.param.currentSubgenres = this.listSubgenres[0];
             this.param.currentMoods = this.listMoods[0];

@@ -1,9 +1,8 @@
 <template>
     <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
-
         <div class="playList__item playList__item--title">
             <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish">
-                <button>즐겨찾기</button>
+                <button>{{ $t('favorite') }}</button>
             </div>
             <div class="col name">
                 <figure>
@@ -13,7 +12,6 @@
                         alt=""
                 />
                 <i class="label new" ng-if="item.isNew">N</i>
-
               </span>
                     <figcaption class="pointer" @click="selectItem(item)">
                         <h3 class="playList__title">
@@ -42,20 +40,17 @@
             <div class="col spectrum">
                 <div class="wave"></div>
             </div>
-
             <div class="col utils">
                 <a @click="addCart" class="cart" >
                     &nbsp;
                     <span class="tooltip">{{ item.cde_price }}&#8361;</span>
                 </a>
-
-                <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">다운로드</a>
-                <a href="" class="shared">공유하기</a>
+                <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">{{ $t('download') }}</a>
+                <a href="" class="shared">{{ $t('share') }}</a>
             </div>
-
             <div class="col more">
                 <button>
-                    more
+                    {{ $t('more') }}
                     <span class="tooltip">
                 <a href="">action1</a>
                 <a href="">action2</a>
@@ -64,25 +59,19 @@
                 </button>
             </div>
         </div>
-
     </li>
 </template>
 
-
 <script>
-
     import { EventBus } from '*/src/eventbus';
     import $ from 'jquery';
     import WaveSurfer from 'wavesurfer.js';
-
-
 
     export default {
         props: ['item'],
         data: function () {
             return {
                 isOpenSubmenu: false,
-                listGenre: ['Hip Hop','Pop','R&B','ROCK','Electronic','Reggae','Country','World','K-Pop'],
                 ws: null,
                 isPlay: false,
                 isReady: false,
