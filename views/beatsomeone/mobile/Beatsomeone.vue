@@ -191,24 +191,9 @@
                 listTestimonials: null,
                 currentGenre : 'All Genre',
                 listGenre: ['All Genre', 'Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
-                listGenreName: {},
             }
         },
         created() {
-            this.listGenreName = [
-                this.$t('allGenre'),
-                'Hip Hop',
-                'K-Pop',
-                'Pop',
-                'R&B',
-                'Rock',
-                'Electronic',
-                'Reggae',
-                'Country',
-                'World',
-                this.$t('freeBeats')
-            ]
-
             // 메인 리스트 조회
             this.getMainList();
 
@@ -219,8 +204,6 @@
             this.getTestimonialsList();
         },
         mounted() {
-
-
             // 메인페이지: 서브 앨범 슬라이드 이벤트
             $(".toggle-subList").on("click", function() {
                 var itemLength = $(this)
@@ -259,8 +242,6 @@
                     .toggle();
             });
 
-
-
             // Amplitude.init({
             //     "songs": this.listPlayer,
             //     delay: 3000,
@@ -276,6 +257,23 @@
                     this.getMainList();
                 }
             }
+        },
+        computed: {
+            listGenreName() {
+                return [
+                    this.$t('allGenre'),
+                    'Hip Hop',
+                    'K-Pop',
+                    'Pop',
+                    'R&B',
+                    'Rock',
+                    'Electronic',
+                    'Reggae',
+                    'Country',
+                    'World',
+                    this.$t('freeBeats')
+                ]
+            },
         },
         methods: {
             doSlide() {

@@ -1,8 +1,6 @@
 <template>
-
     <div class="wrapper">
         <Header :is-login="isLogin"/>
-
         <div class="container detail">
             <div class="detail__header">
                 <div class="wrap">
@@ -27,11 +25,8 @@
                             </div>
                         </div>
                     </div>
-
 <!--                    <div class="wave">-->
-
 <!--                    </div>-->
-
                     <div class="player player--static">
                         <div class="wrap">
                             <div class="player__top">
@@ -102,7 +97,6 @@
                 item: null,
                 comment: null,
                 music: null,
-                tabs: [{path:'/',title:'SIMILAR TRACKS'},{path:'/comments',title:'COMMENTS'},{path:'/infomation',title:'INFORMATION'}],
                 currentTab: 'SIMILAR TRACKS',
                 playlist: null,
                 player: null,
@@ -114,14 +108,14 @@
                 const t = new Date(Date.parse(this.item.cit_start_datetime));
 
                 return `${t.getFullYear()}.${('0' + t.getMonth()).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
+            },
+            tabs() {
+                return [
+                    {path: '/', title: this.$t('similarTrack')},
+                    {path: '/comments', title: this.$t('comments')},
+                    {path: '/infomation', title: this.$t('information')}
+                ]
             }
-        },
-        created() {
-            this.tabs = [
-                {path: '/', title: this.$t('similarTrack')},
-                {path: '/comments', title: this.$t('comments')},
-                {path: '/infomation', title: this.$t('information')}
-            ]
         },
         mounted() {
 

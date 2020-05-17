@@ -31,6 +31,7 @@
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">(${{ cartSum }})</a>
+                    <a href="#" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </div>
 
                 <a href="" class="gnb__banner">
@@ -48,6 +49,7 @@
 <script>
 
     import { EventBus } from '*/src/eventbus';
+    import Vuecookies from 'vue-cookies'
 
     export default {
         name: 'Header',
@@ -77,6 +79,11 @@
         mounted() {
             this.updateCartSum();
         },
+        computed: {
+            toggleLocaleMenuTit: function() {
+                return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
+            },
+        },
         methods: {
             toggleOpenMenu() {
               this.isOpen = !this.isOpen;
@@ -95,6 +102,11 @@
                 }
                 const path = `/beatsomeone/search?q=${this.searchText}`;
                 window.location.href = path;
+            },
+            toggleLocale() {
+                let locale = this.$i18n.locale === 'en' ? 'ko' : 'en'
+                Vuecookies.set('locale', locale)
+                this.$i18n.locale = locale
             },
         },
     }

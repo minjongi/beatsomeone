@@ -478,6 +478,7 @@ class BeatsomeoneApi extends CB_Controller
         // Form Parse
         $form = array(
             'cit_id' => $this->input->post('cit_id'),
+            'cit_key' => $this->input->post('cit_key'),
             'cit_name' => $this->input->post('cit_name'),
             'hashTag' => $this->input->post('hashTag'),
             'trackType' => $this->input->post('trackType'),

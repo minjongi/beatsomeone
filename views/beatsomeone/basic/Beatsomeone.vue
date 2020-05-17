@@ -230,9 +230,7 @@
                 listTestimonials: null,
                 currentGenre: 'All Genre',
                 listGenre: ['All Genre', 'Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
-                listGenreName: {},
                 listSort: ['Sort By Staff Picks', 'Top Downloads', 'Newest'],
-                listSortName: {},
                 listBpm: [
                     {t: 'BPM', v: null},
                     {t: '80-90', v: 90},
@@ -246,27 +244,6 @@
                     bpm: {t: 'BPM', v: null},
                 },
             }
-        },
-        created() {
-            this.listGenreName = [
-                this.$t('allGenre'),
-                'Hip Hop',
-                'K-Pop',
-                'Pop',
-                'R&B',
-                'Rock',
-                'Electronic',
-                'Reggae',
-                'Country',
-                'World',
-                this.$t('freeBeats')
-            ]
-
-            this.listSortName = [
-                this.$t('sortByStaffPick'),
-                this.$t('topDownloads'),
-                this.$t('newest')
-            ]
         },
         mounted() {
             // 메인페이지: 서브 앨범 슬라이드 이벤트
@@ -327,6 +304,28 @@
         computed: {
             listSortParamName() {
                 return this.listSortName[this.listSort.indexOf(this.param.sort)]
+            },
+            listGenreName() {
+                return [
+                    this.$t('allGenre'),
+                    'Hip Hop',
+                    'K-Pop',
+                    'Pop',
+                    'R&B',
+                    'Rock',
+                    'Electronic',
+                    'Reggae',
+                    'Country',
+                    'World',
+                    this.$t('freeBeats')
+                ]
+            },
+            listSortName() {
+                return [
+                    this.$t('sortByStaffPick'),
+                    this.$t('topDownloads'),
+                    this.$t('newest')
+                ]
             }
         },
         watch: {
