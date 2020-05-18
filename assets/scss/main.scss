@@ -4,6 +4,7 @@
 @import "base/reset";
 @import "base/form";
 @import "base/typography";
+@import "base/mypage_common";
 
 @import "helpers/mixins";
 
@@ -32,5 +33,6 @@
 @import "pages/accounts";
 @import "pages/detail";
 @import "pages/regist_item";
+@import "pages/list_item";
 
 @import "vendors/rangeCustom";
