@@ -34,7 +34,7 @@
                         <input type="radio" id="yearly" hidden name="bill" />
                         <span>
                             {{ $t('billYearly') }}
-                            <em>{{ $t('save20') }}</em>
+                            <em>{{ disBill }}{{ $t('savepercent') }}</em>
                         </span>
                     </label>
                 </div>
@@ -245,6 +245,7 @@
                 plan: 'free',
                 planName: 'free',
                 listPlan : null,
+                disBill: 0,
             }
         },
         filters: {
@@ -317,6 +318,7 @@
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
                     this.listPlan = r;
+                    this.disBill = this.listPlan[0].yearly_discount_pc;
                 });
             },
         },

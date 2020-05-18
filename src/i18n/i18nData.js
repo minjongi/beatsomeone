@@ -98,6 +98,7 @@ export default {
         releaseDate: '판매 개시일자',
         save: '저장',
         save20: '20%의 할인 적용',
+        savepercent: '%의 할인 적용',
         send: '입력',
         setUsername: '사용할 닉네임을 입력 하세요',
         signup: '회원가입',
