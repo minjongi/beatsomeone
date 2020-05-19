@@ -199,10 +199,10 @@
                         <a href="#" class="btn btn--start" @click="doNext('free')">{{ $t('getStarted') }}</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('marketplace')">{{ $t('getStarted') }}</a>
+                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">{{ $t('getStarted') }}</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('pro')">{{ $t('getStarted') }}</a>
+                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
                 <!--                    </tfoot>-->
@@ -292,13 +292,19 @@
         },
         methods: {
             doNext(plan) {
+                var islogin = this.$parent.isLogin;
                 if(plan=="Marketplace"){
                     this.planName = this.$t('Platinum');
                 }else if(plan=="Pro Page"){
                     this.planName = this.$t('Master');
                 }
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: plan, planName: this.planName, billTerm: this.billTerm  });
-                this.$router.push({path: '/2'});
+
+                if(islogin){
+                    this.$router.push({path: '/6'});    
+                }else{
+                    this.$router.push({path: '/2'});
+                }
             },
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {

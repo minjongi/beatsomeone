@@ -305,6 +305,7 @@
         },
         methods: {
             doNext(type) {
+                var islogin = this.$parent.isLogin;
                 if(type==2){
                     this.plan = "Marketplace";
                     this.planName = this.$t('Platinum');
@@ -313,7 +314,12 @@
                     this.planName = this.$t('Master');
                 }
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: this.plan, planName: this.planName, billTerm: this.billTerm });
-                this.$router.push({path: '/2'});
+
+                if(islogin){
+                    this.$router.push({path: '/6'});    
+                }else{
+                    this.$router.push({path: '/2'});
+                }
             },
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
