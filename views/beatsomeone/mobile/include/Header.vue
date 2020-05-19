@@ -26,7 +26,6 @@
                 <div class="gnb__links">
                     <a href="/cmall/wishlist">{{ $t('favorite') }}</a>
                     <a href="">{{ $t('freeBeats') }}</a>
-                    <a href="">{{ $t('pricing') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>

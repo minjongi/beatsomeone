@@ -134,6 +134,9 @@ $config['url_suffix'] = '';
 /**
  * CiBoard 주 : 아래의 값은 변경하실 필요가 없습니다.
  */
+$validLocale = ['ko' => 'korean', 'en' => 'english'];
+$locale = $_COOKIE['locale'] ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
+$locale = array_key_exists($locale, $validLocale) ? $locale : 'ko';
 $config['language'] = 'korean';
 
 /*

@@ -1,13 +1,13 @@
 <template>
-
     <div>
         <div class="wrapper">
-
             <Header :is-login="isLogin"></Header>
-
             <div class="container">
                 <div class="main">
                     <section class="main__section1">
+                        <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop>
+                            <source :src="bgVideoPath" type="video/mp4">
+                        </video>
                         <header class="main__section1-title">
                             <div class="wrap">
                                 <h1>{{ $t('holidayGiveaway') }}</h1>
@@ -17,7 +17,6 @@
                                 </p>
                             </div>
                         </header>
-
                         <div class="main__media">
                             <div class="tab">
                                 <div class="tab__scroll">
@@ -58,7 +57,6 @@
                                 </a>
                             </div>
                         </header>
-
                         <!-- 트렌딜 슬라이드 부분 -->
                         <div class="trending">
                             <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
@@ -76,13 +74,11 @@
                                 </div>
                             </div>
                             <!-- 트렌드 슬라이드 끝 -->
-
                             <!-- 제휴 업체 로그 이미지  -->
                             <div class="alliance">
                                 <img src="@/assets_m/images/partner/partner-total.png" alt="" href="#" />
                             </div>
                             <!-- 제휴업체 로그 이미지 끝 -->
-
                             <div class="testimonials">
                                 <div class="wrap">
                                     <article class="testimonials__title">
@@ -93,10 +89,7 @@
                                         <figure class="card card--testimonials">
                                             <a href="">
                                                 <div class="img">
-                                                    <img
-                                                            src="@/assets_m/images/dummy/testimonials1.png"
-                                                            alt=""
-                                                    />
+                                                    <img src="@/assets_m/images/dummy/testimonials1.png" alt=""/>
                                                 </div>
                                                 <figcaption>
                                                     <h3>WAITING (Indie Rock Type Beat)</h3>
@@ -108,10 +101,7 @@
                                         <figure class="card card--testimonials">
                                             <a href="">
                                                 <div class="img">
-                                                    <img
-                                                            src="@/assets_m/images/dummy/testimonials2.png"
-                                                            alt=""
-                                                    />
+                                                    <img src="@/assets_m/images/dummy/testimonials2.png" alt=""/>
                                                 </div>
                                                 <figcaption>
                                                     <h3>WAITING (Indie Rock Type Beat)</h3>
@@ -123,10 +113,7 @@
                                         <figure class="card card--testimonials">
                                             <a href="">
                                                 <div class="img">
-                                                    <img
-                                                            src="@/assets_m/images/dummy/testimonials3.png"
-                                                            alt=""
-                                                    />
+                                                    <img src="@/assets_m/images/dummy/testimonials3.png" alt=""/>
                                                 </div>
                                                 <figcaption>
                                                     <h3>WAITING (Indie Rock Type Beat)</h3>
@@ -142,7 +129,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="main__desc">
                                 <h1>
                                     {{ $t('musicWorldMsg1') }}<br/>
@@ -160,14 +146,10 @@
             </div>
         </div>
         <main-player></main-player>
-
     </div>
-
-
 </template>
 
 <script>
-
     require('@/assets_m/js/function');
 
     import $ from "jquery";
@@ -190,7 +172,7 @@
                 listTrending: null,
                 listTestimonials: null,
                 currentGenre : 'All Genre',
-                listGenre: ['All Genre', 'Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
+                listGenre: ['All Genre'].concat(window.genre),
             }
         },
         created() {
@@ -241,14 +223,6 @@
                     .find(".options")
                     .toggle();
             });
-
-            // Amplitude.init({
-            //     "songs": this.listPlayer,
-            //     delay: 3000,
-            //     waveforms: {
-            //         sample_rate: 3000
-            //     }
-            // });
         },
         watch: {
             // 장르가 변경될 때
@@ -260,20 +234,19 @@
         },
         computed: {
             listGenreName() {
-                return [
-                    this.$t('allGenre'),
-                    'Hip Hop',
-                    'K-Pop',
-                    'Pop',
-                    'R&B',
-                    'Rock',
-                    'Electronic',
-                    'Reggae',
-                    'Country',
-                    'World',
-                    this.$t('freeBeats')
-                ]
+                let list = [],
+                    _self = this
+
+                this.listGenre.forEach(function (val) {
+                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
+            bgVideoPath() {
+                const idx = Math.floor(Math.random() * 6) + 1;
+                return '/uploads/data/bgvideo/mobile/bg' + idx + '.mp4'
+            }
         },
         methods: {
             doSlide() {
@@ -340,22 +313,15 @@
                     )
                 }, delay)
             }
-
         },
-
     }
-
 </script>
 
 <style lang="scss">
     @import '@/assets_m/scss/App.scss';
-
-
 </style>
 
 <style lang="css">
     @import '/assets_m/plugins/slick/slick.css';
     @import '/assets_m/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-
-
 </style>

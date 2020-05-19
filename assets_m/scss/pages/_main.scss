@@ -6,6 +6,13 @@
   .main__section1 {
     background: url("/assets_m/images/main-section1-visual.png") no-repeat center top;
     background-size: 100% auto;
+
+    #videoBG {
+      position:absolute;
+      width:100%;
+      top: 0;
+      left: 0;
+    }
   }
   .main__section1-title {
     padding: 100px 10px 0;

@@ -365,11 +365,20 @@ class Beatsomeone_model extends CB_Model
 
 
         $qry = $this->db->get($this->_table);
-        $result = $qry->result_array();
+        return $qry->result_array();
+    }
 
-        return $result;
 
+    // 회원별 음원 등록수 조회
+    public function get_item_reg_count_by_mem_id($memId)
+    {
+        $where['mem_id'] = $memId;
+        $select = 'COUNT(*) AS totalCount';
 
+        $this->db->select('COUNT(*) AS totalCount');
+        $this->db->where(['mem_id' => $memId]);
+        $qry = $this->db->get($this->_table);
+        return $qry->row_array()['totalCount'];
     }
 
 

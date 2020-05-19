@@ -2972,7 +2972,7 @@ class Register extends CB_Controller
 		if ($count > 0) {
 			$result = array(
 				'result' => 'no',
-				'reason' => '이미 사용중인 아이디입니다',
+				'reason' => lang('usernameAlreadyUse'),
 			);
 			exit(json_encode($result));
 		}
@@ -3033,7 +3033,7 @@ class Register extends CB_Controller
 		if ($count > 0) {
 			$result = array(
 				'result' => 'no',
-				'reason' => '이미 사용중인 이메일입니다',
+				'reason' => lang('emailAlreadyUse'),
 			);
 			exit(json_encode($result));
 		}
