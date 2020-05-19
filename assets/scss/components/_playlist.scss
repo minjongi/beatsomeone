@@ -31,12 +31,15 @@
 
   .playList__item {
     @include flex();
+    position:relative;
     background: #1b1b1f;
     transition: all 0.3s;
     width: 100%;
     padding: 0 10px;
     &:hover {
       background: #252629;
+      box-shadow: 0 8px 48px rgba(0,0,0,.75);
+      z-index:10
     }
 
     .col {
@@ -114,6 +117,8 @@
     }
     .genre {
       @include flex();
+      max-height:calc(100% - 10px);
+      overflow:hidden;
       padding: 0 30px;
       width: 280px;
       flex: none;
