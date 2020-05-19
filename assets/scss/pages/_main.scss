@@ -191,14 +191,21 @@
   }
 }
 
-section[class*="section1"]{
-  &:after{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background-image: linear-gradient(0deg, black, rgba(0,0,0,.5));
-    }
+section[class*="section"]{
+  position:relative;
+  
+  > .filter{
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height: 720px;
+        background-color: initial;
+        background-image: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0.25) 75%);
+        border: 0;
+
+        &.reverse{
+          background-image: linear-gradient(180deg, black 0%, rgba(0, 0, 0, 0.25) 75%);
+        }
+  }
 }

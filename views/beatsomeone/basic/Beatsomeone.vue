@@ -10,6 +10,7 @@
                     <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop>
                         <source src="/uploads/data/bg-pc.mp4" type="video/mp4">
                     </video>
+                    <div class="filter"></div>
                     <div class="wrap">
                         <header class="main__section1-title">
                             <h1>{{ $t('holidayGiveaway') }}</h1>
@@ -85,6 +86,7 @@
                     </div>
                 </section>
                 <section class="main__section2">
+                    <div class="filter reverse"></div>
                     <div class="wrap">
                         <header class="main__section2-title">
                             <h1>
