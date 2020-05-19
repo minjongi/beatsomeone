@@ -140,7 +140,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>10(event)<br>(1{{ $t('month') }})</td>
+                    <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
                     <td>{{ $t('unlimited1') }}</td>
                     <td>{{ $t('unlimited1') }}</td>
                 </tr>
@@ -165,7 +165,7 @@
                         10%
                     </td>
                     <td>
-                        O%
+                        O%<br>{{ $t('revenueToSeller') }}
                     </td>
                 </tr>
                 <tr>

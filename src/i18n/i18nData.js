@@ -234,6 +234,7 @@ export default {
         hasBeenRegistered: '등록 되었습니다',
         modificationFailedMsg: '수정 실패 하였습니다. 관리자에게 연락 주시기 바랍니다',
         registrationFailedMsg: '등록 실패 하였습니다. 관리자에게 연락 주시기 바랍니다',
+        revenueToSeller100: '판매자 100% 수익',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -468,5 +469,6 @@ export default {
         hasBeenRegistered: 'Has been registered',
         modificationFailedMsg: 'Modification failed. Please contact the admin',
         registrationFailedMsg: 'Registration failed. Please contact the admin',
+        revenueToSeller100: '100% of Revenue to Seller',
     } // en
 }
