@@ -122,7 +122,7 @@
 
                         <!-- 제휴 업체 로그 이미지  -->
                         <div class="alliance" @click="selectItem">
-                            <img src="@/assets/images/alliance.png" alt="" href="#"/>
+                            <img src="@/assets/images/alliance.png" alt="" href="#" style="opacity: .3"/>
                         </div>
                         <!-- 제휴업체 로그 이미지 끝 -->
 
