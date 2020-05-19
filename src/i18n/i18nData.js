@@ -291,6 +291,7 @@ export default {
         trackTypeVocals: 'Vocals',
         trackTypeSongreference: 'Song reference',
         trackTypeSongs: 'Songs',
+        savepercent: '% Discount applied',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -582,5 +583,6 @@ export default {
         trackTypeVocals: 'Vocals',
         trackTypeSongreference: 'Song reference',
         trackTypeSongs: 'Songs',
+        savepercent: '%의 할인 적용',
     } // en
 }
