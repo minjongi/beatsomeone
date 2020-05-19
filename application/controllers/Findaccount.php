@@ -483,7 +483,7 @@ class Findaccount extends CB_Controller
 		if ( ! element('mem_id', $userinfo)) {
 			$this->form_validation->set_message(
 				'_existemail',
-				'존재하지 않는 이메일주소입니다'
+				lang('emailDoesNotExist')
 			);
 			return false;
 		}
@@ -528,7 +528,7 @@ class Findaccount extends CB_Controller
 		if ( ! element('mem_id', $userinfo)) {
 			$this->form_validation->set_message(
 				'_verifyemail',
-				'존재하지 않는 이메일주소입니다'
+                lang('emailDoesNotExist')
 			);
 			return false;
 		}

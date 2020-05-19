@@ -43,7 +43,6 @@
                         </h3>
                         <ul>
                             <li><a href="">{{ $t('sellingMusic') }}</a></li>
-                            <li><a href="">{{ $t('proPage') }}</a></li>
                             <li><a href="">{{ $t('blazePlayer') }}</a></li>
                             <li><a href="">{{ $t('monetization') }}</a></li>
                             <li><a href="">{{ $t('testimonialsMenu') }}</a></li>

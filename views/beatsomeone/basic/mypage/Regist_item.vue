@@ -35,7 +35,7 @@
                                             <p class="form-title required">{{ $t('trackType1') }}</p>
                                             <select v-model="item.trackType" class="custom-select-basic">
                                                 <option value="">{{ $t('select') }}</option>
-                                                <option v-for="(item, index) in listTrackType" :key="'trackType' + index" :value="item">{{ item }}</option>
+                                                <option v-for="(item, index) in listTrackType" :key="'trackType' + index" :value="item">{{ listTrackTypeName[index] }}</option>
                                             </select>
                                         </label>
                                     </div>
@@ -43,8 +43,11 @@
                                         <label class="form-item">
                                             <p class="form-title required">{{ $t('releaseDate') }}</p>
                                             <div class="input" @click="closeCal">
-                                                <flat-pickr ref="cal" :config="{enableTime: true, dateFormat: 'Y-m-d H:i'}" v-model="item.cit_start_datetime" :placeholder="$t('dateTime')" class="datepicker" data-toggle data-close/>
+                                                <flat-pickr ref="cal" :config="{enableTime: true, dateFormat: 'Y-m-d H:i', minDate: minReleaseDate}" v-model="item.cit_start_datetime" :placeholder="$t('dateTime')" class="datepicker" data-toggle data-close/>
                                             </div>
+                                            <span class="form-info">
+                                                {{ $t('releaseDateMsg') }}
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
@@ -229,21 +232,21 @@
                                     <p class="form-title required">{{ $t('primaryGenre') }}</p>
                                     <select v-model="item.genre" class="custom-select-basic">
                                         <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ listGenreName[index] }}</option>
                                     </select>
                                 </label>
                                 <label class="form-item">
                                     <p class="form-title ">{{ $t('subGenre') }}</p>
                                     <select v-model="item.subgenre" class="custom-select-basic">
                                         <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{ listGenreName[index] }}</option>
                                     </select>
                                 </label>
                                 <label class="form-item">
                                     <p class="form-title required">{{ $t('primaryMood') }}</p>
                                     <select v-model="item.moods" class="custom-select-basic">
                                         <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ listMoodsName[index] }}</option>
                                     </select>
                                 </label>
                             </div>
@@ -302,12 +305,12 @@
                     cit_start_datetime: null,
                     url: '',
                     licenseLeaseUseYn: false,
-                    licenseLeasePriceKRW: '22000',
-                    licenseLeasePriceUSD: '20.00',
+                    licenseLeasePriceKRW: '',
+                    licenseLeasePriceUSD: '',
                     licenseLeaseQuantity: '',
                     licenseStemUseYn: false,
-                    licenseStemPriceKRW: '330000',
-                    licenseStemPriceUSD: '280.00',
+                    licenseStemPriceKRW: '',
+                    licenseStemPriceUSD: '',
                     licenseStemQuantity: 1,
                     genre: '',
                     subgenre: '',
@@ -329,23 +332,61 @@
                     streamingFile: false,
                     artwork: false
                 },
-                listGenre: ['Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
-                listMoods: ['Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
-                listTrackType: ['Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
+                listGenre: window.genre,
+                listMoods: window.moods,
+                listTrackType: window.trackType,
                 releaseDate: false,
-                processStatus: false
+                processStatus: false,
+                regLimit: 10
             };
         },
         watch: {
             cit_id: function (n) {
                 if (n) {
-                    this.getItem();
+                    this.getItem()
+                } else {
+                    this.getItemRegCount()
                 }
             },
             cit_key: function (n) {
                 if (n) {
-                    this.item.url = 'http://beatsomeone.com/beatsomeone/detail/' + n;
+                    this.item.url = 'http://beatsomeone.com/beatsomeone/detail/' + n
                 }
+            }
+        },
+        computed: {
+            minReleaseDate() {
+                return new Date().fp_incr(2)
+            },
+            listGenreName() {
+                let list = [],
+                    _self = this
+
+                this.listGenre.forEach(function (val) {
+                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                })
+
+                return list
+            },
+            listMoodsName() {
+                let list = [],
+                    _self = this
+
+                this.listMoods.forEach(function (val) {
+                    list.push(_self.$t('moods' + val.replace(/ /g,"")))
+                })
+
+                return list
+            },
+            listTrackTypeName() {
+                let list = [],
+                    _self = this
+
+                this.listTrackType.forEach(function (val) {
+                    list.push(_self.$t('trackType' + val.replace(/ /g,"")))
+                })
+
+                return list
             }
         },
         methods: {
@@ -359,31 +400,31 @@
                 this.releaseDate = !this.releaseDate
             },
             unTaggedFileStartUpload(e) {
-                this.startUpload('unTaggedFile', e);
+                this.startUpload('unTaggedFile', e)
             },
             unTaggedFileFinishUpload(e) {
-                this.finishUpload('unTaggedFile', e);
+                this.finishUpload('unTaggedFile', e)
             },
             unTaggedFileProgressUpload(e) {
-                this.progressUpload('unTaggedFile', e);
+                this.progressUpload('unTaggedFile', e)
             },
             stemFileStartUpload(e) {
-                this.startUpload('stemFile', e);
+                this.startUpload('stemFile', e)
             },
             stemFileFinishUpload(e) {
-                this.finishUpload('stemFile', e);
+                this.finishUpload('stemFile', e)
             },
             stemFileProgressUpload(e) {
-                this.progressUpload('stemFile', e);
+                this.progressUpload('stemFile', e)
             },
             streamingFileStartUpload(e) {
-                this.startUpload('streamingFile', e);
+                this.startUpload('streamingFile', e)
             },
             streamingFileFinishUpload(e) {
-                this.finishUpload('streamingFile', e);
+                this.finishUpload('streamingFile', e)
             },
             streamingFileProgressUpload(e) {
-                this.progressUpload('streamingFile', e);
+                this.progressUpload('streamingFile', e)
             },
             startUpload(type, e) {
                 this.uploadInProgress[type] = true
@@ -438,24 +479,32 @@
             getItem() {
                 Http.get(`/beatsomeoneApi/get_item/${this.cit_id}`).then(r => {
                     // 전처리
-                    r.data.cde_id_1 = r.data.cde_id || 0;
-                    r.data.cde_id_2 = r.data.cde_id_2 || 0;
-                    r.data.cde_id_3 = r.data.cde_id_3 || 0;
-                    r.data.url = 'http://beatsomeone.com/beatsomeone/detail/' + r.data.cit_key;
-                    r.data.licenseLeaseUseYn =  r.data.cit_lease_license_use == 1 ? true : false;
-                    r.data.licenseLeasePriceKRW = r.data.cde_price;
-                    r.data.licenseLeasePriceUSD = r.data.cde_price_d;
-                    r.data.licenseLeaseQuantity = r.data.cde_quantity;
-                    r.data.licenseStemUseYn =  r.data.cit_mastering_license_use == 1 ? true : false;
-                    r.data.licenseStemPriceKRW = r.data.cde_price_2;
-                    r.data.licenseStemPriceUSD = r.data.cde_price_d_2;
-                    r.data.licenseStemQuantity = 1;
-                    r.data.unTaggedFileName = r.data.cde_originname;
-                    r.data.stemFileName = r.data.cde_originname_2;
-                    r.data.streamingFileName = r.data.cde_originname_3;
-                    r.data.artworkPath = r.data.cit_file_1;
-                    r.data.artwork = '';
-                    this.item = r.data;
+                    r.data.cde_id_1 = r.data.cde_id || 0
+                    r.data.cde_id_2 = r.data.cde_id_2 || 0
+                    r.data.cde_id_3 = r.data.cde_id_3 || 0
+                    r.data.url = 'http://beatsomeone.com/beatsomeone/detail/' + r.data.cit_key
+                    r.data.licenseLeaseUseYn =  r.data.cit_lease_license_use == 1 ? true : false
+                    r.data.licenseLeasePriceKRW = r.data.cde_price
+                    r.data.licenseLeasePriceUSD = r.data.cde_price_d
+                    r.data.licenseLeaseQuantity = r.data.cde_quantity
+                    r.data.licenseStemUseYn =  r.data.cit_mastering_license_use == 1 ? true : false
+                    r.data.licenseStemPriceKRW = r.data.cde_price_2
+                    r.data.licenseStemPriceUSD = r.data.cde_price_d_2
+                    r.data.licenseStemQuantity = 1
+                    r.data.unTaggedFileName = r.data.cde_originname
+                    r.data.stemFileName = r.data.cde_originname_2
+                    r.data.streamingFileName = r.data.cde_originname_3
+                    r.data.artworkPath = r.data.cit_file_1
+                    r.data.artwork = ''
+                    this.item = r.data
+                })
+            },
+            getItemRegCount() {
+                Http.get('/beatsomeoneApi/item_reg_count').then(r => {
+                    if (r.data.count > this.regLimit) {
+                        alert(this.$t('registrationLimitExceededMsg'))
+                        window.location.href = '/'
+                    }
                 });
             },
             // 저장
@@ -464,7 +513,7 @@
                     return false
                 }
 
-                const f = new FormData();
+                const f = new FormData()
 
                 if (!this.item.cit_name) {
                     alert(this.$t('enterSubject'))
@@ -507,7 +556,7 @@
                 let param
                 _.forEach(this.item, (v, k) => {
                     param = (typeof v !== "object") ? v : JSON.stringify(v)
-                    f.append(k, param);
+                    f.append(k, param)
                 });
 
                 if (this.cit_id) {
@@ -532,8 +581,16 @@
                             'MERGE SUCCESS': r.data,
                         }
                     )
-                    alert(this.cit_id ? this.$t('itIsChanged') : this.$t('hasBeenRegistered'))
-                    window.location.href = '/mypage/regist_item/' + r.data
+                    if (!this.cit_id) {
+                        if (confirm(this.$t('registerAdditionalMusic'))) {
+                            window.location.href = '/mypage/regist_item/'
+                        } else {
+                            window.location.href = '/'
+                        }
+                    } else {
+                        alert(this.$t('itIsChanged'))
+                        window.location.href = '/mypage/regist_item/' + r.data
+                    }
                 }, e => {
                     alert(this.cit_id ? this.$t('modificationFailedMsg') : this.$t('registrationFailedMsg'))
                     log.debug('ERROR', e)

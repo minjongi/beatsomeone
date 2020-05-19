@@ -197,11 +197,11 @@
         data: function() {
             return {
                 isLogin: false,
-                listSort: ['All Select','Sort By Staff Picks','Top Downloads','Newest'],
-                listFilter: ['All Genre','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
-                listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
-                listMoods: ['All','Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
-                listTrackType: ['All types','Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
+                listSort: window.sortItem,
+                listFilter: ['All Genre'].concat(window.genre),
+                listSubgenres: ['All'].concat(window.genre),
+                listMoods: ['All'].concat(window.moods),
+                listTrackType: ['All types'].concat(window.trackType),
                 list: null,
                 listTop5: null,
                 offset: 0,
@@ -308,61 +308,54 @@
                 return this.listSortName[this.listSort.indexOf(this.param.sort)]
             },
             listSortName() {
-                return [
-                    this.$t('allSelect'),
-                    this.$t('sortByStaffPick'),
-                    this.$t('topDownloads'),
-                    this.$t('newest')
-                ]
+                let list = [],
+                    _self = this
+
+                this.listSort.forEach(function (val) {
+                    list.push(_self.$t('sortItem' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
             listFilterName() {
-                return [
-                    this.$t('allGenre'),
-                    'Hip Hop',
-                    'K-Pop',
-                    'Pop',
-                    'R&B',
-                    'Rock',
-                    'Electronic',
-                    'Reggae',
-                    'Country',
-                    'World',
-                    this.$t('freeBeats')
-                ]
+                let list = [],
+                    _self = this
+
+                this.listFilter.forEach(function (val) {
+                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
             listSubgenresName() {
-                return [
-                    this.$t('all'),
-                    'Hip Hop',
-                    'K-Pop',
-                    'Pop',
-                    'R&B',
-                    'Rock',
-                    'Electronic',
-                    'Reggae',
-                    'Country',
-                    'World',
-                    this.$t('freeBeats')
-                ]
+                let list = [],
+                    _self = this
+
+                this.listSubgenres.forEach(function (val) {
+                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
             listMoodsName() {
-                return [
-                    'All',
-                    'Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy',
-                    'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed',
-                    'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic',
-                    'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic',
-                    'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper',
-                    'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved',
-                    'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad',
-                    'Scared', 'Silly', 'Soulful'
-                ]
+                let list = [],
+                    _self = this
+
+                this.listMoods.forEach(function (val) {
+                    list.push(_self.$t('moods' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
             listTrackTypeName() {
-                return [
-                    'All types',
-                    'Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'
-                ]
+                let list = [],
+                    _self = this
+
+                this.listTrackType.forEach(function (val) {
+                    list.push(_self.$t('trackType' + val.replace(/ /g,"")))
+                })
+
+                return list
             }
         },
         methods: {

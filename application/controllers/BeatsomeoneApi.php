@@ -175,6 +175,15 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    // 회원별 음원 등록수 조회
+    public function item_reg_count()
+    {
+        $this->load->model('Beatsomeone_model');
+        $totalCount = $this->Beatsomeone_model->get_item_reg_count_by_mem_id($this->member->item('mem_id'));
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode(['count' => intval($totalCount)]));
+    }
+
     // 연관음반 추가 대상 조회
     public function search_item_list_for_addRelation()
     {
