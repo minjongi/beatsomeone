@@ -191,9 +191,11 @@
   }
 }
 
+/* Plus */
+
 section[class*="section"]{
   position:relative;
-  
+
   > .filter{
         position:absolute;
         top:0;
@@ -207,5 +209,26 @@ section[class*="section"]{
         &.reverse{
           background-image: linear-gradient(180deg, black 0%, rgba(0, 0, 0, 0.25) 75%);
         }
+  }
+}
+
+.tab_container{
+  position:relative;
+  height:80vh;
+  background: rgba(255,255,255,.1);
+  margin-top:50px;
+  padding:30px;
+
+  > .tab_content{
+    position:absolute;
+    height: calc(100% - 60px);
+    overflow-y:scroll;
+    line-height:2em;
+    opacity:0;
+    transition:.3s ease;
+
+    &.active{
+      opacity:1;
+    }
   }
 }
