@@ -399,7 +399,8 @@ class Register extends CB_Controller
         $insertdata['mem_open_profile'] = 1;
         $insertdata['mem_email_cert'] = 1;
         // 일반 유저는 비차단, 뮤지션은 차단 상태로 가입
-        $insertdata['mem_denied'] = $userType == 'user' ? 0 : 1;
+        //$insertdata['mem_denied'] = $userType == 'user' ? 0 : 1;
+        $insertdata['mem_denied'] = 0;
 
         $mem_id = $this->Member_model->insert($insertdata);
 
