@@ -11,7 +11,7 @@
                     <div class="wrap">
 
                         <header class="main__section1-title">
-                            <h1>Legal Issues</h1>
+                            <h1>Terms of Service</h1>
                             <p><br/></p>
                         </header>
 
