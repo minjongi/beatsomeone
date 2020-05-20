@@ -196,7 +196,7 @@
             doValidation() {
 
                 if(!this.user.username) {
-                    alert('사용자 계정을 입력해 주세요');
+                    alert(this.$t('enterUserAccount'));
                     return false;
                 }
 
@@ -210,17 +210,12 @@
                 }
 
                 if(!this.user.email) {
-                    alert('email을 입력해 주세요');
+                    alert(this.$t('typeYourEmail'));
                     return false;
                 }
 
                 if(this.user.password !== this.passwordVerify) {
-                    alert('패스워드를 동일하게 입력해 주세요');
-                    return false;
-                }
-
-                if(this.user.password !== this.passwordVerify) {
-                    alert('패스워드를 동일하게 입력해 주세요');
+                    alert(this.$t('enterSamePassword'));
                     return false;
                 }
 
@@ -241,12 +236,12 @@
 
 
                 if(!this.user.type) {
-                    alert('사용자 종류를 선택해 주세요');
+                    alert(this.$t('chooseYourType'));
                     return false;
                 }
 
                 if(!this.isCheckTos) {
-                    alert('약관에 동의해야 가입할 수 있습니다');
+                    alert(this.$t('agreeTermsAndConditionsPrivacyPolicy'));
                     return false;
                 }
 

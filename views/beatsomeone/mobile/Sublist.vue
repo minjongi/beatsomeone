@@ -186,10 +186,10 @@
                 slick: null,
                 isShowFilter: false,
                 isLogin: false,
-                listFilter: ['All Genre','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
-                listSubgenres: ['All','Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
-                listMoods: ['All','Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
-                listTrackType: ['All types','Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
+                listFilter: ['All Genre'].concat(window.genre),
+                listSubgenres: ['All'].concat(window.genre),
+                listMoods: ['All'].concat(window.moods),
+                listTrackType: ['All types'].concat(window.trackType),
                 offset: 0,
                 last_offset: 0,
                 list: null,
@@ -293,53 +293,44 @@
         },
         computed: {
             listFilterName() {
-                return [
-                    this.$t('allGenre'),
-                    'Hip Hop',
-                    'K-Pop',
-                    'Pop',
-                    'R&B',
-                    'Rock',
-                    'Electronic',
-                    'Reggae',
-                    'Country',
-                    'World',
-                    this.$t('freeBeats')
-                ]
+                let list = [],
+                    _self = this
+
+                this.listFilter.forEach(function (val) {
+                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
             listSubgenresName() {
-                return [
-                    this.$t('all'),
-                    'Hip Hop',
-                    'K-Pop',
-                    'Pop',
-                    'R&B',
-                    'Rock',
-                    'Electronic',
-                    'Reggae',
-                    'Country',
-                    'World',
-                    this.$t('freeBeats')
-                ]
+                let list = [],
+                    _self = this
+
+                this.listSubgenres.forEach(function (val) {
+                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
             listMoodsName() {
-                return [
-                    'All',
-                    'Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy',
-                    'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed',
-                    'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic',
-                    'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic',
-                    'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper',
-                    'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved',
-                    'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad',
-                    'Scared', 'Silly', 'Soulful'
-                ]
+                let list = [],
+                    _self = this
+
+                this.listMoods.forEach(function (val) {
+                    list.push(_self.$t('moods' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
             listTrackTypeName() {
-                return [
-                    'All types',
-                    'Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'
-                ]
+                let list = [],
+                    _self = this
+
+                this.listTrackType.forEach(function (val) {
+                    list.push(_self.$t('trackType' + val.replace(/ /g,"")))
+                })
+
+                return list
             }
         },
         methods: {

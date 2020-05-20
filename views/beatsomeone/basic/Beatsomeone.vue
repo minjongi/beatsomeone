@@ -1,14 +1,12 @@
 <template>
-
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
         <main-player></main-player>
-
         <div class="container">
             <div class="main">
                 <section class="main__section1">
                     <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop>
-                        <source src="/uploads/data/bg-pc.mp4" type="video/mp4">
+                        <source :src="bgVideoPath" type="video/mp4">
                     </video>
                     <div class="filter"></div>
                     <div class="wrap">
@@ -19,7 +17,6 @@
                                 {{ $t('mainMsg2') }}
                             </p>
                         </header>
-
                         <div class="main__media">
                             <div class="tab">
                                 <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}"
@@ -56,12 +53,8 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="playList">
                                 <!-- 아래 템플릿 문자열로 붙임 -->
-
-
                                 <transition-group
                                         name="staggered-fade"
                                         tag="ul"
@@ -78,10 +71,7 @@
                                 <div class="playList__btnbox">
                                     <a class="playList__more" @click="moveMore">{{ $t('more') }}</a>
                                 </div>
-
                             </div>
-
-
                         </div>
                     </div>
                 </section>
@@ -97,8 +87,6 @@
                                 {{ $t('lendOrSellMyBeat') }}
                             </a>
                         </header>
-
-
                         <!-- 트렌딜 슬라이드 부분 -->
                         <div class="trending">
                             <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
@@ -121,13 +109,11 @@
                             </div>
                         </div>
                         <!-- 트렌드 슬라이드 끝 -->
-
                         <!-- 제휴 업체 로그 이미지  -->
                         <div class="alliance" @click="selectItem">
                             <img src="@/assets/images/alliance.png" alt="" href="#" style="opacity: .3"/>
                         </div>
                         <!-- 제휴업체 로그 이미지 끝 -->
-
                         <div class="testimonials">
                             <article class="testimonials__title">
                                 <h1>{{ $t('testimonials') }}</h1>
@@ -185,7 +171,6 @@
                                 <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
                             </div>
                         </div>
-
                         <div class="main__desc">
                             <h1>
                                 {{ $t('musicWorldMsg1') }}<br/>
@@ -198,9 +183,7 @@
                             </a>
                         </div>
                     </div>
-
                     <Footer></Footer>
-
                 </section>
             </div>
         </div>
@@ -231,8 +214,8 @@
                 listTrending: null,
                 listTestimonials: null,
                 currentGenre: 'All Genre',
-                listGenre: ['All Genre', 'Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World', 'Free Beats'],
-                listSort: ['Sort By Staff Picks', 'Top Downloads', 'Newest'],
+                listGenre: ['All Genre'].concat(window.genre),
+                listSort: window.sortItem,
                 listBpm: [
                     {t: 'BPM', v: null},
                     {t: '80-90', v: 90},
@@ -244,7 +227,7 @@
                     voice: false,
                     sort: 'Sort By Staff Picks',
                     bpm: {t: 'BPM', v: null},
-                },
+                }
             }
         },
         mounted() {
@@ -308,26 +291,28 @@
                 return this.listSortName[this.listSort.indexOf(this.param.sort)]
             },
             listGenreName() {
-                return [
-                    this.$t('allGenre'),
-                    'Hip Hop',
-                    'K-Pop',
-                    'Pop',
-                    'R&B',
-                    'Rock',
-                    'Electronic',
-                    'Reggae',
-                    'Country',
-                    'World',
-                    this.$t('freeBeats')
-                ]
+                let list = [],
+                    _self = this
+
+                this.listGenre.forEach(function (val) {
+                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                })
+
+                return list
             },
             listSortName() {
-                return [
-                    this.$t('sortByStaffPick'),
-                    this.$t('topDownloads'),
-                    this.$t('newest')
-                ]
+                let list = [],
+                    _self = this
+
+                this.listSort.forEach(function (val) {
+                    list.push(_self.$t('sortItem' + val.replace(/ /g,"")))
+                })
+
+                return list
+            },
+            bgVideoPath() {
+                const idx = Math.floor(Math.random() * 6) + 1;
+                return '/uploads/data/bgvideo/pc/bg' + idx + '.mp4'
             }
         },
         watch: {

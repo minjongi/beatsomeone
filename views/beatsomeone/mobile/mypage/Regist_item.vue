@@ -7,7 +7,7 @@
             </div>
             <section class="registered__section">
                 <div class="wrap">
-                    <h2 class="registered__section-title">{{ $t('generalInfo') }}123123123</h2>
+                    <h2 class="registered__section-title">{{ $t('generalInfo') }}</h2>
                     <div class="registered__section-content">
                         <div class="row">
                             <div class="col">
@@ -36,9 +36,7 @@
                                             <p class="form-title required">{{ $t('trackType1') }}</p>
                                             <select v-model="item.trackType" class="custom-select-basic">
                                                 <option value="">{{ $t('select') }}</option>
-                                                <option v-for="(item, index) in listTrackType" :key="'trackType' + index"
-                                                        :value="item">{{ item }}
-                                                </option>
+                                                <option v-for="(item, index) in listTrackType" :key="'trackType' + index" :value="item">{{ listTrackTypeName[index] }}</option>
                                             </select>
                                         </label>
                                     </div>
@@ -46,8 +44,11 @@
                                         <label class="form-item">
                                             <p class="form-title required">{{ $t('releaseDate') }}</p>
                                             <div class="input">
-                                                <flat-pickr :config="{enableTime: true, dateFormat: 'Y-m-d H:i'}" v-model="item.cit_start_datetime" :placeholder="$t('dateTime')" class="datepicker"/>
+                                                <flat-pickr :config="{disableMobile: true, enableTime: true, dateFormat: 'Y-m-d H:i', minDate: minReleaseDate}" v-model="item.cit_start_datetime" :placeholder="$t('dateTime')" class="datepicker"/>
                                             </div>
+                                            <span class="form-info">
+                                                {{ $t('releaseDateMsg') }}
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
@@ -165,12 +166,12 @@
                                     <div class="row row--inner">
                                     <span class="col">
                                         <div class="input">
-                                            <input type="number" placeholder="KRW" v-model="item.licenseLeasePriceKRW"/>
+                                            <input type="number" placeholder="KRW 22000" v-model="item.licenseLeasePriceKRW"/>
                                         </div>
                                     </span>
                                         <span class="col">
                                         <div class="input">
-                                            <input type="number" placeholder="USD" v-model="item.licenseLeasePriceUSD"/>
+                                            <input type="number" placeholder="USD 20.00" v-model="item.licenseLeasePriceUSD"/>
                                         </div>
                                     </span>
                                     </div>
@@ -203,12 +204,12 @@
                                     <div class="row row--inner">
                                     <span class="col">
                                         <div class="input">
-                                            <input type="number" placeholder="KRW" v-model="item.licenseStemPriceKRW"/>
+                                            <input type="number" placeholder="KRW 330000" v-model="item.licenseStemPriceKRW"/>
                                         </div>
                                     </span>
                                         <span class="col">
                                         <div class="input">
-                                            <input type="number" placeholder="USD" v-model="item.licenseStemPriceUSD"/>
+                                            <input type="number" placeholder="USD 280.00" v-model="item.licenseStemPriceUSD"/>
                                         </div>
                                     </span>
                                     </div>
@@ -245,21 +246,21 @@
                                     <p class="form-title required">{{ $t('primaryGenre') }}</p>
                                     <select v-model="item.genre" class="custom-select-basic">
                                         <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ listGenreName[index] }}</option>
                                     </select>
                                 </label>
                                 <label class="form-item">
                                     <p class="form-title ">{{ $t('subGenre') }}</p>
                                     <select v-model="item.subgenre" class="custom-select-basic">
                                         <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{ listGenreName[index] }}</option>
                                     </select>
                                 </label>
                                 <label class="form-item">
                                     <p class="form-title required">{{ $t('primaryMood') }}</p>
                                     <select v-model="item.moods" class="custom-select-basic">
                                         <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ item }}</option>
+                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ listMoodsName[index] }}</option>
                                     </select>
                                 </label>
                             </div>
@@ -344,21 +345,55 @@
                     streamingFile: false,
                     artwork: false
                 },
-                listGenre: ['Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
-                listMoods: ['Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
-                listTrackType: ['Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
+                listGenre: window.genre,
+                listMoods: window.moods,
+                listTrackType: window.trackType,
+                regLimit: 10
             };
         },
         watch: {
             cit_id: function (n) {
-                log.debug({
-                        'cit_id': n,
-                    }
-                )
                 if (n) {
-                    this.getItem();
+                    this.getItem()
+                } else {
+                    this.getItemRegCount()
                 }
             },
+        },
+        computed: {
+            minReleaseDate() {
+                return new Date().fp_incr(2)
+            },
+            listGenreName() {
+                let list = [],
+                    _self = this
+
+                this.listGenre.forEach(function (val) {
+                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                })
+
+                return list
+            },
+            listMoodsName() {
+                let list = [],
+                    _self = this
+
+                this.listMoods.forEach(function (val) {
+                    list.push(_self.$t('moods' + val.replace(/ /g,"")))
+                })
+
+                return list
+            },
+            listTrackTypeName() {
+                let list = [],
+                    _self = this
+
+                this.listTrackType.forEach(function (val) {
+                    list.push(_self.$t('trackType' + val.replace(/ /g,"")))
+                })
+
+                return list
+            }
         },
         methods: {
             unTaggedFileStartUpload(e) {
@@ -457,6 +492,14 @@
                     r.data.artworkPath = r.data.cit_file_1;
                     r.data.artwork = '';
                     this.item = r.data;
+                });
+            },
+            getItemRegCount() {
+                Http.get('/beatsomeoneApi/item_reg_count').then(r => {
+                    if (r.data.count > this.regLimit) {
+                        alert(this.$t('registrationLimitExceededMsg'))
+                        window.location.href = '/'
+                    }
                 });
             },
             // 저장
