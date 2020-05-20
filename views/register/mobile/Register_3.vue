@@ -151,7 +151,7 @@
                 </div>
                 <div class="accounts__btnbox border-none">
                     <button class="btn btn--submit" @click="doNext">
-                        {{ $t('signup') }}
+                        {{ $t('next') }}
                     </button>
                 </div>
 

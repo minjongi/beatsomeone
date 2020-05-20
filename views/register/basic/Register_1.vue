@@ -33,7 +33,7 @@
                         <input type="radio" id="yearly" hidden name="bill" />
                         <span>
                             {{ $t('billYearly') }}
-                            <em>{{ $t('save20') }}</em>
+                            <em>{{ disBill }}{{ $t('savepercent') }}</em>
                         </span>
                     </label>
                 </div>
@@ -140,7 +140,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>10(event)<br>(1{{ $t('month') }})</td>
+                    <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
                     <td>{{ $t('unlimited1') }}</td>
                     <td>{{ $t('unlimited1') }}</td>
                 </tr>
@@ -165,7 +165,7 @@
                         10%
                     </td>
                     <td>
-                        O%
+                        O%<br>{{ $t('revenueToSeller') }}
                     </td>
                 </tr>
                 <tr>
@@ -199,10 +199,10 @@
                         <a href="#" class="btn btn--start" @click="doNext('free')">{{ $t('getStarted') }}</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('marketplace')">{{ $t('getStarted') }}</a>
+                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">{{ $t('getStarted') }}</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('pro')">{{ $t('getStarted') }}</a>
+                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
                 <!--                    </tfoot>-->
@@ -224,6 +224,7 @@
                 billTerm : 'monthly',
                 listPlan : null,
                 planName: 'free',
+                disBill: 0,
 
             }
         },
@@ -291,17 +292,24 @@
         },
         methods: {
             doNext(plan) {
+                var islogin = this.$parent.isLogin;
                 if(plan=="Marketplace"){
                     this.planName = this.$t('Platinum');
                 }else if(plan=="Pro Page"){
                     this.planName = this.$t('Master');
                 }
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: plan, planName: this.planName, billTerm: this.billTerm  });
-                this.$router.push({path: '/2'});
+
+                if(islogin){
+                    this.$router.push({path: '/6'});    
+                }else{
+                    this.$router.push({path: '/2'});
+                }
             },
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
                     this.listPlan = r;
+                    this.disBill = this.listPlan[0].yearly_discount_pc;
                 });
             },
         },

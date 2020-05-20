@@ -105,6 +105,8 @@
                 if(this.doValidation()) {
                     EventBus.$emit('submit_join_form',this.user);
                     this.$router.push({path: '/5'});
+                }else{
+                    type.preventDefault();
                 }
             },
             doSkip() {

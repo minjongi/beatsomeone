@@ -34,7 +34,7 @@
                         <input type="radio" id="yearly" hidden name="bill" />
                         <span>
                             {{ $t('billYearly') }}
-                            <em>{{ $t('save20') }}</em>
+                            <em>{{ disBill }}{{ $t('savepercent') }}</em>
                         </span>
                     </label>
                 </div>
@@ -53,7 +53,7 @@
             </button>
         </div>
 
-        <div class="accounts__plan-case" id="plan-free"  v-if="plan === 'free'">
+        <div class="accounts__plan-case" id="plan-free"  v-if="currentUserType === 'user' && plan === 'free'">
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
@@ -73,36 +73,94 @@
                 <tbody>
 
                 <tr>
-                    <td>{{ $t('unlimited1') }}개인 메시지(채팅) 기능</td>
-                    <td>{{ $t('unlimited1') }}무제한</td>
+                    <td>개인 메시지(채팅) 기능</td>
+                    <td>{{ $t('unlimited1') }}</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('unlimited1') }}무료비트 다운로드</td>
+                    <td>무료비트 다운로드</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>{{ $t('unlimited1') }}구매 음원 파일 저장</td>
+                    <td>구매 음원 파일 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>{{ $t('unlimited1') }}구매 음원 라이센스 저장</td>
+                    <td>구매 음원 라이센스 저장</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>{{ $t('unlimited1') }}미리듣기 스트리밍 서비스</td>
+                    <td>미리듣기 스트리밍 서비스</td>
                     <td>
                         <span class="check">O</span>
                     </td>
 
+                </tr>
+<!--                <tfoot>-->
+                <tr>
+                    <td colspan="2">
+                        <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
+                    </td>
+                </tr>
+<!--                </tfoot>-->
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="accounts__plan-case" id="plan-musician-free"  v-if="currentUserType === 'musician' && plan === 'free'">
+            <div class="accounts__plan-header">
+                <div class="left">
+                    <p>
+                        {{ $t('free') }}
+                    </p>
+                    <h2><span>$</span> 0.00<em>/mo</em></h2>
+                </div>
+                <div class="right">
+                    <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
+                </div>
+            </div>
+            <table>
+                <colgroup>
+                    <col width="" />
+                    <col width="120" />
+                </colgroup>
+                <tbody>
+                <tr>
+                    <td>{{ $t('uploadTracksLimit') }}</td>
+                    <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
+                </tr>
+                <tr>
+                    <td>{{ $t('uploadTrackStems') }}</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
+                    <td>
+                        30%
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ $t('personalChatFunction') }}</td>
+                    <td>
+                        10<br>(1{{ $t('month') }})
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ $t('salesStatistics') }}</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
                 </tr>
 <!--                <tfoot>-->
                 <tr>
@@ -134,29 +192,29 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>{{ $t('unlimited1') }}업로드 트랙 제한</td>
-                    <td>{{ $t('unlimited1') }}무제한</td>
+                    <td>{{ $t('uploadTracksLimit') }}</td>
+                    <td>{{ $t('unlimited1') }}</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('unlimited1') }}Stems 트랙 업로드</td>
+                    <td>{{ $t('uploadTrackStems') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('unlimited1') }}판매 수수료</td>
+                    <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
                     <td>
                         10%
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('unlimited1') }}개인 메시지(채팅) 기능</td>
+                    <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         20
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('unlimited1') }}판매 통계 제공</td>
+                    <td>{{ $t('salesStatistics') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
@@ -192,7 +250,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>{{ $t('unlimited1') }}무제한</td>
+                    <td>{{ $t('unlimited1') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -203,7 +261,7 @@
                 <tr>
                     <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
                     <td>
-                        O%
+                        O%<br>{{ $t('revenueToSeller100') }}
                     </td>
                 </tr>
                 <tr>
@@ -245,6 +303,7 @@
                 plan: 'free',
                 planName: 'free',
                 listPlan : null,
+                disBill: 0,
             }
         },
         filters: {
@@ -304,6 +363,7 @@
         },
         methods: {
             doNext(type) {
+                var islogin = this.$parent.isLogin;
                 if(type==2){
                     this.plan = "Marketplace";
                     this.planName = this.$t('Platinum');
@@ -312,11 +372,17 @@
                     this.planName = this.$t('Master');
                 }
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: this.plan, planName: this.planName, billTerm: this.billTerm });
-                this.$router.push({path: '/2'});
+
+                if(islogin){
+                    this.$router.push({path: '/6'});    
+                }else{
+                    this.$router.push({path: '/2'});
+                }
             },
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
                     this.listPlan = r;
+                    this.disBill = this.listPlan[0].yearly_discount_pc;
                 });
             },
         },

@@ -10,6 +10,7 @@
         <?php } ?>
 		<li><a href="<?php echo site_url('mypage/loginlog'); ?>" title="나의 로그인기록">로그인기록</a></li>
 		<li><a href="<?php echo site_url('membermodify'); ?>" title="정보수정">정보수정</a></li>
+		<li><a href="<?php echo site_url('register#/6'); ?>" title="결제하기">결제하기</a></li>
 		<li><a href="<?php echo site_url('membermodify/memberleave'); ?>" title="탈퇴하기">탈퇴하기</a></li>
 	</ul>
 
