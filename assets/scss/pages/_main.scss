@@ -223,9 +223,10 @@ section[class*="section"]{
     position:absolute;
     height: calc(100% - 60px);
     overflow-y:scroll;
-    line-height:2em;
+    line-height:2em!important;
     opacity:0;
     transition:.3s ease;
+    padding-right: 15px;
 
     &.active{
       opacity:1;
