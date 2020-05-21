@@ -839,10 +839,70 @@ section[class*="section"]{
 
 .custom-select.active{
   .selected-option + .popup{
-        background: #2B2C30;
-        pointer-events:initial;
-        box-shadow: 16px 0 32px black;
-        border-radius: 8px;
-        opacity: 1;
+      background: #2B2C30;
+      pointer-events:initial;
+      box-shadow: 16px 0 32px black;
+      border-radius: 8px;
+      opacity: 1;
+  }
+}
+
+.terms{
+  .tab_content{
+    ol{
+      list-style: decimal;
+    }
+
+    ol + ul{
+      margin-top:32px;
+    }
+
+    ol + ul li{
+      margin-left:0;
+      font-size:24px;
+      font-weight:bolder;
+      p{
+        font-size:16px;
+        font-weight: normal;
+        opacity: .7;
+      }
+    }
+
+    // ul ol ol {
+    //   list-style: disc;
+    // }
+
+    ol li, ul li, ul ol li, ul ol ol li, p { 
+      margin-left:32px;
+      line-height:2em;
+    }
+
+    ol li, ol ul li{
+      font-weight:bolder;
+      margin-top:32px;
+    }
+
+    ol ul li ol li {
+      font-weight: normal;
+      margin-top:16px;
+      opacity: .7;
+    }
+
+    ol li{
+      font-size:24px;
+    }
+
+    ol li p{
+      font-size:16px;
+    }
+
+    ol ul li{
+      font-size:20px;
+    }
+
+    ol ul li p, ol ul ol li, ol ul ul li {
+      font-size:16px;
+    }
+
   }
 }
