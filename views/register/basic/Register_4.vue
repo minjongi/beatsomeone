@@ -95,7 +95,7 @@
                 }
 
                 if(!this.user.location) {
-                    alert(this.$t('enterYourAddress'));
+                    alert(this.$t('enterYourcityOfResidenceState'));
                     return false;
                 }
 
