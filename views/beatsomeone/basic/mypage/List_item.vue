@@ -75,7 +75,167 @@
                                             Genre / Mood / Track Type
                                         </button>
                                         <div class="select-genre popup active">
+                                            <div class="tab">
+                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">7</div></button>
+                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">3</div></button>
+                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">2</div></button>
+                                            </div>
+                                            <div class="tab_container">
 
+                                                <div class="tab_content" :class="popup_filter = 0 ? 'active' : ''">
+                                                    <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label for="fillter1" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
+                                                                <span></span> All Genre
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="tab_content" :class="popup_filter = 1 ? 'active' : ''">
+                                                    <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label for="fillter1" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
+                                                                <span></span> All Genre
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="tab_content" :class="popup_filter = 2 ? 'active' : ''">
+                                                    <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label for="fillter1" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
+                                                                <span></span> All Genre
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                            <div>
+                                                <div class="btnbox col">
+                                                    <button type="submit" class="btn btn--gray"> Cancel </button>
+                                                    <button type="submit" class="btn btn--submit"> Apply </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -880,6 +1040,7 @@
             return {
                 group_title: 'SELLER',
                 product_status: 'PENDING',
+                popup_filter:0,
             };
         },
         mounted(){
