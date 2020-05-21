@@ -74,8 +74,9 @@
                                         <button class="selected-option">
                                             Genre / Mood / Track Type
                                         </button>
-                                    </div>
-                                    <div class="select-genre popup">
+                                        <div class="select-genre popup active">
+
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="sort">
