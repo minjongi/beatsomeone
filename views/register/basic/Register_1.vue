@@ -63,7 +63,7 @@
                     <td>{{ $t('unlimited1') }}</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('freeBitDownload') }}</td>
+                    <td>{{ $t('freeBeatDownload') }}</td>
                     <td>
                         <span class="check">O</span>
                     </td>
