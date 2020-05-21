@@ -449,14 +449,18 @@ section[class*="section"]{
   }
 }
 
+.custom-select{
+  border-top-left-radius:8px;
+  border-top-right-radius:8px;
+}
+
 .selected-option{
   border-radius:8px;
 }
 
-.custom-select.active{
-  > .selected-option{
-    border-radius:8px;
-  }
+.options{
+  border-bottom-left-radius:8px;
+  border-bottom-right-radius: 8px;
 }
 
 .mypage.sublist{
