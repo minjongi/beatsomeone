@@ -369,7 +369,7 @@
                     _self = this
 
                 this.listGenre.forEach(function (val) {
-                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                    list.push(_self.$t('genre' + val.replace(/ /g,"").replace(/-/g,"").replace(/&/g,"")))
                 })
 
                 return list
@@ -379,7 +379,7 @@
                     _self = this
 
                 this.listMoods.forEach(function (val) {
-                    list.push(_self.$t('moods' + val.replace(/ /g,"")))
+                    list.push(_self.$t('moods' + val.replace(/ /g,"").replace(/-/g,"").replace(/&/g,"")))
                 })
 
                 return list
@@ -389,7 +389,7 @@
                     _self = this
 
                 this.listTrackType.forEach(function (val) {
-                    list.push(_self.$t('trackType' + val.replace(/ /g,"")))
+                    list.push(_self.$t('trackType' + val.replace(/ /g,"").replace(/-/g,"").replace(/&/g,"")))
                 })
 
                 return list
