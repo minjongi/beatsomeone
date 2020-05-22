@@ -445,6 +445,7 @@
                 isLogin: false,
                 group_title: 'SELLER',
                 product_status: 'PENDING',
+                myProduct_list: [],
                 popup_filter:0,
                 ws: null,
                 isPlay: false,
