@@ -240,7 +240,7 @@
                                     </div>
                                 </div>
                                 <div class="sort">
-                                    <div class="custom-select">
+                                    <div class="custom-select active">
                                         <button class="selected-option">
                                             Register Date
                                         </button>

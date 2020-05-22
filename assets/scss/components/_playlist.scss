@@ -117,7 +117,7 @@
     }
     .genre {
       @include flex();
-      max-height:calc(100% - 10px);
+      max-height:50px;
       overflow:hidden;
       padding: 0 30px;
       width: 280px;
@@ -167,6 +167,11 @@
         height: 35px;
         background-size: auto 100%;
         opacity: 0.3;
+        transition:.3s ease;
+
+        &:hover{
+          opacity: 1;
+        }
       }
       .timer {
         font-size: 12px;
@@ -198,8 +203,13 @@
       a {
         @include textIndet;
         margin-right: 25px;
+        opacity: .3;
+        transition:.3s ease;
         &:last-child {
           margin-right: 0;
+        }
+        &:hover{
+          opacity: 1;
         }
         &.cart {
           width: 24px;
@@ -253,6 +263,8 @@
         background: url("/assets/images/icon/more.png") no-repeat center;
         position: relative;
         overflow: initial;
+        opacity: .3;
+        transition:.3s ease;
         .tooltip {
           bottom: 15px;
           width: 130px;
@@ -285,6 +297,9 @@
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
           }
+        }
+        &:hover{
+          opacity: 1;
         }
         &:hover .tooltip {
           opacity: 1;
