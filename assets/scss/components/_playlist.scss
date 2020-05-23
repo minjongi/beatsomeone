@@ -66,6 +66,7 @@
       width: 385px;
       @include flex();
       figure {
+        width:100%;
         @include flex();
         margin-right: 1em;
         .playList__cover {
@@ -81,6 +82,10 @@
             @include position($top: -5px, $right: -5px);
             z-index: 1;
           }
+
+          &.profile{
+            border-radius:55px;
+          }
         }
         figcaption {
           width: 220px;
@@ -88,7 +93,7 @@
           .playList__title {
             @include ellipsis;
             font-size: 14px;
-            font-weight: 300;
+            font-weight: 600;
           }
           .playList__by {
             @include ellipsis;
@@ -96,8 +101,22 @@
             opacity: 0.3;
             margin-top: 5px;
             display: block;
+
+            &.date {
+              font-size:10;
+              margin-top:10px;
+            }
           }
         }
+
+        figcaption:only-child{
+            width:100%;
+
+            h3{
+              font-size:16px;
+              font-weight: 300;
+            }
+          }
       }
       .toggle-subList {
         width: 24px;
@@ -310,6 +329,28 @@
         }
       }
     }
+    .info{
+    }
+    .expire{
+      text-align:right;
+      font-size:12px;
+      color:rgb(255,255,255,.3);
+      
+      span {
+        color:#FF4848;
+      }
+    }
+    .status{
+      width:102px;
+      color:white;
+      opacity:.3;
+      text-align:center;
+      
+      &.active{
+        color:#FFDA2A;
+        opacity:1;
+      }
+    }
   }
   .playList__item {
     height: 90px;
@@ -327,5 +368,11 @@
   .playList__btnbox {
     text-align: center;
     padding: 30px 0;
+  }
+}
+
+.row.double{
+  .playList__item > .col.name{
+    width:385px;
   }
 }

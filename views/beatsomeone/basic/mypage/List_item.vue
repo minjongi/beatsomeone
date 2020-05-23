@@ -261,8 +261,8 @@
                         <div class="row">
                             <div class="playList productList">
                                 <ul>
-                                    <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id" style="opacity: 1; margin-bottom: 1px;" >
-                                        <div class="playList__item playList__item--title">
+                                    <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
+                                        <div class="playList__item playList__item--title active">
                                             <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
                                             <div class="col name">
                                                 <figure>

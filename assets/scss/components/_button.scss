@@ -37,4 +37,29 @@
     display: inline-block;
     font-size: 12px;
   }
+
+  &.btn--yellow{
+    background: #ffda2a;
+    color: #000;
+  }
+
+  &.round{
+    font-size:14px;
+    width: max-content;
+    font-weight:600;
+    padding:16px 64px;
+    border-radius:100px;
+  }
+
+  &.btn--glass{
+    font-size:14px;
+    font-weight:300;
+    height:auto;
+    opacity:.3;
+    transition: .3s ease;
+
+    &:hover{
+      opacity:1;
+    }
+  }
 }
