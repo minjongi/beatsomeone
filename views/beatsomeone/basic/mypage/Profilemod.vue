@@ -33,8 +33,8 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li class="active">Dashboard</li>
-                                <li>Manage Information</li>
+                                <li>Dashboard</li>
+                                <li class="active">Manage Information</li>
                                 <li>Product List</li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
@@ -56,464 +56,171 @@
 
                             <div class="title-content">
                                 <div class="title">
-                                    <div>Settlement Overview</div>
+                                    <div>Manage Information</div>
                                 </div>
-                                <p>
-                                    ※· We will guide the amount of sales and settlements based on the current month / day.<br/>
-                                    ※· Exact sales / settlement amount can be checked on the basis of 20-25 days of the following month.
-                                </p>
                             </div>
-                            <div>
-                                <div class="splitboard">
-                                    <div class="blue">
-                                        ₩ 123,456
-                                        <div class="change">(Change 40,093▲)</div>
-                                        <span>Estimated sales amount
-                                            <button class="button">
-                                                <img src="/assets/images/icon/tip.png"/>
-                                                <span data-v-27fa6da0="" class="tooltip">
-                                                    <p>
-                                                     Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day.
-                                                     </p>
+                            <div class="box" style="padding-bottom:50px;">
+                                <div class="row">
+                                    <div class="type"><span>Username</span></div>
+                                    <div class="data">
+                                        <div class="input_wrap">
+                                            <input class="inputbox" type="text" value="KKOMA" placeholder="Enter your new username..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'KKOMA'">
+                                            <div class="caution">
+                                                <div>
+                                                    <img class="caution" src="/assets/images/icon/caution.png">
+                                                    <img class="warning" src="/assets/images/icon/warning.png">
+                                                </div>
+                                                <span>
+                                                    Please note that the login ID will change when you change your email.
                                                 </span>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <div class="blue">₩ 93,409
-                                        <div class="change">(Change 40,093▲)</div>
-                                        <span>Estimated settlement amount
-                                            <button class="button">
-                                                <img src="/assets/images/icon/tip.png"/>
-                                                <span data-v-27fa6da0="" class="tooltip">
-                                                    <p>
-                                                     Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month.
-                                                     </p>
-                                                </span>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <div class="red">₩ 80,039
-                                        <div class="change">(Change 40,093▲)</div>
-                                        <span>Last month settlement amount
-                                            <button class="button">
-                                                <img src="/assets/images/icon/tip.png"/>
-                                                <span data-v-27fa6da0="" class="tooltip">
-                                                    <p>
-                                                     Displays the amount settled last month.
-                                                     </p>
-                                                </span>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        
-                        <div class="row" v-show="group_title == 'SELLER'">
-
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Chart</div>
-                                </div>
-                            </div>
-                            <div class="chart" style="height:320px;">
-                                <img src="/assets/images/chart.png"/>                                                
-                            </div>
-                        </div>
-
-                        <div class="row double" v-show="group_title == 'SELLER'">
-
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Order Details</div>
-                                    <button class="btn btn--glass">more ></button>
-                                </div>
-                                <div class="splitboard">
-                                    <div class="blue">12<span>Buy</span></div>
-                                    <div class="red">2<span>Cancel</span></div>
-                                    <div class="green">6<span>Refund</span></div>
-                                </div>
-                            </div>
-
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Product details</div>
-                                    <button class="btn btn--glass">more ></button>
-                                </div>
-                                <div class="splitboard">
-                                    <div class="blue">12<span>Total</span></div>
-                                    <div class="red">2<span>Selling</span></div>
-                                    <div class="green">6<span>Pending</span></div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row double" v-show="group_title == 'CUSTOMER'">
-
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Order Details</div>
-                                    <button class="btn btn--glass">more ></button>
-                                </div>
-                                <div class="splitboard">
-                                    <div class="blue">12<span>Buy</span></div>
-                                    <div class="red">2<span>Cancel</span></div>
-                                    <div class="green">6<span>Refund</span></div>
-                                </div>
-                            </div>
-
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Expried soon</div>
-                                    <button class="btn btn--glass">more ></button>
-                                </div>
-                                <div>
-                                    <div class="slide">
-                                        <div class="playList" :class="slide_expired == 0 ? 'active' : ''">
-                                            <ul>
-                                                <li class="playList__itembox">
-                                                    <div class="playList__item playList__item--title active">
-                                                        <div class="col name">
-                                                            <figure>
-                                                                <span class="playList__cover">
-                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                                    <i ng-if="item.isNew" class="label new">N</i>
-                                                                </span>
-                                                                <figcaption class="pointer">
-                                                                    <h3 class="playList__title">Name</h3>
-                                                                    <span class="playList__by">Seller</span>
-                                                                </figcaption>
-                                                            </figure>
-                                                        </div>
-                                                        <div class="info">
-                                                            <div class="expire">
-                                                                <span>10 hous</span> remaining
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="playList__itembox">
-                                                    <div class="playList__item playList__item--title active">
-                                                        <div class="col name">
-                                                            <figure>
-                                                                <span class="playList__cover">
-                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                                    <i ng-if="item.isNew" class="label new">N</i>
-                                                                </span>
-                                                                <figcaption class="pointer">
-                                                                    <h3 class="playList__title">Name</h3>
-                                                                    <span class="playList__by">Seller</span>
-                                                                </figcaption>
-                                                            </figure>
-                                                        </div>
-                                                        <div class="info">
-                                                            <div class="expire">
-                                                                <span>10 hous</span> remaining
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                            </div>
                                         </div>
-                                        <div class="playList" :class="slide_expired == 1 ? 'active' : ''">
-                                            <ul>
-                                                <li class="playList__itembox">
-                                                    <div class="playList__item playList__item--title active">
-                                                        <div class="col name">
-                                                            <figure>
-                                                                <span class="playList__cover">
-                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                                    <i ng-if="item.isNew" class="label new">N</i>
-                                                                </span>
-                                                                <figcaption class="pointer">
-                                                                    <h3 class="playList__title">Name</h3>
-                                                                    <span class="playList__by">Seller</span>
-                                                                </figcaption>
-                                                            </figure>
-                                                        </div>
-                                                        <div class="info">
-                                                            <div class="expire">
-                                                                <span>10 hous</span> remaining
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="playList__itembox">
-                                                    <div class="playList__item playList__item--title active">
-                                                        <div class="col name">
-                                                            <figure>
-                                                                <span class="playList__cover">
-                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                                    <i ng-if="item.isNew" class="label new">N</i>
-                                                                </span>
-                                                                <figcaption class="pointer">
-                                                                    <h3 class="playList__title">Name</h3>
-                                                                    <span class="playList__by">Seller</span>
-                                                                </figcaption>
-                                                            </figure>
-                                                        </div>
-                                                        <div class="info">
-                                                            <div class="expire">
-                                                                <span>10 hous</span> remaining
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                        <button class="btn btn--blue active">
+                                            Change
+                                        </button>    
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn--gray">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="type"><span>User Group</span></div>
+                                    <div class="data">
+                                       <div class="group_title" :class="group_title">{{group_title}}</div>  
+                                    </div>
+                                </div>
+                                <div class="row" v-show="group_title == 'SELLER'">
+                                    <div class="type"><span>Seller Class</span></div>
+                                    <div class="data">
+                                       <div class="seller_class" :class="seller_class">{{seller_class}}</div>  
+                                       <div class="seller_class FREE">FREE</div>  
+                                       <div class="seller_class PRO">PRO</div>  
+                                    </div>
+                                    <div class="active">
+                                        <button class="btn btn--yellow round">
+                                            Upgrade Now
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="type"><span>Email</span></div>
+                                    <div class="data">
+                                        <div class="input_wrap">
+                                            <input class="inputbox" type="mail" value="jisoo@naver.com" placeholder="Enter your new username..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'jisoo@naver.com'">
+                                            <div class="caution">
+                                                <div>
+                                                    <img class="caution" src="/assets/images/icon/caution.png">
+                                                    <img class="warning" src="/assets/images/icon/warning.png">
+                                                </div>
+                                                <span>
+                                                    Please note that the login ID will change when you change your email.
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="playList" :class="slide_expired == 2 ? 'active' : ''">
-                                            <ul>
-                                                <li class="playList__itembox">
-                                                    <div class="playList__item playList__item--title active">
-                                                        <div class="col name">
-                                                            <figure>
-                                                                <span class="playList__cover">
-                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                                    <i ng-if="item.isNew" class="label new">N</i>
-                                                                </span>
-                                                                <figcaption class="pointer">
-                                                                    <h3 class="playList__title">Name</h3>
-                                                                    <span class="playList__by">Seller</span>
-                                                                </figcaption>
-                                                            </figure>
-                                                        </div>
-                                                        <div class="info">
-                                                            <div class="expire">
-                                                                <span>10 hous</span> remaining
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="playList__itembox">
-                                                    <div class="playList__item playList__item--title active">
-                                                        <div class="col name">
-                                                            <figure>
-                                                                <span class="playList__cover">
-                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                                    <i ng-if="item.isNew" class="label new">N</i>
-                                                                </span>
-                                                                <figcaption class="pointer">
-                                                                    <h3 class="playList__title">Name</h3>
-                                                                    <span class="playList__by">Seller</span>
-                                                                </figcaption>
-                                                            </figure>
-                                                        </div>
-                                                        <div class="info">
-                                                            <div class="expire">
-                                                                <span>10 hous</span> remaining
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                        <button class="btn btn--blue active">
+                                            Save
+                                        </button>    
+                                    </div>
+                                    <div class="active">
+                                        <button class="btn btn--gray">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="type"><span>Password</span></div>
+                                    <div class="data">
+                                        <button class="btn btn--blue">
+                                            Change Password
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="type"><span>Type</span></div>
+                                    <div class="data">
+                                        <label for="type1" class="checkbox">
+                                            <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover">
+                                            <span></span> Music Lover
+                                        </label>
+                                        <label for="type2" class="checkbox">
+                                            <input type="radio" name="type" hidden="hidden" id="type2" value="Recording Artist">
+                                            <span></span> Recording Artist
+                                        </label>
+                                        <label for="type3" class="checkbox">
+                                            <input type="radio" name="type" hidden="hidden" id="type3" value="Music Producer">
+                                            <span></span> Music Producer
+                                        </label>
+                                        <label for="type4" class="checkbox">
+                                            <input type="radio" name="type" hidden="hidden" id="type4" value="Artist/Producer">
+                                            <span></span> Artist/Producer
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="type"><span>Name</span></div>
+                                    <div class="data">
+                                        <input class="inputbox firstname" type="text" value="Jisoo" placeholder="Enter your firstname..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Jisoo'">
+                                        <input class="inputbox lastname" type="text" value="Yoo" placeholder="Enter your lastname..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Yoo'">
+                                    </div>
+                                    <div></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="type"><span>City of Residence, State</span></div>
+                                    <div class="data">
+                                        <input class="inputbox" type="text" value="Seoul, South Korea" placeholder="Enter your location..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Seoul, South Korea'">
+                                    </div>
+                                    <div></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="type"><span>Bio</span></div>
+                                    <div class="data">
+                                        <textarea class="firstname" type="text" value="Seoul, South Korea" placeholder="Enter your location..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Seoul, South Korea'"/>
+                                    </div>
+                                    <div></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="type"><span>Linked Account</span></div>
+                                    <div class="data">
+                                        <div class="sns">
+                                            <div>
+                                                <div><img src="/assets/images/icon/icon_kakao.png"/> Kakao</div>
+                                                <button class="btn btn--yellow">Link</button>
+                                            </div>
+                                            <div>
+                                                <div><img src="/assets/images/icon/icon_naver.png"/> Naver</div>
+                                                <button class="btn btn--gray">Unlink</button>
+                                            </div>
+                                            <div>
+                                                <div><img src="/assets/images/icon/icon_facebook.png"/> Facebook</div>
+                                                <button class="btn btn--yellow">Link</button>
+                                            </div>
+                                            <div>
+                                                <div><img src="/assets/images/icon/icon_twitter.png"/> Twitter</div>
+                                                <button class="btn btn--gray">Unlink</button>
+                                            </div>
+                                            <div>
+                                                <div><img src="/assets/images/icon/icon_google.png"/> Google</div>
+                                                <button class="btn btn--gray">Unlink</button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="slide_navigator">
-                                        <div :class="slide_expired == 0 ? 'active' : ''" @click="slide_expired = 0"></div>
-                                        <div :class="slide_expired == 1 ? 'active' : ''" @click="slide_expired = 1"></div>
-                                        <div :class="slide_expired == 2 ? 'active' : ''" @click="slide_expired = 2"></div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row">
-
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Recently Listen</div>
-                                    <button class="btn btn--glass">more ></button>
-                                </div>
-
-                                <div class="topFive">
-
-                                    <div class="trending__slide-item albumItem">
-                                        <button class="albumItem__cover">
-                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
-                                        </button>
-                                        <a href="#//" class="albumItem__link">
-                                            <h4 class="albumItem__title">name</h4>
-                                            <p class="albumItem__singer">seller</p>
-                                        </a>
-                                    </div>
-
-                                    <div class="trending__slide-item albumItem">
-                                        <button class="albumItem__cover">
-                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
-                                        </button>
-                                        <a href="#//" class="albumItem__link">
-                                            <h4 class="albumItem__title">name</h4>
-                                            <p class="albumItem__singer">seller</p>
-                                        </a>
-                                    </div>
-
-                                    <div class="trending__slide-item albumItem">
-                                        <button class="albumItem__cover">
-                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
-                                        </button>
-                                        <a href="#//" class="albumItem__link">
-                                            <h4 class="albumItem__title">name</h4>
-                                            <p class="albumItem__singer">seller</p>
-                                        </a>
-                                    </div>
-
-                                    <div class="trending__slide-item albumItem">
-                                        <button class="albumItem__cover">
-                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
-                                        </button>
-                                        <a href="#//" class="albumItem__link">
-                                            <h4 class="albumItem__title">name</h4>
-                                            <p class="albumItem__singer">seller</p>
-                                        </a>
-                                    </div>
-
-                                    <div class="trending__slide-item albumItem">
-                                        <button class="albumItem__cover">
-                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
-                                        </button>
-                                        <a href="#//" class="albumItem__link">
-                                            <h4 class="albumItem__title">name</h4>
-                                            <p class="albumItem__singer">seller</p>
-                                        </a>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                        
-                        <div class="row double" style="margin-bottom:100px;">
-
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Message you received</div>
-                                    <button class="btn btn--glass">more ></button>
-                                </div>
-                                <div>
-                                    <div class="playList" :class="slide_expired == 0 ? 'active' : ''">
-                                        <ul>
-                                            <li class="playList__itembox">
-                                                <div class="playList__item playList__item--title active">
-                                                    <div class="col name">
-                                                        <figure>
-                                                            <span class="playList__cover profile">
-                                                                <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                            </span>
-                                                            <figcaption class="pointer">
-                                                                <h3 class="playList__title">User 1</h3>
-                                                                <span class="playList__by date">2020-04-20 15:53:42</span>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="status active">
-                                                        Unread
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="playList__itembox">
-                                                <div class="playList__item playList__item--title active">
-                                                    <div class="col name">
-                                                        <figure>
-                                                            <span class="playList__cover profile">
-                                                                <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                            </span>
-                                                            <figcaption class="pointer">
-                                                                <h3 class="playList__title">User 2</h3>
-                                                                <span class="playList__by date">2020-04-20 15:53:42</span>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="status">
-                                                        Read
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="playList__itembox">
-                                                <div class="playList__item playList__item--title active">
-                                                    <div class="col name">
-                                                        <figure>
-                                                            <span class="playList__cover profile">
-                                                                <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
-                                                            </span>
-                                                            <figcaption class="pointer">
-                                                                <h3 class="playList__title">User 3</h3>
-                                                                <span class="playList__by date">2020-04-20 15:53:42</span>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="status">
-                                                        Read
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <div></div>
                                 </div>
 
                             </div>
 
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Support Case</div>
-                                    <button class="btn btn--glass">more ></button>
-                                </div>
-                                <div>
-                                    <div class="playList" :class="slide_expired == 0 ? 'active' : ''">
-                                        <ul>
-                                            <li class="playList__itembox">
-                                                <div class="playList__item playList__item--title active">
-                                                    <div class="col name">
-                                                        <figure>
-                                                            <figcaption class="pointer">
-                                                                <h3 class="playList__title">What is the usage range of my bought bea...</h3>
-                                                                <span class="playList__by">2020-04-20 15:53:42</span>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="status">
-                                                        Read
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="playList__itembox">
-                                                <div class="playList__item playList__item--title active">
-                                                    <div class="col name">
-                                                        <figure>
-                                                            <figcaption class="pointer">
-                                                                <h3 class="playList__title">What is the usage range of my bought bea...</h3>
-                                                                <span class="playList__by date">2020-04-20 15:53:42</span>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="status">
-                                                        Read
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="playList__itembox">
-                                                <div class="playList__item playList__item--title active">
-                                                    <div class="col name">
-                                                        <figure>
-                                                            <figcaption class="pointer">
-                                                                <h3 class="playList__title">What is the usage range of my bought bea...</h3>
-                                                                <span class="playList__by date">2020-04-20 15:53:42</span>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>
-                                                    <div class="status">
-                                                        Read
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
+                            <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
+                                <button class="btn btn--gray">Cancel</button>
+                                <button type="submit" class="btn btn--submit">Save</button>
                             </div>
                         </div>
                     </div>
@@ -555,6 +262,7 @@
                 isLogin: false,
                 group_title: 'SELLER',
                 product_status: 'PENDING',
+                seller_class: 'MARKET PLACE',
                 myProduct_list: [],
                 popup_filter:0,
                 ws: null,

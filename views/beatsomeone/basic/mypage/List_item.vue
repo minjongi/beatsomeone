@@ -238,7 +238,7 @@
                                             </div>
                                             <div>
                                                 <div class="btnbox col">
-                                                    <button type="submit" class="btn btn--gray"> Cancel </button>
+                                                    <button class="btn btn--gray"> Cancel </button>
                                                     <button type="submit" class="btn btn--submit"> Apply </button>
                                                 </div>
                                             </div>

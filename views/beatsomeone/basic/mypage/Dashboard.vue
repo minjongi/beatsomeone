@@ -427,7 +427,7 @@
                                                                             </figcaption>
                                                                         </figure>
                                                                     </div>
-                                                                    <div class="status active">
+                                                                    <div class="action active">
                                                                         Unread
                                                                     </div>
                                                                 </div>
@@ -445,7 +445,7 @@
                                                                             </figcaption>
                                                                         </figure>
                                                                     </div>
-                                                                    <div class="status">
+                                                                    <div class="action">
                                                                         Read
                                                                     </div>
                                                                 </div>
@@ -463,7 +463,7 @@
                                                                             </figcaption>
                                                                         </figure>
                                                                     </div>
-                                                                    <div class="status">
+                                                                    <div class="action">
                                                                         Read
                                                                     </div>
                                                                 </div>
@@ -492,7 +492,7 @@
                                                                             </figcaption>
                                                                         </figure>
                                                                     </div>
-                                                                    <div class="status">
+                                                                    <div class="action">
                                                                         Read
                                                                     </div>
                                                                 </div>
@@ -507,7 +507,7 @@
                                                                             </figcaption>
                                                                         </figure>
                                                                     </div>
-                                                                    <div class="status">
+                                                                    <div class="action">
                                                                         Read
                                                                     </div>
                                                                 </div>
@@ -522,7 +522,7 @@
                                                                             </figcaption>
                                                                         </figure>
                                                                     </div>
-                                                                    <div class="status">
+                                                                    <div class="action">
                                                                         Read
                                                                     </div>
                                                                 </div>
