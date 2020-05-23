@@ -34,9 +34,9 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li class="active">Dashboard</li>
+                                <li>Dashboard</li>
                                 <li>Manage Information</li>
-                                <li>Product List</li>
+                                <li class="active">Product List</li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
