@@ -84,7 +84,9 @@
           }
 
           &.profile{
-            border-radius:55px;
+            img{
+              border-radius:55px;
+            }
           }
         }
         figcaption {

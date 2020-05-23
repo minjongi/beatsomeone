@@ -5,7 +5,7 @@
         <Header :is-login="isLogin"/>
 
         <div class="container sub">
-            <div class="main mypage">
+            <div class="main mypage" style="overflow:initial;">
                 <section class="main__section1" style="background:none;">
                     <div class="BG" v-show="group_title == 'CUSTOMER'" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
                     <div class="filter"></div>
@@ -195,7 +195,7 @@
                                                                         <div class="col name">
                                                                             <figure>
                                                                                 <span class="playList__cover">
-                                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                    <img src="/assets/images/cover_default.png" alt="">
                                                                                     <i ng-if="item.isNew" class="label new">N</i>
                                                                                 </span>
                                                                                 <figcaption class="pointer">
@@ -216,7 +216,7 @@
                                                                         <div class="col name">
                                                                             <figure>
                                                                                 <span class="playList__cover">
-                                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                    <img src="/assets/images/cover_default.png" alt="">
                                                                                     <i ng-if="item.isNew" class="label new">N</i>
                                                                                 </span>
                                                                                 <figcaption class="pointer">
@@ -241,7 +241,7 @@
                                                                         <div class="col name">
                                                                             <figure>
                                                                                 <span class="playList__cover">
-                                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                    <img src="/assets/images/cover_default.png" alt="">
                                                                                     <i ng-if="item.isNew" class="label new">N</i>
                                                                                 </span>
                                                                                 <figcaption class="pointer">
@@ -262,7 +262,7 @@
                                                                         <div class="col name">
                                                                             <figure>
                                                                                 <span class="playList__cover">
-                                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                    <img src="/assets/images/cover_default.png" alt="">
                                                                                     <i ng-if="item.isNew" class="label new">N</i>
                                                                                 </span>
                                                                                 <figcaption class="pointer">
@@ -287,7 +287,7 @@
                                                                         <div class="col name">
                                                                             <figure>
                                                                                 <span class="playList__cover">
-                                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                    <img src="/assets/images/cover_default.png" alt="">
                                                                                     <i ng-if="item.isNew" class="label new">N</i>
                                                                                 </span>
                                                                                 <figcaption class="pointer">
@@ -308,7 +308,7 @@
                                                                         <div class="col name">
                                                                             <figure>
                                                                                 <span class="playList__cover">
-                                                                                    <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                    <img src="/assets/images/cover_default.png" alt="">
                                                                                     <i ng-if="item.isNew" class="label new">N</i>
                                                                                 </span>
                                                                                 <figcaption class="pointer">
@@ -349,7 +349,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
+                                                            <img  src="/assets/images/cover_default.png" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -359,7 +359,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
+                                                            <img  src="/assets/images/cover_default.png" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -369,7 +369,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
+                                                            <img  src="/assets/images/cover_default.png" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -379,7 +379,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
+                                                            <img  src="/assets/images/cover_default.png" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -389,7 +389,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
+                                                            <img  src="/assets/images/cover_default.png" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -419,7 +419,7 @@
                                                                     <div class="col name">
                                                                         <figure>
                                                                             <span class="playList__cover profile">
-                                                                                <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                <img src="/assets/images/member_default.png" alt="user_name">
                                                                             </span>
                                                                             <figcaption class="pointer">
                                                                                 <h3 class="playList__title">User 1</h3>
@@ -437,7 +437,7 @@
                                                                     <div class="col name">
                                                                         <figure>
                                                                             <span class="playList__cover profile">
-                                                                                <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                <img src="/assets/images/member_default.png" alt="user_name">
                                                                             </span>
                                                                             <figcaption class="pointer">
                                                                                 <h3 class="playList__title">User 2</h3>
@@ -455,7 +455,7 @@
                                                                     <div class="col name">
                                                                         <figure>
                                                                             <span class="playList__cover profile">
-                                                                                <img src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                                                <img src="/assets/images/member_default.png" alt="user_name">
                                                                             </span>
                                                                             <figcaption class="pointer">
                                                                                 <h3 class="playList__title">User 3</h3>
