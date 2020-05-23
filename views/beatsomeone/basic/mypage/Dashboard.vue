@@ -9,11 +9,11 @@
 
         <div class="container sub">
             <div class="main">
-                <section class="main__section1">
-                    <div class="BG" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
+                <section class="main__section1" style="background:none;">
+                    <div class="BG" v-show="group_title == 'CUSTOMER'" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <header class="main__section1-title">
+                        <header class="main__section1-title" v-show="group_title == 'CUSTOMER'">
                             <div class="banner">
                                 <h3>Together with <span>beatsomeone</span>!</h3>
                                 <p>
@@ -57,15 +57,87 @@
                                                 <li>Manage Information</li>
                                                 <li>Product List</li>
                                                 <li>Order History</li>
+                                                <li v-show="group_title == 'SELLER'">Sales History</li>
+                                                <li v-show="group_title == 'SELLER'">Settlement History</li>
                                                 <li>Message</li>
-                                                <li>Seller Register</li>
+                                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                                 <li>Support</li>
                                             </ul>
                                         </div>
                                     </div>
+
                                     <div class="sublist__content">
+                                        <div class="row" v-show="group_title == 'SELLER'">
+
+                                            <div class="title-content">
+                                                <div class="title">
+                                                    <div>Settlement Overview</div>
+                                                </div>
+                                                <p>
+                                                    ※· We will guide the amount of sales and settlements based on the current month / day.<br/>
+                                                    ※· Exact sales / settlement amount can be checked on the basis of 20-25 days of the following month.
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <div class="splitboard">
+                                                    <div class="blue">
+                                                        ₩ 123,456
+                                                        <div class="change">(Change 40,093▲)</div>
+                                                        <span>Estimated sales amount
+                                                            <button>
+                                                                <img src="/assets/images/icon/tip.png"/>
+                                                                <span data-v-27fa6da0="" class="tooltip">
+                                                                    <p>
+                                                                     Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day.
+                                                                     </p>
+                                                                </span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <div class="blue">₩ 93,409
+                                                        <div class="change">(Change 40,093▲)</div>
+                                                        <span>Estimated settlement amount
+                                                            <button>
+                                                                <img src="/assets/images/icon/tip.png"/>
+                                                                <span data-v-27fa6da0="" class="tooltip">
+                                                                    <p>
+                                                                     Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month.
+                                                                     </p>
+                                                                </span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <div class="red">₩ 80,039
+                                                        <div class="change">(Change 40,093▲)</div>
+                                                        <span>Last month settlement amount
+                                                            <button>
+                                                                <img src="/assets/images/icon/tip.png"/>
+                                                                <span data-v-27fa6da0="" class="tooltip">
+                                                                    <p>
+                                                                     Displays the amount settled last month.
+                                                                     </p>
+                                                                </span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                         
-                                        <div class="row double">
+                                        <div class="row" v-show="group_title == 'SELLER'">
+
+                                            <div class="title-content">
+                                                <div class="title">
+                                                    <div>Chart</div>
+                                                </div>
+                                            </div>
+                                            <div class="chart" style="height:320px;">
+                                                <img src="/assets/images/chart.png"/>                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="row double" v-show="group_title == 'CUSTOMER'">
 
                                             <div class="title-content">
                                                 <div class="title">
