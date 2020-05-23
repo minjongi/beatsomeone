@@ -4,9 +4,6 @@
     <div class="wrapper">
         <Header :is-login="isLogin"/>
 
-
-
-
         <div class="container sub">
             <div class="main mypage">
                 <section class="main__section1" style="background:none;">
@@ -426,7 +423,7 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="status active">
-                                                                        Read
+                                                                        Unread
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -444,7 +441,7 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="status">
-                                                                        Unread
+                                                                        Read
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -462,7 +459,7 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="status">
-                                                                        Unread
+                                                                        Read
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -491,7 +488,7 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="status">
-                                                                        Unread
+                                                                        Read
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -506,7 +503,7 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="status">
-                                                                        Unread
+                                                                        Read
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -521,7 +518,7 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="status">
-                                                                        Unread
+                                                                        Read
                                                                     </div>
                                                                 </div>
                                                             </li>
