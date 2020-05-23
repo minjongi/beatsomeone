@@ -425,7 +425,7 @@ section[class*="section"]{
     opacity:.3;
   }
 
-  & ~ *{
+  & ~ *:not(.title-content){
     margin-top:30px;
   }
 }
