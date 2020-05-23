@@ -58,7 +58,12 @@
                                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
                                                 <li>Message</li>
                                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                                <li>Support</li>
+                                                <li>Support
+                                                    <ul class="menu">
+                                                        <li>Support Case</li>
+                                                        <li>FAQ</li>
+                                                    </ul>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>

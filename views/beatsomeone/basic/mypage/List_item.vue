@@ -34,14 +34,20 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li>Dashboard</li>
+                                <li class="active">Dashboard</li>
                                 <li>Manage Information</li>
-                                <li class="active">Product List</li>
+                                <li>Product List</li>
                                 <li>Order History</li>
-                                <li>Sales History</li>
-                                <li>Settlement History</li>
+                                <li v-show="group_title == 'SELLER'">Sales History</li>
+                                <li v-show="group_title == 'SELLER'">Settlement History</li>
                                 <li>Message</li>
-                                <li>Support</li>
+                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                                <li>Support
+                                    <ul class="menu">
+                                        <li>Support Case</li>
+                                        <li>FAQ</li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>

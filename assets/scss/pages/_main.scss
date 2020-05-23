@@ -1133,3 +1133,45 @@ section[class*="section"]{
     }
   }
 }
+
+ul.menu li{
+  position:relative;
+
+  ul.menu{
+    margin-top:0px;
+    margin-left:0;
+    padding-left:30px;
+    font-size:12px;
+    max-height:0;
+    transition:.3s ease;
+    opacity:0;
+    overflow:hidden;
+
+    li:before{
+      content: "";
+      position: absolute;
+      background: #FFDA2A;
+      top: calc(50% - 3px);
+      right: calc(100% + 8px);
+      width: 4px;
+      height: 4px;
+      border-radius: 8px;
+      transform: translateX(-300%);
+      opacity:0;
+      transition:.3s ease;
+    }
+
+  }
+
+  &.active ul.menu{
+    max-height:100vh;
+    opacity:1;
+
+    li.active:before{
+      opacity:1;
+      transform: translateX(0%);
+    }
+  }
+}
+
+
