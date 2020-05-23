@@ -201,7 +201,15 @@
   }
 }
 
-
+.mypage{
+ .BG, .filter{
+    height:540px!important;
+  }
+ .main__section1-title{
+  padding-top:100px!important;
+  margin-bottom:60px!important;
+ }
+}
 
 
 
@@ -1105,7 +1113,7 @@ section[class*="section"]{
   }
 
   .green{
-    color:#40F8CC;
+    color:#208064;
   }
 
   .gray{

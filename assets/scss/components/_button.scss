@@ -49,6 +49,7 @@
     font-weight:600;
     padding:16px 64px;
     border-radius:100px;
+    opacity: 1;
   }
 
   &.btn--glass{
@@ -64,13 +65,21 @@
   }
 }
 
+.button{
+  opacity:.3;
+  transition:.3s ease;
+
+  &:hover{
+    opacity:1;
+  }
+}
+
 button {
   cursor: pointer;
   width: 20px;
   height: 20px;
   position: relative;
   overflow: initial;
-  opacity: .3;
   transition:.3s ease;
 
   .tooltip {

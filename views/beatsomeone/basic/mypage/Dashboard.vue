@@ -8,7 +8,7 @@
 
 
         <div class="container sub">
-            <div class="main">
+            <div class="main mypage">
                 <section class="main__section1" style="background:none;">
                     <div class="BG" v-show="group_title == 'CUSTOMER'" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
                     <div class="filter"></div>
@@ -24,13 +24,13 @@
                         </header>
                         <div class="main__media">
 
-                            <div class="mypage sublist">
+                            <div class="sublist">
                                 <div class="wrap">
                                     <div class="sublist__filter sticky">
                                         <div class="row center">
                                             <div class="profile">
                                                 <div class="portait">
-                                                    <img src="/assets/images/portait.png"/>
+                                                    <img src="/assets/images/member_default.png"/>
                                                 </div>
                                                 <div class="info">
                                                     <div class="group">
@@ -84,7 +84,7 @@
                                                         ₩ 123,456
                                                         <div class="change">(Change 40,093▲)</div>
                                                         <span>Estimated sales amount
-                                                            <button>
+                                                            <button class="button">
                                                                 <img src="/assets/images/icon/tip.png"/>
                                                                 <span data-v-27fa6da0="" class="tooltip">
                                                                     <p>
@@ -97,7 +97,7 @@
                                                     <div class="blue">₩ 93,409
                                                         <div class="change">(Change 40,093▲)</div>
                                                         <span>Estimated settlement amount
-                                                            <button>
+                                                            <button class="button">
                                                                 <img src="/assets/images/icon/tip.png"/>
                                                                 <span data-v-27fa6da0="" class="tooltip">
                                                                     <p>
@@ -110,7 +110,7 @@
                                                     <div class="red">₩ 80,039
                                                         <div class="change">(Change 40,093▲)</div>
                                                         <span>Last month settlement amount
-                                                            <button>
+                                                            <button class="button">
                                                                 <img src="/assets/images/icon/tip.png"/>
                                                                 <span data-v-27fa6da0="" class="tooltip">
                                                                     <p>
@@ -135,6 +135,34 @@
                                             <div class="chart" style="height:320px;">
                                                 <img src="/assets/images/chart.png"/>                                                
                                             </div>
+                                        </div>
+
+                                        <div class="row double" v-show="group_title == 'SELLER'">
+
+                                            <div class="title-content">
+                                                <div class="title">
+                                                    <div>Order Details</div>
+                                                    <button class="btn btn--glass">more ></button>
+                                                </div>
+                                                <div class="splitboard">
+                                                    <div class="blue">12<span>Buy</span></div>
+                                                    <div class="red">2<span>Cancel</span></div>
+                                                    <div class="green">6<span>Refund</span></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="title-content">
+                                                <div class="title">
+                                                    <div>Product details</div>
+                                                    <button class="btn btn--glass">more ></button>
+                                                </div>
+                                                <div class="splitboard">
+                                                    <div class="blue">12<span>Total</span></div>
+                                                    <div class="red">2<span>Selling</span></div>
+                                                    <div class="green">6<span>Pending</span></div>
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                         <div class="row double" v-show="group_title == 'CUSTOMER'">
@@ -319,7 +347,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img src="'/uploads/cmallitem/'" alt="music-name" />
+                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -329,7 +357,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img src="'/uploads/cmallitem/'" alt="music-name" />
+                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -339,7 +367,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img src="'/uploads/cmallitem/'" alt="music-name" />
+                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -349,7 +377,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img src="'/uploads/cmallitem/'" alt="music-name" />
+                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -359,7 +387,7 @@
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
-                                                            <img src="'/uploads/cmallitem/'" alt="music-name" />
+                                                            <img  :src="'/assets/images/cover_default.png'" alt="music-name" />
                                                         </button>
                                                         <a href="#//" class="albumItem__link">
                                                             <h4 class="albumItem__title">name</h4>
@@ -545,7 +573,7 @@
         data: function() {
             return {
                 isLogin: false,
-                group_title: 'SELLER',
+                group_title: 'CUSTOMER',
                 product_status: 'PENDING',
                 myProduct_list: [],
                 popup_filter:0,

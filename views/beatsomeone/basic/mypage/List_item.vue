@@ -267,7 +267,7 @@
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                        <img :src="'/assets/images/cover_default.png'" alt="">
                                                         <i ng-if="item.isNew" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
