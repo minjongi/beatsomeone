@@ -323,7 +323,7 @@
             goInquirymod() {
                 this.$router.push({path: '/inquirymod'});
             },
-        }
+        },
     }
 </script>
 

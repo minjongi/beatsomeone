@@ -33,9 +33,9 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li><a href="/mypage"> Dashboard</a></li>
-                                <li><a href="/mypage/profilemod">Manage Information</a></li>
-                                <li><a href="/mypage/list_item">Product List</a></li>
+                                <li class="active" @click="$router.push('');">Dashboard</li>
+                                <li @click="$router.push('profilemod');">Manage Information</a></li>
+                                <li @click="$router.push('list_item');">Product List</a></li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
@@ -43,8 +43,8 @@
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li class="active">Support
                                     <ul class="menu">
-                                        <li class="active"><a href="/mypage/inquirylist">Support Case</a></li>
-                                        <li><a href="/mypage/faq">FAQ</a></li>
+                                        <li class="active" @click="$router.push('inquirylist');">Support Case</li>
+                                        <li @click="$router.push('/faq');">FAQ</li>
                                     </ul>
                                 </li><!-- 
                                 <li><a href="/">Inquiry</a></li>
@@ -321,7 +321,8 @@
             goInquirymod() {
                 this.$router.push({path: '/inquirymod'});
             },
-        }
+
+        },
     }
 </script>
 

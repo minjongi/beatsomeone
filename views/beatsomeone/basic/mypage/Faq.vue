@@ -1,6 +1,5 @@
 <template>
 
-
     <div class="wrapper">
         <Header :is-login="isLogin"/>
 
@@ -34,379 +33,143 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li><a href="/mypage"> Dashboard</a></li>
-                                <li><a href="/mypage/profilemod">Manage Information</a></li>
-                                <li><a href="/mypage/list_item">Product List</a></li>
+                                <li class="active" @click="$router.push('');">Dashboard</li>
+                                <li @click="$router.push('profilemod');">Manage Information</a></li>
+                                <li @click="$router.push('list_item');">Product List</a></li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
                                 <li>Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li>Support
+                                <li class="active">Support
                                     <ul class="menu">
-                                        <li><a href="/mypage/inquirylist">Support Case</a></li>
-                                        <li class="active"><a href="/mypage/faq">FAQ</a></li>
+                                        <li @click="$router.push('inquirylist');">Support Case</li>
+                                        <li class="active" @click="$router.push('/faq');">FAQ</li>
                                     </ul>
-                                </li>
+                                </li><!-- 
+                                <li><a href="/">Inquiry</a></li>
+                                <li><a @click="goInquiryview()">Inquiryview</a></li>
+                                <li><a @click="goInquirymod()">Inquirymod</a></li> -->
                             </ul>
                         </div>
                     </div>
                     <div class="sublist__content" style="margin-bottom:100px;">
                         
-                        <div class="row" style="margin-bottom:10px;">
-                            <div class="search condition">
-                                <div class="filter">
-                                    <div class="condition active">Product Name</div>
-                                    <div class="condition">Product Code</div>
-                                    <div class="condition">Keyword</div>
+
+                        <div class="row" style="margin-bottom:30px;">
+                            
+                            <div class="title-content">
+                                <div class="title">
+                                    <div>Order Details</div>
                                 </div>
-                                <div class="wrap">
-                                    <input type="text" placeholder="enter your word..."> 
-                                    <img src="/assets/images/icon/searchicon.png"/>
+                                <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
+                                    <input type="text" placeholder="enter your word..." style="font-size:16px;"> 
+                                    <img src="/assets/images/icon/searchicon.png" style="margin:10px;"/>
                                 </div>
                             </div>
+
                         </div>
 
-                        <div class="row" style="display:flex; margin-bottom:30px;">
-                            <div class="tabmenu">
-                                <div class="active">Total (33)</div>
-                                <div>Selling (15)</div>
-                                <div>Pending (18)</div>
-                            </div>
-                            <div>
-                                <div class="sort">
-                                    <span>{{ $t('sortBy') }}</span>
-                                    <div class="custom-select " style="width:initial;">
-                                        <button class="selected-option">
-                                            Genre / Mood / Track Type
-                                        </button>
-                                        <div class="select-genre popup active">
-                                            <div class="tab">
-                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">7</div></button>
-                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">3</div></button>
-                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">2</div></button>
-                                            </div>
-                                            <div class="tab_container">
+                        <div class="row" style="margin-bottom:30px;">
+                            <div class="playList board fold faq">
 
-                                                <div class="tab_content" :class="popup_filter = 0 ? 'active' : ''">
-                                                    <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter1" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
-                                                                <span></span> All Genre
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                                <div class="tab_content" :class="popup_filter = 1 ? 'active' : ''">
-                                                    <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter1" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
-                                                                <span></span> All Genre
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                                <div class="tab_content" :class="popup_filter = 2 ? 'active' : ''">
-                                                    <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter1" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
-                                                                <span></span> All Genre
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                            <div>
-                                                <div class="btnbox col">
-                                                    <button class="btn btn--gray"> Cancel </button>
-                                                    <button type="submit" class="btn btn--submit"> Apply </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sort">
-                                    <div class="custom-select">
-                                        <button class="selected-option">
-                                            Register Date
-                                        </button>
-                                        <div class="options">
-                                            <button data-value="" class="option"> Launch Date </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sort datepicker">
-                                    <input type="date" placeholder="Start Date" />
-                                    <span>─</span>
-                                    <input type="date" placeholder="End Date" />
-                                    <button><img src="/assets/images/icon/calendar-white.png" /></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="playList productList">
                                 <ul>
-                                    <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
-                                        <div class="playList__item playList__item--title active">
-                                            <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img :src="'/assets/images/cover_default.png'" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <div class="info">
-                                                          <!-- <div class="status" :class="product_status">{{product_status}}</div>-->
-                                                          <div v-if="item.cit_status === '1'" class="status SEELING">SEELING</div>
-                                                          <div v-if="item.cit_status === '0'" class="status PENDING">PENDING</div>
-                                                          
-                                                          <div class="code">{{ item.cit_key }}</div>
-                                                        </div>
-                                                        <h3 class="playList__title">{{ formatCitName(item.cit_name)  }}</h3>
-                                                        <span class="playList__by"> ( {{ item.bpm }} )</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
-                                                        <div class="detail">MP3 or WAV + STEMS</div>
-                                                    </div>
-                                                </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>No other activities not authorized by the platform</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col feature">
-                                                <div class="listen">
-                                                    <div class="playbtn">
-                                                        <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
-                                                        <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
-                                                        <span class="duration">0:00</span></span>
-                                                    </div>
-                                                    <div data-v-27fa6da0="" class="col spectrum">
-                                                        <div class="wave"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="amount">
-                                                    <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
-                                                </div>
-                                                <div class="price">
-                                                    $ {{ item.cde_price_d }}
-                                                </div>
-                                            </div>
-                                            <div class="col edit">
-                                                <button @click="productEditBtn(item.cit_key)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
-                                            </div>
-                                            <div class="col genre">
-                                                <span><button >{{ item.hashTag }}</button></span>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap">
+                                            <div>
+                                                <div class="subject">What information do I need to sell music?</div>
+                                                <div class="answer fold">
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
+                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
 
-                                    <!--
-                                    <li class="playList__itembox" style="opacity: 1; margin-bottom: 1px;">
-                                        <div class="playList__item playList__item--title">
-                                            <div class="col index">18</div>
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img src="/uploads/cmallitem/2020/01/37617719f8a82eaee60242b2a0acf30e.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <div class="info">
-                                                          <div class="status" :class="product_status">{{product_status}}</div>
-                                                          <div class="code">item_100</div>
-                                                        </div>
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
-                                                        <div class="detail">MP3 or WAV + STEMS</div>
-                                                    </div>
-                                                </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>No other activities not authorized by the platform</span></div>
+                                                    After the changes have been made, the rights for sale will be opened.
+                                                    From this point on, you can sell the beats you have made.
                                                 </div>
                                             </div>
-                                            <div class="col feature">
-                                                <div class="listen">
-                                                    <div class="playbtn">
-                                                        <button class="btn-play">재생</button>
-                                                        <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
-                                                        <span class="duration">0:00</span></span>
-                                                    </div>
-                                                    <div data-v-27fa6da0="" class="col spectrum">
-                                                        <div class="wave"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="amount">
-                                                    <img src="/assets/images/icon/cd.png"/><div><span>500</span> left</div>
-                                                </div>
-                                                <div class="price">
-                                                    $ 10.00
-                                                </div>
-                                            </div>
-                                            <div class="col edit">
-                                                <button class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
-                                            </div>
-                                            <div class="col genre">
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                                <span><button >music tech03</button></span>
-                                            </div>
+                                            <div class="btn--fold"><div></div><div></div></div>
                                         </div>
                                     </li>
-                                    -->
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div>
+                                                <div class="subject">What information do I need to sell music?</div>
+                                                <div class="answer fold">
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
+                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
+
+                                                    After the changes have been made, the rights for sale will be opened.
+                                                    From this point on, you can sell the beats you have made.
+                                                </div>
+                                            </div>
+                                            <div class="btn--fold"><div></div><div></div></div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap">
+                                            <div>
+                                                <div class="subject">What information do I need to sell music?</div>
+                                                <div class="answer fold">
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
+                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
+
+                                                    After the changes have been made, the rights for sale will be opened.
+                                                    From this point on, you can sell the beats you have made.
+                                                </div>
+                                            </div>
+                                            <div class="btn--fold"><div></div><div></div></div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap">
+                                            <div>
+                                                <div class="subject">What information do I need to sell music?</div>
+                                                <div class="answer fold">
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
+                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
+
+                                                    After the changes have been made, the rights for sale will be opened.
+                                                    From this point on, you can sell the beats you have made.
+                                                </div>
+                                            </div>
+                                            <div class="btn--fold"><div></div><div></div></div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap">
+                                            <div>
+                                                <div class="subject">What information do I need to sell music?</div>
+                                                <div class="answer fold">
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
+                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
+
+                                                    After the changes have been made, the rights for sale will be opened.
+                                                    From this point on, you can sell the beats you have made.
+                                                </div>
+                                            </div>
+                                            <div class="btn--fold"><div></div><div></div></div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap">
+                                            <div>
+                                                <div class="subject">What information do I need to sell music?</div>
+                                                <div class="answer fold">
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
+                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
+
+                                                    After the changes have been made, the rights for sale will be opened.
+                                                    From this point on, you can sell the beats you have made.
+                                                </div>
+                                            </div>
+                                            <div class="btn--fold"><div></div><div></div></div>
+                                        </div>
+                                    </li>
                                 </ul>
 
                             </div>
@@ -422,8 +185,6 @@
         -->
         <Footer/>
     </div>
-
-
 </template>
 
 
