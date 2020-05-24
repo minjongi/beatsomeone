@@ -430,7 +430,11 @@ section[class*="section"]{
     font-size:12px;
     margin-top:10px;
     line-height:2em;
-    opacity:.3;
+    color:rgba(255,255,255,.3);
+
+    span{
+      color:white;
+    }
   }
 
   & ~ *:not(.title-content){
@@ -1374,11 +1378,39 @@ textarea{
 }
 
 .input_wrap{
-  display:flex;
-  flex-direction: column;
+  display:flex!important;
+
+  > * {
+    vertical-align: middle;
+  }
 
   & + button{
     margin-left:-4px;
+  }
+
+  &.line{
+    border:1px solid rgba(255,255,255,.3);
+    padding:8px 16px;
+    border-radius:8px;
+  }
+
+  input{
+    width:100%;
+    color:white;
+    font-size: 14px;
+
+    & + button{
+      opacity: .3;
+      transition:.3s ease;
+
+      > *{
+        vertical-align: middle;
+      }
+
+      &:hover{
+        opacity: 1;
+      }
+    }
   }
 }
 
@@ -1434,6 +1466,143 @@ textarea{
 
     span{
       color:#FF4848;
+    }
+  }
+}
+
+.nowrap {
+  flex-wrap: initial!important;
+}
+
+
+.tab{
+  > div{
+    padding:16px 0;
+    font-weight:600;
+  }
+}
+
+.board{
+
+  font-size:14px;
+
+  .index, .date, .action{
+    text-align:center;
+  }
+
+  .subject{
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .index{
+    padding-right:20px;
+  }
+
+}
+
+.inquirylist{
+
+  .playList__item {
+    padding: 0 20px;
+    max-height:48px;
+
+    .index, .date, .action{
+      color:rgba(255,255,255,.3);
+    }
+
+  }
+  .index{
+    min-width:96px;
+  }
+
+  .subject{
+    width:100%;
+    max-width:570px;
+  }
+
+  .date{
+    min-width: 256px;
+  }
+
+  .action{
+    min-width:128px;
+  }
+}
+
+.pagination{
+  text-align:center;
+
+  *{
+    display:inline-block;
+  }
+
+  > div{
+    width:auto;
+    margin:auto;
+
+    > .prev, > .next{
+      opacity:0;
+      pointer-events:none;
+      transition: .3s ease;
+
+      &.active{
+        opacity:.3;
+        pointer-events:initial;
+      }
+
+      &.active:hover{
+        opacity:1;
+      };
+    }
+  }
+
+  button{
+    color:rgba(255,255,255,.3);
+    width:48px;
+    height:48px;
+    transition:.3s ease;
+
+    &:hover{
+      color:rgba(255,255,255,1);
+    }
+
+    &.active{
+      font-weight:bolder;
+      color:#FFDA2A;
+    }
+  }
+}
+
+.custom-select{
+  position:relative;
+
+  .selected-option{
+    transition:.3s ease;
+  }
+
+  .options {
+    top:100%;
+    max-height: 0;
+    overflow: hidden;
+    transition:.3s ease;
+
+    .option{
+      height:auto;
+      line-height:3em;
+
+    }
+  }
+
+  &.active{
+    .selected-option{
+      border:1px solid #2b2c30!important;
+    }
+
+    .options{
+      max-height:100em;
     }
   }
 }

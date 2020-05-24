@@ -38,14 +38,20 @@
                                 <li>Manage Information</li>
                                 <li class="active">Product List</li>
                                 <li>Order History</li>
-                                <li>Sales History</li>
-                                <li>Settlement History</li>
+                                <li v-show="group_title == 'SELLER'">Sales History</li>
+                                <li v-show="group_title == 'SELLER'">Settlement History</li>
                                 <li>Message</li>
-                                <li>Support</li>
+                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                                <li>Support
+                                    <ul class="menu">
+                                        <li>Support Case</li>
+                                        <li>FAQ</li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="sublist__content">
+                    <div class="sublist__content" style="margin-bottom:100px;">
                         
                         <div class="row" style="margin-bottom:10px;">
                             <div class="search condition">
@@ -232,7 +238,7 @@
                                             </div>
                                             <div>
                                                 <div class="btnbox col">
-                                                    <button type="submit" class="btn btn--gray"> Cancel </button>
+                                                    <button class="btn btn--gray"> Cancel </button>
                                                     <button type="submit" class="btn btn--submit"> Apply </button>
                                                 </div>
                                             </div>
@@ -261,13 +267,13 @@
                         <div class="row">
                             <div class="playList productList">
                                 <ul>
-                                    <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id" style="opacity: 1; margin-bottom: 1px;" >
-                                        <div class="playList__item playList__item--title">
+                                    <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
+                                        <div class="playList__item playList__item--title active">
                                             <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/'+item.cit_file_1" alt="">
+                                                        <img :src="'/assets/images/cover_default.png'" alt="">
                                                         <i ng-if="item.isNew" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
