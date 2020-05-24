@@ -1737,10 +1737,17 @@ textarea{
     position:absolute;
     margin-top:30px;
     line-height:2em;
+    color:rgba(255,255,255,.7);
 
     span{
       text-decoration:underline;
       font-weight:600;
+      transition:.3s ease;
+      cursor:pointer;
+
+      &:hover{
+        color:white;
+      }
     }
   }
 

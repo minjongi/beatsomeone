@@ -75,16 +75,32 @@
 
                                 <ul>
                                     <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap">
+                                        <div class="playList__item playList__item--title nowrap ">
                                             <div>
                                                 <div class="subject">What information do I need to sell music?</div>
                                                 <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
-                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
-
-                                                    After the changes have been made, the rights for sale will be opened.
-                                                    From this point on, you can sell the beats you have made.
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
+                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
+                                                     <br/>
+                                                    After the changes have been made, the rights for sale will be opened.<br/>
+                                                    From this point on, you can sell the beats you have made.<br/>
+                                                </div>
+                                            </div>
+                                            <div class="btn--fold"><div></div><div></div></div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap ">
+                                            <div>
+                                                <div class="subject">What information do I need to sell music?</div>
+                                                <div class="answer fold">
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
+                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
+                                                     <br/>
+                                                    After the changes have been made, the rights for sale will be opened.<br/>
+                                                    From this point on, you can sell the beats you have made.<br/>
                                                 </div>
                                             </div>
                                             <div class="btn--fold"><div></div><div></div></div>
@@ -95,76 +111,60 @@
                                             <div>
                                                 <div class="subject">What information do I need to sell music?</div>
                                                 <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
-                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
-
-                                                    After the changes have been made, the rights for sale will be opened.
-                                                    From this point on, you can sell the beats you have made.
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
+                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
+                                                     <br/>
+                                                    After the changes have been made, the rights for sale will be opened.<br/>
+                                                    From this point on, you can sell the beats you have made.<br/>
                                                 </div>
                                             </div>
                                             <div class="btn--fold"><div></div><div></div></div>
                                         </div>
                                     </li>
                                     <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap">
+                                        <div class="playList__item playList__item--title nowrap ">
                                             <div>
                                                 <div class="subject">What information do I need to sell music?</div>
                                                 <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
-                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
-
-                                                    After the changes have been made, the rights for sale will be opened.
-                                                    From this point on, you can sell the beats you have made.
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
+                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
+                                                     <br/>
+                                                    After the changes have been made, the rights for sale will be opened.<br/>
+                                                    From this point on, you can sell the beats you have made.<br/>
                                                 </div>
                                             </div>
                                             <div class="btn--fold"><div></div><div></div></div>
                                         </div>
                                     </li>
                                     <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap">
+                                        <div class="playList__item playList__item--title nowrap ">
                                             <div>
                                                 <div class="subject">What information do I need to sell music?</div>
                                                 <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
-                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
-
-                                                    After the changes have been made, the rights for sale will be opened.
-                                                    From this point on, you can sell the beats you have made.
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
+                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
+                                                     <br/>
+                                                    After the changes have been made, the rights for sale will be opened.<br/>
+                                                    From this point on, you can sell the beats you have made.<br/>
                                                 </div>
                                             </div>
                                             <div class="btn--fold"><div></div><div></div></div>
                                         </div>
                                     </li>
                                     <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap">
+                                        <div class="playList__item playList__item--title nowrap ">
                                             <div>
                                                 <div class="subject">What information do I need to sell music?</div>
                                                 <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
-                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
-
-                                                    After the changes have been made, the rights for sale will be opened.
-                                                    From this point on, you can sell the beats you have made.
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.
-                                                    If you are a current general member, please go through My Page > Seller Registration to change the permission first.
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.
-
-                                                    After the changes have been made, the rights for sale will be opened.
-                                                    From this point on, you can sell the beats you have made.
+                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
+                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
+                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
+                                                     <br/>
+                                                    After the changes have been made, the rights for sale will be opened.<br/>
+                                                    From this point on, you can sell the beats you have made.<br/>
                                                 </div>
                                             </div>
                                             <div class="btn--fold"><div></div><div></div></div>
