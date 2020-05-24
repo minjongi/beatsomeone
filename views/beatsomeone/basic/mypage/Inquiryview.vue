@@ -42,6 +42,9 @@
                                 <li>Settlement History</li>
                                 <li>Message</li>
                                 <li>Support</li>
+                                <li><a href="/mypage/inquiry">Inquiry</a></li>
+                                <li><a href="/mypage/inquiryview">Inquiryview</a></li>
+                                <li><a href="/mypage/inquirymod">Inquirymod</a></li>
                             </ul>
                         </div>
                     </div>
