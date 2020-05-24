@@ -1199,6 +1199,10 @@ ul.menu li{
     > *{
       width:100%;
     }
+
+    .file_list{
+      height:20px;
+    }
   }
 
   .type{
@@ -1222,6 +1226,10 @@ ul.menu li{
       width:100%;
       display:inline-block;
       margin: auto 0;
+    }
+
+    > label{
+      margin-top:0!important;
     }
 
     & + *{
@@ -1251,19 +1259,28 @@ ul.menu li{
 
     }
 
+    .username{
+      font-size:14px;
+      font-weight:600;
+    }
+
     .SELLER{
+      min-width:max-content;
       color:#FF4848;
     }
 
     .FREE{
+      min-width:max-content;
       color:#24B870;
     }
 
     .MARKET.PLACE{
+      min-width:max-content;
       color:#4890FF;
     }
 
     .PRO{
+      min-width:max-content;
       color:#FFDA2A;
     }
 
@@ -1329,6 +1346,10 @@ ul.menu li{
   }
 
   .btn{
+    font-size:14px;
+    min-width: 96px;
+    max-width: 96px;
+    height:40px;
     min-width: max-content;
 
     &.round{
@@ -1396,6 +1417,10 @@ textarea{
 
   &.round{
     border-radius:100px;
+  }
+
+  &.col{
+    flex-direction: column;
   }
 
   input{
@@ -1753,6 +1778,30 @@ textarea{
 
   .active{
     .answer{
+    }
+  }
+}
+
+.flie_list{
+  height:40px;
+
+  display:flex;
+  > *{
+    display:flex;
+    & ~ *{
+      margin-left:20px;
+    }
+
+    > *{
+      height:auto;
+      margin:auto;
+      vertical-align: middle;
+    }
+
+    span{
+      margin-left:10px;
+      font-size:14px;
+      opacity: .7;
     }
   }
 }

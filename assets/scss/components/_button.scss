@@ -73,6 +73,13 @@
     &:hover{
     }
   }
+
+  > *[display="none"] + *{
+    font-size:14px;
+    width:auto;
+    height:auto;
+    margin:auto;
+  }
 }
 
 .button{
@@ -137,5 +144,18 @@ button {
     a {
       height: 40px;
     }
+  }
+}
+
+label.btn{
+  display:flex!important;
+  text-align: center;
+
+  > *{
+    display:inline-block;
+    width:auto;
+    height:auto;
+    margin:auto;
+    vertical-align: middle;
   }
 }

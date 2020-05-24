@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="sublist__content">
-                        <div class="row" v-show="group_title == 'SELLER'">
+                        <div class="row">
 
                             <div class="title-content">
                                 <div class="title">
@@ -63,7 +63,7 @@
                                 <div class="row">
                                     <div class="type"><span>Username</span></div>
                                     <div class="data">
-                                        <div class="input_wrap">
+                                        <div class="input_wrap col">
                                             <input class="inputbox" type="text" value="KKOMA" placeholder="Enter your new username..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'KKOMA'">
                                             <div class="caution">
                                                 <div>
@@ -108,7 +108,7 @@
                                 <div class="row">
                                     <div class="type"><span>Email</span></div>
                                     <div class="data">
-                                        <div class="input_wrap">
+                                        <div class="input_wrap col">
                                             <input class="inputbox" type="mail" value="jisoo@naver.com" placeholder="Enter your new username..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'jisoo@naver.com'">
                                             <div class="caution">
                                                 <div>
@@ -234,7 +234,6 @@
         -->
         <Footer/>
     </div>
-
 
 </template>
 

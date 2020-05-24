@@ -60,7 +60,7 @@
                             
                             <div class="title-content">
                                 <div class="title">
-                                    <div>Order Details</div>
+                                    <div>Support</div>
                                     <button class="btn btn--submit">To ask question</button>
                                 </div>
                                 <p>
