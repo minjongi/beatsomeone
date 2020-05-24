@@ -102,7 +102,7 @@
                                                         v-on:progress="streamingFileProgressUpload"
                                                         v-on:start="streamingFileStartUpload"
                                                         v-on:finish="streamingFileFinishUpload"/>
-                                            <p>{{ $t('customTaggedAudio') }} WAV or MP3</p>
+                                            <p>{{ $t('customTaggedAudioWAVorMP3') }}</p>
                                             <span class="format">{{ !!item.streamingFileName ? item.streamingFileName : '.WAV (or.MP3)' }}</span>
                                             <div class="addAudioFile__progress">
                                                 <span ref="streamingFileProgressBar"></span>
@@ -216,7 +216,7 @@
                                     <div class="row row--inner">
                                         <span class="col">
                                             <p>
-                                                {{ $t('inventoryQuantity') }}
+                                                {{ $t('availableQuantityForSale') }}
                                             </p>
                                         </span>
                                         <span class="col">
