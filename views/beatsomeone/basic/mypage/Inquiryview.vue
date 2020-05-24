@@ -1,6 +1,7 @@
 <template>
 
 
+
     <div class="wrapper">
         <Header :is-login="isLogin"/>
 
@@ -11,7 +12,7 @@
                         <div class="row center">
                             <div class="profile">
                                 <div class="portait">
-                                    <img src="/assets/images/portait.png"/>
+                                    <img src="/assets/images/member_default.png"/>
                                 </div>
                                 <div class="info">
                                     <div class="group">
@@ -34,9 +35,9 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li>Dashboard</li>
-                                <li>Manage Information</li>
-                                <li>Product List</li>
+                                <li class="active" @click="$router.push('');">Dashboard</li>
+                                <li @click="$router.push('profilemod');">Manage Information</a></li>
+                                <li @click="$router.push('list_item');">Product List</a></li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
@@ -44,211 +45,127 @@
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li class="active">Support
                                     <ul class="menu">
-                                        <li class="active">Support Case</li>
-                                        <li>FAQ</li>
+                                        <li class="active" @click="$router.push('inquirylist');">Support Case</li>
+                                        <li @click="$router.push('/faq');">FAQ</li>
                                     </ul>
-                                </li>
-<!--                                 <li>Support</li>
+                                </li><!-- 
                                 <li><a href="/">Inquiry</a></li>
                                 <li><a @click="goInquiryview()">Inquiryview</a></li>
                                 <li><a @click="goInquirymod()">Inquirymod</a></li> -->
                             </ul>
                         </div>
                     </div>
-                    <div class="sublist__content" style="margin-bottom:100px;">
-                        
 
-                        <div class="row" style="margin-bottom:30px;">
-                            
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Order Details</div>
-                                    <button class="btn btn--submit">To ask question</button>
-                                </div>
-                                <p>
-                                    Total <span>100</span> cases.
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div class="row" style="margin-bottom:20px;">
-                            <div class="main__media board inquirylist">
-                                <div class="tab nowrap">
-                                    <div class="index">No</div>
-                                    <div class="subject">Title</div>
-                                    <div class="date">Date</div>
-                                    <div class="action">Status</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-bottom:30px;">
-                            <div class="playList board inquirylist">
-
-                                <ul>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action active">
-                                                Wait...
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action active">
-                                                Wait...
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action">
-                                                Answer Complete
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action">
-                                                Answer Complete
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action">
-                                                Answer Complete
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action active">
-                                                Wait...
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action active">
-                                                Wait...
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action active">
-                                                Wait...
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action active">
-                                                Wait...
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">000</div>
-                                            <div class="subject">I have some question about using service.</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="action active">
-                                                Wait...
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-bottom:30px;">
-                            <div class="pagination">
-                                <div>
-                                    <button class="prev active"><img src="/assets/images/icon/chevron_prev.png"/></button>
-                                    <button class="active">1</button>
-                                    <button>2</button>
-                                    <button>3</button>
-                                    <button>4</button>
-                                    <button>5</button>
-                                    <button>6</button>
-                                    <button>7</button>
-                                    <button>8</button>
-                                    <button>9</button>
-                                    <button>10</button>
-                                    <button class="next active"><img src="/assets/images/icon/chevron_next.png"/></button>
-                                </div>
-                            </div>
-                        </div>
-
+                    <div class="sublist__content">
                         <div class="row">
-                            <div class="sort" style="display:flex; width:50%; margin:auto; flex-flow:row nowrap">
-                                <div class="custom-select">
-                                    <button class="selected-option">
-                                        Total
-                                    </button>
-                                    <div class="options">
-                                        <button data-value="" class="option"> Title </button>
-                                        <button data-value="" class="option"> Content </button>
+
+                            <div class="row" style="margin-bottom:30px;">
+                                
+                                <div class="title-content">
+                                    <div class="title">
+                                        <div>Support</div>
+                                        <button class="btn btn--gray">Back</button>
                                     </div>
                                 </div>
-                                <div class="input_wrap line" style="margin-left:20px; width:100%;">
-                                    <input type="text" placeholder="Enter your searchword...">
-                                    <button><img src="/assets/images/icon/searchicon.png"/></button>
+
+                            </div>
+
+                            <div class="row" style="margin-bottom:30px;">
+                                <div class="content-header">
+                                    <div>
+                                        <div>
+                                            <div class="category">Title</div>
+                                            <div class="body">testestestestestestestestesteststestesttestestestestsest</div>
+                                        </div>  
+                                    </div>
+
+                                    <div>
+                                        <div>
+                                            <div class="category">Status</div>
+                                            <div class="body action active">Wait...</div>
+                                        </div>
+                                        <div>
+                                            <div class="category">Date</div>
+                                            <div class="body">0000-00-00 00:00:00</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="category">Attachment</div>
+                                        <div class="flie_list">
+                                            <button class="btn--file">
+                                                <img src="/assets/images/icon/file.png"/>
+                                                <span>musicsong1.mp3</span>
+                                            </button>
+                                            <button class="btn--file">
+                                                <img src="/assets/images/icon/file.png"/>
+                                                <span>musicsong2.mp3</span>
+                                            </button>
+                                            <button class="btn--file">
+                                                <img src="/assets/images/icon/file.png"/>
+                                                <span>musicsong3.mp3</span>
+                                            </button>
+                                        </div>
+                                    </div>                                  
                                 </div>
                             </div>
-                        </div>
 
+                            <div class="row" style="margin-bottom:30px;">
+                                <div class="playList array inquiryview">
+
+                                    <ul>
+                                        <li class="playList__itembox">
+                                            <div class="playList__item playList__item--title nowrap question stay">
+                                                <div class="row">
+                                                    <div class="mark">Q</div>
+                                                    <div class="answer">
+                                                        When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
+                                                        If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
+                                                         BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
+                                                         <br/>
+                                                        After the changes have been made, the rights for sale will be opened.<br/>
+                                                        From this point on, you can sell the beats you have made.<br/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="playList__itembox">
+                                            <div class="playList__item playList__item--title nowrap question">
+                                                <div class="row">
+                                                    <div class="mark"></div>
+                                                    <div class="answer">
+                                                        Hi, KKOMA<br/>
+                                                        We will respond to you after checking the contents.<br/>
+                                                        <br/>
+                                                        Beat someone Team.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="playList__itembox">
+                                            <div class="playList__item playList__item--title nowrap question complete">
+                                                <div class="row">
+                                                    <div class="mark">A</div>
+                                                    <div class="answer">
+                                                        Hi, KKOMA<br/>
+                                                        We fixed an error after checking the file.<br/>
+                                                        It may be cumbersome, but please upload it again.<br/>
+                                                        <br/>
+                                                        Beat someone Team.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                            <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
+                                <button class="btn btn--gray">Cancel</button>
+                                <button type="submit" class="btn btn--submit">Edit</button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
