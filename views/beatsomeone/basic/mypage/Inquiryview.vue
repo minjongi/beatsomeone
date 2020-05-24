@@ -42,9 +42,9 @@
                                 <li>Settlement History</li>
                                 <li>Message</li>
                                 <li>Support</li>
-                                <li><a href="/mypage/inquiry">Inquiry</a></li>
-                                <li><a href="/mypage/inquiryview">Inquiryview</a></li>
-                                <li><a href="/mypage/inquirymod">Inquirymod</a></li>
+                                <li><a href="/">Inquiry</a></li>
+                                <li><a @click="goInquiryview()">Inquiryview</a></li>
+                                <li><a @click="goInquirymod()">Inquirymod</a></li>
                             </ul>
                         </div>
                     </div>
@@ -477,35 +477,11 @@
                 });
         },
         methods:{
-            calcSeq: function(size, i){
-                return parseInt(size) - parseInt(i);
+            goInquiryview() {
+                this.$router.push({path: '/inquiryview'});
             },
-            formatCitName: function(data){
-                var rst;
-                var limitLth = 50
-                if(limitLth < data.length && data.length <= limitLth*2){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2);
-                }else if(limitLth < data.length && limitLth*2 < data.length){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2) + '...';
-                }else{
-                    rst = data
-                }
-                return rst;
-            },
-            productEditBtn: function(key){
-                console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
-            },
-            playAudio(i) {
-                this.wavesurfer = WaveSurfer.create({
-                    container: document.querySelector('#waveform'),
-                });
-                // https://nachwon.github.io/waveform/
-                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/cb40bdf9165462c6351ebd82abedb1d6.mp3');
-                this.wavesurfer.on('ready', this.start);
-            },
-            start(){
-                this.wavesurfer.play();
+            goInquirymod() {
+                this.$router.push({path: '/inquirymod'});
             },
         }
     }

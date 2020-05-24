@@ -16,8 +16,8 @@ Vue.prototype.$log = console.log.bind(console);
 const router = new VueRouter({
   routes: [
     { path: '/', component: Inquirylist},
-    { path: '/Inquiryview', component: Inquiryview},
-    { path: '/Inquirymod', component: Inquirymod},
+    { path: '/inquiryview', component: Inquiryview},
+    { path: '/inquirymod', component: Inquirymod},
   ],
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
@@ -26,6 +26,6 @@ const router = new VueRouter({
 
 window.vm = new Vue({
     i18n,
-  	router,
+    router,
     render: h => h(app),
 }).$mount('#app')
