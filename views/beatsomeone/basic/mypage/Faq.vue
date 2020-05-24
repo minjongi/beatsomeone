@@ -34,9 +34,9 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li>Dashboard</li>
-                                <li>Manage Information</li>
-                                <li class="active">Product List</li>
+                                <li><a href="/mypage"> Dashboard</a></li>
+                                <li><a href="/mypage/profilemod">Manage Information</a></li>
+                                <li><a href="/mypage/list_item">Product List</a></li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
@@ -44,8 +44,8 @@
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li>Support
                                     <ul class="menu">
-                                        <li>Support Case</li>
-                                        <li>FAQ</li>
+                                        <li><a href="/mypage/inquirylist">Support Case</a></li>
+                                        <li class="active"><a href="/mypage/faq">FAQ</a></li>
                                     </ul>
                                 </li>
                             </ul>

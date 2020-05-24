@@ -34,9 +34,9 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li>Dashboard</li>
-                                <li>Manage Information</li>
-                                <li class="active">Product List</li>
+                                <li><a href="/mypage"> Dashboard</a></li>
+                                <li><a href="/mypage/profilemod">Manage Information</a></li>
+                                <li class="active"><a href="/mypage/list_item">Product List</a></li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
@@ -44,8 +44,8 @@
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li>Support
                                     <ul class="menu">
-                                        <li>Support Case</li>
-                                        <li>FAQ</li>
+                                        <li><a href="/mypage/inquirylist">Support Case</a></li>
+                                        <li><a href="/mypage/faq">FAQ</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -273,7 +273,8 @@
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <img :src="'/assets/images/cover_default.png'" alt="">
+                                                        <!-- <img :src="'/assets/images/cover_default.png'" alt=""> -->
+                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
                                                         <i ng-if="item.isNew" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
@@ -325,8 +326,7 @@
                                             <div class="col edit">
                                                 <button @click="productEditBtn(item.cit_key)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
                                             </div>
-                                            <div class="col genre">
-                                                <span><button >{{ item.hashTag }}</button></span>
+                                            <div class="col genre" v-html="calcTag(item.hashTag)">
                                             </div>
                                         </div>
                                     </li>
@@ -433,11 +433,11 @@
     import Footer from "../include/Footer"
     import Loader from '*/vue/common/Loader'
     import axios from 'axios'
-    import Index_Items from "../Index_Items"
+    //import Index_Items from "../Index_Items"
     import KeepAliveGlobal from "vue-keep-alive-global"
     import flatPickr from 'vue-flatpickr-component';
     import 'flatpickr/dist/flatpickr.css';
-    import FileUpload from 'vue-simple-upload/dist/FileUpload'
+    //import FileUpload from 'vue-simple-upload/dist/FileUpload'
 
     import $ from "jquery";
     import { EventBus } from '*/src/eventbus';
@@ -453,9 +453,7 @@
                 product_status: 'PENDING',
                 myProduct_list: [],
                 popup_filter:0,
-                ws: null,
                 isPlay: false,
-                isReady: false,
                 wavesurfer: null,
             };
         },
@@ -484,6 +482,14 @@
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
             },
+            calcTag: function(hashTag){
+                var rst='';
+                var tags = hashTag.split(',');
+                for ( var i in tags ) {
+                    rst = rst + '<span><button >'+ tags[i] + '</button></span>';
+                }
+                return rst;
+            },
             formatCitName: function(data){
                 var rst;
                 var limitLth = 50
@@ -505,7 +511,8 @@
                     container: document.querySelector('#waveform'),
                 });
                 // https://nachwon.github.io/waveform/
-                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/cb40bdf9165462c6351ebd82abedb1d6.mp3');
+                //http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/d18a3ca0f891d308649a71f5a9834ca7.mp3
+                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/' + i.cde_filename);
                 this.wavesurfer.on('ready', this.start);
             },
             start(){
