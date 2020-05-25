@@ -683,6 +683,7 @@ class Cmall extends CB_Controller
 		$meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
 		$page_name = str_replace($searchconfig, $replaceconfig, $page_name);
 
+		/*
 		$layoutconfig = array(
 			'path' => 'cmall',
 			'layout' => 'layout',
@@ -699,6 +700,25 @@ class Cmall extends CB_Controller
 			'meta_author' => $meta_author,
 			'page_name' => $page_name,
 		);
+		*/
+		$layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'cart/cart',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+		);
+
+
 		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
 		$this->data = $view;
 		$this->layout = element('layout_skin_file', element('layout', $view));

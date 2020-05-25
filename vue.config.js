@@ -21,6 +21,7 @@ module.exports = {
             profilemod: ['./views/beatsomeone/basic/mypage/profilemod.js'],
             inquiry: ['./views/beatsomeone/basic/mypage/inquiry.js'],
             faq: ['./views/beatsomeone/basic/mypage/faq.js'],
+            cart: ['./views/beatsomeone/basic/cart/cart.js'],
             status_item: ['./views/mypage/basic/status_item.js'],
             login: ['./views/login/basic/login.js'],
             register: ['./views/register/basic/register.js'],
