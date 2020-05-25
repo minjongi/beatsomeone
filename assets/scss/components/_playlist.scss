@@ -31,12 +31,15 @@
 
   .playList__item {
     @include flex();
+    position:relative;
     background: #1b1b1f;
     transition: all 0.3s;
     width: 100%;
     padding: 0 10px;
     &:hover {
       background: #252629;
+      box-shadow: 0 8px 48px rgba(0,0,0,.75);
+      z-index:10
     }
 
     .col {
@@ -63,6 +66,7 @@
       width: 385px;
       @include flex();
       figure {
+        width:100%;
         @include flex();
         margin-right: 1em;
         .playList__cover {
@@ -78,6 +82,12 @@
             @include position($top: -5px, $right: -5px);
             z-index: 1;
           }
+
+          &.profile{
+            img{
+              border-radius:55px;
+            }
+          }
         }
         figcaption {
           width: 220px;
@@ -85,7 +95,7 @@
           .playList__title {
             @include ellipsis;
             font-size: 14px;
-            font-weight: 300;
+            font-weight: 600;
           }
           .playList__by {
             @include ellipsis;
@@ -93,8 +103,22 @@
             opacity: 0.3;
             margin-top: 5px;
             display: block;
+
+            &.date {
+              font-size:10;
+              margin-top:10px;
+            }
           }
         }
+
+        figcaption:only-child{
+            width:100%;
+
+            h3{
+              font-size:16px;
+              font-weight: 300;
+            }
+          }
       }
       .toggle-subList {
         width: 24px;
@@ -114,6 +138,8 @@
     }
     .genre {
       @include flex();
+      max-height:50px;
+      overflow:hidden;
       padding: 0 30px;
       width: 280px;
       flex: none;
@@ -162,6 +188,11 @@
         height: 35px;
         background-size: auto 100%;
         opacity: 0.3;
+        transition:.3s ease;
+
+        &:hover{
+          opacity: 1;
+        }
       }
       .timer {
         font-size: 12px;
@@ -193,8 +224,13 @@
       a {
         @include textIndet;
         margin-right: 25px;
+        opacity: .3;
+        transition:.3s ease;
         &:last-child {
           margin-right: 0;
+        }
+        &:hover{
+          opacity: 1;
         }
         &.cart {
           width: 24px;
@@ -248,6 +284,8 @@
         background: url("/assets/images/icon/more.png") no-repeat center;
         position: relative;
         overflow: initial;
+        opacity: .3;
+        transition:.3s ease;
         .tooltip {
           bottom: 15px;
           width: 130px;
@@ -281,6 +319,9 @@
             border-right: 5px solid transparent;
           }
         }
+        &:hover{
+          opacity: 1;
+        }
         &:hover .tooltip {
           opacity: 1;
           bottom: 30px;
@@ -288,6 +329,28 @@
             height: 40px;
           }
         }
+      }
+    }
+    .info{
+    }
+    .expire{
+      text-align:right;
+      font-size:12px;
+      color:rgb(255,255,255,.3);
+      
+      span {
+        color:#FF4848;
+      }
+    }
+    .action{
+      width:102px;
+      color:white;
+      opacity:.3;
+      text-align:center;
+      
+      &.active{
+        color:#FFDA2A;
+        opacity:1;
       }
     }
   }
@@ -307,5 +370,11 @@
   .playList__btnbox {
     text-align: center;
     padding: 30px 0;
+  }
+}
+
+.row.double{
+  .playList__item > .col.name{
+    width:385px;
   }
 }

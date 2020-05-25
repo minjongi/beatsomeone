@@ -10,6 +10,8 @@
   font-size: 16px;
   border-radius: 3px;
   font-weight: 600;
+  transition: .3s ease;
+
   &.btn--submit {
     background: #ffda2a;
     color: #000;
@@ -36,5 +38,158 @@
     width: 100px;
     display: inline-block;
     font-size: 12px;
+  }
+
+  &.btn--yellow{
+    background: #ffda2a;
+    color: #000;
+  }
+
+  &.round{
+    font-size:14px;
+    width: max-content;
+    font-weight:600;
+    padding:16px 64px;
+    border-radius:100px;
+    opacity: 1;
+  }
+
+  &.btn--glass{
+    font-size:14px;
+    font-weight:300;
+    height:auto;
+    color:white;
+    opacity:.3;
+
+    &:hover{
+      opacity:1;
+    }
+  }
+
+  &.btn--blue{
+    background:#4890FF;
+    color:white;
+    opacity:1;
+
+    &:hover{
+    }
+  }
+
+  &.btn--file{
+    background:rgba(255,255,255,.1);
+
+    &:hover{
+      background:rgba(255,255,255,.3);
+    }
+  }
+
+  > *[display="none"] + *{
+    font-size:14px;
+    width:auto;
+    height:auto;
+    margin:auto;
+  }
+}
+
+.button{
+  opacity:.3;
+  transition:.3s ease;
+
+  &:hover{
+    opacity:1;
+  }
+}
+
+button {
+
+  .tooltip {
+    color:white;
+    bottom: 15px;
+    width: 256px;
+    background: #2b2c30;
+
+    a {
+      display: block;
+      height: 0;
+      line-height: 40px;
+      overflow: hidden;
+      color: #9ea1a8;
+      transition: all 0.5s;
+      border-bottom: 1px solid #1b1a1f;
+      &:last-child {
+        border-bottom: 0;
+      }
+      &:hover {
+        color: $color-white;
+        background: #1c1d22;
+      }
+    }
+
+    p{
+      padding:16px;
+      line-height:1.75em;
+      opacity:.3;
+    }
+
+    &:after {
+      content: "";
+      display: block;
+      @include position($bottom: -10px, $left: 50%);
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-top: 5px solid #2b2c30;
+      border-bottom: 5px solid transparent;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+    }
+  }
+  &:hover{
+    opacity: 1;
+  }
+  &:hover .tooltip {
+    opacity: 1;
+    bottom: 30px;
+    a {
+      height: 40px;
+    }
+  }
+}
+
+label.btn{
+  display:flex!important;
+  text-align: center;
+
+  > *{
+    display:inline-block;
+    width:auto;
+    height:auto;
+    margin:auto;
+    vertical-align: middle;
+  }
+}
+
+.btn--file{
+  color:white;
+  display:flex;
+  padding:8px 12px;
+  border-radius:8px;
+  transition:.3s ease;
+
+  > *{
+    color:white;
+    height: auto;
+    margin: auto;
+    vertical-align: middle;
+  }
+
+  > span{
+    margin-left: 10px;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  &:hover{
+    background:rgba(255,255,255,.1);
   }
 }

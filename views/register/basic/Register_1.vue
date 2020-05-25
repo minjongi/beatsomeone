@@ -3,7 +3,6 @@
         <div class="accounts__title">
             <h1>{{ $t('doYouCreateBeats') }}<br />{{ $t('thenJoin') }}</h1>
         </div>
-
         <div class="login accounts__defaultLayout">
                 <div class="accounts__case">
                     <label for="listen " class="case case--listen">

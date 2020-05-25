@@ -1,278 +1,431 @@
 <template>
+
+
     <div class="wrapper">
         <Header :is-login="isLogin"/>
-        <div class="container registered">
-            <div class="registered__title">
-                <h1>상품 리스트 페이지 작업중입니다!!</h1>
-            </div>
-            <section class="registered__section">
-                <div class="wrap">
-                    <h2 class="registered__section-title">{{ $t('generalInfo') }}</h2>
-                    <div class="registered__section-content">
-                        <div class="row">
-                            <div class="col">
-                                <label class="form-item">
-                                    <p class="form-title required">{{ $t('trackName') }}</p>
-                                    <div class="input">
-                                        <input type="text" v-model.trim="item.cit_name" :placeholder="$t('newTrack')" required/>
-                                    </div>
-                                    <span class="form-info">
-                                        {{ $t('allowedCharLength') }}
-                                    </span>
-                                </label>
 
-                                <label class="form-item">
-                                    <p class="form-title">{{ $t('tags') }} (10)</p>
-                                    <div class="input">
-                                        <input type="text" v-model.trim="item.hashTag" :placeholder="$t('tagsSeparatedComma')" maxlength="200" id="tags" @input="chkHashTag"/>
-                                        <span class="form-unit"><span ref="hashTagCount">0</span>/10</span>
+        <div class="container sub">
+            <div class="mypage sublist">
+                <div class="wrap">
+                    <div class="sublist__filter sticky">
+                        <div class="row center">
+                            <div class="profile">
+                                <div class="portait">
+                                    <img src="/assets/images/portait.png"/>
+                                </div>
+                                <div class="info">
+                                    <div class="group">
+                                        <div class="group_title" :class="group_title">{{group_title}}</div>
                                     </div>
-                                </label>
+                                    <div class="username">
+                                        DROPBEAT
+                                    </div>
+                                    <div class="bio">
+                                        Music Lover, KKOMA
+                                    </div>
+                                    <div class="location">
+                                        <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
+                                    </div>
+                                    <div class="brandshop">
+                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <ul class="menu">
+                                <li @click="goPage('')">Dashboard</li>
+                                <li @click="goPage('profilemod')">Manage Information</li>
+                                <li class="active" @click="goPage('list_item')">Product List</li>
+                                <li>Order History</li>
+                                <li v-show="group_title == 'SELLER'">Sales History</li>
+                                <li v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li>Message</li>
+                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                                <li @click="goPage('inquiry')">Support
+                                    <ul class="menu">
+                                        <li @click="goPage('inquiry')">Support Case</li>
+                                        <li @click="goPage('faq')">FAQ</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sublist__content" style="margin-bottom:100px;">
+                        
+                        <div class="row" style="margin-bottom:10px;">
+                            <div class="search condition">
+                                <div class="filter">
+                                    <div class="condition active">Product Name</div>
+                                    <div class="condition">Product Code</div>
+                                    <div class="condition">Keyword</div>
+                                </div>
+                                <div class="wrap">
+                                    <input type="text" placeholder="enter your word..."> 
+                                    <img src="/assets/images/icon/searchicon.png"/>
+                                </div>
+                            </div>
+                        </div>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <label class="form-item">
-                                            <p class="form-title required">{{ $t('trackType1') }}</p>
-                                            <select v-model="item.trackType" class="custom-select-basic">
-                                                <option value="">{{ $t('select') }}</option>
-                                                <option v-for="(item, index) in listTrackType" :key="'trackType' + index" :value="item">{{ item }}</option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="col">
-                                        <label class="form-item">
-                                            <p class="form-title required">{{ $t('releaseDate') }}</p>
-                                            <div class="input" @click="closeCal">
-                                                <flat-pickr ref="cal" :config="{enableTime: true, dateFormat: 'Y-m-d H:i'}" v-model="item.cit_start_datetime" :placeholder="$t('dateTime')" class="datepicker" data-toggle data-close/>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
+                        <div class="row" style="display:flex; margin-bottom:30px;">
+                            <div class="tabmenu">
+                                <div class="active">Total (33)</div>
+                                <div>Selling (15)</div>
+                                <div>Pending (18)</div>
                             </div>
-                            <div class="col">
-                                <div class="form-item">
-                                    <p class="form-title required">{{ $t('audiofilesForDownload') }}</p>
-                                    <label for="unTaggedFile" class="addAudioFile waves-effect ">
-                                        <div class="addAudioFile__icon">
-                                            <img src="/assets/images/icon/note1.png" alt="">
-                                        </div>
-                                        <div class="addAudioFile__info">
-                                            <FileUpload name="unTaggedFile" id="unTaggedFile" ref="unTaggedFile" target="/beatsomeoneApi/upload_item_file" action="POST" hidden
-                                                        v-on:progress="unTaggedFileProgressUpload" v-on:start="unTaggedFileStartUpload" v-on:finish="unTaggedFileFinishUpload"/>
-                                            <p>{{ $t('unTaggedWavOrMp3') }}</p>
-                                            <span class="format">{{ !!item.unTaggedFileName ? item.unTaggedFileName : '.WAV (or.MP3)' }}</span>
-                                            <div class="addAudioFile__progress">
-                                                <span ref="unTaggedFileProgressBar"></span>
+                            <div>
+                                <div class="sort">
+                                    <span>{{ $t('sortBy') }}</span>
+                                    <div class="custom-select " style="width:initial;">
+                                        <button class="selected-option">
+                                            Genre / Mood / Track Type
+                                        </button>
+                                        <div class="select-genre popup active">
+                                            <div class="tab">
+                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">7</div></button>
+                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">3</div></button>
+                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">2</div></button>
+                                            </div>
+                                            <div class="tab_container">
+
+                                                <div class="tab_content" :class="popup_filter = 0 ? 'active' : ''">
+                                                    <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label for="fillter1" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
+                                                                <span></span> All Genre
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="tab_content" :class="popup_filter = 1 ? 'active' : ''">
+                                                    <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label for="fillter1" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
+                                                                <span></span> All Genre
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="tab_content" :class="popup_filter = 2 ? 'active' : ''">
+                                                    <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label for="fillter1" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
+                                                                <span></span> All Genre
+                                                            </label>
+                                                        </li>
+                                                        <li class="filter__item">
+                                                            <label for="fillter2" class="checkbox">
+                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                                <span></span> Hip hop
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                            <div>
+                                                <div class="btnbox col">
+                                                    <button class="btn btn--gray"> Cancel </button>
+                                                    <button type="submit" class="btn btn--submit"> Apply </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </label>
-                                    <label for="stemFile" class="addAudioFile waves-effect" style="margin-top: 10px;">
-                                        <div class="addAudioFile__icon">
-                                            <img src="/assets/images/icon/note2.png" alt="">
-                                        </div>
-                                        <div class="addAudioFile__info">
-                                            <FileUpload name="stemFile" id="stemFile" ref="stemFile" target="/beatsomeoneApi/upload_item_file" action="POST" hidden
-                                                        v-on:progress="stemFileProgressUpload" v-on:start="stemFileStartUpload" v-on:finish="stemFileFinishUpload"/>
-                                            <p>{{ $t('trackStems') }} ZIP or RAR</p>
-                                            <span class="format">{{ !!item.stemFileName ? item.stemFileName : '.ZIP (or.RAR)' }}</span>
-                                            <div class="addAudioFile__progress">
-                                                <span ref="stemFileProgressBar"></span>
-                                            </div>
-                                        </div>
-                                    </label>
+                                    </div>
                                 </div>
-                                <div class="form-item">
-                                    <p class="form-title">{{ $t('audiofilesForStreaming') }}</p>
-                                    <label for="streamingFile" class="addAudioFile waves-effect">
-                                        <div class="addAudioFile__icon">
-                                            <img src="/assets/images/icon/note3.png" alt="">
+                                <div class="sort">
+                                    <div class="custom-select">
+                                        <button class="selected-option">
+                                            Register Date
+                                        </button>
+                                        <div class="options">
+                                            <button data-value="" class="option"> Launch Date </button>
                                         </div>
-                                        <div class="addAudioFile__info">
-                                            <FileUpload name="streamingFile" id="streamingFile" ref="streamingFile" target="/beatsomeoneApi/upload_item_file" action="POST" hidden
-                                                        v-on:progress="streamingFileProgressUpload" v-on:start="streamingFileStartUpload" v-on:finish="streamingFileFinishUpload"/>
-                                            <p>{{ $t('customTaggedAudio') }} WAV or MP3</p>
-                                            <span class="format">{{ !!item.streamingFileName ? item.streamingFileName : '.WAV (or.MP3)' }}</span>
-                                            <div class="addAudioFile__progress">
-                                                <span ref="streamingFileProgressBar"></span>
-                                            </div>
-                                        </div>
-                                    </label>
+                                    </div>
+                                </div>
+                                <div class="sort datepicker">
+                                    <input type="date" placeholder="Start Date" />
+                                    <span>─</span>
+                                    <input type="date" placeholder="End Date" />
+                                    <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
-                            <div class="form-item">
-                                <p class="form-title">{{ $t('trackImage') }}</p>
-                                <div class="artwork">
-                                    <FileUpload name="artworkFile" id="artworkFile" target="/beatsomeoneApi/upload_artwork_file" action="POST" hidden v-on:start="artworkStartUpload" v-on:finish="artworkFinishUpload"/>
-                                    <label for="artworkFile" class="artwork-box">
-                                        <img :src="'/' + (!!item.artworkPath ? item.artworkPath : 'assets/images/artwork.png')" alt="" id="artworkImg" ref="artworkImg">
-                                    </label>
-                                    <div class="artwork__info">
-                                        {{ $t('preferredImageSize') }}<br/><br/>
-                                        {{ $t('makeImageMsg') }}<br/>
-                                        <a href="" download>{{ $t('downloadPSDTemplate') }}</a>
-                                    </div>
-                                    <label for="artworkFile" class="artwork-upload waves-effect">{{ $t('uploadTrackImage') }}</label>
-                                </div>
+                            <div class="playList productList">
+                                <ul>
+                                    <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
+                                        <div class="playList__item playList__item--title active">
+                                            <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
+                                            <div class="col name">
+                                                <figure>
+                                                    <span class="playList__cover">
+                                                        <!-- <img :src="'/assets/images/cover_default.png'" alt=""> -->
+                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                                        <i ng-if="item.isNew" class="label new">N</i>
+                                                    </span>
+                                                    <figcaption class="pointer">
+                                                        <div class="info">
+                                                          <!-- <div class="status" :class="product_status">{{product_status}}</div>-->
+                                                          <div v-if="item.cit_status === '1'" class="status SEELING">SEELING</div>
+                                                          <div v-if="item.cit_status === '0'" class="status PENDING">PENDING</div>
+                                                          
+                                                          <div class="code">{{ item.cit_key }}</div>
+                                                        </div>
+                                                        <h3 class="playList__title">{{ formatCitName(item.cit_name)  }}</h3>
+                                                        <span class="playList__by"> ( {{ item.bpm }} )</span>
+                                                    </figcaption>
+                                                </figure>
+                                            </div>
+                                            <div class="col option">
+                                                <div>
+                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
+                                                    <div>
+                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
+                                                        <div class="detail">MP3 or WAV + STEMS</div>
+                                                    </div>
+                                                </div>
+                                                <div class="option_item">
+                                                    <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                    <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                    <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>No other activities not authorized by the platform</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col feature">
+                                                <div class="listen">
+                                                    <div class="playbtn">
+                                                        <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
+                                                        <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
+                                                        <span class="duration">0:00</span></span>
+                                                    </div>
+                                                    <div data-v-27fa6da0="" class="col spectrum">
+                                                        <div class="wave"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="amount">
+                                                    <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
+                                                </div>
+                                                <div class="price">
+                                                    $ {{ item.cde_price_d }}
+                                                </div>
+                                            </div>
+                                            <div class="col edit">
+                                                <button @click="productEditBtn(item.cit_key)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
+                                            </div>
+                                            <div class="col genre" v-html="calcTag(item.hashTag)">
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <!--
+                                    <li class="playList__itembox" style="opacity: 1; margin-bottom: 1px;">
+                                        <div class="playList__item playList__item--title">
+                                            <div class="col index">18</div>
+                                            <div class="col name">
+                                                <figure>
+                                                    <span class="playList__cover">
+                                                        <img src="/uploads/cmallitem/2020/01/37617719f8a82eaee60242b2a0acf30e.png" alt="">
+                                                        <i ng-if="item.isNew" class="label new">N</i>
+                                                    </span>
+                                                    <figcaption class="pointer">
+                                                        <div class="info">
+                                                          <div class="status" :class="product_status">{{product_status}}</div>
+                                                          <div class="code">item_100</div>
+                                                        </div>
+                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
+                                                        <span class="playList__by"> ( Bpm )</span>
+                                                    </figcaption>
+                                                </figure>
+                                            </div>
+                                            <div class="col option">
+                                                <div>
+                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
+                                                    <div>
+                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
+                                                        <div class="detail">MP3 or WAV + STEMS</div>
+                                                    </div>
+                                                </div>
+                                                <div class="option_item">
+                                                    <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                    <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                    <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>No other activities not authorized by the platform</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col feature">
+                                                <div class="listen">
+                                                    <div class="playbtn">
+                                                        <button class="btn-play">재생</button>
+                                                        <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
+                                                        <span class="duration">0:00</span></span>
+                                                    </div>
+                                                    <div data-v-27fa6da0="" class="col spectrum">
+                                                        <div class="wave"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="amount">
+                                                    <img src="/assets/images/icon/cd.png"/><div><span>500</span> left</div>
+                                                </div>
+                                                <div class="price">
+                                                    $ 10.00
+                                                </div>
+                                            </div>
+                                            <div class="col edit">
+                                                <button class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
+                                            </div>
+                                            <div class="col genre">
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                                <span><button >music tech03</button></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    -->
+                                </ul>
+
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-item">
-                                <p class="form-title">{{ $t('urlOfYourTrack') }}</p>
-                                <div class="input">
-                                    <input type="text" placeholder="" readonly v-model="item.url"/>
-                                    <button class="form-copy" type="button">{{ $t('copy') }}</button>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
-            </section>
-            <section class="registered__section">
-                <div class="wrap">
-                    <h2 class="registered__section-title">{{ $t('sellingPreferences') }}</h2>
-                    <div class="registered__section-content">
-                        <div class="row row--notice">
-                            <div class="registered__notice">
-                                <h2>{{ $t('notice') }}</h2> {{ $t('exchangeRateWillBeReflectedAutomatically') }}.
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-item">
-                                    <div class="form-title">
-                                        <label for="c1" class="checkbox">
-                                            <input type="checkbox" hidden="" id="c1" v-model="item.licenseLeaseUseYn">
-                                            <span></span> {{ $t('basicLeaseLicensePrice') }}
-                                        </label>
-                                    </div>
-                                    <div class="row row--inner">
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="KRW" v-model.number="item.licenseLeasePriceKRW" ref="licenseLeasePriceKRW" @input="onlyNumber($event, 'licenseLeasePriceKRW')"/>
-                                            </div>
-                                        </span>
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="USD" v-model.number="item.licenseLeasePriceUSD" ref="licenseLeasePriceUSD" @input="onlyNumber($event, 'licenseLeasePriceUSD')"/>
-                                            </div>
-                                        </span>
-                                    </div>
-                                    <div class="row row--inner">
-                                        <span class="col">
-                                            <p>{{ $t('inventoryQuantity') }}</p>
-                                        </span>
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="0" v-model.number="item.licenseLeaseQuantity" ref="licenseLeaseQuantity" @input="onlyNumber($event, 'licenseLeaseQuantity')"/>
-                                            </div>
-                                        </span>
-                                    </div>
-                                    <p class="form-info mt-15">
-                                        · {{ $t('itemRegMsg1') }}<br/><br/>
-                                        · {{ $t('itemRegMsg2') }} /<br/>
-                                        {{ $t('itemRegMsg3') }} /<br/>
-                                        {{ $t('itemRegMsg4') }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-item">
-                                    <div class="form-title">
-                                        <label for="c2" class="checkbox">
-                                            <input type="checkbox" hidden="" id="c2" v-model="item.licenseStemUseYn">
-                                            <span></span> {{ $t('masteringLicensePrice') }}
-                                        </label>
-                                    </div>
-                                    <div class="row row--inner">
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="KRW" v-model.number="item.licenseStemPriceKRW" ref="licenseStemPriceKRW" @input="onlyNumber($event, 'licenseStemPriceKRW')"/>
-                                            </div>
-                                        </span>
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="USD" v-model.number="item.licenseStemPriceUSD" ref="licenseStemPriceUSD" @input="onlyNumber($event, 'licenseStemPriceUSD')"/>
-                                            </div>
-                                        </span>
-                                    </div>
-                                    <div class="row row--inner">
-                                        <span class="col">
-                                            <p>
-                                                {{ $t('inventoryQuantity') }}
-                                            </p>
-                                        </span>
-                                        <span class="col">
-                                            <div class="input">
-                                                <input type="number" placeholder="1" readonly class="disabled" v-model.number="item.licenseStemQuantity" ref="licenseStemQuantity" @input="onlyNumber($event, 'licenseStemQuantity')"/>
-                                            </div>
-                                        </span>
-                                    </div>
-                                    <p class="form-info mt-15">
-                                        · {{ $t('itemRegMsg5') }}<br/><br/>
-                                        · {{ $t('itemRegMsg6') }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="registered__section">
-                <div class="wrap">
-                    <h2 class="registered__section-title">{{ $t('trackDetails') }}</h2>
-                    <div class="registered__section-content">
-                        <div class="row">
-                            <div class="col">
-                                <label class="form-item">
-                                    <p class="form-title required">{{ $t('primaryGenre') }}</p>
-                                    <select v-model="item.genre" class="custom-select-basic">
-                                        <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ item }}</option>
-                                    </select>
-                                </label>
-                                <label class="form-item">
-                                    <p class="form-title ">{{ $t('subGenre') }}</p>
-                                    <select v-model="item.subgenre" class="custom-select-basic">
-                                        <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listGenre" :key="'subgenre' + index" :value="item">{{ item }}</option>
-                                    </select>
-                                </label>
-                                <label class="form-item">
-                                    <p class="form-title required">{{ $t('primaryMood') }}</p>
-                                    <select v-model="item.moods" class="custom-select-basic">
-                                        <option value="">{{ $t('select') }}</option>
-                                        <option v-for="(item, index) in listMoods" :key="'moods' + index" :value="item">{{ item }}</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <label class="form-item">
-                                    <p class="form-title ">{{ $t('description') }}</p>
-                                    <div class="input">
-                                        <textarea v-model.trim="item.cit_content" :placeholder="$t('enterDescription')"></textarea>
-                                    </div>
-                                </label>
-                                <label class="form-item">
-                                    <p class="form-title ">{{ $t('bpmDesc') }}</p>
-                                    <div class="input">
-                                        <input type="number" v-model.trim="item.bpm" ref="bpm" @input="onlyNumber($event, 'bpm')"/>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <div class="registered__btnbox">
-                <a href="/beatsomeone/sublist" class="btn btn--list waves-effect">{{ $t('list') }}</a>
-                <button type="submit" class="btn btn--save waves-effect" @click="doSubmit" ref="doSubmit">{{ $t('save') }}</button>
             </div>
         </div>
+        <div id="waveform" ></div>
+        <!--
+        <main-player></main-player>
+        -->
         <Footer/>
     </div>
+
+
 </template>
+
 
 <script>
     require('@/assets/js/function')
@@ -280,263 +433,98 @@
     import Footer from "../include/Footer"
     import Loader from '*/vue/common/Loader'
     import axios from 'axios'
-    import Index_Items from "../Index_Items"
+    //import Index_Items from "../Index_Items"
     import KeepAliveGlobal from "vue-keep-alive-global"
     import flatPickr from 'vue-flatpickr-component';
     import 'flatpickr/dist/flatpickr.css';
-    import FileUpload from 'vue-simple-upload/dist/FileUpload'
+    //import FileUpload from 'vue-simple-upload/dist/FileUpload'
+
+    import $ from "jquery";
+    import { EventBus } from '*/src/eventbus';
+    import Velocity from "velocity-animate";
+    //import MainPlayer from "@/vue/common/MainPlayer";
+    import WaveSurfer from 'wavesurfer.js';
 
     export default {
-        components: {
-            Header, Footer, Index_Items, Loader, KeepAliveGlobal, flatPickr, FileUpload
-        },
-        data: function () {
+        data: function() {
             return {
                 isLogin: false,
-                cit_id: null,
-                item: {
-                    cit_name: '',
-                    hashTag: '',
-                    trackType: '',
-                    cit_start_datetime: null,
-                    url: '',
-                    licenseLeaseUseYn: false,
-                    licenseLeasePriceKRW: '22000',
-                    licenseLeasePriceUSD: '20.00',
-                    licenseLeaseQuantity: '',
-                    licenseStemUseYn: false,
-                    licenseStemPriceKRW: '330000',
-                    licenseStemPriceUSD: '280.00',
-                    licenseStemQuantity: 1,
-                    genre: '',
-                    subgenre: '',
-                    moods: '',
-                    bpm: '',
-                    cit_content: '',
-                    unTaggedFile: '',
-                    stemFile: '',
-                    streamingFile: '',
-                    artwork: '',
-                    unTaggedFileName: '',
-                    stemFileName: '',
-                    streamingFileName: '',
-                    artworkPath: ''
-                },
-                uploadInProgress: {
-                    unTaggedFile: false,
-                    stemFile: false,
-                    streamingFile: false,
-                    artwork: false
-                },
-                listGenre: ['Hip Hop', 'K-Pop', 'Pop', 'R&B', 'Rock', 'Electronic', 'Reggae', 'Country', 'World'],
-                listMoods: ['Accomplished', 'Adored', 'Angry', 'Annoyed', 'Anxious,Bouncy', 'Calm,Confident', 'Crazy', 'Crunk', 'Dark', 'Depressed', 'Determined', 'Dirty', 'Disappointed', 'Eccentric', 'Energetic', 'Enraged', 'Epic', 'Evil', 'Flirty', 'Frantic', 'Giddy', 'Gloomy', 'Grateful', 'Happy', 'Hyper', 'Inspiring', 'Intense', 'Lazy', 'Lonely', 'Loved', 'Mellow', 'Peaceful', 'Rebellious', 'Relaxed', 'Sad', 'Scared', 'Silly', 'Soulful'],
-                listTrackType: ['Beats', 'Beats with chorus', 'Vocals', 'Song reference', 'Songs'],
-                releaseDate: false,
-                processStatus: false
+                group_title: 'SELLER',
+                product_status: 'PENDING',
+                myProduct_list: [],
+                popup_filter:0,
+                isPlay: false,
+                wavesurfer: null,
             };
         },
-        watch: {
-            cit_id: function (n) {
-                log.debug({
-                        'cit_id': n,
-                    }
-                )
-                if (n) {
-                    this.getItem();
-                }
-            },
+        mounted(){
+                        // 커스텀 셀렉트 옵션
+            $(".custom-select").on("click", function() {
+
+                $(this)
+                    .siblings(".custom-select")
+                    .removeClass("active")
+                    .find(".options")
+                    .hide();
+                $(this).toggleClass("active");
+                $(this)
+                    .find(".options")
+                    .toggle();
+            });
         },
-        methods: {
-            onlyNumber(event, key) {
-                this.$refs[key].value = this.item[key]
-            },
-            closeCal() {
-                if (this.releaseDate) {
-                    this.$refs.cal.$el._flatpickr.close()
-                }
-                this.releaseDate = !this.releaseDate
-            },
-            unTaggedFileStartUpload(e) {
-                this.startUpload('unTaggedFile', e);
-            },
-            unTaggedFileFinishUpload(e) {
-                this.finishUpload('unTaggedFile', e);
-            },
-            unTaggedFileProgressUpload(e) {
-                this.progressUpload('unTaggedFile', e);
-            },
-            stemFileStartUpload(e) {
-                this.startUpload('stemFile', e);
-            },
-            stemFileFinishUpload(e) {
-                this.finishUpload('stemFile', e);
-            },
-            stemFileProgressUpload(e) {
-                this.progressUpload('stemFile', e);
-            },
-            streamingFileStartUpload(e) {
-                this.startUpload('streamingFile', e);
-            },
-            streamingFileFinishUpload(e) {
-                this.finishUpload('streamingFile', e);
-            },
-            streamingFileProgressUpload(e) {
-                this.progressUpload('streamingFile', e);
-            },
-            startUpload(type, e) {
-                this.uploadInProgress[type] = true
-                this.$refs[type + 'ProgressBar'].style.width = '0%'
-            },
-            finishUpload(type, e) {
-                let data = JSON.parse(e.target.response)
-                this.uploadInProgress[type] = false
-
-                if (!!data.code && data.code === 'error') {
-                    alert('파일 업로드 실패\n파일 확인 후 다시 시도해 주세요')
-                    return false
-                }
-
-                this.item[type] = JSON.parse(e.target.response)
-                this.$refs[type + 'ProgressBar'].style.width = '100%'
-            },
-            progressUpload(type, e) {
-                if (!e) {
-                    alert('파일 업로드중 오류가 발생하였습니다. 다시 시도해 주세요.')
-                    return false
-                }
-                this.$refs[type + 'ProgressBar'].style.width = e + '%'
-            },
-            artworkStartUpload(e) {
-                this.uploadInProgress['artwork'] = true
-            },
-            artworkFinishUpload(e) {
-                let data = JSON.parse(e.target.response)
-                this.uploadInProgress['artwork'] = false
-
-                if (!!data.code && data.code === 'error') {
-                    alert('파일 업로드 실패\n파일 확인 후 다시 시도해 주세요')
-                    return false
-                }
-
-                this.item.artwork = data
-                this.$refs['artworkImg'].src = '/uploads/cmallitem/' + this.item.artwork.filename
-            },
-            chkHashTag() {
-                let hashTag = this.item.hashTag.split(',')
-                if (hashTag.length <= 10) {
-                    this.$refs['hashTagCount'].innerText = hashTag.length
-                    return false
-                }
-
-                alert('태그는 최대 10개까지 등록 가능합니다')
-                this.item.hashTag = hashTag.slice(0, 10)
-                this.$refs['hashTagCount'].innerText = 10
-            },
-            // 데이터 로딩
-            getItem() {
-                Http.get(`/beatsomeoneApi/get_item/${this.cit_id}`).then(r => {
-                    // 전처리
-
+        created() {
+                Http.get('/beatsomeoneApi/get_user_regist_item_list').then(r => {
                     console.log(r.data);
-
-                    r.data.cde_id_1 = r.data.cde_id || 0;
-                    r.data.cde_id_2 = r.data.cde_id_2 || 0;
-                    r.data.cde_id_3 = r.data.cde_id_3 || 0;
-                    r.data.url = 'http://beatsomeone.com/beatsomeone/detail/' + r.data.cit_key;
-                    r.data.licenseLeaseUseYn =  r.data.cit_lease_license_use == 1 ? true : false;
-                    r.data.licenseLeasePriceKRW = r.data.cde_price;
-                    r.data.licenseLeasePriceUSD = r.data.cde_price_d;
-                    r.data.licenseLeaseQuantity = r.data.cde_quantity;
-                    r.data.licenseStemUseYn =  r.data.cit_mastering_license_use == 1 ? true : false;
-                    r.data.licenseStemPriceKRW = r.data.cde_price_2;
-                    r.data.licenseStemPriceUSD = r.data.cde_price_d_2;
-                    r.data.licenseStemQuantity = 1;
-                    r.data.unTaggedFileName = r.data.cde_originname;
-                    r.data.stemFileName = r.data.cde_originname_2;
-                    r.data.streamingFileName = r.data.cde_originname_3;
-                    r.data.artworkPath = r.data.cit_file_1;
-                    r.data.artwork = '';
-                    this.item = r.data;
+                    this.myProduct_list = r.data;
                 });
+        },
+        methods:{
+            goPage: function(page){
+                window.location.href = '/mypage/'+page;
             },
-            // 저장
-            doSubmit() {
-                if (this.processStatus) {
-                    return false
+            calcSeq: function(size, i){
+                return parseInt(size) - parseInt(i);
+            },
+            calcTag: function(hashTag){
+                var rst='';
+                var tags = hashTag.split(',');
+                for ( var i in tags ) {
+                    rst = rst + '<span><button >'+ tags[i] + '</button></span>';
                 }
-
-                const f = new FormData();
-
-                if (!this.item.cit_name) {
-                    alert('제목을 입력해 주세요')
-                    return false
+                return rst;
+            },
+            formatCitName: function(data){
+                var rst;
+                var limitLth = 50
+                if(limitLth < data.length && data.length <= limitLth*2){
+                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2);
+                }else if(limitLth < data.length && limitLth*2 < data.length){
+                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2) + '...';
+                }else{
+                    rst = data
                 }
-                if (!this.item.trackType) {
-                    alert('트랙타입을 선택해 주세요')
-                    return false
-                }
-                if (!this.item.cit_start_datetime) {
-                    alert('발매일을 선택해 주세요')
-                    return false
-                }
-                if (!this.item.unTaggedFile && !this.item.unTaggedFileName) {
-                    alert('음원을 등록해 주세요')
-                    return false
-                }
-                if (!this.item.stemFile && !this.item.stemFileName) {
-                    alert('음원을 선택해 주세요')
-                    return false
-                }
-                if (!this.item.genre) {
-                    alert('유형을 선택해 주세요')
-                    return false
-                }
-                if (!this.item.moods) {
-                    alert('무드를 선택해 주세요')
-                    return false
-                }
-
-                for (let key in this.uploadInProgress) {
-                    if (this.uploadInProgress[key]) {
-                        alert('파일 업로드 중입니다')
-                        return false
-                    }
-                }
-
-                let param
-                _.forEach(this.item, (v, k) => {
-                    param = (typeof v !== "object") ? v : JSON.stringify(v)
-                    f.append(k, param);
+                return rst;
+            },
+            productEditBtn: function(key){
+                console.log("productEditBtn:" +key);
+                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+            },
+            playAudio(i) {
+                this.wavesurfer = WaveSurfer.create({
+                    container: document.querySelector('#waveform'),
                 });
-
-                if (this.cit_id) {
-                    f.append('cit_id', this.cit_id)
-                }
-
-                this.processStatus = true
-                this.$refs.doSubmit.disabled = true
-                this.$refs.doSubmit.innerHTML = 'Processing...'
-
-                axios.post('/beatsomeoneApi/merge_item', f, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(r => {
-                    log.debug(
-                        {
-                            'MERGE SUCCESS': r.data,
-                        }
-                    )
-                    alert(`${this.cit_id ? '수정' : '등록'} 되었습니다`);
-                    window.location.href = '/mypage/regist_item/' + r.data
-                }, e => {
-                    alert(`${this.cit_id ? '수정' : '등록'} 실패 하였습니다. 관리자에게 연락 주시기 바랍니다.`)
-                    log.debug('ERROR', e)
-                })
+                // https://nachwon.github.io/waveform/
+                //http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/d18a3ca0f891d308649a71f5a9834ca7.mp3
+                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/' + i.cde_filename);
+                this.wavesurfer.on('ready', this.start);
+            },
+            start(){
+                this.wavesurfer.play();
             },
         }
     }
 </script>
+
 
 <style lang="scss">
     @import '@/assets/scss/App.scss';

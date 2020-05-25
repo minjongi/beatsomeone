@@ -135,7 +135,7 @@ export default {
         yourEmail: '이메일 주소',
         yourUsername: '닉네임',
         more: 'more',
-        aboutUs: 'About Us',
+        aboutUs: '회사소개',
         careers: 'Careers',
         merch: 'Merch',
         blog: 'Blog',

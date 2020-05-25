@@ -8,6 +8,7 @@
                     <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop>
                         <source :src="bgVideoPath" type="video/mp4">
                     </video>
+                    <div class="filter"></div>
                     <div class="wrap">
                         <header class="main__section1-title">
                             <h1>{{ $t('holidayGiveaway') }}</h1>
@@ -75,6 +76,7 @@
                     </div>
                 </section>
                 <section class="main__section2">
+                    <div class="filter reverse"></div>
                     <div class="wrap">
                         <header class="main__section2-title">
                             <h1>
@@ -109,7 +111,7 @@
                         <!-- 트렌드 슬라이드 끝 -->
                         <!-- 제휴 업체 로그 이미지  -->
                         <div class="alliance" @click="selectItem">
-                            <img src="@/assets/images/alliance.png" alt="" href="#"/>
+                            <img src="@/assets/images/alliance.png" alt="" href="#" style="opacity: .3"/>
                         </div>
                         <!-- 제휴업체 로그 이미지 끝 -->
                         <div class="testimonials">
