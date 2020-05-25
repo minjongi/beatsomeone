@@ -22,6 +22,8 @@ module.exports = {
             inquiry: ['./views/beatsomeone/basic/mypage/inquiry.js'],
             faq: ['./views/beatsomeone/basic/mypage/faq.js'],
             cart: ['./views/beatsomeone/basic/cart/cart.js'],
+            billing: ['./views/beatsomeone/basic/cart/billing.js'],
+            complete: ['./views/beatsomeone/basic/cart/complete.js'],
             status_item: ['./views/mypage/basic/status_item.js'],
             login: ['./views/login/basic/login.js'],
             register: ['./views/register/basic/register.js'],
