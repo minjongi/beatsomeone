@@ -34,18 +34,18 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li><a href="/mypage"> Dashboard</a></li>
-                                <li><a href="/mypage/profilemod">Manage Information</a></li>
-                                <li class="active"><a href="/mypage/list_item">Product List</a></li>
+                                <li @click="goPage('')">Dashboard</li>
+                                <li @click="goPage('profilemod')">Manage Information</li>
+                                <li class="active" @click="goPage('list_item')">Product List</li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
                                 <li>Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li>Support
+                                <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
-                                        <li><a href="/mypage/inquirylist">Support Case</a></li>
-                                        <li><a href="/mypage/faq">FAQ</a></li>
+                                        <li @click="goPage('inquiry')">Support Case</li>
+                                        <li @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -479,6 +479,9 @@
                 });
         },
         methods:{
+            goPage: function(page){
+                window.location.href = '/mypage/'+page;
+            },
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
             },

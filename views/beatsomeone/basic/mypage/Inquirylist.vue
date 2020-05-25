@@ -33,9 +33,9 @@
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li class="active" @click="$router.push('');">Dashboard</li>
-                                <li @click="$router.push('profilemod');">Manage Information</a></li>
-                                <li @click="$router.push('list_item');">Product List</a></li>
+                                <li @click="goPage('')">Dashboard</li>
+                                <li @click="goPage('profilemod')">Manage Information</li>
+                                <li @click="goPage('list_item')">Product List</li>
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
@@ -43,13 +43,10 @@
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li class="active">Support
                                     <ul class="menu">
-                                        <li class="active" @click="$router.push('inquirylist');">Support Case</li>
-                                        <li @click="$router.push('/faq');">FAQ</li>
+                                        <li class="active" @click="goPage('inquiry')">Support Case</li>
+                                        <li @click="goPage('faq')">FAQ</li>
                                     </ul>
-                                </li><!-- 
-                                <li><a href="/">Inquiry</a></li>
-                                <li><a @click="goInquiryview()">Inquiryview</a></li>
-                                <li><a @click="goInquirymod()">Inquirymod</a></li> -->
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -315,6 +312,9 @@
                 });
         },
         methods:{
+            goPage: function(page){
+                window.location.href = '/mypage/'+page;
+            },
             goInquiryview() {
                 this.$router.push({path: '/inquiryview'});
             },
