@@ -1,5 +1,4 @@
 <template>
-
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
         <main-player></main-player>

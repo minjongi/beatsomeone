@@ -423,7 +423,7 @@
                             </p>
                         </div>
 
-                        <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
+                        <div class="btnbox col" style="width:50%; margin:0 auto 100px;">
                             <button class="btn btn--gray">Back to List</button>
                             <button type="submit" class="btn btn--submit">Request Refund</button>
                         </div>

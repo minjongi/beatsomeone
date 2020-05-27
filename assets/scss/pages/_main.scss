@@ -340,6 +340,14 @@ section[class*="section"]{
 
 .row{
 
+  > .title{
+    font-size:20px;
+    font-weight:600;
+    margin-top:100px;
+    margin-left:40px;
+    margin-bottom:30px;
+  }
+
   ul.menu{
     font-size:16px;
     font-weight:600;
@@ -2347,6 +2355,7 @@ textarea{
 .desc{
   text-align:center;
   color:rgba(255,255,255,.7);
+  margin-bottom:60px;
 
   > img{ 
     margin-top:-2px;
