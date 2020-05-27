@@ -74,7 +74,7 @@
                             <div>
                                 <div class="sort">
                                     <span>{{ $t('sortBy') }}</span>
-                                    <div class="custom-select " style="width:initial;">
+                                    <div class="custom-select" :class="GMT == 1 ? 'active' : ''" style="width:initial;">
                                         <button class="selected-option" @click="toggleGMT">
                                             Genre / Mood / Track Type
                                         </button>
@@ -137,12 +137,12 @@
                                 </div>
                                 <div class="sort">
                                     <div class="custom-select">
-                                        <button class="selected-option" @click="search_date_option = 0">
+                                        <button v-show="search_date_option === 0" class="selected-option active" @click="search_date_option = 1">
                                             Register Date
                                         </button>
-                                        <div class="options">
-                                            <button data-value="" class="option" @click="search_date_option = 1"> Launch Date </button>
-                                        </div>
+                                        <button v-show="search_date_option === 1" class="selected-option active" @click="search_date_option = 0"> 
+                                            Launch Date 
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="sort datepicker">
@@ -361,20 +361,6 @@
             };
         },
         mounted(){
-                        // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
-
-                $(this)
-                    .siblings(".custom-select")
-                    .removeClass("active")
-                    .find(".options")
-                    .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
-            });
-
 
         },
         created() {
@@ -531,6 +517,7 @@
                     this.selectedTrackType = '';
                     this.ajaxItemList();
                 }
+                this.GMT = 0;
             },
             goStartDate: function(e){
                 console.log(this.search_date_option);
