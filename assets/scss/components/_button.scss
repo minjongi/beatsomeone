@@ -12,6 +12,14 @@
   font-weight: 600;
   transition: .3s ease;
 
+  > * {
+    vertical-align: middle;
+  }
+
+  > img:first-child{
+    margin-right:4px;
+  }
+
   &.btn--submit {
     background: #ffda2a;
     color: #000;
@@ -75,6 +83,15 @@
     }
   }
 
+  &.btn--red{
+    background:#FF4848;
+    color:white;
+    opacity:1;
+
+    &:hover{
+    }
+  }
+
   &.btn--file{
     background:rgba(255,255,255,.1);
 
@@ -88,6 +105,12 @@
     width:auto;
     height:auto;
     margin:auto;
+  }
+
+  .disable{
+    opacity: .3;
+    cursor:default;
+    pointer-events:none;
   }
 }
 
@@ -156,13 +179,23 @@ button {
   }
 }
 
+div.btn{
+  text-align: center;
+
+  > * {
+    display:inline-block;
+    width:auto;
+    height:auto;
+    margin:auto;
+  }
+}
+
 label.btn{
   display:flex!important;
   text-align: center;
 
   > *{
     display:inline-block;
-    width:auto;
     height:auto;
     margin:auto;
     vertical-align: middle;
@@ -192,4 +225,55 @@ label.btn{
   &:hover{
     background:rgba(255,255,255,.1);
   }
+}
+
+.checkbox{
+  input:not(:checked) + .btn{
+      background:gray!important;
+      color:white!important;
+  }
+
+  .btn{
+    display:flex;
+    .icon{
+      margin-right:8px;
+      & + *{
+        margin-left:0;
+      }
+    }
+  }
+
+  input:checked + .btn{
+    .credit{
+    background-image:url('/assets/images/icon/icon_card_black.png');
+    }
+
+    .wire{
+      background-image:url('/assets/images/icon/icon_transfer_black.png');
+    }
+
+    .paypal{
+      background-image:url('/assets/images/icon/icon_paypal_black.png');
+    }
+  }
+}
+
+.icon{
+  display:inline-block;
+  background:center cover/no-repeat;
+  min-width:24px;
+  min-height:24px;
+  vertical-align: middle;
+}
+
+.credit{
+  background-image:url('/assets/images/icon/icon_card.png');
+}
+
+.wire{
+  background-image:url('/assets/images/icon/icon_transfer.png');
+}
+
+.paypal{
+  background-image:url('/assets/images/icon/icon_paypal.png');
 }
