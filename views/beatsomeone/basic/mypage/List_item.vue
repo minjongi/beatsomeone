@@ -67,45 +67,33 @@
 
                         <div class="row" style="display:flex; margin-bottom:30px;">
                             <div class="tabmenu">
-                                <div class="active">Total ({{calcTotalCnt}})</div>
-                                <div>Selling ({{calcSellingCnt}})</div>
-                                <div>Pending ({{calcPendingCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Selling ({{calcSellingCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Pending ({{calcPendingCnt}})</div>
                             </div>
                             <div>
                                 <div class="sort">
                                     <span>{{ $t('sortBy') }}</span>
                                     <div class="custom-select " style="width:initial;">
-                                        <button class="selected-option">
+                                        <button class="selected-option" @click="toggleGMT">
                                             Genre / Mood / Track Type
                                         </button>
                                         <div class="select-genre popup active">
                                             <div class="tab">
-                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="setPopupFilter(0)">Genre<div class="count">7</div></button>
-                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="setPopupFilter(1)">Mode<div class="count">3</div></button>
-                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="setPopupFilter(2)">Track Type<div class="count">2</div></button>
+                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">{{listGenre.length}}</div></button>
+                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">{{listMoods.length}}</div></button>
+                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">{{listTrackType.length}}</div></button>
                                             </div>
                                             <div class="tab_container">
-                                                <div v-if="popup_filter === 0" class="tab_content active">
+                                                <div v-show="popup_filter === 0" class="tab_content active">
                                                     <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter1" class="checkbox">
-                                                                <input type="radio" name="filter1" hidden="hidden" id="fillter1" value="All Genre">
-                                                                <span></span> All Genre
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter2" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
+                                                        <li class="filter__item" v-for="(item, index) in listGenre" :key="'genre' + index" >
+                                                            <label :for="'genrefillter'+index" class="checkbox">
+                                                                <input type="radio" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
+                                                                <span></span>{{ item }}
                                                             </label>
                                                         </li>
                                                         <!--
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
                                                         <li class="filter__item">
                                                             <label for="fillter2" class="checkbox">
                                                                 <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
@@ -116,35 +104,23 @@
                                                     </ul>
                                                 </div>
 
-                                                <div v-else-if="popup_filter === 1" class="tab_content active">
+                                                <div v-show="popup_filter === 1" class="tab_content active">
                                                     <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter3" class="checkbox">
-                                                                <input type="radio" name="filter3" hidden="hidden" id="fillter3" value="All Genre">
-                                                                <span></span> All Genre 2
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter4" class="checkbox">
-                                                                <input type="radio" name="filter4" hidden="hidden" id="fillter4" value="Hip hop">
-                                                                <span></span> Hip hop 2
+                                                        <li class="filter__item" v-for="(item, index) in listMoods" :key="'mood' + index" >
+                                                            <label :for="'moodfillter'+index" class="checkbox">
+                                                                <input type="radio" hidden="hidden" :id="'moodfillter'+index" :value="item" v-model="selectedMood">
+                                                                <span></span>{{ item }}
                                                             </label>
                                                         </li>
                                                     </ul>
                                                 </div>
 
-                                                <div v-else-if="popup_filter === 2" class="tab_content active">
+                                                <div v-show="popup_filter === 2" class="tab_content active">
                                                     <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter5" class="checkbox">
-                                                                <input type="radio" name="filter5" hidden="hidden" id="fillter5" value="All Genre">
-                                                                <span></span> All Genre 3
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter6" class="checkbox">
-                                                                <input type="radio" name="filter6" hidden="hidden" id="fillter6" value="Hip hop">
-                                                                <span></span> Hip hop 3
+                                                        <li class="filter__item" v-for="(item, index) in listTrackType" :key="'track' + index" >
+                                                            <label :for="'trackfillter'+index" class="checkbox">
+                                                                <input type="radio" hidden="hidden" :id="'trackfillter'+index" :value="item" v-model="selectedTrackType">
+                                                                <span></span>{{ item }}
                                                             </label>
                                                         </li>
                                                     </ul>
@@ -152,8 +128,8 @@
                                             </div>
                                             <div>
                                                 <div class="btnbox col">
-                                                    <button class="btn btn--gray"> Cancel </button>
-                                                    <button type="submit" class="btn btn--submit"> Apply </button>
+                                                    <button class="btn btn--gray" @click="goGMTBtn('Cancel')"> Cancel </button>
+                                                    <button type="submit" class="btn btn--submit" @click="goGMTBtn('Apply')" > Apply </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -161,18 +137,18 @@
                                 </div>
                                 <div class="sort">
                                     <div class="custom-select">
-                                        <button class="selected-option">
+                                        <button class="selected-option" @click="search_date_option = 0">
                                             Register Date
                                         </button>
                                         <div class="options">
-                                            <button data-value="" class="option"> Launch Date </button>
+                                            <button data-value="" class="option" @click="search_date_option = 1"> Launch Date </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="sort datepicker">
-                                    <input type="date" placeholder="Start Date" />
+                                    <input type="date" placeholder="Start Date" @change="goStartDate"/>
                                     <span>─</span>
-                                    <input type="date" placeholder="End Date" />
+                                    <input type="date" placeholder="End Date" @change="goEndDate"/>
                                     <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                 </div>
                             </div>
@@ -359,7 +335,6 @@
                 group_title: 'SELLER',
                 product_status: 'PENDING',
                 myProduct_list: [],
-                popup_filter:0,
                 isPlay: false,
                 wavesurfer: null,
                 mem_photo: '',
@@ -367,6 +342,22 @@
                 mem_nickname: '',
                 mem_address1: '',
                 search_condition_active_idx: 1,
+                search_tabmenu_idx: 1,
+                GMT: 0,
+                popup_filter:0,
+                search_date_option: 0,
+                start_date: '',
+                end_date: '',
+                calcTotalCnt: 0,
+                calcSellingCnt: 0,
+                calcPendingCnt:0,
+                listGenre: window.genre,
+                listMoods: window.moods,
+                listTrackType: window.trackType,
+                selectedGenre: '',
+                selectedMood: '',
+                selectedTrackType: '',
+
             };
         },
         mounted(){
@@ -382,12 +373,18 @@
                 $(this)
                     .find(".options")
                     .toggle();
-            });            
+            });
+
 
         },
         created() {
-            this.ajaxItemList();
+            this.ajaxItemList().then(()=>{
+                this.calcTotalCnt = this.calcFuncTotalCnt();
+                this.calcSellingCnt = this.calcFuncSellingCnt();
+                this.calcPendingCnt = this.calcFuncPendingCnt();
+            });
             this.ajaxUserInfo();
+
         },
         watch: {
             isLogin(){
@@ -397,21 +394,7 @@
             },
         },
         computed:{
-            calcTotalCnt(){
-                return this.myProduct_list.length;
-            },
-            calcSellingCnt(){
-                let list = [];
-                Object.assign(list,this.myProduct_list);
-                let rst = list.filter(item => item.cit_status === '1');
-                return rst.length;
-            },
-            calcPendingCnt(){
-                let list = [];
-                Object.assign(list,this.myProduct_list);
-                let rst = list.filter(item => item.cit_status === '0');
-                return rst.length;
-            },
+
         },
         methods:{
             async ajaxItemList () {
@@ -420,6 +403,12 @@
                 const { data } = await axios.get(
                   '/beatsomeoneApi/get_user_regist_item_list', {}
                 );
+                /*
+                console.log(data);
+                data.forEach(function(d){
+                    console.log(d.cit_datetime);
+                    console.log(d.cit_start_datetime);
+                });*/
                 this.myProduct_list = data;
               } catch (err) {
                 console.log('ajaxItemList error');
@@ -451,7 +440,7 @@
               }
             },
             setPopupFilter: function(idx){
-                //this.popup_filter = idx;
+                this.popup_filter = idx;
             },
             goPage: function(page){
                 window.location.href = '/mypage/'+page;
@@ -474,6 +463,98 @@
                     }
                 });
             },
+            goSearchDate: function(){
+                this.ajaxItemList().then(()=>{
+                    let list = [];
+                    Object.assign(list,this.myProduct_list);
+                    if(this.search_date_option == 0){
+                        let rst = list.filter(item => this.start_date < item.cit_datetime.substr(0,10) 
+                                                    && item.cit_datetime.substr(0,10) < this.end_date);
+                        this.myProduct_list = rst;
+                    }else{
+                        let rst = list.filter(item => this.start_date < item.cit_start_datetime.substr(0,10) 
+                                                    && item.cit_start_datetime.substr(0,10) < this.end_date );
+                        this.myProduct_list = rst;
+                    }
+                });
+            },
+            goTabMenu: function(menu){
+                this.ajaxItemList().then(()=>{
+                    let list = [];
+                    Object.assign(list,this.myProduct_list);
+                    if(menu == 1){
+                        this.myProduct_list = list;
+                        this.search_tabmenu_idx = 1;
+                    }
+                    else if(menu == 2){
+                        let rst = list.filter(item => item.cit_status === '1'); 
+                        this.myProduct_list = rst; 
+                        this.search_tabmenu_idx = 2;
+                    }
+                    else if(menu == 3){
+                        let rst = list.filter(item => item.cit_status === '0');
+                        this.myProduct_list = rst;
+                        this.search_tabmenu_idx = 3;
+                    }
+                });
+            },
+            toggleGMT: function(){
+                if(this.GMT == 1){
+                    this.GMT = 0;
+                }else{
+                    this.GMT = 1;
+                }
+            },
+            goGMTBtn: function(type){
+                if(type=="Apply"){
+                    let list = [];
+                    let rst = [];
+                    Object.assign(list,this.myProduct_list);
+
+                    if(0 < this.selectedGenre.length){
+                        console.log("selectedGenre:"+this.selectedGenre);
+                        rst = list.filter(item => item.genre === this.selectedGenre);
+                    }
+                    if(0 < this.selectedMood.length){
+                        console.log("selectedMood:"+this.selectedMood);
+                        rst = list.filter(item => item.moods === this.selectedMood);
+                    }
+                    if(0 < this.selectedTrackType.length){
+                        console.log("selectedTrackType:"+this.selectedTrackType);
+                        rst = list.filter(item => item.trackType === this.selectedTrackType);
+                    }
+                    console.log(rst);
+                    this.myProduct_list = rst;
+                }else if(type=="Cancel"){
+                    this.selectedGenre = '';
+                    this.selectedMood = '';
+                    this.selectedTrackType = '';
+                    this.ajaxItemList();
+                }
+            },
+            goStartDate: function(e){
+                console.log(this.search_date_option);
+                console.log(e.target.value);
+                this.start_date = e.target.value;
+
+                if(this.start_date == '' || this.end_date == ''){
+                    return ;
+                }else{
+                    this.goSearchDate();
+                }
+            },
+            goEndDate: function(e){
+                console.log(this.search_date_option);
+                console.log(e.target.value);
+                this.end_date = e.target.value;
+
+                if(this.start_date == '' || this.end_date == ''){
+                    return ;
+                }else{
+                    this.goSearchDate();
+                }
+            },
+
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
             },
@@ -484,6 +565,21 @@
                     rst = rst + '<span><button >'+ tags[i] + '</button></span>';
                 }
                 return rst;
+            },
+            calcFuncTotalCnt(){
+                return this.myProduct_list.length;
+            },
+            calcFuncSellingCnt(){
+                let list = [];
+                Object.assign(list,this.myProduct_list);
+                let rst = list.filter(item => item.cit_status === '1');
+                return rst.length;
+            },
+            calcFuncPendingCnt(){
+                let list = [];
+                Object.assign(list,this.myProduct_list);
+                let rst = list.filter(item => item.cit_status === '0');
+                return rst.length;
             },
             setSearchCondition: function(idx){
                 this.search_condition_active_idx = idx;
