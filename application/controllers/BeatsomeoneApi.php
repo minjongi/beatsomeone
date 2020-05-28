@@ -879,4 +879,33 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+
+    public function user_cart_to_order(){
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $this->load->model(array('Cmall_cart_model'));
+
+        $mem_id = (int) $this->member->item('mem_id');
+        $chk = json_decode($this->input->post('chk'));
+
+        if ($chk) {
+            $cit_id = $chk;
+            $return = $this->cmalllib->cart_to_order(
+                $mem_id,
+                $cit_id
+            );
+        }
+
+        $result = array();
+        $result['message'] = 'ok';
+        $result['result'] = $return;
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
 }

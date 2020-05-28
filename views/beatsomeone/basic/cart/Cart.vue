@@ -80,7 +80,7 @@
                                                 </div>
                                             </div>
                                             <div class="col edit">
-                                                <button class="btn btn--blue round" style="height:40px; padding:0 16px;">Buy NOW</button>
+                                                <button class="btn btn--blue round" style="height:40px; padding:0 16px;" @click="goBuy(item.cit_id)" >Buy NOW</button>
                                             </div>
                                         </div>
                                     </li>
@@ -232,7 +232,7 @@
                 </div>
                 <div>
                     <div class="price">$ {{ totalPrice }}</div>
-                    <button class="btn btn--submit">Order</button>
+                    <button class="btn btn--submit" @click="goOrder" >Order</button>
                 </div>
             </div>
         </div>
@@ -317,6 +317,24 @@
                 this.isLoading = false;
               }
             },
+            async ajaxCartToOrder (items) {
+              try {
+                this.isLoading = true;
+                var param = new FormData();
+                param.append('chk', JSON.stringify(items));
+                const { data } = await axios.post(
+                  '/beatsomeoneApi/user_cart_to_order', param,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(data);
+              } catch (err) {
+                console.log('ajaxCartToOrder error');
+              } finally {
+                this.isLoading = false;
+              }
+            },
             formatCitName: function(data){
                 var rst;
                 var limitLth = 50
@@ -364,12 +382,33 @@
                     alert("삭제할 대상을 선택해주세요");
                     return;
                 }else{
-                    confirm("정말로 삭제하시겠습니까?");
-                    this.ajaxDeleteCart().then(()=>{
-                        this.ajaxCartList();
-                    });
+                    if(confirm("정말로 삭제하시겠습니까?")){
+                        this.ajaxDeleteCart().then(()=>{
+                            this.ajaxCartList();
+                        });    
+                    }
                 }
             },
+            goBuy: function(id){
+                let items = [];
+                console.log(id);
+                items.push(id);
+                this.ajaxCartToOrder(items).then(()=>{
+                    window.location.href = '/cmall/billing';
+                });
+            },
+            goOrder: function(id){
+                if(this.checkedItem.length == 0){
+                    alert("주문할 대상을 선택해주세요");
+                    return;
+                }else{
+                    if(confirm("정말로 주문하시겠습니까?")){
+                        this.ajaxCartToOrder(this.checkedItem).then(()=>{
+                        window.location.href = '/cmall/billing';
+                        });    
+                    }
+                }
+            }
         }
     }
 </script>
