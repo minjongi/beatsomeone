@@ -52,14 +52,12 @@
                     </div>
 
                     <div class="sublist__content" style="margin-bottom:100px;">
-                        <div class="row" style="margin-bottom:20px;">
-                        </div>
 
                         <div class="row" style="margin-bottom:30px;">
                             
                             <div class="title-content">
                                 <div class="title">
-                                    <div>Support</div>
+                                    <div>Order detail</div>
                                 </div>
                             </div>
 
@@ -419,7 +417,7 @@
                                 </div>
                             </div>
                             <p class="desc">
-                                <img src="/assets/images/icon/info_blue.png">If the download period has expired, the purchased bit cannot be downloaded
+                                <img src="/assets/images/icon/info_blue.png">If you are in a deposit waiting state or wish to cancel, please request a change through a <a href="/mypage/inquiry/">Support Case</a> menu.
                             </p>
                         </div>
 

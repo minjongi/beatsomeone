@@ -56,7 +56,7 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:64px;">
                                     <div class="active">Order History (123)</div>
-                                    <div>Cancellation / refund History(32)</div>
+                                    <div @click="goPage('mybilling#/mycancellist')">Cancellation / refund History(32)</div>
                                 </div>
                             </div>
                         </div>
