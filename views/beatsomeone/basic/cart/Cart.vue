@@ -2,7 +2,6 @@
 
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
-        <main-player></main-player>
         <div class="container">
             <div class="main">
                 <section class="main__section1" style="margin-bottom:160px;">
@@ -26,34 +25,37 @@
                         <div class="row">
                             <div class="title-content">
                                 <div class="title">
-                                    <label for="type" class="checkbox" style="margin-left:20px; margin-bottom:30px;">
-                                        <input type="checkbox" hidden="hidden" id="type" value="Music Lover">
+                                    <label for="checkAll" class="checkbox" style="margin-left:20px; margin-bottom:30px;">
+                                        <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
                                         <span></span><div style="font-weight:600">Select All (0/4)</div>
                                     </label>
-                                    <button class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px;"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
+                                    <button class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
                                 <ul>
-                                    <li class="playList__itembox">
+                                    <li v-for="(item, i) in myCart_list" v-bind:key="item.cct_id" class="playList__itembox" :id="'playList__item'+ item.cct_id">
                                         <div class="playList__item playList__item--title">
                                             <div class="col check">
-                                                <label for="type1" class="checkbox">
-                                                    <input type="checkbox" hidden="hidden" id="type1" value="Music Lover">
+                                                <label :for="'cartItem'+ i" class="checkbox">
+                                                    <input type="checkbox" hidden="hidden" :id="'cartItem'+ i" :value="item.cit_id" v-model="checkedItem" @change="setCheck">
                                                     <span></span>
                                                 </label>
                                             </div>
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
+                                                        <!--
                                                         <img src="/assets/images/cover_default.png" alt="">
+                                                        -->
+                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
                                                         <i ng-if="item.isNew" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
+                                                        <h3 class="playList__title"> {{ formatCitName(item.cit_name) }} </h3>
+                                                        <span class="playList__by"> ( {{ item.bpm }} ) BPM</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
@@ -74,15 +76,15 @@
                                             </div>
                                             <div class="col feature">
                                                 <div class="price">
-                                                    $ 10.00
+                                                    $ {{ item.cit_price }}
                                                 </div>
                                             </div>
                                             <div class="col edit">
-                                                <button class="btn btn--blue round" style="height:40px; padding:0 16px;">Buy NOW</button>
+                                                <button class="btn btn--blue round" style="height:40px; padding:0 16px;" @click="goBuy(item.cit_id)" >Buy NOW</button>
                                             </div>
                                         </div>
                                     </li>
-
+                                    <!--
                                     <li class="playList__itembox">
                                         <div class="playList__item playList__item--title active">
                                             <div class="col check">
@@ -214,6 +216,8 @@
                                             </div>
                                         </div>
                                     </li>
+
+                                    --> 
                                 </ul>
                             </div>
                         </div>
@@ -227,8 +231,8 @@
                     <div class="total">Subtotal</div>
                 </div>
                 <div>
-                    <div class="price">$ 30.00</div>
-                    <button class="btn btn--submit">Order</button>
+                    <div class="price">$ {{ totalPrice }}</div>
+                    <button class="btn btn--submit" @click="goOrder" >Order</button>
                 </div>
             </div>
         </div>
@@ -242,58 +246,94 @@
     import Footer from "../include/Footer"
     import Loader from '*/vue/common/Loader'
     import axios from 'axios'
-    import Index_Items from "../Index_Items"
-    import KeepAliveGlobal from "vue-keep-alive-global"
-    import flatPickr from 'vue-flatpickr-component';
-    import 'flatpickr/dist/flatpickr.css';
-    import FileUpload from 'vue-simple-upload/dist/FileUpload'
 
     import $ from "jquery";
     import { EventBus } from '*/src/eventbus';
-    import Velocity from "velocity-animate";
-    //import MainPlayer from "@/vue/common/MainPlayer";
-    import WaveSurfer from 'wavesurfer.js';
 
     export default {
+        components: {
+            Header, Footer
+        },
         data: function() {
             return {
                 isLogin: false,
-                group_title: 'SELLER',
-                product_status: 'PENDING',
-                popup_filter:0,
-                ws: null,
-                isPlay: false,
-                isReady: false,
-                wavesurfer: null,
+                isLoading: false,
+                myCart_list: [],
+                totalPrice: "00.00",
+                selectedItem: null,
+                checkedAll:false,
+                checkedItem:[],
             };
         },
         mounted(){
-                        // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
 
-                $(this)
-                    .siblings(".custom-select")
-                    .removeClass("active")
-                    .find(".options")
-                    .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
-            });
         },
         created() {
-                Http.get('/beatsomeoneApi/get_user_regist_item_list').then(r => {
-                    console.log(r.data);
-                    this.myProduct_list = r.data;
-                });
+            this.ajaxCartList();
+
+        },
+        watch: {
+            uudidl(){
+                //console.log(this.$parent);
+
+            },
         },
         methods:{
-            goPage: function(page){
-                window.location.href = '/mypage/'+page;
+            async ajaxCartList () {
+              try {
+                this.isLoading = true;
+                const { data } = await axios.get(
+                  '/beatsomeoneApi/get_user_cart_list', {}
+                );
+                console.log(data);
+                /*
+                data.forEach(function(d){
+                    console.log(d.cit_datetime);
+                    console.log(d.cit_start_datetime);
+                });*/
+                this.myCart_list = data;
+              } catch (err) {
+                console.log('ajaxCartList error');
+              } finally {
+                this.isLoading = false;
+              }
             },
-            calcSeq: function(size, i){
-                return parseInt(size) - parseInt(i);
+            async ajaxDeleteCart () {
+              try {
+                this.isLoading = true;
+                var param = new FormData();
+                param.append('chk', JSON.stringify(this.checkedItem));
+                const { data } = await axios.post(
+                  '/beatsomeoneApi/delete_user_cart', param,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(data);
+                this.totalPrice = 0.0;
+              } catch (err) {
+                console.log('ajaxDeleteCart error');
+              } finally {
+                this.isLoading = false;
+              }
+            },
+            async ajaxCartToOrder (items) {
+              try {
+                this.isLoading = true;
+                var param = new FormData();
+                param.append('chk', JSON.stringify(items));
+                const { data } = await axios.post(
+                  '/beatsomeoneApi/user_cart_to_order', param,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(data);
+              } catch (err) {
+                console.log('ajaxCartToOrder error');
+              } finally {
+                this.isLoading = false;
+              }
             },
             formatCitName: function(data){
                 var rst;
@@ -307,21 +347,68 @@
                 }
                 return rst;
             },
-            productEditBtn: function(key){
-                console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+            setCheckAll: function(e){
+                this.checkedItem = [];
+                //console.log(this.checkedAll);
+                if(this.checkedAll){
+                    for(var i in this.myCart_list){
+                        //console.log(i);
+                        this.checkedItem.push(this.myCart_list[i].cit_id);
+                    }
+                }
+                this.calcTotalPrice();
             },
-            playAudio(i) {
-                this.wavesurfer = WaveSurfer.create({
-                    container: document.querySelector('#waveform'),
+            setCheck: function() {
+                this.checkedAll = false;
+                this.calcTotalPrice();
+            },
+            calcTotalPrice: function(){
+                let tp = 0.0;
+                if(this.checkedAll){
+                    for(let i in this.myCart_list){
+                        tp += Number(this.myCart_list[i].cit_price);
+                    }
+                }else{
+                    for(let i in this.myCart_list){
+                        if(this.checkedItem.includes(this.myCart_list[i].cit_id)){
+                            tp += Number(this.myCart_list[i].cit_price);
+                        }
+                    }
+                }
+                this.totalPrice = tp;
+            },
+            goDelete: function(){
+                if(this.checkedItem.length == 0){
+                    alert("삭제할 대상을 선택해주세요");
+                    return;
+                }else{
+                    if(confirm("정말로 삭제하시겠습니까?")){
+                        this.ajaxDeleteCart().then(()=>{
+                            this.ajaxCartList();
+                        });    
+                    }
+                }
+            },
+            goBuy: function(id){
+                let items = [];
+                console.log(id);
+                items.push(id);
+                this.ajaxCartToOrder(items).then(()=>{
+                    window.location.href = '/cmall/billing';
                 });
-                // https://nachwon.github.io/waveform/
-                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/cb40bdf9165462c6351ebd82abedb1d6.mp3');
-                this.wavesurfer.on('ready', this.start);
             },
-            start(){
-                this.wavesurfer.play();
-            },
+            goOrder: function(id){
+                if(this.checkedItem.length == 0){
+                    alert("주문할 대상을 선택해주세요");
+                    return;
+                }else{
+                    if(confirm("정말로 주문하시겠습니까?")){
+                        this.ajaxCartToOrder(this.checkedItem).then(()=>{
+                        window.location.href = '/cmall/billing';
+                        });    
+                    }
+                }
+            }
         }
     }
 </script>
