@@ -2411,7 +2411,12 @@ textarea{
     text-align: center
   }
 
-  .user{
+  .status{
+    min-width:128px;
+    max-width:128px;
+  }
+
+  .totalprice, .user{
     min-width:112px;
     max-width:112px;
   }
@@ -2422,5 +2427,9 @@ textarea{
     span{
       min-width:auto;
     }
+  }
+
+  .status:last-child{
+    margin:0!important;
   }
 }
