@@ -35,8 +35,8 @@
                             <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
-                                <li class="active" @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
+                                <li @click="goPage('list_item')">Product List</li>
+                                <li class="active">Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
                                 <li>Message</li>
@@ -56,7 +56,7 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:64px;">
                                     <div @click="goPage('mybilling')">Order History (123)</div>
-                                    <div class="active">Cancellation / refund History(32)</div>
+                                    <div class="active">Cancellation / Refund History(32)</div>
                                 </div>
                             </div>
                         </div>

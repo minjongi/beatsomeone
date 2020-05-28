@@ -899,6 +899,19 @@ section[class*="section"]{
     .active{
       color:#FFDA2A;
     }
+    .splitboard{
+      display:flex!important;
+      padding:0 32px;
+      max-width:100%!important;
+      > *{
+        max-width:100%!important;
+        font-size:24px!important;
+
+        button{
+          height:auto;
+        }
+      }
+    }
 }
 
 .selected-option + .popup{
@@ -1983,7 +1996,7 @@ textarea{
     min-width:96px;
     max-width:96px;
     text-align:center;
-    word-break: none;
+    word-break: initial;
 
     > span{
       display:block;
@@ -2378,5 +2391,36 @@ textarea{
     font-weight:600;
     color:white;
     text-decoration:underline;
+  }
+}
+
+.saleshistory{
+  .playList__item {
+    max-width:1090px;
+  }
+
+  .name{
+    max-width:max-content;
+    padding:0!important;
+  }
+
+  .cover{
+    min-width:55px;
+    max-width:55px;
+    margin-right:20px;
+    text-align: center
+  }
+
+  .user{
+    min-width:112px;
+    max-width:112px;
+  }
+
+  .download{
+    text-align:center!important;
+
+    span{
+      min-width:auto;
+    }
   }
 }
