@@ -92,6 +92,15 @@
     }
   }
 
+  &.btn--green{
+    background:#24B870;
+    color:white;
+    opacity:1;
+
+    &:hover{
+    }
+  }
+
   &.btn--file{
     background:rgba(255,255,255,.1);
 

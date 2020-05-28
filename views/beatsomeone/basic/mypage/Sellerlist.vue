@@ -92,7 +92,7 @@
                                 </p>
                             </div>
                             <div class="sort" style="text-align:right; margin:auto 0px 0px auto;">
-                                    <button class="btn btn--green" style="width:100px; height:40px;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Download as Excel</button>
+                                    <button class="btn btn--green" style="width:200px; height:40px;" @click="goDelete"><img src="/assets/images/icon/excel.png" style="margin-top:-4px;" />Download as Excel</button>
                             </div>
                         </div> 
 
