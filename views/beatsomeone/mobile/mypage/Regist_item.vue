@@ -120,8 +120,7 @@
                                                 action="POST" hidden v-on:start="artworkStartUpload"
                                                 v-on:finish="artworkFinishUpload"/>
                                     <label for="artworkFile" class="artwork-box">
-                                        <img :src="'/' + (!!item.artworkPath ? item.artworkPath : 'assets/images/artwork.png')"
-                                             alt="" id="artworkImg" ref="artworkImg">
+                                        <img :src="!!item.artworkPath ? '/uploads/cmallitem/' + item.artworkPath : '/assets/images/artwork.png'" alt="" id="artworkImg" ref="artworkImg">
                                     </label>
                                     <div class="artwork__info">
                                         {{ $t('preferredImageSize') }}<br/><br/>
