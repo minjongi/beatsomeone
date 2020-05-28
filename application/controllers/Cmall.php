@@ -655,8 +655,9 @@ class Cmall extends CB_Controller
 					->get_cart_detail($mem_id, element('cit_id', $val));
 			}
 		}
-		$view['view']['data'] = $result;
+		$view['view']['data'] = $result;;
 		$view['view']['list_delete_url'] = site_url('cmallact/cart_delete/?' . $param->output());
+		log_message('error', $view['view']['list_delete_url'] );
 
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
