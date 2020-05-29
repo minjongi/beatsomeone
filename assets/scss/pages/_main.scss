@@ -2884,7 +2884,7 @@ textarea{
 
   .body{
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 33.333% 33.333% 33.333%;
     grid-gap: 64px 32px;
   }
 
@@ -2948,6 +2948,11 @@ textarea{
       font-size:20px;
       font-weight:600;
       text-align: left;
+      overflow: hidden;
+      display:-webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
     }
 
     .desc{
@@ -2957,6 +2962,10 @@ textarea{
       text-align: left;
       font-size:14px;
       line-height:1.5em;
+      display:-webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
   }
 }
