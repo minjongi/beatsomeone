@@ -12,6 +12,12 @@
           background-size: auto 100%;
           opacity: 1;
         }
+
+        .option{  
+          .detail{
+            background:none;
+          }
+        }
       }
     }
     &.is-show-children {
@@ -81,6 +87,7 @@
           i {
             @include position($top: -5px, $right: -5px);
             z-index: 1;
+            font-weight:bolder;
           }
 
           &.profile{
@@ -376,5 +383,48 @@
 .row.double{
   .playList__item > .col.name{
     width:385px;
+  }
+}
+
+
+.inquiryview{
+  .question{
+    padding:30px;
+    background:#2B2C30!important;
+    color:rgba(255,255,255,.7);  
+
+    .mark{
+      margin-right:30px;
+      max-width: 96px;
+      font-size:60px;
+      font-weight:600;
+    } 
+
+    .answer{
+      line-height:1.75em;
+
+      span{
+        color:white;
+        font-weight:600;
+        text-decoration:underline;
+      }
+    }
+
+    &.stay{
+      background:#203040!important;
+
+      .mark{
+        color:#4890FF;
+      }
+    }
+
+    &.complete{
+      background:#383020!important;
+
+      .mark{
+        color:#FFDA2A;
+      }
+    }
+
   }
 }
