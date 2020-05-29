@@ -292,15 +292,13 @@
     import Footer from "../include/Footer"
     import Loader from '*/vue/common/Loader'
     import axios from 'axios'
-    import Index_Items from "../Index_Items"
-    import KeepAliveGlobal from "vue-keep-alive-global"
     import flatPickr from 'vue-flatpickr-component';
     import 'flatpickr/dist/flatpickr.css';
     import FileUpload from 'vue-simple-upload/dist/FileUpload'
 
     export default {
         components: {
-            Header, Footer, Index_Items, Loader, KeepAliveGlobal, flatPickr, FileUpload
+            Header, Footer, Loader, flatPickr, FileUpload
         },
         data: function () {
             return {
