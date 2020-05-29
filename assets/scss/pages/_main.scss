@@ -2585,6 +2585,7 @@ textarea{
   .messageList{
     height:100%;
     overflow-y:auto;
+    max-height:695px;
 
     .playList__item{
       display:flex;
