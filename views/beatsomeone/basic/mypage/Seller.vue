@@ -15,7 +15,9 @@
     import { EventBus } from '*/src/eventbus';
 
     export default {
-        components: {Header,Footer},
+        components: {
+            Header, Footer
+        },
         data: function() {
             return {
                 info: {},
