@@ -1,186 +1,19 @@
 <template>
-
     <div class="wrapper">
-        <Header :is-login="isLogin"/>
-
-        <div class="container sub">
-            <div class="mypage sublist">
-                <div class="wrap">
-                    <div class="sublist__filter sticky">
-                        <div class="row center">
-                            <div class="profile">
-                                <div class="portait">
-                                    <img src="/assets/images/portait.png"/>
-                                </div>
-                                <div class="info">
-                                    <div class="group">
-                                        <div class="group_title" :class="group_title">{{group_title}}</div>
-                                    </div>
-                                    <div class="username">
-                                        DROPBEAT
-                                    </div>
-                                    <div class="bio">
-                                        Music Lover, KKOMA
-                                    </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li  class="active" >Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li class="active" @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+        <Header :is-login="isLogin"></Header>
+        <main-player></main-player>
+        <div class="container">
+            <div class="main">
+                <section class="main__section1">
+                    <div class="BG" style=""></div>
+                    <div class="filter"></div>
+                    <div class="wrap">
+                        <header class="main__section1-title"></header>
                     </div>
-                    <div class="sublist__content" style="margin-bottom:100px;">
-                        
-
-                        <div class="row" style="margin-bottom:30px;">
-                            
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>FAQ</div>
-                                </div>
-                                <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
-                                    <input type="text" placeholder="enter your word..." style="font-size:16px;"> 
-                                    <img src="/assets/images/icon/searchicon.png" style="margin:10px;"/>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row" style="margin-bottom:30px;">
-                            <div class="playList board fold faq">
-
-                                <ul>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                    <Footer></Footer>
+                </section>
             </div>
         </div>
-        <div id="waveform" ></div>
-        <!--
-        <main-player></main-player>
-        -->
-        <Footer/>
     </div>
 </template>
 
