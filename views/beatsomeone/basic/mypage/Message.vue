@@ -190,17 +190,26 @@
                                                 <div>
                                                     Hey! I want make beats with you!
                                                 </div>
-                                                <div class="date">2020-04-20 15:53:42</div>
+                                                <div class="date">2020-04-20 15:53:42
+                                                    <span></span>
+                                                </div>
                                             </div>
                                              <div class="chatBalloon me">
-                                                <div>
-                                                    Hi, User1!<br/> I love it and so exciting!
-                                                    <button class="btn btn--glass"><img src="/assets/images/icon/file.png">powerfulbeat.mp3</button>
+                                                <div>Hi, User1!<br/> I love it and so exciting!<button class="btn btn--glass"><img src="/assets/images/icon/file.png"/>powerfulbeat.mp3</button>
                                                 </div>
                                                 <div class="date">
                                                     <span class="active">Seen</span>
                                                     2020-04-20 15:53:42
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="attached active">
+                                            <div class="btn btn--glass">
+                                                <img src="/assets/images/icon/file.png"/>powerfulbeat.mp3
+                                                <button class="close">
+                                                    <img src="/assets/images/icon/x-white.png"/>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
