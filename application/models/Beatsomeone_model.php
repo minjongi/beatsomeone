@@ -404,19 +404,19 @@ class Beatsomeone_model extends CB_Model
     public function get_user_regist_item_list($p)
     {
 
-        $where = array(
-            'm.cim_value = ' => $p['mem_id'],
-        );
-        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
-        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','inner');
-        $this->db->join('cb_cmall_item_detail as d','c.cit_id = d.cit_id','left');
-        $this->db->where($where);
         $select = 'c.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice ';
         $select .= ',p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, p.cde_originname, p.cde_quantity ';
         $select .= ',p.cde_id_2, p.cde_price_2,p.cde_price_d_2, p.cde_download_2, p.cde_originname_2, p.cde_quantity_2 ';
         $select .= ',p.cde_id_3, p.cde_price_3,p.cde_price_d_3, p.cde_download_3, p.cde_originname_3, p.cde_quantity_3 ';
         $select .= ',p.cde_originname, d.cde_filename';
         $this->db->select($select);
+        $where = array(
+            'c.mem_id = ' => $p['mem_id'],
+        );
+        $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
+        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','inner');
+        $this->db->join('cb_cmall_item_detail as d','c.cit_id = d.cit_id AND d.cde_title = "LEASE"','left');
+        $this->db->where($where);
         $this->db->order_by('cit_id', 'desc');
         $qry = $this->db->get('cmall_item as cb_c');
 
@@ -716,4 +716,29 @@ class Beatsomeone_model extends CB_Model
 
         return $cit_id;
     }
+
+
+
+    // mypage 멤버 정보 조회
+    public function get_user_info($p)
+    {
+        $select = 'mem_id, mem_userid, mem_nickname, mem_email, mem_level, mem_point, mem_icon, mem_photo, mem_usertype, mem_address1';
+        $this->db->select($select);
+
+        //$this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
+
+        $where = array(
+            'mem_id = ' => $p['mem_id'],
+            'mem_denied = ' => 0,
+        );
+        $this->db->where($where);
+
+        //$this->db->order_by('cit_id', 'desc');
+
+        $qry = $this->db->get('cb_member');
+
+        return $qry->result_array();
+
+    }
+
 }

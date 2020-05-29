@@ -1805,6 +1805,709 @@ class Mypage extends CB_Controller
         $this->view = element('view_skin_file', element('layout', $view));
     }
 
+
+    /**
+     * 마이페이지>mybilling 입니다
+     */
+    public function mybilling($cit_id = '')
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_loginlog';
+        $this->load->event($eventname);
+        $this->load->helper( array('cmall'));
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+        
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+
+        $this->load->model('Member_login_log_model');
+
+        $findex = $this->Member_login_log_model->primary_key;
+        $forder = 'desc';
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array(
+            'mem_id' => $mem_id,
+        );
+        $result = $this->Member_login_log_model
+            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+        if (element('list', $result)) {
+            foreach (element('list', $result) as $key => $val) {
+                if (element('mll_useragent', $val)) {
+                    $userAgent = get_useragent_info(element('mll_useragent', $val));
+                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
+                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
+                    $result['list'][$key]['os'] = $userAgent['os'];
+                    $result['list'][$key]['engine'] = $userAgent['engine'];
+                }
+                $result['list'][$key]['num'] = $list_num--;
+            }
+        }
+        $view['view']['data'] = $result;
+
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
+        $config['total_rows'] = $result['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $view['view']['paging'] = $this->pagination->create_links();
+        $view['view']['page'] = $page;
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = 'Beat Someone';
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage_loginlog');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage_loginlog');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage_loginlog');
+        $page_name = $this->cbconfig->item('site_page_name_mypage_loginlog');
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'mypage/mybilling',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+
+    /**
+     * 마이페이지>calchistory 입니다
+     */
+    public function calchistory($cit_id = '')
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_loginlog';
+        $this->load->event($eventname);
+        $this->load->helper( array('cmall'));
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+        
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+
+        $this->load->model('Member_login_log_model');
+
+        $findex = $this->Member_login_log_model->primary_key;
+        $forder = 'desc';
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array(
+            'mem_id' => $mem_id,
+        );
+        $result = $this->Member_login_log_model
+            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+        if (element('list', $result)) {
+            foreach (element('list', $result) as $key => $val) {
+                if (element('mll_useragent', $val)) {
+                    $userAgent = get_useragent_info(element('mll_useragent', $val));
+                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
+                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
+                    $result['list'][$key]['os'] = $userAgent['os'];
+                    $result['list'][$key]['engine'] = $userAgent['engine'];
+                }
+                $result['list'][$key]['num'] = $list_num--;
+            }
+        }
+        $view['view']['data'] = $result;
+
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
+        $config['total_rows'] = $result['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $view['view']['paging'] = $this->pagination->create_links();
+        $view['view']['page'] = $page;
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = 'Beat Someone';
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage_loginlog');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage_loginlog');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage_loginlog');
+        $page_name = $this->cbconfig->item('site_page_name_mypage_loginlog');
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'mypage/calchistory',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+
+    /**
+     * 마이페이지>message 입니다
+     */
+    public function message($cit_id = '')
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_loginlog';
+        $this->load->event($eventname);
+        $this->load->helper( array('cmall'));
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+        
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+
+        $this->load->model('Member_login_log_model');
+
+        $findex = $this->Member_login_log_model->primary_key;
+        $forder = 'desc';
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array(
+            'mem_id' => $mem_id,
+        );
+        $result = $this->Member_login_log_model
+            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+        if (element('list', $result)) {
+            foreach (element('list', $result) as $key => $val) {
+                if (element('mll_useragent', $val)) {
+                    $userAgent = get_useragent_info(element('mll_useragent', $val));
+                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
+                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
+                    $result['list'][$key]['os'] = $userAgent['os'];
+                    $result['list'][$key]['engine'] = $userAgent['engine'];
+                }
+                $result['list'][$key]['num'] = $list_num--;
+            }
+        }
+        $view['view']['data'] = $result;
+
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
+        $config['total_rows'] = $result['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $view['view']['paging'] = $this->pagination->create_links();
+        $view['view']['page'] = $page;
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = 'Beat Someone';
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage_loginlog');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage_loginlog');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage_loginlog');
+        $page_name = $this->cbconfig->item('site_page_name_mypage_loginlog');
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'mypage/message',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+
+    /**
+     * 마이페이지>saleshistory 입니다
+     */
+    public function saleshistory($cit_id = '')
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_loginlog';
+        $this->load->event($eventname);
+        $this->load->helper( array('cmall'));
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+        
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+
+        $this->load->model('Member_login_log_model');
+
+        $findex = $this->Member_login_log_model->primary_key;
+        $forder = 'desc';
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array(
+            'mem_id' => $mem_id,
+        );
+        $result = $this->Member_login_log_model
+            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+        if (element('list', $result)) {
+            foreach (element('list', $result) as $key => $val) {
+                if (element('mll_useragent', $val)) {
+                    $userAgent = get_useragent_info(element('mll_useragent', $val));
+                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
+                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
+                    $result['list'][$key]['os'] = $userAgent['os'];
+                    $result['list'][$key]['engine'] = $userAgent['engine'];
+                }
+                $result['list'][$key]['num'] = $list_num--;
+            }
+        }
+        $view['view']['data'] = $result;
+
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
+        $config['total_rows'] = $result['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $view['view']['paging'] = $this->pagination->create_links();
+        $view['view']['page'] = $page;
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = 'Beat Someone';
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage_loginlog');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage_loginlog');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage_loginlog');
+        $page_name = $this->cbconfig->item('site_page_name_mypage_loginlog');
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'mypage/saleshistory',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+
+    /**
+     * 마이페이지>seller 입니다
+     */
+    public function seller($cit_id = '')
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_loginlog';
+        $this->load->event($eventname);
+        $this->load->helper( array('cmall'));
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+        
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+
+        $this->load->model('Member_login_log_model');
+
+        $findex = $this->Member_login_log_model->primary_key;
+        $forder = 'desc';
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array(
+            'mem_id' => $mem_id,
+        );
+        $result = $this->Member_login_log_model
+            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+        if (element('list', $result)) {
+            foreach (element('list', $result) as $key => $val) {
+                if (element('mll_useragent', $val)) {
+                    $userAgent = get_useragent_info(element('mll_useragent', $val));
+                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
+                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
+                    $result['list'][$key]['os'] = $userAgent['os'];
+                    $result['list'][$key]['engine'] = $userAgent['engine'];
+                }
+                $result['list'][$key]['num'] = $list_num--;
+            }
+        }
+        $view['view']['data'] = $result;
+
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
+        $config['total_rows'] = $result['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $view['view']['paging'] = $this->pagination->create_links();
+        $view['view']['page'] = $page;
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = 'Beat Someone';
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage_loginlog');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage_loginlog');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage_loginlog');
+        $page_name = $this->cbconfig->item('site_page_name_mypage_loginlog');
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'mypage/seller',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+
+    /**
+     * 마이페이지>video 입니다
+     */
+    public function video($cit_id = '')
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_loginlog';
+        $this->load->event($eventname);
+        $this->load->helper( array('cmall'));
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+        
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+
+        $this->load->model('Member_login_log_model');
+
+        $findex = $this->Member_login_log_model->primary_key;
+        $forder = 'desc';
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array(
+            'mem_id' => $mem_id,
+        );
+        $result = $this->Member_login_log_model
+            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+        if (element('list', $result)) {
+            foreach (element('list', $result) as $key => $val) {
+                if (element('mll_useragent', $val)) {
+                    $userAgent = get_useragent_info(element('mll_useragent', $val));
+                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
+                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
+                    $result['list'][$key]['os'] = $userAgent['os'];
+                    $result['list'][$key]['engine'] = $userAgent['engine'];
+                }
+                $result['list'][$key]['num'] = $list_num--;
+            }
+        }
+        $view['view']['data'] = $result;
+
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
+        $config['total_rows'] = $result['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $view['view']['paging'] = $this->pagination->create_links();
+        $view['view']['page'] = $page;
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = 'Beat Someone';
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage_loginlog');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage_loginlog');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage_loginlog');
+        $page_name = $this->cbconfig->item('site_page_name_mypage_loginlog');
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'mypage/video',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+    
     /**
      * 마이페이지>판매내역 입니다
      */

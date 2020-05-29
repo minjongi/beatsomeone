@@ -655,6 +655,225 @@ class Cmall extends CB_Controller
 					->get_cart_detail($mem_id, element('cit_id', $val));
 			}
 		}
+		$view['view']['data'] = $result;;
+		$view['view']['list_delete_url'] = site_url('cmallact/cart_delete/?' . $param->output());
+		log_message('error', $view['view']['list_delete_url'] );
+
+		// 이벤트가 존재하면 실행합니다
+		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+		/**
+		 * 레이아웃을 정의합니다
+		 */
+		$page_title = $this->cbconfig->item('site_meta_title_cmall_cart');
+		$meta_description = $this->cbconfig->item('site_meta_description_cmall_cart');
+		$meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall_cart');
+		$meta_author = $this->cbconfig->item('site_meta_author_cmall_cart');
+		$page_name = $this->cbconfig->item('site_page_name_cmall_cart');
+
+		$searchconfig = array(
+			'{컨텐츠몰명}',
+		);
+		$replaceconfig = array(
+			$this->cbconfig->item('cmall_name'),
+		);
+
+		$page_title = str_replace($searchconfig, $replaceconfig, $page_title);
+		$meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
+		$meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
+		$meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
+		$page_name = str_replace($searchconfig, $replaceconfig, $page_name);
+
+		/*
+		$layoutconfig = array(
+			'path' => 'cmall',
+			'layout' => 'layout',
+			'skin' => 'cart',
+			'layout_dir' => $this->cbconfig->item('layout_cmall'),
+			'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+			'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+			'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+			'skin_dir' => $this->cbconfig->item('skin_cmall'),
+			'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+			'page_title' => $page_title,
+			'meta_description' => $meta_description,
+			'meta_keywords' => $meta_keywords,
+			'meta_author' => $meta_author,
+			'page_name' => $page_name,
+		);
+		*/
+		$layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'cart/cart',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+		);
+
+
+		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+		$this->data = $view;
+		$this->layout = element('layout_skin_file', element('layout', $view));
+		$this->view = element('view_skin_file', element('layout', $view));
+	}
+
+	public function billing()
+	{
+		// 이벤트 라이브러리를 로딩합니다
+		$eventname = 'event_cmall_cart';
+		$this->load->event($eventname);
+
+		/**
+		 * 로그인이 필요한 페이지입니다
+		 */
+		required_user_login();
+
+		$mem_id = (int) $this->member->item('mem_id');
+
+		$view = array();
+		$view['view'] = array();
+
+		// 이벤트가 존재하면 실행합니다
+		$view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+		$alertmessage = $this->member->is_member()
+			? '회원님은 상품을 구매할 수 있는 권한이 없습니다'
+			: '비회원은 상품을 구매할 수 있는 권한이 없습니다.\\n\\n회원이시라면 로그인 후 이용해 보십시오';
+		$access_buy = $this->cbconfig->item('access_cmall_buy');
+		$access_buy_level = $this->cbconfig->item('access_cmall_buy_level');
+		$access_buy_group = $this->cbconfig->item('access_cmall_buy_group');
+		$this->accesslevel->check(
+			$access_buy,
+			$access_buy_level,
+			$access_buy_group,
+			$alertmessage,
+			''
+		);
+
+		// 이벤트가 존재하면 실행합니다
+		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+		/**
+		 * 레이아웃을 정의합니다
+		 */
+		$page_title = $this->cbconfig->item('site_meta_title_cmall_cart');
+		$meta_description = $this->cbconfig->item('site_meta_description_cmall_cart');
+		$meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall_cart');
+		$meta_author = $this->cbconfig->item('site_meta_author_cmall_cart');
+		$page_name = $this->cbconfig->item('site_page_name_cmall_cart');
+
+		$searchconfig = array(
+			'{컨텐츠몰명}',
+		);
+		$replaceconfig = array(
+			$this->cbconfig->item('cmall_name'),
+		);
+
+		$page_title = str_replace($searchconfig, $replaceconfig, $page_title);
+		$meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
+		$meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
+		$meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
+		$page_name = str_replace($searchconfig, $replaceconfig, $page_name);
+
+		$layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'cart/billing',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+		);
+
+
+		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+		$this->data = $view;
+		$this->layout = element('layout_skin_file', element('layout', $view));
+		$this->view = element('view_skin_file', element('layout', $view));
+	}
+
+	public function complete()
+	{
+		// 이벤트 라이브러리를 로딩합니다
+		$eventname = 'event_cmall_cart';
+		$this->load->event($eventname);
+
+		/**
+		 * 로그인이 필요한 페이지입니다
+		 */
+		required_user_login();
+
+		$mem_id = (int) $this->member->item('mem_id');
+
+		$view = array();
+		$view['view'] = array();
+
+		// 이벤트가 존재하면 실행합니다
+		$view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+		$this->load->model(array('Cmall_cart_model'));
+
+		if ($this->input->post('chk')) {
+			$cit_id = $this->input->post('chk');
+			$return = $this->cmalllib->cart_to_order(
+				$mem_id,
+				$cit_id
+			);
+			if ($return) {
+				redirect('cmall/order');
+			}
+		}
+
+		$cachename = 'delete_old_cart_cache';
+		$cachetime = 3600;
+		if ( ! $result = $this->cache->get($cachename)) {
+			$days = $this->cbconfig->item('cmall_cart_keep_days')
+				? $this->cbconfig->item('cmall_cart_keep_days') : 14;
+			$cartdays = cdate('Y-m-d H:i:s', ctimestamp() - $days * 86400);
+			$deletewhere = array(
+				'cct_datetime <' => $cartdays,
+			);
+			$this->Cmall_cart_model->delete_where($deletewhere);
+			$this->cache->save($cachename, cdate('Y-m-d H:i:s'), $cachetime);
+		}
+
+
+		/**
+		 * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+		 */
+		$param =& $this->querystring;
+		$findex = 'cmall_item.cit_id';
+		$forder = 'desc';
+
+		/**
+		 * 게시판 목록에 필요한 정보를 가져옵니다.
+		 */
+		$where = array();
+		$where['cmall_cart.mem_id'] = $mem_id;
+		$result = $this->Cmall_cart_model->get_cart_list($where, $findex, $forder);
+		if ($result) {
+			foreach ($result as $key => $val) {
+				$result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+				$result[$key]['detail'] = $this->Cmall_cart_model
+					->get_cart_detail($mem_id, element('cit_id', $val));
+			}
+		}
 		$view['view']['data'] = $result;
 		$view['view']['list_delete_url'] = site_url('cmallact/cart_delete/?' . $param->output());
 
@@ -684,21 +903,23 @@ class Cmall extends CB_Controller
 		$page_name = str_replace($searchconfig, $replaceconfig, $page_name);
 
 		$layoutconfig = array(
-			'path' => 'cmall',
-			'layout' => 'layout',
-			'skin' => 'cart',
-			'layout_dir' => $this->cbconfig->item('layout_cmall'),
-			'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
-			'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
-			'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
-			'skin_dir' => $this->cbconfig->item('skin_cmall'),
-			'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
-			'page_title' => $page_title,
-			'meta_description' => $meta_description,
-			'meta_keywords' => $meta_keywords,
-			'meta_author' => $meta_author,
-			'page_name' => $page_name,
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'cart/complete',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
 		);
+
+
 		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
 		$this->data = $view;
 		$this->layout = element('layout_skin_file', element('layout', $view));

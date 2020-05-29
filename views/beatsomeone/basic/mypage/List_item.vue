@@ -1,9 +1,6 @@
 <template>
-
-
     <div class="wrapper">
         <Header :is-login="isLogin"/>
-
         <div class="container sub">
             <div class="mypage sublist">
                 <div class="wrap">
@@ -11,20 +8,21 @@
                         <div class="row center">
                             <div class="profile">
                                 <div class="portait">
-                                    <img src="/assets/images/portait.png"/>
+                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
+                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
                                 <div class="info">
                                     <div class="group">
                                         <div class="group_title" :class="group_title">{{group_title}}</div>
                                     </div>
                                     <div class="username">
-                                        DROPBEAT
+                                        {{mem_nickname}}
                                     </div>
                                     <div class="bio">
                                         Music Lover, KKOMA
                                     </div>
                                     <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
+                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
                                     </div>
                                     <div class="brandshop">
                                         <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
@@ -51,17 +49,17 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="sublist__content" style="margin-bottom:100px;">
-                        
                         <div class="row" style="margin-bottom:10px;">
                             <div class="search condition">
                                 <div class="filter">
-                                    <div class="condition active">Product Name</div>
-                                    <div class="condition">Product Code</div>
-                                    <div class="condition">Keyword</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">Product Name</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">Product Code</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">Keyword</div>
                                 </div>
                                 <div class="wrap">
-                                    <input type="text" placeholder="enter your word..."> 
+                                    <input type="text" placeholder="enter your word..." @keypress.enter="goSearch"> 
                                     <img src="/assets/images/icon/searchicon.png"/>
                                 </div>
                             </div>
@@ -69,177 +67,69 @@
 
                         <div class="row" style="display:flex; margin-bottom:30px;">
                             <div class="tabmenu">
-                                <div class="active">Total (33)</div>
-                                <div>Selling (15)</div>
-                                <div>Pending (18)</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Selling ({{calcSellingCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Pending ({{calcPendingCnt}})</div>
                             </div>
                             <div>
                                 <div class="sort">
                                     <span>{{ $t('sortBy') }}</span>
-                                    <div class="custom-select " style="width:initial;">
-                                        <button class="selected-option">
+                                    <div class="custom-select" :class="GMT == 1 ? 'active' : ''" style="width:initial;">
+                                        <button class="selected-option" @click="toggleGMT">
                                             Genre / Mood / Track Type
                                         </button>
                                         <div class="select-genre popup active">
                                             <div class="tab">
-                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">7</div></button>
-                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">3</div></button>
-                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">2</div></button>
+                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">{{listGenre.length}}</div></button>
+                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">{{listMoods.length}}</div></button>
+                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">{{listTrackType.length}}</div></button>
                                             </div>
                                             <div class="tab_container">
-
-                                                <div class="tab_content" :class="popup_filter = 0 ? 'active' : ''">
+                                                <div v-show="popup_filter === 0" class="tab_content active">
                                                     <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter1" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
-                                                                <span></span> All Genre
+                                                        <li class="filter__item" v-for="(item, index) in listGenre" :key="'genre' + index" >
+                                                            <label :for="'genrefillter'+index" class="checkbox">
+                                                                <input type="radio" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
+                                                                <span></span>{{ item }}
                                                             </label>
                                                         </li>
+                                                        <!--
                                                         <li class="filter__item">
                                                             <label for="fillter2" class="checkbox">
                                                                 <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
                                                                 <span></span> Hip hop
                                                             </label>
                                                         </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
+                                                        -->
+                                                    </ul>
+                                                </div>
+
+                                                <div v-show="popup_filter === 1" class="tab_content active">
+                                                    <ul class="filter__list">
+                                                        <li class="filter__item" v-for="(item, index) in listMoods" :key="'mood' + index" >
+                                                            <label :for="'moodfillter'+index" class="checkbox">
+                                                                <input type="radio" hidden="hidden" :id="'moodfillter'+index" :value="item" v-model="selectedMood">
+                                                                <span></span>{{ item }}
                                                             </label>
                                                         </li>
                                                     </ul>
                                                 </div>
 
-                                                <div class="tab_content" :class="popup_filter = 1 ? 'active' : ''">
+                                                <div v-show="popup_filter === 2" class="tab_content active">
                                                     <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter1" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
-                                                                <span></span> All Genre
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
+                                                        <li class="filter__item" v-for="(item, index) in listTrackType" :key="'track' + index" >
+                                                            <label :for="'trackfillter'+index" class="checkbox">
+                                                                <input type="radio" hidden="hidden" :id="'trackfillter'+index" :value="item" v-model="selectedTrackType">
+                                                                <span></span>{{ item }}
                                                             </label>
                                                         </li>
                                                     </ul>
                                                 </div>
-
-                                                <div class="tab_content" :class="popup_filter = 2 ? 'active' : ''">
-                                                    <ul class="filter__list">
-                                                        <li class="filter__item">
-                                                            <label for="fillter1" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter1" value="All Genre">
-                                                                <span></span> All Genre
-                                                            </label>
-                                                        </li>
-                                                        <li class="filter__item">
-                                                            <label for="fillter2" class="checkbox">
-                                                                <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                <span></span> Hip hop
-                                                            </label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
                                             </div>
                                             <div>
                                                 <div class="btnbox col">
-                                                    <button class="btn btn--gray"> Cancel </button>
-                                                    <button type="submit" class="btn btn--submit"> Apply </button>
+                                                    <button class="btn btn--gray" @click="goGMTBtn('Cancel')"> Cancel </button>
+                                                    <button type="submit" class="btn btn--submit" @click="goGMTBtn('Apply')" > Apply </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -247,18 +137,18 @@
                                 </div>
                                 <div class="sort">
                                     <div class="custom-select">
-                                        <button class="selected-option">
+                                        <button v-show="search_date_option === 0" class="selected-option active" @click="search_date_option = 1">
                                             Register Date
                                         </button>
-                                        <div class="options">
-                                            <button data-value="" class="option"> Launch Date </button>
-                                        </div>
+                                        <button v-show="search_date_option === 1" class="selected-option active" @click="search_date_option = 0"> 
+                                            Launch Date 
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="sort datepicker">
-                                    <input type="date" placeholder="Start Date" />
+                                    <input type="date" placeholder="Start Date" @change="goStartDate"/>
                                     <span>─</span>
-                                    <input type="date" placeholder="End Date" />
+                                    <input type="date" placeholder="End Date" @change="goEndDate"/>
                                     <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                 </div>
                             </div>
@@ -416,14 +306,12 @@
                 </div>
             </div>
         </div>
-        <div id="waveform" ></div>
         <!--
+        <div id="waveform" ></div>
         <main-player></main-player>
         -->
         <Footer/>
     </div>
-
-
 </template>
 
 
@@ -431,71 +319,261 @@
     require('@/assets/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
-    import Loader from '*/vue/common/Loader'
     import axios from 'axios'
-    //import Index_Items from "../Index_Items"
-    import KeepAliveGlobal from "vue-keep-alive-global"
-    import flatPickr from 'vue-flatpickr-component';
-    import 'flatpickr/dist/flatpickr.css';
-    //import FileUpload from 'vue-simple-upload/dist/FileUpload'
-
-    import $ from "jquery";
-    import { EventBus } from '*/src/eventbus';
-    import Velocity from "velocity-animate";
-    //import MainPlayer from "@/vue/common/MainPlayer";
     import WaveSurfer from 'wavesurfer.js';
+    import $ from "jquery";
+
 
     export default {
-        data: function() {
+        components: {
+            Header, Footer
+        },
+        data: function () {
             return {
                 isLogin: false,
+                isLoading: false,
                 group_title: 'SELLER',
                 product_status: 'PENDING',
                 myProduct_list: [],
-                popup_filter:0,
                 isPlay: false,
                 wavesurfer: null,
+                mem_photo: '',
+                mem_usertype: '',
+                mem_nickname: '',
+                mem_address1: '',
+                search_condition_active_idx: 1,
+                search_tabmenu_idx: 1,
+                GMT: 0,
+                popup_filter:0,
+                search_date_option: 0,
+                start_date: '',
+                end_date: '',
+                calcTotalCnt: 0,
+                calcSellingCnt: 0,
+                calcPendingCnt:0,
+                listGenre: window.genre,
+                listMoods: window.moods,
+                listTrackType: window.trackType,
+                selectedGenre: '',
+                selectedMood: '',
+                selectedTrackType: '',
+
             };
         },
         mounted(){
-                        // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
 
-                $(this)
-                    .siblings(".custom-select")
-                    .removeClass("active")
-                    .find(".options")
-                    .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
-            });
         },
         created() {
-                Http.get('/beatsomeoneApi/get_user_regist_item_list').then(r => {
-                    console.log(r.data);
-                    this.myProduct_list = r.data;
-                });
+            this.ajaxItemList().then(()=>{
+                this.calcTotalCnt = this.calcFuncTotalCnt();
+                this.calcSellingCnt = this.calcFuncSellingCnt();
+                this.calcPendingCnt = this.calcFuncPendingCnt();
+            });
+            this.ajaxUserInfo();
+
+        },
+        watch: {
+            isLogin(){
+                console.log("watch : "+this.isLogin);
+                //console.log(this.$parent);
+
+            },
+        },
+        computed:{
+
         },
         methods:{
+            async ajaxItemList () {
+              try {
+                this.isLoading = true;
+                const { data } = await axios.get(
+                  '/beatsomeoneApi/get_user_regist_item_list', {}
+                );
+                /*
+                console.log(data);
+                data.forEach(function(d){
+                    console.log(d.cit_datetime);
+                    console.log(d.cit_start_datetime);
+                });*/
+                this.myProduct_list = data;
+              } catch (err) {
+                console.log('ajaxItemList error');
+              } finally {
+                this.isLoading = false;
+              }
+            },
+            async ajaxUserInfo () {
+              try {
+                this.isLoading = true;
+                const { data } = await axios.get(
+                  '/beatsomeoneApi/get_user_info', {}
+                );
+                console.log(data);
+                this.mem_photo = data[0].mem_photo;
+                this.mem_usertype = data[0].mem_usertype;
+                this.mem_nickname = data[0].mem_nickname;
+                this.mem_address1 = data[0].mem_address1;
+
+                if(this.mem_usertype == 1){
+                    this.group_title = "CUSTOMER";
+                }else{
+                    this.group_title = "SELLER";
+                }
+              } catch (err) {
+                console.log('ajaxUserInfo error');
+              } finally {
+                this.isLoading = false;
+              }
+            },
+            setPopupFilter: function(idx){
+                this.popup_filter = idx;
+            },
             goPage: function(page){
                 window.location.href = '/mypage/'+page;
             },
+            goSearch: function(e){
+                this.ajaxItemList().then(()=>{
+                    let list = [];
+                    Object.assign(list,this.myProduct_list);
+                    if(this.search_condition_active_idx == 1){
+                        let rst = list.filter(item => item.cit_name.includes(e.target.value));
+                        this.myProduct_list = rst;
+                    }
+                    else if(this.search_condition_active_idx == 2){
+                        let rst = list.filter(item => item.cit_key.includes(e.target.value)); 
+                        this.myProduct_list = rst; 
+                    }
+                    else if(this.search_condition_active_idx == 3){
+                        let rst = list.filter(item => item.hashTag.includes(e.target.value));
+                        this.myProduct_list = rst;
+                    }
+                });
+            },
+            goSearchDate: function(){
+                this.ajaxItemList().then(()=>{
+                    let list = [];
+                    Object.assign(list,this.myProduct_list);
+                    if(this.search_date_option == 0){
+                        let rst = list.filter(item => this.start_date < item.cit_datetime.substr(0,10) 
+                                                    && item.cit_datetime.substr(0,10) < this.end_date);
+                        this.myProduct_list = rst;
+                    }else{
+                        let rst = list.filter(item => this.start_date < item.cit_start_datetime.substr(0,10) 
+                                                    && item.cit_start_datetime.substr(0,10) < this.end_date );
+                        this.myProduct_list = rst;
+                    }
+                });
+            },
+            goTabMenu: function(menu){
+                this.ajaxItemList().then(()=>{
+                    let list = [];
+                    Object.assign(list,this.myProduct_list);
+                    if(menu == 1){
+                        this.myProduct_list = list;
+                        this.search_tabmenu_idx = 1;
+                    }
+                    else if(menu == 2){
+                        let rst = list.filter(item => item.cit_status === '1'); 
+                        this.myProduct_list = rst; 
+                        this.search_tabmenu_idx = 2;
+                    }
+                    else if(menu == 3){
+                        let rst = list.filter(item => item.cit_status === '0');
+                        this.myProduct_list = rst;
+                        this.search_tabmenu_idx = 3;
+                    }
+                });
+            },
+            toggleGMT: function(){
+                if(this.GMT == 1){
+                    this.GMT = 0;
+                }else{
+                    this.GMT = 1;
+                }
+            },
+            goGMTBtn: function(type){
+                if(type=="Apply"){
+                    let list = [];
+                    let rst = [];
+                    Object.assign(list,this.myProduct_list);
+
+                    if(0 < this.selectedGenre.length){
+                        console.log("selectedGenre:"+this.selectedGenre);
+                        rst = list.filter(item => item.genre === this.selectedGenre);
+                    }
+                    if(0 < this.selectedMood.length){
+                        console.log("selectedMood:"+this.selectedMood);
+                        rst = list.filter(item => item.moods === this.selectedMood);
+                    }
+                    if(0 < this.selectedTrackType.length){
+                        console.log("selectedTrackType:"+this.selectedTrackType);
+                        rst = list.filter(item => item.trackType === this.selectedTrackType);
+                    }
+                    console.log(rst);
+                    this.myProduct_list = rst;
+                }else if(type=="Cancel"){
+                    this.selectedGenre = '';
+                    this.selectedMood = '';
+                    this.selectedTrackType = '';
+                    this.ajaxItemList();
+                }
+                this.GMT = 0;
+            },
+            goStartDate: function(e){
+                console.log(this.search_date_option);
+                console.log(e.target.value);
+                this.start_date = e.target.value;
+
+                if(this.start_date == '' || this.end_date == ''){
+                    return ;
+                }else{
+                    this.goSearchDate();
+                }
+            },
+            goEndDate: function(e){
+                console.log(this.search_date_option);
+                console.log(e.target.value);
+                this.end_date = e.target.value;
+
+                if(this.start_date == '' || this.end_date == ''){
+                    return ;
+                }else{
+                    this.goSearchDate();
+                }
+            },
+
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
             },
             calcTag: function(hashTag){
-                var rst='';
-                var tags = hashTag.split(',');
-                for ( var i in tags ) {
+                let rst='';
+                let tags = hashTag.split(',');
+                for ( let i in tags ) {
                     rst = rst + '<span><button >'+ tags[i] + '</button></span>';
                 }
                 return rst;
             },
+            calcFuncTotalCnt(){
+                return this.myProduct_list.length;
+            },
+            calcFuncSellingCnt(){
+                let list = [];
+                Object.assign(list,this.myProduct_list);
+                let rst = list.filter(item => item.cit_status === '1');
+                return rst.length;
+            },
+            calcFuncPendingCnt(){
+                let list = [];
+                Object.assign(list,this.myProduct_list);
+                let rst = list.filter(item => item.cit_status === '0');
+                return rst.length;
+            },
+            setSearchCondition: function(idx){
+                this.search_condition_active_idx = idx;
+            },
             formatCitName: function(data){
-                var rst;
-                var limitLth = 50
+                let rst;
+                let limitLth = 50
                 if(limitLth < data.length && data.length <= limitLth*2){
                     rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2);
                 }else if(limitLth < data.length && limitLth*2 < data.length){
@@ -510,13 +588,15 @@
                 window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
             },
             playAudio(i) {
+                this.myProduct_list = [];
+
                 this.wavesurfer = WaveSurfer.create({
                     container: document.querySelector('#waveform'),
                 });
                 // https://nachwon.github.io/waveform/
                 //http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/d18a3ca0f891d308649a71f5a9834ca7.mp3
                 this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/' + i.cde_filename);
-                this.wavesurfer.on('ready', this.start);
+                //this.wavesurfer.on('ready', this.start);
             },
             start(){
                 this.wavesurfer.play();
