@@ -2508,3 +2508,50 @@ textarea{
     margin:0!important;
   }
 }
+
+.set_complete{
+  .playList__item > * {
+    width:100%;
+    min-width:initial;
+    max-width:initial;
+  }
+
+  .index{
+    min-width:64px;
+    max-width:64px!important;
+  }
+
+  .date{
+    min-width:96px;
+    max-width:96px!important;
+  }
+
+  .totalprice{
+    min-width:128px;
+    max-width:128px!important;
+  }
+
+  .status{
+    width:100%;
+    min-width:initial;
+    max-width:initial!important;
+  }
+
+  .feature{
+    text-align:center;
+    min-width:100px;
+    max-width:100px!important;
+  }
+}
+
+.playList__item{
+
+  .feature{  
+      .btn{
+        width:auto;
+        height:auto;
+        padding:16px 24px;
+      }
+    }
+
+}

@@ -51,7 +51,7 @@
                         </div>
                     </div>
 
-                    <div class="sublist__content" style="margin-bottom:100px;">
+                    <div class="sublist__content">
 
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
