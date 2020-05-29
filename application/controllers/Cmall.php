@@ -745,55 +745,19 @@ class Cmall extends CB_Controller
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before'] = Events::trigger('before', $eventname);
 
-		$this->load->model(array('Cmall_cart_model'));
-
-		if ($this->input->post('chk')) {
-			$cit_id = $this->input->post('chk');
-			$return = $this->cmalllib->cart_to_order(
-				$mem_id,
-				$cit_id
-			);
-			if ($return) {
-				redirect('cmall/order');
-			}
-		}
-
-		$cachename = 'delete_old_cart_cache';
-		$cachetime = 3600;
-		if ( ! $result = $this->cache->get($cachename)) {
-			$days = $this->cbconfig->item('cmall_cart_keep_days')
-				? $this->cbconfig->item('cmall_cart_keep_days') : 14;
-			$cartdays = cdate('Y-m-d H:i:s', ctimestamp() - $days * 86400);
-			$deletewhere = array(
-				'cct_datetime <' => $cartdays,
-			);
-			$this->Cmall_cart_model->delete_where($deletewhere);
-			$this->cache->save($cachename, cdate('Y-m-d H:i:s'), $cachetime);
-		}
-
-
-		/**
-		 * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
-		 */
-		$param =& $this->querystring;
-		$findex = 'cmall_item.cit_id';
-		$forder = 'desc';
-
-		/**
-		 * 게시판 목록에 필요한 정보를 가져옵니다.
-		 */
-		$where = array();
-		$where['cmall_cart.mem_id'] = $mem_id;
-		$result = $this->Cmall_cart_model->get_cart_list($where, $findex, $forder);
-		if ($result) {
-			foreach ($result as $key => $val) {
-				$result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
-				$result[$key]['detail'] = $this->Cmall_cart_model
-					->get_cart_detail($mem_id, element('cit_id', $val));
-			}
-		}
-		$view['view']['data'] = $result;
-		$view['view']['list_delete_url'] = site_url('cmallact/cart_delete/?' . $param->output());
+		$alertmessage = $this->member->is_member()
+			? '회원님은 상품을 구매할 수 있는 권한이 없습니다'
+			: '비회원은 상품을 구매할 수 있는 권한이 없습니다.\\n\\n회원이시라면 로그인 후 이용해 보십시오';
+		$access_buy = $this->cbconfig->item('access_cmall_buy');
+		$access_buy_level = $this->cbconfig->item('access_cmall_buy_level');
+		$access_buy_group = $this->cbconfig->item('access_cmall_buy_group');
+		$this->accesslevel->check(
+			$access_buy,
+			$access_buy_level,
+			$access_buy_group,
+			$alertmessage,
+			''
+		);
 
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);

@@ -848,11 +848,7 @@ class BeatsomeoneApi extends CB_Controller
         }
 
         $this->load->model(array('Cmall_cart_model'));
-
         $chk = json_decode($this->input->post('chk'));
-
-        //log_message('error', print_r($this->input->post(), true));
-        //log_message('error', var_dump($chk, true));
 
         /**
          * 체크한 게시물의 삭제를 실행합니다
@@ -893,19 +889,90 @@ class BeatsomeoneApi extends CB_Controller
         $mem_id = (int) $this->member->item('mem_id');
         $chk = json_decode($this->input->post('chk'));
 
+        $rst = array();
+
         if ($chk) {
             $cit_id = $chk;
             $return = $this->cmalllib->cart_to_order(
                 $mem_id,
                 $cit_id
             );
+            $rst['result'] = $return;
         }
 
-        $result = array();
-        $result['message'] = 'ok';
-        $result['result'] = $return;
+        $rst['message'] = 'ok';
         $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
+        $this->output->set_output(json_encode($rst));
+    }
+
+    public function user_order_list(){
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $this->load->model(array('Cmall_cart_model'));
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $this->load->model('Beatsomeone_model');
+        $config = array(
+            'mem_id' => $mem_id,
+        );
+        $mem_result = $this->Beatsomeone_model->get_user_info($config);
+
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $findex = 'cmall_item.cit_id';
+        $forder = 'desc';
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array();
+        $where['cmall_cart.mem_id'] = $mem_id;
+        $result = $this->Cmall_cart_model->get_order_list($where, $findex, $forder);
+        $good_name = '';
+        $good_count = -1;
+        $session_cct_id = array();
+        if ($result) {
+            foreach ($result as $key => $val) {
+                $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+                $result[$key]['detail'] = $this->Cmall_cart_model
+                    ->get_order_detail($mem_id, element('cit_id', $val));
+                if (empty($good_name)) {
+                    $good_name = element('cit_name', $val);
+                }
+                $good_count ++;
+                $session_cct_id[] = element('cct_id', $val);
+            }
+        }
+
+        $this->load->model('Unique_id_model');
+        $unique_id = $this->Unique_id_model->get_id($this->input->ip_address());
+        if ($good_count > 0) {
+            $good_count .= ' 외 ' . $good_count . '건';
+        }
+        $this->session->set_userdata(
+            'unique_id',
+            $unique_id
+        );
+        $this->session->set_userdata(
+            'order_cct_id',
+            implode('-', $session_cct_id)
+        );
+        
+        $rst = array();
+        $rst['message'] = 'ok';
+        $rst['result'] = $result;
+        $rst['mem_result'] = $mem_result;
+        $rst['good_count'] = $good_count;
+        $rst['good_name'] = $good_name;
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($rst));
     }
 
 }
