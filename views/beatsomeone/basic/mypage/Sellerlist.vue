@@ -370,7 +370,7 @@
                             </div>
                         </div>
 
-                        <div class="row" style="margin-bottom:30px;">
+                        <div class="row" style="margin-bottom:60px;">
                             <div class="pagination">
                                 <div>
                                     <button class="prev active"><img src="/assets/images/icon/chevron_prev.png"/></button>
@@ -389,6 +389,94 @@
                             </div>
                         </div>
 
+                        
+
+                        <div class="row">
+                            <div class="payment_box" style="padding-top:0; padding-bottom:10px; margin-top:0; border:0;">
+                                <div class="tab row">
+                                    <div>
+                                        <div>
+                                            <div class="title big">Settlement detail</div>
+                                        </div>
+                                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                                            <div class="title">Total rental (VAT included)</div>
+                                            <div>$ 120.00</div>
+                                        </div>
+                                        <div>
+                                            <div class="subtitle">- Rent amount</div>
+                                            <div>200</div>
+                                        </div>
+                                        <div>
+                                            <div class="title">Total sales (VAT included)</div>
+                                            <div>$ 120.00</div>
+                                        </div>
+                                        <div>
+                                            <div class="subtitle">- Sales amount</div>
+                                            <div>300</div>
+                                        </div>
+                                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                                            <div class="title">Order total (VAT Included)</div>
+                                            <div>$ 440.00</div>
+                                        </div>
+                                        <div>
+                                            <div class="title">VAT (10%)</div>
+                                            <div class="red">- $ 40.00</div>
+                                        </div>
+                                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                                            <div class="title">Settlement</div>
+                                            <div style="opacity:.7; font-weight:300;">$ 400.00</div>
+                                        </div>
+                                        <div>
+                                            <div class="title">Fee (10%)</div>
+                                            <div class="red">- $ 40.00</div>
+                                        </div>
+                                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                                            <div class="title big">Total settlement</div>
+                                            <div class="blue big">$ 365.00</div>
+                                        </div>
+                                    </div>         
+                                    <div>
+                                        <div class="col">
+                                            <div class="title big">Help</div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        <strong>Total rental: </strong>It means the total purchase amount of the bit registered by the seller with the 'Rental' option. <span class="red">(At this time, the total is calculated as VAT included.)</span>
+                                                    </li>
+                                                    <li>
+                                                        <strong>Rental amount: </strong>It refers to the number of bit purchases registered with the 'Rental' option.
+                                                    </li>
+                                                    <li>
+                                                        <strong>Total Sales: </strong>It refers to the total purchase amount of the bits registered by the seller with the ‘Sale’ option. <span class="red">(In this case, the total is calculated as VAT included.)</span>
+                                                    </li>
+                                                    <li>
+                                                        <strong>Sales volume: </strong>It means the number of purchases of the bit registered with the ‘Sale’ option.
+                                                    </li>
+                                                    <li>
+                                                        <strong>Total purchase: </strong>Total sum of rentals and total sales. <span class="red">(In this case, the total is calculated as VAT included.)</span>
+                                                    </li>
+                                                    <li>
+                                                        <strong>Settlement Amount: </strong>Total purchase price minus VAT.
+                                                    </li>
+                                                    <li>
+                                                        <strong>Fee: </strong>A portion of the fee is deducted based on the settlement amount.
+                                                    </li>
+                                                    <li>
+                                                        <strong>Total settlement: </strong>The amount of the settlement amount minus the fee.
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>             
+                                </div>
+                            </div>
+                            <div class="title-content">
+                                <p>
+                                    - Settlement will be made on the <strong>10th of the following month</strong> based on the downloaded items from the 1st to the last day.<br/>
+                                    - If the user did not proceed with the download after purchase, <strong>both rentals and sales are included in the settlement details <span>after 60 days from the purchase date</span></strong>.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -50,7 +50,7 @@
                         </div>
                     </div>
 
-                    <div class="sublist__content" style="margin-bottom:100px;">
+                    <div class="sublist__content">
                         <div class="row" style="margin-bottom:10px;">
                             <div class="search condition">
                                 <div class="filter">

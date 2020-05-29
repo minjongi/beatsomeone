@@ -408,7 +408,7 @@ section[class*="section"]{
 
 .title-content{
 
-  > *:first-child{
+  > *:not(p):first-child{
     display:flex;
   
     > *{
@@ -444,6 +444,11 @@ section[class*="section"]{
     margin-top:10px;
     line-height:2em;
     color:rgba(255,255,255,.3);
+
+    strong{
+      font-weight:300;
+      color:rgba(255,255,255,.7);
+    }
 
     span{
       color:white;
@@ -2299,6 +2304,7 @@ textarea{
   display:flex;
   border-top:1px solid rgb(255,255,255,.3);
   border-bottom:1px solid rgb(255,255,255,.3);
+  max-width:1090px;
 
   > * {
     width:100%;
@@ -2336,6 +2342,55 @@ textarea{
     font-size:20px;
     padding:30px 40px;
 
+
+    &.row{
+      flex-flow:row nowrap;
+
+      .big {
+        font-size:20px !important;
+      }
+
+      .col{
+        flex-direction:column;
+      }
+
+      > * {
+        height:100%;
+        flex-direction:column;
+
+        > * {
+          display:flex;
+          flex-direction: row;
+          margin:auto;
+        }
+
+        .title, .subtitle{
+          text-align:left;
+        }
+
+        .subtitle{
+          font-weight:300;
+          opacity: .7;
+        }
+
+        .title ~ *, .subtitle ~ *{
+          max-width:max-content;
+          text-align:right;
+        }
+
+        .title, .title ~ *, .subtitle, .subtitle ~ *{
+          width:100%;
+          font-size:16px;
+        }
+
+        & ~ *{
+          margin-left:32px;
+          padding-left:32px;
+          border-left:1px solid rgba(255,255,255,.3);
+        }
+      }
+    } 
+
     &:only-child{
       margin:0;
       width:100%;
@@ -2343,6 +2398,26 @@ textarea{
 
     .title{
       font-size:20px;
+
+      & ~ * > ul{
+        text-align:left;
+        margin-top:30px;
+        font-size:16px;
+        font-weight:300;
+        color:rgba(255,255,255,.7);
+
+        li{
+          line-height:1.5em;
+          & ~ li{
+            margin-top:15px;
+          }
+        }
+
+        strong {
+          font-weight:600;
+          color:white;
+        }
+      }
     }
 
     .total{
