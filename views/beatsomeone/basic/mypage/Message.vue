@@ -39,12 +39,12 @@
                                 <li>Order History</li>
                                 <li v-show="group_title == 'SELLER'">Sales History</li>
                                 <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
+                                <li class="active">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li  class="active" >Support
+                                <li >Support
                                     <ul class="menu">
                                         <li @click="goPage('inquiry')">Support Case</li>
-                                        <li class="active" @click="goPage('faq')">FAQ</li>
+                                        <li @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -57,118 +57,172 @@
                             
                             <div class="title-content">
                                 <div class="title">
-                                    <div>FAQ</div>
-                                </div>
-                                <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
-                                    <input type="text" placeholder="enter your word..." style="font-size:16px;"> 
-                                    <img src="/assets/images/icon/searchicon.png" style="margin:10px;"/>
+                                    <div>Message</div>
                                 </div>
                             </div>
 
                         </div>
 
                         <div class="row" style="margin-bottom:30px;">
-                            <div class="playList board fold faq">
 
-                                <ul>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
+                            <div class="message">
+                                <div>
+                                    <div class="sort">
+                                        <div class="custom-select">
+                                            <button class="selected-option">All</button>
+                                            <div class="options" style="display: block;">
+                                                <button data-value="" class="option"> Read </button>
+                                                <button data-value="" class="option"> Unread </button>
+                                            </div>
+                                        </div>
+                                        <div class="input_wrap line">
+                                            <input type="text" placeholder="Enter your searchword...">
+                                            <button>
+                                                <img src="/assets/images/icon/searchicon.png">
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="playList board fold messageList">
+                                            <ul>
+                                                <li class="playList__itembox">
+                                                    <div class="playList__item playList__item--title nowrap ">
+                                                        <div class="portait">
+                                                            <img src="/assets/images/member_default.png"/>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <div class="user">User_001</div>
+                                                                <div class="date">0000-00-00 00:00:00</div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="body">You recieved a message.</div>
+                                                                <div class="noti">1</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="playList__itembox">
+                                                    <div class="playList__item playList__item--title nowrap ">
+                                                        <div class="portait">
+                                                            <img src="/assets/images/member_default.png"/>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <div class="user">User_001</div>
+                                                                <div class="date">0000-00-00 00:00:00</div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="body">You recieved a message.</div>
+                                                                <div class="noti">1</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="playList__itembox">
+                                                    <div class="playList__item playList__item--title nowrap ">
+                                                        <div class="portait">
+                                                            <img src="/assets/images/member_default.png"/>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <div class="user">User_001</div>
+                                                                <div class="date">0000-00-00 00:00:00</div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="body">You recieved a message.</div>
+                                                                <div class="noti">1</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="playList__itembox">
+                                                    <div class="playList__item playList__item--title nowrap ">
+                                                        <div class="portait">
+                                                            <img src="/assets/images/member_default.png"/>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <div class="user">User_001</div>
+                                                                <div class="date">0000-00-00 00:00:00</div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="body">You recieved a message.</div>
+                                                                <div class="noti">1</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="playList__itembox">
+                                                    <div class="playList__item playList__item--title nowrap ">
+                                                        <div class="portait">
+                                                            <img src="/assets/images/member_default.png"/>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <div class="user">User_001</div>
+                                                                <div class="date">0000-00-00 00:00:00</div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="body">You recieved a message.</div>
+                                                                <div class="noti">1</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="messageChat">
+                                    <div class="head">
+                                        <div class="portait">
+                                            <img src="/assets/images/member_default.png"/>
+                                         </div>
+                                        <div>
+                                            <div class="user">User_001</div>
+                                            <div class="bio">DROP THE NEW BEAT!</div>
+                                        </div>
+                                    </div>
+                                    <div class='body'>
+                                        <div>
+                                            <div class="chatBalloon">
+                                                <div>
+                                                    Hey! I want make beats with you!
+                                                </div>
+                                                <div class="date">2020-04-20 15:53:42</div>
+                                            </div>
+                                             <div class="chatBalloon me">
+                                                <div>
+                                                    Hi, User1!<br/> I love it and so exciting!
+                                                    <button class="btn btn--glass"><img src="/assets/images/icon/file.png">powerfulbeat.mp3</button>
+                                                </div>
+                                                <div class="date">
+                                                    <span class="active">Seen</span>
+                                                    2020-04-20 15:53:42
                                                 </div>
                                             </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
                                         </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                    </div>
 
+                                    <div class="foot">
+                                        <label class="btn btn--glass" for="attachbtn">
+                                            <input type="file" id="attachbtn" style="display:none;">
+                                            <img style="height:24px;" src="/assets/images/icon/file.png"/>
+                                        </label>
+
+                                        <div>
+                                            <div class="input_wrap inputbox unit">
+                                                <input type="text" placeholder="Enter your message...">
+                                            </div>
+                                            <button class="btn btn--blue" style="width:64px;margin-left:-10px;">
+                                                <img src="/assets/images/icon/send.png"/>
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
 

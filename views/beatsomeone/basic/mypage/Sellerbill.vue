@@ -296,24 +296,6 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">10</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="totalprice">$ 400.00</div>
-                                            <div class="totalprice">$ 400.00</div>
-                                            <div class="totalprice red">- $ 10.00</div>
-                                            <div class="totalprice blue">$ 396.00</div>
-                                            <div class="status">
-                                                <div class="blue">Settlement Complete</div>
-                                            </div>
-                                            <div class="feature">
-                                                <button class="btn btn--blue round">View</button>
-                                            </div>
-                                        </div>
-                                    </li>
                                 </ul>
 
                             </div>
