@@ -36,12 +36,12 @@
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
                                 <li @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
                                 <li class="active">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li >Support
+                                <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
                                         <li @click="goPage('inquiry')">Support Case</li>
                                         <li @click="goPage('faq')">FAQ</li>
@@ -86,7 +86,7 @@
                                         <div class="playList board fold messageList">
                                             <ul>
                                                 <li class="playList__itembox">
-                                                    <div class="playList__item playList__item--title nowrap ">
+                                                    <div class="playList__item playList__item--title nowrap active">
                                                         <div class="portait">
                                                             <img src="/assets/images/member_default.png"/>
                                                         </div>

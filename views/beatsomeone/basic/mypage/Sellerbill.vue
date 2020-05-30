@@ -36,10 +36,10 @@
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
                                 <li @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li class="active" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
+                                <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li class="active" v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('message')">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
@@ -56,7 +56,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:64px;">
-                                    <div>Settlement Status (123)</div>
+                                    <div @click="goPage('seller#/')">Settlement Status (123)</div>
                                     <div class="active">Settlement Complete (32)</div>
                                 </div>
                             </div>
@@ -328,6 +328,109 @@
         <div id="waveform" ></div>
         <main-player></main-player>
         -->
+        
+        
+        
+        <div class="panel active">
+            <div class="popup active" style="width:1110px;">
+
+                <div class="box" style="padding-bottom:50px;">
+                    <div class="title" style="margin-bottom:30px;">ACCOUNT SETTING</div>
+
+                    <div class="row">
+                        <div class="type"><span style="margin-top:-4px;">Bank Name<span class="red">*</span></span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="mail" placeholder="Enter your bank name...">
+                                <div class="caution" style="min-width:100%;">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="type"><span style="margin-top:-4px;">Account Number<span class="red">*</span></span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="mail" placeholder="Enter your account number...">
+                                <div class="caution" style="min-width:100%;">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="type"><span style="margin-top:-4px;">Receipent<span class="red">*</span></span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="mail" placeholder="Enter receipent name...">
+                                <div class="caution" style="min-width:100%;">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="type"><span style="margin-top:-4px;">Copy of Account<span class="red">*</span></span></div>
+                        <div class="data">
+                            <label class="btn btn--blue" for="attachbtn">
+                                <input type="file" id="attachbtn" style="display:none;">
+                                <span style="margin:auto; padding:0 15px;">Attach Copy</span>
+                            </label>
+                            <div class="attached active" style="margin-left:20px;">
+                                <div class="btn btn--glass">
+                                    <img src="/assets/images/icon/file.png"/>powerfulbeat.mp3
+                                    <button class="close">
+                                        <img src="/assets/images/icon/x-white.png"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+
+                    
+                    <div class="row">
+                        <div class="title-content">
+                            <p>
+                                - Please upload a file less than 1mb in size to your account copy.<br/>
+                                - Account is only available to the <strong>seller's own account</strong>, and <strong>proof may be required</strong>.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="btnbox" style="text-align:center;">
+                        <button class="btn btn--gray" style="width:208px">Cancel</button>
+                        <button type="submit" class="btn btn--yellow" style="width:208px; margin-left:20px;">Save</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <Footer/>
     </div>
 </template>

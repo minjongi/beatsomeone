@@ -1286,6 +1286,11 @@ ul.menu li{
     margin-top:15px;
     font-weight:600;
     opacity:.7;
+
+    > span{
+      display:inline-block;
+      font-weight:600;
+    }
   }
 
   .data{
@@ -2594,6 +2599,10 @@ textarea{
       align-items: center;
       padding:20px;
 
+      &.active{
+        background:#252629;
+      }
+
       > *{
         display:flex;
         flex-direction: column;
@@ -3052,6 +3061,11 @@ textarea{
       
       .type, .data ~ *{
         max-width:160px;
+      }
+
+      .btn--glass{
+        padding:10px;
+        background:rgba(255,255,255,.1);
       }
 
     }
