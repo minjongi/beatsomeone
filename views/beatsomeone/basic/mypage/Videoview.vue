@@ -1,18 +1,36 @@
 <template>
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
-        <main-player></main-player>
         <div class="container">
             <div class="main">
-                <section class="main__section1">
-                    <div class="BG" style="background-image:url('https://images.unsplash.com/photo-1559060680-36abfac01944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')"></div>
-                    <div class="filter"></div>
-                    <div class="wrap">
-                        <header class="main__section1-title" style="margin-bottom:-80px;"></header>
-
+                <div class="wrap videolist">
+                    <div class="videoview">
+                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                        <div class="desc">
+                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                        </div>
                     </div>
-                    <Footer></Footer>
-                </section>
+                    <div class="block">
+                        <div>
+                            <iframe width="1280" height="720" src="https://www.youtube.com/embed/e5VmOD1Sn04" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <div class="play">
+                                <img src="/assets/images/icon/hover_play.png">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align:center; margin-top:60px;">
+                        <div class="iconbtnbox">
+                            <button><img src="/assets/images/icon/share.png"/></button>
+                            <button><img src="/assets/images/icon/fb.png"/></button>
+                            <button><img src="/assets/images/icon/tw.png"/></button>
+                        </div>
+                        <div class="iconbtnbox">
+                            <button><img src="/assets/images/icon/list.png"/></button>
+                        </div>
+                    </div>
+                </div>
+                <Footer></Footer>
             </div>
         </div>
     </div>
