@@ -5,10 +5,11 @@
         <div class="container">
             <div class="main">
                 <section class="main__section1">
-                    <div class="BG" style=""></div>
+                    <div class="BG" style="background-image:url('https://images.unsplash.com/photo-1559060680-36abfac01944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')"></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <header class="main__section1-title"></header>
+                        <header class="main__section1-title" style="margin-bottom:-80px;"></header>
+
                     </div>
                     <Footer></Footer>
                 </section>

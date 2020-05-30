@@ -12,7 +12,7 @@
                         <div class="videolist">
                             <div class="head">
                                 <div class="block">
-                                    <div>
+                                    <div style="padding-bottom:66.666666%;">
                                         <img src="https://images.unsplash.com/photo-1522536421511-14c9073df899?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"/>
                                         <div class="play">
                                             <img src="/assets/images/icon/hover_play.png">
