@@ -228,7 +228,75 @@
                 </div>
             </div>
         </div>
+
         <div id="waveform" ></div>
+        
+        <div class="panel">
+            <div class="popup" style="width:480px;">
+                <div class="box" style="padding-bottom:50px;">
+                    <div class="title">CHANGE PASSWORD</div>
+                    <p>※ Please enter the password within 8 to 12 characters in English (case sensitive) and numeric combination.</p>
+                    <div class="col">
+                        <div class="type"><span>Current password</span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="password" placeholder="Enter your current password...">
+                                <div class="caution">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="type"><span>New password</span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="password" placeholder="Enter your new password...">
+                                <div class="caution">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="type"><span>New password confirm</span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="password" placeholder="Enter your new password again...">
+                                <div class="caution">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btnbox col">
+                        <button class="btn btn--gray">Cancel</button>
+                        <button type="submit" class="btn btn--blue">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--
         <main-player></main-player>
         -->
