@@ -47,7 +47,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">태그</label>
                 <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control" name="cit_name" value="<?php echo set_value('info_content_7', element('info_content_7', element('data', $view))); ?>"/>
+                    <input type="text" class="form-control" name="info_content_7" value="<?php echo set_value('info_content_7', element('info_content_7', element('data', $view))); ?>"/>
                 </div>
             </div>
 
@@ -127,8 +127,16 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">유통형태</label>
             <div class="col-sm-10">
-                <?= (set_value('cit_lease_license_use', element('cit_lease_license_use', element('data', $view)))) ? '임대,' : ''; ?>
-                <?= (set_value('cit_mastering_license_use', element('cit_mastering_license_use', element('data', $view)))) ? '판매' : ''; ?>
+                <label>
+                    <input type="checkbox" name="cit_lease_license_use" id="cit_lease_license_use" value="1"
+                        <?php echo set_checkbox('cit_lease_license_use', '1', (element('cit_lease_license_use', element('data', $view)) ? true : false)); ?> />
+                    임대
+                </label>
+                <label>
+                    <input type="checkbox" name="cit_mastering_license_use" id="cit_mastering_license_use" value="1"
+                        <?php echo set_checkbox('cit_mastering_license_use', '1', (element('cit_mastering_license_use', element('data', $view)) ? true : false)); ?> />
+                    판매
+                </label>
             </div>
         </div>
         <div class="form-group">
@@ -307,13 +315,6 @@
         <div class="collapse in" id="cmalltab3">
             <input type="hidden" class="form-control" name="cit_price" value="<?php echo set_value('cit_price', element('cit_price', element('data', $view))) ?? 0; ?>"/>
             <div class="form-group">
-                <label class="col-sm-2 control-label">기본설명</label>
-                <div class="col-sm-10">
-                    <textarea class="form-control" name="cit_summary" id="cit_summary" rows="3"><?php echo set_value('cit_summary', element('cit_summary', element('data', $view))); ?></textarea>
-                    <div class="help-block">요약설명을 입력해주세요</div>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-2 control-label">상품유형</label>
                 <div class="col-sm-10">
                     <label for="cit_type1" class="checkbox-inline">
@@ -453,28 +454,12 @@
                 cit_name: 'required',
                 // cit_order: 'required',
                 // cit_price: { required:true, number:true },
-                cit_content: {<?php echo ($this->cbconfig->item('use_cmall_product_dhtml')) ? 'required_' . $this->cbconfig->item('cmall_product_editor_type') : 'required'; ?> :
-        true
-    },
-        cit_mobile_content : {<?php echo ($this->cbconfig->item('use_cmall_product_dhtml')) ? 'valid_' . $this->cbconfig->item('cmall_product_editor_type') : ''; ?> :
-            true
-        }
-    ,
-        header_content : {
-            valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true
-        }
-    ,
-        footer_content : {
-            valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true
-        }
-    ,
-        mobile_header_content : {
-            valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true
-        }
-    ,
-        mobile_footer_content : {
-            valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true
-        }
+			cit_content : {<?php echo ($this->cbconfig->item('use_cmall_product_dhtml')) ? 'required_' . $this->cbconfig->item('cmall_product_editor_type') : 'required'; ?> : true },
+			cit_mobile_content : {<?php echo ($this->cbconfig->item('use_cmall_product_dhtml')) ? 'valid_' . $this->cbconfig->item('cmall_product_editor_type') : ''; ?> : true },
+			header_content : { valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true },
+			footer_content : { valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true },
+			mobile_header_content : { valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true },
+			mobile_footer_content : { valid_<?php echo $this->cbconfig->item('cmall_product_editor_type'); ?> : true }
     },
         submitHandler: function (form) {
 
@@ -530,8 +515,7 @@
 
             form.submit();
         }
-    })
-        ;
     });
+});
     //]]>
 </script>
