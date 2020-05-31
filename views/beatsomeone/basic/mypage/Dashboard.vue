@@ -497,7 +497,7 @@
                                                                     <div class="col name">
                                                                         <figure>
                                                                             <figcaption class="pointer">
-                                                                                <h3 class="playList__title">What is the usage range of my bought bea...</h3>
+                                                                                <h3 class="playList__title" style="height:18px">What is the usage range of my bought bea...</h3>
                                                                                 <span class="playList__by">2020-04-20 15:53:42</span>
                                                                             </figcaption>
                                                                         </figure>
@@ -512,7 +512,7 @@
                                                                     <div class="col name">
                                                                         <figure>
                                                                             <figcaption class="pointer">
-                                                                                <h3 class="playList__title">What is the usage range of my bought bea...</h3>
+                                                                                <h3 class="playList__title" style="height:18px">What is the usage range of my bought bea...</h3>
                                                                                 <span class="playList__by date">2020-04-20 15:53:42</span>
                                                                             </figcaption>
                                                                         </figure>
@@ -527,7 +527,7 @@
                                                                     <div class="col name">
                                                                         <figure>
                                                                             <figcaption class="pointer">
-                                                                                <h3 class="playList__title">What is the usage range of my bought bea...</h3>
+                                                                                <h3 class="playList__title" style="height:18px">What is the usage range of my bought bea...</h3>
                                                                                 <span class="playList__by date">2020-04-20 15:53:42</span>
                                                                             </figcaption>
                                                                         </figure>
