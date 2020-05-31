@@ -2152,6 +2152,7 @@ textarea{
 .cart{
   .playList__item{
     height:auto;
+    min-height:initial;
     max-height:90px;
 
     &.active{
@@ -2181,7 +2182,7 @@ textarea{
     }
 
     .check{
-      margin-top:15px;
+      margin-top:15px!important;
       max-width:96px;
     }
 
