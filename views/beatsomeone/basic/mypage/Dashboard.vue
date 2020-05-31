@@ -502,8 +502,8 @@
                                                                             </figcaption>
                                                                         </figure>
                                                                     </div>
-                                                                    <div class="action">
-                                                                        Read
+                                                                    <div class="action active">
+                                                                        Open
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -518,7 +518,7 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="action">
-                                                                        Read
+                                                                        Closed
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -533,7 +533,7 @@
                                                                         </figure>
                                                                     </div>
                                                                     <div class="action">
-                                                                        Read
+                                                                        Closed
                                                                     </div>
                                                                 </div>
                                                             </li>

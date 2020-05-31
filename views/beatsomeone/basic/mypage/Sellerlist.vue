@@ -106,7 +106,7 @@
                                     <div class="totalprice">Total price</div>
                                     <div class="status">Order Status</div>
                                     <div class="totalprice">Settlement</div>
-                                    <div class="status">Settlement<br/>Status</div>
+                                    <div class="status" style="padding:0">Settlement<br/>Status</div>
                                 </div>
                             </div>
                         </div>

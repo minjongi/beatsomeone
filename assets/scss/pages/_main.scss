@@ -443,7 +443,7 @@ section[class*="section"]{
   p{
     font-size:12px;
     margin-top:10px;
-    line-height:2em;
+    line-height:1.6em;
     color:rgba(255,255,255,.3);
 
     strong{
@@ -591,15 +591,21 @@ section[class*="section"]{
   }
 
   .sort{
-  position:relative;
-  display:inline-block;
+    font-size:12px;
+    position:relative;
+    display:inline-block;
 
     > *{
       display:inline-block;
     }
 
     &.datepicker{
+      font-size:12px;
       display:inline-block!important;
+    }
+
+    .custom-select, .selected-option{
+      font-size:12px;
     }
   }
 
@@ -642,10 +648,14 @@ section[class*="section"]{
     margin:0 8px;
   }
 
-  > input{ width:124px; color:white; font-size:14px; }
+  > input{ width:84px; color:white; font-size:14px; }
   > input::placeholder{
     color:rgba(255,255,255,.3);
-  };
+  }
+
+  > input[type="date"]::placeholder{
+    text-align:center;
+  }
 
   > input[type="date"]::-webkit-inner-spin-button {
     display: none;-webkit-appearance: none;
@@ -982,7 +992,7 @@ section[class*="section"]{
 
   .btnbox button{
     height:48px;
-    font-size:20px;
+    font-size:16px;
   }
 
   .tab_container{
@@ -1690,12 +1700,12 @@ textarea{
   }
 
   .index{
-    max-width:48px;
+    max-width:64px;
   }
 
   .subject{
-    width:100%;
-    max-width:570px;
+    width:200%;
+    max-width:560px!important;
   }
 
   .date{

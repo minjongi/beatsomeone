@@ -59,7 +59,7 @@
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">Keyword</div>
                                 </div>
                                 <div class="wrap">
-                                    <input type="text" placeholder="enter your word..." @keypress.enter="goSearch"> 
+                                    <input type="text" placeholder="Searching product..." @keypress.enter="goSearch"> 
                                     <img src="/assets/images/icon/searchicon.png"/>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                                     <ul class="filter__list">
                                                         <li class="filter__item" v-for="(item, index) in listGenre" :key="'genre' + index" >
                                                             <label :for="'genrefillter'+index" class="checkbox">
-                                                                <input type="radio" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
+                                                                <input type="checkbox" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
                                                                 <span></span><div> {{ item }}</div>
                                                             </label>
                                                         </li>
