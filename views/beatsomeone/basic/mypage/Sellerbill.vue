@@ -342,7 +342,7 @@
                         <div class="data">
                             <div class="input_wrap col">
                                 <input class="inputbox" type="mail" placeholder="Enter your bank name...">
-                                <div class="caution" style="min-width:100%;">
+                                <div class="caution deactive" style="min-width:100%;">
                                     <div>
                                         <img class="caution" src="/assets/images/icon/caution.png">
                                         <img class="warning" src="/assets/images/icon/warning.png">
@@ -361,7 +361,7 @@
                         <div class="data">
                             <div class="input_wrap col">
                                 <input class="inputbox" type="mail" placeholder="Enter your account number...">
-                                <div class="caution" style="min-width:100%;">
+                                <div class="caution deactive" style="min-width:100%;">
                                     <div>
                                         <img class="caution" src="/assets/images/icon/caution.png">
                                         <img class="warning" src="/assets/images/icon/warning.png">
@@ -380,7 +380,7 @@
                         <div class="data">
                             <div class="input_wrap col">
                                 <input class="inputbox" type="mail" placeholder="Enter receipent name...">
-                                <div class="caution" style="min-width:100%;">
+                                <div class="caution deactive" style="min-width:100%;">
                                     <div>
                                         <img class="caution" src="/assets/images/icon/caution.png">
                                         <img class="warning" src="/assets/images/icon/warning.png">

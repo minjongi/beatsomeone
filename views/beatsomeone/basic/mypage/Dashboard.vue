@@ -144,7 +144,7 @@
                                             <div class="title-content">
                                                 <div class="title">
                                                     <div>Order Details</div>
-                                                    <button class="btn btn--glass">more ></button>
+                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
                                                 </div>
                                                 <div class="splitboard">
                                                     <div class="blue">12<span>Buy</span></div>
@@ -156,7 +156,7 @@
                                             <div class="title-content">
                                                 <div class="title">
                                                     <div>Product details</div>
-                                                    <button class="btn btn--glass">more ></button>
+                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
                                                 </div>
                                                 <div class="splitboard">
                                                     <div class="blue">12<span>Total</span></div>
@@ -172,7 +172,7 @@
                                             <div class="title-content">
                                                 <div class="title">
                                                     <div>Order Details</div>
-                                                    <button class="btn btn--glass">more ></button>
+                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
                                                 </div>
                                                 <div class="splitboard">
                                                     <div class="blue">12<span>Buy</span></div>
@@ -184,7 +184,7 @@
                                             <div class="title-content">
                                                 <div class="title">
                                                     <div>Expried soon</div>
-                                                    <button class="btn btn--glass">more ></button>
+                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
                                                 </div>
                                                 <div>
                                                     <div class="slide">
@@ -342,10 +342,20 @@
                                             <div class="title-content">
                                                 <div class="title">
                                                     <div>Recently Listen</div>
-                                                    <button class="btn btn--glass">more ></button>
+                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
                                                 </div>
 
-                                                <div class="topFive">
+                                                <div class="topFive recentListen">
+
+                                                    <div class="trending__slide-item albumItem">
+                                                        <button class="albumItem__cover">
+                                                            <img  src="/assets/images/cover_default.png" alt="music-name" />
+                                                        </button>
+                                                        <a href="#//" class="albumItem__link">
+                                                            <h4 class="albumItem__title">name</h4>
+                                                            <p class="albumItem__singer">seller</p>
+                                                        </a>
+                                                    </div>
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
@@ -409,7 +419,7 @@
                                             <div class="title-content">
                                                 <div class="title">
                                                     <div>Message you received</div>
-                                                    <button class="btn btn--glass">more ></button>
+                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
                                                 </div>
                                                 <div>
                                                     <div class="playList" :class="slide_expired == 0 ? 'active' : ''">
@@ -477,7 +487,7 @@
                                             <div class="title-content">
                                                 <div class="title">
                                                     <div>Support Case</div>
-                                                    <button class="btn btn--glass">more ></button>
+                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
                                                 </div>
                                                 <div>
                                                     <div class="playList" :class="slide_expired == 0 ? 'active' : ''">

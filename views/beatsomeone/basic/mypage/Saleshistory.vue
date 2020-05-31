@@ -74,7 +74,7 @@
                             </div>
                         </div>
                             
-                        <div class="row" style="margin-bottom:20px;">
+                        <div class="row" style="margin-bottom:10px;">
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:96px;">
                                     <div class="splitboard">

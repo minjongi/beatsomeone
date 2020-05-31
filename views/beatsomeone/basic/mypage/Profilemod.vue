@@ -146,19 +146,19 @@
                                     <div class="data">
                                         <label for="type1" class="checkbox">
                                             <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover">
-                                            <span></span> Music Lover
+                                            <span></span><div> Music Lover</div>
                                         </label>
                                         <label for="type2" class="checkbox">
                                             <input type="radio" name="type" hidden="hidden" id="type2" value="Recording Artist">
-                                            <span></span> Recording Artist
+                                            <span></span><div> Recording Artist</div>
                                         </label>
                                         <label for="type3" class="checkbox">
                                             <input type="radio" name="type" hidden="hidden" id="type3" value="Music Producer">
-                                            <span></span> Music Producer
+                                            <span></span><div> Music Producer</div>
                                         </label>
                                         <label for="type4" class="checkbox">
                                             <input type="radio" name="type" hidden="hidden" id="type4" value="Artist/Producer">
-                                            <span></span> Artist/Producer
+                                            <span></span><div> Artist/Producer</div>
                                         </label>
                                     </div>
                                 </div>
@@ -231,8 +231,8 @@
 
         <div id="waveform" ></div>
         
-        <div class="panel">
-            <div class="popup" style="width:480px;">
+        <div class="panel active">
+            <div class="popup active" style="width:560px;">
                 <div class="box" style="padding-bottom:50px;">
                     <div class="title">CHANGE PASSWORD</div>
                     <p>※ Please enter the password within 8 to 12 characters in English (case sensitive) and numeric combination.</p>

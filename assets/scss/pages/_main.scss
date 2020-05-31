@@ -436,6 +436,7 @@ section[class*="section"]{
     > button{
       width:172px;
       height:50px;
+      font-size:16px;
     }
   }
 
@@ -513,6 +514,7 @@ section[class*="section"]{
     }
 
     input{
+      font-size:14px;
       flex: 1;
       color:white;
     }
@@ -555,7 +557,7 @@ section[class*="section"]{
 }
 
 .selected-option{
-  border-radius:8px;
+  border-radius:4px;
 }
 
 .options{
@@ -607,6 +609,10 @@ section[class*="section"]{
 
 }
 
+.sort .btn{
+  font-size:12px;
+}
+
 .datepicker{
   display: flex!important;
   flex-direction: row;
@@ -615,7 +621,7 @@ section[class*="section"]{
   margin-right: 0!important;
   flex-wrap: nowrap!important;
   height:40px;
-  border-radius:8px;
+  border-radius:4px;
   border: 1px solid #414143;
   color:white;
   padding:0 8px;
@@ -662,11 +668,27 @@ section[class*="section"]{
 
 .productList{
 
+  .col{
+    margin-top:0!important;
+  }
+
+  .playList__by{  
+    font-size:14px;  
+    margin-top: 7.5px!important;
+    margin-bottom: 12.5px;
+  }
+
+  .playList__bpm{
+    font-size:12px;
+    color:rgba(255,255,255,.3);
+   }
+
    .playList__item{
     align-items: flex-start;
     padding:20px;
     height:auto;
-    max-height:176px;
+    min-height: 184px;
+    max-height: 184px;
     overflow:hidden;
     transition:.3s ease;
 
@@ -690,7 +712,7 @@ section[class*="section"]{
       figure {
 
         .info{
-          margin-bottom:10px;
+          margin-bottom: 15px;
 
           * {
             display:inline-block;
@@ -718,6 +740,7 @@ section[class*="section"]{
         .playList__cover{
           width:100px;
           height:100px;
+          margin-right:20px;
         }
 
       }
@@ -783,7 +806,7 @@ section[class*="section"]{
 
     .feature{
       margin-top:20px;
-      max-width:128px;
+      max-width:144px;
 
       .playbtn{
         padding:0;
@@ -842,7 +865,7 @@ section[class*="section"]{
 
     .edit{
       margin-top:20px;
-      max-width:max-content;
+      max-width:80px;
 
       .btn-edit{
         margin-top:20px;
@@ -934,6 +957,7 @@ section[class*="section"]{
 
   .tab{
     font-size:16px;
+    min-height:64px;
     border:0;
     border-bottom:1px solid rgba(255,255,255,.1);
     background:none;
@@ -943,7 +967,7 @@ section[class*="section"]{
     }
 
     button{
-      height:48px;
+      height:100%;
     }
 
     .count{
@@ -954,6 +978,11 @@ section[class*="section"]{
       color:#2B2C30;
       background:#FFDA2A;
     }
+  }
+
+  .btnbox button{
+    height:48px;
+    font-size:20px;
   }
 
   .tab_container{
@@ -974,7 +1003,7 @@ section[class*="section"]{
   }
 
   .filter__item{
-    margin-bottom:20px;
+    margin-bottom:25px;
   }
 
   .btnbox{
@@ -1398,7 +1427,7 @@ ul.menu li{
 
     > label{
       span{
-        padding-right:15px;
+        padding-right:16px;
         height:14px;
       }
     }
@@ -1463,6 +1492,7 @@ ul.menu li{
   }
 
   & + .caution{
+    width:100%;
     margin-top:10px;
   }
 
@@ -1551,6 +1581,11 @@ textarea{
   font-weight:300;
   display:flex;
   flex-direction: row;
+
+  &.deactive{
+    max-height:0;
+    overflow: hidden;
+  }
 
   > *:first-child{
     min-width: 15px;
@@ -2146,7 +2181,7 @@ textarea{
     }
 
     .check{
-      margin-top:20px;
+      margin-top:15px;
       max-width:96px;
     }
 
@@ -2485,9 +2520,12 @@ textarea{
     padding:0!important;
   }
 
+  .playList__cover{
+    width:48px!important;
+    height:48px!important;
+  }
+
   .cover{
-    min-width:55px;
-    max-width:55px;
     margin-right:20px;
     text-align: center
   }
@@ -2706,7 +2744,9 @@ textarea{
           transition:.3s ease;
           
           img{
-            height:12px;
+            min-width: 12px;
+            height: 12px;
+            transform: translate(-6px, -6px);
           }
 
           &:hover{
@@ -3185,5 +3225,83 @@ textarea{
     line-height:1.5em;
     margin-top:30px;
     margin-bottom:60px;
+  }
+}
+
+.recentListen{
+  flex-wrap: initial!important;
+
+  .albumItem__link{
+    margin-top:10px;
+    text-align:left;
+  }
+
+  .albumItem__singer{
+    line-height:1em;
+  }
+
+  .albumItem ~ .albumItem{
+      margin-left:32px!important;
+  }
+
+  .albumItem__cover{
+    width:100%!important;
+    height:auto!important;
+  }
+}
+
+.checkbox{
+
+  span{
+    width:20px;
+    height:20px!important;
+    background:transparent;
+    border:1px solid rgba(255,255,255,1)!important;
+    opacity:1!important;
+    border-radius:4px;
+    background-size:0!important;
+    transition:.3s ease;
+  
+    & + div{
+      display:inline-block;
+      color:white;
+      opacity: .7; 
+      transition:.3s ease;
+    }
+  }
+
+  input:checked + span{
+    background-size:initial!important;
+    opacity:1!important;
+    border:1px solid #FFDA2A!important;
+  
+    & + div{
+      color:#FFDA2A;
+      opacity: 1;
+    }
+  }
+
+  input[type="radio"] + span{
+    position:relative;
+    border-radius:20px;
+  }
+
+
+  input[type="radio"]:checked + span{
+    border:1px solid white!important;
+    background:none;
+  }
+
+
+  input[type="radio"]:checked + span:after{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:10px;
+    height:10px;
+    border-radius:10px;
+    background:#FFDA2A;
   }
 }

@@ -105,7 +105,8 @@
                                                           <div class="code">item.cit_key</div>
                                                         </div>
                                                         <h3 class="playList__title">formatCitName(item.cit_name)</h3>
-                                                        <span class="playList__by">(item.bpm)</span>
+                                                        <span class="playList__by">by Sellername</span>
+                                                        <span class="playList__bpm">BPM (item.bpm)</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
