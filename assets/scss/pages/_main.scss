@@ -648,17 +648,69 @@ section[class*="section"]{
     margin:0 8px;
   }
 
-  > input{ width:124px; color:white; font-size:14px; }
+  > input{ width:124px; color:white; font-size:12px; }
   > input::placeholder{
     color:rgba(255,255,255,.3);
   }
 
-  > input[type="date"]::placeholder{
+  > input[type="date"]{
+    position:relative;
     text-align:center;
+
+    &::placeholder{
+      text-align:center;
+    }
+
+    &::-webkit-inner-spin-button {
+      // display: none;-webkit-appearance: none;
+    }
+
+    &[value="dd/mm/yyyy"]:after{
+      content:"End Date";
+      position: absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%, -50%);
+      font-wegiht:300;
+      color:rgba(255,255,255,.7);
+      opacity: 1;
+    }
+
+    &:not([value="dd/mm/yyyy"]):after, &:not([value="DD/MM/YYYY"]):after{
+      opacity: 0;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      position: absolute;
+      top:0;
+      right: 0;
+      width:125%;
+      height:200%;
+      background:transparent;
+      color:transparent;
+      z-index:30;
+      outline:none;
+    }
+
+    &::-webkit-datetime-edit{
+      opacity: 0;
+    }
+
+    &:not([value="dd/mm/yyyy"])::-webkit-datetime-edit, &:not([value="DD/MM/YYYY"])::-webkit-datetime-edit{
+      opacity: 1;
+    }
   }
 
-  > input[type="date"]::-webkit-inner-spin-button {
-    display: none;-webkit-appearance: none;
+  > input[type="date"]:first-child{
+
+    &:after{
+      position: absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%, -50%);
+      content:"Start Date";
+      color:rgba(255,255,255,.7);
+    }
   }
 
   > button { width:auto; min-width:max-content; height:100%; margin:0 8px; }
