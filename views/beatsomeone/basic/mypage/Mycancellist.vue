@@ -2,7 +2,6 @@
 
     <div class="wrapper">
         <Header :is-login="isLogin"/>
-
         <div class="container sub">
             <div class="mypage sublist">
                 <div class="wrap">
@@ -10,20 +9,21 @@
                         <div class="row center">
                             <div class="profile">
                                 <div class="portait">
-                                    <img src="/assets/images/portait.png"/>
+                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
+                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
                                 <div class="info">
                                     <div class="group">
                                         <div class="group_title" :class="group_title">{{group_title}}</div>
                                     </div>
                                     <div class="username">
-                                        DROPBEAT
+                                        {{mem_nickname}}
                                     </div>
                                     <div class="bio">
                                         Music Lover, KKOMA
                                     </div>
                                     <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
+                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
                                     </div>
                                     <div class="brandshop">
                                         <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
@@ -36,135 +36,212 @@
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
                                 <li @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
+                                <li class="active">Order History</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('message')">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li  class="active" >Support
+                                <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
                                         <li @click="goPage('inquiry')">Support Case</li>
-                                        <li class="active" @click="goPage('faq')">FAQ</li>
+                                        <li @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="sublist__content" style="margin-bottom:100px;">
-                        
 
-                        <div class="row" style="margin-bottom:30px;">
-                            
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>FAQ</div>
-                                </div>
-                                <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
-                                    <input type="text" placeholder="enter your word..." style="font-size:16px;"> 
-                                    <img src="/assets/images/icon/searchicon.png" style="margin:10px;"/>
+                    <div class="sublist__content" style="margin-bottom:100px;">
+                        <div class="row" style="margin-bottom:20px;">
+                            <div class="main__media board inquirylist">
+                                <div class="tab" style="height:64px;">
+                                    <div @click="goPage('mybilling')">Order History (123)</div>
+                                    <div class="active">Cancellation / Refund History(32)</div>
                                 </div>
                             </div>
+                        </div>
 
+
+                        <div class="row" style="display:flex; margin-bottom:10px;">
+                            <div class="search condition">
+                                <div class="filter">
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">1 year</div>
+                                </div>
+                            </div>
+                            <div style="margin-left:auto; ">
+                                <div>
+                                    <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
+                                        <input type="date" placeholder="Start Date" />
+                                        <span>─</span>
+                                        <input type="date" placeholder="End Date" />
+                                        <button><img src="/assets/images/icon/calendar-white.png" /></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            
+                        <div class="row" style="display:flex; margin-bottom:30px;">
+                            <div class="tabmenu">
+                            </div>
+                            <div class="sort" style="text-align:right">
+                                <div class="custom-select" style="min-width:max-content;">
+                                    <button class="selected-option">
+                                        Recent
+                                    </button>
+                                    <div class="options">
+                                        <button data-value="" class="option"> Past </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="row" style="margin-bottom:20px;">
+                            <div class="main__media board mybillinglist">
+                                <div class="tab nowrap">
+                                    <div class="index">No</div>
+                                    <div class="date">Date</div>
+                                    <div class="product">Product</div>
+                                    <div class="totalprice">Total price</div>
+                                    <div class="status">Status</div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row" style="margin-bottom:30px;">
-                            <div class="playList board fold faq">
+                            <div class="playList board mybillinglist">
 
                                 <ul>
                                     <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
                                             </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
                                             </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
                                         </div>
                                     </li>
                                     <li class="playList__itembox">
                                         <div class="playList__item playList__item--title nowrap active">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
                                             </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
                                         </div>
                                     </li>
                                     <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
                                             </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
                                         </div>
                                     </li>
                                     <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
                                             </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
                                         </div>
                                     </li>
                                     <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
                                             </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
+                                            </div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
+                                            </div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
+                                            </div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
+                                            </div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="playList__itembox">
+                                        <div class="playList__item playList__item--title nowrap active">
+                                            <div class="index">Order_010</div>
+                                            <div class="date">
+                                                0000-00-00 00:00:00
+                                            </div>
+                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="status">
+                                                <div class="red">Refund Complete</div>
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>
@@ -172,16 +249,36 @@
                             </div>
                         </div>
 
+                        <div class="row" style="margin-bottom:30px;">
+                            <div class="pagination">
+                                <div>
+                                    <button class="prev active"><img src="/assets/images/icon/chevron_prev.png"/></button>
+                                    <button class="active">1</button>
+                                    <button>2</button>
+                                    <button>3</button>
+                                    <button>4</button>
+                                    <button>5</button>
+                                    <button>6</button>
+                                    <button>7</button>
+                                    <button>8</button>
+                                    <button>9</button>
+                                    <button>10</button>
+                                    <button class="next active"><img src="/assets/images/icon/chevron_next.png"/></button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-        <div id="waveform" ></div>
         <!--
+        <div id="waveform" ></div>
         <main-player></main-player>
         -->
         <Footer/>
     </div>
+
 </template>
 
 
@@ -189,13 +286,6 @@
     require('@/assets/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
-    import Loader from '*/vue/common/Loader'
-    import axios from 'axios'
-    import Index_Items from "../Index_Items"
-    import KeepAliveGlobal from "vue-keep-alive-global"
-    import flatPickr from 'vue-flatpickr-component';
-    import 'flatpickr/dist/flatpickr.css';
-    import FileUpload from 'vue-simple-upload/dist/FileUpload'
 
     import $ from "jquery";
     import { EventBus } from '*/src/eventbus';
@@ -204,6 +294,9 @@
     import WaveSurfer from 'wavesurfer.js';
 
     export default {
+        components: {
+            Header, Footer
+        },
         data: function() {
             return {
                 isLogin: false,
@@ -283,5 +376,4 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    @import '/assets/plugins/flatpickr/flatpickr.css';
 </style>

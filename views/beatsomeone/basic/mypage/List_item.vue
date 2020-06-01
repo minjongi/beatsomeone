@@ -34,11 +34,11 @@
                             <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
-                                <li class="active" @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
+                                <li class="active">Product List</li>
+                                <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('message')">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
 
-                    <div class="sublist__content" style="margin-bottom:100px;">
+                    <div class="sublist__content">
                         <div class="row" style="margin-bottom:10px;">
                             <div class="search condition">
                                 <div class="filter">
@@ -59,7 +59,7 @@
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">Keyword</div>
                                 </div>
                                 <div class="wrap">
-                                    <input type="text" placeholder="enter your word..." @keypress.enter="goSearch"> 
+                                    <input type="text" placeholder="Searching product..." @keypress.enter="goSearch"> 
                                     <img src="/assets/images/icon/searchicon.png"/>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                             <div>
                                 <div class="sort">
                                     <span>{{ $t('sortBy') }}</span>
-                                    <div class="custom-select" :class="GMT == 1 ? 'active' : ''" style="width:initial;">
+                                    <div class="custom-select" :class="GMT == 1 ? 'active' : ''" style="width:initial; border-radius:8px;">
                                         <button class="selected-option" @click="toggleGMT">
                                             Genre / Mood / Track Type
                                         </button>
@@ -89,8 +89,8 @@
                                                     <ul class="filter__list">
                                                         <li class="filter__item" v-for="(item, index) in listGenre" :key="'genre' + index" >
                                                             <label :for="'genrefillter'+index" class="checkbox">
-                                                                <input type="radio" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
-                                                                <span></span>{{ item }}
+                                                                <input type="checkbox" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
+                                                                <span></span><div> {{ item }}</div>
                                                             </label>
                                                         </li>
                                                         <!--
@@ -109,7 +109,7 @@
                                                         <li class="filter__item" v-for="(item, index) in listMoods" :key="'mood' + index" >
                                                             <label :for="'moodfillter'+index" class="checkbox">
                                                                 <input type="radio" hidden="hidden" :id="'moodfillter'+index" :value="item" v-model="selectedMood">
-                                                                <span></span>{{ item }}
+                                                                <span></span><div>{{ item }}</div>
                                                             </label>
                                                         </li>
                                                     </ul>
@@ -120,7 +120,7 @@
                                                         <li class="filter__item" v-for="(item, index) in listTrackType" :key="'track' + index" >
                                                             <label :for="'trackfillter'+index" class="checkbox">
                                                                 <input type="radio" hidden="hidden" :id="'trackfillter'+index" :value="item" v-model="selectedTrackType">
-                                                                <span></span>{{ item }}
+                                                                <span></span><div> {{ item }}</div>
                                                             </label>
                                                         </li>
                                                     </ul>
@@ -129,7 +129,7 @@
                                             <div>
                                                 <div class="btnbox col">
                                                     <button class="btn btn--gray" @click="goGMTBtn('Cancel')"> Cancel </button>
-                                                    <button type="submit" class="btn btn--submit" @click="goGMTBtn('Apply')" > Apply </button>
+                                                    <button type="submit" class="btn btn--submit" @click="goGMTBtn('Apply')"> Apply </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -158,7 +158,7 @@
                             <div class="playList productList">
                                 <ul>
                                     <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
-                                        <div class="playList__item playList__item--title active">
+                                        <div class="playList__item playList__item--title">
                                             <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
                                             <div class="col name">
                                                 <figure>
@@ -176,23 +176,31 @@
                                                           <div class="code">{{ item.cit_key }}</div>
                                                         </div>
                                                         <h3 class="playList__title">{{ formatCitName(item.cit_name)  }}</h3>
-                                                        <span class="playList__by"> ( {{ item.bpm }} )</span>
+                                                        <span class="playList__by">by Sellername</span>
+                                                        <span class="playList__bpm">BPM {{ item.bpm }}</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
                                             <div class="col option">
                                                 <div>
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
+<!--                                                     <div>
+                                                        <div class="title">BASIC LEASE</div>
+                                                        <div class="detail">MP3 or WAV</div>
+                                                    </div> -->
                                                     <div>
                                                         <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
                                                         <div class="detail">MP3 or WAV + STEMS</div>
                                                     </div>
-                                                </div>
+                                                </div><!-- 
                                                 <div class="option_item">
                                                     <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
                                                     <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
                                                     <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>No other activities not authorized by the platform</span></div>
+                                                    <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                </div> -->
+                                                <div class="option_item">
+                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
                                                 </div>
                                             </div>
                                             <div class="col feature">
@@ -245,8 +253,8 @@
                                                 <div>
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
-                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
-                                                        <div class="detail">MP3 or WAV + STEMS</div>
+                                                        <div class="title">BASIC LEASE</div>
+                                                        <div class="detail">MP3 or WAV</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">

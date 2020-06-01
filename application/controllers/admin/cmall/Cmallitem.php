@@ -24,7 +24,7 @@ class Cmallitem extends CB_Controller
 	/**
 	 * 모델을 로딩합니다
 	 */
-	protected $models = array('Cmall_item', 'Cmall_item_meta', 'Cmall_item_detail', 'Cmall_category', 'Cmall_category_rel','Cmall_item_relation');
+	protected $models = array('Cmall_item', 'Cmall_item_meta', 'Cmall_item_detail', 'Cmall_category', 'Cmall_category_rel','Cmall_item_relation', 'Member');
 
 	/**
 	 * 이 컨트롤러의 메인 모델 이름입니다
@@ -143,7 +143,17 @@ class Cmallitem extends CB_Controller
 		/**
 		 * 쓰기 주소, 삭제 주소등 필요한 주소를 구합니다
 		 */
-		$search_option = array('cit_key' => '상품코드', 'cit_name' => '상품명', 'cit_content' => '상품내용', 'cit_mobile_content' => '모바일상품내용', 'cit_datetime' => '입력일', 'cit_updated_datetime' => '최종수정일', 'cit_price' => '판매가격');
+//		$search_option = array('cit_key' => '상품코드', 'cit_name' => '상품명', 'cit_content' => '상품내용', 'cit_mobile_content' => '모바일상품내용', 'cit_datetime' => '입력일', 'cit_updated_datetime' => '최종수정일', 'cit_price' => '판매가격');
+        $search_option = [
+            'cit_key' => '상품코드',
+            'cit_name' => '트랙명',
+            'seller_mem_userid' => '회원아이디',
+//            'cit_mobile_content' => '판매자실명',
+//            'cit_datetime' => '판매자이메일',
+//            'cit_updated_datetime' => '장르',
+//            'cit_price' => '무드'
+        ];
+
 		$view['view']['skeyword'] = ($sfield && array_key_exists($sfield, $search_option)) ? $skeyword : '';
 		$view['view']['search_option'] = search_option($search_option, $sfield);
 		$view['view']['listall_url'] = admin_url($this->pagedir);
@@ -245,6 +255,8 @@ class Cmallitem extends CB_Controller
             );
 			$relation = $this->Cmall_item_relation_model->get_relation_list($rconfig);
             $getdata['relation'] = $relation;
+
+            $getdata['sellerInfo'] = $this->Member_model->get_by_userid(element('seller_mem_userid', $getdata));
 		} else {
 			// 기본값 설정
 			$getdata['cit_key'] = time();
@@ -723,6 +735,8 @@ class Cmallitem extends CB_Controller
                 );
                 $relation = $this->Cmall_item_relation_model->get_relation_list($rconfig);
                 $getdata['relation'] = $relation;
+
+                $getdata['sellerInfo'] = $this->Member_model->get_by_userid(element('seller_mem_userid', $getdata));
 			}
 			//.............
 			$view['view']['data'] = $getdata;
@@ -800,7 +814,8 @@ class Cmallitem extends CB_Controller
 				'cit_price' => $cit_price,
 				'cit_updated_datetime' => cdate('Y-m-d H:i:s'),
 				'cit_download_days' => $cit_download_days,
-
+                'cit_lease_license_use' => $this->input->post('cit_lease_license_use', null, ''),
+                'cit_mastering_license_use' => $this->input->post('cit_mastering_license_use', null, ''),
 			);
 
 			if($cit_status && !element('cit_start_datetime', $getdata)) {

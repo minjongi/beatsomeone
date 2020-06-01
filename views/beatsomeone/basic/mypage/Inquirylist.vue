@@ -36,14 +36,14 @@
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
                                 <li @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
+                                <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('message')">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li class="active">Support
                                     <ul class="menu">
-                                        <li class="active" @click="goPage('inquiry')">Support Case</li>
+                                        <li class="active">Support Case</li>
                                         <li @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>
@@ -262,13 +262,6 @@
     require('@/assets/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
-    import Loader from '*/vue/common/Loader'
-    import axios from 'axios'
-    import Index_Items from "../Index_Items"
-    import KeepAliveGlobal from "vue-keep-alive-global"
-    import flatPickr from 'vue-flatpickr-component';
-    import 'flatpickr/dist/flatpickr.css';
-    import FileUpload from 'vue-simple-upload/dist/FileUpload'
 
     import $ from "jquery";
     import { EventBus } from '*/src/eventbus';
@@ -277,6 +270,9 @@
     import WaveSurfer from 'wavesurfer.js';
 
     export default {
+        components: {
+            Header, Footer
+        },
         data: function() {
             return {
                 isLogin: false,
@@ -334,5 +330,4 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    @import '/assets/plugins/flatpickr/flatpickr.css';
 </style>
