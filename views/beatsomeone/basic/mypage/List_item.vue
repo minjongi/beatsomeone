@@ -108,7 +108,7 @@
                                                     <ul class="filter__list">
                                                         <li class="filter__item" v-for="(item, index) in listMoods" :key="'mood' + index" >
                                                             <label :for="'moodfillter'+index" class="checkbox">
-                                                                <input type="radio" hidden="hidden" :id="'moodfillter'+index" :value="item" v-model="selectedMood">
+                                                                <input type="checkbox" hidden="hidden" :id="'moodfillter'+index" :value="item" v-model="selectedMood">
                                                                 <span></span><div>{{ item }}</div>
                                                             </label>
                                                         </li>
@@ -119,7 +119,7 @@
                                                     <ul class="filter__list">
                                                         <li class="filter__item" v-for="(item, index) in listTrackType" :key="'track' + index" >
                                                             <label :for="'trackfillter'+index" class="checkbox">
-                                                                <input type="radio" hidden="hidden" :id="'trackfillter'+index" :value="item" v-model="selectedTrackType">
+                                                                <input type="checkbox" hidden="hidden" :id="'trackfillter'+index" :value="item" v-model="selectedTrackType">
                                                                 <span></span><div> {{ item }}</div>
                                                             </label>
                                                         </li>
