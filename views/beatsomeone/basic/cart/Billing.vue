@@ -184,15 +184,15 @@
                                         </div>
                                         <div>
                                             <label class="checkbox" for="method1">
-                                                <input type="radio" name="method" id="method1" hidden="hidden" >
+                                                <input type="radio" name="method" id="method1" hidden="hidden" @change="chgPayMethod(1)">
                                                 <div class="btn btn--yellow" style="height:48px"><div class="icon credit"></div><div>Credit</div></div>
                                             </label>
                                             <label class="checkbox" for="method2">
-                                                <input type="radio" name="method" id="method2" hidden="hidden" >
+                                                <input type="radio" name="method" id="method2" hidden="hidden" @change="chgPayMethod(2)">
                                                 <div class="btn btn--yellow" style="height:48px"><div class="icon wire"></div><div>Wire</div></div>
                                             </label>
                                             <label class="checkbox" for="method3">
-                                                <input type="radio" name="method" id="method3" hidden="hidden" >
+                                                <input type="radio" name="method" id="method3" hidden="hidden" @change="chgPayMethod(3)">
                                                 <div class="btn btn--yellow" style="height:48px"><div class="icon paypal"></div><div>PayPal</div></div>
                                             </label>
                                         </div>
@@ -262,7 +262,8 @@
                 myMember: [],
                 totalPrice: "00.00",
                 point: 0,
-                usePoint:0,
+                usePoint: 0,
+                payMethod: 0,
             };
         },
         mounted(){
@@ -299,7 +300,20 @@
                 window.location.href = '/cmall/cart';
             },
             goPay: function(e){
-                console.log('gopay');
+                if((this.totalPrice - this.usePoint) <= 0){
+                    alert("결제 금액을 확인해주세요");
+                    return;
+                }
+                if(this.payMethod == 0){
+                    alert("결제 방법을 선택해주세요");
+                    return;
+                }
+
+                console.log("gopay");
+                window.location.href = '/cmall/complete';
+            },
+            chgPayMethod: function(idx){
+                this.payMethod = idx;
             },
             calcTotalPrice: function(){
                 let tp = 0.0;
