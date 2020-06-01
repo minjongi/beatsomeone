@@ -12,6 +12,7 @@
     "amplitudejs": "^5.0.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "vue-flatpickr-component": "^8.1.2",
     "jquery": "^3.5.0",
     "jsdom": "^16.2.1",
     "location": "0.0.1",
@@ -22,16 +23,15 @@
     "vee-validate": "^3.2.5",
     "velocity-animate": "^1.5.2",
     "vue": "^2.6.11",
-    "vue-cli": "^2.9.6",
-    "vue-cookies": "^1.7.0",
     "vue-flatpickr-component": "^8.1.2",
-    "vue-i18n": "^8.17.0",
     "vue-infinite-scroll": "^2.0.2",
     "vue-keep-alive-global": "^0.1.1",
     "vue-router": "^3.1.6",
     "vue-simple-upload": "^0.1.6",
     "wavesurfer.js": "^3.3.2",
-    "xmlhttprequest": "^1.8.0"
+    "xmlhttprequest": "^1.8.0",
+    "vue-cookies": "^1.7.0",
+    "vue-i18n": "^8.17.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",
