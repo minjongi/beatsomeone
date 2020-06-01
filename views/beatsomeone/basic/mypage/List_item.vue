@@ -362,9 +362,9 @@
                 listGenre: window.genre,
                 listMoods: window.moods,
                 listTrackType: window.trackType,
-                selectedGenre: '',
-                selectedMood: '',
-                selectedTrackType: '',
+                selectedGenre: [],
+                selectedMood: [],
+                selectedTrackType: [],
 
             };
         },
@@ -507,22 +507,22 @@
 
                     if(0 < this.selectedGenre.length){
                         console.log("selectedGenre:"+this.selectedGenre);
-                        rst = list.filter(item => item.genre === this.selectedGenre);
+                        rst = list.filter(item => this.selectedGenre.includes(item.genre));
                     }
                     if(0 < this.selectedMood.length){
                         console.log("selectedMood:"+this.selectedMood);
-                        rst = list.filter(item => item.moods === this.selectedMood);
+                        rst = list.filter(item => this.selectedMood.includes(item.moods));
                     }
                     if(0 < this.selectedTrackType.length){
                         console.log("selectedTrackType:"+this.selectedTrackType);
-                        rst = list.filter(item => item.trackType === this.selectedTrackType);
+                        rst = list.filter(item => this.selectedTrackType.includes(item.trackType));
                     }
                     console.log(rst);
                     this.myProduct_list = rst;
                 }else if(type=="Cancel"){
-                    this.selectedGenre = '';
-                    this.selectedMood = '';
-                    this.selectedTrackType = '';
+                    this.selectedGenre = [];
+                    this.selectedMood = [];
+                    this.selectedTrackType = [];
                     this.ajaxItemList();
                 }
                 this.GMT = 0;
