@@ -176,7 +176,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="payment_box">
+                            <div class="payment_box" style="max-width:initial!important">
                                 <div>
                                     <div class="title-content">
                                         <div div class="title">
@@ -185,15 +185,15 @@
                                         <div>
                                             <label class="checkbox" for="method1">
                                                 <input type="radio" name="method" id="method1" hidden="hidden" @change="chgPayMethod(1)">
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon credit"></div><div>Credit</div></div>
+                                                <div class="btn btn--yellow" style="height:48px"><div class="icon credit"></div><div style="font-size:14px;">Credit</div></div>
                                             </label>
                                             <label class="checkbox" for="method2">
                                                 <input type="radio" name="method" id="method2" hidden="hidden" @change="chgPayMethod(2)">
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon wire"></div><div>Wire</div></div>
+                                                <div class="btn btn--yellow" style="height:48px"><div class="icon wire"></div><div style="font-size:14px;">Wire</div></div>
                                             </label>
                                             <label class="checkbox" for="method3">
                                                 <input type="radio" name="method" id="method3" hidden="hidden" @change="chgPayMethod(3)">
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon paypal"></div><div>PayPal</div></div>
+                                                <div class="btn btn--yellow" style="height:48px"><div class="icon paypal"></div><div style="font-size:14px;">PayPal</div></div>
                                             </label>
                                         </div>
                                     </div>
