@@ -195,7 +195,13 @@
                                                 </div>
                                             </div>
                                              <div class="chatBalloon me">
-                                                <div>Hi, User1!<br/> I love it and so exciting!<button class="btn btn--glass"><img src="/assets/images/icon/file.png"/>powerfulbeat.mp3</button>
+                                                <div>
+                                                    Hi, User1!
+                                                    <br/>
+                                                    I love it and so exciting!
+                                                    <button class="btn btn--glass">
+                                                        <img src="/assets/images/icon/file.png"/>powerfulbeat.mp3
+                                                    </button>
                                                 </div>
                                                 <div class="date">
                                                     <span class="active">Seen</span>
