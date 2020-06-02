@@ -28,7 +28,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">판매자 정보</label>
                 <div class="col-sm-10 form-inline">
-                    <!--                        <input type="text" class="form-control" name="seller_mem_userid" value="--><?php //echo set_value('seller_mem_userid', element('seller_mem_userid', element('data', $view))); ?><!--" disabled />-->
+                    <input type="hidden" name="seller_mem_userid" value="<?php echo set_value('seller_mem_userid', element('seller_mem_userid', element('data', $view))); ?>"/>
                     <?php
                     echo element('seller_mem_userid', element('data', $view)) . ' / ';
                     echo element('mem_email', element('sellerInfo', element('data', $view))) . ' / ';
@@ -438,7 +438,7 @@
             </script>
         </div>
         <div class="btn-group pull-right" role="group" aria-label="...">
-            <button type="button" class="btn btn-default btn-sm btn-history-back">목록으로</button>
+            <button type="button" class="btn btn-default btn-sm" onclick="location.href='/admin/cmall/cmallitem?<?= 'sfield=' . $this->input->get('sfield') . '&skeyword=' . $this->input->get('skeyword') . '&page=' . $this->input->get('page') ?>';">목록으로</button>
             <button type="submit" class="btn btn-success btn-sm">저장하기</button>
         </div>
         <?php echo form_close(); ?>
