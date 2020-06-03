@@ -22,7 +22,7 @@
                             </div>
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"><div class="number">3</div>Selected Items</div>
+                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"><div class="number">{{ selectedItems }}</div>Selected Items</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
@@ -266,6 +266,7 @@
                 payMethod: 0,
                 unique_id: 0,
                 cor_id:'',
+                selectedItems:0,
             };
         },
         mounted(){
@@ -291,6 +292,7 @@
                     console.log(d.cit_start_datetime);
                 });*/
                 this.myOrder_list = data.result;
+                this.selectedItems = this.myOrder_list.length;
                 this.myMember = data.mem_result;
                 this.unique_id = data.unique_id;
                 console.log(this.unique_id);

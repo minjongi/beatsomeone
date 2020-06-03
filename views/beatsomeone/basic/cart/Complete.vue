@@ -1,7 +1,6 @@
 <template>
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
-        <main-player></main-player>
         <div class="container">
             <div class="main">
                 <section class="main__section1" style="margin-bottom:160px;">
@@ -23,22 +22,23 @@
                             </div> -->
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"> Ordered <div class="number" style="margin-left:8px;">3</div> Items</div>
+                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"> Ordered <div class="number" style="margin-left:8px;">{{ cntOrderItems }}</div> Items</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
                                 <ul>
-                                    <li class="playList__itembox">
+                                    <li v-for="(rst, i) in orderResultList" v-bind:key="rst.cit_id" class="playList__itembox" :id="'playList__item'+ rst.cit_id">
                                         <div class="playList__item playList__item--title">
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <img src="/assets/images/cover_default.png" alt="">
+                                                        <!-- <img src="/assets/images/cover_default.png" alt=""> -->
+                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + rst.item.cit_file_1" alt="">
                                                         <i ng-if="item.isNew" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
+                                                        <h3 class="playList__title"> {{ formatCitName(rst.item.cit_name) }} </h3>
+                                                        <span class="playList__by"> ( {{ rst.item.bpm }} ) BPM</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
@@ -59,12 +59,12 @@
                                             </div>
                                             <div class="col feature">
                                                 <div class="price">
-                                                    $ 10.00
+                                                    $ {{ rst.item.cit_price }}
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
-
+                                    <!--
                                     <li class="playList__itembox">
                                         <div class="playList__item playList__item--title active">
                                             <div class="col name">
@@ -169,12 +169,13 @@
                                             </div>
                                         </div>
                                     </li>
+                                -->
                                 </ul>
                             </div>
                         </div>
                         <div class="row">
                             <div class="title">Your order information</div>
-                            <div class="payment_box" style="padding-top:0; padding-bottom:30px; margin-top:0; border:0;">
+                            <div class="payment_box" style="max-width:initial!important;padding-top:0; padding-bottom:30px; margin-top:0; border:0;">
                                 <div class="tab">
                                     <div>
                                         <div class="title">Method</div>
@@ -182,15 +183,15 @@
                                     </div>
                                     <div>
                                         <div class="title">Subtotal</div>
-                                        <div>$ 30.00</div>
+                                        <div>$ {{ totalPrice }}</div>
                                     </div>
                                     <div>
                                         <div class="title">Points</div>
-                                        <div>300 P</div>
+                                        <div>0 P</div>
                                     </div>
                                     <div class="total">
                                         <div>Total</div>
-                                        <div>$ 27.00</div>
+                                        <div>$ {{ totalPrice - point }}</div>
                                     </div>                           
                                 </div>
                             </div>
@@ -200,8 +201,8 @@
                         </div>
 
                         <div class="btnbox col" style="width:50%; margin:0 auto 100px;">
-                            <button class="btn btn--gray">Back</button>
-                            <button type="submit" class="btn btn--submit">Pay</button>
+                            <button class="btn btn--gray" @click="goMain">Go to main</button>
+                            <button type="submit" class="btn btn--submit" @click="goOrderHistory">Order History</button>
                         </div>
                     </div>
 
@@ -218,58 +219,55 @@
     import Footer from "../include/Footer"
     import Loader from '*/vue/common/Loader'
     import axios from 'axios'
-    import Index_Items from "../Index_Items"
-    import KeepAliveGlobal from "vue-keep-alive-global"
-    import flatPickr from 'vue-flatpickr-component';
-    import 'flatpickr/dist/flatpickr.css';
-    import FileUpload from 'vue-simple-upload/dist/FileUpload'
-
-    import $ from "jquery";
-    import { EventBus } from '*/src/eventbus';
-    import Velocity from "velocity-animate";
-    //import MainPlayer from "@/vue/common/MainPlayer";
-    import WaveSurfer from 'wavesurfer.js';
 
     export default {
+        components: {
+            Header, Footer
+        },
         data: function() {
             return {
                 isLogin: false,
-                group_title: 'SELLER',
-                product_status: 'PENDING',
-                popup_filter:0,
-                ws: null,
-                isPlay: false,
-                isReady: false,
-                wavesurfer: null,
+                orderResultList: [],
+                cor_id: '',
+                cntOrderItems: 0,
+                totalPrice: 0,
+                point: 0,
             };
         },
         mounted(){
-                        // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
 
-                $(this)
-                    .siblings(".custom-select")
-                    .removeClass("active")
-                    .find(".options")
-                    .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
-            });
         },
-        created() {
-                Http.get('/beatsomeoneApi/get_user_regist_item_list').then(r => {
-                    console.log(r.data);
-                    this.myProduct_list = r.data;
-                });
+        created() { 
+            this.getCorId();
+            this.ajaxOrderResultList();
+
         },
         methods:{
-            goPage: function(page){
-                window.location.href = '/mypage/'+page;
+            async ajaxOrderResultList () {
+              try {
+                this.isLoading = true;
+                var param = new FormData();
+                param.append('cor_id', JSON.stringify(this.cor_id));
+                const { data } = await axios.post(
+                  '/beatsomeoneApi/user_order_result', param,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                //console.log(data);
+                this.orderResultList = data.orderdetail;
+                this.cntOrderItems = this.orderResultList.length;
+                this.calcTotalPrice();
+              } catch (err) {
+                console.log('ajaxOrderCompleteList error');
+              } finally {
+                this.isLoading = false;
+              }
             },
-            calcSeq: function(size, i){
-                return parseInt(size) - parseInt(i);
+            getCorId: function(){
+                let uri = window.location.search.substring(1); 
+                let params = new URLSearchParams(uri);
+                this.cor_id = params.get('cor_id');
             },
             formatCitName: function(data){
                 var rst;
@@ -283,20 +281,18 @@
                 }
                 return rst;
             },
-            productEditBtn: function(key){
-                console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+            calcTotalPrice: function(){
+                let tp = 0.0;
+                for(let i in this.orderResultList){
+                    tp += Number(this.orderResultList[i].item.cit_price);
+                }
+                this.totalPrice = tp;
             },
-            playAudio(i) {
-                this.wavesurfer = WaveSurfer.create({
-                    container: document.querySelector('#waveform'),
-                });
-                // https://nachwon.github.io/waveform/
-                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/cb40bdf9165462c6351ebd82abedb1d6.mp3');
-                this.wavesurfer.on('ready', this.start);
+            goMain: function(e){
+                window.location.href = '/';
             },
-            start(){
-                this.wavesurfer.play();
+            goOrderHistory: function(e){
+                window.location.href = '/mypage/mybilling';
             },
         }
     }

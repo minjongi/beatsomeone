@@ -1146,4 +1146,57 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($rst));
     }
 
+
+    public function user_order_result(){
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+        $mem_id = (int) $this->member->item('mem_id');
+        //log_message('error', var_dump($this->input->post(), true) );
+        $cor_id = $this->input->post("cor_id");
+
+        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+
+        $order = $this->Cmall_order_model->get_one($cor_id);
+        $orderdetail = $this->Cmall_order_detail_model->get_by_item($cor_id);
+        if ($orderdetail) {
+            foreach ($orderdetail as $key => $value) {
+                $orderdetail[$key]['item'] = $item
+                    = $this->Cmall_item_model->get_one(element('cit_id', $value));
+                $orderdetail[$key]['itemdetail'] = $itemdetail
+                    = $this->Cmall_order_detail_model
+                    ->get_detail_by_item($cor_id, element('cit_id', $value));
+
+                $orderdetail[$key]['item']['possible_download'] = 1;
+                if (element('cod_download_days', element(0, $itemdetail)) && element('cor_approve_datetime', $order)) {
+                    $endtimestamp = strtotime(element('cor_approve_datetime', $order))
+                        + 86400 * element('cod_download_days', element(0, $itemdetail));
+                    $orderdetail[$key]['item']['download_end_date'] = $enddate
+                        = cdate('Y-m-d', $endtimestamp);
+
+                    $orderdetail[$key]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                }
+            }
+        }
+        if (element('cor_status', $order) === '1') {
+            $this->session->set_userdata(
+                'cmall_item_download_' . element('cor_id', $order),
+                '1'
+            );
+        }
+
+
+        $rst = array();
+        $rst['message'] = 'ok';
+        $rst['cor_id'] = $cor_id;
+        $rst['order'] = $order;
+        $rst['orderdetail'] = $orderdetail;
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($rst));
+    }
+
+
 }

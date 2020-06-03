@@ -834,7 +834,7 @@ class Cmall extends CB_Controller
 		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
 
 
-		log_message('error', var_dump($this->input->get(), true) );
+		//log_message('error', var_dump($this->input->get(), true) );
 		$cor_id = $this->input->get("cor_id");
 		if (empty($cor_id) OR $cor_id < 1) {
 			alert('잘못된 접근입니다');
