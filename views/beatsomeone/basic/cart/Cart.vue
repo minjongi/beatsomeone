@@ -27,7 +27,7 @@
                                 <div class="title">
                                     <label for="checkAll" class="checkbox" style="margin-left:20px; margin-bottom:30px;">
                                         <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
-                                        <span></span><div style="font-weight:600">Select All (0/4)</div>
+                                        <span></span><div style="font-weight:600">Select All ({{ cntSelectedItems }}/ {{ cntTotalItems }})</div>
                                     </label>
                                     <button class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
                                 </div>
@@ -263,6 +263,8 @@
                 selectedItem: null,
                 checkedAll:false,
                 checkedItem:[],
+                cntTotalItems: 0,
+                cntSelectedItems: 0,
             };
         },
         mounted(){
@@ -292,6 +294,7 @@
                     console.log(d.cit_start_datetime);
                 });*/
                 this.myCart_list = data;
+                this.cntTotalItems = this.myCart_list.length;
               } catch (err) {
                 console.log('ajaxCartList error');
               } finally {
@@ -364,18 +367,22 @@
             },
             calcTotalPrice: function(){
                 let tp = 0.0;
+                let cnt = 0;
                 if(this.checkedAll){
                     for(let i in this.myCart_list){
                         tp += Number(this.myCart_list[i].cit_price);
+                        cnt++;
                     }
                 }else{
                     for(let i in this.myCart_list){
                         if(this.checkedItem.includes(this.myCart_list[i].cit_id)){
                             tp += Number(this.myCart_list[i].cit_price);
+                            cnt++;
                         }
                     }
                 }
                 this.totalPrice = tp;
+                this.cntSelectedItems = cnt;
             },
             goDelete: function(){
                 if(this.checkedItem.length == 0){

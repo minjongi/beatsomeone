@@ -1,186 +1,160 @@
 <template>
-
     <div class="wrapper">
-        <Header :is-login="isLogin"/>
-
-        <div class="container sub">
-            <div class="mypage sublist">
-                <div class="wrap">
-                    <div class="sublist__filter sticky">
-                        <div class="row center">
-                            <div class="profile">
-                                <div class="portait">
-                                    <img src="/assets/images/portait.png"/>
+        <Header :is-login="isLogin"></Header>
+        <main-player></main-player>
+        <div class="container">
+            <div class="main">
+                <section class="main__section1">
+                    <div class="BG" style="background-image:url('https://images.unsplash.com/photo-1559060680-36abfac01944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')"></div>
+                    <div class="filter"></div>
+                    <div class="wrap">
+                        <header class="main__section1-title" style="margin-bottom:-80px;"></header>
+                        <div class="videolist">
+                            <div class="head">
+                                <div class="block">
+                                    <div style="padding-bottom:66.666666%;">
+                                        <img src="https://images.unsplash.com/photo-1522536421511-14c9073df899?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="info">
-                                    <div class="group">
-                                        <div class="group_title" :class="group_title">{{group_title}}</div>
+                                <div class="block">
+                                    <div>
+                                        <img src="https://images.unsplash.com/photo-1471565661762-b9dfae862dbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
                                     </div>
-                                    <div class="username">
-                                        DROPBEAT
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
                                     </div>
-                                    <div class="bio">
-                                        Music Lover, KKOMA
+                                </div>
+                                <div class="block">
+                                    <div>
+                                        <img src="https://images.unsplash.com/photo-1529518969858-8baa65152fc8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
                                     </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li  class="active" >Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li class="active" @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <div class="body">
+                                <div class="block">
+                                    <div>
+                                        <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block">
+                                    <div>
+                                        <img src="https://images.unsplash.com/flagged/photo-1568967010765-40b6ec2b5fa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block">
+                                    <div>
+                                        <img src="https://images.unsplash.com/photo-1581503589702-b21c6a3f0879?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block">
+                                    <div>
+                                        <img src="https://images.unsplash.com/photo-1577205341591-846f4dfe6d8c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1368&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block">
+                                    <div>
+                                        <img src="https://images.unsplash.com/photo-1560258629-d26e9fa12ae3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block">
+                                    <div>
+                                        <img src="https://images.unsplash.com/photo-1525439979024-1df959dde396?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80"/>
+                                        <div class="play">
+                                            <img src="/assets/images/icon/hover_play.png">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
+                                        <div class="desc">
+                                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
+                                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="sublist__content" style="margin-bottom:100px;">
-                        
-
-                        <div class="row" style="margin-bottom:30px;">
-                            
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>FAQ</div>
-                                </div>
-                                <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
-                                    <input type="text" placeholder="enter your word..." style="font-size:16px;"> 
-                                    <img src="/assets/images/icon/searchicon.png" style="margin:10px;"/>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row" style="margin-bottom:30px;">
-                            <div class="playList board fold faq">
-
-                                <ul>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap ">
-                                            <div>
-                                                <div class="subject">What information do I need to sell music?</div>
-                                                <div class="answer fold">
-                                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                     <br/>
-                                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                                    From this point on, you can sell the beats you have made.<br/>
-                                                </div>
-                                            </div>
-                                            <div class="btn--fold"><div></div><div></div></div>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                    <Footer></Footer>
+                </section>
             </div>
         </div>
-        <div id="waveform" ></div>
-        <!--
-        <main-player></main-player>
-        -->
-        <Footer/>
     </div>
 </template>
 

@@ -810,8 +810,9 @@ class Cmall extends CB_Controller
 
 	public function complete()
 	{
+
 		// 이벤트 라이브러리를 로딩합니다
-		$eventname = 'event_cmall_cart';
+		$eventname = 'event_cmall_orderresult';
 		$this->load->event($eventname);
 
 		/**
@@ -819,75 +820,71 @@ class Cmall extends CB_Controller
 		 */
 		required_user_login();
 
+		$this->load->library(array('paymentlib'));
 		$mem_id = (int) $this->member->item('mem_id');
 
 		$view = array();
 		$view['view'] = array();
 
 		// 이벤트가 존재하면 실행합니다
-		$view['view']['event']['before'] = Events::trigger('before', $eventname);
+		Events::trigger('before', $eventname);
 
-		$this->load->model(array('Cmall_cart_model'));
-
-		if ($this->input->post('chk')) {
-			$cit_id = $this->input->post('chk');
-			$return = $this->cmalllib->cart_to_order(
-				$mem_id,
-				$cit_id
-			);
-			if ($return) {
-				redirect('cmall/order');
-			}
-		}
-
-		$cachename = 'delete_old_cart_cache';
-		$cachetime = 3600;
-		if ( ! $result = $this->cache->get($cachename)) {
-			$days = $this->cbconfig->item('cmall_cart_keep_days')
-				? $this->cbconfig->item('cmall_cart_keep_days') : 14;
-			$cartdays = cdate('Y-m-d H:i:s', ctimestamp() - $days * 86400);
-			$deletewhere = array(
-				'cct_datetime <' => $cartdays,
-			);
-			$this->Cmall_cart_model->delete_where($deletewhere);
-			$this->cache->save($cachename, cdate('Y-m-d H:i:s'), $cachetime);
-		}
-
-
-		/**
-		 * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
-		 */
-		$param =& $this->querystring;
-		$findex = 'cmall_item.cit_id';
-		$forder = 'desc';
-
-		/**
-		 * 게시판 목록에 필요한 정보를 가져옵니다.
-		 */
-		$where = array();
-		$where['cmall_cart.mem_id'] = $mem_id;
-		$result = $this->Cmall_cart_model->get_cart_list($where, $findex, $forder);
-		if ($result) {
-			foreach ($result as $key => $val) {
-				$result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
-				$result[$key]['detail'] = $this->Cmall_cart_model
-					->get_cart_detail($mem_id, element('cit_id', $val));
-			}
-		}
-		$view['view']['data'] = $result;
-		$view['view']['list_delete_url'] = site_url('cmallact/cart_delete/?' . $param->output());
 
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
 
+
+		//log_message('error', var_dump($this->input->get(), true) );
+		$cor_id = $this->input->get("cor_id");
+		if (empty($cor_id) OR $cor_id < 1) {
+			alert('잘못된 접근입니다');
+		}
+
+		$this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+
+		$order = $this->Cmall_order_model->get_one($cor_id);
+		if ( ! element('cor_id', $order)) {
+			alert('잘못된 접근입니다');
+		}
+		if ($this->member->is_admin() === false
+			&& (int) element('mem_id', $order) !== $mem_id) {
+			alert('잘못된 접근입니다');
+		}
+		$orderdetail = $this->Cmall_order_detail_model->get_by_item($cor_id);
+		if ($orderdetail) {
+			foreach ($orderdetail as $key => $value) {
+				$orderdetail[$key]['item'] = $item
+					= $this->Cmall_item_model->get_one(element('cit_id', $value));
+				$orderdetail[$key]['itemdetail'] = $itemdetail
+					= $this->Cmall_order_detail_model
+					->get_detail_by_item($cor_id, element('cit_id', $value));
+
+				$orderdetail[$key]['item']['possible_download'] = 1;
+				if (element('cod_download_days', element(0, $itemdetail)) && element('cor_approve_datetime', $order)) {
+					$endtimestamp = strtotime(element('cor_approve_datetime', $order))
+						+ 86400 * element('cod_download_days', element(0, $itemdetail));
+					$orderdetail[$key]['item']['download_end_date'] = $enddate
+						= cdate('Y-m-d', $endtimestamp);
+
+					$orderdetail[$key]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+				}
+			}
+		}
+		if (element('cor_status', $order) === '1') {
+			$this->session->set_userdata(
+				'cmall_item_download_' . element('cor_id', $order),
+				'1'
+			);
+		}
+
 		/**
 		 * 레이아웃을 정의합니다
 		 */
-		$page_title = $this->cbconfig->item('site_meta_title_cmall_cart');
-		$meta_description = $this->cbconfig->item('site_meta_description_cmall_cart');
-		$meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall_cart');
-		$meta_author = $this->cbconfig->item('site_meta_author_cmall_cart');
-		$page_name = $this->cbconfig->item('site_page_name_cmall_cart');
+		$page_title = $this->cbconfig->item('site_meta_title_cmall_orderresult');
+		$meta_description = $this->cbconfig->item('site_meta_description_cmall_orderresult');
+		$meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall_orderresult');
+		$meta_author = $this->cbconfig->item('site_meta_author_cmall_orderresult');
+		$page_name = $this->cbconfig->item('site_page_name_cmall_orderresult');
 
 		$searchconfig = array(
 			'{컨텐츠몰명}',
@@ -895,7 +892,7 @@ class Cmall extends CB_Controller
 		$replaceconfig = array(
 			$this->cbconfig->item('cmall_name'),
 		);
-
+		
 		$page_title = str_replace($searchconfig, $replaceconfig, $page_title);
 		$meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
 		$meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);

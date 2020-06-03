@@ -34,12 +34,12 @@
                         <div class="row">
                             <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
-                                <li class="active" @click="goPage('profilemod')">Manage Information</li>
+                                <li class="active">Manage Information</li>
                                 <li @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
+                                <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('message')">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
@@ -146,19 +146,19 @@
                                     <div class="data">
                                         <label for="type1" class="checkbox">
                                             <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover">
-                                            <span></span> Music Lover
+                                            <span></span><div> Music Lover</div>
                                         </label>
                                         <label for="type2" class="checkbox">
                                             <input type="radio" name="type" hidden="hidden" id="type2" value="Recording Artist">
-                                            <span></span> Recording Artist
+                                            <span></span><div> Recording Artist</div>
                                         </label>
                                         <label for="type3" class="checkbox">
                                             <input type="radio" name="type" hidden="hidden" id="type3" value="Music Producer">
-                                            <span></span> Music Producer
+                                            <span></span><div> Music Producer</div>
                                         </label>
                                         <label for="type4" class="checkbox">
                                             <input type="radio" name="type" hidden="hidden" id="type4" value="Artist/Producer">
-                                            <span></span> Artist/Producer
+                                            <span></span><div> Artist/Producer</div>
                                         </label>
                                     </div>
                                 </div>
@@ -228,7 +228,75 @@
                 </div>
             </div>
         </div>
+
         <div id="waveform" ></div>
+        
+        <div class="panel active">
+            <div class="popup active" style="width:560px;">
+                <div class="box" style="padding-bottom:50px;">
+                    <div class="title">CHANGE PASSWORD</div>
+                    <p>※ Please enter the password within 8 to 12 characters in English (case sensitive) and numeric combination.</p>
+                    <div class="col">
+                        <div class="type"><span>Current password</span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="password" placeholder="Enter your current password...">
+                                <div class="caution">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="type"><span>New password</span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="password" placeholder="Enter your new password...">
+                                <div class="caution">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="type"><span>New password confirm</span></div>
+                        <div class="data">
+                            <div class="input_wrap col">
+                                <input class="inputbox" type="password" placeholder="Enter your new password again...">
+                                <div class="caution">
+                                    <div>
+                                        <img class="caution" src="/assets/images/icon/caution.png">
+                                        <img class="warning" src="/assets/images/icon/warning.png">
+                                    </div>
+                                    <span>
+                                        Please note that the login ID will change when you change your email.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btnbox col">
+                        <button class="btn btn--gray">Cancel</button>
+                        <button type="submit" class="btn btn--blue">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--
         <main-player></main-player>
         -->

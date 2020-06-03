@@ -22,7 +22,7 @@
                             </div>
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"><div class="number">3</div>Selected Items</div>
+                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"><div class="number">{{ selectedItems }}</div>Selected Items</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
@@ -176,7 +176,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="payment_box">
+                            <div class="payment_box" style="max-width:initial!important">
                                 <div>
                                     <div class="title-content">
                                         <div div class="title">
@@ -184,16 +184,16 @@
                                         </div>
                                         <div>
                                             <label class="checkbox" for="method1">
-                                                <input type="radio" name="method" id="method1" hidden="hidden" >
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon credit"></div><div>Credit</div></div>
+                                                <input type="radio" name="method" id="method1" hidden="hidden" @change="chgPayMethod(1)">
+                                                <div class="btn btn--yellow" style="height:48px"><div class="icon credit"></div><div style="font-size:14px;">Credit</div></div>
                                             </label>
                                             <label class="checkbox" for="method2">
-                                                <input type="radio" name="method" id="method2" hidden="hidden" >
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon wire"></div><div>Wire</div></div>
+                                                <input type="radio" name="method" id="method2" hidden="hidden" @change="chgPayMethod(2)">
+                                                <div class="btn btn--yellow" style="height:48px"><div class="icon wire"></div><div style="font-size:14px;">Wire</div></div>
                                             </label>
                                             <label class="checkbox" for="method3">
-                                                <input type="radio" name="method" id="method3" hidden="hidden" >
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon paypal"></div><div>PayPal</div></div>
+                                                <input type="radio" name="method" id="method3" hidden="hidden" @change="chgPayMethod(3)">
+                                                <div class="btn btn--yellow" style="height:48px"><div class="icon paypal"></div><div style="font-size:14px;">PayPal</div></div>
                                             </label>
                                         </div>
                                     </div>
@@ -262,7 +262,11 @@
                 myMember: [],
                 totalPrice: "00.00",
                 point: 0,
-                usePoint:0,
+                usePoint: 0,
+                payMethod: 0,
+                unique_id: 0,
+                cor_id:'',
+                selectedItems:0,
             };
         },
         mounted(){
@@ -288,9 +292,37 @@
                     console.log(d.cit_start_datetime);
                 });*/
                 this.myOrder_list = data.result;
+                this.selectedItems = this.myOrder_list.length;
                 this.myMember = data.mem_result;
+                this.unique_id = data.unique_id;
+                console.log(this.unique_id);
               } catch (err) {
                 console.log('ajaxCartList error');
+              } finally {
+                this.isLoading = false;
+              }
+            },
+            async ajaxUpdateOrder () {
+              try {
+                this.isLoading = true;
+                var param = new FormData();
+                param.append('pay_type', JSON.stringify(this.payMethod));
+                param.append('total_price_sum', JSON.stringify(this.totalPrice));
+                param.append('usePoint', JSON.stringify(this.usePoint));
+                param.append('unique_id', JSON.stringify(this.unique_id));
+
+                const { data } = await axios.post(
+                  '/beatsomeoneApi/user_order_update', param,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(data);
+                if(data.message == 'ok'){
+                    this.cor_id = data.cor_id;
+                }
+              } catch (err) {
+                console.log('ajaxUpdateOrder error');
               } finally {
                 this.isLoading = false;
               }
@@ -299,7 +331,26 @@
                 window.location.href = '/cmall/cart';
             },
             goPay: function(e){
-                console.log('gopay');
+                if((this.totalPrice - this.usePoint) <= 0){
+                    alert("결제 금액을 확인해주세요");
+                    return;
+                }
+                if(this.payMethod == 0){
+                    alert("결제 방법을 선택해주세요");
+                    return;
+                }
+
+                this.ajaxUpdateOrder().then(()=>{
+                    if(this.cor_id == ''){
+                        alert("결제가 실패하였습니다.");
+                        return;
+                    }else{
+                        window.location.href = '/cmall/complete?cor_id='+this.cor_id;
+                    }
+                });
+            },
+            chgPayMethod: function(idx){
+                this.payMethod = idx;
             },
             calcTotalPrice: function(){
                 let tp = 0.0;

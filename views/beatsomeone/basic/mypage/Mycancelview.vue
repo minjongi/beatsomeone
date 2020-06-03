@@ -37,9 +37,9 @@
                                 <li @click="goPage('profilemod')">Manage Information</li>
                                 <li @click="goPage('list_item')">Product List</li>
                                 <li class="active">Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('message')">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
@@ -104,7 +104,8 @@
                                                           <div class="code">item.cit_key</div>
                                                         </div>
                                                         <h3 class="playList__title">formatCitName(item.cit_name)</h3>
-                                                        <span class="playList__by">(item.bpm)</span>
+                                                        <span class="playList__by">by Sellername</span>
+                                                        <span class="playList__bpm">BPM (item.bpm)</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>

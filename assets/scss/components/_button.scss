@@ -7,7 +7,7 @@
 .btn {
   width: 100%;
   height: 55px;
-  font-size: 16px;
+  font-size: 20px;
   border-radius: 3px;
   font-weight: 600;
   transition: .3s ease;
@@ -33,7 +33,7 @@
     }
   }
   &.btn--gray {
-    background: #868686;
+    background: rgba(255,255,255,.1);
     color: #fff;
   }
 
@@ -120,6 +120,13 @@
     opacity: .3;
     cursor:default;
     pointer-events:none;
+  }
+
+  .close{
+    min-width: 12px;
+    max-width: 12px;
+    height:12px;
+    margin-left: 10px;
   }
 }
 
@@ -285,4 +292,34 @@ label.btn{
 
 .paypal{
   background-image:url('/assets/images/icon/icon_paypal.png');
+}
+
+.iconbtnbox{
+  display:inline-block;
+  border:1px solid white;
+  border-radius:4px;
+
+  max-width:max-content;
+
+  & ~ .iconbtnbox{
+    margin-left:30px;
+  }
+
+  > * {
+    display:inline-block;
+    padding:8px;
+
+    > *{
+      vertical-align:middle;
+    }
+
+    & ~ *{
+      border-left: 1px solid white;
+    }
+
+    &:hover{
+      background:#4890FF;
+      transition:.3s ease;
+    }
+  }
 }
