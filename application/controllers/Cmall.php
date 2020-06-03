@@ -810,13 +810,9 @@ class Cmall extends CB_Controller
 
 	public function complete()
 	{
-		if( 'mobile' == $agent_type && $this->cbconfig->item('use_payment_pg') === 'inicis' && ($unique_id = $this->session->userdata('unique_id')) && $exist_order = get_cmall_order_data($unique_id) ){	//상품주문
-			exists_inicis_cmall_order($unique_id, array(), $exist_order['cor_datetime']);
-			exit;
-		}
 
 		// 이벤트 라이브러리를 로딩합니다
-		$eventname = 'event_cmall_orderupdate';
+		$eventname = 'event_cmall_orderresult';
 		$this->load->event($eventname);
 
 		/**
@@ -824,144 +820,22 @@ class Cmall extends CB_Controller
 		 */
 		required_user_login();
 
-		$mem_id = (int) $this->member->item('mem_id');
-
-		// 이벤트가 존재하면 실행합니다
-		Events::trigger('before', $eventname);
-
-		if ('bank' != $this->input->post('pay_type') && $this->cbconfig->item('use_payment_pg') === 'lg'
-			&& ! $this->input->post('LGD_PAYKEY')) {
-			alert('결제등록 요청 후 주문해 주십시오');
-		}
-
-		if ( ! $this->session->userdata('unique_id') OR ! $this->input->post('unique_id') OR $this->session->userdata('unique_id') !== $this->input->post('unique_id')) {
-			alert('잘못된 접근입니다');
-		}
-		if ( ! $this->session->userdata('order_cct_id')) {
-			alert('잘못된 접근입니다');
-		}
-
-		$this->load->model('Cmall_cart_model');
-		$where = array();
-		$where['cmall_cart.mem_id'] = $mem_id;
-		$findex = 'cmall_item.cit_id';
-		$forder = 'desc';
-		$session_cct_id = array();
-
-		$good_mny = $this->input->post('good_mny', null, 0);	//request 값으로 받은 값
-		$item_cct_price = 0;		//주문한 상품의 총 금액의 초기화
-
-		$orderlist = $this->Cmall_cart_model->get_order_list($where, $findex, $forder);
-		if ($orderlist) {
-			foreach ($orderlist as $key => $val) {
-				$details = $this->Cmall_cart_model->get_order_detail($mem_id, element('cit_id', $val));
-
-				if( !empty($details) ){
-					foreach((array) $details as $detail ){
-						if( empty($detail) ) continue;
-
-						$item_cct_price += ((int) element('cit_price', $val) + (int) element('cde_price', $detail)) * element('cct_count', $detail);
-					}
-				}
-
-				$session_cct_id[] = element('cct_id', $val);
-			}
-		}
-
-		if ( $item_cct_price != $good_mny ){
-		}
-
-		if ($this->session->userdata('order_cct_id') !== implode('-', $session_cct_id)) {
-			alert('결제 내역이 상이합니다, 관리자에게 문의하여주세요');
-		}
-
-		if ( ! is_numeric($this->input->post('order_deposit'))) {
-			alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 숫자만 와야 합니다');
-		}
-		if ( ! is_numeric($this->input->post('total_price_sum'))) {
-			alert('총 결제금액의 값은 숫자만 와야 합니다');
-		}
-
-		$order_deposit = (int) $this->input->post('order_deposit');
-		$total_price_sum = (int) $this->input->post('total_price_sum');
-		if ($order_deposit) {
-			if ($order_deposit < 0) {
-				alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 0 보다 작을 수 없습니다 ', site_url('cmall/order'));
-			}
-			if ($order_deposit > $total_price_sum) {
-				alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 총 결제금액보다 클 수 없습니다', site_url('cmall/order'));
-			}
-			if ($order_deposit > (int) $this->member->item('total_deposit')) {
-				alert(html_escape($this->cbconfig->item('deposit_name')) . ' 값이 회원님이 보유하고 계신 값보다 큰 값이 입력되어서 진행할 수 없습니다', site_url('cmall/order'));
-			}
-		}
-
-		// 이벤트가 존재하면 실행합니다
-		Events::trigger('step1', $eventname);
-
-
-		// 정보 입력
-		$cor_id = $this->session->userdata('unique_id');
-		$insertdata['cor_id'] = $cor_id;
-		$insertdata['mem_id'] = $mem_id;
-		$insertdata['mem_nickname'] = $this->member->item('mem_nickname');
-		$insertdata['mem_email'] = $this->input->post('mem_email', null, '');
-		$insertdata['mem_phone'] = $this->input->post('mem_phone', null, '');
-		$insertdata['cor_pay_type'] = $this->input->post('pay_type', null, '');
-		$insertdata['cor_content'] = $this->input->post('cor_content', null, '');
-		$insertdata['cor_ip'] = $this->input->ip_address();
-		$insertdata['cor_useragent'] = $this->agent->agent_string();
-		$insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
-		$insertdata['status'] = $od_status;
-
-		$this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
-		$res = $this->Cmall_order_model->insert($insertdata);
-		if ($res) {
-			$cwhere = array(
-				'mem_id' => $mem_id,
-				'cct_order' => 1,
-			);
-			$cartorder = $this->Cmall_cart_model->get('', '', $cwhere);
-			if ($cartorder) {
-				foreach ($cartorder as $key => $val) {
-					$item = $this->Cmall_item_model
-						->get_one(element('cit_id', $val), 'cit_download_days');
-					$insertdetail = array(
-						'cor_id' => $cor_id,
-						'mem_id' => $mem_id,
-						'cit_id' => element('cit_id', $val),
-						'cde_id' => element('cde_id', $val),
-						'cod_download_days' => element('cit_download_days', $item),
-						'cod_count' => element('cct_count', $val),
-						'cod_status' => $od_status,
-					);
-					$this->Cmall_order_detail_model->insert($insertdetail);
-					$deletewhere = array(
-						'mem_id' => $mem_id,
-						'cit_id' => element('cit_id', $val),
-						'cde_id' => element('cde_id', $val),
-					);
-					$this->Cmall_cart_model->delete_where($deletewhere);
-				}
-			}
-			if ($order_deposit) {
-				$this->load->library('depositlib');
-				$this->depositlib->do_deposit_to_contents(
-					$mem_id,
-					$order_deposit,
-					$pay_type = '',
-					$content = '상품구매 주문번호 : ' . $cor_id,
-					$admin_memo = ''
-				);
-			}
-		}
-
-
 		$this->load->library(array('paymentlib'));
+		$mem_id = (int) $this->member->item('mem_id');
 
 		$view = array();
 		$view['view'] = array();
 
+		// 이벤트가 존재하면 실행합니다
+		Events::trigger('before', $eventname);
+
+
+		// 이벤트가 존재하면 실행합니다
+		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+
+		log_message('error', var_dump($this->input->get(), true) );
+		$cor_id = $this->input->get("cor_id");
 		if (empty($cor_id) OR $cor_id < 1) {
 			alert('잘못된 접근입니다');
 		}
@@ -1002,23 +876,6 @@ class Cmall extends CB_Controller
 				'1'
 			);
 		}
-
-		$view['view']['data'] = $order;
-		$view['view']['orderdetail'] = $orderdetail;
-
-
-		//영수증 정보
-
-
-		// 이벤트가 존재하면 실행합니다
-		Events::trigger('after', $eventname);
-
-		$this->session->set_userdata('unique_id', '');
-		$this->session->set_userdata('order_cct_id', '');
-
-
-		// 이벤트가 존재하면 실행합니다
-		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
 
 		/**
 		 * 레이아웃을 정의합니다

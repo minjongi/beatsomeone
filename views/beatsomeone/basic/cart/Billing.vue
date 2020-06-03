@@ -264,6 +264,8 @@
                 point: 0,
                 usePoint: 0,
                 payMethod: 0,
+                unique_id: 0,
+                cor_id:'',
             };
         },
         mounted(){
@@ -290,8 +292,35 @@
                 });*/
                 this.myOrder_list = data.result;
                 this.myMember = data.mem_result;
+                this.unique_id = data.unique_id;
+                console.log(this.unique_id);
               } catch (err) {
                 console.log('ajaxCartList error');
+              } finally {
+                this.isLoading = false;
+              }
+            },
+            async ajaxUpdateOrder () {
+              try {
+                this.isLoading = true;
+                var param = new FormData();
+                param.append('pay_type', JSON.stringify(this.payMethod));
+                param.append('total_price_sum', JSON.stringify(this.totalPrice));
+                param.append('usePoint', JSON.stringify(this.usePoint));
+                param.append('unique_id', JSON.stringify(this.unique_id));
+
+                const { data } = await axios.post(
+                  '/beatsomeoneApi/user_order_update', param,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(data);
+                if(data.message == 'ok'){
+                    this.cor_id = data.cor_id;
+                }
+              } catch (err) {
+                console.log('ajaxUpdateOrder error');
               } finally {
                 this.isLoading = false;
               }
@@ -309,8 +338,14 @@
                     return;
                 }
 
-                console.log("gopay");
-                window.location.href = '/cmall/complete';
+                this.ajaxUpdateOrder().then(()=>{
+                    if(this.cor_id == ''){
+                        alert("결제가 실패하였습니다.");
+                        return;
+                    }else{
+                        window.location.href = '/cmall/complete?cor_id='+this.cor_id;
+                    }
+                });
             },
             chgPayMethod: function(idx){
                 this.payMethod = idx;

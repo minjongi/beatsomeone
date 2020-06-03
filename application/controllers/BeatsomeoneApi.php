@@ -971,6 +971,177 @@ class BeatsomeoneApi extends CB_Controller
         $rst['mem_result'] = $mem_result;
         $rst['good_count'] = $good_count;
         $rst['good_name'] = $good_name;
+        $rst['unique_id'] = $unique_id;
+        
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($rst));
+    }
+
+    public function user_order_update(){
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+        $mem_id = (int) $this->member->item('mem_id');
+
+        log_message('error', 'post : ' . print_r($this->input->post(), true));
+        log_message('error', 'mem_id : ' .$mem_id );
+        log_message('error', 'unique_id : ' .$this->session->userdata('unique_id') );
+        log_message('error', 'order_cct_id : ' .$this->session->userdata('order_cct_id') );
+        
+
+        /*
+        $bigInt = gmp_init($this->input->post('unique_id'));
+        $unique_id = gmp_intval($bigInt);
+        log_message('error', 'unique_id : ' .$unique_id );
+        if ( ! $this->session->userdata('unique_id') 
+                OR ! $this->input->post('unique_id') 
+                OR $this->session->userdata('unique_id') !== $this->input->post('unique_id')) {
+            alert('잘못된 접근입니다 111');
+        }*/
+
+        if ( ! $this->session->userdata('unique_id')) {
+            alert('잘못된 접근입니다');
+        }
+
+        if ( ! $this->session->userdata('order_cct_id')) {
+            alert('잘못된 접근입니다');
+        }
+
+        $this->load->model('Cmall_cart_model');
+        $where = array();
+        $where['cmall_cart.mem_id'] = $mem_id;
+        $findex = 'cmall_item.cit_id';
+        $forder = 'desc';
+        $session_cct_id = array();
+
+        $good_mny = $this->input->post('good_mny', null, 0);    //request 값으로 받은 값
+        $item_cct_price = 0;        //주문한 상품의 총 금액의 초기화
+
+
+        $orderlist = $this->Cmall_cart_model->get_order_list($where, $findex, $forder);
+        if ($orderlist) {
+            foreach ($orderlist as $key => $val) {
+                $details = $this->Cmall_cart_model->get_order_detail($mem_id, element('cit_id', $val));
+
+                if( !empty($details) ){
+                    foreach((array) $details as $detail ){
+                        if( empty($detail) ) continue;
+
+                        $item_cct_price += ((int) element('cit_price', $val) + (int) element('cde_price', $detail)) * element('cct_count', $detail);
+                    }
+                }
+
+                $session_cct_id[] = element('cct_id', $val);
+            }
+        }
+
+        if ( $item_cct_price != $good_mny ){
+        }
+
+
+        if ( ! is_numeric($this->input->post('total_price_sum'))) {
+            alert('총 결제금액의 값은 숫자만 와야 합니다');
+        }
+        $total_price_sum = (int) $this->input->post('total_price_sum');
+        $usePoint = (int) $this->input->post('usePoint');
+        log_message('error', 'total_price_sum : ' .$total_price_sum );
+        log_message('error', 'usePoint : ' .$usePoint );
+
+
+        $this->load->library('paymentlib');
+
+        $insertdata = array();
+        $result = '';
+        $od_status = 'order'; //주문상태
+
+        $order_deposit = 0;
+        $cor_cash = 0;
+
+        //무통장입금
+        $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+        $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+        $insertdata['cor_total_money'] = $total_price_sum;
+        $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
+        $insertdata['cor_deposit'] = $order_deposit;
+        $insertdata['cor_cash'] = 0;
+        if ( ((int) $item_cct_price - (int) $order_deposit ) != 0 ) {
+            $insertdata['cor_status'] = 0;
+            $insertdata['cor_approve_datetime'] = null;
+        } else {
+            $insertdata['cor_status'] = 1;
+            $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
+            $od_status = 'deposit'; //주문상태
+        }
+
+        if ( ((int) $item_cct_price - (int) $order_deposit - $cor_cash) == 0 ) {
+            $od_status = 'deposit'; //주문상태
+        }
+
+
+        // 정보 입력
+        $cor_id = $this->session->userdata('unique_id');
+        $insertdata['cor_id'] = $cor_id;
+        $insertdata['mem_id'] = $mem_id;
+        $insertdata['mem_nickname'] = $this->member->item('mem_nickname');
+        $insertdata['mem_email'] = $this->input->post('mem_email', null, '');
+        $insertdata['mem_phone'] = $this->input->post('mem_phone', null, '');
+        $insertdata['cor_pay_type'] = $this->input->post('pay_type', null, '');
+        $insertdata['cor_content'] = $this->input->post('cor_content', null, '');
+        $insertdata['cor_ip'] = $this->input->ip_address();
+        $insertdata['cor_useragent'] = $this->agent->agent_string();
+        $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
+        $insertdata['status'] = $od_status;
+
+        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+        $res = $this->Cmall_order_model->insert($insertdata);
+        if ($res) {
+            $cwhere = array(
+                'mem_id' => $mem_id,
+                'cct_order' => 1,
+            );
+            $cartorder = $this->Cmall_cart_model->get('', '', $cwhere);
+            if ($cartorder) {
+                foreach ($cartorder as $key => $val) {
+                    $item = $this->Cmall_item_model
+                        ->get_one(element('cit_id', $val), 'cit_download_days');
+                    $insertdetail = array(
+                        'cor_id' => $cor_id,
+                        'mem_id' => $mem_id,
+                        'cit_id' => element('cit_id', $val),
+                        'cde_id' => element('cde_id', $val),
+                        'cod_download_days' => element('cit_download_days', $item),
+                        'cod_count' => element('cct_count', $val),
+                        'cod_status' => $od_status,
+                    );
+                    log_message('error', print_r($insertdetail, true) );
+                    $this->Cmall_order_detail_model->insert($insertdetail);
+                    $deletewhere = array(
+                        'mem_id' => $mem_id,
+                        'cit_id' => element('cit_id', $val),
+                        'cde_id' => element('cde_id', $val),
+                    );
+                    $this->Cmall_cart_model->delete_where($deletewhere);
+                }
+            }
+        }
+
+        /*
+        if ($this->input->post('pay_type') === 'bank') {
+            $this->cmalllib->orderalarm('bank_to_contents', $cor_id);
+        } else {
+            $this->cmalllib->orderalarm('cash_to_contents', $cor_id);
+        }
+        */
+
+        $this->session->set_userdata('unique_id', '');
+        $this->session->set_userdata('order_cct_id', '');
+
+        $rst = array();
+        $rst['message'] = 'ok';
+        $rst['cor_id'] = $cor_id;
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($rst));
     }
