@@ -154,7 +154,8 @@
                                                     </span>
                                                 </figure>
                                             </div>
-                                            <div class="subject" v-html="formatCitName(item.cit_name,50)"></div>
+                                            <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)">
+                                            </div>
                                             <div class="totalprice">$ {{ item.cor_total_money }}</div>
                                             <div class="status">
                                                 <div class="blue"> {{ item.status }} </div>
@@ -536,6 +537,9 @@
                     rst = data
                 }
                 return rst;
+            },
+            formatSub: function(data, genre, bpm){
+                return data + "<br/> ( " + genre + " / " + bpm + "bpm )";
             },
             caclLeftDay: function(orderDate){
                 var tDate = new Date(orderDate);
