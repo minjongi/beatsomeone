@@ -179,7 +179,7 @@
                                                           
                                                           <div class="code">{{ item.cit_key }}</div>
                                                         </div>
-                                                        <h3 class="playList__title">{{ formatCitName(item.cit_name)  }}</h3>
+                                                        <h3 class="playList__title" v-html="formatCitName(item.cit_name,50)"></h3>
                                                         <span class="playList__by">by Sellername</span>
                                                         <span class="playList__bpm">BPM {{ item.bpm }}</span>
                                                     </figcaption>
@@ -600,13 +600,12 @@
             setSearchCondition: function(idx){
                 this.search_condition_active_idx = idx;
             },
-            formatCitName: function(data){
+            formatCitName: function(data, limitLth){
                 let rst;
-                let limitLth = 50
                 if(limitLth < data.length && data.length <= limitLth*2){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2);
+                    rst = data.substring(0,limitLth) + '<br/>' + data.substring(limitLth,limitLth*2);
                 }else if(limitLth < data.length && limitLth*2 < data.length){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2) + '...';
+                    rst = data.substring(0,limitLth) + '<br/>' + data.substring(limitLth,limitLth*2) + '...';
                 }else{
                     rst = data
                 }
