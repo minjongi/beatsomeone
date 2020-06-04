@@ -59,15 +59,15 @@
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">1 year</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">1 year</div>
                                 </div>
                             </div>
                             <div style="margin-left:auto; ">
                                 <div>
                                     <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
-                                        <input type="date" placeholder="Start Date" />
+                                        <input type="date" placeholder="Start Date" @change="goStartDate"/>
                                         <span>─</span>
-                                        <input type="date" placeholder="End Date" />
+                                        <input type="date" placeholder="End Date" @change="goEndDate"/>
                                         <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                     </div>
                                 </div>
@@ -78,14 +78,13 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:96px;">
                                     <div class="splitboard">
-                                        <div class="green">
-                                            ₩ 123,456
+                                        <div class="green">$ {{ calcFUncWaitingDeposit() }}
                                             <span>Waiting Deposit</span>
                                         </div>
-                                        <div class="blue">₩ 93,409
+                                        <div class="blue">$ {{ calcFUncOrderComplete() }}
                                             <span>Order Complete</span>
                                         </div>
-                                        <div class="red">₩ 80,039
+                                        <div class="red">$ {{ calcFUncRefundComplete() }}
                                             <span>Refund Complete</span>
                                         </div>
                                     </div>
@@ -95,9 +94,9 @@
 
                         <div class="row" style="display:flex; margin-bottom:30px;">
                             <div class="tabmenu">
-                                <div class="active">Total ({{calcTotalCnt}})</div>
-                                <div>Wait ({{calcSellingCnt}})</div>
-                                <div>Complete ({{calcPendingCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
                             </div>
                             <div class="sort" style="text-align:right">
                                 <div class="custom-select">
@@ -140,31 +139,40 @@
                             <div class="playList board mybillinglist saleshistory">
 
                                 <ul>
-                                    <li class="playList__itembox">
+                                    <li v-for="(item, i) in paging()" v-bind:key="item.cor_id + item.cit_id" class="playList__itembox" :id="'slist'+ item.cor_id + item.cit_id">
                                         <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_010</div>
+                                            <div class="index" v-html="formatCitName(item.cor_id,10)"> </div>
                                             <div class="date">
-                                                0000-00-00 00:00:00
+                                                {{ item.cor_datetime }}
                                             </div>
                                              <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <img class="cover" src="/assets/images/cover_default.png" alt="">
+                                                        <!-- <img :src="'/assets/images/cover_default.png'" alt=""> -->
+                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
                                                         <i ng-if="item.isNew" class="label new">N</i>
                                                     </span>
                                                 </figure>
                                             </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
+                                            <div class="subject" v-html="formatCitName(item.cit_name,50)"></div>
+                                            <div class="totalprice">$ {{ item.cor_total_money }}</div>
                                             <div class="status">
-                                                <div class="blue">Deposit Waiting</div>
+                                                <div class="blue"> {{ item.status }} </div>
                                             </div>
-                                            <div class="user">User_001</div>
-                                            <div class="download">
+                                            <div class="user"> {{ item.mem_userid }} </div>
+                                            <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0" class="download">
+                                                <span class="red">Unavailable</span>
+                                            </div>
+                                            <div v-else-if="item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime)" class="download">
+                                                <span>{{ caclLeftDay(item.cor_datetime) }} days left</span>
+                                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
+                                            </div>
+                                            <div v-else class="download">
                                                 <span class="red">Unavailable</span>
                                             </div>
                                         </div>
                                     </li>
+                                    <!--
                                     <li class="playList__itembox">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
@@ -395,6 +403,7 @@
                                             </div>
                                         </div>
                                     </li>
+                                    -->
                                 </ul>
 
                             </div>
@@ -403,18 +412,10 @@
                         <div class="row" style="margin-bottom:30px;">
                             <div class="pagination">
                                 <div>
-                                    <button class="prev active"><img src="/assets/images/icon/chevron_prev.png"/></button>
-                                    <button class="active">1</button>
-                                    <button>2</button>
-                                    <button>3</button>
-                                    <button>4</button>
-                                    <button>5</button>
-                                    <button>6</button>
-                                    <button>7</button>
-                                    <button>8</button>
-                                    <button>9</button>
-                                    <button>10</button>
-                                    <button class="next active"><img src="/assets/images/icon/chevron_next.png"/></button>
+                                    <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/></button>
+
+                                    <button v-for="n in makePageList(this.totalpage)" v-bind:key="n" :class="{ 'active': currPage === n }" @click="currPage = n">{{n}}</button>
+                                    <button class="next active" @click="nextPage"><img src="/assets/images/icon/chevron_next.png"/></button>
                                 </div>
                             </div>
                         </div>
@@ -437,12 +438,8 @@
     require('@/assets/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
-
-    import $ from "jquery";
-    import { EventBus } from '*/src/eventbus';
-    import Velocity from "velocity-animate";
-    //import MainPlayer from "@/vue/common/MainPlayer";
-    import WaveSurfer from 'wavesurfer.js';
+    import axios from 'axios'
+    import moment from "moment";
 
     export default {
         components: {
@@ -451,69 +448,243 @@
         data: function() {
             return {
                 isLogin: false,
+                mem_photo: '',
+                mem_usertype: '',
+                mem_nickname: '',
+                mem_address1: '',
+                mem_type: '',
+                mem_lastname: '',
                 group_title: 'SELLER',
                 product_status: 'PENDING',
-                popup_filter:0,
-                ws: null,
-                isPlay: false,
-                isReady: false,
-                wavesurfer: null,
+                mySalesList: [],
+                search_condition_active_idx: 1,
+                search_tabmenu_idx: 1,
+                calcTotalCnt: 0,
+                calcWaitCnt: 0,
+                calcCompleteCnt:0,
+                start_date: '',
+                end_date: '',
+                totalpage: 0,
+                currPage: 1,
+                perPage: 10,
             };
         },
         mounted(){
-                        // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
 
-                $(this)
-                    .siblings(".custom-select")
-                    .removeClass("active")
-                    .find(".options")
-                    .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
-            });
         },
-        created() {
-                Http.get('/beatsomeoneApi/get_user_regist_item_list').then(r => {
-                    console.log(r.data);
-                    this.myProduct_list = r.data;
-                });
+        created(){
+            this.ajaxSalesList().then(()=>{
+                this.calcTotalCnt = this.calcFuncTotalCnt();
+                this.calcWaitCnt = this.calcFuncWaitCnt();
+                this.calcCompleteCnt = this.calcFuncCompleteCnt();
+            });
+            this.ajaxUserInfo();
+        },
+        computed:{
+
+        },
+        filters:{
         },
         methods:{
-            goPage: function(page){
-                window.location.href = '/mypage/'+page;
+            async ajaxUserInfo () {
+              try {
+                this.isLoading = true;
+                const { data } = await axios.get(
+                  '/beatsomeoneApi/get_user_info', {}
+                );
+                //console.log(data);
+                this.mem_photo = data[0].mem_photo;
+                this.mem_usertype = data[0].mem_usertype;
+                this.mem_nickname = data[0].mem_nickname;
+                this.mem_address1 = data[0].mem_address1;
+                this.mem_type = data[0].mem_type;
+                this.mem_lastname = data[0].mem_lastname;
+
+                if(this.mem_usertype == 1){
+                    this.group_title = "CUSTOMER";
+                }else{
+                    this.group_title = "SELLER";
+                }
+              } catch (err) {
+                console.log('ajaxUserInfo error');
+              } finally {
+                this.isLoading = false;
+              }
             },
-            calcSeq: function(size, i){
-                return parseInt(size) - parseInt(i);
+            async ajaxSalesList() {
+              try {
+                this.isLoading = true;
+                const { data } = await axios.get(
+                  '/beatsomeoneApi/musician_sales_history', {}
+                );
+                this.mySalesList = data.sp_list;
+                this.totalpage = Math.ceil(data.sp_list.length / this.perPage);
+                console.log(this.mySalesList);
+              } catch (err) {
+                console.log('ajaxSalesList error');
+              } finally {
+                this.isLoading = false;
+              }
             },
-            formatCitName: function(data){
-                var rst;
-                var limitLth = 50
+            formatCitName: function(data, limitLth){
+                let rst;
                 if(limitLth < data.length && data.length <= limitLth*2){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2);
+                    rst = data.substring(0,limitLth) + '<br/>' + data.substring(limitLth,limitLth*2);
                 }else if(limitLth < data.length && limitLth*2 < data.length){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2) + '...';
+                    rst = data.substring(0,limitLth) + '<br/>' + data.substring(limitLth,limitLth*2) + '...';
                 }else{
                     rst = data
                 }
                 return rst;
             },
-            productEditBtn: function(key){
-                console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+            caclLeftDay: function(orderDate){
+                var tDate = new Date(orderDate);
+                var nDate = new Date();
+                tDate.setDate(tDate.getDate() + 60);
+                var diff = Math.abs(tDate.getTime() - nDate.getTime());
+                diff = Math.ceil(diff / (1000 * 3600 * 24));
+                return diff;
             },
-            playAudio(i) {
-                this.wavesurfer = WaveSurfer.create({
-                    container: document.querySelector('#waveform'),
+            caclTargetDay: function(orderDate){
+                var tDate = new Date(orderDate);
+                tDate.setDate(tDate.getDate() + 60);
+                return moment(tDate).format('YYYY-MM-DD HH:mm:ss');
+            },
+            goPage: function(page){
+                window.location.href = '/mypage/'+page;
+            },
+            goSearch: function(){
+                this.ajaxSalesList().then(()=>{
+                    let list = [];
+                    Object.assign(list,this.mySalesList);
+                    if(this.search_condition_active_idx == 1){
+                        //all
+                    }
+                    else if(this.search_condition_active_idx == 2){
+                        let m3 = moment(new Date().getTime()).add("-3", "M");
+                        let rst = list.filter(item => moment(item.cor_datetime).isAfter(m3)); 
+                        this.mySalesList = rst; 
+                    }
+                    else if(this.search_condition_active_idx == 3){
+                        let m6 = moment(new Date().getTime()).add("-6", "M");
+                        let rst = list.filter(item => moment(item.cor_datetime).isAfter(m6)); 
+                        this.mySalesList = rst;
+                    }
+                    else if(this.search_condition_active_idx == 4){
+                        let m12 = moment(new Date().getTime()).add("-1", "y");
+                        let rst = list.filter(item => moment(item.cor_datetime).isAfter(m12)); 
+                        this.mySalesList = rst;
+                    }
                 });
-                // https://nachwon.github.io/waveform/
-                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/cb40bdf9165462c6351ebd82abedb1d6.mp3');
-                this.wavesurfer.on('ready', this.start);
             },
-            start(){
-                this.wavesurfer.play();
+            goTabMenu: function(menu){
+                this.ajaxSalesList().then(()=>{
+                    let list = [];
+                    Object.assign(list,this.mySalesList);
+                    if(menu == 1){
+                        this.mySalesList = list;
+                        this.search_tabmenu_idx = 1;
+                    }
+                    else if(menu == 2){
+                        let rst = list.filter(item => item.cor_status === '1'); 
+                        this.mySalesList = rst; 
+                        this.search_tabmenu_idx = 2;
+                    }
+                    else if(menu == 3){
+                        let rst = list.filter(item => item.cor_status === '2');
+                        this.mySalesList = rst;
+                        this.search_tabmenu_idx = 3;
+                    }
+                });
+            },
+            goStartDate: function(e){
+                console.log(e.target.value);
+                this.start_date = e.target.value;
+                if(this.start_date == '' || this.end_date == ''){
+                    return ;
+                }else{
+                    this.goSearchDate();
+                }
+            },
+            goEndDate: function(e){
+                console.log(e.target.value);
+                this.end_date = e.target.value;
+                if(this.start_date == '' || this.end_date == ''){
+                    return ;
+                }else{
+                    this.goSearchDate();
+                }
+            },
+            goSearchDate: function(){
+                this.ajaxSalesList().then(()=>{
+                    let list = [];
+                    Object.assign(list,this.mySalesList);
+                    let rst = list.filter(item => this.start_date <= item.cor_datetime.substr(0,10) 
+                                                && item.cor_datetime.substr(0,10) <= this.end_date);
+                    this.mySalesList = rst;
+                });
+            },
+            prevPage: function(){
+                if(this.currPage == 1) return
+                this.currPage -= 1; 
+            },
+            nextPage: function(){
+                if(this.currPage == this.totalpage) return
+                this.currPage += 1; 
+            },
+            setSearchCondition: function(idx){
+                this.search_condition_active_idx = idx;
+                this.goSearch();
+            },
+            calcFuncTotalCnt(){
+                return this.mySalesList.length;
+            },
+            calcFuncWaitCnt(){
+                let list = [];
+                Object.assign(list,this.mySalesList);
+                let rst = list.filter(item => item.cor_status === '1');
+                return rst.length;
+            },
+            calcFuncCompleteCnt(){
+                let list = [];
+                Object.assign(list,this.mySalesList);
+                let rst = list.filter(item => item.cor_status === '2');
+                return rst.length;
+            },
+            calcFUncWaitingDeposit(){
+                let sumPrice = 0;
+                for( let item in this.mySalesList){
+                    if(this.mySalesList[item].cor_status == '1'){
+                        sumPrice += parseInt(this.mySalesList[item].cor_total_money);
+                    }
+                }
+                return sumPrice
+            },
+            calcFUncOrderComplete(){
+                let sumPrice = 0;
+                for( var item in this.mySalesList){
+                    if(this.mySalesList[item].cor_status == '0'){
+                        sumPrice = sumPrice + parseInt(this.mySalesList[item].cor_total_money);
+                    }
+                }
+                return sumPrice
+            },
+            calcFUncRefundComplete(){
+                let sumPrice = 0;
+                for( let item in this.mySalesList){
+                    if(this.mySalesList[item].cor_status == '2'){
+                        sumPrice += parseInt(this.mySalesList[item].cor_total_money);
+                    }
+                }
+                return sumPrice
+            },
+            makePageList(n){
+                return [...Array(n).keys()].map(x => x=x+1);
+            },
+            paging() {
+                let list = [];
+                Object.assign(list,this.mySalesList);
+                return list.slice((this.currPage - 1) * this.perPage , this.currPage * this.perPage);
             },
         }
     }
