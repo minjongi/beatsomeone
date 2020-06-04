@@ -136,6 +136,10 @@
                                     </div>
                                 </div>
                                 <div class="sort">
+                                    <select name="" id="" class="">
+                                        <option value="0">1</option>
+                                        <option value="1">2</option>
+                                    </select>
                                     <div class="custom-select">
                                         <button v-show="search_date_option === 0" class="selected-option active" @click="search_date_option = 1">
                                             Register Date
@@ -635,8 +639,13 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     @import '/assets/plugins/flatpickr/flatpickr.css';
+
+    // 임시수정 2020-06-04
+    .select-genre .checkbox {
+        font-size: 1rem;
+    }
 </style>
