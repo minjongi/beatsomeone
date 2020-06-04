@@ -722,7 +722,7 @@ class Beatsomeone_model extends CB_Model
     // mypage 멤버 정보 조회
     public function get_user_info($p)
     {
-        $select = 'mem_id, mem_userid, mem_nickname, mem_email, mem_level, mem_point, mem_icon, mem_photo, mem_usertype, mem_address1';
+        $select = 'mem_id, mem_userid, mem_nickname, mem_email, mem_level, mem_point, mem_icon, mem_photo, mem_usertype, mem_address1, mem_type, mem_lastname';
         $this->db->select($select);
 
         //$this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
@@ -739,6 +739,61 @@ class Beatsomeone_model extends CB_Model
 
         return $qry->result_array();
 
+    }
+
+
+    // 판매자 판매 목록 조회
+    public function get_sales_history($p)
+    {
+
+        $sql = "select distinct a.cor_id ";
+        $sql .= "from beatsomeone.cb_cmall_order_detail a ";
+        $sql .= "join ( ";
+        $sql .= " select x.cit_id ";
+        $sql .= " FROM beatsomeone.cb_cmall_item x ";
+        $sql .= "    join beatsomeone.cb_cmall_item_meta_v y ";
+        $sql .= " where x.mem_id = ? ";
+        $sql .= " and x.cit_id = y.cit_id ";
+        $sql .= "    ) b ";
+        $sql .= " where a.cit_id = b.cit_id ";
+                
+        $rst = $this->db->query($sql, array($p['mem_id']));
+
+        return $rst->result_array();
+    }
+
+    // 판매자 주문 및 상품 정보 조회
+    public function get_sales_product_info($cor_id)
+    {
+        $sql = "select distinct a.cor_id, a.mem_id, a.cit_id, b.*, c.*, d.*, e.*";
+        $sql .= "from cb_cmall_order_detail a ";
+        $sql .= "    join ( ";
+        $sql .= "        select cit_id, cit_key, cit_name, cit_status, cit_file_1, cit_lease_license_use, cit_mastering_license_use ";
+        $sql .= "        from cb_cmall_item ";
+        $sql .= "    ) b ";
+        $sql .= "    on a.cit_id = b.cit_id ";
+        $sql .= "    join ( ";
+        $sql .= "        select cit_id, genre, bpm subgenre, moods, trackType, hashTag ";
+        $sql .= "            , cde_id, cde_price, cde_price_d, cde_quantity, cde_download, cde_originname ";
+        $sql .= "            , cde_id_2, cde_price_2, cde_price_d_2, cde_quantity_2, cde_download_2, cde_originname_2 ";
+        $sql .= "        from cb_cmall_item_meta_v ";
+        $sql .= "    ) c ";
+        $sql .= "    on a.cit_id = c.cit_id ";
+        $sql .= "    join ( ";
+        $sql .= "        select mem_id, mem_userid ";
+        $sql .= "        from cb_member ";
+        $sql .= "    ) d ";
+        $sql .= "    on a.mem_id = d.mem_id ";
+        $sql .= "    join ( ";
+        $sql .= "        select cor_id, cor_total_money, cor_datetime, cor_status, status, cor_refund_price ";
+        $sql .= "        from cb_cmall_order ";
+        $sql .= "    ) e ";
+        $sql .= "    on a.cor_id = e.cor_id ";
+        $sql .= "where a.cor_id = ? ";
+
+        $rst = $this->db->query($sql, array($cor_id));
+
+        return $rst->result_array();
     }
 
 }

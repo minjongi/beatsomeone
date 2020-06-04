@@ -19,7 +19,7 @@
                                         {{mem_nickname}}
                                     </div>
                                     <div class="bio">
-                                        Music Lover, KKOMA
+                                        {{ mem_type }}, {{ mem_lastname }}
                                     </div>
                                     <div class="location">
                                         <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
@@ -199,7 +199,7 @@
                                                           
                                                           <div class="code">{{ item.cit_key }}</div>
                                                         </div>
-                                                        <h3 class="playList__title">{{ formatCitName(item.cit_name)  }}</h3>
+                                                        <h3 class="playList__title" v-html="formatCitName(item.cit_name,50)"></h3>
                                                         <span class="playList__by">by Sellername</span>
                                                         <span class="playList__bpm">BPM {{ item.bpm }}</span>
                                                     </figcaption>
@@ -208,23 +208,33 @@
                                             <div class="col option">
                                                 <div>
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-<!--                                                     <div>
-                                                        <div class="title">BASIC LEASE</div>
+                                                    <div v-show="item.cit_lease_license_use === '1' ">
+                                                        <div class="title">BASIC LEASE LICENSE</div>
                                                         <div class="detail">MP3 or WAV</div>
-                                                    </div> -->
-                                                    <div>
-                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
+                                                    </div>
+                                                    <div v-show="item.cit_mastering_license_use === '1' ">
+                                                        <div class="title">UNLIMITED STEMS LICENSE</div>
                                                         <div class="detail">MP3 or WAV + STEMS</div>
                                                     </div>
-                                                </div><!-- 
-                                                <div class="option_item">
+                                                </div> 
+                                                <div class="option_item" v-show="item.cit_lease_license_use === '1' ">
                                                     <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
                                                     <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
                                                     <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
                                                     <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
-                                                </div> -->
-                                                <div class="option_item">
+                                                </div>
+                                                <div class="option_item" v-show="item.cit_mastering_license_use === '1' ">
                                                     <div><img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
+                                                    <div><img src="/assets/images/icon/parchase-info4.png">
+                                                        <span>
+                                                        We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released.
+                                                        </span>
+                                                    </div>
+                                                    <div><img src="/assets/images/icon/parchase-info4.png">
+                                                        <span>
+                                                        Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020)
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col feature">
@@ -241,8 +251,11 @@
                                                 <div class="amount">
                                                     <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
                                                 </div>
-                                                <div class="price">
+                                                <div class="price" v-show="item.cit_lease_license_use === '1' ">
                                                     $ {{ item.cde_price_d }}
+                                                </div>
+                                                <div class="price" v-show="item.cit_mastering_license_use === '1' ">
+                                                    $ {{ item.cde_price_d_2 }}
                                                 </div>
                                             </div>
                                             <div class="col edit">
@@ -374,6 +387,8 @@
                 mem_usertype: '',
                 mem_nickname: '',
                 mem_address1: '',
+                mem_type: '',
+                mem_lastname: '',
                 search_condition_active_idx: 1,
                 search_tabmenu_idx: 1,
                 GMT: 0,
@@ -422,8 +437,8 @@
                 const { data } = await axios.get(
                   '/beatsomeoneApi/get_user_regist_item_list', {}
                 );
-                /*
-                console.log(data);
+                
+                console.log(data);/*
                 data.forEach(function(d){
                     console.log(d.cit_datetime);
                     console.log(d.cit_start_datetime);
@@ -441,11 +456,13 @@
                 const { data } = await axios.get(
                   '/beatsomeoneApi/get_user_info', {}
                 );
-                console.log(data);
+                //console.log(data);
                 this.mem_photo = data[0].mem_photo;
                 this.mem_usertype = data[0].mem_usertype;
                 this.mem_nickname = data[0].mem_nickname;
                 this.mem_address1 = data[0].mem_address1;
+                this.mem_type = data[0].mem_type;
+                this.mem_lastname = data[0].mem_lastname;
 
                 if(this.mem_usertype == 1){
                     this.group_title = "CUSTOMER";
@@ -604,13 +621,12 @@
             setSearchCondition: function(idx){
                 this.search_condition_active_idx = idx;
             },
-            formatCitName: function(data){
+            formatCitName: function(data, limitLth){
                 let rst;
-                let limitLth = 50
                 if(limitLth < data.length && data.length <= limitLth*2){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2);
+                    rst = data.substring(0,limitLth) + '<br/>' + data.substring(limitLth,limitLth*2);
                 }else if(limitLth < data.length && limitLth*2 < data.length){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2) + '...';
+                    rst = data.substring(0,limitLth) + '<br/>' + data.substring(limitLth,limitLth*2) + '...';
                 }else{
                     rst = data
                 }
