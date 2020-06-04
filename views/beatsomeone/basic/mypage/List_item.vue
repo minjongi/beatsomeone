@@ -136,19 +136,21 @@
                                     </div>
                                 </div>
                                 <div class="sort">
-                                    <select name="" id="" class="">
-                                        <option value="0">1</option>
-                                        <option value="1">2</option>
-                                    </select>
                                     <div class="custom-select">
-                                        <button v-show="search_date_option === 0" class="selected-option active" @click="search_date_option = 1">
+                                        <button class="selected-option">
                                             Register Date
                                         </button>
-                                        <button v-show="search_date_option === 1" class="selected-option active" @click="search_date_option = 0"> 
-                                            Launch Date 
-                                        </button>
+                                        <div class="options">
+                                            <button class="option" data-value="">
+                                                Register Date
+                                            </button>
+                                            <button class="option" data-value="">
+                                                Launch Date
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="sort datepicker">
                                     <input type="date" placeholder="Start Date" @change="goStartDate"/>
                                     <span>─</span>
@@ -383,12 +385,23 @@
                 listTrackType: window.trackType,
                 selectedGenre: [],
                 selectedMood: [],
-                selectedTrackType: [],
-
+                selectedTrackType: []
             };
         },
         mounted(){
+            // 커스텀 셀렉트 옵션
+            $(".custom-select").on("click", function() {
 
+                $(this)
+                    .siblings(".custom-select")
+                    .removeClass("active")
+                    .find(".options")
+                    .hide();
+                $(this).toggleClass("active");
+                $(this)
+                    .find(".options")
+                    .toggle();
+            })
         },
         created() {
             this.ajaxItemList().then(()=>{
@@ -407,7 +420,7 @@
             },
         },
         computed:{
-
+            
         },
         methods:{
             async ajaxItemList () {
