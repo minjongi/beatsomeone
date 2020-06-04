@@ -145,10 +145,34 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="sort datepicker">
-                                    <input type="date" placeholder="Start Date" @change="goStartDate"/>
+                                <div class="search-date">
+                                    <datetime
+                                            type="date"
+                                            v-model="start_date"
+                                            :format="{ year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'}"
+                                            :phrases="{ok: 'Select', cancel: 'Exit'}"
+                                            :hour-step="1"
+                                            :minute-step="10"
+                                            :placeholder="$t('dateTime')"
+                                            value-zone="asia/Seoul"
+                                            class="date-selector"
+                                            auto
+                                    />
                                     <span>─</span>
-                                    <input type="date" placeholder="End Date" @change="goEndDate"/>
+                                    <datetime
+                                            type="date"
+                                            v-model="end_date"
+                                            :format="{ year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'}"
+                                            :phrases="{ok: 'Select', cancel: 'Exit'}"
+                                            :hour-step="1"
+                                            :minute-step="10"
+                                            :placeholder="$t('dateTime')"
+                                            value-zone="asia/Seoul"
+                                            class="date-selector"
+                                            auto
+                                    />
+<!--                                    <input type="date" placeholder="Start Date" @change="goStartDate"/>-->
+<!--                                    <input type="date" placeholder="End Date" @change="goEndDate"/>-->
                                     <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                 </div>
                             </div>
@@ -330,11 +354,12 @@
     import axios from 'axios'
     import WaveSurfer from 'wavesurfer.js';
     import $ from "jquery";
-
+    import { Datetime } from 'vue-datetime'
+    import ('vue-datetime/dist/vue-datetime.css')
 
     export default {
         components: {
-            Header, Footer
+            Header, Footer, Datetime
         },
         data: function () {
             return {
@@ -621,5 +646,4 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    @import '/assets/plugins/flatpickr/flatpickr.css';
 </style>
