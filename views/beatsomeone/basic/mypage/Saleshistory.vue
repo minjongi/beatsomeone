@@ -88,13 +88,13 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:96px;">
                                     <div class="splitboard">
-                                        <div class="green">$ {{ calcFUncWaitingDeposit() }}
+                                        <div class="green">&#8361; {{watingDepositKr }} <br/>$ {{ watingDepositDr }}
                                             <span>Waiting Deposit</span>
                                         </div>
-                                        <div class="blue">$ {{ calcFUncOrderComplete() }}
+                                        <div class="blue">&#8361; {{orderCompleteKr }} <br/>$ {{ orderCompleteDr }}
                                             <span>Order Complete</span>
                                         </div>
-                                        <div class="red">$ {{ calcFUncRefundComplete() }}
+                                        <div class="red">&#8361; {{refundCompleteKr }} <br/>$ {{ refundCompleteDr }}
                                             <span>Refund Complete</span>
                                         </div>
                                     </div>
@@ -107,6 +107,7 @@
                                 <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
                                 <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
                                 <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">Refund Complete ({{calcRefundCnt}})</div>
                             </div>
                             <div class="sort" style="text-align:right">
                                 <div class="custom-select">
@@ -479,12 +480,20 @@
                 downType: 'All',
                 calcTotalCnt: 0,
                 calcWaitCnt: 0,
-                calcCompleteCnt:0,
+                calcCompleteCnt: 0,
+                calcRefundCnt: 0,
                 start_date: '',
                 end_date: '',
                 totalpage: 0,
                 currPage: 1,
                 perPage: 10,
+                watingDepositKr:0,
+                orderCompleteKr:0,
+                refundCompleteKr:0,
+                watingDepositDr:0,
+                orderCompleteDr:0,
+                refundCompleteDr:0,
+
             };
         },
         mounted(){
@@ -507,6 +516,10 @@
                 this.calcTotalCnt = this.calcFuncTotalCnt();
                 this.calcWaitCnt = this.calcFuncWaitCnt();
                 this.calcCompleteCnt = this.calcFuncCompleteCnt();
+                this.calcRefundCnt = this.calcFuncRefundCnt();
+                this.calcFUncWaitingDeposit();
+                this.calcFUncOrderComplete();
+                this.calcFUncRefundComplete();
             });
             this.ajaxUserInfo();
         },
@@ -636,6 +649,11 @@
                         this.mySalesList = rst;
                         this.search_tabmenu_idx = 3;
                     }
+                    else if(menu == 4){
+                        let rst = list.filter(item => item.cor_status === '2');
+                        this.mySalesList = rst;
+                        this.search_tabmenu_idx = 4;
+                    }
                 });
             },
             goStartDate: function(e){
@@ -692,32 +710,47 @@
                 let rst = list.filter(item => item.cor_status === '1');
                 return rst.length;
             },
+            calcFuncRefundCnt(){
+                let list = [];
+                Object.assign(list,this.mySalesList);
+                let rst = list.filter(item => item.cor_status === '2');
+                return rst.length;
+            },
             calcFUncWaitingDeposit(){
-                let sumPrice = 0;
+                let sumPriceKr = 0;
+                let sumPriceDr = 0;
                 for( let item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '0'){
-                        sumPrice += parseInt(this.mySalesList[item].cor_total_money);
+                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
+                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                return sumPrice
+                this.watingDepositKr = sumPriceKr;
+                this.watingDepositDr = sumPriceDr;
             },
             calcFUncOrderComplete(){
-                let sumPrice = 0;
+                let sumPriceKr = 0;
+                let sumPriceDr = 0;
                 for( var item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '1'){
-                        sumPrice = sumPrice + parseInt(this.mySalesList[item].cor_total_money);
+                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
+                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                return sumPrice
+                this.orderCompleteKr = sumPriceKr;
+                this.orderCompleteDr = sumPriceDr;
             },
             calcFUncRefundComplete(){
-                let sumPrice = 0;
+                let sumPriceKr = 0;
+                let sumPriceDr = 0;
                 for( let item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '2'){
-                        sumPrice += parseInt(this.mySalesList[item].cor_total_money);
+                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
+                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                return sumPrice
+                this.refundCompleteKr = sumPriceKr;
+                this.refundCompleteDr = sumPriceDr;
             },
             makePageList(n){
                 return [...Array(n).keys()].map(x => x=x+1);
