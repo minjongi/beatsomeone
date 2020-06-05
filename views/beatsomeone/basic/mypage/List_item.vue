@@ -137,14 +137,14 @@
                                 </div>
                                 <div class="sort">
                                     <div class="custom-select">
-                                        <button v-show="search_date_option === 0" class="selected-option active" @click="search_date_option = 1">
-                                            Register Date
+                                        <button class="selected-option">
+                                            {{ dateType }}
                                         </button>
-                                        <button v-show="search_date_option === 1" class="selected-option active" @click="search_date_option = 0"> 
-                                            Launch Date 
-                                        </button>
+                                        <div class="options">
+                                            <button data-value="" class="option" @click="funcDateType('Register Date')"> Register Date </button>
+                                            <button data-value="" class="option" @click="funcDateType('Launch Date')"> Launch Date  </button>
+                                        </div>
                                     </div>
-                                </div>
                                 <VueHotelDatepicker
                                         class="search-date"
                                         format="YYYY-MM-DD"
@@ -161,7 +161,7 @@
                             <div class="playList productList">
                                 <ul>
                                     <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
-                                        <div class="playList__item playList__item--title">
+                                        <div class="playList__item active playList__item--title">
                                             <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
                                             <div class="col name">
                                                 <figure>
@@ -380,9 +380,23 @@
                 selectedGenre: [],
                 selectedMood: [],
                 selectedTrackType: [],
+                dateType: 'Register Date',
             };
         },
         mounted(){
+            // 커스텀 셀렉트 옵션
+            $(".custom-select").on("click", function() {
+
+                $(this)
+                    .siblings(".custom-select")
+                    .removeClass("active")
+                    .find(".options")
+                    .hide();
+                $(this).toggleClass("active");
+                $(this)
+                    .find(".options")
+                    .toggle();
+            });
             EventBus.$on('main_player_play',r=> {
                 this.start();
             });
@@ -589,6 +603,19 @@
             setSearchCondition: function(idx){
                 this.search_condition_active_idx = idx;
             },
+            funcDateType: function(t){
+                if(this.dateType == t){
+                    return;
+                }else{
+                    if(t === "Register Date"){
+                        this.search_date_option = 1
+                        this.dateType = t;
+                    }else{
+                        this.search_date_option = 0
+                        this.dateType = t;
+                    }
+                }
+            },
             formatCitName: function(data, limitLth){
                 let rst;
                 if(limitLth < data.length && data.length <= limitLth*2){
@@ -665,7 +692,13 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    @import '/assets/plugins/flatpickr/flatpickr.css';
+
+    // 임시수정 2020-06-04
+    .select-genre .checkbox {
+        font-size: 1rem;
+    }
 </style>
