@@ -131,7 +131,7 @@
                                     <div class="product">Product</div>
                                     <div class="totalprice">Total price</div>
                                     <div class="status">Status</div>
-                                    <div class="user">User</div>
+                                    <div class="user">Buyer</div>
                                     <div class="download">Expire period</div>
                                 </div>
                             </div>
@@ -143,7 +143,8 @@
                                 <ul>
                                     <li v-for="(item, i) in paging()" v-bind:key="item.cor_id + item.cit_id" class="playList__itembox" :id="'slist'+ item.cor_id + item.cit_id">
                                         <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index" v-html="formatCitName(item.cor_id,10)"> </div>
+                                            <!--<div class="index" v-html="formatCitName(item.cor_id,10)"> </div>-->
+                                            <div class="index">{{ calcTotalCnt - i }}</div>
                                             <div class="date">
                                                 {{ item.cor_datetime }}
                                             </div>
@@ -152,7 +153,7 @@
                                                     <span class="playList__cover">
                                                         <!-- <img :src="'/assets/images/cover_default.png'" alt=""> -->
                                                         <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
+                                                        <!-- <i ng-if="item.isNew" class="label new">N</i> -->
                                                     </span>
                                                 </figure>
                                             </div>
@@ -160,7 +161,7 @@
                                             </div>
                                             <div class="totalprice">$ {{ item.cor_total_money }}</div>
                                             <div class="status">
-                                                <div class="blue"> {{ item.status }} </div>
+                                                <div class="blue"> {{ funcStatus(item.cor_status) }} </div>
                                             </div>
                                             <div class="user"> {{ item.mem_userid }} </div>
                                             <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0" class="download">
@@ -560,7 +561,7 @@
                 return rst;
             },
             formatSub: function(data, genre, bpm){
-                return data + "<br/> ( " + genre + " / " + bpm + "bpm )";
+                return data + " ( " + genre + " / " + bpm + "bpm )";
             },
             caclLeftDay: function(orderDate){
                 var tDate = new Date(orderDate);
@@ -705,6 +706,15 @@
             },
             makePageList(n){
                 return [...Array(n).keys()].map(x => x=x+1);
+            },
+            funcStatus(s){
+                if(s == '0'){
+                    return "Deposit Waiting";
+                }else if(s == '1'){
+                    return "Order Complete";
+                }else{
+                    return "Refund Complete";
+                }
             },
             paging() {
                 let list = [];
