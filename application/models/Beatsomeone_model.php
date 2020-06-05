@@ -773,7 +773,7 @@ class Beatsomeone_model extends CB_Model
         $sql .= "    ) b ";
         $sql .= "    on a.cit_id = b.cit_id ";
         $sql .= "    join ( ";
-        $sql .= "        select cit_id, genre, bpm subgenre, moods, trackType, hashTag ";
+        $sql .= "        select cit_id, genre, bpm, subgenre, moods, trackType, hashTag ";
         $sql .= "            , cde_id, cde_price, cde_price_d, cde_quantity, cde_download, cde_originname ";
         $sql .= "            , cde_id_2, cde_price_2, cde_price_d_2, cde_quantity_2, cde_download_2, cde_originname_2 ";
         $sql .= "        from cb_cmall_item_meta_v ";
