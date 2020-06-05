@@ -1233,4 +1233,40 @@ class BeatsomeoneApi extends CB_Controller
     }
 
 
+    public function user_order_history(){
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $this->load->model('Beatsomeone_model');
+
+        $config = array(
+            'mem_id' => $this->member->item('mem_id'),
+        );
+        $cor_id_list = $this->Beatsomeone_model->get_order_history($config);
+        log_message('error', print_r($cor_id_list, true) );
+
+        $sp_list = array();
+        foreach( $cor_id_list as $val ){
+            $sp_info = $this->Beatsomeone_model->get_sales_product_info($val);
+            $temp = new stdClass();
+            $temp->id = $val['cor_id'];
+            $temp->size = count($sp_info);
+            $temp->items = $sp_info;
+            array_push($sp_list, $temp);
+        }
+        log_message('error', print_r($sp_list, true) );
+
+        $rst = array();
+        $rst['message'] = 'ok';
+        $rst['sp_list'] = $sp_list;
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($rst));
+    }
+
+
 }

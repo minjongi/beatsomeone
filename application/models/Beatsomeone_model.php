@@ -762,6 +762,18 @@ class Beatsomeone_model extends CB_Model
         return $rst->result_array();
     }
 
+    // 구매자 구매 목록 조회
+    public function get_order_history($p)
+    {
+        $sql = "SELECT distinct cor_id ";
+        $sql .= "FROM beatsomeone.cb_cmall_order_detail ";
+        $sql .= "where mem_id = ? ";
+                
+        $rst = $this->db->query($sql, array($p['mem_id']));
+
+        return $rst->result_array();
+    }
+
     // 판매자 주문 및 상품 정보 조회
     public function get_sales_product_info($cor_id)
     {
@@ -773,7 +785,7 @@ class Beatsomeone_model extends CB_Model
         $sql .= "    ) b ";
         $sql .= "    on a.cit_id = b.cit_id ";
         $sql .= "    join ( ";
-        $sql .= "        select cit_id, genre, bpm subgenre, moods, trackType, hashTag ";
+        $sql .= "        select cit_id, genre, bpm, subgenre, moods, trackType, hashTag ";
         $sql .= "            , cde_id, cde_price, cde_price_d, cde_quantity, cde_download, cde_originname ";
         $sql .= "            , cde_id_2, cde_price_2, cde_price_d_2, cde_quantity_2, cde_download_2, cde_originname_2 ";
         $sql .= "        from cb_cmall_item_meta_v ";
