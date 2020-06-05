@@ -63,6 +63,15 @@
                                 </div>
                             </div>
                             <div style="margin-left:auto; ">
+                                <VueHotelDatepicker
+                                        class="search-date"
+                                        format="YYYY-MM-DD"
+                                        placeholder="Start date ~ End date"
+                                        :startDate="start_date"
+                                        :endDate="end_date"
+                                        @update="updateSearchDate"
+                                />
+                                <!--
                                 <div>
                                     <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
                                         <input type="date" placeholder="Start Date" @change="goStartDate"/>
@@ -71,6 +80,7 @@
                                         <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                     </div>
                                 </div>
+                                -->
                             </div>
                         </div>
                             
@@ -445,10 +455,11 @@
     import axios from 'axios'
     import moment from "moment";
     import $ from "jquery";
+    import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
 
     export default {
         components: {
-            Header, Footer
+            Header, Footer, VueHotelDatepicker
         },
         data: function() {
             return {
@@ -562,6 +573,10 @@
             },
             formatSub: function(data, genre, bpm){
                 return data + " ( " + genre + " / " + bpm + "bpm )";
+            },
+            updateSearchDate(date){
+                this.start_date = date.start
+                this.end_date = date.end
             },
             caclLeftDay: function(orderDate){
                 var tDate = new Date(orderDate);
