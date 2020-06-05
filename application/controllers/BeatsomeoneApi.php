@@ -1251,11 +1251,13 @@ class BeatsomeoneApi extends CB_Controller
         log_message('error', print_r($cor_id_list, true) );
 
         $sp_list = array();
-        foreach( $cor_id_list as $cor_id ){
-            $sp_info = $this->Beatsomeone_model->get_sales_product_info($cor_id);
-            foreach ( $sp_info as $sp ){
-                array_push($sp_list, $sp);    
-            }
+        foreach( $cor_id_list as $val ){
+            $sp_info = $this->Beatsomeone_model->get_sales_product_info($val);
+            $temp = new stdClass();
+            $temp->id = $val['cor_id'];
+            $temp->size = count($sp_info);
+            $temp->items = $sp_info;
+            array_push($sp_list, $temp);
         }
         log_message('error', print_r($sp_list, true) );
 

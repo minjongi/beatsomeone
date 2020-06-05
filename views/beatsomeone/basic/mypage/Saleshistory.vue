@@ -101,20 +101,22 @@
                             <div class="sort" style="text-align:right">
                                 <div class="custom-select">
                                     <button class="selected-option">
-                                        All
+                                        {{ downType }}
                                     </button>
                                     <div class="options">
-                                        <button data-value="" class="option"> Download Complete </button>
-                                        <button data-value="" class="option"> Not Downloaded </button>
+                                        <button data-value="" class="option" @click="funcDownType('All')"> All </button>
+                                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> Download Complete </button>
+                                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> Not Downloaded </button>
                                     </div>
                                 </div>
 
                                 <div class="custom-select" style="min-width:max-content;">
                                     <button class="selected-option">
-                                        Recent
+                                        {{ orderType }}
                                     </button>
                                     <div class="options">
-                                        <button data-value="" class="option"> Past </button>
+                                        <button data-value="" class="option" @click="funcOrderType('Recent')"> Recent </button>
+                                        <button data-value="" class="option" @click="funcOrderType('Past')"> Past </button>
                                     </div>
                                 </div>
                             </div>
@@ -461,6 +463,8 @@
                 mySalesList: [],
                 search_condition_active_idx: 1,
                 search_tabmenu_idx: 1,
+                orderType: 'Recent',
+                downType: 'All',
                 calcTotalCnt: 0,
                 calcWaitCnt: 0,
                 calcCompleteCnt:0,
@@ -531,8 +535,12 @@
                 const { data } = await axios.get(
                   '/beatsomeoneApi/musician_sales_history', {}
                 );
-                this.mySalesList = data.sp_list;
-                this.totalpage = Math.ceil(data.sp_list.length / this.perPage);
+                this.mySalesList = data.sp_list.reverse();
+                if(this.mySalesList.length == 0){
+                    this.totalpage = 1;
+                }else{
+                    this.totalpage = Math.ceil(this.mySalesList.length / this.perPage);    
+                }
                 console.log(this.mySalesList);
               } catch (err) {
                 console.log('ajaxSalesList error');
@@ -603,12 +611,12 @@
                         this.search_tabmenu_idx = 1;
                     }
                     else if(menu == 2){
-                        let rst = list.filter(item => item.cor_status === '1'); 
+                        let rst = list.filter(item => item.cor_status === '0'); 
                         this.mySalesList = rst; 
                         this.search_tabmenu_idx = 2;
                     }
                     else if(menu == 3){
-                        let rst = list.filter(item => item.cor_status === '2');
+                        let rst = list.filter(item => item.cor_status === '1');
                         this.mySalesList = rst;
                         this.search_tabmenu_idx = 3;
                     }
@@ -659,19 +667,19 @@
             calcFuncWaitCnt(){
                 let list = [];
                 Object.assign(list,this.mySalesList);
-                let rst = list.filter(item => item.cor_status === '1');
+                let rst = list.filter(item => item.cor_status === '0');
                 return rst.length;
             },
             calcFuncCompleteCnt(){
                 let list = [];
                 Object.assign(list,this.mySalesList);
-                let rst = list.filter(item => item.cor_status === '2');
+                let rst = list.filter(item => item.cor_status === '1');
                 return rst.length;
             },
             calcFUncWaitingDeposit(){
                 let sumPrice = 0;
                 for( let item in this.mySalesList){
-                    if(this.mySalesList[item].cor_status == '1'){
+                    if(this.mySalesList[item].cor_status == '0'){
                         sumPrice += parseInt(this.mySalesList[item].cor_total_money);
                     }
                 }
@@ -680,7 +688,7 @@
             calcFUncOrderComplete(){
                 let sumPrice = 0;
                 for( var item in this.mySalesList){
-                    if(this.mySalesList[item].cor_status == '0'){
+                    if(this.mySalesList[item].cor_status == '1'){
                         sumPrice = sumPrice + parseInt(this.mySalesList[item].cor_total_money);
                     }
                 }
@@ -701,8 +709,41 @@
             paging() {
                 let list = [];
                 Object.assign(list,this.mySalesList);
+                if(this.mySalesList.length == 0){
+                    this.totalpage = 1;
+                }else{
+                    this.totalpage = Math.ceil(this.mySalesList.length / this.perPage);    
+                }
                 return list.slice((this.currPage - 1) * this.perPage , this.currPage * this.perPage);
             },
+            funcOrderType(od){
+                if(this.orderType == od){
+                    return;
+                }else{
+                    this.orderType = od;    
+                    this.mySalesList.reverse();
+                }
+            },
+            funcDownType(dt){
+                if(this.downType == dt){
+                    return;
+                }else{
+                    this.ajaxSalesList().then(()=>{
+                        let list = [];
+                        let rst = [];
+                        Object.assign(list,this.mySalesList);
+                        if(dt == "Download Complete"){
+                            rst = list.filter(item => 0 < parseInt(item.cde_download) );
+                        }else if(dt == "Not Download"){
+                            rst = list.filter(item => 0 === parseInt(item.cde_download) );
+                        }else{
+                            rst = list;
+                        }
+                        this.downType = dt;
+                        this.mySalesList = rst;
+                    });
+                }
+            }
         }
     }
 </script>
