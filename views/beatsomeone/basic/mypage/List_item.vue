@@ -145,36 +145,15 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="search-date">
-                                    <datetime
-                                            type="date"
-                                            v-model="start_date"
-                                            :format="{ year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'}"
-                                            :phrases="{ok: 'Select', cancel: 'Exit'}"
-                                            :hour-step="1"
-                                            :minute-step="10"
-                                            :placeholder="$t('dateTime')"
-                                            value-zone="asia/Seoul"
-                                            class="date-selector"
-                                            auto
-                                    />
-                                    <span>─</span>
-                                    <datetime
-                                            type="date"
-                                            v-model="end_date"
-                                            :format="{ year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'}"
-                                            :phrases="{ok: 'Select', cancel: 'Exit'}"
-                                            :hour-step="1"
-                                            :minute-step="10"
-                                            :placeholder="$t('dateTime')"
-                                            value-zone="asia/Seoul"
-                                            class="date-selector"
-                                            auto
-                                    />
-<!--                                    <input type="date" placeholder="Start Date" @change="goStartDate"/>-->
-<!--                                    <input type="date" placeholder="End Date" @change="goEndDate"/>-->
-                                    <button><img src="/assets/images/icon/calendar-white.png" /></button>
-                                </div>
+                                <VueHotelDatepicker
+                                        class="search-date"
+                                        format="YYYY-MM-DD"
+                                        v-model="search_date"
+                                        placeholder="Start date ~ End date"
+                                        :startDate="start_date"
+                                        :endDate="end_date"
+                                        @update="updateSearchDate"
+                                />
                             </div>
                         </div>
 
@@ -243,9 +222,6 @@
                                                         <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
                                                         <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
                                                         <span class="duration">0:00</span></span>
-                                                    </div>
-                                                    <div data-v-27fa6da0="" class="col spectrum">
-                                                        <div class="wave"></div>
                                                     </div>
                                                 </div>
                                                 <div class="amount">
@@ -343,7 +319,7 @@
                                     </li>
                                     -->
                                 </ul>
-
+                                <div id="playerContainer" class="hidden"></div>
                             </div>
                         </div>
 
@@ -351,10 +327,7 @@
                 </div>
             </div>
         </div>
-        <!--
-        <div id="waveform" ></div>
         <main-player></main-player>
-        -->
         <Footer/>
     </div>
 </template>
@@ -362,17 +335,18 @@
 
 <script>
     require('@/assets/js/function')
+    import { EventBus } from '*/src/eventbus';
     import Header from "../include/Header"
     import Footer from "../include/Footer"
     import axios from 'axios'
     import WaveSurfer from 'wavesurfer.js';
     import $ from "jquery";
-    import { Datetime } from 'vue-datetime'
-    import ('vue-datetime/dist/vue-datetime.css')
+    import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
+    import MainPlayer from "@/vue/common/MainPlayer"
 
     export default {
         components: {
-            Header, Footer, Datetime
+            Header, Footer, VueHotelDatepicker, MainPlayer
         },
         data: function () {
             return {
@@ -382,6 +356,7 @@
                 product_status: 'PENDING',
                 myProduct_list: [],
                 isPlay: false,
+                currentPlayId: null,
                 wavesurfer: null,
                 mem_photo: '',
                 mem_usertype: '',
@@ -405,11 +380,15 @@
                 selectedGenre: [],
                 selectedMood: [],
                 selectedTrackType: [],
-
             };
         },
         mounted(){
-
+            EventBus.$on('main_player_play',r=> {
+                this.start();
+            });
+            EventBus.$on('main_player_stop',r=> {
+                this.stop()
+            });
         },
         created() {
             this.ajaxItemList().then(()=>{
@@ -418,17 +397,6 @@
                 this.calcPendingCnt = this.calcFuncPendingCnt();
             });
             this.ajaxUserInfo();
-
-        },
-        watch: {
-            isLogin(){
-                console.log("watch : "+this.isLogin);
-                //console.log(this.$parent);
-
-            },
-        },
-        computed:{
-
         },
         methods:{
             async ajaxItemList () {
@@ -437,7 +405,7 @@
                 const { data } = await axios.get(
                   '/beatsomeoneApi/get_user_regist_item_list', {}
                 );
-                
+
                 console.log(data);/*
                 data.forEach(function(d){
                     console.log(d.cit_datetime);
@@ -636,19 +604,57 @@
                 console.log("productEditBtn:" +key);
                 window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
             },
-            playAudio(i) {
-                this.myProduct_list = [];
-
-                this.wavesurfer = WaveSurfer.create({
-                    container: document.querySelector('#waveform'),
-                });
-                // https://nachwon.github.io/waveform/
-                //http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/d18a3ca0f891d308649a71f5a9834ca7.mp3
-                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/' + i.cde_filename);
-                //this.wavesurfer.on('ready', this.start);
+            updateSearchDate(date){
+                this.start_date = date.start
+                this.end_date = date.end
             },
-            start(){
-                this.wavesurfer.play();
+            playAudio(i) {
+                if(!this.isPlay || this.currentPlayId !== i.cit_id) {
+                    if (this.currentPlayId !== i.cit_id) {
+                        this.setAudioInstance(i)
+                    }
+                    this.currentPlayId = i.cit_id
+                    EventBus.$emit('player_request_start',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    this.start();
+                }
+                else {
+                    EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    this.stop();
+                }
+            },
+            setAudioInstance(item) {
+                if (!this.wavesurfer) {
+                    this.wavesurfer = WaveSurfer.create({
+                        container: "#playerContainer",
+                        waveColor: "#696969",
+                        progressColor: "#c3ac45",
+                        hideScrollbar: true,
+                        height: 40,
+                    });
+                }
+
+                if(item.cde_id) {
+                    this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
+                }
+
+                this.wavesurfer.on("ready", () => {
+                    this.wavesurfer.play();
+                });
+            },
+            stop() {
+                if(this.wavesurfer) {
+                    this.wavesurfer.pause();
+                }
+                this.isPlay = false;
+
+            },
+            start(isInit) {
+                if(this.wavesurfer) {
+                    this.wavesurfer.play();
+                }
+                if(!isInit) {
+                    this.isPlay = true;
+                }
             },
         }
     }
