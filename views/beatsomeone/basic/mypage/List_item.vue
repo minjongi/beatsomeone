@@ -146,6 +146,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="sort datepicker">
                                     <input type="date" placeholder="Start Date" @change="goStartDate"/>
                                     <span>─</span>
@@ -416,7 +417,7 @@
             },
         },
         computed:{
-
+            
         },
         methods:{
             async ajaxItemList () {
@@ -660,8 +661,13 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     @import '/assets/plugins/flatpickr/flatpickr.css';
+
+    // 임시수정 2020-06-04
+    .select-genre .checkbox {
+        font-size: 1rem;
+    }
 </style>
