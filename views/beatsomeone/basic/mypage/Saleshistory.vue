@@ -170,7 +170,7 @@
                                             </div>
                                             <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)">
                                             </div>
-                                            <div class="totalprice">$ {{ item.cor_total_money }}</div>
+                                            <div class="totalprice">&#8361; {{ item.cde_price }}<br/>$ {{ item.cde_price_d }}</div>
                                             <div class="status">
                                                 <div class="blue"> {{ funcStatus(item.cor_status) }} </div>
                                             </div>
