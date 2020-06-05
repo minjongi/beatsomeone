@@ -136,7 +136,7 @@
                                     </div>
                                 </div>
                                 <div class="sort">
-                                    <div class="custom-select">
+                                    <div class="custom-select custom-select-dropdown">
                                         <button class="selected-option">
                                             Register Date
                                         </button>
@@ -390,10 +390,10 @@
         },
         mounted(){
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".custom-select-dropdown").on("click", function() {
 
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".custom-select-dropdown")
                     .removeClass("active")
                     .find(".options")
                     .hide();
