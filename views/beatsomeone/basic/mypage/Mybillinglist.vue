@@ -92,20 +92,22 @@
                             <div class="sort" style="text-align:right">
                                 <div class="custom-select">
                                     <button class="selected-option">
-                                        All
+                                        {{ downType }}
                                     </button>
                                     <div class="options">
-                                        <button data-value="" class="option"> Download Complete </button>
-                                        <button data-value="" class="option"> Not Downloaded </button>
+                                        <button data-value="" class="option" @click="funcDownType('All')"> All </button>
+                                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> Download Complete </button>
+                                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> Not Downloaded </button>
                                     </div>
                                 </div>
 
                                 <div class="custom-select" style="min-width:max-content;">
                                     <button class="selected-option">
-                                        Recent
+                                        {{ orderType }}
                                     </button>
                                     <div class="options">
-                                        <button data-value="" class="option"> Past </button>
+                                        <button data-value="" class="option" @click="funcOrderType('Recent')"> Recent </button>
+                                        <button data-value="" class="option" @click="funcOrderType('Past')"> Past </button>
                                     </div>
                                 </div>
                             </div>
@@ -128,17 +130,17 @@
                             <div class="playList board mybillinglist">
 
                                 <ul>
-                                    <li v-for="(item, i) in paging()" v-bind:key="item.cor_id + item.cit_id" class="playList__itembox" :id="'slist'+ item.cor_id + item.cit_id">
+                                    <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox" :id="'slist'+ item['id']">
                                         <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index" v-html="formatCitName(item.cor_id,10)"> </div>
+                                            <div class="index" v-html="formatCitName(item['id'],10)"> </div>
                                             <div class="date">
-                                                {{ item.cor_datetime }}
+                                                {{ item['items'][0].cor_datetime }}
                                             </div>
-                                            <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)">
+                                            <div class="subject" v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])">
                                             </div>
-                                            <div class="totalprice">$ {{ item.cor_total_money }}</div>
+                                            <div class="totalprice">$ {{ item['items'][0].cor_total_money }}</div>
                                             <div class="status">
-                                                <div class="blue"> {{ item.status }} </div>
+                                                <div class="blue"> {{ item['items'][0].status }} </div>
                                             </div>
                                             <div class="download">
                                                 <span class="red">Impossible 2</span>
@@ -250,6 +252,8 @@
                 myOrderList: [],
                 search_condition_active_idx: 1,
                 search_tabmenu_idx: 1,
+                orderType: 'Recent',
+                downType: 'All',
                 calcTotalCnt: 0,
                 calcWaitCnt: 0,
                 calcCompleteCnt:0,
@@ -257,7 +261,7 @@
                 end_date: '',
                 totalpage: 0,
                 currPage: 1,
-                perPage: 3,
+                perPage: 10,
             };
         },
         mounted(){
@@ -315,8 +319,12 @@
                 const { data } = await axios.get(
                   '/beatsomeoneApi/user_order_history', {}
                 );
-                this.myOrderList = data.sp_list;
-                this.totalpage = Math.ceil(data.sp_list.length / this.perPage);
+                this.myOrderList = data.sp_list.reverse();
+                if(this.myOrderList.length == 0){
+                    this.totalpage = 1;
+                }else{
+                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);    
+                }
                 console.log(this.myOrderList);
               } catch (err) {
                 console.log('ajaxOrderList error');
@@ -335,8 +343,11 @@
                 }
                 return rst;
             },
-            formatSub: function(data, genre, bpm){
-                return data + "<br/> ( " + genre + " / " + bpm + "bpm )";
+            formatSub: function(data, size){
+                if(1 < size){
+                    return data + " 외 " + (size-1) + "건"; 
+                }
+                return data;
             },
             calcFuncTotalCnt(){
                 return this.myOrderList.length;
@@ -344,13 +355,13 @@
             calcFuncWaitCnt(){
                 let list = [];
                 Object.assign(list,this.myOrderList);
-                let rst = list.filter(item => item.cor_status === '1');
+                let rst = list.filter(item => item['items'][0].cor_status === '0');
                 return rst.length;
             },
             calcFuncCompleteCnt(){
                 let list = [];
                 Object.assign(list,this.myOrderList);
-                let rst = list.filter(item => item.cor_status === '2');
+                let rst = list.filter(item => item['items'][0].cor_status === '1');
                 return rst.length;
             },
             caclLeftDay: function(orderDate){
@@ -378,17 +389,17 @@
                     }
                     else if(this.search_condition_active_idx == 2){
                         let m3 = moment(new Date().getTime()).add("-3", "M");
-                        let rst = list.filter(item => moment(item.cor_datetime).isAfter(m3)); 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m3)); 
                         this.myOrderList = rst; 
                     }
                     else if(this.search_condition_active_idx == 3){
                         let m6 = moment(new Date().getTime()).add("-6", "M");
-                        let rst = list.filter(item => moment(item.cor_datetime).isAfter(m6)); 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m6)); 
                         this.myOrderList = rst;
                     }
                     else if(this.search_condition_active_idx == 4){
                         let m12 = moment(new Date().getTime()).add("-1", "y");
-                        let rst = list.filter(item => moment(item.cor_datetime).isAfter(m12)); 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m12)); 
                         this.myOrderList = rst;
                     }
                 });
@@ -402,12 +413,12 @@
                         this.search_tabmenu_idx = 1;
                     }
                     else if(menu == 2){
-                        let rst = list.filter(item => item.cor_status === '1'); 
+                        let rst = list.filter(item => item['items'][0].cor_status === '0'); 
                         this.myOrderList = rst; 
                         this.search_tabmenu_idx = 2;
                     }
                     else if(menu == 3){
-                        let rst = list.filter(item => item.cor_status === '2');
+                        let rst = list.filter(item => item['items'][0].cor_status === '1');
                         this.myOrderList = rst;
                         this.search_tabmenu_idx = 3;
                     }
@@ -435,8 +446,8 @@
                 this.ajaxOrderList().then(()=>{
                     let list = [];
                     Object.assign(list,this.myOrderList);
-                    let rst = list.filter(item => this.start_date <= item.cor_datetime.substr(0,10) 
-                                                && item.cor_datetime.substr(0,10) <= this.end_date);
+                    let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0,10) 
+                                                && item['items'][0].cor_datetime.substr(0,10) <= this.end_date);
                     this.myOrderList = rst;
                 });
             },
@@ -458,8 +469,41 @@
             paging() {
                 let list = [];
                 Object.assign(list,this.myOrderList);
+                if(this.myOrderList.length == 0){
+                    this.totalpage = 1;
+                }else{
+                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);    
+                }
                 return list.slice((this.currPage - 1) * this.perPage , this.currPage * this.perPage);
             },
+            funcOrderType(od){
+                if(this.orderType == od){
+                    return;
+                }else{
+                    this.orderType = od;    
+                    this.myOrderList.reverse();
+                }
+            },
+            funcDownType(dt){
+                if(this.downType == dt){
+                    return;
+                }else{
+                    this.ajaxOrderList().then(()=>{
+                        let list = [];
+                        let rst = [];
+                        Object.assign(list,this.myOrderList);
+                        if(dt == "Download Complete"){
+                            rst = list.filter(item => 0 < parseInt(item['items'][0].cde_download) );
+                        }else if(dt == "Not Download"){
+                            rst = list.filter(item => 0 === parseInt(item['items'][0].cde_download) );
+                        }else{
+                            rst = list;
+                        }
+                        this.downType = dt;
+                        this.myOrderList = rst;
+                    });
+                }
+            }
         }
     }
 </script>

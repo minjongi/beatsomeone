@@ -613,6 +613,34 @@ section[class*="section"]{
     margin-left:10px;
   }
 
+  .search-date {
+    font-size:12px;
+    position:relative;
+    display:inline-block;
+    width: auto;
+    max-width:max-content;
+    margin-left: 10px;
+    height:40px;
+    border-radius:4px;
+    border: 1px solid #414143;
+    color:white;
+    padding:0 8px;
+
+    .vhd-picker {
+      right:0;
+      left:unset;
+    }
+
+    input {
+      border: 0;
+      font-size:14px;
+      padding: 0 24px 0 0;
+      line-height: 40px;
+      color: #ffffff;
+      min-width: inherit;
+      background: url('/assets/images/icon/calendar-white.png') no-repeat right center;
+    }
+  }
 }
 
 .sort .btn{
@@ -3385,4 +3413,8 @@ textarea{
     border-radius:10px;
     background:#FFDA2A;
   }
+}
+
+.hidden {
+  display: none;
 }

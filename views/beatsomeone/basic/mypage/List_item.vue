@@ -138,25 +138,22 @@
                                 <div class="sort">
                                     <div class="custom-select custom-select-dropdown">
                                         <button class="selected-option">
-                                            Register Date
+                                            {{ dateType }}
                                         </button>
                                         <div class="options">
-                                            <button class="option" data-value="">
-                                                Register Date
-                                            </button>
-                                            <button class="option" data-value="">
-                                                Launch Date
-                                            </button>
+                                            <button data-value="" class="option" @click="funcDateType('Register Date')"> Register Date </button>
+                                            <button data-value="" class="option" @click="funcDateType('Launch Date')"> Launch Date  </button>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="sort datepicker">
-                                    <input type="date" placeholder="Start Date" @change="goStartDate"/>
-                                    <span>─</span>
-                                    <input type="date" placeholder="End Date" @change="goEndDate"/>
-                                    <button><img src="/assets/images/icon/calendar-white.png" /></button>
-                                </div>
+                                <VueHotelDatepicker
+                                        class="search-date"
+                                        format="YYYY-MM-DD"
+                                        placeholder="Start date ~ End date"
+                                        :startDate="start_date"
+                                        :endDate="end_date"
+                                        @update="updateSearchDate"
+                                />
                             </div>
                         </div>
 
@@ -164,7 +161,7 @@
                             <div class="playList productList">
                                 <ul>
                                     <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
-                                        <div class="playList__item playList__item--title">
+                                        <div class="playList__item active playList__item--title">
                                             <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
                                             <div class="col name">
                                                 <figure>
@@ -225,9 +222,6 @@
                                                         <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
                                                         <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
                                                         <span class="duration">0:00</span></span>
-                                                    </div>
-                                                    <div data-v-27fa6da0="" class="col spectrum">
-                                                        <div class="wave"></div>
                                                     </div>
                                                 </div>
                                                 <div class="amount">
@@ -325,7 +319,7 @@
                                     </li>
                                     -->
                                 </ul>
-
+                                <div id="playerContainer" class="hidden"></div>
                             </div>
                         </div>
 
@@ -333,10 +327,7 @@
                 </div>
             </div>
         </div>
-        <!--
-        <div id="waveform" ></div>
         <main-player></main-player>
-        -->
         <Footer/>
     </div>
 </template>
@@ -344,16 +335,18 @@
 
 <script>
     require('@/assets/js/function')
+    import { EventBus } from '*/src/eventbus';
     import Header from "../include/Header"
     import Footer from "../include/Footer"
     import axios from 'axios'
     import WaveSurfer from 'wavesurfer.js';
     import $ from "jquery";
-
+    import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
+    import MainPlayer from "@/vue/common/MainPlayer"
 
     export default {
         components: {
-            Header, Footer
+            Header, Footer, VueHotelDatepicker, MainPlayer
         },
         data: function () {
             return {
@@ -363,6 +356,7 @@
                 product_status: 'PENDING',
                 myProduct_list: [],
                 isPlay: false,
+                currentPlayId: null,
                 wavesurfer: null,
                 mem_photo: '',
                 mem_usertype: '',
@@ -385,7 +379,8 @@
                 listTrackType: window.trackType,
                 selectedGenre: [],
                 selectedMood: [],
-                selectedTrackType: []
+                selectedTrackType: [],
+                dateType: 'Register Date',
             };
         },
         mounted(){
@@ -401,7 +396,13 @@
                 $(this)
                     .find(".options")
                     .toggle();
-            })
+            });
+            EventBus.$on('main_player_play',r=> {
+                this.start();
+            });
+            EventBus.$on('main_player_stop',r=> {
+                this.stop()
+            });
         },
         created() {
             this.ajaxItemList().then(()=>{
@@ -410,17 +411,6 @@
                 this.calcPendingCnt = this.calcFuncPendingCnt();
             });
             this.ajaxUserInfo();
-
-        },
-        watch: {
-            isLogin(){
-                console.log("watch : "+this.isLogin);
-                //console.log(this.$parent);
-
-            },
-        },
-        computed:{
-            
         },
         methods:{
             async ajaxItemList () {
@@ -429,7 +419,7 @@
                 const { data } = await axios.get(
                   '/beatsomeoneApi/get_user_regist_item_list', {}
                 );
-                
+
                 console.log(data);/*
                 data.forEach(function(d){
                     console.log(d.cit_datetime);
@@ -613,6 +603,19 @@
             setSearchCondition: function(idx){
                 this.search_condition_active_idx = idx;
             },
+            funcDateType: function(t){
+                if(this.dateType == t){
+                    return;
+                }else{
+                    if(t === "Register Date"){
+                        this.search_date_option = 1
+                        this.dateType = t;
+                    }else{
+                        this.search_date_option = 0
+                        this.dateType = t;
+                    }
+                }
+            },
             formatCitName: function(data, limitLth){
                 let rst;
                 if(limitLth < data.length && data.length <= limitLth*2){
@@ -628,19 +631,57 @@
                 console.log("productEditBtn:" +key);
                 window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
             },
-            playAudio(i) {
-                this.myProduct_list = [];
-
-                this.wavesurfer = WaveSurfer.create({
-                    container: document.querySelector('#waveform'),
-                });
-                // https://nachwon.github.io/waveform/
-                //http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/d18a3ca0f891d308649a71f5a9834ca7.mp3
-                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/' + i.cde_filename);
-                //this.wavesurfer.on('ready', this.start);
+            updateSearchDate(date){
+                this.start_date = date.start
+                this.end_date = date.end
             },
-            start(){
-                this.wavesurfer.play();
+            playAudio(i) {
+                if(!this.isPlay || this.currentPlayId !== i.cit_id) {
+                    if (this.currentPlayId !== i.cit_id) {
+                        this.setAudioInstance(i)
+                    }
+                    this.currentPlayId = i.cit_id
+                    EventBus.$emit('player_request_start',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    this.start();
+                }
+                else {
+                    EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    this.stop();
+                }
+            },
+            setAudioInstance(item) {
+                if (!this.wavesurfer) {
+                    this.wavesurfer = WaveSurfer.create({
+                        container: "#playerContainer",
+                        waveColor: "#696969",
+                        progressColor: "#c3ac45",
+                        hideScrollbar: true,
+                        height: 40,
+                    });
+                }
+
+                if(item.cde_id) {
+                    this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
+                }
+
+                this.wavesurfer.on("ready", () => {
+                    this.wavesurfer.play();
+                });
+            },
+            stop() {
+                if(this.wavesurfer) {
+                    this.wavesurfer.pause();
+                }
+                this.isPlay = false;
+
+            },
+            start(isInit) {
+                if(this.wavesurfer) {
+                    this.wavesurfer.play();
+                }
+                if(!isInit) {
+                    this.isPlay = true;
+                }
             },
         }
     }
