@@ -145,10 +145,10 @@
                                             <button data-value="" class="option" @click="funcDateType('Launch Date')"> Launch Date  </button>
                                         </div>
                                     </div>
+                                </div>
                                 <VueHotelDatepicker
                                         class="search-date"
                                         format="YYYY-MM-DD"
-                                        v-model="search_date"
                                         placeholder="Start date ~ End date"
                                         :startDate="start_date"
                                         :endDate="end_date"
