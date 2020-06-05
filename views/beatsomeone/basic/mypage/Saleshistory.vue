@@ -441,6 +441,7 @@
     import Footer from "../include/Footer"
     import axios from 'axios'
     import moment from "moment";
+    import $ from "jquery";
 
     export default {
         components: {
@@ -471,7 +472,19 @@
             };
         },
         mounted(){
+             // 커스텀 셀렉트 옵션
+            $(".custom-select").on("click", function() {
 
+                $(this)
+                    .siblings(".custom-select")
+                    .removeClass("active")
+                    .find(".options")
+                    .hide();
+                $(this).toggleClass("active");
+                $(this)
+                    .find(".options")
+                    .toggle();
+            });
         },
         created(){
             this.ajaxSalesList().then(()=>{
