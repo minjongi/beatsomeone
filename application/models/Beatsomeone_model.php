@@ -762,6 +762,18 @@ class Beatsomeone_model extends CB_Model
         return $rst->result_array();
     }
 
+    // 구매자 구매 목록 조회
+    public function get_order_history($p)
+    {
+        $sql = "SELECT distinct cor_id ";
+        $sql .= "FROM beatsomeone.cb_cmall_order_detail ";
+        $sql .= "where mem_id = ? ";
+                
+        $rst = $this->db->query($sql, array($p['mem_id']));
+
+        return $rst->result_array();
+    }
+
     // 판매자 주문 및 상품 정보 조회
     public function get_sales_product_info($cor_id)
     {
