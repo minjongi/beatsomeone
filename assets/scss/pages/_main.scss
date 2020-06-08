@@ -996,10 +996,11 @@ section[class*="section"]{
 
   }
 
-  .playList__item.active{
-    max-height:278px;
+  .playList__item {
+    // max-height:278px;
+    max-height:initial;
 
-    .option{
+    .option > .active {
       .option_fold{
           > img{
             transform:rotate(180deg);
@@ -1745,7 +1746,6 @@ textarea{
   flex-wrap: initial!important;
 }
 
-
 .tab{
   > div{
     padding:16px 0;
@@ -1783,6 +1783,13 @@ textarea{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  
+  // div Table .date Color
+  .tab.nowrap {
+    > div {
+      color: white
+    }
   }
 
 }
@@ -2163,13 +2170,17 @@ textarea{
 
     .totalprice{
       color:rgba(255,255,255,.7);
-      text-align:right;
+      // text-align:right;
     }  
 
     .download{
       font-size:12px;
       text-align: right;
     }
+  }
+
+  .subject {
+    opacity: .7;
   }
 }
 
