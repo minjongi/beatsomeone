@@ -181,16 +181,16 @@
                                                           <div class="code">{{ item.cit_key }}</div>
                                                         </div>
                                                         <h3 class="playList__title" v-html="formatCitName(item.cit_name,50)"></h3>
-                                                        <span class="playList__by">by Sellername</span>
-                                                        <span class="playList__bpm">BPM {{ item.bpm }}</span>
+                                                        <span class="playList__by">by {{mem_nickname}}</span>
+                                                        <span class="playList__bpm">{{ item.genre }} | BPM {{ item.bpm }}</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
                                             <div class="col option">
                                                 <!-- BASIC LEASE LICENSE -->
-                                                <div class="active">
-                                                    <button class="playList__item--button">
-                                                        <span class="option_fold"><img src="/assets/images/icon/togglefold.png"/></span>
+                                                <div v-show="item.cit_lease_license_use === '1' ">
+                                                    <button class="playList__item--button" @click="toggleButton">
+                                                        <span class="option_fold"><img src="/assets/images/icon/togglefold.png" /></span>
                                                         <div>
                                                             <div class="title">BASIC LEASE LICENSE</div>
                                                             <div class="detail">MP3 or WAV</div>
@@ -204,8 +204,8 @@
                                                     </div>
                                                 </div>
                                                 <!-- UNLIMITED STEMS LICENSE -->
-                                                <div>
-                                                    <button class="playList__item--button">
+                                                <div v-show="item.cit_mastering_license_use === '1' ">
+                                                    <button class="playList__item--button" @click="toggleButton">
                                                         <span class="option_fold"><img src="/assets/images/icon/togglefold.png"/></span>
                                                         <div>
                                                             <div class="title">UNLIMITED STEMS LICENSE</div>
@@ -367,6 +367,7 @@
                 group_title: 'SELLER',
                 product_status: 'PENDING',
                 myProduct_list: [],
+                item_options:[],
                 isPlay: false,
                 currentPlayId: null,
                 wavesurfer: null,
@@ -534,6 +535,10 @@
                 }else{
                     this.GMT = 1;
                 }
+            },
+            toggleButton: function(e){
+                console.log(e);
+                $(e.path[3]).toggleClass("active");
             },
             goGMTBtn: function(type){
                 if(type=="Apply"){
