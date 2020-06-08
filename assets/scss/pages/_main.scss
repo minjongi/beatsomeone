@@ -769,6 +769,7 @@ section[class*="section"]{
 
 }
 
+/* productList */
 .productList{
 
   .col{
@@ -791,7 +792,7 @@ section[class*="section"]{
     padding:20px;
     height:auto;
     min-height: 184px;
-    max-height: 184px;
+    // max-height: 184px;
     overflow:hidden;
     transition:.3s ease;
 
@@ -887,10 +888,10 @@ section[class*="section"]{
       }
 
       .option_item{
-         flex-direction: column;
-         margin-top: 20px;
-         margin-bottom: 50px;
-         opacity:0;
+        flex-direction: column;
+        margin-top: 20px;
+        margin-bottom: 50px;
+        opacity:0;
         transform:translateY(-10%);
         transition:.3s ease;
 
@@ -963,6 +964,22 @@ section[class*="section"]{
         &:only-child{
           margin-top:15px;
         }
+        &.open {
+          margin-top: 145px;
+        }
+      }
+    }
+    .other {
+      .feature {
+        .price {
+          &:last-child {
+            margin-top: 34px;
+            display: block !important;
+          }
+          &.active {
+            margin-top: 145px;
+          }
+        }
       }
     }
 
@@ -1000,7 +1017,7 @@ section[class*="section"]{
     // max-height:278px;
     max-height:initial;
 
-    .option > .active {
+    .option .active {
       .option_fold{
           > img{
             transform:rotate(180deg);
@@ -1009,8 +1026,43 @@ section[class*="section"]{
        }
 
       .option_item{
+        display: block;
         opacity:1;
+        margin-bottom: 0;
         transform:translateY(0%);
+      }
+    }
+
+     // &.active .option {
+    //   .option_fold{
+    //       > img{
+    //         transform:rotate(180deg);
+    //         opacity:1;
+    //       }
+    //    }
+
+    //   .option_item{
+    //     opacity:1;
+    //     transform:translateY(0%);
+    //   }
+    // }
+
+    &.other {
+      .option > div+div {
+        margin-top: 45px;
+      }
+      .playList__item--button {
+        margin-bottom: 20px;
+      }
+      .option_item {
+        margin: 0;
+        overflow: hidden;
+        height: 0;
+      }
+      .active {
+        .option_item {
+          height: auto;
+        }
       }
     }
 }
