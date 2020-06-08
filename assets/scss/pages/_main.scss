@@ -792,9 +792,8 @@ section[class*="section"]{
     padding:20px;
     height:auto;
     min-height: 184px;
-    // max-height: 184px;
-    overflow:hidden;
-    transition:.3s ease;
+    // overflow:hidden;
+    transition: max-height 0.3s ease;
 
     > * {
       flex:1!important;
@@ -1028,7 +1027,7 @@ section[class*="section"]{
       .option_item{
         display: block;
         opacity:1;
-        margin-bottom: 0;
+        // margin-bottom: 0;
         transform:translateY(0%);
       }
     }
@@ -1090,20 +1089,31 @@ section[class*="section"]{
     // }
 
     &.other {
+      padding-bottom: 46px;
       .option > div+div {
-        margin-top: 45px;
+        margin-top: 20px;
       }
       .playList__item--button {
         margin-bottom: 20px;
       }
       .option_item {
-        margin: 0;
+        margin-top: 20px;
+        margin-bottom: 0;
         overflow: hidden;
         height: 0;
+        transition: 0.3s ease;
       }
       .active {
         .option_item {
           height: auto;
+          margin-bottom: 30px;
+          // max-height: 252px;
+          &.basic {
+            height: 113px;
+          }
+          &.unlimited {
+            height: 252px;
+          }
         }
       }
     }
