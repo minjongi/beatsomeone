@@ -204,13 +204,13 @@
                                                 <!-- Option -->
                                                 <div class="option">
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-show="item.cit_lease_license_use === '1' ">
+                                                    <div class="n-box" v-show="item.cit_lease_license_use === '1' " >
                                                         
                                                         <div>
-                                                            <button class="playList__item--button" @click="toggleButton">
-                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png"/></span>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title">BASIC LEASE LICENSE</div>
+                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <div class="detail">MP3 or WAV</div>
                                                                 </div>
                                                             </button>
@@ -225,13 +225,13 @@
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-show="item.cit_mastering_license_use === '1' ">
+                                                    <div class="n-box" v-show="item.cit_mastering_license_use === '1' " >
                                                         
                                                         <div>
-                                                            <button class="playList__item--button" @click="toggleButton">
-                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png"/></span>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title">UNLIMITED STEMS LICENSE</div>
+                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <div class="detail">MP3 or WAV + STEMS</div>
                                                                 </div>
                                                             </button>
@@ -537,7 +537,13 @@
                 }
             },
             toggleButton: function(e){
-                $(e.path[3]).toggleClass("active");
+                if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box"){
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box active";
+                }else if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box active"){
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box";
+                }else{
+                    //
+                }
             },
             goGMTBtn: function(type){
                 if(type=="Apply"){
