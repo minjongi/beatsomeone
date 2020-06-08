@@ -204,10 +204,10 @@
                                                 <!-- Option -->
                                                 <div class="option">
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box active" v-show="item.cit_lease_license_use === '1' ">
+                                                    <div class="n-box" v-show="item.cit_lease_license_use === '1' ">
                                                         
                                                         <div>
-                                                            <button class="playList__item--button">
+                                                            <button class="playList__item--button" @click="toggleButton">
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png"/></span>
                                                                 <div>
                                                                     <div class="title">BASIC LEASE LICENSE</div>
@@ -228,7 +228,7 @@
                                                     <div class="n-box" v-show="item.cit_mastering_license_use === '1' ">
                                                         
                                                         <div>
-                                                            <button class="playList__item--button">
+                                                            <button class="playList__item--button" @click="toggleButton">
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png"/></span>
                                                                 <div>
                                                                     <div class="title">UNLIMITED STEMS LICENSE</div>
@@ -535,6 +535,9 @@
                 }else{
                     this.GMT = 1;
                 }
+            },
+            toggleButton: function(e){
+                $(e.path[3]).toggleClass("active");
             },
             goGMTBtn: function(type){
                 if(type=="Apply"){
