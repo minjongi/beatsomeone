@@ -63,6 +63,15 @@
                                 </div>
                             </div>
                             <div style="margin-left:auto; ">
+                                <VueHotelDatepicker
+                                        class="search-date"
+                                        format="YYYY-MM-DD"
+                                        placeholder="Start date ~ End date"
+                                        :startDate="start_date"
+                                        :endDate="end_date"
+                                        @update="updateSearchDate"
+                                />
+                                <!--
                                 <div>
                                     <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
                                         <input type="date" placeholder="Start Date" @change="goStartDate"/>
@@ -71,6 +80,7 @@
                                         <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                     </div>
                                 </div>
+                                -->
                             </div>
                         </div>
                             
@@ -78,13 +88,13 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:96px;">
                                     <div class="splitboard">
-                                        <div class="green">$ {{ calcFUncWaitingDeposit() }}
+                                        <div class="green">&#8361; {{watingDepositKr }} <br/>$ {{ watingDepositDr }}
                                             <span>Waiting Deposit</span>
                                         </div>
-                                        <div class="blue">$ {{ calcFUncOrderComplete() }}
+                                        <div class="blue">&#8361; {{orderCompleteKr }} <br/>$ {{ orderCompleteDr }}
                                             <span>Order Complete</span>
                                         </div>
-                                        <div class="red">$ {{ calcFUncRefundComplete() }}
+                                        <div class="red">&#8361; {{refundCompleteKr }} <br/>$ {{ refundCompleteDr }}
                                             <span>Refund Complete</span>
                                         </div>
                                     </div>
@@ -97,6 +107,7 @@
                                 <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
                                 <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
                                 <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">Refund Complete ({{calcRefundCnt}})</div>
                             </div>
                             <div class="sort" style="text-align:right">
                                 <div class="custom-select">
@@ -131,7 +142,7 @@
                                     <div class="product">Product</div>
                                     <div class="totalprice">Total price</div>
                                     <div class="status">Status</div>
-                                    <div class="user">User</div>
+                                    <div class="user">Buyer</div>
                                     <div class="download">Expire period</div>
                                 </div>
                             </div>
@@ -143,7 +154,8 @@
                                 <ul>
                                     <li v-for="(item, i) in paging()" v-bind:key="item.cor_id + item.cit_id" class="playList__itembox" :id="'slist'+ item.cor_id + item.cit_id">
                                         <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index" v-html="formatCitName(item.cor_id,10)"> </div>
+                                            <!--<div class="index" v-html="formatCitName(item.cor_id,10)"> </div>-->
+                                            <div class="index">{{ calcTotalCnt - i }}</div>
                                             <div class="date">
                                                 {{ item.cor_datetime }}
                                             </div>
@@ -152,15 +164,15 @@
                                                     <span class="playList__cover">
                                                         <!-- <img :src="'/assets/images/cover_default.png'" alt=""> -->
                                                         <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
+                                                        <!-- <i ng-if="item.isNew" class="label new">N</i> -->
                                                     </span>
                                                 </figure>
                                             </div>
                                             <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)">
                                             </div>
-                                            <div class="totalprice">$ {{ item.cor_total_money }}</div>
+                                            <div class="totalprice">&#8361; {{ item.cde_price }}<br/>$ {{ item.cde_price_d }}</div>
                                             <div class="status">
-                                                <div class="blue"> {{ item.status }} </div>
+                                                <div class="blue"> {{ funcStatus(item.cor_status) }} </div>
                                             </div>
                                             <div class="user"> {{ item.mem_userid }} </div>
                                             <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0" class="download">
@@ -444,10 +456,11 @@
     import axios from 'axios'
     import moment from "moment";
     import $ from "jquery";
+    import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
 
     export default {
         components: {
-            Header, Footer
+            Header, Footer, VueHotelDatepicker
         },
         data: function() {
             return {
@@ -467,12 +480,20 @@
                 downType: 'All',
                 calcTotalCnt: 0,
                 calcWaitCnt: 0,
-                calcCompleteCnt:0,
+                calcCompleteCnt: 0,
+                calcRefundCnt: 0,
                 start_date: '',
                 end_date: '',
                 totalpage: 0,
                 currPage: 1,
                 perPage: 10,
+                watingDepositKr:0,
+                orderCompleteKr:0,
+                refundCompleteKr:0,
+                watingDepositDr:0,
+                orderCompleteDr:0,
+                refundCompleteDr:0,
+
             };
         },
         mounted(){
@@ -495,6 +516,10 @@
                 this.calcTotalCnt = this.calcFuncTotalCnt();
                 this.calcWaitCnt = this.calcFuncWaitCnt();
                 this.calcCompleteCnt = this.calcFuncCompleteCnt();
+                this.calcRefundCnt = this.calcFuncRefundCnt();
+                this.calcFUncWaitingDeposit();
+                this.calcFUncOrderComplete();
+                this.calcFUncRefundComplete();
             });
             this.ajaxUserInfo();
         },
@@ -560,7 +585,11 @@
                 return rst;
             },
             formatSub: function(data, genre, bpm){
-                return data + "<br/> ( " + genre + " / " + bpm + "bpm )";
+                return data + " ( " + genre + " / " + bpm + "bpm )";
+            },
+            updateSearchDate(date){
+                this.start_date = date.start
+                this.end_date = date.end
             },
             caclLeftDay: function(orderDate){
                 var tDate = new Date(orderDate);
@@ -620,6 +649,11 @@
                         this.mySalesList = rst;
                         this.search_tabmenu_idx = 3;
                     }
+                    else if(menu == 4){
+                        let rst = list.filter(item => item.cor_status === '2');
+                        this.mySalesList = rst;
+                        this.search_tabmenu_idx = 4;
+                    }
                 });
             },
             goStartDate: function(e){
@@ -676,35 +710,59 @@
                 let rst = list.filter(item => item.cor_status === '1');
                 return rst.length;
             },
+            calcFuncRefundCnt(){
+                let list = [];
+                Object.assign(list,this.mySalesList);
+                let rst = list.filter(item => item.cor_status === '2');
+                return rst.length;
+            },
             calcFUncWaitingDeposit(){
-                let sumPrice = 0;
+                let sumPriceKr = 0;
+                let sumPriceDr = 0;
                 for( let item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '0'){
-                        sumPrice += parseInt(this.mySalesList[item].cor_total_money);
+                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
+                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                return sumPrice
+                this.watingDepositKr = sumPriceKr;
+                this.watingDepositDr = sumPriceDr;
             },
             calcFUncOrderComplete(){
-                let sumPrice = 0;
+                let sumPriceKr = 0;
+                let sumPriceDr = 0;
                 for( var item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '1'){
-                        sumPrice = sumPrice + parseInt(this.mySalesList[item].cor_total_money);
+                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
+                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                return sumPrice
+                this.orderCompleteKr = sumPriceKr;
+                this.orderCompleteDr = sumPriceDr;
             },
             calcFUncRefundComplete(){
-                let sumPrice = 0;
+                let sumPriceKr = 0;
+                let sumPriceDr = 0;
                 for( let item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '2'){
-                        sumPrice += parseInt(this.mySalesList[item].cor_total_money);
+                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
+                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                return sumPrice
+                this.refundCompleteKr = sumPriceKr;
+                this.refundCompleteDr = sumPriceDr;
             },
             makePageList(n){
                 return [...Array(n).keys()].map(x => x=x+1);
+            },
+            funcStatus(s){
+                if(s == '0'){
+                    return "Deposit Waiting";
+                }else if(s == '1'){
+                    return "Order Complete";
+                }else{
+                    return "Refund Complete";
+                }
             },
             paging() {
                 let list = [];
