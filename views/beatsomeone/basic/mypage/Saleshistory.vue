@@ -170,7 +170,7 @@
                                             </div>
                                             <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)">
                                             </div>
-                                            <div class="totalprice">&#8361; {{ item.cde_price }}<br/>$ {{ item.cde_price_d }}</div>
+                                            <div class="totalprice">&#8361; {{ formatNumber(item.cde_price) }}<br/>$ {{ formatNumber(item.cde_price_d) }}</div>
                                             <div class="status">
                                                 <div class="blue"> {{ funcStatus(item.cor_status) }} </div>
                                             </div>
@@ -211,184 +211,6 @@
                                             <div class="download">
                                                 <span>37 days left</span>
                                                 <span class="gray">(~2020.06.24 12:30:34)</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_010</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                             <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img class="cover" src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                </figure>
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Deposit Waiting</div>
-                                            </div>
-                                            <div class="user">User_001</div>
-                                            <div class="download">
-                                                <span class="red">Unavailable</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_010</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                             <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img class="cover" src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                </figure>
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Deposit Waiting</div>
-                                            </div>
-                                            <div class="user">User_001</div>
-                                            <div class="download">
-                                                <span>37 days left</span>
-                                                <span class="gray">(~2020.06.24 12:30:34)</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_010</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                             <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img class="cover" src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                </figure>
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Deposit Waiting</div>
-                                            </div>
-                                            <div class="user">User_001</div>
-                                            <div class="download">
-                                                <span class="red">Unavailable</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_010</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                             <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img class="cover" src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                </figure>
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Deposit Waiting</div>
-                                            </div>
-                                            <div class="user">User_001</div>
-                                            <div class="download">
-                                                <span>37 days left</span>
-                                                <span class="gray">(~2020.06.24 12:30:34)</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_010</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                             <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img class="cover" src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                </figure>
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Deposit Waiting</div>
-                                            </div>
-                                            <div class="user">User_001</div>
-                                            <div class="download">
-                                                <span class="red">Unavailable</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_010</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                             <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img class="cover" src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                </figure>
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Deposit Waiting</div>
-                                            </div>
-                                            <div class="user">User_001</div>
-                                            <div class="download">
-                                                <span>37 days left</span>
-                                                <span class="gray">(~2020.06.24 12:30:34)</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_010</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                             <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img class="cover" src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                </figure>
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Deposit Waiting</div>
-                                            </div>
-                                            <div class="user">User_001</div>
-                                            <div class="download">
-                                                <span class="red">Unavailable</span>
                                             </div>
                                         </div>
                                     </li>
@@ -487,12 +309,12 @@
                 totalpage: 0,
                 currPage: 1,
                 perPage: 10,
-                watingDepositKr:0,
-                orderCompleteKr:0,
-                refundCompleteKr:0,
-                watingDepositDr:0,
-                orderCompleteDr:0,
-                refundCompleteDr:0,
+                watingDepositKr: '',
+                orderCompleteKr: '',
+                refundCompleteKr: '',
+                watingDepositDr: '',
+                orderCompleteDr: '',
+                refundCompleteDr: '',
 
             };
         },
@@ -716,6 +538,10 @@
                 let rst = list.filter(item => item.cor_status === '2');
                 return rst.length;
             },
+            formatNumber(n){
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+            },
             calcFUncWaitingDeposit(){
                 let sumPriceKr = 0;
                 let sumPriceDr = 0;
@@ -725,8 +551,8 @@
                         sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                this.watingDepositKr = sumPriceKr;
-                this.watingDepositDr = sumPriceDr;
+                this.watingDepositKr = this.formatNumber(sumPriceKr);
+                this.watingDepositDr = this.formatNumber(sumPriceDr);
             },
             calcFUncOrderComplete(){
                 let sumPriceKr = 0;
@@ -737,8 +563,8 @@
                         sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                this.orderCompleteKr = sumPriceKr;
-                this.orderCompleteDr = sumPriceDr;
+                this.orderCompleteKr = this.formatNumber(sumPriceKr);
+                this.orderCompleteDr = this.formatNumber(sumPriceDr);
             },
             calcFUncRefundComplete(){
                 let sumPriceKr = 0;
@@ -749,8 +575,8 @@
                         sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
                     }
                 }
-                this.refundCompleteKr = sumPriceKr;
-                this.refundCompleteDr = sumPriceDr;
+                this.refundCompleteKr = this.formatNumber(sumPriceKr);
+                this.refundCompleteDr = this.formatNumber(sumPriceDr);
             },
             makePageList(n){
                 return [...Array(n).keys()].map(x => x=x+1);
