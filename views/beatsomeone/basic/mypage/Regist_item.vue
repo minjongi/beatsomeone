@@ -663,4 +663,7 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    .col ~ .col:not(.btnbox) {
+        margin-top: 0;
+    }
 </style>

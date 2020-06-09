@@ -769,6 +769,7 @@ section[class*="section"]{
 
 }
 
+/* productList */
 .productList{
 
   .col{
@@ -791,9 +792,8 @@ section[class*="section"]{
     padding:20px;
     height:auto;
     min-height: 184px;
-    max-height: 184px;
-    overflow:hidden;
-    transition:.3s ease;
+    // overflow:hidden;
+    transition: max-height 0.3s ease;
 
     > * {
       flex:1!important;
@@ -887,10 +887,10 @@ section[class*="section"]{
       }
 
       .option_item{
-         flex-direction: column;
-         margin-top: 20px;
-         margin-bottom: 50px;
-         opacity:0;
+        flex-direction: column;
+        margin-top: 20px;
+        margin-bottom: 50px;
+        opacity:0;
         transform:translateY(-10%);
         transition:.3s ease;
 
@@ -963,6 +963,22 @@ section[class*="section"]{
         &:only-child{
           margin-top:15px;
         }
+        &.open {
+          margin-top: 145px;
+        }
+      }
+    }
+    .other {
+      .feature {
+        .price {
+          &:last-child {
+            margin-top: 34px;
+            display: block !important;
+          }
+          &.active {
+            margin-top: 145px;
+          }
+        }
       }
     }
 
@@ -996,10 +1012,11 @@ section[class*="section"]{
 
   }
 
-  .playList__item.active{
-    max-height:278px;
+  .playList__item {
+    // max-height:278px;
+    max-height:initial;
 
-    .option{
+    .option .active {
       .option_fold{
           > img{
             transform:rotate(180deg);
@@ -1008,8 +1025,96 @@ section[class*="section"]{
        }
 
       .option_item{
+        display: block;
         opacity:1;
+        // margin-bottom: 0;
         transform:translateY(0%);
+      }
+    }
+
+    /* 옵션 커스텀(2020-06-08) */
+    .n-option {
+      position: relative;
+      min-width: 533px;
+      .feature {
+        position: absolute;
+        right: 0;
+        margin: 0;
+        width: 144px;
+      }
+      .option {
+        margin-top: 0;
+        padding-right: 0;
+      }
+
+      .n-box {
+        display: flex;
+        flex-direction: initial !important;
+
+        > * {
+          flex: auto;
+          &:last-child {
+            width: 144px;
+            min-width: 144px;
+            flex: 1;
+          }
+        }
+        &:first-child {
+          .price {
+            margin-top: 70px;
+          }
+        }
+        .price {
+          text-align: left;
+          margin-top: 10px;
+          font-size: 16px;
+          font-weight: 600;
+          color: #FFDA2A;
+        }
+      }
+    }
+
+     // &.active .option {
+    //   .option_fold{
+    //       > img{
+    //         transform:rotate(180deg);
+    //         opacity:1;
+    //       }
+    //    }
+
+    //   .option_item{
+    //     opacity:1;
+    //     transform:translateY(0%);
+    //   }
+    // }
+
+    &.other {
+      padding-bottom: 46px;
+      .option > div+div {
+        margin-top: 20px;
+      }
+      .playList__item--button {
+        margin-bottom: 20px;
+      }
+      .option_item {
+        margin-top: 20px;
+        margin-bottom: 0;
+        overflow: hidden;
+        height: 0;
+        transition: 0.3s ease;
+      }
+      .active {
+        .option_item {
+          height: auto;
+          margin-bottom: 30px;
+          // max-height: 252px;
+          &.basic {
+            height: 113px;
+          }
+          &.unlimited {
+            height: 252px;
+          }
+        }
       }
     }
 }
@@ -1048,12 +1153,12 @@ section[class*="section"]{
 .selected-option + .popup{
   position: absolute;
   display:flex;
+  visibility: hidden;
   flex-direction: column;
   top: calc(100% + 10px);
   left: 0;
   width: 364px;
   height:590px;
-  z-index: 20;
   pointer-events:none;
   opacity: 0;
   transition:.3s ease;
@@ -1129,7 +1234,9 @@ section[class*="section"]{
       pointer-events:initial;
       box-shadow: 16px 0 32px black;
       border-radius: 8px;
+      z-index: 20;
       opacity: 1;
+      visibility: visible;
   }
 }
 
@@ -1745,7 +1852,6 @@ textarea{
   flex-wrap: initial!important;
 }
 
-
 .tab{
   > div{
     padding:16px 0;
@@ -1783,6 +1889,13 @@ textarea{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  
+  // div Table .date Color
+  .tab.nowrap {
+    > div {
+      color: white
+    }
   }
 
 }
@@ -2163,13 +2276,17 @@ textarea{
 
     .totalprice{
       color:rgba(255,255,255,.7);
-      text-align:right;
+      // text-align:right;
     }  
 
     .download{
       font-size:12px;
       text-align: right;
     }
+  }
+
+  .subject {
+    opacity: .7;
   }
 }
 

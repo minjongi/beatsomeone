@@ -39,7 +39,7 @@ module.exports = {
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
             m_sublist: ['./views/beatsomeone/mobile/sublist.js'],
             m_regist_item: ['./views/beatsomeone/mobile/mypage/regist_item.js'],
-            m_list_item: ['./views/mypage/mobile/list_item.js'],
+            m_list_item: ['./views/beatsomeone/mobile/mypage/list_item.js'],
             m_status_item: ['./views/mypage/mobile/status_item.js'],
             m_login: ['./views/login/mobile/login.js'],
             m_register: ['./views/register/mobile/register.js'],

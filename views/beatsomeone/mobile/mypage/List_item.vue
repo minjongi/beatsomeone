@@ -386,7 +386,7 @@
 
 
 <script>
-    require('@/assets/js/function')
+    require('@/assets_m/js/function');
     import { EventBus } from '*/src/eventbus';
     import Header from "../include/Header"
     import Footer from "../include/Footer"
@@ -472,11 +472,7 @@
                   '/beatsomeoneApi/get_user_regist_item_list', {}
                 );
 
-                console.log(data);/*
-                data.forEach(function(d){
-                    console.log(d.cit_datetime);
-                    console.log(d.cit_start_datetime);
-                });*/
+                console.log(data);
                 this.myProduct_list = data;
               } catch (err) {
                 console.log('ajaxItemList error');
@@ -757,7 +753,7 @@
 
 
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 </style>
 
 <style scoped="scoped" lang="scss">
@@ -765,31 +761,5 @@
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     @import '/assets/plugins/flatpickr/flatpickr.css';
 
-    // 임시수정 2020-06-04
-    .select-genre .checkbox {
-        font-size: 1rem;
-    }
-
-    .productList {
-        .playList__item {
-            .option {
-                > div {
-                    flex-direction: column;
-                }
-            }
-        }
-    }
-    .playList__item--button {
-        display: flex;
-        flex-direction: row;
-        color: white;
-        text-align: left;
-    }
-    .mypage.sublist .search-date {
-        min-width: 256px;
-    }
-    .productList .playList__item > * {
-        height: auto;
-    }
 
 </style>
