@@ -172,7 +172,7 @@
                                             </div>
                                             <div class="totalprice">&#8361; {{ formatNumber(item.cde_price) }}<br/>$ {{ formatNumber(item.cde_price_d) }}</div>
                                             <div class="status">
-                                                <div class="blue"> {{ funcStatus(item.cor_status) }} </div>
+                                                <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ funcStatus(item.cor_status) }} </div>
                                             </div>
                                             <div class="user"> {{ item.mem_userid }} </div>
                                             <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0" class="download">
