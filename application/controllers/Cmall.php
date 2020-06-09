@@ -608,7 +608,13 @@ class Cmall extends CB_Controller
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before'] = Events::trigger('before', $eventname);
 
-		$this->load->model(array('Cmall_cart_model'));
+		$this->load->model(array('Cmall_cart_model', 'Beatsomeone_model'));
+
+        $config = array(
+            'mem_id' => $this->member->item('mem_id'),
+        );
+        $cor_id_list = $this->Beatsomeone_model->get_sales_history($config);
+        log_message('error', print_r($cor_id_list, true) );
 
 		if ($this->input->post('chk')) {
 			$cit_id = $this->input->post('chk');
@@ -651,13 +657,14 @@ class Cmall extends CB_Controller
 		if ($result) {
 			foreach ($result as $key => $val) {
 				$result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
-				$result[$key]['detail'] = $this->Cmall_cart_model
-					->get_cart_detail($mem_id, element('cit_id', $val));
+				//$result[$key]['detail'] = $this->Cmall_cart_model->get_cart_detail($mem_id, element('cit_id', $val));
+				$result[$key]['detail'] = $this->Beatsomeone_model->get_product_info(element('cit_id', $val));
+				log_message('error', print_r($result[$key]['detail'],true) );
 			}
 		}
-		$view['view']['data'] = $result;;
+
+		$view['view']['data'] = $result;
 		$view['view']['list_delete_url'] = site_url('cmallact/cart_delete/?' . $param->output());
-		log_message('error', $view['view']['list_delete_url'] );
 
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
