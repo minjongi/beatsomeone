@@ -203,8 +203,46 @@
                                                 </div>
                                                 <!-- Option -->
                                                 <div class="option">
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <div class="n-box" v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' ">
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item basic">
+                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="price">$ {{ item.cde_price_d }}</div>
+                                                    </div>
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <div class="n-box" v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' ">
+                                                        <!-- UNLIMITED STEMS LICENSE -->
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item unlimited">
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="price">$ {{ item.cde_price_d_2 }}</div>
+                                                    </div>
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-show="item.cit_lease_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="item.cit_lease_license_use === '1' " >
                                                         
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -225,7 +263,7 @@
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-show="item.cit_mastering_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="item.cit_mastering_license_use === '1' " >
                                                         
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -243,6 +281,7 @@
                                                         </div>
                                                         <div class="price">$ {{ item.cde_price_d_2 }}</div>
                                                     </div>
+
                                                 </div>
                                                 
                                             </div>
