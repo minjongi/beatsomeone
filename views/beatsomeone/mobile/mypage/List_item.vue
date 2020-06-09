@@ -169,9 +169,9 @@
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <!-- <img :src="'/assets/images/cover_default.png'" alt=""> -->
-                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
+                                                        <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
+                                                        <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                                        <i v-show="checkToday(item.cit_datetime)" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
                                                         <div class="info">
@@ -659,6 +659,13 @@
             },
             setSearchCondition: function(idx){
                 this.search_condition_active_idx = idx;
+            },
+            checkToday: function(date){
+                const input = new Date(date);
+                const today = new Date();
+                return input.getDate() === today.getDate() && 
+                        input.getMonth() === today.getMonth() &&
+                         input.getFullYear() === today.getFullYear();
             },
             funcDateType: function(t){
                 if(this.dateType == t){
