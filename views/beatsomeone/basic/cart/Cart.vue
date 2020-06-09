@@ -244,11 +244,7 @@
     require('@/assets/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
-    import Loader from '*/vue/common/Loader'
     import axios from 'axios'
-
-    import $ from "jquery";
-    import { EventBus } from '*/src/eventbus';
 
     export default {
         components: {
@@ -409,11 +405,9 @@
                     alert("주문할 대상을 선택해주세요");
                     return;
                 }else{
-                    if(confirm("정말로 주문하시겠습니까?")){
-                        this.ajaxCartToOrder(this.checkedItem).then(()=>{
-                        window.location.href = '/cmall/billing';
-                        });    
-                    }
+                    this.ajaxCartToOrder(this.checkedItem).then(()=>{
+                    window.location.href = '/cmall/billing';
+                    });
                 }
             }
         }
@@ -428,5 +422,4 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    @import '/assets/plugins/flatpickr/flatpickr.css';
 </style>
