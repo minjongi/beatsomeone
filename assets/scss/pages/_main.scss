@@ -2374,8 +2374,36 @@ textarea{
   .playList__item{
     height:auto;
     min-height:initial;
-    max-height:90px;
+    // max-height:90px;
 
+    // 2020-06-10 추가됨.
+    &.other {
+      padding-bottom: 20px;
+      .option {
+        margin-top: 0;
+        .option_item {
+          margin-top: 0;
+        }
+      }
+      .option {
+        .active {
+          .option_item {
+            margin-top: 20px;
+            margin-bottom: 30px;
+          }
+        }
+      }
+      .playList__item--button {
+        margin-bottom: 0;
+      }
+      .feature {
+        .price {
+          &:first-child {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
     &.active{
       max-height:100em;
     }
@@ -2423,6 +2451,7 @@ textarea{
       max-width: max-content;
       margin-right: 20px;
     }
+    
   }
 }
 

@@ -37,7 +37,7 @@
                             <div class="playList productList cart">
                                 <ul>
                                     <li v-for="(item, i) in myCart_list" v-bind:key="item.cct_id" class="playList__itembox" :id="'playList__item'+ item.cct_id">
-                                        <div class="playList__item playList__item--title">
+                                        <div class="playList__item playList__item--title other">
                                             <div class="col check">
                                                 <label :for="'cartItem'+ i" class="checkbox">
                                                     <input type="checkbox" hidden="hidden" :id="'cartItem'+ i" :value="item.cit_id" v-model="checkedItem" @change="setCheck">
@@ -432,8 +432,35 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     @import '/assets/plugins/flatpickr/flatpickr.css';
+
+    // 임시수정 2020-06-04
+    .select-genre .checkbox {
+        font-size: 1rem;
+    }
+
+    .productList {
+        .playList__item {
+            .option {
+                > div {
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+    .playList__item--button {
+        display: flex;
+        flex-direction: row;
+        color: white;
+        text-align: left;
+    }
+    .mypage.sublist .search-date {
+        min-width: 256px;
+    }
+    .productList .playList__item > * {
+        height: auto;
+    }
 </style>
