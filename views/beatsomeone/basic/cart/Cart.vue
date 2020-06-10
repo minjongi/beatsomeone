@@ -353,6 +353,15 @@
                 this.checkedAll = false;
                 this.calcTotalPrice();
             },
+            toggleButton: function(e){
+                if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box"){
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box active";
+                }else if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box active"){
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box";
+                }else{
+                    //
+                }
+            },
             calcTotalPrice: function(){
                 let tpkr = 0.0;
                 let tpen = 0.0;
