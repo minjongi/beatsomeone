@@ -1,6 +1,6 @@
 <template>
 
-    <div class="wrapper">
+    <div class="wrapper saleshistory">
         <Header :is-login="isLogin"/>
         <div class="container sub">
             <div class="mypage sublist">
@@ -20,19 +20,23 @@
                                         {{mem_nickname}}
                                     </div>
                                     <div class="bio">
-                                        Music Lover, KKOMA
+                                        {{ mem_type }}, {{ mem_lastname }}
                                     </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
+                                </div> 
+                            </div>
+                            <div class="profile__footer">
+                                <div class="location">
+                                    <img class="site" src="/assets/images/icon/position.png"/><span>{{mem_address1}}</span>
+                                </div>
+                                <div class="brandshop">
+                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <ul class="menu">
+                    </div>
+
+                    <div class="row menu__wraper">
+                        <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
                                 <li @click="goPage('list_item')">Product List</li>
@@ -42,19 +46,18 @@
                                 <li @click="goPage('message')">Message</li>
                                 <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
+                                    <!-- <ul class="menu">
                                         <li @click="goPage('inquiry')">Support Case</li>
                                         <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
+                                    </ul> -->
                                 </li>
                             </ul>
-                        </div>
                     </div>
 
                     <div class="sublist__content" style="margin-bottom:100px;">
 
-                        <div class="row" style="display:flex; margin-bottom:10px;">
-                            <div class="search condition">
+                        <div class="row" style="margin-bottom:10px;">
+                            <div class="search condition" style="margin-bottom:10px;">
                                 <div class="filter">
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
@@ -62,7 +65,7 @@
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">1 year</div>
                                 </div>
                             </div>
-                            <div style="margin-left:auto; ">
+                            <div style="margin-bottom:10px;">
                                 <VueHotelDatepicker
                                         class="search-date"
                                         format="YYYY-MM-DD"
@@ -86,7 +89,7 @@
                             
                         <div class="row" style="margin-bottom:10px;">
                             <div class="main__media board inquirylist">
-                                <div class="tab" style="height:96px;">
+                                <div class="tab">
                                     <div class="splitboard">
                                         <div class="green">&#8361; {{watingDepositKr }} <br/>$ {{ watingDepositDr }}
                                             <span>Waiting Deposit</span>
@@ -102,15 +105,10 @@
                             </div>
                         </div>
 
-                        <div class="row" style="display:flex; margin-bottom:30px;">
-                            <div class="tabmenu">
-                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">Refund Complete ({{calcRefundCnt}})</div>
-                            </div>
-                            <div class="sort" style="text-align:right">
-                                <div class="custom-select">
+                        <div class="row" style="margin-top: 30px; margin-bottom: 10px;">
+                            
+                            <div class="n-flex sort">
+                                <div class="custom-select" style="flex: 3; margin-right: 10px;">
                                     <button class="selected-option">
                                         {{ downType }}
                                     </button>
@@ -121,7 +119,7 @@
                                     </div>
                                 </div>
 
-                                <div class="custom-select" style="min-width:max-content;">
+                                <div class="custom-select" style="flex: 2; min-width:max-content;">
                                     <button class="selected-option">
                                         {{ orderType }}
                                     </button>
@@ -131,9 +129,17 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="tabmenu">
+                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">Refund Complete ({{calcRefundCnt}})</div>
+                            </div>
+
                         </div> 
 
-                        <div class="row" style="margin-bottom:20px;">
+                        <!-- <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board mybillinglist saleshistory">
                                 <div class="tab nowrap">
                                     <div class="index">No</div>
@@ -146,7 +152,7 @@
                                     <div class="download">Expire period</div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row" style="margin-bottom:30px;">
                             <div class="playList board mybillinglist saleshistory">
@@ -155,26 +161,32 @@
                                     <li v-for="(item, i) in paging()" v-bind:key="item.cor_id + item.cit_id" class="playList__itembox" :id="'slist'+ item.cor_id + item.cit_id">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <!--<div class="index" v-html="formatCitName(item.cor_id,10)"> </div>-->
-                                            <div class="index">{{ calcTotalCnt - i }}</div>
-                                            <div class="date">
-                                                {{ item.cor_datetime }}
+
+                                            <div class="n-flex between">
+                                                <div class="user"> {{ item.mem_userid }} </div>
+                                                <div class="date"> {{ item.cor_datetime }} </div>
                                             </div>
-                                             <div class="col name">
+
+                                            <div class="n-flex">
+                                                <div>
+                                                    <div class="status">
+                                                        <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ funcStatus(item.cor_status) }} </div>
+                                                    </div>
+                                                    <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)"> </div>
+                                                </div>
+                                                <div style="white-space: nowrap;" class="totalprice">&#8361; {{ formatNumber(item.cde_price) }}<br/>$ {{ formatNumber(item.cde_price_d) }}</div>
+                                            </div>
+                                            <!-- <div class="index">{{ calcTotalCnt - i }}</div> -->
+                                             <!-- <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <!-- <img :src="'/assets/images/cover_default.png'" alt=""> -->
+                                                        <img :src="'/assets/images/cover_default.png'" alt="">
                                                         <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
-                                                        <!-- <i ng-if="item.isNew" class="label new">N</i> -->
+                                                        <i ng-if="item.isNew" class="label new">N</i>
                                                     </span>
                                                 </figure>
-                                            </div>
-                                            <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)">
-                                            </div>
-                                            <div class="totalprice">&#8361; {{ formatNumber(item.cde_price) }}<br/>$ {{ formatNumber(item.cde_price_d) }}</div>
-                                            <div class="status">
-                                                <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ funcStatus(item.cor_status) }} </div>
-                                            </div>
-                                            <div class="user"> {{ item.mem_userid }} </div>
+                                            </div> -->
+                                        
                                             <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0" class="download">
                                                 <span class="red">Unavailable</span>
                                             </div>
@@ -320,17 +332,26 @@
         },
         mounted(){
              // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".custom-select-dropdown").on("click", function() {
 
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".custom-select-dropdown")
                     .removeClass("active")
                     .find(".options")
                     .hide();
+                if($(this).hasClass("active")){
+                    $(this).addClass("active");
+                    $(this).find(".options").show();
+                }else{
+                    $(this).removeClass("active");
+                    $(this).find(".options").hide();
+                }
+                /*
                 $(this).toggleClass("active");
                 $(this)
                     .find(".options")
                     .toggle();
+                    */
             });
         },
         created(){
@@ -637,7 +658,10 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    .menu {
+        transform: translate(-203px, 0)
+    }
 </style>
