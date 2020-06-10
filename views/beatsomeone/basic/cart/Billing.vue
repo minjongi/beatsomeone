@@ -32,15 +32,13 @@
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <!--
-                                                        <img src="/assets/images/cover_default.png" alt="">
-                                                        -->
-                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
+                                                        <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
+                                                        <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                                        <i v-show="checkToday(item.cct_datetime)" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
                                                         <h3 class="playList__title"> {{ formatCitName(item.cit_name) }} </h3>
-                                                        <span class="playList__by"> ( {{ item.bpm }} ) BPM</span>
+                                                        <span class="playList__by">by {{item.detail[0].mem_userid}}</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
@@ -60,8 +58,11 @@
                                                 </div>
                                             </div>
                                             <div class="col feature">
-                                                <div class="price">
-                                                    $ {{ item.cit_price }}
+                                                <div class="price" v-if="item.detail[0].cit_lease_license_use === '1'">
+                                                    {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
+                                                </div>
+                                                <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
+                                                    {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +218,7 @@
                                 <div class="tab">
                                     <div>
                                         <div class="title">Subtotal</div>
-                                        <div>$ {{ totalPrice }}</div>
+                                        <div>{{ formatPrice(totalPriceKr, totalPriceEn, true) }}</div>
                                     </div>
                                     <div>
                                         <div class="title">Points</div>
@@ -225,8 +226,8 @@
                                     </div>
                                     <div class="total">
                                         <div>Total</div>
-                                        <div>$ {{ totalPrice - usePoint}}</div>
-                                    </div>                           
+                                        <div>{{ formatPrice(totalPriceKr - usePoint, totalPriceEn - usePoint, true) }}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -260,7 +261,8 @@
                 isLogin: false,
                 myOrder_list: [],
                 myMember: [],
-                totalPrice: "00.00",
+                totalPriceKr: 0,
+                totalPriceEn: 0,
                 point: 0,
                 usePoint: 0,
                 payMethod: 0,
@@ -307,7 +309,7 @@
                 this.isLoading = true;
                 var param = new FormData();
                 param.append('pay_type', JSON.stringify(this.payMethod));
-                param.append('total_price_sum', JSON.stringify(this.totalPrice));
+                param.append('total_price_sum', JSON.stringify(this.formatPrice(this.totalPriceKr, this.totalPriceEn, false)));
                 param.append('usePoint', JSON.stringify(this.usePoint));
                 param.append('unique_id', JSON.stringify(this.unique_id));
 
@@ -353,14 +355,38 @@
                 this.payMethod = idx;
             },
             calcTotalPrice: function(){
-                let tp = 0.0;
+                let tpkr = 0.0;
+                let tpen = 0.0;
                 for(let i in this.myOrder_list){
-                    tp += Number(this.myOrder_list[i].cit_price);
+                    tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
+                    tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
                 }
-                this.totalPrice = tp;
+                this.totalPriceKr = tpkr;
+                this.totalPriceEn = tpen;
             },
             calcPoint: function(e){
                 this.usePoint = Number(e.target.value);
+            },
+            checkToday: function(date){
+                const input = new Date(date);
+                const today = new Date();
+                return input.getDate() === today.getDate() && 
+                        input.getMonth() === today.getMonth() &&
+                         input.getFullYear() === today.getFullYear();
+            },
+            formatPrice: function(kr, en, simbol){
+                if(!simbol){
+                    if(this.$i18n.locale === 'en'){
+                        return en;
+                    }else{
+                        return kr;
+                    }
+                }
+                if(this.$i18n.locale === 'en'){
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                }else{
+                    return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                }
             },
             formatCitName: function(data){
                 var rst;
