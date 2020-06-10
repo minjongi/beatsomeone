@@ -166,7 +166,7 @@
                         <div class="row">
                             <div class="playList productList">
                                 <ul>
-                                    <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
+                                    <li v-for="(item, i) in paging()" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
                                         <!-- 2가지 동시에 있는경우 other클래스 추가. -->
                                         <div class="playList__item other">
                                             
@@ -383,13 +383,10 @@
                                 <div class="row" style="margin-bottom:30px;">
                                     <div class="pagination">
                                         <div>
-                                            <button class="prev active"><img src="/assets/images/icon/chevron_prev.png"/></button>
-                                            <button class="active" >1</button>
-                                            <button>2</button>
-                                            <button>3</button>
-                                            <button>4</button>
-                                            <button>5</button>
-                                            <button class="next active" ><img src="/assets/images/icon/chevron_next.png"/></button>
+                                            <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/></button>
+
+                                            <button v-for="n in makePageList(this.totalpage)" v-bind:key="n" :class="{ 'active': currPage === n }" @click="currPage = n">{{n}}</button>
+                                            <button class="next active" @click="nextPage"><img src="/assets/images/icon/chevron_next.png"/></button>
                                         </div>
                                     </div>
                                 </div>
@@ -455,6 +452,9 @@
                 selectedMood: [],
                 selectedTrackType: [],
                 dateType: 'Register Date',
+                totalpage: 0,
+                currPage: 1,
+                perPage: 2,
             };
         },
         mounted(){
@@ -466,10 +466,19 @@
                     .removeClass("active")
                     .find(".options")
                     .hide();
+                if($(this).hasClass("active")){
+                    $(this).addClass("active");
+                    $(this).find(".options").show();
+                }else{
+                    $(this).removeClass("active");
+                    $(this).find(".options").hide();
+                }
+                /*
                 $(this).toggleClass("active");
                 $(this)
                     .find(".options")
                     .toggle();
+                    */
             });
             EventBus.$on('main_player_play',r=> {
                 this.start();
@@ -496,6 +505,11 @@
 
                 console.log(data);
                 this.myProduct_list = data;
+                if(this.myProduct_list.length == 0){
+                    this.totalpage = 1;
+                }else{
+                    this.totalpage = Math.ceil(this.myProduct_list.length / this.perPage);    
+                }
               } catch (err) {
                 console.log('ajaxItemList error');
               } finally {
@@ -526,6 +540,27 @@
               } finally {
                 this.isLoading = false;
               }
+            },
+            paging() {
+                let list = [];
+                Object.assign(list,this.myProduct_list);
+                if(this.myProduct_list.length == 0){
+                    this.totalpage = 1;
+                }else{
+                    this.totalpage = Math.ceil(this.myProduct_list.length / this.perPage);    
+                }
+                return list.slice((this.currPage - 1) * this.perPage , this.currPage * this.perPage);
+            },
+            prevPage: function(){
+                if(this.currPage == 1) return
+                this.currPage -= 1; 
+            },
+            nextPage: function(){
+                if(this.currPage == this.totalpage) return
+                this.currPage += 1; 
+            },
+            makePageList(n){
+                return [...Array(n).keys()].map(x => x=x+1);
             },
             setPopupFilter: function(idx){
                 this.popup_filter = idx;
