@@ -21,37 +21,42 @@
                                     <div class="bio">
                                         {{ mem_type }}, {{ mem_lastname }}
                                     </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
+                                </div> 
+                            </div>
+                            <div class="profile__footer">
+                                <div class="location">
+                                    <img class="site" src="/assets/images/icon/position.png"/><span>{{mem_address1}}</span>
+                                </div>
+                                <div class="brandshop">
+                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li class="active">Product List</li>
-                                <li @click="goPage('mybilling')">Order History</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                        
+                    </div>
+
+                    <div class="row menu__wraper">
+                        <ul class="menu">
+                            <li @click="goPage('')">Dashboard</li>
+                            <li @click="goPage('profilemod')">Manage Information</li>
+                            <li class="active">Product List</li>
+                            <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                            <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                            <li @click="goPage('message')">Message</li>
+                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                            <li @click="goPage('inquiry')">Support
+                                <!-- <ul class="menu">
+                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('faq')">FAQ</li>
+                                </ul> -->
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="sublist__content">
-                        <div class="row" style="margin-bottom:10px;">
+                        <!-- PC용 통합검색 -->
+                        <!-- <div class="row" style="margin-bottom:10px;">
                             <div class="search condition">
                                 <div class="filter">
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">Product Name</div>
@@ -63,18 +68,18 @@
                                     <img src="/assets/images/icon/searchicon.png"/>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="row" style="display:flex; margin-bottom:30px;">
-                            <div class="tabmenu">
+                        <div class="row">
+                            <!-- <div class="tabmenu">
                                 <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
                                 <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Selling ({{calcSellingCnt}})</div>
                                 <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Pending ({{calcPendingCnt}})</div>
-                            </div>
+                            </div> -->
                             <div>
                                 <div class="sort">
-                                    <span>{{ $t('sortBy') }}</span>
-                                    <div class="custom-select" :class="GMT == 1 ? 'active' : ''" style="width:initial; border-radius:8px;">
+                                    <!-- <span>{{ $t('sortBy') }}</span> -->
+                                    <div class="custom-select" :class="GMT == 1 ? 'active' : ''">
                                         <button class="selected-option" @click="toggleGMT">
                                             Genre / Mood / Track Type
                                         </button>
@@ -163,44 +168,47 @@
                                 <ul>
                                     <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
                                         <!-- 2가지 동시에 있는경우 other클래스 추가. -->
-                                        <div class="playList__item playList__item--title other">
+                                        <div class="playList__item other">
+                                            
+                                            <div class="row">
+                                                <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
+                                                <div class="col code">{{ item.cit_key }}</div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                
+                                                <div class="col playList__cover">
+                                                    <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
+                                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                                    <i v-show="checkToday(item.cit_datetime)" class="label new">N</i>
+                                                </div>
+                                                
+                                                <div class="col pointer">
 
-                                            <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
-                                                        <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
-                                                        <i v-show="checkToday(item.cit_datetime)" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <div class="info">
-                                                          <!-- <div class="status" :class="product_status">{{product_status}}</div>-->
-                                                          <div v-if="item.cit_status === '1'" class="status SEELING">SEELING</div>
-                                                          <div v-if="item.cit_status === '0'" class="status PENDING">PENDING</div>
-                                                          
-                                                          <div class="code">{{ item.cit_key }}</div>
+                                                    <h3 class="playList__title" v-html="formatCitName(item.cit_name,50)"></h3>
+                                                    
+                                                    <div class="feature">
+                                                        <div class="listen">
+                                                            <div class="playbtn">
+                                                                <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
+                                                                <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
+                                                                <span class="duration">0:00</span></span>
+                                                            </div>
                                                         </div>
-                                                        <h3 class="playList__title" v-html="formatCitName(item.cit_name,50)"></h3>
-                                                        <span class="playList__by">by Sellername</span>
-                                                        <span class="playList__bpm">BPM {{ item.bpm }}</span>
-                                                    </figcaption>
-                                                </figure>
+                                                        <div class="amount">
+                                                            <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Comment -->
+                                                <div class="col edit">
+                                                    <button @click="productEditBtn(item.cit_key)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
+                                                </div>
+                                                
                                             </div>
                                             <div class="col n-option">
 
-                                                <div class="feature">
-                                                    <div class="listen">
-                                                        <div class="playbtn">
-                                                            <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
-                                                            <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
-                                                            <span class="duration">0:00</span></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="amount">
-                                                        <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
-                                                    </div>
-                                                </div>
                                                 <!-- Option -->
                                                 <div class="option">
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
@@ -210,17 +218,18 @@
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV</div>
+                                                                    <p>MP3 or WAV</p>
                                                                 </div>
+                                                                <div class="price">$ {{ item.cde_price_d }}</div>
                                                             </button>
                                                             <div class="option_item basic">
-                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ item.cde_price_d }}</div>
+                                                        
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' ">
@@ -230,16 +239,17 @@
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                    <p>MP3 or WAV + STEMS</p>
                                                                 </div>
+                                                                <div class="price">$ {{ item.cde_price_d_2 }}</div>
                                                             </button>
                                                             <div class="option_item unlimited">
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                                <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
+                                                                <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ item.cde_price_d_2 }}</div>
+                                                        
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE -->
                                                     <div class="n-box" v-else-if="item.cit_lease_license_use === '1' " >
@@ -249,17 +259,18 @@
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV</div>
+                                                                    <p>MP3 or WAV</p>
                                                                 </div>
+                                                                <div class="price">$ {{ item.cde_price_d }}</div>
                                                             </button>
                                                             <div class="option_item basic">
-                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ item.cde_price_d }}</div>
+                                                        
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
@@ -270,25 +281,23 @@
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                    <p>MP3 or WAV + STEMS</p>
                                                                 </div>
+                                                                <div class="price">$ {{ item.cde_price_d_2 }}</div>
                                                             </button>
                                                             <div class="option_item unlimited">
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                                <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
+                                                                <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ item.cde_price_d_2 }}</div>
+                                                        
                                                     </div>
 
                                                 </div>
                                                 
                                             </div>
-
-                                            <div class="col edit">
-                                                <button @click="productEditBtn(item.cit_key)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
-                                            </div>
+                                            <!-- Tag -->
                                             <div class="col genre" v-html="calcTag(item.hashTag)"></div>    
                                         </div>
                                         
@@ -323,10 +332,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>No other activities not authorized by the platform</span></div>
+                                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>No other activities not authorized by the platform</span></div>
                                                 </div>
                                             </div>
                                             <div class="col feature">
@@ -371,6 +380,19 @@
                                     </li>
                                     -->
                                 </ul>
+                                <div class="row" style="margin-bottom:30px;">
+                                    <div class="pagination">
+                                        <div>
+                                            <button class="prev active"><img src="/assets/images/icon/chevron_prev.png"/></button>
+                                            <button class="active" >1</button>
+                                            <button>2</button>
+                                            <button>3</button>
+                                            <button>4</button>
+                                            <button>5</button>
+                                            <button class="next active" ><img src="/assets/images/icon/chevron_next.png"/></button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="playerContainer" class="hidden"></div>
                             </div>
                         </div>
