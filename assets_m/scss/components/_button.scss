@@ -38,4 +38,49 @@
     display: inline-block;
     font-size: 12px;
   }
+
+  &.btn--yellow{
+    background: #ffda2a;
+    color: #000;
+  }
+
+  &.round{
+    font-size:14px;
+    width: max-content;
+    font-weight:600;
+    padding:16px 64px;
+    border-radius:100px;
+    opacity: 1;
+  }
+
+  &.btn--glass{
+    font-size:14px;
+    font-weight:300;
+    height:auto;
+    color:white;
+    opacity:.3;
+
+    &:hover{
+      opacity:1;
+    }
+  }
+
+  &.btn--blue{
+    background:#4890FF;
+    color:white;
+    opacity:1;
+
+    &:hover{
+    }
+  }
+
+  &.btn--red{
+    background:#FF4848;
+    color:white;
+    opacity:1;
+
+    &:hover{
+    }
+  }
+  
 }
