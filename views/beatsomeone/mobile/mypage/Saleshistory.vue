@@ -73,6 +73,7 @@
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         @update="updateSearchDate"
+                                        @reset="resetSearchDate"
                                 />
                                 <!--
                                 <div>
@@ -430,9 +431,25 @@
             formatSub: function(data, genre, bpm){
                 return data + " (" + genre + " / " + bpm + "bpm)";
             },
+            isEmpty: function(str){
+                if(typeof str == "undefined" || str == null || str == "")
+                    return true;
+                else
+                    return false ;
+            },
             updateSearchDate(date){
-                this.start_date = date.start
-                this.end_date = date.end
+                if(this.isEmpty(date.start) || this.isEmpty(date.end)){
+                    this.goSearchDate();
+                }else{
+                    this.start_date = date.start
+                    this.end_date = date.end
+                    this.goSearchDate();
+                }
+            },
+            resetSearchDate(date){
+                this.start_date = ''
+                this.end_date = ''
+                this.goSearchDate();
             },
             caclLeftDay: function(orderDate){
                 var tDate = new Date(orderDate);
@@ -521,9 +538,13 @@
                 this.ajaxSalesList().then(()=>{
                     let list = [];
                     Object.assign(list,this.mySalesList);
-                    let rst = list.filter(item => this.start_date <= item.cor_datetime.substr(0,10) 
-                                                && item.cor_datetime.substr(0,10) <= this.end_date);
-                    this.mySalesList = rst;
+                    if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
+                        this.mySalesList = list;
+                    }else{
+                        let rst = list.filter(item => this.start_date <= item.cor_datetime.substr(0,10) 
+                                                    && item.cor_datetime.substr(0,10) <= this.end_date);
+                        this.mySalesList = rst;
+                    }
                 });
             },
             prevPage: function(){
