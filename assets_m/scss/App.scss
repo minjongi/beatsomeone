@@ -13,6 +13,24 @@
   }
 }
 
+
+
+.pagination {
+  display: flex;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  justify-content: center;
+  align-items: center;
+  button {
+    padding: 0 16px;
+    color: rgba(white, 0.7);
+    font-size: 16px;
+  }
+  .active {
+    color: #ffda2a;
+  }
+}
+
 .pointer {
   cursor: pointer;
 }

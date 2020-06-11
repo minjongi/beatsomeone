@@ -167,7 +167,7 @@
                                                 <div class="date"> {{ item.cor_datetime }} </div>
                                             </div>
 
-                                            <div class="n-flex">
+                                            <div class="n-flex between">
                                                 <div>
                                                     <div class="status">
                                                         <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ funcStatus(item.cor_status) }} </div>
