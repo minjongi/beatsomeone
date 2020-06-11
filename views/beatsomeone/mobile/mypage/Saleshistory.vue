@@ -164,7 +164,7 @@
                                             <!--<div class="index" v-html="formatCitName(item.cor_id,10)"> </div>-->
 
                                             <div class="n-flex between">
-                                                <div class="user"> {{ item.mem_userid }} </div>
+                                                <div class="index">{{ calcTotalCnt - i }}</div>
                                                 <div class="date"> {{ item.cor_datetime }} </div>
                                             </div>
 
