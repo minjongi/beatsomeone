@@ -146,8 +146,8 @@
                                             {{ dateType }}
                                         </button>
                                         <div class="options">
-                                            <button data-value="" class="option" @click="funcDateType('Register Date')"> Register Date </button>
-                                            <button data-value="" class="option" @click="funcDateType('Launch Date')"> Launch Date  </button>
+                                            <button v-show="dateType === 'Launch Date'" class="option" @click="funcDateType('Register Date')"> Register Date </button>
+                                            <button v-show="dateType === 'Register Date'" data-value="" class="option" @click="funcDateType('Launch Date')"> Launch Date  </button>
                                         </div>
                                     </div>
                                 </div>
@@ -158,6 +158,7 @@
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         @update="updateSearchDate"
+                                        @reset="resetSearchDate"
                                 />
                             </div>
                         </div>
@@ -454,7 +455,7 @@
                 dateType: 'Register Date',
                 totalpage: 0,
                 currPage: 1,
-                perPage: 2,
+                perPage: 10,
             };
         },
         mounted(){
@@ -590,7 +591,9 @@
                 this.ajaxItemList().then(()=>{
                     let list = [];
                     Object.assign(list,this.myProduct_list);
-                    if(this.search_date_option == 0){
+                    if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
+                        this.myProduct_list = list;
+                    }else if(this.search_date_option == 0){
                         let rst = list.filter(item => this.start_date < item.cit_datetime.substr(0,10) 
                                                     && item.cit_datetime.substr(0,10) < this.end_date);
                         this.myProduct_list = rst;
@@ -752,9 +755,25 @@
                 console.log("productEditBtn:" +key);
                 window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
             },
+            isEmpty: function(str){
+                if(typeof str == "undefined" || str == null || str == "")
+                    return true;
+                else
+                    return false ;
+            },
             updateSearchDate(date){
-                this.start_date = date.start
-                this.end_date = date.end
+                if(this.isEmpty(date.start) || this.isEmpty(date.end)){
+                    this.goSearchDate();
+                }else{
+                    this.start_date = date.start
+                    this.end_date = date.end
+                    this.goSearchDate();
+                }
+            },
+            resetSearchDate(date){
+                this.start_date = ''
+                this.end_date = ''
+                this.goSearchDate();
             },
             playAudio(i) {
                 if(!this.isPlay || this.currentPlayId !== i.cit_id) {
