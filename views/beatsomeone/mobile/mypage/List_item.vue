@@ -78,9 +78,8 @@
                             </div> -->
                             <div>
                                 <div class="sort">
-                                    <!-- <span>{{ $t('sortBy') }}</span> -->
                                     <div class="custom-select" :class="GMT == 1 ? 'active' : ''">
-                                        <button class="selected-option" @click="toggleGMT">
+                                        <button class="selected-option" @click.self="toggleGMT">
                                             Genre / Mood / Track Type
                                         </button>
                                         <div class="select-genre popup active">
@@ -221,7 +220,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <p>MP3 or WAV</p>
                                                                 </div>
-                                                                <div class="price">$ {{ item.cde_price_d }}</div>
+                                                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                                                             </button>
                                                             <div class="option_item basic">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -242,7 +241,7 @@
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <p>MP3 or WAV + STEMS</p>
                                                                 </div>
-                                                                <div class="price">$ {{ item.cde_price_d_2 }}</div>
+                                                                <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
                                                             </button>
                                                             <div class="option_item unlimited">
                                                                 <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
@@ -262,7 +261,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <p>MP3 or WAV</p>
                                                                 </div>
-                                                                <div class="price">$ {{ item.cde_price_d }}</div>
+                                                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                                                             </button>
                                                             <div class="option_item basic">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -284,7 +283,7 @@
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <p>MP3 or WAV + STEMS</p>
                                                                 </div>
-                                                                <div class="price">$ {{ item.cde_price_d_2 }}</div>
+                                                                <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
                                                             </button>
                                                             <div class="option_item unlimited">
                                                                 <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
@@ -625,11 +624,15 @@
                 });
             },
             toggleGMT: function(){
+                console.log(this.GMT);
                 if(this.GMT == 1){
                     this.GMT = 0;
                 }else{
                     this.GMT = 1;
                 }
+                this.$nextTick(()=>{
+                    console.log(this.GMT);
+                });
             },
             toggleButton: function(e){
                 if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box"){
@@ -738,6 +741,20 @@
                         this.search_date_option = 0
                         this.dateType = t;
                     }
+                }
+            },
+            formatPrice: function(kr, en, simbol){
+                if(!simbol){
+                    if(this.$i18n.locale === 'en'){
+                        return en;
+                    }else{
+                        return kr;
+                    }
+                }
+                if(this.$i18n.locale === 'en'){
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                }else{
+                    return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
             },
             formatCitName: function(data, limitLth){
