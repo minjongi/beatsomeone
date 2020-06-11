@@ -221,7 +221,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ formatNumber(item.cde_price_d) }}</div>
+                                                        <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' ">
@@ -240,7 +240,7 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ formatNumber(item.cde_price_d_2) }}</div>
+                                                        <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE -->
                                                     <div class="n-box" v-else-if="item.cit_lease_license_use === '1' " >
@@ -260,7 +260,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ formatNumber(item.cde_price_d) }}</div>
+                                                        <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
@@ -280,7 +280,8 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ formatNumber(item.cde_price_d_2) }}</div>
+                                                        <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -681,6 +682,20 @@
                         this.search_date_option = 0
                         this.dateType = t;
                     }
+                }
+            },
+            formatPrice: function(kr, en, simbol){
+                if(!simbol){
+                    if(this.$i18n.locale === 'en'){
+                        return en;
+                    }else{
+                        return kr;
+                    }
+                }
+                if(this.$i18n.locale === 'en'){
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                }else{
+                    return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
             },
             formatNumber(n){
