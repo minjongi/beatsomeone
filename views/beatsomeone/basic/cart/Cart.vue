@@ -99,7 +99,7 @@
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE -->
                                                     <div class="n-box" v-else-if="item.detail[0].cit_lease_license_use === '1' " >
-                                                        
+
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -119,7 +119,7 @@
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-else-if="item.detail[0].cit_mastering_license_use === '1' " >
-                                                        
+
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -221,11 +221,7 @@
     require('@/assets/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
-    import Loader from '*/vue/common/Loader'
     import axios from 'axios'
-
-    import $ from "jquery";
-    import { EventBus } from '*/src/eventbus';
 
     export default {
         components: {
@@ -399,7 +395,7 @@
             checkToday: function(date){
                 const input = new Date(date);
                 const today = new Date();
-                return input.getDate() === today.getDate() && 
+                return input.getDate() === today.getDate() &&
                         input.getMonth() === today.getMonth() &&
                          input.getFullYear() === today.getFullYear();
             },
@@ -416,11 +412,9 @@
                     alert("주문할 대상을 선택해주세요");
                     return;
                 }else{
-                    if(confirm("정말로 주문하시겠습니까?")){
-                        this.ajaxCartToOrder(this.checkedItem).then(()=>{
-                        window.location.href = '/cmall/billing';
-                        });    
-                    }
+                    this.ajaxCartToOrder(this.checkedItem).then(()=>{
+                    window.location.href = '/cmall/billing';
+                    });
                 }
             }
         }
@@ -435,7 +429,6 @@
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    @import '/assets/plugins/flatpickr/flatpickr.css';
 
     // 임시수정 2020-06-04
     .select-genre .checkbox {
