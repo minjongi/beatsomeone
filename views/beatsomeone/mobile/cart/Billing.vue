@@ -244,10 +244,12 @@
     </div>
 </template>
 
+
 <script>
-    require('@/assets/js/function')
+    require('@/assets_m/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
+    import Loader from '*/vue/common/Loader'
     import axios from 'axios'
 
     export default {
@@ -285,6 +287,12 @@
                 const { data } = await axios.get(
                   '/beatsomeoneApi/user_order_list', {}
                 );
+                console.log(data);
+                /*
+                data.forEach(function(d){
+                    console.log(d.cit_datetime);
+                    console.log(d.cit_start_datetime);
+                });*/
                 this.myOrder_list = data.result;
                 this.selectedItems = this.myOrder_list.length;
                 this.myMember = data.mem_result;
@@ -392,15 +400,18 @@
                 }
                 return rst;
             },
+
         }
     }
 </script>
 
+
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 </style>
 
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    @import '/assets/plugins/flatpickr/flatpickr.css';
 </style>

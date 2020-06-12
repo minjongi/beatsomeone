@@ -141,8 +141,8 @@
                                             {{ dateType }}
                                         </button>
                                         <div class="options">
-                                            <button data-value="" class="option" @click="funcDateType('Register Date')"> Register Date </button>
-                                            <button data-value="" class="option" @click="funcDateType('Launch Date')"> Launch Date  </button>
+                                            <button v-show="dateType === 'Launch Date'" class="option" @click="funcDateType('Register Date')"> Register Date </button>
+                                            <button v-show="dateType === 'Register Date'" data-value="" class="option" @click="funcDateType('Launch Date')"> Launch Date  </button>
                                         </div>
                                     </div>
                                 </div>
@@ -153,6 +153,7 @@
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         @update="updateSearchDate"
+                                        @reset="resetSearchDate"
                                 />
                             </div>
                         </div>
@@ -220,7 +221,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ item.cde_price_d }}</div>
+                                                        <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' ">
@@ -239,7 +240,7 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ item.cde_price_d_2 }}</div>
+                                                        <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE -->
                                                     <div class="n-box" v-else-if="item.cit_lease_license_use === '1' " >
@@ -259,7 +260,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ item.cde_price_d }}</div>
+                                                        <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
@@ -279,7 +280,8 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">$ {{ item.cde_price_d_2 }}</div>
+                                                        <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -537,7 +539,9 @@
                 this.ajaxItemList().then(()=>{
                     let list = [];
                     Object.assign(list,this.myProduct_list);
-                    if(this.search_date_option == 0){
+                    if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
+                        this.myProduct_list = list;
+                    }else if(this.search_date_option == 0){
                         let rst = list.filter(item => this.start_date < item.cit_datetime.substr(0,10) 
                                                     && item.cit_datetime.substr(0,10) < this.end_date);
                         this.myProduct_list = rst;
@@ -613,8 +617,6 @@
                 this.GMT = 0;
             },
             goStartDate: function(e){
-                console.log(this.search_date_option);
-                console.log(e.target.value);
                 this.start_date = e.target.value;
 
                 if(this.start_date == '' || this.end_date == ''){
@@ -624,8 +626,6 @@
                 }
             },
             goEndDate: function(e){
-                console.log(this.search_date_option);
-                console.log(e.target.value);
                 this.end_date = e.target.value;
 
                 if(this.start_date == '' || this.end_date == ''){
@@ -684,6 +684,24 @@
                     }
                 }
             },
+            formatPrice: function(kr, en, simbol){
+                if(!simbol){
+                    if(this.$i18n.locale === 'en'){
+                        return en;
+                    }else{
+                        return kr;
+                    }
+                }
+                if(this.$i18n.locale === 'en'){
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                }else{
+                    return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                }
+            },
+            formatNumber(n){
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+            },
             formatCitName: function(data, limitLth){
                 let rst;
                 if(limitLth < data.length && data.length <= limitLth*2){
@@ -699,9 +717,26 @@
                 console.log("productEditBtn:" +key);
                 window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
             },
+            isEmpty: function(str){
+                if(typeof str == "undefined" || str == null || str == "")
+                    return true;
+                else
+                    return false ;
+            },
             updateSearchDate(date){
-                this.start_date = date.start
-                this.end_date = date.end
+                console.log(date);
+                if(this.isEmpty(date.start) || this.isEmpty(date.end)){
+                    this.goSearchDate();
+                }else{
+                    this.start_date = date.start
+                    this.end_date = date.end
+                    this.goSearchDate();
+                }
+            },
+            resetSearchDate(date){
+                this.start_date = ''
+                this.end_date = ''
+                this.goSearchDate();
             },
             playAudio(i) {
                 if(!this.isPlay || this.currentPlayId !== i.cit_id) {
@@ -730,6 +765,7 @@
 
                 if(item.cde_id) {
                     this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
+                    //this.wavesurfer.load(`/uploads/cmallitemdetail/${item.cde_filename}`);
                 }
 
                 this.wavesurfer.on("ready", () => {

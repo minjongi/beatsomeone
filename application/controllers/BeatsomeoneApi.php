@@ -812,7 +812,7 @@ class BeatsomeoneApi extends CB_Controller
             return;
         }
 
-        $this->load->model(array('Cmall_cart_model'));
+        $this->load->model(array('Cmall_cart_model', 'Beatsomeone_model'));
         $mem_id = (int) $this->member->item('mem_id');
 
         /**
@@ -828,8 +828,9 @@ class BeatsomeoneApi extends CB_Controller
         if ($result) {
             foreach ($result as $key => $val) {
                 $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
-                $result[$key]['detail'] = $this->Cmall_cart_model
-                    ->get_cart_detail($mem_id, element('cit_id', $val));
+                //$result[$key]['detail'] = $this->Cmall_cart_model->get_cart_detail($mem_id, element('cit_id', $val));
+                $result[$key]['detail'] = $this->Beatsomeone_model->get_product_info(element('cit_id', $val));
+                //log_message('error', print_r($result[$key]['detail'],true) );
             }
         }
         //log_message('error', var_dump($result));
@@ -941,8 +942,8 @@ class BeatsomeoneApi extends CB_Controller
         if ($result) {
             foreach ($result as $key => $val) {
                 $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
-                $result[$key]['detail'] = $this->Cmall_cart_model
-                    ->get_order_detail($mem_id, element('cit_id', $val));
+                //$result[$key]['detail'] = $this->Cmall_cart_model->get_order_detail($mem_id, element('cit_id', $val));
+                $result[$key]['detail'] = $this->Beatsomeone_model->get_product_info(element('cit_id', $val));
                 if (empty($good_name)) {
                     $good_name = element('cit_name', $val);
                 }

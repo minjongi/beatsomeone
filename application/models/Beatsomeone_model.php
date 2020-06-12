@@ -808,4 +808,30 @@ class Beatsomeone_model extends CB_Model
         return $rst->result_array();
     }
 
+    public function get_product_info($cit_id){
+        $sql = "select distinct a.*, b.*, c.* ";
+        $sql .= "from ( ";
+        $sql .= "    select cit_id, cit_key, cit_name, cit_status, cit_file_1, cit_lease_license_use, cit_mastering_license_use, mem_id  ";
+        $sql .= "    from cb_cmall_item ";
+        $sql .= "     ) a ";
+        $sql .= "    join ( ";
+        $sql .= "      select cit_id, genre, bpm, subgenre, moods, trackType, hashTag ";
+        $sql .= "      , cde_id, cde_price, cde_price_d, cde_quantity, cde_download, cde_originname ";
+        $sql .= "      , cde_id_2, cde_price_2, cde_price_d_2, cde_quantity_2, cde_download_2, cde_originname_2 ";
+        $sql .= "    from cb_cmall_item_meta_v ";
+        $sql .= "     ) b ";
+        $sql .= "    on a.cit_id = b.cit_id ";
+        $sql .= "    join ( ";
+        $sql .= "     select mem_id, mem_userid, mem_nickname ";
+        $sql .= "     from cb_member ";
+        $sql .= "    ) c ";
+        $sql .= "    on a.mem_id = c.mem_id ";
+        $sql .= "where a.cit_id = ? ";
+        $sql .= " ";
+
+        $rst = $this->db->query($sql, array($cit_id));
+
+        return $rst->result_array();
+    }
+
 }

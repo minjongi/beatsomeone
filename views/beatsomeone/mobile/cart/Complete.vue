@@ -4,41 +4,41 @@
         <div class="container">
             <div class="main">
                 <section class="main__section1" style="margin-bottom:160px;">
-                    <div class="BG" style="background-image:url('/assets/images/cart.png')"></div>
+                    <div class="BG" style="background-image:url('/assets/images/order_complete.png')"></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <header class="main__section1-title">
-                            <h1>PLACE AN ORDER</h1>
+                        <header class="main__section1-title" style="text-align:center;">
+                            <h1>THANK YOU<br/>FOR YOUR ORDER</h1><!-- 
                             <div class="step" style="margin-top:30px;">
                                 <div class="stage active done">
                                     <span>1</span>Cart
                                 </div>
-                                <div class="stage active">
+                                <div class="stage active done">
                                     <span>2</span>Pay
                                 </div>
-                                <div class="stage">
+                                <div class="stage active">
                                     <span>3</span>Complete
                                 </div>
-                            </div>
+                            </div> -->
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"><div class="number">{{ selectedItems }}</div>Selected Items</div>
+                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"> Ordered <div class="number" style="margin-left:8px;">{{ cntOrderItems }}</div> Items</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
                                 <ul>
-                                    <li v-for="(item, i) in myOrder_list" v-bind:key="item.cct_id" class="playList__itembox" :id="'playList__item'+ item.cct_id" >
+                                    <li v-for="(rst, i) in orderResultList" v-bind:key="rst.cit_id" class="playList__itembox" :id="'playList__item'+ rst.cit_id">
                                         <div class="playList__item playList__item--title">
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
-                                                        <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
-                                                        <i v-show="checkToday(item.cct_datetime)" class="label new">N</i>
+                                                        <!-- <img src="/assets/images/cover_default.png" alt=""> -->
+                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + rst.item.cit_file_1" alt="">
+                                                        <i ng-if="item.isNew" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
-                                                        <h3 class="playList__title"> {{ formatCitName(item.cit_name) }} </h3>
-                                                        <span class="playList__by">by {{item.detail[0].mem_userid}}</span>
+                                                        <h3 class="playList__title"> {{ formatCitName(rst.item.cit_name) }} </h3>
+                                                        <span class="playList__by"> ( {{ rst.item.bpm }} ) BPM</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
@@ -58,11 +58,8 @@
                                                 </div>
                                             </div>
                                             <div class="col feature">
-                                                <div class="price" v-if="item.detail[0].cit_lease_license_use === '1'">
-                                                    {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
-                                                </div>
-                                                <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
-                                                    {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
+                                                <div class="price">
+                                                    $ {{ rst.item.cit_price }}
                                                 </div>
                                             </div>
                                         </div>
@@ -172,69 +169,40 @@
                                             </div>
                                         </div>
                                     </li>
-                                    -->
+                                -->
                                 </ul>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="payment_box" style="max-width:initial!important">
-                                <div>
-                                    <div class="title-content">
-                                        <div div class="title">
-                                            Payment method
-                                        </div>
-                                        <div>
-                                            <label class="checkbox" for="method1">
-                                                <input type="radio" name="method" id="method1" hidden="hidden" @change="chgPayMethod(1)">
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon credit"></div><div style="font-size:14px;">Credit</div></div>
-                                            </label>
-                                            <label class="checkbox" for="method2">
-                                                <input type="radio" name="method" id="method2" hidden="hidden" @change="chgPayMethod(2)">
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon wire"></div><div style="font-size:14px;">Wire</div></div>
-                                            </label>
-                                            <label class="checkbox" for="method3">
-                                                <input type="radio" name="method" id="method3" hidden="hidden" @change="chgPayMethod(3)">
-                                                <div class="btn btn--yellow" style="height:48px"><div class="icon paypal"></div><div style="font-size:14px;">PayPal</div></div>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="title-content">
-                                        <div div class="title">
-                                            Point
-                                        </div>
-                                        <div>
-                                            <div class="input_wrap inputbox unit" style="height:48px">
-                                                <input type="number" value="0" @change="calcPoint">
-                                                <span>P</span>
-                                            </div>
-                                            <button class="btn btn--blue" style="width:100px;height:48px;margin-left:-10px;">Use</button>
-                                        </div>
-                                        <p style="display:inline-block;">
-                                            <span>{{ point - usePoint}}</span> P left
-                                        </p>
-                                    </div>
-                                </div>
+                            <div class="title">Your order information</div>
+                            <div class="payment_box" style="max-width:initial!important;padding-top:0; padding-bottom:30px; margin-top:0; border:0;">
                                 <div class="tab">
                                     <div>
+                                        <div class="title">Method</div>
+                                        <div>Credit card + Point</div>
+                                    </div>
+                                    <div>
                                         <div class="title">Subtotal</div>
-                                        <div>{{ formatPrice(totalPriceKr, totalPriceEn, true) }}</div>
+                                        <div>$ {{ totalPrice }}</div>
                                     </div>
                                     <div>
                                         <div class="title">Points</div>
-                                        <div>{{ usePoint }} P</div>
+                                        <div>0 P</div>
                                     </div>
                                     <div class="total">
                                         <div>Total</div>
-                                        <div>{{ formatPrice(totalPriceKr - usePoint, totalPriceEn - usePoint, true) }}</div>
-                                    </div>
+                                        <div>$ {{ totalPrice - point }}</div>
+                                    </div>                           
                                 </div>
                             </div>
+                            <p class="desc">
+                                <img src="/assets/images/icon/info_blue.png">If the download period has expired, the purchased bit cannot be downloaded
+                            </p>
                         </div>
 
-                        <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-                            <button class="btn btn--gray" @click="goBack">Back</button>
-                            <button type="submit" class="btn btn--submit" @click="goPay">Pay</button>
+                        <div class="btnbox col" style="width:50%; margin:0 auto 100px;">
+                            <button class="btn btn--gray" @click="goMain">Go to main</button>
+                            <button type="submit" class="btn btn--submit" @click="goOrderHistory">Order History</button>
                         </div>
                     </div>
 
@@ -244,10 +212,12 @@
     </div>
 </template>
 
+
 <script>
-    require('@/assets/js/function')
+    require('@/assets_m/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
+    import Loader from '*/vue/common/Loader'
     import axios from 'axios'
 
     export default {
@@ -257,128 +227,47 @@
         data: function() {
             return {
                 isLogin: false,
-                myOrder_list: [],
-                myMember: [],
-                totalPriceKr: 0,
-                totalPriceEn: 0,
+                orderResultList: [],
+                cor_id: '',
+                cntOrderItems: 0,
+                totalPrice: 0,
                 point: 0,
-                usePoint: 0,
-                payMethod: 0,
-                unique_id: 0,
-                cor_id:'',
-                selectedItems:0,
             };
         },
         mounted(){
 
         },
-        created() {
-            this.ajaxOrderList().then(()=>{
-                this.calcTotalPrice();
-                this.point = this.myMember[0].mem_point;
-            });
+        created() { 
+            this.getCorId();
+            this.ajaxOrderResultList();
+
         },
         methods:{
-            async ajaxOrderList () {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/user_order_list', {}
-                );
-                this.myOrder_list = data.result;
-                this.selectedItems = this.myOrder_list.length;
-                this.myMember = data.mem_result;
-                this.unique_id = data.unique_id;
-                console.log(this.unique_id);
-              } catch (err) {
-                console.log('ajaxCartList error');
-              } finally {
-                this.isLoading = false;
-              }
-            },
-            async ajaxUpdateOrder () {
+            async ajaxOrderResultList () {
               try {
                 this.isLoading = true;
                 var param = new FormData();
-                param.append('pay_type', JSON.stringify(this.payMethod));
-                param.append('total_price_sum', JSON.stringify(this.formatPrice(this.totalPriceKr, this.totalPriceEn, false)));
-                param.append('usePoint', JSON.stringify(this.usePoint));
-                param.append('unique_id', JSON.stringify(this.unique_id));
-
+                param.append('cor_id', JSON.stringify(this.cor_id));
                 const { data } = await axios.post(
-                  '/beatsomeoneApi/user_order_update', param,{
+                  '/beatsomeoneApi/user_order_result', param,{
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                console.log(data);
-                if(data.message == 'ok'){
-                    this.cor_id = data.cor_id;
-                }
+                //console.log(data);
+                this.orderResultList = data.orderdetail;
+                this.cntOrderItems = this.orderResultList.length;
+                this.calcTotalPrice();
               } catch (err) {
-                console.log('ajaxUpdateOrder error');
+                console.log('ajaxOrderCompleteList error');
               } finally {
                 this.isLoading = false;
               }
             },
-            goBack: function(e){
-                window.location.href = '/cmall/cart';
-            },
-            goPay: function(e){
-                if((this.totalPrice - this.usePoint) <= 0){
-                    alert("결제 금액을 확인해주세요");
-                    return;
-                }
-                if(this.payMethod == 0){
-                    alert("결제 방법을 선택해주세요");
-                    return;
-                }
-
-                this.ajaxUpdateOrder().then(()=>{
-                    if(this.cor_id == ''){
-                        alert("결제가 실패하였습니다.");
-                        return;
-                    }else{
-                        window.location.href = '/cmall/complete?cor_id='+this.cor_id;
-                    }
-                });
-            },
-            chgPayMethod: function(idx){
-                this.payMethod = idx;
-            },
-            calcTotalPrice: function(){
-                let tpkr = 0.0;
-                let tpen = 0.0;
-                for(let i in this.myOrder_list){
-                    tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
-                    tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
-                }
-                this.totalPriceKr = tpkr;
-                this.totalPriceEn = tpen;
-            },
-            calcPoint: function(e){
-                this.usePoint = Number(e.target.value);
-            },
-            checkToday: function(date){
-                const input = new Date(date);
-                const today = new Date();
-                return input.getDate() === today.getDate() && 
-                        input.getMonth() === today.getMonth() &&
-                         input.getFullYear() === today.getFullYear();
-            },
-            formatPrice: function(kr, en, simbol){
-                if(!simbol){
-                    if(this.$i18n.locale === 'en'){
-                        return en;
-                    }else{
-                        return kr;
-                    }
-                }
-                if(this.$i18n.locale === 'en'){
-                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
-                }else{
-                    return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
-                }
+            getCorId: function(){
+                let uri = window.location.search.substring(1); 
+                let params = new URLSearchParams(uri);
+                this.cor_id = params.get('cor_id');
             },
             formatCitName: function(data){
                 var rst;
@@ -392,15 +281,30 @@
                 }
                 return rst;
             },
+            calcTotalPrice: function(){
+                let tp = 0.0;
+                for(let i in this.orderResultList){
+                    tp += Number(this.orderResultList[i].item.cit_price);
+                }
+                this.totalPrice = tp;
+            },
+            goMain: function(e){
+                window.location.href = '/';
+            },
+            goOrderHistory: function(e){
+                window.location.href = '/mypage/mybilling';
+            },
         }
     }
 </script>
 
+
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 </style>
 
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    @import '/assets/plugins/flatpickr/flatpickr.css';
 </style>

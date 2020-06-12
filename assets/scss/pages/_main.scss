@@ -1050,7 +1050,12 @@ section[class*="section"]{
       .n-box {
         display: flex;
         flex-direction: initial !important;
-
+        &:first-child {
+          // margin-top: 0;
+          .price {
+            margin-top: 70px;
+          }
+        }
         > * {
           flex: auto;
           &:last-child {
@@ -1059,11 +1064,7 @@ section[class*="section"]{
             flex: 1;
           }
         }
-        &:first-child {
-          .price {
-            margin-top: 70px;
-          }
-        }
+        
         .price {
           text-align: left;
           margin-top: 10px;
@@ -1090,7 +1091,7 @@ section[class*="section"]{
 
     &.other {
       padding-bottom: 46px;
-      .option > div+div {
+      .option > .n-box+.n-box {
         margin-top: 20px;
       }
       .playList__item--button {
@@ -2373,8 +2374,36 @@ textarea{
   .playList__item{
     height:auto;
     min-height:initial;
-    max-height:90px;
+    // max-height:90px;
 
+    // 2020-06-10 추가됨.
+    &.other {
+      padding-bottom: 20px;
+      .option {
+        margin-top: 0;
+        .option_item {
+          margin-top: 0;
+        }
+      }
+      .option {
+        .active {
+          .option_item {
+            margin-top: 20px;
+            margin-bottom: 30px;
+          }
+        }
+      }
+      .playList__item--button {
+        margin-bottom: 0;
+      }
+      .feature {
+        .price {
+          &:first-child {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
     &.active{
       max-height:100em;
     }
@@ -2422,6 +2451,7 @@ textarea{
       max-width: max-content;
       margin-right: 20px;
     }
+    
   }
 }
 
