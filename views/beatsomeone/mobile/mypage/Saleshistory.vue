@@ -175,7 +175,7 @@
                                                     </div>
                                                     <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)"> </div>
                                                 </div>
-                                                <div style="white-space: nowrap; text-align: center;" class="totalprice">&#8361; {{ formatNumber(item.cde_price) }}<br/>$ {{ formatNumber(item.cde_price_d) }}</div>
+                                                <div style="white-space: nowrap;" class="totalprice">&#8361; {{ formatNumber(item.cde_price) }}<br/>$ {{ formatNumber(item.cde_price_d) }}</div>
                                             </div>
                                             <!-- <div class="index">{{ calcTotalCnt - i }}</div> -->
                                              <!-- <div class="col name">

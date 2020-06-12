@@ -404,7 +404,7 @@
       }
     }
     .n-box {
-      margin-bottom: 24px;
+      
       .playList__item--button {
         display: flex;
         align-items: center;
@@ -463,6 +463,7 @@
         }
       }
       &.active {
+        margin-bottom: 24px;
         .option_fold {
           > img {
             transform: rotate(180deg);
