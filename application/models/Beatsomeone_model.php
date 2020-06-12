@@ -408,7 +408,7 @@ class Beatsomeone_model extends CB_Model
         $select .= ',p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, p.cde_originname, p.cde_quantity ';
         $select .= ',p.cde_id_2, p.cde_price_2,p.cde_price_d_2, p.cde_download_2, p.cde_originname_2, p.cde_quantity_2 ';
         $select .= ',p.cde_id_3, p.cde_price_3,p.cde_price_d_3, p.cde_download_3, p.cde_originname_3, p.cde_quantity_3 ';
-        $select .= ',p.cde_originname, d.cde_filename';
+        $select .= ',p.cde_originname, d.cde_filename, e.mem_nickname';
         $this->db->select($select);
         $where = array(
             'c.mem_id = ' => $p['mem_id'],
@@ -416,6 +416,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
         $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','inner');
         $this->db->join('cb_cmall_item_detail as d','c.cit_id = d.cit_id AND d.cde_title = "LEASE"','left');
+        $this->db->join('cb_member as e','d.mem_id = e.mem_id','left');
         $this->db->where($where);
         $this->db->order_by('cit_id', 'desc');
         $qry = $this->db->get('cmall_item as cb_c');

@@ -9,7 +9,7 @@
                             <div class="profile">
                                 <div class="portait">
                                     <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
+                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
                                 <div class="info">
                                     <div class="group">
@@ -84,9 +84,9 @@
                                         </button>
                                         <div class="select-genre popup active">
                                             <div class="tab">
-                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">{{listGenre.length}}</div></button>
-                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">{{listMoods.length}}</div></button>
-                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">{{listTrackType.length}}</div></button>
+                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">{{selectedGenre.length}}</div></button>
+                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">{{selectedMood.length}}</div></button>
+                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">{{selectedTrackType.length}}</div></button>
                                             </div>
                                             <div class="tab_container">
                                                 <div v-show="popup_filter === 0" class="tab_content active">
@@ -178,8 +178,8 @@
                                             <div class="row">
                                                 
                                                 <div class="col playList__cover">
-                                                    <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
-                                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                                    <img v-if="!item.cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
+                                                    <img v-else :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
                                                     <i v-show="checkToday(item.cit_datetime)" class="label new">N</i>
                                                 </div>
                                                 
@@ -409,6 +409,7 @@
     import { EventBus } from '*/src/eventbus';
     import Header from "../include/Header"
     import Footer from "../include/Footer"
+    import moment from "moment";
     import axios from 'axios'
     import WaveSurfer from 'wavesurfer.js';
     import $ from "jquery";
@@ -586,21 +587,45 @@
                     }
                 });
             },
+            callbackdateime: function(val){
+                let s = moment(this.start_date);
+                let e = moment(this.end_date);
+                let t = moment(val.cit_datetime.substr(0,10));
+                if(s.diff(t) <= 0 && 0 <= e.diff(t)){
+                    return true;
+                }else{
+                    return false;
+                }
+            },
+            callbackstartdateime: function(val){
+                let s = moment(this.start_date);
+                let e = moment(this.end_date);
+                let t = moment(val.cit_start_datetime.substr(0,10));
+                if(s.diff(t) <= 0 && 0 <= e.diff(t)){
+                    return true;
+                }else{
+                    return false;
+                }
+            },
             goSearchDate: function(){
                 this.ajaxItemList().then(()=>{
                     let list = [];
                     Object.assign(list,this.myProduct_list);
+                    console.log(this.search_date_option);
                     if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
                         this.myProduct_list = list;
                     }else if(this.search_date_option == 0){
-                        let rst = list.filter(item => this.start_date < item.cit_datetime.substr(0,10) 
-                                                    && item.cit_datetime.substr(0,10) < this.end_date);
+                        let rst = list.filter(this.callbackdateime);
                         this.myProduct_list = rst;
-                    }else{
-                        let rst = list.filter(item => this.start_date < item.cit_start_datetime.substr(0,10) 
-                                                    && item.cit_start_datetime.substr(0,10) < this.end_date );
+                        console.log(rst);
+                    }else if(this.search_date_option == 1){
+                        let rst = list.filter(this.callbackstartdateime);
                         this.myProduct_list = rst;
+                        console.log(rst);
                     }
+                    this.calcTotalCnt = this.calcFuncTotalCnt();
+                    this.calcSellingCnt = this.calcFuncSellingCnt();
+                    this.calcPendingCnt = this.calcFuncPendingCnt();
                 });
             },
             goTabMenu: function(menu){
@@ -735,10 +760,10 @@
                     return;
                 }else{
                     if(t === "Register Date"){
-                        this.search_date_option = 1
+                        this.search_date_option = 0
                         this.dateType = t;
                     }else{
-                        this.search_date_option = 0
+                        this.search_date_option = 1
                         this.dateType = t;
                     }
                 }
@@ -770,7 +795,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+                window.location.href = '/beatsomeone/detail/'+key;
             },
             isEmpty: function(str){
                 if(typeof str == "undefined" || str == null || str == "")
