@@ -42,7 +42,7 @@
                                                             <span class="playList__by">by {{ orderResult.mem_nickname }}</span>
                                                         </figcaption>
                                                     </figure>
-                                                    <div class="price"> {{ formatPrice(orderResult.cor_total_money, true) }}</div>
+                                                    <div class="price">{{ orderResult.cor_memo }} {{ orderResult.cor_total_money }}</div>
                                                 </div>
                                             </div>
                                             <div class="n-flex">
@@ -193,7 +193,7 @@
                                     </div>
                                     <div class="n-flex between">
                                         <div class="title">Subtotal</div>
-                                        <div>{{ formatPrice(totalPrice, true) }}</div>
+                                        <div>{{ orderResult.cor_memo }} {{ totalPrice }}</div>
                                     </div>
                                     <div class="n-flex between">
                                         <div class="title">Points</div>
@@ -201,7 +201,7 @@
                                     </div>
                                     <div class="n-flex between total">
                                         <div>Total</div>
-                                        <div>{{ formatPrice(totalPrice - point, true) }}</div>
+                                        <div>{{ orderResult.cor_memo }} {{ totalPrice - point }}</div>
                                     </div>                           
                                 </div>
                             </div>

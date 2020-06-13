@@ -125,7 +125,7 @@
                                             </div>
                                             <div class="col feature">
                                                 <div class="price">
-                                                    {{ formatPrice(orderResult.cor_total_money, true) }}
+                                                    {{ orderResult.cor_memo }} {{ orderResult.cor_total_money }}
                                                 </div>
                                             </div>
                                         </div>
@@ -249,7 +249,7 @@
                                     </div>
                                     <div>
                                         <div class="title">Subtotal</div>
-                                        <div>{{ formatPrice(totalPrice, true) }}</div>
+                                        <div>{{ orderResult.cor_memo }} {{ totalPrice }}</div>
                                     </div>
                                     <div>
                                         <div class="title">Points</div>
@@ -257,7 +257,7 @@
                                     </div>
                                     <div class="total">
                                         <div>Total</div>
-                                        <div>{{ formatPrice(totalPrice - point, true) }}</div>
+                                        <div>{{ orderResult.cor_memo }} {{ totalPrice - point }}</div>
                                     </div>
                                 </div>
                             </div>
