@@ -33,8 +33,8 @@
                                                 <div class="col name">
                                                     <figure>
                                                         <span class="playList__cover">
-                                                            <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
-                                                            <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                                            <img v-if="!item.cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
+                                                            <img v-else :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
                                                             <i v-show="checkToday(item.cct_datetime)" class="label new">N</i>
                                                         </span>
                                                         <figcaption class="pointer">
@@ -59,7 +59,7 @@
                                                                         <div class="detail">MP3 or WAV</div>
                                                                     </div>
                                                                     <div class="price" v-if="item.detail[0].cit_lease_license_use === '1'">
-                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
+                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
                                                                     </div>
                                                                 </button>
                                                                 <div class="option_item basic">
@@ -82,7 +82,7 @@
                                                                         <div class="detail">MP3 or WAV + STEMS</div>
                                                                     </div>
                                                                     <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
-                                                                            {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
+                                                                            {{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2, true) }}
                                                                         </div>
                                                                 </button>
                                                                 <div class="option_item unlimited">
@@ -104,7 +104,7 @@
                                                                         <div class="detail">MP3 or WAV</div>
                                                                     </div>
                                                                     <div class="price" v-if="item.detail[0].cit_lease_license_use === '1'">
-                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
+                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
                                                                     </div>
                                                                 </button>
                                                                 <div class="option_item basic">
@@ -127,7 +127,7 @@
                                                                         <div class="detail">MP3 or WAV + STEMS</div>
                                                                     </div>
                                                                     <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
-                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
+                                                                        {{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2, true) }}
                                                                     </div>
                                                                 </button>
                                                                 <div class="option_item unlimited">
@@ -354,8 +354,8 @@
                 isLogin: false,
                 myOrder_list: [],
                 myMember: [],
-                totalPriceKr: 0,
-                totalPriceEn: 0,
+                totalPriceKr: "0",
+                totalPriceEn: "00.00",
                 point: 0,
                 usePoint: 0,
                 payMethod: 0,
@@ -402,6 +402,7 @@
                 this.isLoading = true;
                 var param = new FormData();
                 param.append('pay_type', JSON.stringify(this.payMethod));
+                param.append('priceType', JSON.stringify(this.getPriceType()));
                 param.append('total_price_sum', JSON.stringify(this.formatPrice(this.totalPriceKr, this.totalPriceEn, false)));
                 param.append('usePoint', JSON.stringify(this.usePoint));
                 param.append('unique_id', JSON.stringify(this.unique_id));
@@ -460,8 +461,14 @@
                 let tpkr = 0.0;
                 let tpen = 0.0;
                 for(let i in this.myOrder_list){
-                    tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
-                    tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
+                    if(this.myOrder_list[i].detail[0].cit_lease_license_use == '1'){
+                        tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
+                        tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
+                    }
+                    if(this.myOrder_list[i].detail[0].cit_mastering_license_use == '1'){
+                        tpkr += Number(this.myOrder_list[i].detail[0].cde_price_2);
+                        tpen += Number(this.myOrder_list[i].detail[0].cde_price_d_2);
+                    }
                 }
                 this.totalPriceKr = tpkr;
                 this.totalPriceEn = tpen;
@@ -501,6 +508,13 @@
                     rst = data
                 }
                 return rst;
+            },
+            getPriceType: function(){
+                if(this.$i18n.locale === 'en'){
+                    return '$';
+                }else{
+                    return '₩';
+                }
             },
 
         }
