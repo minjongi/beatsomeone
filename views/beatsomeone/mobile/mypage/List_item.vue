@@ -156,6 +156,7 @@
                                         placeholder="Start date ~ End date"
                                         :startDate="start_date"
                                         :endDate="end_date"
+                                        minDate="1970-01-01"
                                         @update="updateSearchDate"
                                         @reset="resetSearchDate"
                                 />
