@@ -756,12 +756,27 @@ class Beatsomeone_model extends CB_Model
         $sql .= " where x.mem_id = ? ";
         $sql .= " and x.cit_id = y.cit_id ";
         $sql .= "    ) b ";
+
         $sql .= " where a.cit_id = b.cit_id ";
                 
         $rst = $this->db->query($sql, array($p['mem_id']));
 
         return $rst->result_array();
     }
+
+    //판매 금액정보 조회
+    public function get_sales_price_info($p)
+    {
+
+        $sql = "select cor_memo, cor_total_money ";
+        $sql .= "from beatsomeone.cb_cmall_order ";
+        $sql .= "where cor_id = ? ";
+        
+        $rst = $this->db->query($sql, array($p['cor_id']));
+
+        return $rst->result_array();
+    }
+
 
     // 구매자 구매 목록 조회
     public function get_order_history($p)

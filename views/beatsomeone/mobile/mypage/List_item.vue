@@ -721,7 +721,7 @@
             },
 
             calcSeq: function(size, i){
-                return parseInt(size) - parseInt(i);
+                return parseInt(size) - ((this.currPage - 1) * this.perPage) - parseInt(i);
             },
             removeReg: function(val){
                 const regExp = /[~!@#$%^&*()_+|'"<>?:{}]/;

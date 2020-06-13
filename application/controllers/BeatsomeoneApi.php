@@ -1219,9 +1219,14 @@ class BeatsomeoneApi extends CB_Controller
 
         $sp_list = array();
         foreach( $cor_id_list as $cor_id ){
+            $sp_pr_info = $this->Beatsomeone_model->get_sales_price_info($cor_id);
             $sp_info = $this->Beatsomeone_model->get_sales_product_info($cor_id);
             foreach ( $sp_info as $sp ){
-                array_push($sp_list, $sp);    
+                foreach ( $sp_pr_info as $sp_pr ){
+                    $sp['cor_memo'] = $sp_pr['cor_memo'];
+                    $sp['cor_total_money'] = $sp_pr['cor_total_money'];
+                }
+                array_push($sp_list, $sp);
             }
         }
         log_message('error', print_r($sp_list, true) );
