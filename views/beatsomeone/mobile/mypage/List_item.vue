@@ -203,7 +203,7 @@
 
                                                 <!-- Comment -->
                                                 <div class="col edit">
-                                                    <button @click="productEditBtn(item.cit_key)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
+                                                    <button @click="productEditBtn(item.cit_id)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
                                                 </div>
                                                 
                                             </div>
@@ -722,11 +722,18 @@
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
             },
+            removeReg: function(val){
+                const regExp = /[~!@#$%^&*()_+|'"<>?:{}]/;
+                while(regExp.test(val)){
+                    val = val.replace(regExp, "");
+                }
+                return val
+            },
             calcTag: function(hashTag){
                 let rst='';
                 let tags = hashTag.split(',');
                 for ( let i in tags ) {
-                    rst = rst + '<span><button >'+ tags[i] + '</button></span>';
+                    rst = rst + '<span><button >'+ this.removeReg(tags[i]) + '</button></span>';
                 }
                 return rst;
             },
@@ -795,7 +802,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = '/beatsomeone/detail/'+key;
+                window.location.href = '/mypage/regist_item'+key;
             },
             isEmpty: function(str){
                 if(typeof str == "undefined" || str == null || str == "")

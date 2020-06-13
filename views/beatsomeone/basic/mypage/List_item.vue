@@ -290,7 +290,7 @@
                                             </div>
 
                                             <div class="col edit">
-                                                <button @click="productEditBtn(item.cit_key)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
+                                                <button @click="productEditBtn(item.cit_id)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
                                             </div>
                                             <div class="col genre" v-html="calcTag(item.hashTag)"></div>    
                                         </div>
@@ -460,6 +460,7 @@
             EventBus.$on('main_player_stop',r=> {
                 this.stop()
             });
+
         },
         created() {
             this.ajaxItemList().then(()=>{
@@ -676,10 +677,11 @@
                 return parseInt(size) - parseInt(i);
             },
             removeReg: function(val){
-                const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
-                if(regExp.test(val)){
-                    return val.replace(regExp, "");
+                const regExp = /[~!@#$%^&*()_+|'"<>?:{}]/;
+                while(regExp.test(val)){
+                    val = val.replace(regExp, "");
                 }
+                return val
             },
             calcTag: function(hashTag){
                 let rst='';
@@ -758,7 +760,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = '/beatsomeone/detail/'+key;
+                window.location.href = '/mypage/regist_item/'+key;
             },
             isEmpty: function(str){
                 if(typeof str == "undefined" || str == null || str == "")
