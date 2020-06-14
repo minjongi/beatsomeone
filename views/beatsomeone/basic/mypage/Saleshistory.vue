@@ -20,7 +20,7 @@
                                         {{mem_nickname}}
                                     </div>
                                     <div class="bio">
-                                        Music Lover, KKOMA
+                                        {{ mem_type }}, {{ mem_lastname }}
                                     </div>
                                     <div class="location">
                                         <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>

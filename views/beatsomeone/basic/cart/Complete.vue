@@ -124,8 +124,11 @@
                                                 </div>
                                             </div>
                                             <div class="col feature">
-                                                <div class="price">
-                                                    {{ orderResult.cor_memo }} {{ orderResult.cor_total_money }}
+                                                <div class="price" v-if="rst.item[0].cit_lease_license_use === '1'">
+                                                    {{ formatPrice(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }}
+                                                </div>
+                                                <div class="price" v-if="rst.item[0].cit_mastering_license_use === '1'" >
+                                                    {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -353,7 +356,8 @@
                 if(!simbol){
                     return price;
                 }
-                if(this.$i18n.locale === 'en'){
+
+                if(this.orderResult.cor_memo === '$'){
                     return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 0});
                 }else{
                     return '₩ '+ Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});

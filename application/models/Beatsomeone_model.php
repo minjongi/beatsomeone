@@ -850,4 +850,17 @@ class Beatsomeone_model extends CB_Model
         return $rst->result_array();
     }
 
+    public function get_order_info($cor_id){
+        $sql = "SELECT distinct a.*, b.cit_id ";
+        $sql .= "FROM beatsomeone.cb_cmall_order a ";
+        $sql .= "    , beatsomeone.cb_cmall_order_detail b ";
+        $sql .= "    where a.cor_id = ? ";
+        $sql .= "    and a.cor_id = b.cor_id ";
+        $sql .= " ";
+
+        $rst = $this->db->query($sql, array($cor_id));
+
+        return $rst->result_array();
+    }
+
 }
