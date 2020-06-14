@@ -47,8 +47,8 @@
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
-                                                        <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                                        <img v-if="!item.cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
+                                                        <img v-else :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
                                                         <i v-show="checkToday(item.cct_datetime)" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
@@ -142,7 +142,7 @@
                                                     {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
                                                 </div>
                                                 <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
-                                                    {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
+                                                    {{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2) }}
                                                 </div>
                                             </div>
                                             <div class="col edit">
@@ -208,7 +208,7 @@
                     <div class="total">Subtotal</div>
                 </div>
                 <div>
-                    <div class="price">{{ totalPrice }}</div>
+                    <div class="price">{{ formatPrice(totalPriceKr, totalPriceDr) }}</div>
                     <button class="btn btn--submit" @click="goOrder" >Order</button>
                 </div>
             </div>
@@ -232,7 +232,8 @@
                 isLogin: false,
                 isLoading: false,
                 myCart_list: [],
-                totalPrice: "00.00",
+                totalPriceKr: "0",
+                totalPriceDr: "00.00",
                 selectedItem: null,
                 checkedAll:false,
                 checkedItem:[],
@@ -364,20 +365,34 @@
                 let cnt = 0;
                 if(this.checkedAll){
                     for(let i in this.myCart_list){
-                        tpkr += Number(this.myCart_list[i].detail[0].cde_price);
-                        tpen += Number(this.myCart_list[i].detail[0].cde_price_d);
+                        if(this.myCart_list[i].detail[0].cit_lease_license_use == '1'){
+                            tpkr += Number(this.myCart_list[i].detail[0].cde_price);
+                            tpen += Number(this.myCart_list[i].detail[0].cde_price_d);
+                        }
+                        if(this.myCart_list[i].detail[0].cit_mastering_license_use == '1'){
+                            tpkr += Number(this.myCart_list[i].detail[0].cde_price_2);
+                            tpen += Number(this.myCart_list[i].detail[0].cde_price_d_2);
+                        }
                         cnt++;
                     }
                 }else{
                     for(let i in this.myCart_list){
                         if(this.checkedItem.includes(this.myCart_list[i].cit_id)){
-                            tpkr += Number(this.myCart_list[i].detail[0].cde_price);
-                            tpen += Number(this.myCart_list[i].detail[0].cde_price_d);
+
+                            if(this.myCart_list[i].detail[0].cit_lease_license_use == '1'){
+                                tpkr += Number(this.myCart_list[i].detail[0].cde_price);
+                                tpen += Number(this.myCart_list[i].detail[0].cde_price_d);
+                            }
+                            if(this.myCart_list[i].detail[0].cit_mastering_license_use == '1'){
+                                tpkr += Number(this.myCart_list[i].detail[0].cde_price_2);
+                                tpen += Number(this.myCart_list[i].detail[0].cde_price_d_2);
+                            }
                             cnt++;
                         }
                     }
                 }
-                this.totalPrice = this.formatPrice(tpkr, tpen);
+                this.totalPriceKr = tpkr;
+                this.totalPriceDr = tpen;
                 this.cntSelectedItems = cnt;
             },
             goDelete: function(){

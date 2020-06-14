@@ -948,6 +948,8 @@ class BeatsomeoneApi extends CB_Controller
                     $good_name = element('cit_name', $val);
                 }
                 $good_count ++;
+
+                log_message('error', print_r($val, true) );
                 $session_cct_id[] = element('cct_id', $val);
             }
         }
@@ -1008,7 +1010,7 @@ class BeatsomeoneApi extends CB_Controller
         }
 
         if ( ! $this->session->userdata('order_cct_id')) {
-            alert('잘못된 접근입니다');
+            //alert('잘못된 접근입니다');
         }
 
         $this->load->model('Cmall_cart_model');
@@ -1046,8 +1048,10 @@ class BeatsomeoneApi extends CB_Controller
         if ( ! is_numeric($this->input->post('total_price_sum'))) {
             alert('총 결제금액의 값은 숫자만 와야 합니다');
         }
+        $priceType = json_decode($this->input->post('priceType'));
         $total_price_sum = (int) $this->input->post('total_price_sum');
         $usePoint = (int) $this->input->post('usePoint');
+        log_message('error', 'priceType : ' .$priceType );
         log_message('error', 'total_price_sum : ' .$total_price_sum );
         log_message('error', 'usePoint : ' .$usePoint );
 
@@ -1064,6 +1068,7 @@ class BeatsomeoneApi extends CB_Controller
         //무통장입금
         $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
         $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+        $insertdata['cor_memo'] = $priceType;
         $insertdata['cor_total_money'] = $total_price_sum;
         $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
         $insertdata['cor_deposit'] = $order_deposit;
@@ -1137,8 +1142,6 @@ class BeatsomeoneApi extends CB_Controller
         }
         */
 
-        $this->session->set_userdata('unique_id', '');
-        $this->session->set_userdata('order_cct_id', '');
 
         $rst = array();
         $rst['message'] = 'ok';
@@ -1156,17 +1159,27 @@ class BeatsomeoneApi extends CB_Controller
             return;
         }
         $mem_id = (int) $this->member->item('mem_id');
-        //log_message('error', var_dump($this->input->post(), true) );
-        $cor_id = $this->input->post("cor_id");
+        $cor_id = (int)json_decode($this->input->post("cor_id"));
+        $cor_id2 = $this->session->userdata('unique_id');
 
-        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+        $this->session->set_userdata('unique_id', '');
+        $this->session->set_userdata('order_cct_id', '');
+
+        if($cor_id != $cor_id2){
+            //alert('잘못된 접근입니다');
+        }
+        log_message('error', print_r($cor_id, true) );
+        log_message('error', print_r($cor_id2, true) );
+        //log_message('error', print_r(gmp_intval(gmp_init($cor_id)), true) );
+
+        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model', 'Beatsomeone_model'));
 
         $order = $this->Cmall_order_model->get_one($cor_id);
+        log_message('error', print_r($order, true) );
         $orderdetail = $this->Cmall_order_detail_model->get_by_item($cor_id);
         if ($orderdetail) {
             foreach ($orderdetail as $key => $value) {
-                $orderdetail[$key]['item'] = $item
-                    = $this->Cmall_item_model->get_one(element('cit_id', $value));
+                $orderdetail[$key]['item'] = $this->Beatsomeone_model->get_product_info(element('cit_id', $value));
                 $orderdetail[$key]['itemdetail'] = $itemdetail
                     = $this->Cmall_order_detail_model
                     ->get_detail_by_item($cor_id, element('cit_id', $value));
@@ -1219,9 +1232,14 @@ class BeatsomeoneApi extends CB_Controller
 
         $sp_list = array();
         foreach( $cor_id_list as $cor_id ){
+            $sp_pr_info = $this->Beatsomeone_model->get_sales_price_info($cor_id);
             $sp_info = $this->Beatsomeone_model->get_sales_product_info($cor_id);
             foreach ( $sp_info as $sp ){
-                array_push($sp_list, $sp);    
+                foreach ( $sp_pr_info as $sp_pr ){
+                    $sp['cor_memo'] = $sp_pr['cor_memo'];
+                    $sp['cor_total_money'] = $sp_pr['cor_total_money'];
+                }
+                array_push($sp_list, $sp);
             }
         }
         log_message('error', print_r($sp_list, true) );
