@@ -29,7 +29,7 @@
                                 <ul>
                                     <li v-for="(item, i) in myOrder_list" v-bind:key="item.cct_id" class="playList__itembox" :id="'playList__item'+ item.cct_id" >
                                         <div class="playList__item playList__item--title other">
-                                            <div class="n-flex">
+                                            <div class="n-flex h-center">
                                                 <div class="col name">
                                                     <figure>
                                                         <span class="playList__cover">
@@ -43,6 +43,14 @@
                                                         </figcaption>
                                                     </figure>
                                                 </div>
+                                                <div class="col feature">
+                                                    <div class="price" v-if="item.detail[0].cit_lease_license_use === '1'">
+                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
+                                                    </div>
+                                                    <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
+                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
+                                                    </div>
+                                            </div>
                                             </div>
                                             <div class="n-flex">
                                                 <div class="col n-option">
@@ -50,7 +58,7 @@
                                                     <!-- Option -->
                                                     <div class="option">
                                                         <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
-                                                        <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' ">
+                                                        <!-- <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' ">
                                                             <div>
                                                                 <button class="playList__item--button" >
                                                                     <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -58,7 +66,7 @@
                                                                         <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                         <div class="detail">MP3 or WAV</div>
                                                                     </div>
-                                                                    <div class="price" v-if="item.detail[0].cit_lease_license_use === '1'">
+                                                                    <div class="price 11221122" v-if="item.detail[0].cit_lease_license_use === '1'">
                                                                         {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
                                                                     </div>
                                                                 </button>
@@ -69,11 +77,10 @@
                                                                     <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                         <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
-                                                        <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' ">
-                                                            <!-- UNLIMITED STEMS LICENSE -->
+                                                        <!-- <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' ">
                                                             <div>
                                                                 <button class="playList__item--button" >
                                                                     <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -81,7 +88,7 @@
                                                                         <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                         <div class="detail">MP3 or WAV + STEMS</div>
                                                                     </div>
-                                                                    <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
+                                                                    <div class="price  1122" v-if="item.detail[0].cit_mastering_license_use === '1'" >
                                                                             {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
                                                                         </div>
                                                                 </button>
@@ -91,10 +98,10 @@
                                                                     <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                         <!-- BASIC LEASE LICENSE -->
-                                                        <div class="n-box" v-else-if="item.detail[0].cit_lease_license_use === '1' " >
+                                                        <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' " >
                                                             
                                                             <div>
                                                                 <button class="playList__item--button" >
@@ -103,9 +110,9 @@
                                                                         <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                         <div class="detail">MP3 or WAV</div>
                                                                     </div>
-                                                                    <div class="price" v-if="item.detail[0].cit_lease_license_use === '1'">
+                                                                    <!-- <div class="price 1111" v-if="item.detail[0].cit_lease_license_use === '1'">
                                                                         {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
-                                                                    </div>
+                                                                    </div> -->
                                                                 </button>
                                                                 <div class="option_item basic">
                                                                     <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -117,18 +124,18 @@
                                                         </div>
 
                                                         <!-- UNLIMITED STEMS LICENSE -->
-                                                        <div class="n-box" v-else-if="item.detail[0].cit_mastering_license_use === '1' " >
+                                                        <div class="n-box" v-if="item.detail[0].cit_mastering_license_use === '1' " >
                                                             
                                                             <div>
                                                                 <button class="playList__item--button" >
                                                                     <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                     <div>
                                                                         <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
-                                                                        <div class="detail">MP3 or WAV + STEMS</div>
+                                                                        <div class="detail 2222">MP3 or WAV + STEMS</div>
                                                                     </div>
-                                                                    <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
+                                                                    <!-- <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
                                                                         {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
-                                                                    </div>
+                                                                    </div> -->
                                                                 </button>
                                                                 <div class="option_item unlimited">
                                                                     <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
