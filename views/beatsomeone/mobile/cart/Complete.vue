@@ -2,12 +2,12 @@
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
         <div class="container">
-            <div class="main">
+            <div class="main complate-wrap">
                 <section class="main__section1" style="margin-bottom:160px;">
                     <div class="BG" style="background-image:url('/assets/images/order_complete.png')"></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <header class="main__section1-title" style="text-align:center;">
+                        <header class="main__section1-title">
                             <h1>THANK YOU<br/>FOR YOUR ORDER</h1><!-- 
                             <div class="step" style="margin-top:30px;">
                                 <div class="stage active done">
@@ -22,44 +22,125 @@
                             </div> -->
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"> Ordered <div class="number" style="margin-left:8px;">{{ cntOrderItems }}</div> Items</div>
+                            <div class="checkbox" style="margin-bottom:30px; font-weight:600"> Ordered <div class="number" style="margin-left:8px; color: #ffda2a">{{ cntOrderItems }}</div> Items</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
                                 <ul>
-                                    <li v-for="(rst, i) in orderResultList" v-bind:key="rst.cit_id" class="playList__itembox" :id="'playList__item'+ rst.cit_id">
-                                        <div class="playList__item playList__item--title">
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <!-- <img src="/assets/images/cover_default.png" alt=""> -->
-                                                        <img :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + rst.item.cit_file_1" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <h3 class="playList__title"> {{ formatCitName(rst.item.cit_name) }} </h3>
-                                                        <span class="playList__by"> ( {{ rst.item.bpm }} ) BPM</span>
-                                                    </figcaption>
-                                                </figure>
+                                    <li v-for="(rst, i) in orderResultList" v-bind:key="rst.cor_id" class="playList__itembox" :id="'playList__item'+ rst.cor_id">
+                                        <div class="playList__item playList__item--title other">
+                                            <div class="n-flex">
+                                                <div class="col name">
+                                                    <figure>
+                                                        <span class="playList__cover">
+                                                            <img v-if="!rst.item[0].cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
+                                                            <img v-else :src="'/uploads/cmallitem/' + rst.item[0].cit_file_1" alt="">
+                                                            <i v-show="checkToday(orderResult.cor_datetime)" class="label new">N</i>
+                                                        </span>
+                                                        <figcaption class="pointer">
+                                                            <h3 class="playList__title"> {{ formatCitName(rst.item[0].cit_name) }} </h3>
+                                                            <span class="playList__by">by {{ orderResult.mem_nickname }}</span>
+                                                        </figcaption>
+                                                    </figure>
+                                                    <div class="price">{{ orderResult.cor_memo }} {{ orderResult.cor_total_money }}</div>
+                                                </div>
                                             </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">BASIC LEASE</div>
-                                                        <div class="detail">MP3 or WAV</div>
+                                            <div class="n-flex">
+                                                <!--
+                                                <div class="col option n-box">
+                                                    <div class="playList__item--button">
+                                                        <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
+                                                        <div class="">
+                                                            <div class="title">BASIC LEASE</div>
+                                                            <div class="detail">MP3 or WAV</div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="option_item">
+                                                        <div><img class="img-box" src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                        <div><img class="img-box" src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                        <div><img class="img-box" src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                        <div><img class="img-box" src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                     </div>
                                                 </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col feature">
-                                                <div class="price">
-                                                    $ {{ rst.item.cit_price }}
+                                                -->
+
+                                                <!-- Option -->
+                                                <div class="option">
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <div class="n-box" v-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '1' ">
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item basic">
+                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <div class="n-box" v-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '1' ">
+                                                        <!-- UNLIMITED STEMS LICENSE -->
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item unlimited">
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- BASIC LEASE LICENSE -->
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' " >
+
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item basic">
+                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- UNLIMITED STEMS LICENSE -->
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' " >
+
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item unlimited">
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -98,109 +179,39 @@
                                             </div>
                                         </div>
                                     </li>
-
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title active">
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">BASIC LEASE</div>
-                                                        <div class="detail">MP3 or WAV</div>
-                                                    </div>
-                                                </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col feature">
-                                                <div class="price">
-                                                    $ 10.00
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title active">
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
-                                                        <div class="detail">MP3 or WAV + STEMS</div>
-                                                    </div>
-                                                </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col feature">
-                                                <div class="price">
-                                                    $ 10.00
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
                                 -->
                                 </ul>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row fluid n-total">
                             <div class="title">Your order information</div>
-                            <div class="payment_box" style="max-width:initial!important;padding-top:0; padding-bottom:30px; margin-top:0; border:0;">
+                            <div class="payment_box" style="max-width:initial!important;padding-top:0; margin-top:0; border:0;">
                                 <div class="tab">
-                                    <div>
+                                    <div class="n-flex between">
                                         <div class="title">Method</div>
-                                        <div>Credit card + Point</div>
+                                        <div>Credit card</div>
                                     </div>
-                                    <div>
+                                    <div class="n-flex between">
                                         <div class="title">Subtotal</div>
-                                        <div>$ {{ totalPrice }}</div>
+                                        <div>{{ orderResult.cor_memo }} {{ totalPrice }}</div>
                                     </div>
-                                    <div>
+                                    <div class="n-flex between">
                                         <div class="title">Points</div>
                                         <div>0 P</div>
                                     </div>
-                                    <div class="total">
+                                    <div class="n-flex between total">
                                         <div>Total</div>
-                                        <div>$ {{ totalPrice - point }}</div>
+                                        <div>{{ orderResult.cor_memo }} {{ totalPrice - point }}</div>
                                     </div>                           
                                 </div>
                             </div>
                             <p class="desc">
-                                <img src="/assets/images/icon/info_blue.png">If the download period has expired, the purchased bit cannot be downloaded
+                                <img src="/assets/images/icon/info_blue.png">
+                                Bought Item can be able to download at order history.
                             </p>
                         </div>
 
-                        <div class="btnbox col" style="width:50%; margin:0 auto 100px;">
+                        <div class="n-flex btnbox" style="margin-top: 12px;">
                             <button class="btn btn--gray" @click="goMain">Go to main</button>
                             <button type="submit" class="btn btn--submit" @click="goOrderHistory">Order History</button>
                         </div>
@@ -227,6 +238,7 @@
         data: function() {
             return {
                 isLogin: false,
+                orderResult: [],
                 orderResultList: [],
                 cor_id: '',
                 cntOrderItems: 0,
@@ -255,6 +267,7 @@
                     }
                 });
                 //console.log(data);
+                this.orderResult = data.order;
                 this.orderResultList = data.orderdetail;
                 this.cntOrderItems = this.orderResultList.length;
                 this.calcTotalPrice();
@@ -281,18 +294,47 @@
                 }
                 return rst;
             },
+            formatPrice: function(price, simbol){
+                if(!simbol){
+                    return price;
+                }
+                if(this.$i18n.locale === 'en'){
+                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 0});
+                }else{
+                    return '₩ '+ Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                }
+            },
             calcTotalPrice: function(){
+                /*
                 let tp = 0.0;
                 for(let i in this.orderResultList){
                     tp += Number(this.orderResultList[i].item.cit_price);
                 }
                 this.totalPrice = tp;
+                */
+                this.totalPrice = this.orderResult.cor_total_money;
             },
             goMain: function(e){
                 window.location.href = '/';
             },
             goOrderHistory: function(e){
                 window.location.href = '/mypage/mybilling';
+            },
+            checkToday: function(date){
+                const input = new Date(date);
+                const today = new Date();
+                return input.getDate() === today.getDate() && 
+                        input.getMonth() === today.getMonth() &&
+                         input.getFullYear() === today.getFullYear();
+            },
+            toggleButton: function(e){
+                if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box"){
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box active";
+                }else if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box active"){
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box";
+                }else{
+                    //
+                }
             },
         }
     }

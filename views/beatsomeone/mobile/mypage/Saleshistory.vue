@@ -10,7 +10,7 @@
                             <div class="profile">
                                 <div class="portait">
                                     <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
+                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
                                 <div class="info">
                                     <div class="group">
@@ -72,6 +72,7 @@
                                         placeholder="Start date ~ End date"
                                         :startDate="start_date"
                                         :endDate="end_date"
+                                        minDate="1970-01-01"
                                         @update="updateSearchDate"
                                         @reset="resetSearchDate"
                                 />
@@ -164,7 +165,7 @@
                                             <!--<div class="index" v-html="formatCitName(item.cor_id,10)"> </div>-->
 
                                             <div class="n-flex between">
-                                                <div class="index">{{ calcTotalCnt - i }}</div>
+                                                <div class="index">{{ mySalesList.length - ((currPage - 1) * perPage) - i }}</div>
                                                 <div class="date"> {{ item.cor_datetime }} </div>
                                             </div>
 
@@ -173,9 +174,9 @@
                                                     <div class="status">
                                                         <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ funcStatus(item.cor_status) }} </div>
                                                     </div>
-                                                    <div class="subject" v-html="formatSub(formatCitName(item.cit_name,50), item.genre, item.bpm)"> </div>
+                                                    <div class="subject" v-html="formatCitName(item.cit_name,50)"> </div>
                                                 </div>
-                                                <div style="white-space: nowrap; text-align: center;" class="totalprice">&#8361; {{ formatNumber(item.cde_price) }}<br/>$ {{ formatNumber(item.cde_price_d) }}</div>
+                                                <div style="white-space: nowrap;" class="totalprice" v-html="formatPr(item.cor_memo,item.cor_total_money)"></div>
                                             </div>
                                             <!-- <div class="index">{{ calcTotalCnt - i }}</div> -->
                                              <!-- <div class="col name">
@@ -188,10 +189,10 @@
                                                 </figure>
                                             </div> -->
                                         
-                                            <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0" class="download">
+                                            <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0 && item.cor_status === '1' " class="download">
                                                 <span class="red">Unavailable</span>
                                             </div>
-                                            <div v-else-if="item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime)" class="download">
+                                            <div v-else-if="item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime) && item.cor_status === '1' " class="download">
                                                 <span>{{ caclLeftDay(item.cor_datetime) }} days left</span>
                                                 <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
                                             </div>
@@ -428,6 +429,12 @@
                 }
                 return rst;
             },
+            formatPr: function(m, price){
+                if(this.isEmpty(m)){
+                    m = '';
+                }
+                return m + this.formatNumber(price);
+            },
             formatSub: function(data, genre, bpm){
                 return data + " (" + genre + " / " + bpm + "bpm)";
             },
@@ -589,8 +596,11 @@
                 let sumPriceDr = 0;
                 for( let item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '0'){
-                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
-                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
+                        if(this.mySalesList[item].cor_memo == '₩'){
+                            sumPriceKr += parseInt(this.mySalesList[item].cor_total_money);
+                        }else if(this.mySalesList[item].cor_memo == '$'){
+                            sumPriceDr += parseInt(this.mySalesList[item].cor_total_money);
+                        }
                     }
                 }
                 this.watingDepositKr = this.formatNumber(sumPriceKr);
@@ -601,8 +611,11 @@
                 let sumPriceDr = 0;
                 for( var item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '1'){
-                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
-                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
+                        if(this.mySalesList[item].cor_memo == '₩'){
+                            sumPriceKr += parseInt(this.mySalesList[item].cor_total_money);
+                        }else if(this.mySalesList[item].cor_memo == '$'){
+                            sumPriceDr += parseInt(this.mySalesList[item].cor_total_money);
+                        }
                     }
                 }
                 this.orderCompleteKr = this.formatNumber(sumPriceKr);
@@ -613,8 +626,11 @@
                 let sumPriceDr = 0;
                 for( let item in this.mySalesList){
                     if(this.mySalesList[item].cor_status == '2'){
-                        sumPriceKr += parseInt(this.mySalesList[item].cde_price);
-                        sumPriceDr += parseInt(this.mySalesList[item].cde_price_d);
+                        if(this.mySalesList[item].cor_memo == '₩'){
+                            sumPriceKr += parseInt(this.mySalesList[item].cor_total_money);
+                        }else if(this.mySalesList[item].cor_memo == '$'){
+                            sumPriceDr += parseInt(this.mySalesList[item].cor_total_money);
+                        }
                     }
                 }
                 this.refundCompleteKr = this.formatNumber(sumPriceKr);
