@@ -722,7 +722,7 @@ class Beatsomeone_model extends CB_Model
     // mypage 멤버 정보 조회
     public function get_user_info($p)
     {
-        $select = 'mem_id, mem_userid, mem_nickname, mem_email, mem_level, mem_point, mem_icon, mem_photo, mem_usertype, mem_address1, mem_type, mem_lastname';
+        $select = 'mem_id, mem_userid, mem_nickname, mem_email, mem_level, mem_point, mem_icon, mem_photo, mem_usertype, mem_address1, mem_type, mem_firstname, mem_lastname';
         $this->db->select($select);
 
         //$this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');

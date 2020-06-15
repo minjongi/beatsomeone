@@ -241,6 +241,37 @@
                 </section>
             </div>
         </div>
+        <div style="background-color: #ffffff;">
+            <form name="fm1" method="POST">
+                <input type="text" name="allat_shop_id" v-model="allatForm.shop_id" maxlength=20 style="color:#000000;">
+                <!--주문번호-->
+                <input type="text" name="allat_order_no" v-model="allatForm.order_no" maxlength=70>
+                <!--승인금액-->
+                <input type=hidden name="allat_amt" v-model="allatForm.amt" maxlength=10>
+                <!--회원ID-->
+                <input type=hidden name="allat_pmember_id" v-model="allatForm.pmember_id" maxlength=20>
+                <!--상품코드-->
+                <input type=hidden name="allat_product_cd" v-model="allatForm.product_cd" maxlength=1000>
+                <!--상품명-->
+                <input type=hidden name="allat_product_nm" v-model="allatForm.product_nm" maxlength=1000>
+                <!--결제자성명-->
+                <input type=hidden name="allat_buyer_nm" v-model="allatForm.buyer_nm" maxlength=20>
+                <!--수취인성명-->
+                <input type=hidden name="allat_recp_nm" v-model="allatForm.recp_nm" maxlength=20>
+                <!--수취인주소-->
+                <input type=hidden name="allat_recp_addr" v-model="allatForm.recp_addr" maxlength=120>
+                <!--인증정보수신URL-->
+                <input type=hidden name="shop_receive_url" v-model="allatForm.shop_receive_url" size="19">
+                <!--주문정보암호화필드-->
+                <input type=hidden name=allat_enc_data value="">
+                <!--테스트 여부-->
+                <input type=hidden name="allat_test_yn" value="Y" maxlength=1>
+                <input type="hidden" name="allat_card_yn" v-model="allatForm.card_yn" maxlength="1">
+                <input type="hidden" name="allat_bank_yn" v-model="allatForm.bank_yn" maxlength="1">
+                <input type="hidden" name="allat_vbank_yn" v-model="allatForm.vbank_yn" maxlength="1">
+                <input type="hidden" name="allat_encode_type" value="U">
+            </form>
+        </div>
     </div>
 </template>
 
@@ -267,10 +298,24 @@
                 unique_id: 0,
                 cor_id:'',
                 selectedItems:0,
+                allatForm: {
+                    'shop_id': 'dumdum',
+                    'order_no': '',
+                    'amt': '',
+                    'pmember_id': '',
+                    'product_cd': '',
+                    'product_nm': '',
+                    'buyer_nm': '',
+                    'recp_nm': '',
+                    'recp_addr': '',
+                    'shop_receive_url': window.allat_shop_receive_url,
+                    'test_yn': 'Y',
+                    'card_yn': 'N',
+                    'bank_yn': 'N',
+                    'vbank_yn': 'N',
+                    'encode_type': 'U'
+                }
             };
-        },
-        mounted(){
-
         },
         created() {
             this.ajaxOrderList().then(()=>{
@@ -329,19 +374,44 @@
                     alert("결제 금액을 확인해주세요");
                     return;
                 }
-                if(this.payMethod == 0){
+                if(!this.payMethod){
                     alert("결제 방법을 선택해주세요");
                     return;
                 }
 
-                this.ajaxUpdateOrder().then(()=>{
-                    if(this.cor_id == ''){
-                        alert("결제가 실패하였습니다.");
-                        return;
-                    }else{
-                        window.location.href = '/cmall/complete?cor_id='+this.cor_id;
-                    }
-                });
+                if (this.payMethod === 1) {
+                    this.allatForm.card_yn = 'Y'
+                    this.allatForm.bank_yn = 'N'
+                } else if (this.payMethod === 2) {
+                    this.allatForm.card_yn = 'N'
+                    this.allatForm.bank_yn = 'Y'
+                } else {
+                    alert('준비중 입니다')
+                    return false
+                }
+
+                this.allatForm.order_no = this.unique_id
+                this.allatForm.amt = this.totalPriceKr
+                this.allatForm.pmember_id = this.myMember[0].mem_id
+                this.allatForm.product_cd = this.myOrder_list[0].cit_id
+                this.allatForm.product_nm = this.myOrder_list[0].cit_name
+                this.allatForm.buyer_nm = (!!this.myMember[0].mem_firstname && !!this.myMember[0].mem_lastname) ? this.myMember[0].mem_firstname + ' ' + this.myMember[0].mem_lastname : this.myMember[0].mem_nickname
+                this.allatForm.recp_nm = this.allatForm.buyer_nm
+                this.allatForm.recp_addr = this.myMember[0].mem_address1 || this.myMember[0].mem_email
+
+                setTimeout(function () {
+                    window.AllatPay_Approval(document.fm1);
+                    window.AllatPay_Closechk_Start();
+                }, 300)
+
+                // this.ajaxUpdateOrder().then(()=>{
+                //     if(this.cor_id == ''){
+                //         alert("결제가 실패하였습니다.");
+                //         return;
+                //     }else{
+                //         window.location.href = '/cmall/complete?cor_id='+this.cor_id;
+                //     }
+                // });
             },
             chgPayMethod: function(idx){
                 this.payMethod = idx;
