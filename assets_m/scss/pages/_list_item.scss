@@ -351,12 +351,20 @@
                 margin-right: 12px;
                 text-indent: -9999px;
                 overflow: hidden;
-                background: url(/assets/images/icon/play.png) no-repeat center;
+                background-image: url(/assets/images/icon/play.png);
+                background-repeat: no-repeat;
+                background-position: center;
                 width: 20px;
                 height: 20px;
                 background-size: auto 100%;
                 opacity: 0.3;
                 transition: all 0.3s ease;
+                &.playing {
+                  background-image: url(/assets/images/icon/pause.png);
+                }
+                &.paused {
+                  background-image: url(/assets/images/icon/play.png);
+                }
               }
             }
             .amount {
