@@ -9,7 +9,7 @@
                             <div class="profile">
                                 <div class="portait">
                                     <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
+                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
                                 <div class="info">
                                     <div class="group">
@@ -59,8 +59,8 @@
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">Keyword</div>
                                 </div>
                                 <div class="wrap">
-                                    <input type="text" placeholder="Searching product..." @keypress.enter="goSearch"> 
-                                    <img src="/assets/images/icon/searchicon.png"/>
+                                    <input type="text" placeholder="Searching product..." :model="goSearchText" @keypress.enter="goSearch"> 
+                                    <img src="/assets/images/icon/searchicon.png" @click="goSearch"/>
                                 </div>
                             </div>
                         </div>
@@ -80,9 +80,9 @@
                                         </button>
                                         <div class="select-genre popup active">
                                             <div class="tab">
-                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">{{listGenre.length}}</div></button>
-                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">{{listMoods.length}}</div></button>
-                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">{{listTrackType.length}}</div></button>
+                                                <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">{{selectedGenre.length}}</div></button>
+                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">{{selectedMood.length}}</div></button>
+                                                <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">{{selectedTrackType.length}}</div></button>
                                             </div>
                                             <div class="tab_container">
                                                 <div v-show="popup_filter === 0" class="tab_content active">
@@ -152,6 +152,7 @@
                                         placeholder="Start date ~ End date"
                                         :startDate="start_date"
                                         :endDate="end_date"
+                                        minDate="1970-01-01"
                                         @update="updateSearchDate"
                                         @reset="resetSearchDate"
                                 />
@@ -170,8 +171,8 @@
                                             <div class="col name">
                                                 <figure>
                                                     <span class="playList__cover">
-                                                        <img v-if="!item.cit_file_1" :src="'http://dev.beatsomeone.com/assets/images/cover_default.png'" alt="">
-                                                        <img v-else :src="'http://dev.beatsomeone.com/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                                        <img v-if="!item.cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
+                                                        <img v-else :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
                                                         <i v-show="checkToday(item.cit_datetime)" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
@@ -183,8 +184,8 @@
                                                           <div class="code">{{ item.cit_key }}</div>
                                                         </div>
                                                         <h3 class="playList__title" v-html="formatCitName(item.cit_name,50)"></h3>
-                                                        <span class="playList__by">by Sellername</span>
-                                                        <span class="playList__bpm">BPM {{ item.bpm }}</span>
+                                                        <span class="playList__by">by {{ item.mem_nickname }}</span>
+                                                        <span class="playList__bpm">{{ getGenre(item.genre, item.subgenre) }} | {{ item.bpm }}BPM</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
@@ -289,12 +290,14 @@
                                             </div>
 
                                             <div class="col edit">
-                                                <button @click="productEditBtn(item.cit_key)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
+                                                <button @click="productEditBtn(item.cit_id)" class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
                                             </div>
                                             <div class="col genre" v-html="calcTag(item.hashTag)"></div>    
                                         </div>
                                         
                                     </li>
+
+
 
                                     <!--
                                     <li class="playList__itembox" style="opacity: 1; margin-bottom: 1px;">
@@ -392,6 +395,7 @@
     import { EventBus } from '*/src/eventbus';
     import Header from "../include/Header"
     import Footer from "../include/Footer"
+    import moment from "moment";
     import axios from 'axios'
     import WaveSurfer from 'wavesurfer.js';
     import $ from "jquery";
@@ -435,6 +439,7 @@
                 selectedMood: [],
                 selectedTrackType: [],
                 dateType: 'Register Date',
+                goSearchText:'',
             };
         },
         mounted(){
@@ -457,6 +462,7 @@
             EventBus.$on('main_player_stop',r=> {
                 this.stop()
             });
+
         },
         created() {
             this.ajaxItemList().then(()=>{
@@ -517,39 +523,73 @@
             goPage: function(page){
                 window.location.href = '/mypage/'+page;
             },
+            formChange: function(data){
+                data = data.replace(/\s/gi, "");
+                console.log(data.toLowerCase());
+                return data.toLowerCase();
+            },
             goSearch: function(e){
                 this.ajaxItemList().then(()=>{
                     let list = [];
                     Object.assign(list,this.myProduct_list);
                     if(this.search_condition_active_idx == 1){
-                        let rst = list.filter(item => item.cit_name.includes(e.target.value));
+                        let rst = list.filter(item => this.formChange(item.cit_name).includes(this.formChange(this.goSearchText)));
                         this.myProduct_list = rst;
                     }
                     else if(this.search_condition_active_idx == 2){
-                        let rst = list.filter(item => item.cit_key.includes(e.target.value)); 
+                        let rst = list.filter(item => this.formChange(item.cit_key).includes(this.formChange(this.goSearchText))); 
                         this.myProduct_list = rst; 
                     }
                     else if(this.search_condition_active_idx == 3){
-                        let rst = list.filter(item => item.hashTag.includes(e.target.value));
+                        let rst = list.filter(item => this.formChange(item.hashTag).includes(this.formChange(this.goSearchText)));
                         this.myProduct_list = rst;
                     }
                 });
+            },
+            callbackdateime: function(val){
+                let s = moment(this.start_date);
+                let e = moment(this.end_date);
+                let t = moment(val.cit_datetime.substr(0,10));
+                if(s.diff(t) <= 0 && 0 <= e.diff(t)){
+                    return true;
+                }else{
+                    return false;
+                }
+            },
+            callbackstartdateime: function(val){
+                let s = moment(this.start_date);
+                let e = moment(this.end_date);
+                let t = moment(val.cit_start_datetime.substr(0,10));
+                console.log(s);
+                console.log(e);
+                console.log(t);
+                console.log(s.diff(t));
+                console.log(e.diff(t));
+                if(s.diff(t) <= 0 && 0 <= e.diff(t)){
+                    return true;
+                }else{
+                    return false;
+                }
             },
             goSearchDate: function(){
                 this.ajaxItemList().then(()=>{
                     let list = [];
                     Object.assign(list,this.myProduct_list);
+                    console.log(this.search_date_option);
                     if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
                         this.myProduct_list = list;
                     }else if(this.search_date_option == 0){
-                        let rst = list.filter(item => this.start_date < item.cit_datetime.substr(0,10) 
-                                                    && item.cit_datetime.substr(0,10) < this.end_date);
+                        let rst = list.filter(this.callbackdateime);
                         this.myProduct_list = rst;
-                    }else{
-                        let rst = list.filter(item => this.start_date < item.cit_start_datetime.substr(0,10) 
-                                                    && item.cit_start_datetime.substr(0,10) < this.end_date );
+                        console.log(rst);
+                    }else if(this.search_date_option == 1){
+                        let rst = list.filter(this.callbackstartdateime);
                         this.myProduct_list = rst;
+                        console.log(rst);
                     }
+                    this.calcTotalCnt = this.calcFuncTotalCnt();
+                    this.calcSellingCnt = this.calcFuncSellingCnt();
+                    this.calcPendingCnt = this.calcFuncPendingCnt();
                 });
             },
             goTabMenu: function(menu){
@@ -638,11 +678,18 @@
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
             },
+            removeReg: function(val){
+                const regExp = /[~!@#$%^&*()_+|'"<>?:{}]/;
+                while(regExp.test(val)){
+                    val = val.replace(regExp, "");
+                }
+                return val
+            },
             calcTag: function(hashTag){
                 let rst='';
                 let tags = hashTag.split(',');
                 for ( let i in tags ) {
-                    rst = rst + '<span><button >'+ tags[i] + '</button></span>';
+                    rst = rst + '<span><button >'+ this.removeReg(tags[i]) + '</button></span>';
                 }
                 return rst;
             },
@@ -676,10 +723,10 @@
                     return;
                 }else{
                     if(t === "Register Date"){
-                        this.search_date_option = 1
+                        this.search_date_option = 0
                         this.dateType = t;
                     }else{
-                        this.search_date_option = 0
+                        this.search_date_option = 1
                         this.dateType = t;
                     }
                 }
@@ -715,7 +762,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+                window.location.href = '/mypage/regist_item/'+key;
             },
             isEmpty: function(str){
                 if(typeof str == "undefined" || str == null || str == "")
@@ -737,6 +784,13 @@
                 this.start_date = ''
                 this.end_date = ''
                 this.goSearchDate();
+            },
+            getGenre(g1, g2){
+                if(this.isEmpty(g2)){
+                    return g1;
+                }else{
+                    return g1 + ', ' + g2;
+                }
             },
             playAudio(i) {
                 if(!this.isPlay || this.currentPlayId !== i.cit_id) {
@@ -824,8 +878,21 @@
     .mypage.sublist .search-date {
         min-width: 256px;
     }
-    .productList .playList__item > * {
-        height: auto;
+    .productList .playList__item {
+        > * {
+            height: auto;
+        }
+        // 한줄표기
+        >.genre {
+            height: 26px; 
+            white-space: nowrap; 
+            display: inline-block; 
+            text-overflow: ellipsis; 
+            overflow: hidden;
+            color: rgba(white,.3);
+            span {
+                color: rgba(white,.3);
+            }
+        }
     }
-
 </style>

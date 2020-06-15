@@ -10,7 +10,7 @@
                             <div class="profile">
                                 <div class="portait">
                                     <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
+                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
                                 <div class="info">
                                     <div class="group">
@@ -20,7 +20,7 @@
                                         {{mem_nickname}}
                                     </div>
                                     <div class="bio">
-                                        Music Lover, KKOMA
+                                        {{ mem_type }}, {{ mem_lastname }}
                                     </div>
                                     <div class="location">
                                         <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
@@ -72,14 +72,16 @@
                                 </div>
                             </div>
                             <div style="margin-left:auto; ">
-                                <div>
-                                    <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
-                                        <input type="date" placeholder="Start Date" @change="goStartDate"/>
-                                        <span>─</span>
-                                        <input type="date" placeholder="End Date" @change="goEndDate"/>
-                                        <button><img src="/assets/images/icon/calendar-white.png" /></button>
-                                    </div>
-                                </div>
+                                <VueHotelDatepicker
+                                        class="search-date"
+                                        format="YYYY-MM-DD"
+                                        placeholder="Start date ~ End date"
+                                        :startDate="start_date"
+                                        :endDate="end_date"
+                                        minDate="1970-01-01"
+                                        @update="updateSearchDate"
+                                        @reset="resetSearchDate"
+                                />
                             </div>
                         </div>
                             
@@ -130,21 +132,34 @@
                             <div class="playList board mybillinglist">
 
                                 <ul>
-                                    <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox" :id="'slist'+ item['id']">
+                                    <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox" :id="'slist'+ item['id']" @click="goOrderDetail(item['id'], myOrderList.length - ((currPage - 1) * perPage) - i )" >
                                         <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index" v-html="formatCitName(item['id'],10)"> </div>
+                                            <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }} </div>
                                             <div class="date">
                                                 {{ item['items'][0].cor_datetime }}
                                             </div>
                                             <div class="subject" v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])">
                                             </div>
-                                            <div class="totalprice">$ {{ item['items'][0].cor_total_money }}</div>
+                                            <div class="totalprice" v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
                                             <div class="status">
-                                                <div class="blue"> {{ item['items'][0].status }} </div>
+                                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ funcStatus(item['items'][0].cor_status) }} </div>
                                             </div>
                                             <div class="download">
-                                                <span class="red">Impossible 2</span>
-                                                <span class="gray">Expired 2</span>
+                                                <div v-if="item['items'][0].cit_lease_license_use === '1' && caclLeftDay(item['items'][0].cor_datetime) <= 0 && item['items'][0].cor_status === '1' " class="download">
+                                                    <span class="red">Expired</span>
+                                                </div>
+                                                <div v-else-if="item['items'][0].cit_mastering_license_use === '1' " class="download">
+                                                    <span class="red">Possible</span>
+                                                </div>
+                                                <div v-else-if="item['items'][0].cit_lease_license_use === '1' && 0 < caclLeftDay(item['items'][0].cor_datetime) && item['items'][0].cor_status === '1' " class="download">
+                                                    <span class="red">Possible</span>
+                                                </div>
+                                                <div v-else-if="item['items'][0].cit_lease_license_use === '1' && 0 < caclLeftDay(item['items'][0].cor_datetime) && item['items'][0].cor_status === '1' && item['items'][0].cde_download === 0 " class="download">
+                                                    <span class="red">Complete</span>
+                                                </div>
+                                                <div v-else class="download">
+                                                    <span class="red">Impossible</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </li>
@@ -221,10 +236,6 @@
                 </div>
             </div>
         </div>
-        <!--
-        <div id="waveform" ></div>
-        <main-player></main-player>
-        -->
         <Footer/>
     </div>
 
@@ -232,12 +243,18 @@
 
 
 <script>
-    require('@/assets/js/function')
+    require('@/assets_m/js/function')
+    import Header from "../include/Header"
+    import Footer from "../include/Footer"
     import axios from 'axios'
     import moment from "moment";
     import $ from "jquery";
+    import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
 
     export default {
+        components: {
+            Header, Footer,VueHotelDatepicker
+        },
         data: function() {
             return {
                 isLogin: false,
@@ -257,6 +274,7 @@
                 calcTotalCnt: 0,
                 calcWaitCnt: 0,
                 calcCompleteCnt:0,
+                calcRefundCnt: 0,
                 start_date: '',
                 end_date: '',
                 totalpage: 0,
@@ -284,6 +302,7 @@
                 this.calcTotalCnt = this.calcFuncTotalCnt();
                 this.calcWaitCnt = this.calcFuncWaitCnt();
                 this.calcCompleteCnt = this.calcFuncCompleteCnt();
+                this.calcRefundCnt = this.calcFuncRefundCnt();
             });
             this.ajaxUserInfo();
         },
@@ -332,6 +351,16 @@
                 this.isLoading = false;
               }
             },
+            formatPr: function(m, price){
+                if(this.isEmpty(m)){
+                    m = '';
+                }
+                return m + this.formatNumber(price);
+            },
+            formatNumber(n){
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+            },
             formatCitName: function(data, limitLth){
                 let rst;
                 if(limitLth < data.length && data.length <= limitLth*2){
@@ -364,6 +393,12 @@
                 let rst = list.filter(item => item['items'][0].cor_status === '1');
                 return rst.length;
             },
+            calcFuncRefundCnt(){
+                let list = [];
+                Object.assign(list,this.myOrderList);
+                let rst = list.filter(item => item['items'][0].cor_status === '2');
+                return rst.length;
+            },
             caclLeftDay: function(orderDate){
                 var tDate = new Date(orderDate);
                 var nDate = new Date();
@@ -376,6 +411,26 @@
                 var tDate = new Date(orderDate);
                 tDate.setDate(tDate.getDate() + 60);
                 return moment(tDate).format('YYYY-MM-DD HH:mm:ss');
+            },
+            isEmpty: function(str){
+                if(typeof str == "undefined" || str == null || str == "")
+                    return true;
+                else
+                    return false ;
+            },
+            updateSearchDate(date){
+                if(this.isEmpty(date.start) || this.isEmpty(date.end)){
+                    this.goSearchDate();
+                }else{
+                    this.start_date = date.start
+                    this.end_date = date.end
+                    this.goSearchDate();
+                }
+            },
+            resetSearchDate(date){
+                this.start_date = ''
+                this.end_date = ''
+                this.goSearchDate();
             },
             goPage: function(page){
                 window.location.href = '/mypage/'+page;
@@ -422,6 +477,11 @@
                         this.myOrderList = rst;
                         this.search_tabmenu_idx = 3;
                     }
+                    else if(menu == 4){
+                        let rst = list.filter(item => item['items'][0].cor_status === '2');
+                        this.mySalesList = rst;
+                        this.search_tabmenu_idx = 4;
+                    }
                 });
             },
             goStartDate: function(e){
@@ -446,10 +506,17 @@
                 this.ajaxOrderList().then(()=>{
                     let list = [];
                     Object.assign(list,this.myOrderList);
-                    let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0,10) 
-                                                && item['items'][0].cor_datetime.substr(0,10) <= this.end_date);
-                    this.myOrderList = rst;
+                    if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
+                        this.myOrderList = list;
+                    }else{
+                        let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0,10) 
+                                                    && item['items'][0].cor_datetime.substr(0,10) <= this.end_date);
+                        this.myOrderList = rst;
+                    }
                 });
+            },
+            goOrderDetail: function(cid, n){
+                window.location.href = '/mypage/mybillingView?cid='+cid+'&n='+n;
             },
             prevPage: function(){
                 if(this.currPage == 1) return
@@ -475,6 +542,15 @@
                     this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);    
                 }
                 return list.slice((this.currPage - 1) * this.perPage , this.currPage * this.perPage);
+            },
+            funcStatus(s){
+                if(s == '0'){
+                    return "Deposit Waiting";
+                }else if(s == '1'){
+                    return "Order Complete";
+                }else{
+                    return "Refund Complete";
+                }
             },
             funcOrderType(od){
                 if(this.orderType == od){
@@ -510,7 +586,7 @@
 
 
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 </style>
 
 <style scoped="scoped" lang="css">

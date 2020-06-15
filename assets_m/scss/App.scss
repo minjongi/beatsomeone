@@ -8,8 +8,11 @@
   &.between {
     justify-content: space-between;
   }
-  &.align {
+  &.h-center {
     align-items: center;
+  }
+  &.w-center {
+    justify-content: center;
   }
 }
 
@@ -31,4 +34,11 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.row {
+  &.fluid {
+    margin-left: -16px;
+    margin-right: -16px;
+  }
 }

@@ -1,0 +1,938 @@
+<template>
+
+    <div class="wrapper">
+
+        <Header :is-login="isLogin"/>
+        <div class="container sub">
+            <div class="mypage sublist">
+                <div class="wrap">
+                    <div class="sublist__filter sticky">
+                        <div class="row center">
+                            <div class="profile">
+                                <div class="portait">
+                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
+                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
+                                </div>
+                                <div class="info">
+                                    <div class="group">
+                                        <div class="group_title" :class="group_title">{{group_title}}</div>
+                                    </div>
+                                    <div class="username">
+                                        {{mem_nickname}}
+                                    </div>
+                                    <div class="bio">
+                                        {{ mem_type }}, {{ mem_lastname }}
+                                    </div>
+                                    <div class="location">
+                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
+                                    </div>
+                                    <div class="brandshop">
+                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <ul class="menu">
+                                <li @click="goPage('')">Dashboard</li>
+                                <li @click="goPage('profilemod')">Manage Information</li>
+                                <li @click="goPage('list_item')">Product List</li>
+                                <li class="active">Order History</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('message')">Message</li>
+                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                                <li @click="goPage('inquiry')">Support
+                                    <ul class="menu">
+                                        <li @click="goPage('inquiry')">Support Case</li>
+                                        <li @click="goPage('faq')">FAQ</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="sublist__content" style="margin-bottom:100px;">
+
+                        <div class="row" style="margin-bottom:30px;">
+                            
+                            <div class="title-content">
+                                <div class="title">
+                                    <div>Order detail</div>
+                                </div>
+                            </div>
+
+                            <div class="main__media board inquirylist">
+                                <div class="tab" style="height:48px; justify-content:flex-start;">
+                                    <div>
+                                        <div class="title">No</div>
+                                        <div>{{ no }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="title">Date</div>
+                                        <div>{{ cor_datetime }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="title">Status</div>
+                                        <div :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"> {{ funcStatus(cor_status) }} </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-bottom:10px;">
+                            
+                            <div class="title-content">
+                                <div class="title">
+                                    <div><span class="yellow">{{ myOrderList.length }}</span> Ordered items</div>
+                                </div>
+                            </div>
+
+                            <div class="playList productList orderlist" style="margin-top:10px;">
+                                <ul>
+                                    <li v-for="(item, i) in myOrderList" v-bind:key="item.order.cor_id + item.order.cit_id" class="playList__itembox" :id="'playList__item'+ item.order.cor_id + item.order.cit_id">
+                                        <div class="playList__item playList__item--title other">
+                                            <div class="col name">
+                                                <figure>
+                                                    <span class="playList__cover">
+                                                        <img v-if="!item.order.Item.cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
+                                                        <img v-else :src="'/uploads/cmallitem/' + item.order.Item.cit_file_1" alt="">
+                                                        <i v-show="checkToday(item.order.cor_datetime)" class="label new">N</i>
+                                                    </span>
+                                                    <figcaption class="pointer">
+                                                        <div class="info">
+                                                          <div class="code">{{ item.order.Item.cit_key }}</div>
+                                                        </div>
+                                                        <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
+                                                        <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
+                                                        <span class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span>
+                                                    </figcaption>
+                                                </figure>
+                                            </div>
+                                            <div class="col n-option">
+
+                                                <div class="feature">
+                                                    <div class="listen">
+                                                        <div class="playbtn">
+                                                            <button class="btn-play" @click="playAudio(item.order.Item)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
+                                                            <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
+                                                            <span class="duration">0:00</span></span>
+                                                        </div>
+                                                    </div>
+                                                    <!--
+                                                    <div class="amount">
+                                                        <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
+                                                    </div>-->
+                                                </div>
+
+
+                                                <!-- Option -->
+                                                <div class="option">
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item basic">
+                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                    </div>
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
+                                                        <!-- UNLIMITED STEMS LICENSE -->
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item unlimited">
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
+                                                    </div>
+                                                    <!-- BASIC LEASE LICENSE -->
+                                                    <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' " >
+                                                        
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item basic">
+                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                    </div>
+
+                                                    <!-- UNLIMITED STEMS LICENSE -->
+                                                    <div class="n-box" v-else-if="item.order.Item.cit_mastering_license_use === '1' " >
+                                                        
+                                                        <div>
+                                                            <button class="playList__item--button" >
+                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                                <div>
+                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
+                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                </div>
+                                                            </button>
+                                                            <div class="option_item unlimited">
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col edit">
+                                                <button @click="productEditBtn(item.order.Item.cit_id, item.order.cor_status)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+
+                                                <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
+                                                    {{ funcDownStatus(cor_status, item.order.Item) }}
+                                                </div>
+
+                                                <div v-if="cor_status === '1' " class="download_period">
+                                                    <span> {{ caclLeftDay(item.order.cor_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
+                                                </div>
+                                                <div v-else-if="cor_status === '0' " class="download_period">
+                                                    <span>  </span>
+                                                </div>
+                                                <div v-else class="download_period">
+                                                    <span class="gray"> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
+                                                </div>
+
+                                                <!-- <div class="download_period">40 days left<br/>(~2020.06.24 12:30:34)</div> -->
+                                            </div>
+                                            <div class="col genre" v-html="calcTag(item.order.Item.hashTag)"></div>  
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="title-content">
+                                <p>
+                                    ※- Beat download is not available when the deposit is in a waiting state.<br/>
+                                    ※- Beat download is available for 60 days after payment is completed.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="payment_box" style="padding-top:0; margin-top:0; border:0;">
+                                <div class="tab">
+                                    <div>
+                                        <div class="title">Method</div>
+                                        <div>{{ payType }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="title">Detail</div>
+                                        <div>{{ cor_pg }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="title">Subtotal</div>
+                                        <div>{{ totalPrice }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="title">Points</div>
+                                        <div>0 P</div>
+                                    </div>
+                                    <div class="total">
+                                        <div>Total</div>
+                                        <div>{{ totalPrice }}</div>
+                                    </div>                           
+                                </div>
+                            </div>
+                            <p class="desc">
+                                <img src="/assets/images/icon/info_blue.png"><span v-html="descNoti"></span>
+                            </p>
+                        </div>
+
+                        <div class="btnbox col" style="width:50%; margin:0 auto 100px;">
+                            <button class="btn btn--gray" @click="goPage('mybilling')">Back to List</button>
+                            <button v-if="cor_status==='1'" type="submit" class="btn btn--submit" >Request Refund</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--
+        <div id="waveform" ></div>
+        <main-player></main-player>
+        -->
+
+
+        <div class="panel" :class="{ 'active': reqref === 1 }" >
+            <div class="popup" style="width:1110px; display:none;">
+                <div class="box" style="padding-bottom:50px;">
+                    <div class="title">CHANGE PASSWORD</div>
+                    <div class="tab">
+                        <div>
+                            <div class="title">No</div>
+                            <div>Order_099</div>
+                        </div>
+                        <div>
+                            <div class="title">Date</div>
+                            <div>0000-00-00 00:00:00</div>
+                        </div>
+                        <div>
+                            <div class="title">Status</div>
+                            <div class="blue">Order Complete</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="title-content">
+                            <div class="title">
+                                <label for="checkAll" class="checkbox" style="margin-left:20px;">
+                                    <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
+                                    <span></span><div style="font-weight:600">Select All (0/4)</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="playList productList cart">
+                            <ul>
+                                <li class="playList__itembox">
+                                    <div class="playList__item playList__item--title">
+                                        <div class="col check">
+                                            <label for="item1" class="checkbox">
+                                                <input type="checkbox" hidden="hidden" id="item1">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="col name" style="margin-top:0">
+                                            <figure>
+                                                <span class="playList__cover">
+                                                    <img src="/assets/images/cover_default.png" alt="">
+                                                    <i ng-if="item.isNew" class="label new">N</i>
+                                                </span>
+                                                <figcaption class="pointer">
+                                                    <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
+                                                    <span class="playList__by"> ( Bpm )</span>
+                                                </figcaption>
+                                            </figure>
+                                        </div>
+                                        <div class="col option">
+                                            <div>
+                                                <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
+                                                <div>
+                                                    <div class="title">BASIC LEASE</div>
+                                                    <div class="detail">MP3 or WAV</div>
+                                                </div>
+                                            </div>
+                                            <div class="option_item">
+                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="col feature">
+                                            <div class="price">
+                                                $ 10.00
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="playList__itembox">
+                                    <div class="playList__item playList__item--title">
+                                        <div class="col check">
+                                            <label for="item1" class="checkbox">
+                                                <input type="checkbox" hidden="hidden" id="item1">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="col name" style="margin-top:0">
+                                            <figure>
+                                                <span class="playList__cover">
+                                                    <img src="/assets/images/cover_default.png" alt="">
+                                                    <i ng-if="item.isNew" class="label new">N</i>
+                                                </span>
+                                                <figcaption class="pointer">
+                                                    <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
+                                                    <span class="playList__by"> ( Bpm )</span>
+                                                </figcaption>
+                                            </figure>
+                                        </div>
+                                        <div class="col option">
+                                            <div>
+                                                <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
+                                                <div>
+                                                    <div class="title">BASIC LEASE</div>
+                                                    <div class="detail">MP3 or WAV</div>
+                                                </div>
+                                            </div>
+                                            <div class="option_item">
+                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="col feature">
+                                            <div class="price">
+                                                $ 10.00
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="playList__itembox">
+                                    <div class="playList__item playList__item--title">
+                                        <div class="col check">
+                                            <label for="item1" class="checkbox">
+                                                <input type="checkbox" hidden="hidden" id="item1">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="col name" style="margin-top:0">
+                                            <figure>
+                                                <span class="playList__cover">
+                                                    <img src="/assets/images/cover_default.png" alt="">
+                                                    <i ng-if="item.isNew" class="label new">N</i>
+                                                </span>
+                                                <figcaption class="pointer">
+                                                    <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
+                                                    <span class="playList__by"> ( Bpm )</span>
+                                                </figcaption>
+                                            </figure>
+                                        </div>
+                                        <div class="col option">
+                                            <div>
+                                                <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
+                                                <div>
+                                                    <div class="title">BASIC LEASE</div>
+                                                    <div class="detail">MP3 or WAV</div>
+                                                </div>
+                                            </div>
+                                            <div class="option_item">
+                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="col feature">
+                                            <div class="price">
+                                                $ 10.00
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="playList__itembox">
+                                    <div class="playList__item playList__item--title">
+                                        <div class="col check">
+                                            <label for="item1" class="checkbox">
+                                                <input type="checkbox" hidden="hidden" id="item1">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="col name" style="margin-top:0">
+                                            <figure>
+                                                <span class="playList__cover">
+                                                    <img src="/assets/images/cover_default.png" alt="">
+                                                    <i ng-if="item.isNew" class="label new">N</i>
+                                                </span>
+                                                <figcaption class="pointer">
+                                                    <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
+                                                    <span class="playList__by"> ( Bpm )</span>
+                                                </figcaption>
+                                            </figure>
+                                        </div>
+                                        <div class="col option">
+                                            <div>
+                                                <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
+                                                <div>
+                                                    <div class="title">BASIC LEASE</div>
+                                                    <div class="detail">MP3 or WAV</div>
+                                                </div>
+                                            </div>
+                                            <div class="option_item">
+                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
+                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="col feature">
+                                            <div class="price">
+                                                $ 10.00
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="tab" style="margin-top:30px; margin-bottom:10px;">
+                        <div>
+                            <div class="title">Total Refund</div>
+                            <div class="yellow" style="font-weight:600">$ 20.00</div>
+                        </div>
+                        <div>
+                            <div class="title">Points to be Refunded</div>
+                            <div>
+                                <div class="yellow" style="font-weight:600; margin-right:10px;">1500 P</div>
+                                <div class="gray">(Used Point <span class="yellow">3,000P</span>)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col" style="margin:0">
+                        
+                        <div class="title-content" style="margin:0;">
+                            <div class="title"></div>
+                            <p style="margin:0">
+                                - Returned points will be returned / paid depending on the number of products requested for cancellation if there are any points used in ordering.<br/>
+                                - In the case of a full cancellation, the return points will be returned as the amount of points used for payment.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="btnbox" style="text-align:center;">
+                        <button type="submit" class="btn btn--yellow" style="width:208px" onclick="reqref = 1">Request Fund</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="popup" :class="{ 'active': reqref === 1 }" style="width:1110px;">
+
+                <div class="box" style="padding-bottom:50px;">
+                    <div class="title" style="margin-bottom:30px;">REQUEST REFUND</div>
+                    <div class="row" style="margin-bottom:30px;">
+                        <div class="type"></div>
+                        <div class="data">
+                            <div class="result">
+                                <div>
+                                    <img src="/assets/images/icon/check-circle.png"/>
+                                </div>
+                                <div>
+                                    <div class="title">Your refund request has been completed.</div>
+                                    <div class="desc">Please let us know the reason for the refund and we will process it after confirmation.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="type"><span>Reason *</span></div>
+                        <div class="data">
+                            <div class="sort" style="display:flex; margin-left:0; flex-flow:row nowrap">
+                                <div class="custom-select">
+                                    <button class="selected-option" style="min-width: 224px;">Select your reason</button>
+                                    <div class="options">
+                                        <button data-value="" class="option"> Selecting the wrong beat </button>
+                                        <button data-value="" class="option"> No intention to purchase </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="type"><span>Description *</span></div>
+                        <div class="data">
+                            <textarea class="firstname" type="text" placeholder="Write your description for refund requesting..."></textarea>
+                        </div>
+                        <div></div>
+                    </div>
+
+                    <div class="btnbox" style="text-align:center;">
+                        <button type="submit" class="btn btn--yellow" style="width:208px" @click="reqref = 0">Request Complete</button>
+                    </div>
+                </div>
+            </div>
+            <div id="playerContainer" class="hidden"></div>
+
+        </div>
+        <main-player></main-player>
+        <Footer/>
+
+    </div>
+
+</template>
+
+
+<script>
+    require('@/assets_m/js/function')
+    import Header from "../include/Header"
+    import Footer from "../include/Footer"
+    import axios from 'axios'
+    import moment from "moment";
+    import $ from "jquery";
+    import MainPlayer from "@/vue/common/MainPlayer"
+    import { EventBus } from '*/src/eventbus';
+    import WaveSurfer from 'wavesurfer.js';
+
+    export default {
+        components: {
+            Header, Footer, MainPlayer
+        },
+        data: function() {
+            return {
+                cid: '',
+                no: '',
+                isLogin: false,
+                cor_datetime: '',
+                cor_status: '',
+                cor_pg: '',
+                mem_photo: '',
+                mem_usertype: '',
+                mem_nickname: '',
+                mem_address1: '',
+                mem_type: '',
+                mem_lastname: '',
+                group_title: 'SELLER',
+                product_status: 'PENDING',
+                myOrderList: [],
+                checkedAll: [],
+                reqref:0,
+                isPlay: false,
+                currentPlayId: null,
+                wavesurfer: null,
+                payType: '',
+                totalPrice: '',
+                descNoti: '',
+
+            };
+        },
+        mounted(){
+                        // 커스텀 셀렉트 옵션
+            $(".custom-select").on("click", function() {
+
+                $(this)
+                    .siblings(".custom-select")
+                    .removeClass("active")
+                    .find(".options")
+                    .hide();
+                $(this).toggleClass("active");
+                $(this)
+                    .find(".options")
+                    .toggle();
+            });
+        },
+        created() {
+            this.getParam();
+            this.ajaxOrderList().then(()=>{
+            });
+            this.ajaxUserInfo();
+        },
+        methods:{
+            async ajaxUserInfo () {
+              try {
+                this.isLoading = true;
+                const { data } = await axios.get(
+                  '/beatsomeoneApi/get_user_info', {}
+                );
+                //console.log(data);
+                this.mem_photo = data[0].mem_photo;
+                this.mem_usertype = data[0].mem_usertype;
+                this.mem_nickname = data[0].mem_nickname;
+                this.mem_address1 = data[0].mem_address1;
+                this.mem_type = data[0].mem_type;
+                this.mem_lastname = data[0].mem_lastname;
+
+                if(this.mem_usertype == 1){
+                    this.group_title = "CUSTOMER";
+                }else{
+                    this.group_title = "SELLER";
+                }
+              } catch (err) {
+                console.log('ajaxUserInfo error');
+              } finally {
+                this.isLoading = false;
+              }
+            },
+            async ajaxOrderList() {
+              try {
+                this.isLoading = true;
+                var param = new FormData();
+                param.append('cid', JSON.stringify(this.cid));
+                const { data } = await axios.post(
+                  '/beatsomeoneApi/user_order_Detail', param,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(data);
+                this.myOrderList = data.result;
+
+                this.cor_datetime = this.myOrderList[0].order.cor_datetime;
+                this.cor_status = this.myOrderList[0].order.cor_status;
+                this.payType = this.formPayType(this.myOrderList[0].order.cor_pay_type);
+                this.totalPrice = this.formatTotalPrice(this.myOrderList[0].order.cor_total_money, this.myOrderList[0].order.cor_memo);
+                this.cor_pg = this.myOrderList[0].order.cor_pg;
+                this.funcDesc();
+
+              } catch (err) {
+                console.log('ajaxOrderList error');
+              } finally {
+                this.isLoading = false;
+              }
+            },
+            getParam: function(){
+                let uri = window.location.search.substring(1); 
+                let params = new URLSearchParams(uri);
+                this.cid = params.get('cid');
+                this.no = params.get('n');
+            },
+            formPayType: function(pt){
+                if(pt == 1){
+                    return 'Credit Card';
+                }else if(pt == 2){
+                    return 'Wire Transfer';
+                }else{
+                    return 'Paypal';
+                }
+            },
+            goPage: function(page){
+                window.location.href = '/mypage/'+page;
+            },
+            calcSeq: function(size, i){
+                return parseInt(size) - parseInt(i);
+            },
+            formatCitName: function(data){
+                var rst;
+                var limitLth = 50
+                if(limitLth < data.length && data.length <= limitLth*2){
+                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2);
+                }else if(limitLth < data.length && limitLth*2 < data.length){
+                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2) + '...';
+                }else{
+                    rst = data
+                }
+                return rst;
+            },
+            funcStatus(s){
+                if(s == '0'){
+                    return "Deposit Waiting";
+                }else if(s == '1'){
+                    return "Order Complete";
+                }else{
+                    return "Refund Complete";
+                }
+            },
+            setCheckAll: function(){
+
+            },
+            checkToday: function(date){
+                const input = new Date(date);
+                const today = new Date();
+                return input.getDate() === today.getDate() && 
+                        input.getMonth() === today.getMonth() &&
+                         input.getFullYear() === today.getFullYear();
+            },
+            getGenre(g1, g2){
+                if(this.isEmpty(g2)){
+                    return g1;
+                }else{
+                    return g1 + ', ' + g2;
+                }
+            },
+            toggleButton: function(e){
+                if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box"){
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box active";
+                }else if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box active"){
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box";
+                }else{
+                    //
+                }
+            },
+            formatCheck: function(o){
+                if(this.isEmpty(o)){
+                    return '';
+                }else{
+                    return 0;
+                }
+            },
+            formatTotalPrice: function(price, simbol){
+                if(simbol === '$'){
+                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 0});
+                }else{
+                    return '₩ '+ Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                }
+            },
+            formatPrice: function(kr, en, simbol){
+                if(!simbol){
+                    if(this.$i18n.locale === 'en'){
+                        return en;
+                    }else{
+                        return kr;
+                    }
+                }
+                if(this.$i18n.locale === 'en'){
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                }else{
+                    return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                }
+            },
+            playAudio(i) {
+                if(!this.isPlay || this.currentPlayId !== i.cit_id) {
+                    if (this.currentPlayId !== i.cit_id) {
+                        this.setAudioInstance(i)
+                    }
+                    this.currentPlayId = i.cit_id
+                    EventBus.$emit('player_request_start',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    this.start();
+                }
+                else {
+                    EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    this.stop();
+                }
+            },
+            setAudioInstance(item) {
+                if (!this.wavesurfer) {
+                    this.wavesurfer = WaveSurfer.create({
+                        container: "#playerContainer",
+                        waveColor: "#696969",
+                        progressColor: "#c3ac45",
+                        hideScrollbar: true,
+                        height: 40,
+                    });
+                }
+
+                if(item.cde_id) {
+                    this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
+                    //this.wavesurfer.load(`/uploads/cmallitemdetail/${item.cde_filename}`);
+                }
+
+                this.wavesurfer.on("ready", () => {
+                    this.wavesurfer.play();
+                });
+            },
+            stop() {
+                if(this.wavesurfer) {
+                    this.wavesurfer.pause();
+                }
+                this.isPlay = false;
+
+            },
+            start(isInit) {
+                if(this.wavesurfer) {
+                    this.wavesurfer.play();
+                }
+                if(!isInit) {
+                    this.isPlay = true;
+                }
+            },
+            isEmpty: function(str){
+                if(typeof str == "undefined" || str == null || str == "")
+                    return true;
+                else
+                    return false ;
+            },
+            caclLeftDay: function(orderDate){
+                var tDate = new Date(orderDate);
+                var nDate = new Date();
+                tDate.setDate(tDate.getDate() + 60);
+                var diff = Math.abs(tDate.getTime() - nDate.getTime());
+                diff = Math.ceil(diff / (1000 * 3600 * 24));
+                return diff;
+            },
+            caclTargetDay: function(orderDate){
+                var tDate = new Date(orderDate);
+                tDate.setDate(tDate.getDate() + 60);
+                return moment(tDate).format('YYYY-MM-DD HH:mm:ss');
+            },
+            productEditBtn: function(key, status){
+                console.log("productEditBtn:" +key);
+                if(status==0){
+                    return;
+                }else{
+                    window.location.href = '/mypage/regist_item/'+key;    
+                }
+            },
+            removeReg: function(val){
+                const regExp = /[~!@#$%^&*()_+|'"<>?:{}]/;
+                while(regExp.test(val)){
+                    val = val.replace(regExp, "");
+                }
+                return val
+            },
+            calcTag: function(hashTag){
+                let rst='';
+                let tags = hashTag.split(',');
+                for ( let i in tags ) {
+                    rst = rst + '<span><button >'+ this.removeReg(tags[i]) + '</button></span>';
+                }
+                return rst;
+            },
+            funcDownStatus: function(status, item){
+                if(status === '0'){
+                    return 'Unavailable';
+                }else if(status === '1'){
+                    if(item.cde_download < item.cde_quantity){
+                        return 'Download Available';
+                    }else{
+                        return 'Download Complete';
+                    }
+
+                }else{
+                    return 'Expried';
+                }
+            },
+            getDownStatusColor: function(status, item){
+                if(status === '0'){
+                    return 'red';
+                }else if(status === '1'){
+                    if(item.cde_download < item.cde_quantity){
+                        return 'green';
+                    }else{
+                        return 'blue';
+                    }
+
+                }else{
+                    return 'gray';
+                }
+            },
+            funcDesc: function(){
+                if(this.cor_status === '0' ){
+                    this.descNoti = "If you are in a deposit waiting state or wish to cancel, please request a change through a <a href='/mypage/inquiry/'>Support Case</a> menu.";
+                }else if(this.cor_status === '1'
+                     && this.caclLeftDay(this.cor_datetime) < 0 ){
+                    this.descNoti = "If the download period has , the purchased bit cannot be downloaded";
+                }
+            }
+        }
+    }
+</script>
+
+
+<style lang="scss">
+    @import '@/assets_m/scss/App.scss';
+</style>
+
+<style scoped="scoped" lang="css">
+    @import '/assets/plugins/slick/slick.css';
+    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+</style>
