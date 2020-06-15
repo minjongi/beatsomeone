@@ -584,7 +584,7 @@
 
 
 <script>
-    require('@/assets/js/function')
+    require('@/assets_m/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
     import axios from 'axios'
@@ -929,7 +929,7 @@
 
 
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 </style>
 
 <style scoped="scoped" lang="css">
