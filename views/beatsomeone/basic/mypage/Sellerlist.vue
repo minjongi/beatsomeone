@@ -96,7 +96,7 @@
                             </div>
                         </div> 
 
-                        <div class="row" style="margin-bottom:20px;">
+                        <div class="row" style="margin-bottom:10px;">
                             <div class="main__media board mybillinglist saleshistory">
                                 <div class="tab nowrap">
                                     <div class="index">No</div>
