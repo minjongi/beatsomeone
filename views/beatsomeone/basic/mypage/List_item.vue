@@ -297,6 +297,8 @@
                                         
                                     </li>
 
+
+
                                     <!--
                                     <li class="playList__itembox" style="opacity: 1; margin-bottom: 1px;">
                                         <div class="playList__item playList__item--title">
@@ -876,8 +878,21 @@
     .mypage.sublist .search-date {
         min-width: 256px;
     }
-    .productList .playList__item > * {
-        height: auto;
+    .productList .playList__item {
+        > * {
+            height: auto;
+        }
+        // 한줄표기
+        >.genre {
+            height: 26px; 
+            white-space: nowrap; 
+            display: inline-block; 
+            text-overflow: ellipsis; 
+            overflow: hidden;
+            color: rgba(white,.3);
+            span {
+                color: rgba(white,.3);
+            }
+        }
     }
-
 </style>
