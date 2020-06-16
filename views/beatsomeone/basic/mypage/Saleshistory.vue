@@ -177,12 +177,12 @@
                                                 <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ funcStatus(item.cor_status) }} </div>
                                             </div>
                                             <div class="user"> {{ item.mem_userid }} </div>
-                                            <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0 && item.cor_status === '1' " class="download">
+                                            <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_approve_datetime) <= 0 && item.cor_status === '1' " class="download">
                                                 <span class="red">Unavailable</span>
                                             </div>
-                                            <div v-else-if="item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime) && item.cor_status === '1' " class="download">
-                                                <span>{{ caclLeftDay(item.cor_datetime) }} days left</span>
-                                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
+                                            <div v-else-if="item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_approve_datetime) && item.cor_status === '1' " class="download">
+                                                <span>{{ caclLeftDay(item.cor_approve_datetime) }} days left</span>
+                                                <span class="gray">(~ {{ caclTargetDay(item.cor_approve_datetime) }})</span>
                                             </div>
                                             <div v-else class="download">
                                                 <span class="red">Unavailable</span>
@@ -645,6 +645,19 @@
                     this.mySalesList.reverse();
                 }
             },
+            checkDownload(dt, d, q){
+                console.log(dt + ',' + d +',' + q);
+                if(dt == "Download Complete"){
+                    //console.log(d==q);
+                    if(d == q) return true;
+                }else if(dt == "Not Downloaded"){
+                    //console.log(d<q); 
+                    if(d < q) return true;
+                }else if(dt == "All"){
+                    return true;
+                }
+                return false;
+            },
             funcDownType(dt){
                 if(this.downType == dt){
                     return;
@@ -653,13 +666,7 @@
                         let list = [];
                         let rst = [];
                         Object.assign(list,this.mySalesList);
-                        if(dt == "Download Complete"){
-                            rst = list.filter(item => 0 < parseInt(item.cde_download) );
-                        }else if(dt == "Not Download"){
-                            rst = list.filter(item => 0 === parseInt(item.cde_download) );
-                        }else{
-                            rst = list;
-                        }
+                        rst = list.filter(item => this.checkDownload(dt, item.cde_download, item.cde_quantity) );
                         this.downType = dt;
                         this.mySalesList = rst;
                     });

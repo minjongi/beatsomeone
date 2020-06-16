@@ -110,7 +110,7 @@
                                                     </figcaption>
                                                 </figure>
                                             </div>
-                                            <div class="col n-option">
+                                            <div class="col n-option" style="height: auto;">
 
                                                 <div class="feature">
                                                     <div class="listen">
@@ -211,7 +211,7 @@
                                                 </div>
                                             </div>
                                             <div class="col edit">
-                                                <button @click="productEditBtn(item.order.Item.cit_id, item.order.cor_status)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                <button @click="productEditBtn(item.order.Item.cit_id, item.order.cor_status)" class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
 
                                                 <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
                                                     {{ funcDownStatus(cor_status, item.order.Item) }}
@@ -932,7 +932,8 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    
 </style>
