@@ -133,7 +133,7 @@
 
                                 <ul>
                                     <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox" :id="'slist'+ item['id']" @click="goOrderDetail(item['id'], myOrderList.length - ((currPage - 1) * perPage) - i )" >
-                                        <div class="playList__item playList__item--title nowrap active">
+                                        <div class="playList__item playList__item--title nowrap pointer active">
                                             <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }} </div>
                                             <div class="date">
                                                 {{ item['items'][0].cor_datetime }}
@@ -589,7 +589,47 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .select-genre .checkbox {
+        font-size: 1rem;
+    }
+
+    .mybillinglist {
+        .playList__item {
+            .option {
+                > div {
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+    .playList__item--button {
+        display: flex;
+        flex-direction: row;
+        color: white;
+        text-align: left;
+    }
+    .mypage.sublist .search-date {
+        min-width: 256px;
+    }
+    .mybillinglist .playList__item {
+        > * {
+            height: auto;
+        }
+        // 한줄표기
+        >.genre {
+            height: 26px; 
+            white-space: nowrap; 
+            display: inline-block; 
+            text-overflow: ellipsis; 
+            overflow: hidden;
+            color: rgba(white,.3);
+            span {
+                color: rgba(white,.3);
+            }
+        }
+    }
 </style>
