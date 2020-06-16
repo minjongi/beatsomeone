@@ -863,4 +863,105 @@ class Beatsomeone_model extends CB_Model
         return $rst->result_array();
     }
 
+    public function get_message_list($mem_id){
+
+        $sql = " SELECT a.nte_id, a.recv_mem_id mem_id, a.related_note_id ";
+        $sql .= "   , a.nte_content, a.nte_datetime, a.nte_read_datetime, a.nte_filename ";
+        $sql .= "   , b.mem_nickname, b.mem_phone, b.mem_type, b.mem_lastname ";
+        $sql .= "FROM beatsomeone.cb_note a, beatsomeone.cb_member b ";
+        $sql .= "where a.send_mem_id = ? ";
+        $sql .= "and a.nte_type = 1 ";
+        $sql .= "and a.recv_mem_id = b.mem_id ";
+        $sql .= "union all ";
+        $sql .= "SELECT a.nte_id, a.send_mem_id mem_id, a.related_note_id ";
+        $sql .= "   , a.nte_content, a.nte_datetime, a.nte_read_datetime, a.nte_filename ";
+        $sql .= "   , b.mem_nickname, b.mem_phone, b.mem_type, b.mem_lastname ";
+        $sql .= "FROM beatsomeone.cb_note a, beatsomeone.cb_member b ";
+        $sql .= "where recv_mem_id = ? ";
+        $sql .= "and nte_type = 2 ";
+        $sql .= "and a.recv_mem_id = b.mem_id ";
+        $sql .= "order by nte_id ";
+        $sql .= " ";
+    
+
+        /*
+        $sql = "select a.*, b.nte_content ";
+        $sql .= "from ( ";
+        $sql .= "   select recv_mem_id, send_mem_id, max(nte_datetime) nte_datetime ";
+        $sql .= "   , SUM(CASE WHEN nte_read_datetime IS NULL THEN 1 ELSE 0 END)  unreadcnt";
+        $sql .= "   from cb_note";
+        $sql .= "   where send_mem_id = ?";
+        $sql .= "   and nte_type = 1";
+        $sql .= "   group by recv_mem_id, send_mem_id";
+        $sql .= "   ) a,";
+        $sql .= "   (";
+        $sql .= "   select recv_mem_id, nte_datetime, nte_content";
+        $sql .= "   from cb_note";
+        $sql .= "   where send_mem_id = ?";
+        $sql .= "   and nte_type = 1";
+        $sql .= "   ) b";
+        $sql .= "   where a.recv_mem_id = b.recv_mem_id ";
+        $sql .= "   and a.nte_datetime = b.nte_datetime ";
+        $sql .= "union ";
+        $sql .= "select a.*, b.nte_content ";
+        $sql .= "from ( ";
+        $sql .= "   select recv_mem_id, send_mem_id, max(nte_datetime) nte_datetime";
+        $sql .= "   , SUM(CASE WHEN nte_read_datetime IS NULL THEN 1 ELSE 0 END)  unreadcnt";
+        $sql .= "   from cb_note";
+        $sql .= " where recv_mem_id = ?";
+        $sql .= " and nte_type = 2";
+        $sql .= " group by recv_mem_id, send_mem_id";
+        $sql .= " ) a,";
+        $sql .= " (";
+        $sql .= " select recv_mem_id, send_mem_id, nte_datetime, nte_content";
+        $sql .= " from cb_note";
+        $sql .= " where recv_mem_id = ?";
+        $sql .= " and nte_type = 2";
+        $sql .= " ) b";
+        $sql .= " where a.recv_mem_id = b.recv_mem_id ";
+        $sql .= " and a.nte_datetime = b.nte_datetime ";
+        $sql .= " ";
+        */
+
+
+        $rst = $this->db->query($sql, array($mem_id, $mem_id));
+
+        return $rst->result_array();
+    }
+
+    public function get_message_detail($mem_id, $mid){
+
+        $sql = "select nte_id, send_mem_id, recv_mem_id, nte_type, nte_content, nte_datetime, nte_read_datetime, nte_filename ";
+        $sql .= "from cb_note  ";
+        $sql .= "where send_mem_id = ? ";
+        $sql .= "and recv_mem_id = ?  ";
+        $sql .= "and nte_type = 1  ";
+        $sql .= "union all  ";
+        $sql .= "select nte_id, send_mem_id, recv_mem_id, nte_type, nte_content, nte_datetime, nte_read_datetime, nte_filename  ";
+        $sql .= "from cb_note  ";
+        $sql .= "where recv_mem_id = ?  ";
+        $sql .= "and send_mem_id = ? ";
+        $sql .= "and nte_type = 2  ";
+        $sql .= "order by nte_id  ";
+        $sql .= " ";
+
+        $rst = $this->db->query($sql, array($mem_id, $mid, $mem_id, $mid));
+
+        return $rst->result_array();
+    }
+
+    public function get_message_read($mem_id, $mid){
+
+        $sql = "update beatsomeone.cb_note ";
+        $sql .= "set nte_read_datetime = now()  ";
+        $sql .= "where ( send_mem_id = ? and recv_mem_id = ? ) ";
+        $sql .= "   or ( send_mem_id = ? and recv_mem_id = ?) ";
+        $sql .= "and nte_read_datetime is null ";
+        $sql .= " ";
+
+        $rst = $this->db->query($sql, array($mem_id, $mid, $mid, $mem_id));
+
+        return $rst;
+    }
+
 }

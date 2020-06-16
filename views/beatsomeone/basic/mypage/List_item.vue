@@ -59,7 +59,7 @@
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">Keyword</div>
                                 </div>
                                 <div class="wrap">
-                                    <input type="text" placeholder="Searching product..." :model="goSearchText" @keypress.enter="goSearch"> 
+                                    <input type="text" placeholder="Searching product..." :value="goSearchText" @input="goSearchText=$event.target.value" @keypress.enter="goSearch"> 
                                     <img src="/assets/images/icon/searchicon.png" @click="goSearch"/>
                                 </div>
                             </div>
@@ -153,6 +153,8 @@
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         minDate="1970-01-01"
+                                        :maxDate="currDate"
+                                        :endingDateValue="currDate"
                                         @update="updateSearchDate"
                                         @reset="resetSearchDate"
                                 />
@@ -194,7 +196,7 @@
                                                 <div class="feature">
                                                     <div class="listen">
                                                         <div class="playbtn">
-                                                            <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
+                                                            <button class="btn-play" @click="playAudio(item, $event)" :id="'playAction' + item.cit_id ">재생</button>
                                                             <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
                                                             <span class="duration">0:00</span></span>
                                                         </div>
@@ -440,6 +442,8 @@
                 selectedTrackType: [],
                 dateType: 'Register Date',
                 goSearchText:'',
+                currDate: new Date().toISOString().substring(0, 10),
+                playSt:'',
             };
         },
         mounted(){
@@ -628,26 +632,37 @@
                     //
                 }
             },
+            checkInclude: function(g, sg, m, t){
+                if(0 < this.selectedGenre.length){
+                    console.log("selectedGenre:"+this.selectedGenre);
+                    if(this.selectedGenre.length == 1){
+                        if(this.selectedGenre.includes(g) || this.selectedGenre.includes(sg)) return true;
+                    }else{
+                        for( var i in this.selectedGenre ){
+                            if(this.selectedGenre[i].includes(g) || this.selectedGenre[i].includes(sg)) return true;
+                        }
+                    }
+                }
+                if(0 < this.selectedMood.length){
+                    console.log("selectedMood:"+this.selectedMood);
+                    if(this.selectedMood.includes(m)) return true;
+                }
+                if(0 < this.selectedTrackType.length){
+                    console.log("selectedTrackType:"+this.selectedTrackType);
+                    if(this.selectedTrackType.includes(t)) return true;
+                }
+                return false;
+            },
             goGMTBtn: function(type){
                 if(type=="Apply"){
-                    let list = [];
-                    let rst = [];
-                    Object.assign(list,this.myProduct_list);
-
-                    if(0 < this.selectedGenre.length){
-                        console.log("selectedGenre:"+this.selectedGenre);
-                        rst = list.filter(item => this.selectedGenre.includes(item.genre));
-                    }
-                    if(0 < this.selectedMood.length){
-                        console.log("selectedMood:"+this.selectedMood);
-                        rst = list.filter(item => this.selectedMood.includes(item.moods));
-                    }
-                    if(0 < this.selectedTrackType.length){
-                        console.log("selectedTrackType:"+this.selectedTrackType);
-                        rst = list.filter(item => this.selectedTrackType.includes(item.trackType));
-                    }
-                    console.log(rst);
-                    this.myProduct_list = rst;
+                    this.ajaxItemList().then(()=>{
+                        let list = [];
+                        let rst = [];
+                        Object.assign(list,this.myProduct_list);
+                        rst = list.filter(item => this.checkInclude(item.genre ,item.subgenre, item.moods, item.trackType));
+                        console.log(rst);
+                        this.myProduct_list = rst;
+                    });
                 }else if(type=="Cancel"){
                     this.selectedGenre = [];
                     this.selectedMood = [];
@@ -792,17 +807,19 @@
                     return g1 + ', ' + g2;
                 }
             },
-            playAudio(i) {
+            playAudio(i, e) {
                 if(!this.isPlay || this.currentPlayId !== i.cit_id) {
                     if (this.currentPlayId !== i.cit_id) {
                         this.setAudioInstance(i)
                     }
                     this.currentPlayId = i.cit_id
                     EventBus.$emit('player_request_start',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play playing';
                     this.start();
                 }
                 else {
                     EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play paused';
                     this.stop();
                 }
             },
@@ -818,8 +835,8 @@
                 }
 
                 if(item.cde_id) {
+                    //this.wavesurfer.load(`http://dev.beatsomeone.com/uploads/cmallitemdetail/${item.cde_filename}`);
                     this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
-                    //this.wavesurfer.load(`/uploads/cmallitemdetail/${item.cde_filename}`);
                 }
 
                 this.wavesurfer.on("ready", () => {
