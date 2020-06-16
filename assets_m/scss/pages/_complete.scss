@@ -163,7 +163,6 @@
   }
   .main__section1-title {
     padding-top: 0;
-    margin-bottom: 60px;
   }
 
   .title-content {
@@ -189,15 +188,15 @@
         height: 32px;
         margin-right: 16px;
       }
+
       .n-flex + .n-flex {
         margin-top: 16px;
       }
-      // .detail {
-      //   background: none;
-      // }
+
       .detail {
         background: initial;
         font-size: 8px;
+        color: white;
         opacity: 0.3;
         margin-top: 5px;
         padding: 0;
@@ -216,7 +215,13 @@
           margin-right: 16px;
           flex: none;
         }
-        
+        .price {
+          flex: none;
+          color: white;
+          font-weight: bold;
+          font-size: 14px;
+          line-height: 14px;
+        }
         .title {
           font-size: 10px;
           font-weight: bold;
@@ -277,11 +282,8 @@
       }
     }
     .price {
-      flex: none;
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      line-height: 14px;
+      white-space: nowrap;
+      font-weight: 600;
     }
   }
   .subtotal-box {
@@ -383,31 +385,6 @@
         color: #FFDA2A;
       }
   }
-  .n-total {
-    >.title {
-      margin-top: 40px;
-      margin-bottom: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-  }
-  .desc {
-    margin-top: 12px;
-    padding-left: 42px;
-    padding-right: 42px;
-    font-size: 10px;
-    line-height: 16px;
-    text-align: center;
-    color: rgba(white,.7);
-    >img {
-      width: 16px;
-      height: 16px;
-      margin-right: 4px;
-      margin-bottom: -4px;
-    }
-  }
 }
 
 .checkbox span {
@@ -462,6 +439,34 @@
       margin-top: 16px;
       width: 100%;
       color: black;
+    }
+  }
+}
+
+
+.n-total {
+  margin-top: 30px;
+  .title {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 16px;
+    height: 16px;
+    padding-left: 10px;
+    font-weight: 600;
+    padding-right: 10px;
+  }
+  .desc {
+    font-size: 10px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(white,.7);
+
+    img {
+      width: 16px;
+      height: 16px;
+      margin-right: 4px;
     }
   }
 }

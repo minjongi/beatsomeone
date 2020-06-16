@@ -64,6 +64,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
+                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '1' ">
@@ -82,6 +83,7 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
+                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE -->
                                                     <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' " >
@@ -101,11 +103,11 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
+                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' " >
-
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -120,17 +122,18 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
+                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col feature">
+                                            <!-- <div class="col feature">
                                                 <div class="price" v-if="rst.item[0].cit_lease_license_use === '1'">
                                                     {{ formatPrice(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }}
                                                 </div>
                                                 <div class="price" v-if="rst.item[0].cit_mastering_license_use === '1'" >
                                                     {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }}
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </li>
                                     <!--
@@ -404,8 +407,25 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     @import '/assets/plugins/flatpickr/flatpickr.css';
+
+    .cart .playList__item > * {
+        height: auto;
+    }
+    .playList__item .n-option .n-box:first-child .price {
+        margin-top: 0;
+    }
+    .playList__item .n-option .n-box .price {
+        text-align: right;
+        color: white;
+    }
+    .n-box.active .option_item.basic {
+        height: 113px;
+    }
+    .n-box.active .option_item.unlimited {
+        height: 140px;
+    }
 </style>
