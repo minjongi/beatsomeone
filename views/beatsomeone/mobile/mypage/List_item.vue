@@ -191,7 +191,7 @@
                                                     <div class="feature">
                                                         <div class="listen">
                                                             <div class="playbtn">
-                                                                <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
+                                                                <button class="btn-play" @click="playAudio(item, $event)" :data-action="'playAction' + item.cit_id ">재생</button>
                                                                 <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
                                                                 <span class="duration">0:00</span></span>
                                                             </div>
@@ -836,17 +836,19 @@
                 this.end_date = ''
                 this.goSearchDate();
             },
-            playAudio(i) {
+            playAudio(i, e) {
                 if(!this.isPlay || this.currentPlayId !== i.cit_id) {
                     if (this.currentPlayId !== i.cit_id) {
                         this.setAudioInstance(i)
                     }
                     this.currentPlayId = i.cit_id
                     EventBus.$emit('player_request_start',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play playing';
                     this.start();
                 }
                 else {
                     EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play paused';
                     this.stop();
                 }
             },

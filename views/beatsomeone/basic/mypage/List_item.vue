@@ -153,6 +153,8 @@
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         minDate="1970-01-01"
+                                        :maxDate="currDate"
+                                        :endingDateValue="currDate"
                                         @update="updateSearchDate"
                                         @reset="resetSearchDate"
                                 />
@@ -194,7 +196,7 @@
                                                 <div class="feature">
                                                     <div class="listen">
                                                         <div class="playbtn">
-                                                            <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
+                                                            <button class="btn-play" @click="playAudio(item, $event)" :id="'playAction' + item.cit_id ">재생</button>
                                                             <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
                                                             <span class="duration">0:00</span></span>
                                                         </div>
@@ -440,6 +442,8 @@
                 selectedTrackType: [],
                 dateType: 'Register Date',
                 goSearchText:'',
+                currDate: new Date().toISOString().substring(0, 10),
+                playSt:'',
             };
         },
         mounted(){
@@ -803,17 +807,19 @@
                     return g1 + ', ' + g2;
                 }
             },
-            playAudio(i) {
+            playAudio(i, e) {
                 if(!this.isPlay || this.currentPlayId !== i.cit_id) {
                     if (this.currentPlayId !== i.cit_id) {
                         this.setAudioInstance(i)
                     }
                     this.currentPlayId = i.cit_id
                     EventBus.$emit('player_request_start',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play playing';
                     this.start();
                 }
                 else {
                     EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play paused';
                     this.stop();
                 }
             },
@@ -829,8 +835,8 @@
                 }
 
                 if(item.cde_id) {
+                    //this.wavesurfer.load(`http://dev.beatsomeone.com/uploads/cmallitemdetail/${item.cde_filename}`);
                     this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
-                    //this.wavesurfer.load(`/uploads/cmallitemdetail/${item.cde_filename}`);
                 }
 
                 this.wavesurfer.on("ready", () => {
