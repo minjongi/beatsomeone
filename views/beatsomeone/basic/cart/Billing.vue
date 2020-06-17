@@ -56,7 +56,7 @@
                                                                         <div class="detail">MP3 or WAV</div>
                                                                     </div>
                                                                     <div class="price 11221122" v-if="item.detail[0].cit_lease_license_use === '1'">
-                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
+                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
                                                                     </div>
                                                                 </button>
                                                                 <div class="option_item basic">
@@ -100,7 +100,7 @@
                                                                         <div class="detail">MP3 or WAV</div>
                                                                     </div>
                                                                     <div class="price 1111" v-if="item.detail[0].cit_lease_license_use === '1'">
-                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
+                                                                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}
                                                                     </div>
                                                                 </button>
                                                                 <div class="option_item basic">

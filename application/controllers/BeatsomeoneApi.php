@@ -1321,5 +1321,109 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($rst));
     }
 
+    public function message_list(){
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+        $mem_id = (int) $this->member->item('mem_id');
+        $this->load->model('Beatsomeone_model');
+
+        $cor_id = json_decode($this->input->post('cid'));
+        log_message('error', print_r($cor_id, true) );
+
+        $mess_list = $this->Beatsomeone_model->get_message_list($mem_id);
+        log_message('error', print_r($mess_list, true) );
+
+        $userlist = array();
+        if ($mess_list) {
+            foreach ($mess_list as $mkey => $mval) {
+                $isit = false;
+                foreach ($userlist as $ukey => $uval) {
+                    if(element('mem_id', $uval) == element('mem_id', $mval)
+                        and element('nte_id', $uval) < element('nte_id', $mval)){
+                        if(element('nte_read_datetime', $mval) == ''){
+                            $mval['unread'] = $uval['unread'] + 1;
+                        }else{
+                            $mval['unread'] = $uval['unread'];
+                        }
+                        $mval['nte_content'] = strip_tags($mval['nte_content']);
+                        $userlist[$ukey] = $mval;
+                        $isit = true;
+                        break;
+                    }
+                }
+                if(!$isit){
+                    log_message('error', print_r(element('nte_read_datetime', $mval), true) );
+                    if(element('nte_read_datetime', $mval) == ''){
+                        $mval['unread'] = 1;
+                    }else{
+                        $mval['unread'] = 0;
+                    }
+                    $mval['nte_content'] = strip_tags($mval['nte_content']);
+                    log_message('error', print_r($mval, true) );
+                    array_push($userlist, $mval);
+                }
+            }
+        }
+        log_message('error', print_r($userlist, true) );
+
+        $rst = array();
+        $rst['message'] = 'ok';
+        $rst['result'] = $userlist;
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($rst));
+    }
+
+    public function message_detail(){
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+        $mem_id = (int) $this->member->item('mem_id');
+        $this->load->model('Beatsomeone_model');
+
+        $mid = json_decode($this->input->post('mid'));
+        log_message('error', print_r($mem_id, true) );
+        log_message('error', print_r($mid, true) );
+
+        $mess_detail = $this->Beatsomeone_model->get_message_detail((int)$mem_id, (int)$mid);
+        log_message('error', print_r($mess_detail, true) );
+
+        $rst = array();
+        $rst['message'] = 'ok';
+        $rst['result'] = $mess_detail;
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($rst));
+    }
+
+    public function message_read(){
+
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+        $mem_id = (int) $this->member->item('mem_id');
+        $this->load->model('Beatsomeone_model');
+
+        $mid = json_decode($this->input->post('mid'));
+        log_message('error', print_r($mem_id, true) );
+        log_message('error', print_r($mid, true) );
+
+        $mess_read = $this->Beatsomeone_model->get_message_read((int)$mem_id, (int)$mid);
+        log_message('error', print_r($mess_read, true) );
+
+        $rst = array();
+        $rst['message'] = 'ok';
+        $rst['result'] = $mess_read;
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($rst));
+    }
+
 
 }
