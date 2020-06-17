@@ -297,7 +297,7 @@
                     _self = this
 
                 this.listFilter.forEach(function (val) {
-                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                    list.push(_self.$t('genre' + window.genLangCode(val)))
                 })
 
                 return list
@@ -307,7 +307,7 @@
                     _self = this
 
                 this.listSubgenres.forEach(function (val) {
-                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                    list.push(_self.$t('genre' + val.window.genLangCode(val)))
                 })
 
                 return list
@@ -317,7 +317,7 @@
                     _self = this
 
                 this.listMoods.forEach(function (val) {
-                    list.push(_self.$t('moods' + val.replace(/ /g,"")))
+                    list.push(_self.$t('moods' + window.genLangCode(val)))
                 })
 
                 return list
@@ -327,7 +327,7 @@
                     _self = this
 
                 this.listTrackType.forEach(function (val) {
-                    list.push(_self.$t('trackType' + val.replace(/ /g,"")))
+                    list.push(_self.$t('trackType' + window.genLangCode(val)))
                 })
 
                 return list

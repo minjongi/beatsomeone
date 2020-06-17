@@ -63,3 +63,7 @@ window.trackType = [
     'Song reference',
     'Songs'
 ];
+
+window.genLangCode = function(val) {
+    return val.replace(/ /g,"").replace(/-/g,"").replace(/&/g,"");
+}
