@@ -935,5 +935,7 @@
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    
+    .playList__item .n-option .n-box .price {
+        color: white;
+    }
 </style>
