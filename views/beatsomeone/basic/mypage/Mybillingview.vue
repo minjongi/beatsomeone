@@ -211,20 +211,22 @@
                                                 </div>
                                             </div>
                                             <div class="col edit">
-                                                <button @click="productEditBtn(item.order.Item.cit_id, item.order.cor_status)" class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
+                                                <button  v-if="cor_status != '1'" class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
+
+                                                <button  v-else-if="cor_status === '1'" @click="downloadWithAxios(item.order.Item.cde_id)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
 
                                                 <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
                                                     {{ funcDownStatus(cor_status, item.order.Item) }}
                                                 </div>
 
                                                 <div v-if="cor_status === '1' " class="download_period">
-                                                    <span> {{ caclLeftDay(item.order.cor_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
+                                                    <span> {{ caclLeftDay(item.order.cor_approve_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
                                                 </div>
                                                 <div v-else-if="cor_status === '0' " class="download_period">
                                                     <span>  </span>
                                                 </div>
                                                 <div v-else class="download_period">
-                                                    <span class="gray"> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
+                                                    <span class="gray"> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
                                                 </div>
 
                                                 <!-- <div class="download_period">40 days left<br/>(~2020.06.24 12:30:34)</div> -->
@@ -869,7 +871,8 @@
                 if(status==0){
                     return;
                 }else{
-                    window.location.href = '/mypage/regist_item/'+key;    
+                    window.location.href = '/mypage/regist_item/'+key; 
+
                 }
             },
             removeReg: function(val){
@@ -922,6 +925,25 @@
                      && this.caclLeftDay(this.cor_datetime) < 0 ){
                     this.descNoti = "If the download period has , the purchased bit cannot be downloaded";
                 }
+            },
+            forceFileDownload(r, cde_id){
+                const blob = new Blob([r.data], { type: 'application/mp3' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'beat_'+cde_id+'.mp3';
+                link.click();
+                URL.revokeObjectURL(link.href);
+            },
+            downloadWithAxios : function(cde_id){
+                axios({
+                    method: 'get',
+                    url: '/cmallact/download_sample/'+cde_id,
+                    responseType: 'arraybuffer'
+                })
+                .then(r => {
+                    this.forceFileDownload(r, cde_id)   
+                })
+                .catch(() => console.log('error occured'))
             }
         }
     }
