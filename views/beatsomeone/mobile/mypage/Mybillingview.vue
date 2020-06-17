@@ -5,7 +5,7 @@
         <Header :is-login="isLogin"/>
         <div class="container sub">
             <div class="mypage sublist">
-                <div class="wrap">
+                <div class="wrap mybilling-view">
                     <div class="sublist__filter sticky">
                         <div class="row center">
                             <div class="profile">
@@ -23,58 +23,55 @@
                                     <div class="bio">
                                         {{ mem_type }}, {{ mem_lastname }}
                                     </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="profile__footer">
+                                <div class="location">
+                                    <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
+                                </div>
+                                <div class="brandshop">
+                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li class="active">Order History</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                        
+                    </div>
+
+                    <div class="row menu__wraper">
+                        <ul class="menu">
+                            <li @click="goPage('')">Dashboard</li>
+                            <li @click="goPage('profilemod')">Manage Information</li>
+                            <li @click="goPage('list_item')">Product List</li>
+                            <li class="active">Order History</li>
+                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                            <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                            <li @click="goPage('message')">Message</li>
+                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                            <li @click="goPage('inquiry')">Support
+                                <ul class="menu">
+                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('faq')">FAQ</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="sublist__content" style="margin-bottom:100px;">
 
                         <div class="row" style="margin-bottom:30px;">
-                            
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Order detail</div>
-                                </div>
-                            </div>
 
-                            <div class="main__media board inquirylist">
-                                <div class="tab" style="height:48px; justify-content:flex-start;">
-                                    <div>
-                                        <div class="title">No</div>
-                                        <div>{{ no }}</div>
+                            <div class="title-content">
+                                <h4 class="title"> Order detail </h4>
+                                <div class="n-box">
+                                    <div class="n-flex">
+                                        <span>No</span> <span class="index">{{ no }}</span>
                                     </div>
-                                    <div>
-                                        <div class="title">Date</div>
-                                        <div>{{ cor_datetime }}</div>
+                                    <div class="n-flex">
+                                        <span>Date</span> <span class="date">{{ cor_datetime }}</span>
                                     </div>
-                                    <div>
-                                        <div class="title">Status</div>
-                                        <div :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"> {{ funcStatus(cor_status) }} </div>
+                                    <div class="n-flex">
+                                        <span>Status</span> <span :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"> {{ funcStatus(cor_status) }} </span>
                                     </div>
                                 </div>
                             </div>
@@ -84,42 +81,60 @@
                         <div class="row" style="margin-bottom:10px;">
                             
                             <div class="title-content">
-                                <div class="title">
-                                    <div><span class="yellow">{{ myOrderList.length }}</span> Ordered items</div>
-                                </div>
+                                <h4 class="title"> <span class="yellow">{{ myOrderList.length }}</span> Ordered items </h4>
                             </div>
 
                             <div class="playList productList orderlist" style="margin-top:10px;">
                                 <ul>
                                     <li v-for="(item, i) in myOrderList" v-bind:key="item.order.cor_id + item.order.cit_id" class="playList__itembox" :id="'playList__item'+ item.order.cor_id + item.order.cit_id">
                                         <div class="playList__item playList__item--title other">
-                                            <div class="col name">
-                                                <figure>
+                                            <div class="n-flex">
+                                                <div class="info"> <div class="code">{{ item.order.Item.cit_key }}</div> </div>
+                                                <div class="edit">
+                                                    <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
+                                                        {{ funcDownStatus(cor_status, item.order.Item) }}
+                                                    </div>
+
+                                                    <div v-if="cor_status === '1' " class="download_period">
+                                                        <span> {{ caclLeftDay(item.order.cor_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
+                                                    </div>
+                                                    <div v-else-if="cor_status === '0' " class="download_period"> <span>  </span> </div>
+                                                    <div v-else class="download_period"> <span class="gray"> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span> </div>
+
+                                                <!-- <div class="download_period">40 days left<br/>(~2020.06.24 12:30:34)</div> -->
+                                                </div>
+                                            </div>
+
+                                            <div class="name">
+                                                <figure class="n-flex" style="margin-right: 0;">
                                                     <span class="playList__cover">
                                                         <img v-if="!item.order.Item.cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
                                                         <img v-else :src="'/uploads/cmallitem/' + item.order.Item.cit_file_1" alt="">
                                                         <i v-show="checkToday(item.order.cor_datetime)" class="label new">N</i>
                                                     </span>
                                                     <figcaption class="pointer">
-                                                        <div class="info">
-                                                          <div class="code">{{ item.order.Item.cit_key }}</div>
-                                                        </div>
                                                         <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
-                                                        <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
-                                                        <span class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span>
+                                                        <!-- <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
+                                                        <span class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span> -->
+                                                        <div class="n-flex">
+                                                            <div class="listen">
+                                                                <div class="playbtn">
+                                                                    <button class="btn-play" @click="playAudio(item.order.Item)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
+                                                                    <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
+                                                                    <span class="duration">0:00</span></span>
+                                                                </div>
+                                                            </div>
+                                                            <!-- 기능필요 -->
+                                                            <div class="amount"> <img src="/assets/images/icon/cd.png"/><div><span>500</span> left</div> </div>
+                                                        </div>
                                                     </figcaption>
+                                                    <button @click="productEditBtn(item.order.Item.cit_id, item.order.cor_status)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
                                                 </figure>
                                             </div>
                                             <div class="col n-option">
 
                                                 <div class="feature">
-                                                    <div class="listen">
-                                                        <div class="playbtn">
-                                                            <button class="btn-play" @click="playAudio(item.order.Item)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
-                                                            <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
-                                                            <span class="duration">0:00</span></span>
-                                                        </div>
-                                                    </div>
+                                                    
                                                     <!--
                                                     <div class="amount">
                                                         <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
@@ -138,15 +153,16 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <div class="detail">MP3 or WAV</div>
                                                                 </div>
+                                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
                                                             </button>
-                                                            <div class="option_item basic">
-                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                            <div class="option_item basic" style="margin-left: 38px;">
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                        
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
@@ -158,14 +174,15 @@
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <div class="detail">MP3 or WAV + STEMS</div>
                                                                 </div>
+                                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
                                                             </button>
-                                                            <div class="option_item unlimited">
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                            <div class="option_item unlimited" style="margin-left: 38px;">
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
+                                                        
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE -->
                                                     <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' " >
@@ -177,15 +194,16 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <div class="detail">MP3 or WAV</div>
                                                                 </div>
+                                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
                                                             </button>
-                                                            <div class="option_item basic">
-                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                            <div class="option_item basic" style="margin-left: 38px;">
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                        
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
@@ -198,37 +216,19 @@
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <div class="detail">MP3 or WAV + STEMS</div>
                                                                 </div>
+                                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div>
                                                             </button>
-                                                            <div class="option_item unlimited">
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                            <div class="option_item unlimited" style="margin-left: 38px;">
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col edit">
-                                                <button @click="productEditBtn(item.order.Item.cit_id, item.order.cor_status)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
-
-                                                <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
-                                                    {{ funcDownStatus(cor_status, item.order.Item) }}
-                                                </div>
-
-                                                <div v-if="cor_status === '1' " class="download_period">
-                                                    <span> {{ caclLeftDay(item.order.cor_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
-                                                </div>
-                                                <div v-else-if="cor_status === '0' " class="download_period">
-                                                    <span>  </span>
-                                                </div>
-                                                <div v-else class="download_period">
-                                                    <span class="gray"> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
-                                                </div>
-
-                                                <!-- <div class="download_period">40 days left<br/>(~2020.06.24 12:30:34)</div> -->
-                                            </div>
+                                            
                                             <div class="col genre" v-html="calcTag(item.order.Item.hashTag)"></div>  
                                         </div>
                                     </li>
@@ -239,36 +239,34 @@
                         </div>
 
                         <div class="row">
-                            <div class="title-content">
-                                <p>
-                                    ※- Beat download is not available when the deposit is in a waiting state.<br/>
-                                    ※- Beat download is available for 60 days after payment is completed.
-                                </p>
+                            <div class="title-content text-info">
+                                <p>Beat download is not available when the deposit is in a waiting state.</p>
+                                <p>Beat download is available for 60 days after payment is completed.</p>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="payment_box" style="padding-top:0; margin-top:0; border:0;">
-                                <div class="tab">
-                                    <div>
-                                        <div class="title">Method</div>
-                                        <div>{{ payType }}</div>
+                            <div class="payment_box">
+                                <div class="n-box">
+                                    <div class="n-flex between">
+                                        <span class="title">Method</span>
+                                        <span>{{ payType }}</span>
                                     </div>
-                                    <div>
-                                        <div class="title">Detail</div>
-                                        <div>{{ cor_pg }}</div>
+                                    <div class="n-flex between">
+                                        <span class="title">Detail</span>
+                                        <span>{{ cor_pg }}</span>
                                     </div>
-                                    <div>
-                                        <div class="title">Subtotal</div>
-                                        <div>{{ totalPrice }}</div>
+                                    <div class="n-flex between">
+                                        <span class="title">Subtotal</span>
+                                        <span>{{ totalPrice }}</span>
                                     </div>
-                                    <div>
-                                        <div class="title">Points</div>
-                                        <div>0 P</div>
+                                    <div class="n-flex between">
+                                        <span class="title">Points</span>
+                                        <span>0 P</span>
                                     </div>
-                                    <div class="total">
-                                        <div>Total</div>
-                                        <div>{{ totalPrice }}</div>
+                                    <div class="n-flex between total">
+                                        <span>Total</span>
+                                        <span>{{ totalPrice }}</span>
                                     </div>                           
                                 </div>
                             </div>
@@ -277,7 +275,7 @@
                             </p>
                         </div>
 
-                        <div class="btnbox col" style="width:50%; margin:0 auto 100px;">
+                        <div class="n-flex n-btnbox">
                             <button class="btn btn--gray" @click="goPage('mybilling')">Back to List</button>
                             <button v-if="cor_status==='1'" type="submit" class="btn btn--submit" >Request Refund</button>
                         </div>
@@ -291,7 +289,7 @@
         -->
 
 
-        <div class="panel" :class="{ 'active': reqref === 1 }" >
+        <div class="panel" :class="{ 'active': reqref === 1 }" style="display: none;">
             <div class="popup" style="width:1110px; display:none;">
                 <div class="box" style="padding-bottom:50px;">
                     <div class="title">CHANGE PASSWORD</div>
@@ -351,10 +349,10 @@
                                                 </div>
                                             </div>
                                             <div class="option_item">
-                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                             </div>
                                         </div>
                                         <div class="col feature">
@@ -393,10 +391,10 @@
                                                 </div>
                                             </div>
                                             <div class="option_item">
-                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                             </div>
                                         </div>
                                         <div class="col feature">
@@ -435,10 +433,10 @@
                                                 </div>
                                             </div>
                                             <div class="option_item">
-                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                             </div>
                                         </div>
                                         <div class="col feature">
@@ -477,10 +475,10 @@
                                                 </div>
                                             </div>
                                             <div class="option_item">
-                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
                                             </div>
                                         </div>
                                         <div class="col feature">
@@ -932,7 +930,12 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .title-content .title {
+        font-size: 14px;
+        line-height: 16px;
+    }
 </style>
