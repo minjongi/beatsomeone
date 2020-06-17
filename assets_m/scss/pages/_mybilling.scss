@@ -1,0 +1,185 @@
+/* Other History View (mybillingview.vue) */
+.mybilling-view {
+  // border: 1px solid red;
+  .title-content {
+    h4.title {
+      font-size: 14px;
+      line-height: 16px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      > * {
+        width: auto;
+      }
+      .yellow {
+        color: #ffda2a;
+        margin-right: 4px;
+      }
+    }
+    .n-box {
+      background-color: #1c1d23;
+      border-top: 1px solid #1c1d23;
+      border-bottom: 1px solid #1c1d23;
+      padding: 16px;
+      margin-top: 10px;
+      margin-right: -16px;
+      margin-left: -16px;
+      box-sizing: border-box;
+      span {
+        font-size: 14px;
+        &:first-child {
+          font-weight: 600;
+        }
+        & + span {
+          margin-left: 16px;
+        }
+        &.index {
+          color: rgba(white, 0.7);
+        }
+        &.date {
+          color: rgba(white, 0.3);
+        }
+      }
+      > div + div {
+        margin-top: 10px;
+      }
+    }
+  }
+  .playList__itembox {
+    .playList__item {
+      .info,
+      .edit {
+        font-size: 12px;
+      }
+      .edit {
+        margin-left: 16px;
+      }
+      .n-option {
+        margin-top: 16px;
+      }
+    }
+  }
+  .playList__item--button {
+    .detail {
+      background: none;
+      padding-top: 3px;
+      color: rgba(white, 0.3);
+    }
+  }
+
+  .playList .playList__item {
+    .name {
+      figure .playList__cover {
+        width: 48px;
+        height: 48px;
+        margin-right: 16px;
+      }
+      .amount {
+        margin-left: 18px;
+        display: inherit;
+        align-items: inherit;
+        > img {
+          margin-right: 12px;
+          width: 20px;
+          height: 20px;
+          opacity: .3;
+        }
+        > div {
+          font-size: 12px;
+          line-height: 20px;
+        }
+        span {
+          color: #ffda2a;
+        }
+      }
+    }
+  }
+
+  .playList .playList__item .name figure figcaption .playList__title {
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 12px;
+  }
+  .playList .playList__item .name figure {
+    .btn-play {
+      width: 20px;
+      height: 20px;
+    }
+    .timer {
+      font-size: 12px;
+      color: rgba(white, 0.3);
+    }
+  }
+
+  .desc {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 12px 12px 12px 34px;
+    position: relative;
+    img {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      left: 0;
+    }
+    span {
+      color: rgba(white, 0.7);
+      a {
+        color: white;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.title-content.text-info {
+  p {
+    position: relative;
+    font-size: 10px;
+    padding-left: 12px;
+    &::before {
+      position: absolute;
+      content: "-";
+      left: 0;
+    }
+  }
+}
+
+// payment_box
+.payment_box {
+  .n-box {
+    background-color: #1c1d23;
+    border-top: 1px solid #1c1d23;
+    border-bottom: 1px solid #1c1d23;
+    padding: 20px 16px;
+    margin-top: 10px;
+    margin-right: -16px;
+    margin-left: -16px;
+    box-sizing: border-box;
+    >div {
+      line-height: 30px;
+      span {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      &+div {
+        margin-top: 20px;
+      }
+      &.total {
+        color: #ffda2a;
+        border-top: 1px solid rgba(white,.3);
+        padding-top: 20px;
+      }
+    }
+  }
+}
+
+// New btnbox
+.n-btnbox {
+  margin-top: 30px;
+  button {
+    flex: 1;
+    &+button {
+      margin-left: 20px;
+    }
+  }
+}
