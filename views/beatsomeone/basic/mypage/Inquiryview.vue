@@ -158,8 +158,8 @@
                             </div>
 
                             <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-                                <button class="btn btn--gray">Cancel</button>
-                                <button type="submit" class="btn btn--submit">Edit</button>
+                                <button class="btn btn--gray" @clikc="goInquiryenroll">Cancel</button>
+                                <button type="submit" class="btn btn--submit" @click="goInquirymod">Edit</button>
                             </div>
 
                         </div>
@@ -235,6 +235,9 @@
             },
             goInquirymod() {
                 this.$router.push({path: '/inquirymod'});
+            },
+            goInquiryenroll() {
+                this.$router.push({path: '/inquiryenroll'});
             },
         },
     }
