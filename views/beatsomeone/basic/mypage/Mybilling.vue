@@ -56,7 +56,7 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:64px;">
                                     <div class="active">Order History ({{calcTotalCnt}})</div>
-                                    <div @click="goPage('mybilling#/mycancellist')">Cancellation / Refund History(32)</div>
+                                    <div @click="gocancellist">Cancellation / Refund History(32)</div>
                                 </div>
                             </div>
                         </div>
@@ -579,7 +579,10 @@
                         this.myOrderList = rst;
                     });
                 }
-            }
+            },
+            gocancellist() {
+                window.location.href = '/mypage/mycancelList';
+            },
         }
     }
 </script>

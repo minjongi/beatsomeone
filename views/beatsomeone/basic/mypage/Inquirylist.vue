@@ -58,7 +58,7 @@
                             <div class="title-content">
                                 <div class="title">
                                     <div>Support</div>
-                                    <button class="btn btn--submit">To ask question</button>
+                                    <button class="btn btn--submit" @click="goInquiryenroll">To ask question</button>
                                 </div>
                                 <p>
                                     Total <span>100</span> cases.
@@ -82,7 +82,7 @@
                             <div class="playList board inquirylist">
 
                                 <ul>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -94,7 +94,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -106,7 +106,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -118,7 +118,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -130,7 +130,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -142,7 +142,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -154,7 +154,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -166,7 +166,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -178,7 +178,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -190,7 +190,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goInquiryview">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">000</div>
                                             <div class="subject">I have some question about using service.</div>
@@ -316,6 +316,9 @@
             },
             goInquirymod() {
                 this.$router.push({path: '/inquirymod'});
+            },
+            goInquiryenroll() {
+                this.$router.push({path: '/inquiryenroll'});
             },
 
         },
