@@ -5,8 +5,8 @@
             <div class="container">
                 <div class="main">
                     <section class="main__section1">
-                        <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop>
-                            <source :src="bgVideoPath" type="video/mp4">
+                        <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted @ended="endVideoBG" ref="videoBG">
+                            <source src="" type="video/mp4">
                         </video>
                         <header class="main__section1-title">
                             <div class="wrap">
@@ -173,6 +173,7 @@
                 listTestimonials: null,
                 currentGenre : 'All Genre',
                 listGenre: ['All Genre'].concat(window.genre).concat(['Free Beats']),
+                videoBGPath: ''
             }
         },
         created() {
@@ -223,6 +224,8 @@
                     .find(".options")
                     .toggle();
             });
+
+            this.endVideoBG()
         },
         watch: {
             // 장르가 변경될 때
@@ -238,17 +241,19 @@
                     _self = this
 
                 this.listGenre.forEach(function (val) {
-                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                    list.push(_self.$t('genre' + window.genLangCode(val)))
                 })
 
                 return list
-            },
-            bgVideoPath() {
-                const idx = Math.floor(Math.random() * 6) + 1;
-                return '/uploads/data/bgvideo/mobile/bg' + idx + '.mp4'
             }
         },
         methods: {
+            endVideoBG() {
+                const idx = Math.floor(Math.random() * 6) + 1
+                this.videoBGPath = '/uploads/data/bgvideo/pc/202006/bg' + idx + '.mp4'
+                this.$refs.videoBG.src = this.videoBGPath
+                this.$refs.videoBG.play()
+            },
             doSlide() {
                 // 메인 trend Slider
                 $(".trending__slider .slider").slick({
