@@ -61,7 +61,7 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab n-flex" style="height:48px;">
                                     <div class="active">Order History ({{calcTotalCnt}})</div>
-                                    <div @click="goPage('mybilling#/mycancellist')">Cancellation / Refund History(32)</div>
+                                    <div @click="gocancellist">Cancellation / Refund History(0)</div>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                             
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="sort">
-                                <div class="custom-select" style="flex: 3;">
+                                <div class="custom-select">
                                     <button class="selected-option">
                                         {{ downType }}
                                     </button>
@@ -576,6 +576,22 @@
                     this.myOrderList.reverse();
                 }
             },
+            checkDownType(dt,i) {
+                if(dt == "Download Complete"){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity <= i.cde_download){
+                        return true;
+                    }
+                }else if(dt == "Not Download"){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity > i.cde_download){
+                        return true;
+                    }
+                    if(i.cit_mastering_license_use == "1"){
+                        return true;
+                    }
+                }
+            },
             funcDownType(dt){
                 if(this.downType == dt){
                     return;
@@ -585,9 +601,9 @@
                         let rst = [];
                         Object.assign(list,this.myOrderList);
                         if(dt == "Download Complete"){
-                            rst = list.filter(item => 0 < parseInt(item['items'][0].cde_download) );
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
                         }else if(dt == "Not Download"){
-                            rst = list.filter(item => 0 === parseInt(item['items'][0].cde_download) );
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
                         }else{
                             rst = list;
                         }
@@ -595,7 +611,10 @@
                         this.myOrderList = rst;
                     });
                 }
-            }
+            },
+            gocancellist() {
+                window.location.href = '/mypage/mycancelList';
+            },
         }
     }
 </script>
