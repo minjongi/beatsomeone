@@ -233,10 +233,13 @@
                     .removeClass("active")
                     .find(".options")
                     .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
+                if($(this).hasClass("active")){
+                    $(this).addClass("active");
+                    $(this).find(".options").show();
+                }else{
+                    $(this).removeClass("active");
+                    $(this).find(".options").hide();
+                }
             });
         },
         created() {
