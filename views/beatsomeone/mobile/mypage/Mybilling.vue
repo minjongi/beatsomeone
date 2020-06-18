@@ -56,7 +56,7 @@
                         </ul>
                     </div>
 
-                    <div class="sublist__content" style="margin-bottom:100px;">
+                    <div class="sublist__content">
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
                                 <div class="tab n-flex" style="height:48px;">
@@ -66,10 +66,9 @@
                             </div>
                         </div>
 
-
-                        <div class="row" style="margin-bottom: 10px;">
+                        <div class="row" style="display:flex; margin-bottom:10px;">
                             <div class="search condition">
-                                <div class="filter">
+                                <div class="n-flex between filter">
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
@@ -671,6 +670,12 @@
             >div {
                 font-size: 12px;
             }
+        }
+    }
+    .sub .search.condition {
+        width: 100%;
+        .filter {
+            display: flex;
         }
     }
 </style>
