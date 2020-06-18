@@ -1,0 +1,214 @@
+.profilemod-wrap {
+  .sublist__content {
+    .box {
+      .type {
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 600;
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+      .data {
+        position: relative;
+        .input_wrap {
+          .inputbox {
+            padding-right: 80px;
+          }
+          .caution {
+            position: relative;
+            > .img-box {
+              img {
+                position: absolute;
+                top: 0;
+                left: 0;
+              }
+              .warning {
+                display: none;
+              }
+            }
+            p {
+              font-size: 10px;
+              line-height: 1.2;
+              font-weight: normal;
+              color: rgba(white, 0.7);
+              padding-left: 18px;
+              display: block;
+            }
+          }
+        }
+        .btn.right {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 72px;
+          font-size: 12px;
+          height: 40px;
+          line-height: 40px;
+        }
+        &.n-flex {
+          align-items: center;
+          .seller_class {
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 14px;
+          }
+          .btn.round {
+            width: 128px;
+            height: 40px;
+            padding: 0;
+
+          }
+        }
+        &.radio-grop {
+          display: flex;
+          flex-wrap: wrap;
+          > label {
+            margin-bottom: 10px;
+            margin-right: 30px;
+            div {
+              opacity: 1;
+            }
+          }
+        }
+        .sns {
+          >div {
+            &+div {
+              margin-top: 20px;
+            }
+            div {
+              display: flex;
+              align-items: center;
+              color: rgba(white,.3);
+              font-size: 14px;
+              img {
+                margin-right: 10px;
+              }
+            }
+            .btn {
+              font-size: 12px;
+              width: 64px;
+              height: 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .input_wrap {
+    display: flex !important;
+    align-items: center;
+    font-weight: bolder;
+
+    > * {
+      vertical-align: middle;
+    }
+
+    & + button {
+      margin-left: -4px;
+    }
+
+    &.line {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    &.round {
+      border-radius: 100px;
+    }
+
+    &.col {
+      flex-direction: column;
+    }
+
+    input {
+      width: 100%;
+      color: white;
+      font-size: 14px;
+
+      & ~ * {
+        color: white;
+      }
+
+      & + button {
+        opacity: 0.3;
+        transition: 0.3s ease;
+
+        > * {
+          vertical-align: middle;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    .inputbox,
+    textarea {
+      width: 100%;
+      font-size: 14px;
+      height: 20px;
+      padding: 20px 10px;
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      transition: 0.3s ease;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      &:focus {
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 1);
+      }
+
+      & + .btn {
+        margin-left: -4px;
+      }
+
+      & + .caution {
+        width: 100%;
+        margin-top: 10px;
+      }
+    }
+
+    // .inputbox {
+    //   > * {
+    //     max-height: max-content;
+    //     display: inline-block;
+    //     vertical-align: middle;
+    //   }
+
+    //   input[type='number']::-webkit-outer-spin-button,
+    //   input[type='number']::-webkit-inner-spin-button {
+    //     -webkit-appearance: none;
+    //     margin: 0;
+    //   }
+
+    //   input[type='number'] {
+    //     text-align: right;
+    //   }
+
+    //   input + * {
+    //     padding: 0 16px;
+    //   }
+    // }
+  }
+
+  &.mypage .group_title.SELLER {
+    color: #ff4848;
+    background: transparent;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0;
+    padding: 0;
+  }
+}
