@@ -837,7 +837,7 @@ class Beatsomeone_model extends CB_Model
         $sql .= "    ) d ";
         $sql .= "    on a.mem_id = d.mem_id ";
         $sql .= "    join ( ";
-        $sql .= "        select cor_id, cor_total_money, cor_datetime, cor_status, status, cor_refund_price ";
+        $sql .= "        select cor_id, cor_memo, cor_total_money, cor_datetime, cor_status, status, cor_refund_price ";
         $sql .= "        from cb_cmall_order ";
         $sql .= "    ) e ";
         $sql .= "    on a.cor_id = e.cor_id ";

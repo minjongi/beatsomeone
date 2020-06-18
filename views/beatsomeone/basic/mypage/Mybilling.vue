@@ -92,7 +92,7 @@
                                 <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
                             </div>
                             <div class="sort" style="text-align:right">
-                                <div class="custom-select">
+                                <div class="custom-select" style="flex: 3;">
                                     <button class="selected-option">
                                         {{ downType }}
                                     </button>
@@ -554,6 +554,22 @@
                     this.myOrderList.reverse();
                 }
             },
+            checkDownType(dt,i) {
+                if(dt == "Download Complete"){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity <= i.cde_download){
+                        return true;
+                    }
+                }else if(dt == "Not Download"){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity > i.cde_download){
+                        return true;
+                    }
+                    if(i.cit_mastering_license_use == "1"){
+                        return true;
+                    }
+                }
+            },
             funcDownType(dt){
                 if(this.downType == dt){
                     return;
@@ -563,9 +579,9 @@
                         let rst = [];
                         Object.assign(list,this.myOrderList);
                         if(dt == "Download Complete"){
-                            rst = list.filter(item => 0 < parseInt(item['items'][0].cde_download) );
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
                         }else if(dt == "Not Download"){
-                            rst = list.filter(item => 0 === parseInt(item['items'][0].cde_download) );
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
                         }else{
                             rst = list;
                         }
