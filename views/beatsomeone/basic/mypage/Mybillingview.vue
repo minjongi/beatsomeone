@@ -102,7 +102,7 @@
                                                     </span>
                                                     <figcaption class="pointer">
                                                         <div class="info">
-                                                          <div class="code">{{ item.order.Item.cit_key }}</div>
+                                                          <div class="code">{{ 'item_'+(i+1) }}</div>
                                                         </div>
                                                         <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
                                                         <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
@@ -115,7 +115,7 @@
                                                 <div class="feature">
                                                     <div class="listen">
                                                         <div class="playbtn">
-                                                            <button class="btn-play" @click="playAudio(item.order.Item)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
+                                                            <button class="btn-play" @click="playAudio(item.order.Item, $event)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
                                                             <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
                                                             <span class="duration">0:00</span></span>
                                                         </div>
@@ -800,17 +800,19 @@
                     return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
             },
-            playAudio(i) {
+            playAudio(i, e) {
                 if(!this.isPlay || this.currentPlayId !== i.cit_id) {
                     if (this.currentPlayId !== i.cit_id) {
                         this.setAudioInstance(i)
                     }
                     this.currentPlayId = i.cit_id
                     EventBus.$emit('player_request_start',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play playing';
                     this.start();
                 }
                 else {
                     EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play paused';
                     this.stop();
                 }
             },
@@ -963,7 +965,7 @@
                     this.forceFileDownload(r, cde_id)   
                 })
                 .catch(() => console.log('error occured'))
-            }
+            },
         }
     }
 </script>

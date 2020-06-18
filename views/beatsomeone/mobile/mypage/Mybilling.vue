@@ -95,7 +95,7 @@
                             
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="sort">
-                                <div class="custom-select">
+                                <div class="custom-select" style="flex: 3;">
                                     <button class="selected-option">
                                         {{ downType }}
                                     </button>
