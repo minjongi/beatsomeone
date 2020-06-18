@@ -5,8 +5,8 @@
         <div class="container">
             <div class="main">
                 <section class="main__section1">
-                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted loop>
-                        <source :src="bgVideoPath" type="video/mp4">
+                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted @ended="endVideoBG" ref="videoBG">
+                        <source src="" type="video/mp4">
                     </video>
                     <div class="filter"></div>
                     <div class="wrap">
@@ -192,16 +192,16 @@
 
 <script>
 
-    require('@/assets/js/function');
+    require('@/assets/js/function')
 
-    import $ from "jquery";
-    import Header from "./include/Header";
-    import Footer from "./include/Footer";
-    import Index_Items from "./Index_Items";
-    import {EventBus} from '*/src/eventbus';
-    import Velocity from 'velocity-animate';
-    import MainPlayer from "@/vue/common/MainPlayer";
-    import KeepAliveGlobal from 'vue-keep-alive-global';
+    import $ from "jquery"
+    import Header from "./include/Header"
+    import Footer from "./include/Footer"
+    import Index_Items from "./Index_Items"
+    import {EventBus} from '*/src/eventbus'
+    import Velocity from 'velocity-animate'
+    import MainPlayer from "@/vue/common/MainPlayer"
+    import KeepAliveGlobal from 'vue-keep-alive-global'
 
     export default {
         name: 'Index',
@@ -227,7 +227,8 @@
                     voice: false,
                     sort: 'Sort By Staff Picks',
                     bpm: {t: 'BPM', v: null},
-                }
+                },
+                videoBGPath: ''
             }
         },
         mounted() {
@@ -235,26 +236,26 @@
             $(".toggle-subList").on("click", function () {
                 var itemLength = $(this)
                     .parents(".playList__itembox")
-                    .find(".subPlayList .playList__itembox").length;
-                $(this).toggleClass("active");
+                    .find(".subPlayList .playList__itembox").length
+                $(this).toggleClass("active")
                 $(this)
                     .parents(".playList__itembox")
-                    .toggleClass("is-show-children");
+                    .toggleClass("is-show-children")
 
                 if ($(this).hasClass("active")) {
                     // active 일때,
                     $(this)
                         .parents(".playList__itembox")
                         .find(".subPlayList")
-                        .css("height", 90 * itemLength);
+                        .css("height", 90 * itemLength)
                 } else {
                     // 지웟을때,
                     $(this)
                         .parents(".playList__itembox")
                         .find(".subPlayList")
-                        .css("height", 0);
+                        .css("height", 0)
                 }
-            });
+            })
 
             // 커스텀 셀렉트 옵션
             $(".custom-select").on("click", function () {
@@ -262,21 +263,21 @@
                     .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
-                    .hide();
-                $(this).toggleClass("active");
+                    .hide()
+                $(this).toggleClass("active")
                 $(this)
                     .find(".options")
-                    .toggle();
-            });
+                    .toggle()
+            })
 
             // 메인 리스트 조회
-            this.getMainList();
+            this.getMainList()
 
             // Trending List
-            this.getTrendingList();
+            this.getTrendingList()
 
             // Testimonials List
-            this.getTestimonialsList();
+            this.getTestimonialsList()
 
             // Amplitude.init({
             //     "songs": this.listPlayer,
@@ -284,7 +285,9 @@
             //     waveforms: {
             //         sample_rate: 3000
             //     }
-            // });
+            // })
+
+            this.endVideoBG()
         },
         computed: {
             listSortParamName() {
@@ -295,7 +298,7 @@
                     _self = this
 
                 this.listGenre.forEach(function (val) {
-                    list.push(_self.$t('genre' + val.replace(/ /g,"")))
+                    list.push(_self.$t('genre' + window.genLangCode(val)))
                 })
 
                 return list
@@ -305,32 +308,34 @@
                     _self = this
 
                 this.listSort.forEach(function (val) {
-                    list.push(_self.$t('sortItem' + val.replace(/ /g,"")))
+                    list.push(_self.$t('sortItem' + window.genLangCode(val)))
                 })
 
                 return list
-            },
-            bgVideoPath() {
-                const idx = Math.floor(Math.random() * 6) + 1;
-                return '/uploads/data/bgvideo/pc/bg' + idx + '.mp4'
             }
         },
         watch: {
             // 장르가 변경될 때
             currentGenre: function (n, o) {
                 if (o && n !== o) {
-                    this.getMainList();
+                    this.getMainList()
                 }
             },
             // 검색조건 변경
             param: {
                 deep: true,
                 handler() {
-                    this.getMainList();
+                    this.getMainList()
                 }
             }
         },
         methods: {
+            endVideoBG() {
+                const idx = Math.floor(Math.random() * 6) + 1
+                this.videoBGPath = '/uploads/data/bgvideo/pc/202006/bg' + idx + '.mp4'
+                this.$refs.videoBG.src = this.videoBGPath
+                this.$refs.videoBG.play()
+            },
             doSlide() {
                 // 메인 trend Slider
                 $(".trending__slider .slider").slick({
@@ -346,16 +351,16 @@
                     // autoplaySpeed: 2000,
                     // arrows: true,
                     // dots: true
-                });
+                })
             },
             moveMore() {
-                const path = `/beatsomeone/sublist?genre=${this.currentGenre}`;
-                window.location.href = path;
+                const path = `/beatsomeone/sublist?genre=${this.currentGenre}`
+                window.location.href = path
             },
             selectItem(i) {
-                if (typeof (i) !== 'string') return;
-                const path = `/beatsomeone/detail/${i}`;
-                window.location.href = path;
+                if (typeof (i) !== 'string') return
+                const path = `/beatsomeone/detail/${i}`
+                window.location.href = path
             },
             getMainList() {
                 var p = {
@@ -364,21 +369,21 @@
                     sort: this.param.sort
                 }
                 Http.get(`/beatsomeoneApi/main_list/${encodeURIComponent(this.currentGenre)}?${$.param(p)}`).then(r => {
-                    this.list = r.data;
-                });
+                    this.list = r.data
+                })
             },
             getTrendingList() {
                 Http.get(`/beatsomeoneApi/main_trending_list`).then(r => {
-                    this.listTrending = r.data;
+                    this.listTrending = r.data
                     this.$nextTick(function () {
-                        this.doSlide();
-                    });
-                });
+                        this.doSlide()
+                    })
+                })
             },
             getTestimonialsList() {
                 Http.get(`/beatsomeoneApi/main_testimonials_list`).then(r => {
-                    this.listTestimonials = r.data;
-                });
+                    this.listTestimonials = r.data
+                })
             },
             beforeEnter: function (el) {
                 el.style.opacity = 0

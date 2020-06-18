@@ -1425,5 +1425,73 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($rst));
     }
 
+    // 메세지 파일
+    public function upload_message_file()
+    {
+        // Check Login
+        if (!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $result = $this->upload_file('message', 'gif|jpg|png|wav|mp3|zip|rar');
+
+        // Reponse
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    // 메세지 보내기
+    public function message_send()
+    {
+        // Check Login
+        if (!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $mem_id = (int) $this->member->item('mem_id');
+        $this->load->model('Beatsomeone_model');
+
+        $rmid = json_decode($this->input->post('rmid'));
+        $message = json_decode($this->input->post('message'));
+        $filename = json_decode($this->input->post('filename'));
+        $fileurlname = json_decode($this->input->post('fileurlname'));
+
+        log_message('error', print_r($rmid, true) );
+        log_message('error', print_r($message, true) );
+        log_message('error', print_r($filename, true) );
+
+        $nte_id = $this->Beatsomeone_model->insert_send_message((int)$mem_id, (int)$rmid, $message, $filename, $fileurlname);
+        log_message('error', print_r($nte_id, true) );
+        $nte_id2 = $this->Beatsomeone_model->insert_recv_message((int)$mem_id, (int)$rmid, $message, $filename, $fileurlname, $nte_id);
+        log_message('error', print_r($nte_id2, true) );
+
+        $rst = array();
+        $rst['message'] = 'ok';
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($rst));
+    }
+
+
+    // 멤버아이디 정보 조회
+    public function get_userid_info()
+    {
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $this->load->model('Beatsomeone_model');
+
+        $config = array(
+            'mem_nickname' => json_decode($this->input->get('searchUser')),
+        );
+        $result = $this->Beatsomeone_model->get_userid_info($config);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
 
 }

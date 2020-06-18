@@ -580,7 +580,7 @@
             funcDownStatus: function(status, items){
                 if(status === 'Possible'){
                     let possCnt = 0;
-                    for(var i in items){
+                    for(let i in items){
                         if(items[i].cor_status === '1'){
                             if(items[i].cit_lease_license_use === '1'
                                     && 0 < this.caclLeftDay(items[i].cor_datetime)
@@ -594,7 +594,7 @@
                     return possCnt;
                 }else if(status === 'Impossible'){
                     let possCnt = 0;
-                    for(var i in items){
+                    for(let i in items){
                         if(items[i].cor_status === '0'){
                             possCnt += 1;
                         }
@@ -602,7 +602,7 @@
                     return possCnt;
                 }else if(status === 'Expired'){
                     let possCnt = 0;
-                    for(var i in items){
+                    for(let i in items){
                         if(items[i].cor_status === '1'){
                             if(items[i].cit_lease_license_use === '1'
                                     && this.caclLeftDay(items[i].cor_datetime) <= 0){
