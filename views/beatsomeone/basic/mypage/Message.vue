@@ -80,8 +80,8 @@
                                             </div>
                                         </div>
                                         <div class="input_wrap line" style="visibility:hidden">
-                                            <input type="text" placeholder="Enter your searchword...">
-                                            <button>
+                                            <input type="text" placeholder="Enter your searchword..." :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
+                                            <button @click="goSearchUser">
                                                 <img src="/assets/images/icon/searchicon.png">
                                             </button>
                                         </div>
@@ -141,12 +141,12 @@
                                             <div class="bio">{{ mchatUserBio }}</div>
                                         </div>
                                     </div>
-                                    <div class='body'>
-                                        <div>
+                                    <div class='body' id="messageDisplay">
+                                        <div >
                                             <div v-for="(m, i) in messageDetail" v-bind:key="m.nte_id" class="chatBalloon" :class="mem_id === m.send_mem_id ? 'me' : ''">
-                                                <div v-html="m.nte_content">
-                                                    <button v-if="m.nte_filename != ''" class="btn btn--glass">
-                                                        <img src="/assets/images/icon/file.png"/>{{ m.nte_filename }}
+                                                <div>{{m.nte_content}}
+                                                    <button v-if="m.nte_filename != ''" class="btn btn--glass" @click="filedown(m.nte_filename, m.nte_originname)">
+                                                        <img src="/assets/images/icon/file.png"/>{{ m.nte_originname }}
                                                     </button>
                                                 </div>
                                                 <div class="date">
@@ -161,7 +161,7 @@
                                         <div class="attached" :class="attfilename != '' ? 'active' : ''">
                                             <div class="btn btn--glass">
                                                 <img src="/assets/images/icon/file.png"/>{{attfilename}}
-                                                <button class="close">
+                                                <button class="close" @click="attfilename = ''">
                                                     <img src="/assets/images/icon/x-white.png"/>
                                                 </button>
                                             </div>
@@ -169,17 +169,17 @@
                                     </div>
 
                                     <div class="foot">
-                                        <label class="btn btn--glass" for="attachbtn">
-                                            <input type="file" id="attachbtn" style="display:none;" @change="attfile">
+                                        <label class="btn btn--glass" for="file">
+                                            <input type="file" id="file" ref="file" style="display:none;" @change="attfile" @drop="attfile">
                                             <img style="height:24px;" src="/assets/images/icon/file.png"/>
                                         </label>
 
                                         <div>
                                             <div class="input_wrap inputbox unit">
-                                                <input type="text" placeholder="Enter your message...">
+                                                <input type="text" placeholder="Enter your message..." :value="goMessText" @input="goMessText=$event.target.value" @keypress.enter="sendMess">
                                             </div>
                                             <button class="btn btn--blue" style="width:64px;margin-left:-10px;">
-                                                <img src="/assets/images/icon/send.png"/>
+                                                <img src="/assets/images/icon/send.png" @click="sendMess"/>
                                             </button>
                                         </div>
 
@@ -207,10 +207,11 @@
     import $ from "jquery";
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
+    import FileUpload from 'vue-simple-upload/dist/FileUpload'
 
     export default {
         components: {
-            Header, Footer
+            Header, Footer, FileUpload
         },
         data: function() {
             return {
@@ -227,15 +228,19 @@
                 mem_lastname: '',
                 popup_filter:0,
                 dateType: 'All',
+                goMessText: '',
                 search_date_option: 0,
                 searchword: 0,
                 messageList: [],
                 messageDetail: [],
                 mchat: 'none',
+                mid: '',
                 mchatUser: '',
                 mchatUserPhoto: '',
                 mchatUserBio: '',
                 attfilename: '',
+                attfileurlname: '',
+                searchUser: '',
             };
         },
         mounted(){
@@ -385,35 +390,98 @@
             },
             goMChat: function(e, m){
                 if(this.mchat == "none"){
-                    this.ajaxMessageDetail(m.mem_id).then(()=>{
-                        this.mchatUser = m.mem_nickname;
-                        this.mchatUserPhoto = m.mem_photo;
-                        if(this.isEmpty(m.mem_type) && this.isEmpty(m.mem_lastname)){
-                            this.mchatUserBio = '';
-                        }else{
-                            this.mchatUserBio = m.mem_type + ', ' + m.mem_lastname;
-                        }
-                        this.mchat = "flex"
-                    });
-                    this.ajaxMessageRead(m.mem_id).then((data)=>{
-                        if(data){
-                            this.ajaxMessageList();
-                        }
-                    });
-                }else{
-                    this.mchat = "none"
+                    this.mchat = "flex";
                 }
+                this.ajaxMessageDetail(m.mem_id).then(()=>{
+                    this.mid = m.mem_id;
+                    this.mchatUser = m.mem_nickname;
+                    this.mchatUserPhoto = m.mem_photo;
+                    if(this.isEmpty(m.mem_type) && this.isEmpty(m.mem_lastname)){
+                        this.mchatUserBio = '';
+                    }else{
+                        this.mchatUserBio = m.mem_type + ', ' + m.mem_lastname;
+                    }
+
+                    var messageDisplay = document.getElementById("messageDisplay");
+                    messageDisplay.scrollTop = messageDisplay.scrollHeight;
+                });
+                this.ajaxMessageRead(m.mem_id).then((data)=>{
+                    if(data){
+                        this.ajaxMessageList();
+                    }
+                });
                 //console.log(e);
             },
             attfile: function(e){
-                console.log(e.target.files[0].name);
+                //console.log(e);
                 this.attfilename = e.target.files[0].name;
+                const formData = new FormData();
+                formData.append('file', this.$refs.file.files[0]);
+                const url = "/beatsomeoneApi/upload_message_file";
+                axios.post(url, formData).then(r => {
+                    console.log(r.data);
+                    if(0 < r.data.filesize){
+                        //
+                    }else{
+                        alert('파일을 다시 확인해주세요');
+                    }
+                    this.attfileurlname = r.data.filename;
+                })
+            },
+            sendMess: function(e){
+                let fn = '';
+                let fnurl = '';
+                if(!this.isEmpty(this.attfilename)){
+                    fn = this.attfilename;
+                    fnurl = this.attfileurlname;
+                }
+                const formData = new FormData();
+                formData.append('rmid', JSON.stringify(this.mid));
+                formData.append('message', JSON.stringify(this.goMessText));
+                formData.append('filename', JSON.stringify(fn));
+                formData.append('fileurlname', JSON.stringify(fnurl));
+                const url = "/beatsomeoneApi/message_send";
+                axios.post(url, formData).then(r => {
+                    console.log(r);
+                    if(r.data.message == 'ok'){
+                        this.attfilename = '';
+                        this.attfileurlname = '';
+                        this.goMessText = '';
+                        this.ajaxMessageDetail(this.mid);
+                    }
+                });
             },
             isEmpty: function(str){
                 if(typeof str == "undefined" || str == null || str == "")
                     return true;
                 else
                     return false;
+            },
+            forceFileDownload(r, on){
+                const blob = new Blob([r.data], { type: 'application/octet-stream' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = on;
+                link.click();
+                URL.revokeObjectURL(link.href);
+            },
+            filedown : function(fn, on){
+                let param = {"fn":fn, "on":on};
+                axios.get('/cmallact/download_messfile', {params: param, responseType: 'arraybuffer'})
+                .then(r => {
+                    console.log(r);
+                    this.forceFileDownload(r, on);
+                })
+                .catch((e) => console.log(e));
+            },
+            goSearchUser : function(){
+                let param = {'searchUser':this.searchUser};
+                axios.get('/beatsomeoneApi/get_userid_info', {params: param})
+                .then(r => {
+                    console.log(r);
+                })
+                .catch((e) => console.log(e));
+
             },
         }
     }

@@ -743,6 +743,30 @@ class Beatsomeone_model extends CB_Model
     }
 
 
+    // 멤버 정보 조회
+    public function get_userid_info($p)
+    {
+        $select = 'mem_id, mem_userid, mem_nickname, mem_email, mem_level, mem_point, mem_icon, mem_photo, mem_usertype, mem_address1, mem_type, mem_firstname, mem_lastname';
+        $this->db->select($select);
+
+        //$this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
+
+        $where = array(
+            'mem_nickname = ' => $p['mem_nickname'],
+            'mem_denied = ' => 0,
+        );
+        $this->db->where($where);
+
+        //$this->db->order_by('cit_id', 'desc');
+
+        $qry = $this->db->get('cb_member');
+
+        return $qry->result_array();
+
+    }
+
+
+
     // 판매자 판매 목록 조회
     public function get_sales_history($p)
     {
@@ -879,7 +903,7 @@ class Beatsomeone_model extends CB_Model
         $sql .= "FROM beatsomeone.cb_note a, beatsomeone.cb_member b ";
         $sql .= "where recv_mem_id = ? ";
         $sql .= "and nte_type = 2 ";
-        $sql .= "and a.recv_mem_id = b.mem_id ";
+        $sql .= "and a.send_mem_id = b.mem_id ";
         $sql .= "order by nte_id ";
         $sql .= " ";
     
@@ -931,13 +955,13 @@ class Beatsomeone_model extends CB_Model
 
     public function get_message_detail($mem_id, $mid){
 
-        $sql = "select nte_id, send_mem_id, recv_mem_id, nte_type, nte_content, nte_datetime, nte_read_datetime, nte_filename ";
+        $sql = "select nte_id, send_mem_id, recv_mem_id, nte_type, nte_content, nte_datetime, nte_read_datetime, nte_originname, nte_filename ";
         $sql .= "from cb_note  ";
         $sql .= "where send_mem_id = ? ";
         $sql .= "and recv_mem_id = ?  ";
         $sql .= "and nte_type = 1  ";
         $sql .= "union all  ";
-        $sql .= "select nte_id, send_mem_id, recv_mem_id, nte_type, nte_content, nte_datetime, nte_read_datetime, nte_filename  ";
+        $sql .= "select nte_id, send_mem_id, recv_mem_id, nte_type, nte_content, nte_datetime, nte_read_datetime, nte_originname, nte_filename  ";
         $sql .= "from cb_note  ";
         $sql .= "where recv_mem_id = ?  ";
         $sql .= "and send_mem_id = ? ";
@@ -962,6 +986,20 @@ class Beatsomeone_model extends CB_Model
         $rst = $this->db->query($sql, array($mem_id, $mid, $mid, $mem_id));
 
         return $rst;
+    }
+    
+    public function insert_send_message($mem_id, $rmid, $message, $filename, $fileurlname){
+
+        $sql = "insert into beatsomeone.cb_note values(0,?,?,1,0,'',?,0,now(),null,?,?) ";
+        $rst = $this->db->query($sql, array($mem_id, $rmid, $message, $filename, $fileurlname));
+        return $this->db->insert_id();;
+    }
+
+    public function insert_recv_message($mem_id, $rmid, $message, $filename, $fileurlname, $nte_id){
+
+        $sql = "insert into beatsomeone.cb_note values(0,?,?,2,?,'',?,0,now(),null,?,?) ";
+        $rst = $this->db->query($sql, array($mem_id, $rmid, $nte_id, $message, $filename, $fileurlname));
+        return $this->db->insert_id();;
     }
 
 }

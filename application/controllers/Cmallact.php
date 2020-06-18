@@ -251,6 +251,36 @@ class Cmallact extends CB_Controller
     }
 
 
+    /**
+     * 상품 첨부파일 샘플 다운로드 하기
+     */
+    public function download_messfile()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmallact_download';
+        $this->load->event($eventname);
+
+        $this->load->helper('download');
+        $fn = $this->input->get('fn');
+        $on = $this->input->get('on');
+        log_message('error', print_r($fn, true) );
+        log_message('error', print_r($on, true) );
+
+        // Read the file's contents
+        $data = file_get_contents(config_item('uploads_dir') . '/message/' . $fn);
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.basename($on).'"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . strlen($data));
+
+        force_download($on, $data);
+    }
+
+
 	/**
 	 * 찜한목록삭제 입니다
 	 */
