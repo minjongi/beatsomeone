@@ -1,7 +1,5 @@
 <template>
 
-
-
     <div class="wrapper">
         <Header :is-login="isLogin"/>
 
@@ -12,156 +10,137 @@
                         <div class="row center">
                             <div class="profile">
                                 <div class="portait">
-                                    <img src="/assets/images/member_default.png"/>
+                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
+                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
                                 <div class="info">
                                     <div class="group">
                                         <div class="group_title" :class="group_title">{{group_title}}</div>
                                     </div>
                                     <div class="username">
-                                        DROPBEAT
+                                        {{mem_nickname}}
                                     </div>
                                     <div class="bio">
                                         Music Lover, KKOMA
                                     </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
+                                    
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li @click="goPage('mybilling')">Order History</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li class="active">Support
-                                    <ul class="menu">
-                                        <li class="active">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                            <div class="profile__footer">
+                                <div class="location">
+                                    <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
+                                </div>
+                                <div class="brandshop">
+                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="row menu__wraper">
+                        <ul class="menu">
+                            <li @click="goPage('')">Dashboard</li>
+                            <li @click="goPage('profilemod')">Manage Information</li>
+                            <li @click="goPage('list_item')">Product List</li>
+                            <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                            <li v-show="group_title == 'SELLER'">Settlement History</li>
+                            <li @click="goPage('message')">Message</li>
+                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                            <li class="active" @click="goPage('inquiry')">Support
+                                <!-- <ul class="menu">
+                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('faq')">FAQ</li>
+                                </ul> -->
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="sublist__content">
-                        <div class="row">
 
-                            <div class="row" style="margin-bottom:30px;">
+                        <div class="row" style="margin-bottom:20px;">
+                            <div class="main__media board inquirylist">
+                                <div class="tab" style="height:48px;">
+                                    <div class="active" @click="goPage('inquiry')">Support Case</div>
+                                    <div @click="goPage('faq')">FAQ</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom:20px;">
+                            <button class="btn btn--gray">Back</button>
+                        </div>
+
+                        <div class="row inquiry-mod">
+                            <div class="box">
+                                <div class="row">
+                                    <div class="type"><span>Title</span></div>
+                                    <div class="data">
+                                        <div class="input_wrap col">
+                                            <input class="inputbox" type="text" placeholder="Please enter your title about problem..." />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top: 30px;" v-show="group_title == 'SELLER'">
+                                    <div class="type"><span>Writer</span></div>
+                                    <div class="n-flex data">
+                                        <div class="group_title" :class="group_title">{{group_title}}</div>
+                                        <div class="seller_class" :class="seller_class">{{seller_class}}</div>
+                                        <div class="username">KKOMA</div>
+                                    </div>
+                                </div>
                                 
-                                <div class="title-content">
-                                    <div class="title">
-                                        <div>Support</div>
-                                        <button class="btn btn--gray">Back</button>
+                                <div class="row" style="margin-top: 30px;">
+                                    <div class="type"><span>Content</span></div>
+                                    <div class="data">
+                                        <textarea class="firstname" type="text" placeholder="Please decribe your problem detaily..." style="height:360px"/>
                                     </div>
                                 </div>
 
-                            </div>
 
-                            <div class="row" style="margin-bottom:30px;">
-                                <div class="content-header">
-                                    <div>
+                                <div class="row" style="margin-top: 30px;" v-show="group_title == 'SELLER'">
+                                    <div class="type"><span>Attachment</span></div>
+                                    <div class="data">
+                                        <label class="btn btn--blue" for="attachbtn">
+                                            <input type="file" id="attachbtn" style="display:none;">
+                                            <div>Add</div>
+                                        </label>
                                         <div>
-                                            <div class="category">Title</div>
-                                            <div class="body">testestestestestestestestesteststestesttestestestestsest</div>
-                                        </div>  
-                                    </div>
+                                            <div class="caution">
+                                                <!-- <div>
+                                                    <img class="caution" src="/assets/images/icon/caution.png"/>
+                                                    <img class="warning" src="/assets/images/icon/warning.png"/>
+                                                </div> -->
+                                                <p> You can upload only jpg, png, gif, doc, and pdf files within 00mb. </p>
+                                            </div>
+                                            <!-- <div class="file_list">
+                                                <div>
+                                                    <img src="/assets/images/icon/file.png"/>
+                                                    <span>musicsong1.mp3</span>
+                                                </div>
+                                                <div>
+                                                    <img src="/assets/images/icon/file.png"/>
+                                                    <span>musicsong2.mp3</span>
+                                                </div>
+                                                <div>
+                                                    <img src="/assets/images/icon/file.png"/>
+                                                    <span>musicsong3.mp3</span>
+                                                </div>
+                                            </div> -->
 
-                                    <div>
-                                        <div>
-                                            <div class="category">Status</div>
-                                            <div class="body action active">Wait...</div>
                                         </div>
-                                        <div>
-                                            <div class="category">Date</div>
-                                            <div class="body">0000-00-00 00:00:00</div>
-                                        </div>
+                                        
                                     </div>
-                                    <div>
-                                        <div class="category">Attachment</div>
-                                        <div class="flie_list">
-                                            <button class="btn--file">
-                                                <img src="/assets/images/icon/file.png"/>
-                                                <span>musicsong1.mp3</span>
-                                            </button>
-                                            <button class="btn--file">
-                                                <img src="/assets/images/icon/file.png"/>
-                                                <span>musicsong2.mp3</span>
-                                            </button>
-                                            <button class="btn--file">
-                                                <img src="/assets/images/icon/file.png"/>
-                                                <span>musicsong3.mp3</span>
-                                            </button>
-                                        </div>
-                                    </div>                                  
+                                    
                                 </div>
                             </div>
 
-                            <div class="row" style="margin-bottom:30px;">
-                                <div class="playList array inquiryview">
-
-                                    <ul>
-                                        <li class="playList__itembox">
-                                            <div class="playList__item playList__item--title nowrap question stay">
-                                                <div class="row">
-                                                    <div class="mark">Q</div>
-                                                    <div class="answer">
-                                                        When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                        If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                         BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                         <br/>
-                                                        After the changes have been made, the rights for sale will be opened.<br/>
-                                                        From this point on, you can sell the beats you have made.<br/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="playList__itembox">
-                                            <div class="playList__item playList__item--title nowrap question">
-                                                <div class="row">
-                                                    <div class="mark"></div>
-                                                    <div class="answer">
-                                                        Hi, KKOMA<br/>
-                                                        We will respond to you after checking the contents.<br/>
-                                                        <br/>
-                                                        Beat someone Team.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="playList__itembox">
-                                            <div class="playList__item playList__item--title nowrap question complete">
-                                                <div class="row">
-                                                    <div class="mark">A</div>
-                                                    <div class="answer">
-                                                        Hi, KKOMA<br/>
-                                                        We fixed an error after checking the file.<br/>
-                                                        It may be cumbersome, but please upload it again.<br/>
-                                                        <br/>
-                                                        Beat someone Team.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
-
-                            <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
+                            <div class="btnbox-wrap n-flex">
                                 <button class="btn btn--gray">Cancel</button>
-                                <button type="submit" class="btn btn--submit">Edit</button>
+                                <button type="submit" class="btn btn--submit">Submit</button>
                             </div>
-
+                            
                         </div>
                     </div>
                 </div>
@@ -173,7 +152,6 @@
         -->
         <Footer/>
     </div>
-
 
 </template>
 
@@ -191,12 +169,13 @@
 
     export default {
         components: {
-            Header, Footer
+            // Header, Footer
         },
         data: function() {
             return {
                 isLogin: false,
                 group_title: 'SELLER',
+                seller_class: 'MARKET PLACE',
                 product_status: 'PENDING',
                 popup_filter:0,
                 ws: null,
@@ -236,7 +215,7 @@
             goInquirymod() {
                 this.$router.push({path: '/inquirymod'});
             },
-        },
+        }
     }
 </script>
 
@@ -245,7 +224,214 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .sub .sublist .row {
+        margin-bottom: 0;
+        }
+        .sub .sublist .tab {
+        align-items: center;
+        background-color: #2b2c30;
+        border-bottom: none;
+        > div {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            line-height: 14px;
+            color: rgb(white, 0.7);
+            padding: 0 20px;
+            &.active {
+            color: #ffda2a;
+            }
+        }
+        }
+        .sub .playList .playList__item .index {
+        color: rgba(white, 0.7);
+        }
+        .sublist .sort {
+        > div {
+            + div {
+            margin-left: 10px;
+            }
+        }
+        }
+        .sub .playList .playList__item .subject {
+        font-weight: normal;
+        }
+
+        .input_wrap {
+  display: flex !important;
+  align-items: center;
+  font-weight: bolder;
+
+  > * {
+    vertical-align: middle;
+  }
+
+  & + button {
+    margin-left: -4px;
+  }
+
+  &.line {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+
+  &.round {
+    border-radius: 100px;
+  }
+
+  &.col {
+    flex-direction: column;
+  }
+
+  input {
+    width: 100%;
+    color: white;
+    font-size: 14px;
+
+    & ~ * {
+      color: white;
+    }
+
+    & + button {
+      opacity: 0.3;
+      transition: 0.3s ease;
+
+      > * {
+        vertical-align: middle;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .inputbox,
+  textarea {
+    width: 100%;
+    font-size: 14px;
+    height: 20px;
+    padding: 20px 10px;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    transition: 0.3s ease;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    &:focus {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 1);
+    }
+
+    & + .btn {
+      margin-left: -4px;
+    }
+
+    & + .caution {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+}
+.inquiry-mod {
+    .type {
+        margin-bottom: 10px;
+        span {
+            font-size: 14px;
+            line-height: 16px;
+            font-weight: 600;
+            color: rgba(white, 0.7);
+        }
+    }
+    .n-flex {
+        align-items: center;
+        >div+div {
+            margin-left: 10px;
+        }
+        .group_title {
+            font-size: 12px !important;
+            .SELLER {
+            }
+        }
+        .seller_class {
+            font-size: 12px;
+        }
+        .username {
+            font-size: 1px;
+        }
+        &.data {
+            >div {
+                margin-top: 0;
+            }
+             .MARKET.PLACE {
+                 color: #4890FF;
+             }
+             
+        }
+    }
+    .data {
+        .firstname {
+            height: 256px;
+            width: 100%;
+            background-color: rgba(white,.1);
+            border-radius: 2px;
+            padding: 12px 16px;
+            color: white;
+        }
+    }
+    .caution {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        p {
+            font-size: 10px;
+            color: rgba(white,.3);
+        }
+    }
+    
+}
+.file_list {
+    overflow: hidden;
+    height: auto;
+    div {
+        float: left;
+        margin-right: 16px;
+        color: rgba(white, 0.7);
+        display: flex;
+        margin-bottom: 5px;
+        align-items: center;
+        font-size: 14px;
+        overflow: hidden;
+        >img {
+            margin-right: 4px;
+        }
+    }
+}
+.btnbox-wrap.n-flex {
+    margin-top: 30px;
+    border: none;
+    button {
+        &+button {
+            margin-left: 20px;
+        }
+    }
+}
+
+.btn.btn--blue {
+    width: 96px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>
