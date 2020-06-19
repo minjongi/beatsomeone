@@ -23,52 +23,45 @@
                                     <div class="bio">
                                         {{ mem_type }}, {{ mem_lastname }}
                                     </div>
-                                    <div class="location">
+                                </div>
+                            </div>
+                            <div class="profile__footer">
+                                <div class="location">
                                         <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
                                     </div>
                                     <div class="brandshop">
                                         <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
                                     </div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li @click="goPage('mybilling')">Order History</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li class="active">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
                         </div>
                     </div>
+
+                    <div class="row menu__wraper">
+                        <ul class="menu">
+                            <li @click="goPage('')">Dashboard</li>
+                            <li @click="goPage('profilemod')">Manage Information</li>
+                            <li @click="goPage('list_item')">Product List</li>
+                            <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                            <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                            <li class="active">Message</li>
+                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                            <li @click="goPage('inquiry')">Support
+                                <!-- <ul class="menu">
+                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('faq')">FAQ</li>
+                                </ul> -->
+                            </li>
+                        </ul>
+                    </div>
+
                     <div class="sublist__content">
-                        
 
-                        <div class="row" style="margin-bottom:30px;">
-                            
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Message</div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row" style="margin-bottom:30px;">
+                        <div class="row" style="margin-bottom:20px;">
 
                             <div class="message">
                                 <div>
-                                    <div class="sort">
+                                    <div class="sort" style="margin-bottom: 20px;">
                                         <div class="custom-select custom-select-dropdown">
                                             <button class="selected-option">
                                                 {{ dateType }}
@@ -79,12 +72,12 @@
                                             <button v-show="dateType != 'Unread'" data-value="" class="option" @click="funcDateType('Unread')"> Unread  </button>
                                             </div>
                                         </div>
-                                        <div class="input_wrap line">
-                                            <input type="text" placeholder="Enter your searchword..." :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
+                                        <!-- <div class="input_wrap line">
+                                            <input class="inputbox" type="text" placeholder="Enter your searchword..." :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
                                             <button @click="goSearchUser">
                                                 <img src="/assets/images/icon/searchicon.png">
                                             </button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div>
                                         <div class="playList board fold messageList">
@@ -95,13 +88,17 @@
                                                             <img v-if="m.mem_photo === ''" src="/assets/images/member_default.png"/>
                                                             <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
                                                         </div>
-                                                        <div>
-                                                            <div>
+                                                        <div style="max-width: calc(100% - 64px);">
+                                                            <div class="n-flex between">
                                                                 <div class="user">{{ m.mem_nickname }}</div>
                                                                 <div class="date">{{ m.nte_datetime }}</div>
                                                             </div>
-                                                            <div>
-                                                                <div class="body">{{ formatConName(m.nte_content, 50) }}</div>
+                                                            <div class="n-flex between">
+                                                                <div class="body">
+                                                                    <p>
+                                                                        {{ formatConName(m.nte_content, 50) }}
+                                                                    </p>
+                                                                </div>
                                                                 <div v-show="m.unread != 0" class="noti">{{ m.unread }}</div>
                                                             </div>
                                                         </div>
@@ -111,12 +108,14 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- 챗팅창 -->
                                 <div class="messageChat" :style="'display: '+mchat">
                                     <div class="head">
                                         <div class="portait">
                                             <img v-if="mchatUserPhoto === ''" src="/assets/images/member_default.png"/>
                                             <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
-                                         </div>
+                                        </div>
                                         <div>
                                             <div class="user">{{ mchatUser }}</div>
                                             <div class="bio">{{ mchatUserBio }}</div>
@@ -134,19 +133,18 @@
                                                     <span v-if="m.nte_read_datetime != '' && mem_id != m.send_mem_id" class="active">Seen</span>
                                                     {{ m.nte_datetime }}
                                                     <span v-if="mem_id === m.send_mem_id"></span>
-                                                }
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="attached" :class="attfilename != '' ? 'active' : ''">
+                                        <!-- <div class="attached" :class="attfilename != '' ? 'active' : ''">
                                             <div class="btn btn--glass">
                                                 <img src="/assets/images/icon/file.png"/>{{attfilename}}
                                                 <button class="close" @click="attfilename = ''">
                                                     <img src="/assets/images/icon/x-white.png"/>
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <div class="foot">
@@ -155,7 +153,7 @@
                                             <img style="height:24px;" src="/assets/images/icon/file.png"/>
                                         </label>
 
-                                        <div>
+                                        <div class="n-flex">
                                             <div class="input_wrap inputbox unit">
                                                 <input type="text" placeholder="Enter your message..." :value="goMessText" @input="goMessText=$event.target.value" @keypress.enter="sendMess">
                                             </div>
@@ -507,7 +505,261 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .input_wrap {
+        display: flex !important;
+        align-items: center;
+        font-weight: bolder;
+
+        > * {
+            vertical-align: middle;
+        }
+
+        & + button {
+            margin-left: -4px;
+        }
+
+        &.line {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        &.round {
+            border-radius: 100px;
+        }
+
+        &.col {
+            flex-direction: column;
+        }
+
+        input {
+            width: 100%;
+            color: white;
+            font-size: 14px;
+
+            & ~ * {
+            color: white;
+            }
+
+            & + button {
+            opacity: 0.3;
+            transition: 0.3s ease;
+
+            > * {
+                vertical-align: middle;
+            }
+
+            &:hover {
+                opacity: 1;
+            }
+            }
+        }
+
+        .inputbox,
+        textarea {
+            width: 100%;
+            font-size: 14px;
+            height: 20px;
+            padding: 20px 10px;
+            border-radius: 4px;
+            color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            transition: 0.3s ease;
+
+            &::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+            }
+
+            &:hover {
+            background: rgba(255, 255, 255, 0.3);
+            }
+
+            &:focus {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 1);
+            }
+
+            & + .btn {
+            margin-left: -4px;
+            }
+
+            & + .caution {
+            width: 100%;
+            margin-top: 10px;
+            }
+        }
+    }
+
+.sub .mypage .portait {
+    width: 48px;
+    height: 48px;
+}
+.sub .board .playList__item {
+    display: flex;
+    .user {
+        font-size: 16px;
+        line-height: 19px;
+        color: white;
+    }
+    .portait {
+        flex: none;
+    }
+    >div {
+        flex: auto;
+        margin-bottom: 0;
+    }
+    .n-flex {
+        &+.n-flex {
+            margin-top: 10px;
+        }
+        .body {
+            width: calc(100% - 48px);
+            p {
+                line-break: anywhere;
+                font-size: 12px;
+                line-height: 14px;
+                color: rgba(white,.7);
+                height: 28px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        .noti {
+            // display: block !important;
+            width: auto;
+            padding-right: 8px;
+            padding-left: 8px;
+            height: 24px;
+            border-radius: 24px;
+            background-color: #FFDA2A;
+            color: #1B1B1E;
+            text-align: center;
+            font-size: 14px;
+            line-height: 22px;
+            box-sizing: border-box;
+        }
+    }
+}
+
+/* 챗팅창 */
+.messageChat {
+    padding-top: 14px;
+    flex-direction: column;
+    // display: flex !important;
+    .head {
+        display: flex;
+        margin-bottom: 10px;
+        .user {
+            font-size: 16px;
+            line-height: 19px;
+            margin-bottom: 5px;
+        }
+        .bio {
+            font-size: 12px;
+            color: rgba(white,.7);
+        }
+    }
+    .body {
+        background-color: rgba(white,.1);
+        border-radius: 8px;
+        height: 420px;
+        overflow-y: scroll;
+        padding: 16px 12px;
+        .chatBalloon {
+            max-width: max-content;
+            >*:first-child {
+                position: relative;
+                background-color: rgba(255, 255, 255, 0.1);
+                padding: 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                line-height: 14px;
+                color: rgba(white,.7);
+                margin-left: 16px;
+                // width: calc(100% - 48px);
+                &::after {
+                    content: "";
+                    position: absolute;
+                    right: 100%;
+                    bottom: 0;
+                    border-right: 8px solid rgba(255, 255, 255, 0.1);
+                    border-bottom: 8px solid rgba(255, 255, 255, 0.1);
+                    border-top: 8px solid transparent;
+                    border-left: 8px solid transparent;
+                }
+            }
+            &.me {
+                margin-left: auto;
+                >*:first-child {
+                    margin-right: 16px;
+                    &::after {
+                        left: 100%;
+                        right: initial;
+                        border-right: 8px solid transparent;
+                        border-bottom: 8px solid rgba(255, 255, 255, 0.1);
+                        border-top: 8px solid transparent;
+                        border-left: 8px solid rgba(255, 255, 255, 0.1);
+                    }
+                }
+            }
+            .date {
+                font-size: 10px;
+                margin-top: 4px;
+                margin-bottom: 10px;
+                color: rgba(white,.3);
+                span {
+                    margin-right: 8px;
+                    color: white;
+                }
+            }
+            .btn {
+                padding: 8px;
+                background-color: rgba(white,.1);
+                border-radius: 4px;
+                font-size: 12px;
+                color: rgba(white,.7);
+                display: flex;
+                text-align: left;
+                opacity: 1;
+                margin-top: 10px;
+                img {
+                    width: 12px;
+                    margin-right: 4px;
+                }
+            }
+        }
+    }
+
+    .foot {
+        height: 40px;
+        display: flex;
+        margin-top: 10px;
+        .btn {
+            flex: none;
+            height: 40px;
+            width: 40px;
+            margin-right: 10px;
+            background: rgba(white,.1);
+            opacity: 1;
+            display: inherit;
+            justify-content: center;
+            align-items: center;
+        }
+        .input_wrap {
+            width: 100%;
+            border-radius: 4px;
+            padding-left: 10px;
+            padding-left: 20px;
+            box-sizing: border-box;
+            background-color: rgba(white,.1);
+        }
+        .btn.btn--blue {
+            background-color: #4890ff;
+        }
+    }
+}
 </style>
