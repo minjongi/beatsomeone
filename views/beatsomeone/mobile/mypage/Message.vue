@@ -79,7 +79,7 @@
                                             <button v-show="dateType != 'Unread'" data-value="" class="option" @click="funcDateType('Unread')"> Unread  </button>
                                             </div>
                                         </div>
-                                        <div class="input_wrap line" style="visibility:hidden">
+                                        <div class="input_wrap line">
                                             <input type="text" placeholder="Enter your searchword..." :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
                                             <button @click="goSearchUser">
                                                 <img src="/assets/images/icon/searchicon.png">
@@ -363,12 +363,19 @@
                     if(t === "All"){
                         this.search_date_option = 0
                         this.dateType = t;
+                        this.ajaxMessageList();
                     }else if(t === "Read"){
                         this.search_date_option = 1
                         this.dateType = t;
+                        this.ajaxMessageList().then(()=>{
+                            this.messageList = this.messageList.filter(item => item.unread == 0);
+                        });
                     }else{
                         this.search_date_option = 2
                         this.dateType = t;
+                        this.ajaxMessageList().then(()=>{
+                            this.messageList = this.messageList.filter(item => item.unread > 0);
+                        });
                     }
                 }
             },
@@ -391,7 +398,13 @@
                 });
                 this.ajaxMessageRead(m.mem_id).then((data)=>{
                     if(data){
-                        this.ajaxMessageList();
+                        this.ajaxMessageList().then(()=>{
+                            console.log(this.tempList.length);
+                            for(let i in this.tempList){
+                                this.messageList.push(this.tempList[i]);
+                            }
+                            this.tempList = [];
+                        });
                     }
                 });
                 //console.log(e);
@@ -432,6 +445,7 @@
                         this.attfileurlname = '';
                         this.goMessText = '';
                         this.ajaxMessageDetail(this.mid);
+                        this.ajaxMessageList();
                     }
                 });
             },
@@ -459,10 +473,27 @@
                 .catch((e) => console.log(e));
             },
             goSearchUser : function(){
-                let param = {'searchUser':this.searchUser};
+                console.log(this.searchUser);
+
+                for(let l in this.messageList){
+                    if(this.messageList[l].mem_nickname == this.searchUser){
+                        this.goMChat('', this.messageList[l]);
+                        return;
+                    }
+                }
+
+                let param = {'searchUser': JSON.stringify(this.searchUser)};
                 axios.get('/beatsomeoneApi/get_userid_info', {params: param})
                 .then(r => {
-                    console.log(r);
+                    console.log(r.data.length);
+                    if(r.data.length == 0){
+                        alert('유저 아이디를 다시 확인해주세요');
+                    }else{
+                        let data = {'mem_id':r.data[0].mem_id,'mem_nickname':r.data[0].mem_nickname,
+                            'nte_content':'','nte_datetime':'','unread':0};
+                        this.tempList.push(data);
+                        this.messageList.push(data);
+                    }
                 })
                 .catch((e) => console.log(e));
 
