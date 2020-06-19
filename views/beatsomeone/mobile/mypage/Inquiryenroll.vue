@@ -94,9 +94,7 @@
                                 <div class="row" style="margin-top: 30px;">
                                     <div class="type"><span>Content</span></div>
                                     <div class="data">
-                                        <textarea class="firstname" type="text" placeholder="Please decribe your problem detaily..." style="height:360px">
-                                            When uploading this file, it becomes strange. Please check. (I uploaded a screenshot in the attached file.) Please let me know if there are any restrictions when uploading the bit file!
-                                        </textarea>
+                                        <textarea class="firstname" type="text" placeholder="Please decribe your problem detaily..." style="height:360px"/>
                                     </div>
                                 </div>
 
@@ -116,7 +114,7 @@
                                                 </div> -->
                                                 <p> You can upload only jpg, png, gif, doc, and pdf files within 00mb. </p>
                                             </div>
-                                            <div class="flie_list">
+                                            <!-- <div class="file_list">
                                                 <div>
                                                     <img src="/assets/images/icon/file.png"/>
                                                     <span>musicsong1.mp3</span>
@@ -129,10 +127,8 @@
                                                     <img src="/assets/images/icon/file.png"/>
                                                     <span>musicsong3.mp3</span>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
-                                            
-                                            
                                         </div>
                                         
                                     </div>
@@ -405,7 +401,7 @@
     }
     
 }
-.flie_list {
+.file_list {
     overflow: hidden;
     height: auto;
     div {

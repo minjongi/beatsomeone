@@ -56,7 +56,7 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:64px;">
                                     <div class="active">Order History ({{calcTotalCnt}})</div>
-                                    <div @click="goPage('mybilling#/mycancellist')">Cancellation / Refund History(32)</div>
+                                    <div @click="gocancellist">Cancellation / Refund History(0)</div>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                                 <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
                             </div>
                             <div class="sort" style="text-align:right">
-                                <div class="custom-select">
+                                <div class="custom-select" style="flex: 3;">
                                     <button class="selected-option">
                                         {{ downType }}
                                     </button>
@@ -145,20 +145,14 @@
                                                 <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ funcStatus(item['items'][0].cor_status) }} </div>
                                             </div>
                                             <div class="download">
-                                                <div v-if="item['items'][0].cit_lease_license_use === '1' && caclLeftDay(item['items'][0].cor_datetime) <= 0 && item['items'][0].cor_status === '1' " class="download">
-                                                    <span class="red">Expired</span>
+                                                <div v-if="0 < funcDownStatus('Possible', item['items'])" class="download">
+                                                    <span class="green">Possible {{ funcDownStatus('Possible', item['items'])}} </span>
                                                 </div>
-                                                <div v-else-if="item['items'][0].cit_mastering_license_use === '1' " class="download">
-                                                    <span class="red">Possible</span>
+                                                <div v-if="0 < funcDownStatus('Impossible', item['items'])" class="download">
+                                                    <span class="red">Impossible {{ funcDownStatus('Impossible', item['items'])}} </span>
                                                 </div>
-                                                <div v-else-if="item['items'][0].cit_lease_license_use === '1' && 0 < caclLeftDay(item['items'][0].cor_datetime) && item['items'][0].cor_status === '1' " class="download">
-                                                    <span class="red">Possible</span>
-                                                </div>
-                                                <div v-else-if="item['items'][0].cit_lease_license_use === '1' && 0 < caclLeftDay(item['items'][0].cor_datetime) && item['items'][0].cor_status === '1' && item['items'][0].cde_download === 0 " class="download">
-                                                    <span class="red">Complete</span>
-                                                </div>
-                                                <div v-else class="download">
-                                                    <span class="red">Impossible</span>
+                                                <div v-if="0 < funcDownStatus('Expired', item['items'])" class="download">
+                                                    <span class="gray">Expired {{ funcDownStatus('Expired', item['items'])}} </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -560,6 +554,22 @@
                     this.myOrderList.reverse();
                 }
             },
+            checkDownType(dt,i) {
+                if(dt == "Download Complete"){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity <= i.cde_download){
+                        return true;
+                    }
+                }else if(dt == "Not Download"){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity > i.cde_download){
+                        return true;
+                    }
+                    if(i.cit_mastering_license_use == "1"){
+                        return true;
+                    }
+                }
+            },
             funcDownType(dt){
                 if(this.downType == dt){
                     return;
@@ -569,9 +579,9 @@
                         let rst = [];
                         Object.assign(list,this.myOrderList);
                         if(dt == "Download Complete"){
-                            rst = list.filter(item => 0 < parseInt(item['items'][0].cde_download) );
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
                         }else if(dt == "Not Download"){
-                            rst = list.filter(item => 0 === parseInt(item['items'][0].cde_download) );
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
                         }else{
                             rst = list;
                         }
@@ -579,7 +589,46 @@
                         this.myOrderList = rst;
                     });
                 }
-            }
+            },
+            gocancellist() {
+                window.location.href = '/mypage/mycancelList';
+            },
+            funcDownStatus: function(status, items){
+                if(status === 'Possible'){
+                    let possCnt = 0;
+                    for(let i in items){
+                        if(items[i].cor_status === '1'){
+                            if(items[i].cit_lease_license_use === '1'
+                                    && 0 < this.caclLeftDay(items[i].cor_datetime)
+                                    && items[i].cde_quantity > items[i].cde_download){
+                                possCnt += 1;
+                            }else if(items[i].cit_mastering_license_use === '1'){
+                                possCnt += 1;
+                            }
+                        }
+                    }
+                    return possCnt;
+                }else if(status === 'Impossible'){
+                    let possCnt = 0;
+                    for(let i in items){
+                        if(items[i].cor_status === '0'){
+                            possCnt += 1;
+                        }
+                    }
+                    return possCnt;
+                }else if(status === 'Expired'){
+                    let possCnt = 0;
+                    for(let i in items){
+                        if(items[i].cor_status === '1'){
+                            if(items[i].cit_lease_license_use === '1'
+                                    && this.caclLeftDay(items[i].cor_datetime) <= 0){
+                                possCnt += 1;
+                            }
+                        }
+                        return possCnt;
+                    }
+                }
+            },
         }
     }
 </script>

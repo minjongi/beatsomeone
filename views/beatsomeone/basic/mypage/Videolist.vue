@@ -11,7 +11,7 @@
                         <header class="main__section1-title" style="margin-bottom:-80px;"></header>
                         <div class="videolist">
                             <div class="head">
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div style="padding-bottom:66.666666%;">
                                         <img src="https://images.unsplash.com/photo-1522536421511-14c9073df899?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"/>
                                         <div class="play">
@@ -26,7 +26,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div>
                                         <img src="https://images.unsplash.com/photo-1471565661762-b9dfae862dbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
                                         <div class="play">
@@ -41,7 +41,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div>
                                         <img src="https://images.unsplash.com/photo-1529518969858-8baa65152fc8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
                                         <div class="play">
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="body">
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div>
                                         <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
                                         <div class="play">
@@ -73,7 +73,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div>
                                         <img src="https://images.unsplash.com/flagged/photo-1568967010765-40b6ec2b5fa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
                                         <div class="play">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div>
                                         <img src="https://images.unsplash.com/photo-1581503589702-b21c6a3f0879?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
                                         <div class="play">
@@ -103,7 +103,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div>
                                         <img src="https://images.unsplash.com/photo-1577205341591-846f4dfe6d8c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1368&q=80"/>
                                         <div class="play">
@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div>
                                         <img src="https://images.unsplash.com/photo-1560258629-d26e9fa12ae3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
                                         <div class="play">
@@ -133,7 +133,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block">
+                                <div class="block" @click="govideoview">
                                     <div>
                                         <img src="https://images.unsplash.com/photo-1525439979024-1df959dde396?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80"/>
                                         <div class="play">
@@ -240,6 +240,9 @@
             },
             start(){
                 this.wavesurfer.play();
+            },
+            govideoview() {
+                this.$router.push({path: '/videoview'});
             },
         }
     }

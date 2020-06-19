@@ -92,7 +92,7 @@
 
                                                         <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                         <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' ">
-                                                            <!-- UNLIMITED STEMS LICENSE -->
+                                                            <!-- UNLIMITED STEMS LICENSE //둘다 있는경우 lease만 보여주도록함
                                                             <div>
                                                                 <button class="playList__item--button" >
                                                                     <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -109,7 +109,7 @@
                                                                     <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
                                                                     <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                                 </div>
-                                                            </div>
+                                                            </div>-->
                                                         </div>
 
                                                         <!-- BASIC LEASE LICENSE -->
@@ -393,7 +393,7 @@
                             tpkr += Number(this.myCart_list[i].detail[0].cde_price);
                             tpen += Number(this.myCart_list[i].detail[0].cde_price_d);
                         }
-                        if(this.myCart_list[i].detail[0].cit_mastering_license_use == '1'){
+                        else if(this.myCart_list[i].detail[0].cit_mastering_license_use == '1'){
                             tpkr += Number(this.myCart_list[i].detail[0].cde_price_2);
                             tpen += Number(this.myCart_list[i].detail[0].cde_price_d_2);
                         }
@@ -407,7 +407,7 @@
                                 tpkr += Number(this.myCart_list[i].detail[0].cde_price);
                                 tpen += Number(this.myCart_list[i].detail[0].cde_price_d);
                             }
-                            if(this.myCart_list[i].detail[0].cit_mastering_license_use == '1'){
+                            else if(this.myCart_list[i].detail[0].cit_mastering_license_use == '1'){
                                 tpkr += Number(this.myCart_list[i].detail[0].cde_price_2);
                                 tpen += Number(this.myCart_list[i].detail[0].cde_price_d_2);
                             }

@@ -1,7 +1,5 @@
 <template>
 
-
-
     <div class="wrapper">
         <Header :is-login="isLogin"/>
 
@@ -67,101 +65,70 @@
 
                             </div>
 
-                            <div class="row" style="margin-bottom:30px;">
-                                <div class="content-header">
-                                    <div>
-                                        <div>
-                                            <div class="category">Title</div>
-                                            <div class="body">testestestestestestestestesteststestesttestestestestsest</div>
-                                        </div>  
-                                    </div>
-
-                                    <div>
-                                        <div>
-                                            <div class="category">Status</div>
-                                            <div class="body action active">Wait...</div>
-                                        </div>
-                                        <div>
-                                            <div class="category">Date</div>
-                                            <div class="body">0000-00-00 00:00:00</div>
+                            <div class="box" style="padding-bottom:50px;">
+                                <div class="row">
+                                    <div class="type"><span>Title</span></div>
+                                    <div class="data">
+                                        <div class="input_wrap col">
+                                            <input class="inputbox" type="text" placeholder="Please enter your title about problem..." />
                                         </div>
                                     </div>
-                                    <div>
-                                        <div class="category">Attachment</div>
-                                        <div class="flie_list">
-                                            <button class="btn--file">
-                                                <img src="/assets/images/icon/file.png"/>
-                                                <span>musicsong1.mp3</span>
-                                            </button>
-                                            <button class="btn--file">
-                                                <img src="/assets/images/icon/file.png"/>
-                                                <span>musicsong2.mp3</span>
-                                            </button>
-                                            <button class="btn--file">
-                                                <img src="/assets/images/icon/file.png"/>
-                                                <span>musicsong3.mp3</span>
-                                            </button>
+                                </div>
+
+                                <div class="row" v-show="group_title == 'SELLER'">
+                                    <div class="type"><span>Writer</span></div>
+                                    <div class="data">
+                                        <div class="group_title" :class="group_title">{{group_title}}</div>
+                                        <div class="seller_class" :class="seller_class">{{seller_class}}</div>
+                                        <div class="username">KKOMA</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="type"><span>Bio</span></div>
+                                    <div class="data">
+                                        <textarea class="firstname" type="text" placeholder="Please decribe your problem detaily..." style="height:360px"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="row" v-show="group_title == 'SELLER'">
+                                    <div class="type"><span>Attachment</span></div>
+                                    <div class="data">
+                                        <div>
+                                            <div class="flie_list">
+                                                <div>
+                                                    <span>No attached file.</span>
+                                                </div>
+                                                <div>
+                                                    <img src="/assets/images/icon/file.png"/>
+                                                    <span>musicsong1.mp3</span>
+                                                    <img src="/assets/images/icon/delete.png"/>
+                                                </div>
+                                            </div>
+                                            <div class="caution">
+                                                <div>
+                                                    <img class="caution" src="/assets/images/icon/caution.png"/>
+                                                    <img class="warning" src="/assets/images/icon/warning.png"/>
+                                                </div>
+                                                <span>
+                                                    Please note that the login ID will change when you change your email.
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>                                  
+                                        <label class="btn btn--blue" for="attachbtn">
+                                            <input type="file" id="attachbtn" style="display:none;">
+                                            <div>Attach</div>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row" style="margin-bottom:30px;">
-                                <div class="playList array inquiryview">
-
-                                    <ul>
-                                        <li class="playList__itembox">
-                                            <div class="playList__item playList__item--title nowrap question stay">
-                                                <div class="row">
-                                                    <div class="mark">Q</div>
-                                                    <div class="answer">
-                                                        When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                                        If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                                         BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                                         <br/>
-                                                        After the changes have been made, the rights for sale will be opened.<br/>
-                                                        From this point on, you can sell the beats you have made.<br/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="playList__itembox">
-                                            <div class="playList__item playList__item--title nowrap question">
-                                                <div class="row">
-                                                    <div class="mark"></div>
-                                                    <div class="answer">
-                                                        Hi, KKOMA<br/>
-                                                        We will respond to you after checking the contents.<br/>
-                                                        <br/>
-                                                        Beat someone Team.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="playList__itembox">
-                                            <div class="playList__item playList__item--title nowrap question complete">
-                                                <div class="row">
-                                                    <div class="mark">A</div>
-                                                    <div class="answer">
-                                                        Hi, KKOMA<br/>
-                                                        We fixed an error after checking the file.<br/>
-                                                        It may be cumbersome, but please upload it again.<br/>
-                                                        <br/>
-                                                        Beat someone Team.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-
-                                </div>
                             </div>
 
                             <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-                                <button class="btn btn--gray" @clikc="goInquiryenroll">Cancel</button>
-                                <button type="submit" class="btn btn--submit" @click="goInquirymod">Edit</button>
+                                <button class="btn btn--gray" @click="goPage('inquiry')">Cancel</button>
+                                <button type="submit" class="btn btn--submit">Submit</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -173,7 +140,6 @@
         -->
         <Footer/>
     </div>
-
 
 </template>
 
@@ -197,6 +163,7 @@
             return {
                 isLogin: false,
                 group_title: 'SELLER',
+                seller_class: 'MARKET PLACE',
                 product_status: 'PENDING',
                 popup_filter:0,
                 ws: null,
@@ -236,10 +203,7 @@
             goInquirymod() {
                 this.$router.push({path: '/inquirymod'});
             },
-            goInquiryenroll() {
-                this.$router.push({path: '/inquiryenroll'});
-            },
-        },
+        }
     }
 </script>
 
