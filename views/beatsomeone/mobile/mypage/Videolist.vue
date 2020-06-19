@@ -8,17 +8,17 @@
                     <div class="BG" style="background-image:url('https://images.unsplash.com/photo-1559060680-36abfac01944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')"></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <header class="main__section1-title" style="margin-bottom:-80px;"></header>
+                        <!-- <header class="main__section1-title"></header> -->
                         <div class="videolist">
                             <div class="head">
                                 <div class="block">
-                                    <div style="padding-bottom:66.666666%;">
+                                    <div>
                                         <img src="https://images.unsplash.com/photo-1522536421511-14c9073df899?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"/>
                                         <div class="play">
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -33,7 +33,7 @@
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -48,7 +48,7 @@
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -65,7 +65,7 @@
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -80,7 +80,7 @@
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -95,7 +95,7 @@
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -110,7 +110,7 @@
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -125,7 +125,7 @@
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -140,7 +140,7 @@
                                             <img src="/assets/images/icon/hover_play.png">
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="text">
                                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
                                         <div class="desc">
                                             Beat someone에서 만난 비트메이커 KKOMA!<br/>
@@ -172,7 +172,7 @@
 
     export default {
         components: {
-            Header, Footer
+            // Header, Footer
         },
         data: function() {
             return {
@@ -250,7 +250,75 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .main .filter {
+        height: 64px;
+    }
+
+    .block {
+        width: 50%;
+        padding-right: 8px;
+        padding-left: 8px;
+        margin-bottom: 10px;
+        >div {
+            position: relative;
+            .play {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -12px;
+                margin-left: -12px;
+                img {
+                    width: 24px;
+                }
+            }
+        }
+        .text {
+            padding: 12px 4px;
+            .title {
+                font-size: 14px;
+                font-weight: 600;
+                color: white;
+                overflow: hidden;
+                height: 18px;
+                line-height: 18px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-bottom: 10px;
+            }
+            .desc {
+                font-size: 12px;
+                font-weight: normal;
+                color: rgba(white,.7);
+                line-height: 15px;
+                height: 30px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    .videolist {
+        >div {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -8px;
+            margin-left: -8px;
+        }
+    }
+    .head {
+        .block {
+            &:first-child {
+                width: 100%;
+            }
+        }
+    }
+    .body {
+        .block {
+
+        }
+    }
 </style>

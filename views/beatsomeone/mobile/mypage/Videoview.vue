@@ -3,6 +3,7 @@
         <Header :is-login="isLogin"></Header>
         <div class="container">
             <div class="main">
+                <div class="filter"></div>
                 <div class="wrap videolist">
                     <div class="videoview">
                         <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
@@ -13,13 +14,13 @@
                     </div>
                     <div class="block">
                         <div>
-                            <iframe width="1280" height="720" src="https://www.youtube.com/embed/e5VmOD1Sn04" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            <div class="play">
+                            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/e5VmOD1Sn04" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <!-- <div class="play">
                                 <img src="/assets/images/icon/hover_play.png">
-                            </div>
+                            </div> -->
                         </div>
                     </div>
-                    <div style="text-align:center; margin-top:60px;">
+                    <div class="sns-box">
                         <div class="iconbtnbox">
                             <button><img src="/assets/images/icon/share.png"/></button>
                             <button><img src="/assets/images/icon/fb.png"/></button>
@@ -50,7 +51,7 @@
 
     export default {
         components: {
-            Header, Footer
+            // Header, Footer
         },
         data: function() {
             return {
@@ -128,7 +129,43 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    .main .filter {
+        height: 64px;
+    }
+    .videoview {
+        padding: 12px 4px;
+        .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            overflow: hidden;
+            height: 18px;
+            line-height: 18px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 10px;
+        }
+        .desc {
+            font-size: 12px;
+            font-weight: normal;
+            color: rgba(white,.7);
+            line-height: 15px;
+            height: 30px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    .sns-box {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .iconbtnbox > * {
+        padding: 2px;
+        width: 32px;
+        height: 32px;
+    }
 </style>
