@@ -19,6 +19,9 @@
       flex: initial !important;
     }
   }
+  &.column {
+    flex-direction: column;
+  }
 }
 
 .pagination {
