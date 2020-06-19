@@ -228,7 +228,7 @@
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' ">
-                                                        <!-- UNLIMITED STEMS LICENSE -->
+                                                        <!-- UNLIMITED STEMS LICENSE //둘다있는경우 lease만 보여주도록 손상윤이사님과 협의
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -244,6 +244,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
+                                                        -->
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE -->
                                                     <div class="n-box" v-else-if="item.cit_lease_license_use === '1' " >
