@@ -14,6 +14,14 @@
   &.w-center {
     justify-content: center;
   }
+  &.none {
+    >* {
+      flex: initial !important;
+    }
+  }
+  &.column {
+    flex-direction: column;
+  }
 }
 
 .pagination {

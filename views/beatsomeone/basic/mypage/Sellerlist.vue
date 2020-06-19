@@ -115,7 +115,7 @@
                             <div class="playList board mybillinglist saleshistory">
 
                                 <ul>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -140,7 +140,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -165,7 +165,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -190,7 +190,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -215,7 +215,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -240,7 +240,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -265,7 +265,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -290,7 +290,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -315,7 +315,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -340,7 +340,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="gosellerbill">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -572,6 +572,9 @@
             },
             start(){
                 this.wavesurfer.play();
+            },
+            gosellerbill() {
+                this.$router.push({path: '/sellerbill'});
             },
         }
     }

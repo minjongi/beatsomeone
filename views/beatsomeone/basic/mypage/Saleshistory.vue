@@ -681,7 +681,10 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    .sublist .col.name figure {
+        min-width: auto;
+    }
 </style>

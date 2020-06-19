@@ -1,0 +1,78 @@
+.faq {
+  // border: 1px solid red;
+  .n-item {
+    > * {
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .title {
+      height: 70px;
+      max-height: 70px;
+      width: 100%;
+      background-color: #1b1b1e;
+      display: flex;
+      align-items: center;
+      h4 {
+        line-height: 1.2;
+        font-weight: 600;
+        font-size: 16px;
+      }
+    }
+  }
+  .active {
+    .n-item {
+      .title {
+        background-color: #2b2c30;
+      }
+      .answer {
+        display: block;
+        visibility: visible;
+        height: auto;
+        max-height: 500px;
+        background-color: #2b2c30;
+      }
+    }
+    .btn--fold {
+      opacity: 1;
+      > span {
+        &:last-child {
+          transform: rotate(0);
+        }
+      }
+    }
+  }
+  .btn--fold {
+    max-width: 24px;
+    margin-left: 20px;
+    width: 24px;
+    position: relative;
+    opacity: .3;
+    > span {
+      display: block;
+      width: 20px;
+      height: 3px;
+      background-color: white;
+      position: absolute;
+      &:last-child {
+        transform: rotate(90deg);
+        transition: all .3s ease;
+      }
+    }
+  }
+  .answer {
+    width: 100%;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: normal;
+    display: none;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    color: rgba(white,.7);
+    max-height: 0;
+    flex: auto;
+    background-color: #1b1b1e;
+    padding-right: 52px;
+    transition: all .3s ease;
+  }
+}

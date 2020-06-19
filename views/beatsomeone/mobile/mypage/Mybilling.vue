@@ -22,77 +22,79 @@
                                     <div class="bio">
                                         {{ mem_type }}, {{ mem_lastname }}
                                     </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="profile__footer">
+                                <div class="location">
+                                    <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
+                                </div>
+                                <div class="brandshop">
+                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li class="active">Order History</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                        
                     </div>
 
-                    <div class="sublist__content" style="margin-bottom:100px;">
+                    <div class="row menu__wraper">
+                        <ul class="menu">
+                            <li @click="goPage('')">Dashboard</li>
+                            <li @click="goPage('profilemod')">Manage Information</li>
+                            <li @click="goPage('list_item')">Product List</li>
+                            <li class="active">Order History</li>
+                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                            <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                            <li @click="goPage('message')">Message</li>
+                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                            <li @click="goPage('inquiry')">Support
+                                <ul class="menu">
+                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('faq')">FAQ</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sublist__content">
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
-                                <div class="tab" style="height:64px;">
+                                <div class="tab n-flex" style="height:48px;">
                                     <div class="active">Order History ({{calcTotalCnt}})</div>
-                                    <div @click="goPage('mybilling#/mycancellist')">Cancellation / Refund History(32)</div>
+                                    <div @click="gocancellist">Cancellation / Refund History(0)</div>
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="row" style="display:flex; margin-bottom:10px;">
                             <div class="search condition">
-                                <div class="filter">
+                                <div class="n-flex between filter">
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">1 year</div>
                                 </div>
                             </div>
-                            <div style="margin-left:auto; ">
+                        </div>
+
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div>
                                 <VueHotelDatepicker
-                                        class="search-date"
-                                        format="YYYY-MM-DD"
-                                        placeholder="Start date ~ End date"
-                                        :startDate="start_date"
-                                        :endDate="end_date"
-                                        minDate="1970-01-01"
-                                        @update="updateSearchDate"
-                                        @reset="resetSearchDate"
+                                    class="search-date"
+                                    format="YYYY-MM-DD"
+                                    placeholder="Start date ~ End date"
+                                    :startDate="start_date"
+                                    :endDate="end_date"
+                                    minDate="1970-01-01"
+                                    @update="updateSearchDate"
+                                    @reset="resetSearchDate"
                                 />
                             </div>
                         </div>
                             
-                        <div class="row" style="display:flex; margin-bottom:30px;">
-                            <div class="tabmenu">
-                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
-                            </div>
-                            <div class="sort" style="text-align:right">
-                                <div class="custom-select">
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="sort">
+                                <div class="custom-select" style="flex: 3;">
                                     <button class="selected-option">
                                         {{ downType }}
                                     </button>
@@ -103,7 +105,7 @@
                                     </div>
                                 </div>
 
-                                <div class="custom-select" style="min-width:max-content;">
+                                <div class="custom-select" style="flex: 2;">
                                     <button class="selected-option">
                                         {{ orderType }}
                                     </button>
@@ -113,9 +115,17 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
-                        <div class="row" style="margin-bottom:20px;">
+                        <div class="row">
+                            <div class="tabmenu">
+                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board mybillinglist">
                                 <div class="tab nowrap">
                                     <div class="index">No</div>
@@ -126,7 +136,7 @@
                                     <div class="download">Download</div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row" style="margin-bottom:30px;">
                             <div class="playList board mybillinglist">
@@ -134,25 +144,30 @@
                                 <ul>
                                     <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox" :id="'slist'+ item['id']" @click="goOrderDetail(item['id'], myOrderList.length - ((currPage - 1) * perPage) - i )" >
                                         <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }} </div>
-                                            <div class="date">
-                                                {{ item['items'][0].cor_datetime }}
+                                            
+                                            <div class="n-flex between">
+                                                <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }} </div>
+                                                <div class="date"> {{ item['items'][0].cor_datetime }} </div>
                                             </div>
-                                            <div class="subject" v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])">
+                                            
+                                            <div class="n-flex between">
+                                                <div class="status">
+                                                    <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ funcStatus(item['items'][0].cor_status) }} </div>
+                                                </div>
+                                                <div class="totalprice" v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
                                             </div>
-                                            <div class="totalprice" v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
-                                            <div class="status">
-                                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ funcStatus(item['items'][0].cor_status) }} </div>
-                                            </div>
+
+                                            <div class="subject" v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])"> </div>
+
                                             <div class="download">
                                                 <div v-if="item['items'][0].cit_lease_license_use === '1' && caclLeftDay(item['items'][0].cor_datetime) <= 0 && item['items'][0].cor_status === '1' " class="download">
-                                                    <span class="red">Expired</span>
+                                                    <span class="gray">Expired</span>
                                                 </div>
                                                 <div v-else-if="item['items'][0].cit_mastering_license_use === '1' " class="download">
-                                                    <span class="red">Possible</span>
+                                                    <span class="green">Possible</span>
                                                 </div>
                                                 <div v-else-if="item['items'][0].cit_lease_license_use === '1' && 0 < caclLeftDay(item['items'][0].cor_datetime) && item['items'][0].cor_status === '1' " class="download">
-                                                    <span class="red">Possible</span>
+                                                    <span class="green">Possible</span>
                                                 </div>
                                                 <div v-else-if="item['items'][0].cit_lease_license_use === '1' && 0 < caclLeftDay(item['items'][0].cor_datetime) && item['items'][0].cor_status === '1' && item['items'][0].cde_download === 0 " class="download">
                                                     <span class="red">Complete</span>
@@ -291,10 +306,13 @@
                     .removeClass("active")
                     .find(".options")
                     .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
+                if($(this).hasClass("active")){
+                    $(this).addClass("active");
+                    $(this).find(".options").show();
+                }else{
+                    $(this).removeClass("active");
+                    $(this).find(".options").hide();
+                }
             });
         },
         created() {
@@ -560,6 +578,22 @@
                     this.myOrderList.reverse();
                 }
             },
+            checkDownType(dt,i) {
+                if(dt == "Download Complete"){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity <= i.cde_download){
+                        return true;
+                    }
+                }else if(dt == "Not Download"){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity > i.cde_download){
+                        return true;
+                    }
+                    if(i.cit_mastering_license_use == "1"){
+                        return true;
+                    }
+                }
+            },
             funcDownType(dt){
                 if(this.downType == dt){
                     return;
@@ -569,9 +603,9 @@
                         let rst = [];
                         Object.assign(list,this.myOrderList);
                         if(dt == "Download Complete"){
-                            rst = list.filter(item => 0 < parseInt(item['items'][0].cde_download) );
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
                         }else if(dt == "Not Download"){
-                            rst = list.filter(item => 0 === parseInt(item['items'][0].cde_download) );
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
                         }else{
                             rst = list;
                         }
@@ -579,7 +613,10 @@
                         this.myOrderList = rst;
                     });
                 }
-            }
+            },
+            gocancellist() {
+                window.location.href = '/mypage/mycancelList';
+            },
         }
     }
 </script>
@@ -589,7 +626,56 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .sub .sublist .row {
+        margin-bottom: 0;
+    }
+    .sub .sublist .tab {
+        align-items: center;
+        background-color: #2B2C30;
+        border-bottom: none;
+        >div {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            line-height: 14px;
+            color: rgb(white,.7);
+            padding: 0 20px;
+            &.active {
+                color: #ffda2a;
+            }
+        }
+    }
+    .sub .playList .playList__item .index {
+        color: rgba(white,.7);
+    }
+    .sublist .sort {
+        >div {
+            +div {
+                margin-left: 10px;
+            }
+        }
+    }
+    .playList .playList__item {
+        display: block;
+    }
+    .sub .playList .playList__item {
+        .status {
+            font-weight: 600;
+        }
+        .download {
+            >div {
+                font-size: 12px;
+            }
+        }
+    }
+    .sub .search.condition {
+        width: 100%;
+        .filter {
+            display: flex;
+        }
+    }
 </style>

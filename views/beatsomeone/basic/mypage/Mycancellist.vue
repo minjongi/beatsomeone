@@ -114,7 +114,7 @@
                             <div class="playList board mybillinglist">
 
                                 <ul>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -127,7 +127,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -140,7 +140,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -153,7 +153,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -166,7 +166,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -179,7 +179,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -192,7 +192,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -205,7 +205,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -218,7 +218,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">
@@ -231,7 +231,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="playList__itembox">
+                                    <li class="playList__itembox" @click="goPage('mycancelView')">
                                         <div class="playList__item playList__item--title nowrap active">
                                             <div class="index">Order_010</div>
                                             <div class="date">

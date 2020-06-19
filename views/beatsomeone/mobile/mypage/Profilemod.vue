@@ -4,7 +4,7 @@
         <Header :is-login="isLogin"/>
 
         <div class="container sub">
-            <div class="mypage sublist">
+            <div class="mypage sublist profilemod-wrap">
                 <div class="wrap">
                     <div class="sublist__filter sticky">
                         <div class="row center">
@@ -22,68 +22,58 @@
                                     <div class="bio">
                                         Music Lover, KKOMA
                                     </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile__footer">
+                                <div class="location">
+                                    <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
+                                </div>
+                                <div class="brandshop">
+                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li class="active">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li @click="goPage('mybilling')">Order History</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                    </div>
+
+                    <div class="row menu__wraper">
+                        <ul class="menu">
+                            <li @click="goPage('')">Dashboard</li>
+                            <li class="active">Manage Information</li>
+                            <li @click="goPage('list_item')">Product List</li>
+                            <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                            <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                            <li @click="goPage('message')">Message</li>
+                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                            <li @click="goPage('inquiry')">Support
+                                <ul class="menu">
+                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('faq')">FAQ</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="sublist__content">
                         <div class="row">
 
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Manage Information</div>
-                                </div>
-                            </div>
-                            <div class="box" style="padding-bottom:50px;">
+                            <div class="box">
                                 <div class="row">
                                     <div class="type"><span>Username</span></div>
                                     <div class="data">
                                         <div class="input_wrap col">
                                             <input class="inputbox" type="text" value="KKOMA" placeholder="Enter your new username..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'KKOMA'">
                                             <div class="caution">
-                                                <div>
+                                                <div class="img-box">
                                                     <img class="caution" src="/assets/images/icon/caution.png">
                                                     <img class="warning" src="/assets/images/icon/warning.png">
                                                 </div>
-                                                <span>
-                                                    Please note that the login ID will change when you change your email.
-                                                </span>
+                                                <p> Please note that the login ID will change when you change your email. </p>
                                             </div>
                                         </div>
-                                        <button class="btn btn--blue active">
-                                            Change
-                                        </button>    
+                                        <button class="btn right btn--blue active"> Change </button>
                                     </div>
-                                    <div class="">
-                                        <button class="btn btn--gray">
-                                            Cancel
-                                        </button>
-                                    </div>
+                                    <!-- <div class=""> <button class="btn btn--gray"> Cancel </button> </div> -->
                                 </div>
                                 <div class="row">
                                     <div class="type"><span>User Group</span></div>
@@ -93,16 +83,16 @@
                                 </div>
                                 <div class="row" v-show="group_title == 'SELLER'">
                                     <div class="type"><span>Seller Class</span></div>
-                                    <div class="data">
-                                       <div class="seller_class" :class="seller_class">{{seller_class}}</div>  
-                                       <div class="seller_class FREE">FREE</div>  
-                                       <div class="seller_class PRO">PRO</div>  
+                                    <div class="n-flex between data" style="margin-top: -10px; margin-bottom: -10px;">
+                                       <div class="seller_class green" :class="seller_class">{{seller_class}}</div>  
+                                       <div class="seller_class FREE blue">FREE</div>  
+                                       <div class="seller_class PRO yellow">PRO</div> 
+
+                                       <div class="active">
+                                            <button class="btn btn--yellow round"> Upgrade Now </button>
+                                        </div>
                                     </div>
-                                    <div class="active">
-                                        <button class="btn btn--yellow round">
-                                            Upgrade Now
-                                        </button>
-                                    </div>
+                                    
                                 </div>
 
                                 <div class="row">
@@ -111,24 +101,20 @@
                                         <div class="input_wrap col">
                                             <input class="inputbox" type="mail" value="jisoo@naver.com" placeholder="Enter your new username..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'jisoo@naver.com'">
                                             <div class="caution">
-                                                <div>
+                                                <div class="img-box">
                                                     <img class="caution" src="/assets/images/icon/caution.png">
                                                     <img class="warning" src="/assets/images/icon/warning.png">
                                                 </div>
-                                                <span>
-                                                    Please note that the login ID will change when you change your email.
-                                                </span>
+                                                <p> Please note that the login ID will change when you change your email. </p>
                                             </div>
                                         </div>
-                                        <button class="btn btn--blue active">
-                                            Save
-                                        </button>    
+                                        <button class="btn right btn--blue active"> Save </button>    
                                     </div>
-                                    <div class="active">
+                                    <!-- <div class="active">
                                         <button class="btn btn--gray">
                                             Cancel
                                         </button>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div class="row">
@@ -143,9 +129,9 @@
 
                                 <div class="row">
                                     <div class="type"><span>Type</span></div>
-                                    <div class="data">
+                                    <div class="data radio-grop">
                                         <label for="type1" class="checkbox">
-                                            <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover">
+                                            <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover" checked>
                                             <span></span><div> Music Lover</div>
                                         </label>
                                         <label for="type2" class="checkbox">
@@ -165,16 +151,16 @@
 
                                 <div class="row">
                                     <div class="type"><span>Name</span></div>
-                                    <div class="data">
+                                    <div class="data input_wrap">
                                         <input class="inputbox firstname" type="text" value="Jisoo" placeholder="Enter your firstname..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Jisoo'">
-                                        <input class="inputbox lastname" type="text" value="Yoo" placeholder="Enter your lastname..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Yoo'">
+                                        <input class="inputbox lastname" style="margin-left: 10px;" type="text" value="Yoo" placeholder="Enter your lastname..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Yoo'">
                                     </div>
                                     <div></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="type"><span>City of Residence, State</span></div>
-                                    <div class="data">
+                                    <div class="data input_wrap">
                                         <input class="inputbox" type="text" value="Seoul, South Korea" placeholder="Enter your location..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Seoul, South Korea'">
                                     </div>
                                     <div></div>
@@ -182,8 +168,8 @@
 
                                 <div class="row">
                                     <div class="type"><span>Bio</span></div>
-                                    <div class="data">
-                                        <textarea class="firstname" type="text" value="Seoul, South Korea" placeholder="Enter your location..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Seoul, South Korea'"/>
+                                    <div class="data input_wrap">
+                                        <textarea class="firstname" style="height: 128px;" type="text" value="Seoul, South Korea" placeholder="Enter your location..." @click="$event.currentTarget.value = ''" @focusout="$event.currentTarget.value = 'Seoul, South Korea'"/>
                                     </div>
                                     <div></div>
                                 </div>
@@ -192,35 +178,33 @@
                                     <div class="type"><span>Linked Account</span></div>
                                     <div class="data">
                                         <div class="sns">
-                                            <div>
+                                            <div class="n-flex between">
                                                 <div><img src="/assets/images/icon/icon_kakao.png"/> Kakao</div>
                                                 <button class="btn btn--yellow">Link</button>
                                             </div>
-                                            <div>
+                                            <div class="n-flex between">
                                                 <div><img src="/assets/images/icon/icon_naver.png"/> Naver</div>
                                                 <button class="btn btn--gray">Unlink</button>
                                             </div>
-                                            <div>
+                                            <div class="n-flex between">
                                                 <div><img src="/assets/images/icon/icon_facebook.png"/> Facebook</div>
                                                 <button class="btn btn--yellow">Link</button>
                                             </div>
-                                            <div>
+                                            <div class="n-flex between">
                                                 <div><img src="/assets/images/icon/icon_twitter.png"/> Twitter</div>
                                                 <button class="btn btn--gray">Unlink</button>
                                             </div>
-                                            <div>
+                                            <div class="n-flex between">
                                                 <div><img src="/assets/images/icon/icon_google.png"/> Google</div>
                                                 <button class="btn btn--gray">Unlink</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div></div>
                                 </div>
 
                             </div>
 
-                            <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-                                <button class="btn btn--gray">Cancel</button>
+                            <div class="n-flex" style="margin-top: 30px;">
                                 <button type="submit" class="btn btn--submit">Save</button>
                             </div>
                         </div>
@@ -231,7 +215,8 @@
 
         <div id="waveform" ></div>
         
-        <div class="panel active">
+        <!-- Add Classname "active" is Active -->
+        <div class="panel" style="display: none;">
             <div class="popup active" style="width:560px;">
                 <div class="box" style="padding-bottom:50px;">
                     <div class="title">CHANGE PASSWORD</div>

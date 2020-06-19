@@ -5,24 +5,22 @@
         <Header :is-login="isLogin"/>
 
         <div class="container sub">
-            <div class="main mypage" style="overflow:initial;">
+            <div class="main mypage dashboard-wrap" style="overflow:initial;">
                 <section class="main__section1" style="background:none;">
-                    <div class="BG" v-show="group_title == 'CUSTOMER'" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
+                    <div class="BG" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <header class="main__section1-title" v-show="group_title == 'CUSTOMER'">
+                        <header class="main__section1-title">
                             <div class="banner">
                                 <h3>Together with <span>beatsomeone</span>!</h3>
-                                <p>
-                                    Let’s make a relationship with people you like. Make your profits by beats you made. These can be started in an easy way.
-                                </p>
+                                <p> Let’s make a relationship with people you like. <br>Make your profits by beats you made. <br>These can be started in an easy way. </p>
                                 <button class="btn btn--yellow round">Start Selling</button>
                             </div>
                         </header>
                         <div class="main__media">
 
                             <div class="sublist">
-                                <div class="wrap">
+                                <div>
                                     <div class="sublist__filter sticky">
                                         <div class="row center">
                                             <div class="profile">
@@ -39,87 +37,88 @@
                                                     <div class="bio">
                                                         Music Lover, KKOMA
                                                     </div>
-                                                    <div class="location">
-                                                        <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
-                                                    </div>
-                                                    <div class="brandshop">
-                                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="profile__footer">
+                                                <div class="location">
+                                                    <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
+                                                </div>
+                                                <div class="brandshop">
+                                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <ul class="menu">
-                                                <li class="active">Dashboard</li>
-                                                <li @click="goPage('profilemod')">Manage Information</li>
-                                                <li @click="goPage('list_item')">Product List</li>
-                                                <li @click="goPage('mybilling')">Order History</li>
-                                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                                <li @click="goPage('message')">Message</li>
-                                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                                <li @click="goPage('inquiry')">Support
-                                                    <ul class="menu">
-                                                        <li @click="goPage('inquiry')">Support Case</li>
-                                                        <li @click="goPage('faq')">FAQ</li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    </div>
+
+                                    <div class="row menu__wraper">
+                                        <ul class="menu">
+                                            <li class="active">Dashboard</li>
+                                            <li @click="goPage('profilemod')">Manage Information</li>
+                                            <li @click="goPage('list_item')">Product List</li>
+                                            <li @click="goPage('mybilling')">Order History</li>
+                                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                            <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                                            <li @click="goPage('message')">Message</li>
+                                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                                            <li @click="goPage('inquiry')">Support
+                                                <ul class="menu">
+                                                    <li @click="goPage('inquiry')">Support Case</li>
+                                                    <li @click="goPage('faq')">FAQ</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
                                     </div>
 
                                     <div class="sublist__content">
                                         <div class="row" v-show="group_title == 'SELLER'">
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Settlement Overview</div>
-                                                </div>
-                                                <p>
+                                                <h4 class="title"> Settlement Overview </h4>
+                                                <!-- <p>
                                                     ※· We will guide the amount of sales and settlements based on the current month / day.<br/>
                                                     ※· Exact sales / settlement amount can be checked on the basis of 20-25 days of the following month.
-                                                </p>
+                                                </p> -->
                                             </div>
+                                            
                                             <div>
                                                 <div class="splitboard">
                                                     <div class="blue">
                                                         ₩ 123,456
                                                         <div class="change">(Change 40,093▲)</div>
-                                                        <span>Estimated sales amount
-                                                            <button class="button">
+                                                        <span>
+                                                            Estimated sales amount
+                                                            <button class="button active">
                                                                 <img src="/assets/images/icon/tip.png"/>
-                                                                <span data-v-27fa6da0="" class="tooltip">
-                                                                    <p>
-                                                                     Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day.
-                                                                     </p>
-                                                                </span>
                                                             </button>
+                                                            <div class="tooltip">
+                                                                <p>Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day. </p>
+                                                            </div>
                                                         </span>
                                                     </div>
-                                                    <div class="blue">₩ 93,409
+                                                    <div class="blue">
+                                                        ₩ 93,409
                                                         <div class="change">(Change 40,093▲)</div>
-                                                        <span>Estimated settlement amount
+                                                        <span>
+                                                            Estimated settlement amount
                                                             <button class="button">
                                                                 <img src="/assets/images/icon/tip.png"/>
-                                                                <span data-v-27fa6da0="" class="tooltip">
-                                                                    <p>
-                                                                     Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month.
-                                                                     </p>
-                                                                </span>
                                                             </button>
+                                                            <span class="tooltip" style="display:none;">
+                                                                <p> Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month. </p>
+                                                            </span>
                                                         </span>
                                                     </div>
-                                                    <div class="red">₩ 80,039
+                                                    <div class="red">
+                                                        ₩ 80,039
                                                         <div class="change">(Change 40,093▲)</div>
-                                                        <span>Last month settlement amount
+                                                        <span>
+                                                            Last month settlement amount
                                                             <button class="button">
                                                                 <img src="/assets/images/icon/tip.png"/>
-                                                                <span data-v-27fa6da0="" class="tooltip">
-                                                                    <p>
-                                                                     Displays the amount settled last month.
-                                                                     </p>
-                                                                </span>
                                                             </button>
+                                                            <span class="tooltip" style="display:none;">
+                                                                <p> Displays the amount settled last month. </p>
+                                                            </span>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -130,11 +129,9 @@
                                         <div class="row" v-show="group_title == 'SELLER'">
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Chart</div>
-                                                </div>
+                                                <h4 class="title">Chart</h4>
                                             </div>
-                                            <div class="chart" style="height:320px;">
+                                            <div class="chart">
                                                 <img src="/assets/images/chart.png"/>                                                
                                             </div>
                                         </div>
@@ -142,11 +139,11 @@
                                         <div class="row double" v-show="group_title == 'SELLER'">
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Order Details</div>
-                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
-                                                </div>
-                                                <div class="splitboard">
+                                                <h4 class="title">
+                                                    Order Details
+                                                    <!-- <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button> -->
+                                                </h4>
+                                                <div class="n-flex splitboard">
                                                     <div class="blue">12<span>Buy</span></div>
                                                     <div class="red">2<span>Cancel</span></div>
                                                     <div class="green">6<span>Refund</span></div>
@@ -154,11 +151,11 @@
                                             </div>
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Product details</div>
-                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
-                                                </div>
-                                                <div class="splitboard">
+                                                <h4 class="title">
+                                                    Product details
+                                                    <!-- <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button> -->
+                                                </h4>
+                                                <div class="n-flex splitboard">
                                                     <div class="blue">12<span>Total</span></div>
                                                     <div class="red">2<span>Selling</span></div>
                                                     <div class="green">6<span>Pending</span></div>
@@ -170,11 +167,11 @@
                                         <div class="row double" v-show="group_title == 'CUSTOMER'">
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Order Details</div>
-                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
-                                                </div>
-                                                <div class="splitboard">
+                                                <h4 class="title">
+                                                    Order Details
+                                                    <!-- <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button> -->
+                                                </h4>
+                                                <div class="n-flex splitboard">
                                                     <div class="blue">12<span>Buy</span></div>
                                                     <div class="red">2<span>Cancel</span></div>
                                                     <div class="green">6<span>Refund</span></div>
@@ -182,13 +179,13 @@
                                             </div>
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Expried soon</div>
-                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
-                                                </div>
+                                                <h4 class="title">
+                                                    Expried soon
+                                                    <!-- <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button> -->
+                                                </h4>
                                                 <div>
                                                     <div class="slide">
-                                                        <div class="playList" :class="slide_expired == 0 ? 'active' : ''">
+                                                        <div class="n-flex playList" :class="slide_expired == 0 ? 'active' : ''">
                                                             <ul>
                                                                 <li class="playList__itembox">
                                                                     <div class="playList__item playList__item--title active">
@@ -340,12 +337,12 @@
                                         <div class="row">
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Recently Listen</div>
-                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
-                                                </div>
+                                                <h4 class="title">
+                                                    Recently Listen
+                                                    <!-- <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button> -->
+                                                </h4>
 
-                                                <div class="topFive recentListen">
+                                                <div class="n-flex topFive recentListen">
 
                                                     <div class="trending__slide-item albumItem">
                                                         <button class="albumItem__cover">
@@ -417,10 +414,10 @@
                                         <div class="row double" style="margin-bottom:100px;">
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Message you received</div>
-                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
-                                                </div>
+                                                <h4 class="title">
+                                                    <span>Message you received</span>
+                                                    <a class="more" href="#">more <img src="/assets/images/icon/chevron-right.png"/></a>
+                                                </h4>
                                                 <div>
                                                     <div class="playList" :class="slide_expired == 0 ? 'active' : ''">
                                                         <ul>
@@ -485,10 +482,10 @@
                                             </div>
 
                                             <div class="title-content">
-                                                <div class="title">
-                                                    <div>Support Case</div>
-                                                    <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
-                                                </div>
+                                                <h4 class="title">
+                                                    <span>Support Case</span>
+                                                    <a class="more" href="#">more <img src="/assets/images/icon/chevron-right.png"/></a>
+                                                </h4>
                                                 <div>
                                                     <div class="playList" :class="slide_expired == 0 ? 'active' : ''">
                                                         <ul>

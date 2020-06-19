@@ -102,7 +102,7 @@
                                                     </span>
                                                     <figcaption class="pointer">
                                                         <div class="info">
-                                                          <div class="code">{{ item.order.Item.cit_key }}</div>
+                                                          <div class="code">{{ 'item_'+(i+1) }}</div>
                                                         </div>
                                                         <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
                                                         <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
@@ -115,7 +115,7 @@
                                                 <div class="feature">
                                                     <div class="listen">
                                                         <div class="playbtn">
-                                                            <button class="btn-play" @click="playAudio(item.order.Item)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
+                                                            <button class="btn-play" @click="playAudio(item.order.Item, $event)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
                                                             <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
                                                             <span class="duration">0:00</span></span>
                                                         </div>
@@ -150,7 +150,7 @@
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
-                                                        <!-- UNLIMITED STEMS LICENSE -->
+                                                        <!-- UNLIMITED STEMS LICENSE
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -165,7 +165,7 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
+                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div> -->
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE -->
                                                     <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' " >
@@ -211,20 +211,22 @@
                                                 </div>
                                             </div>
                                             <div class="col edit">
-                                                <button @click="productEditBtn(item.order.Item.cit_id, item.order.cor_status)" class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
+                                                <button  v-if="cor_status != '1'" class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
+
+                                                <button  v-else-if="cor_status === '1'" @click="downloadWithAxios(item.order.Item.cde_id, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
 
                                                 <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
                                                     {{ funcDownStatus(cor_status, item.order.Item) }}
                                                 </div>
 
                                                 <div v-if="cor_status === '1' " class="download_period">
-                                                    <span> {{ caclLeftDay(item.order.cor_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
+                                                    <span> {{ caclLeftDay(item.order.cor_approve_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
                                                 </div>
                                                 <div v-else-if="cor_status === '0' " class="download_period">
                                                     <span>  </span>
                                                 </div>
                                                 <div v-else class="download_period">
-                                                    <span class="gray"> (~ {{ caclTargetDay(item.order.cor_datetime) }}) </span>
+                                                    <span class="gray"> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
                                                 </div>
 
                                                 <!-- <div class="download_period">40 days left<br/>(~2020.06.24 12:30:34)</div> -->
@@ -604,6 +606,7 @@
                 no: '',
                 isLogin: false,
                 cor_datetime: '',
+                cor_approve_datetime: '',
                 cor_status: '',
                 cor_pg: '',
                 mem_photo: '',
@@ -688,6 +691,7 @@
                 this.myOrderList = data.result;
 
                 this.cor_datetime = this.myOrderList[0].order.cor_datetime;
+                this.cor_approve_datetime = this.myOrderList[0].order.cor_approve_datetime;
                 this.cor_status = this.myOrderList[0].order.cor_status;
                 this.payType = this.formPayType(this.myOrderList[0].order.cor_pay_type);
                 this.totalPrice = this.formatTotalPrice(this.myOrderList[0].order.cor_total_money, this.myOrderList[0].order.cor_memo);
@@ -796,17 +800,19 @@
                     return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
             },
-            playAudio(i) {
+            playAudio(i, e) {
                 if(!this.isPlay || this.currentPlayId !== i.cit_id) {
                     if (this.currentPlayId !== i.cit_id) {
                         this.setAudioInstance(i)
                     }
                     this.currentPlayId = i.cit_id
                     EventBus.$emit('player_request_start',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play playing';
                     this.start();
                 }
                 else {
                     EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':i,'ws':this.wavesurfer});
+                    e.target.className = 'btn-play paused';
                     this.stop();
                 }
             },
@@ -869,7 +875,8 @@
                 if(status==0){
                     return;
                 }else{
-                    window.location.href = '/mypage/regist_item/'+key;    
+                    window.location.href = '/mypage/regist_item/'+key; 
+
                 }
             },
             removeReg: function(val){
@@ -887,30 +894,41 @@
                 }
                 return rst;
             },
-            funcDownStatus: function(status, item){
+            funcDownStatus: function(status, i){
                 if(status === '0'){
                     return 'Unavailable';
                 }else if(status === '1'){
-                    if(item.cde_download < item.cde_quantity){
-                        return 'Download Available';
-                    }else{
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity <= i.cde_download){
                         return 'Download Complete';
+                    }
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity > i.cde_download){
+                        return 'Download Available';
+                    }
+                    if(i.cit_mastering_license_use == "1"){
+                        return 'Download Available';
                     }
 
                 }else{
                     return 'Expried';
                 }
             },
-            getDownStatusColor: function(status, item){
+            getDownStatusColor: function(status, i){
                 if(status === '0'){
                     return 'red';
-                }else if(status === '1'){
-                    if(item.cde_download < item.cde_quantity){
-                        return 'green';
-                    }else{
+                }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity <= i.cde_download){
                         return 'blue';
                     }
-
+                    if(i.cit_lease_license_use == "1"
+                        && i.cde_quantity > i.cde_download){
+                        return 'green';
+                    }
+                    if(i.cit_mastering_license_use == "1"){
+                        return 'green';
+                    }
                 }else{
                     return 'gray';
                 }
@@ -919,10 +937,35 @@
                 if(this.cor_status === '0' ){
                     this.descNoti = "If you are in a deposit waiting state or wish to cancel, please request a change through a <a href='/mypage/inquiry/'>Support Case</a> menu.";
                 }else if(this.cor_status === '1'
-                     && this.caclLeftDay(this.cor_datetime) < 0 ){
+                     && this.caclLeftDay(this.cor_approve_datetime) < 0 ){
                     this.descNoti = "If the download period has , the purchased bit cannot be downloaded";
+                }else{
+                    this.descNoti = "If you are in a deposit waiting state or wish to cancel, please request a change through a <a href='/mypage/inquiry/'>Support Case</a> menu.";
                 }
-            }
+            },
+            forceFileDownload(r, cde_id){
+                const blob = new Blob([r.data], { type: 'application/mp3' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'beat_'+cde_id+'.mp3';
+                link.click();
+                URL.revokeObjectURL(link.href);
+            },
+            downloadWithAxios : function(cde_id, status, i){
+                if(this.getDownStatusColor(status, i) != 'green'){
+                    return;
+                }
+
+                axios({
+                    method: 'get',
+                    url: '/cmallact/download_sample/'+cde_id,
+                    responseType: 'arraybuffer'
+                })
+                .then(r => {
+                    this.forceFileDownload(r, cde_id)   
+                })
+                .catch(() => console.log('error occured'))
+            },
         }
     }
 </script>
@@ -935,5 +978,7 @@
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    
+    .playList__item .n-option .n-box .price {
+        color: white;
+    }
 </style>
