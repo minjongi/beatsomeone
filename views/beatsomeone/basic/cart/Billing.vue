@@ -450,39 +450,39 @@
                     return;
                 }
 
-                if (this.payMethod === 1) {
-                    this.allatForm.card_yn = 'Y'
-                    this.allatForm.bank_yn = 'N'
-                } else if (this.payMethod === 2) {
-                    this.allatForm.card_yn = 'N'
-                    this.allatForm.bank_yn = 'Y'
-                } else {
-                    alert('준비중 입니다')
-                    return false
-                }
+                // if (this.payMethod === 1) {
+                //     this.allatForm.card_yn = 'Y'
+                //     this.allatForm.bank_yn = 'N'
+                // } else if (this.payMethod === 2) {
+                //     this.allatForm.card_yn = 'N'
+                //     this.allatForm.bank_yn = 'Y'
+                // } else {
+                //     alert('준비중 입니다')
+                //     return false
+                // }
+                //
+                // this.allatForm.order_no = this.unique_id
+                // this.allatForm.amt = this.totalPriceKr
+                // this.allatForm.pmember_id = this.myMember[0].mem_id
+                // this.allatForm.product_cd = this.myOrder_list[0].cit_id
+                // this.allatForm.product_nm = this.myOrder_list[0].cit_name
+                // this.allatForm.buyer_nm = (!!this.myMember[0].mem_firstname && !!this.myMember[0].mem_lastname) ? this.myMember[0].mem_firstname + ' ' + this.myMember[0].mem_lastname : this.myMember[0].mem_nickname
+                // this.allatForm.recp_nm = this.allatForm.buyer_nm
+                // this.allatForm.recp_addr = this.myMember[0].mem_address1 || this.myMember[0].mem_email
+                //
+                // setTimeout(function () {
+                //     window.AllatPay_Approval(document.fm1);
+                //     window.AllatPay_Closechk_Start();
+                // }, 300)
 
-                this.allatForm.order_no = this.unique_id
-                this.allatForm.amt = this.totalPriceKr
-                this.allatForm.pmember_id = this.myMember[0].mem_id
-                this.allatForm.product_cd = this.myOrder_list[0].cit_id
-                this.allatForm.product_nm = this.myOrder_list[0].cit_name
-                this.allatForm.buyer_nm = (!!this.myMember[0].mem_firstname && !!this.myMember[0].mem_lastname) ? this.myMember[0].mem_firstname + ' ' + this.myMember[0].mem_lastname : this.myMember[0].mem_nickname
-                this.allatForm.recp_nm = this.allatForm.buyer_nm
-                this.allatForm.recp_addr = this.myMember[0].mem_address1 || this.myMember[0].mem_email
-
-                setTimeout(function () {
-                    window.AllatPay_Approval(document.fm1);
-                    window.AllatPay_Closechk_Start();
-                }, 300)
-
-                // this.ajaxUpdateOrder().then(()=>{
-                //     if(this.cor_id == ''){
-                //         alert("결제가 실패하였습니다.");
-                //         return;
-                //     }else{
-                //         window.location.href = '/cmall/complete?cor_id='+this.cor_id;
-                //     }
-                // });
+                this.ajaxUpdateOrder().then(()=>{
+                    if(this.cor_id == ''){
+                        alert("결제가 실패하였습니다.");
+                        return;
+                    }else{
+                        window.location.href = '/cmall/complete?cor_id='+this.cor_id;
+                    }
+                });
             },
             chgPayMethod: function(idx){
                 this.payMethod = idx;
