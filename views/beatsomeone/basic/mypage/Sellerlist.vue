@@ -493,8 +493,6 @@
 
 <script>
     require('@/assets/js/function')
-    import Header from "../include/Header"
-    import Footer from "../include/Footer"
 
     import $ from "jquery";
     import { EventBus } from '*/src/eventbus';
@@ -504,7 +502,6 @@
 
     export default {
         components: {
-            Header, Footer
         },
         data: function() {
             return {
