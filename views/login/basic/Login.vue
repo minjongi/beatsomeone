@@ -42,23 +42,23 @@
 
                 <div class="accounts__social">
                     <h2>{{ $t('snsLogin') }}</h2>
-                    <a href=""
+                    <a @click="socialLogin('facebook')"
                     ><img
                             src="@/assets/images/accounts-facebook.png"
                             :alt="$t('loginFacebook')"
                     /></a>
-                    <a href=""
+                    <a @click="socialLogin('twitter')"
                     ><img
                             src="@/assets/images/accounts-twitter.png"
                             :alt="$t('loginTwitter')"
                     /></a>
-                    <a href=""
+                    <a @click="socialLogin('google')"
                     ><img src="@/assets/images/accounts-google.png" :alt="$t('loginGoogle')"
                     /></a>
-                    <a href=""
+                    <a @click="socialLogin('naver')"
                     ><img src="@/assets/images/accounts-naver.png" :alt="$t('loginNaver')"
                     /></a>
-                    <a href=""
+                    <a @click="socialLogin('kakao')"
                     ><img src="@/assets/images/accounts-kakao.png" :alt="$t('loginKakao')"
                     /></a>
                 </div>
@@ -97,6 +97,13 @@
         watch: {
         },
         methods: {
+            socialLogin(social_type) {
+
+                if (social_type !== 'facebook' && social_type !== 'twitter' && social_type !== 'google' && social_type !== 'naver' && social_type !== 'kakao') {
+                    return false;
+                }
+                window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
+            }
         },
     }
 </script>
