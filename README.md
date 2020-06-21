@@ -99,8 +99,7 @@ Beat Someone
                 INSERT INTO beatsomeone.cb_bs_register_plan_cost (plan, monthly, monthly_d, yearly, yearly_d, yearly_discount_pc, yearly_discount_amt, yearly_discount_amt_d) VALUES ('MARKETPLACE', 0.000, 9.990, 0.000, 95.880, 20.000, 0.000, 24.000);
                 INSERT INTO beatsomeone.cb_bs_register_plan_cost (plan, monthly, monthly_d, yearly, yearly_d, yearly_discount_pc, yearly_discount_amt, yearly_discount_amt_d) VALUES ('PRO PAGE', 0.000, 19.990, 0.000, 179.880, 25.000, 0.000, 24.000);
 
-* 3차 변경 데이터
-    *           ALTER TABLE `cb_member` ADD `mem_location`              varchar(200)         NULL;
+* 3차 변경 데이터               
     *           create table cb_cmall_item_show_history
                 (
                     ish_id int auto_increment,

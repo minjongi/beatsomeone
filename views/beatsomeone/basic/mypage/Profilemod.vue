@@ -64,7 +64,7 @@
             <div class="row">
                 <div class="type"><span>City of Residence, State</span></div>
                 <div class="data">
-                    <input class="inputbox" type="text" v-model="info.mem_location" placeholder="Enter your location...">
+                    <input class="inputbox" type="text" v-model="info.mem_address1" placeholder="Enter your location...">
                 </div>
                 <div></div>
             </div>
