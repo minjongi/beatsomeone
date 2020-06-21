@@ -1494,4 +1494,19 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    // 결제 금액 세션 저장
+    public function set_session_order_price()
+    {
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $price = $this->input->post('price');
+        $this->session->set_userdata(
+            'TOTAL_PRICE',
+            $price
+        );
+    }
 }

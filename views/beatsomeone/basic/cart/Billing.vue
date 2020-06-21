@@ -355,7 +355,7 @@
         components: {
             Header, Footer
         },
-        data: function() {
+        data: function () {
             return {
                 isLogin: false,
                 myOrder_list: [],
@@ -366,8 +366,8 @@
                 usePoint: 0,
                 payMethod: 0,
                 unique_id: 0,
-                cor_id:'',
-                selectedItems:0,
+                cor_id: '',
+                selectedItems: 0,
                 allatForm: {
                     'shop_id': 'dumdum',
                     'order_no': '',
@@ -383,119 +383,148 @@
                     'card_yn': 'N',
                     'bank_yn': 'N',
                     'vbank_yn': 'N',
-                    'encode_type': 'U'
+                    'encode_type': 'U',
+                    'enc_data': ''
                 }
             };
         },
         created() {
-            this.ajaxOrderList().then(()=>{
+            this.ajaxOrderList().then(() => {
                 this.calcTotalPrice();
                 this.point = this.myMember[0].mem_point;
             });
         },
-        methods:{
-            async ajaxOrderList () {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/user_order_list', {}
-                );
-                this.myOrder_list = data.result;
-                this.selectedItems = this.myOrder_list.length;
-                this.myMember = data.mem_result;
-                this.unique_id = data.unique_id;
-                console.log(this.unique_id);
-              } catch (err) {
-                console.log('ajaxCartList error');
-              } finally {
-                this.isLoading = false;
-              }
-            },
-            async ajaxUpdateOrder () {
-              try {
-                this.isLoading = true;
-                var param = new FormData();
-                param.append('pay_type', JSON.stringify(this.payMethod));
-                param.append('priceType', JSON.stringify(this.getPriceType()));
-                param.append('total_price_sum', JSON.stringify(this.formatPrice(this.totalPriceKr, this.totalPriceEn, false)));
-                param.append('usePoint', JSON.stringify(this.usePoint));
-                param.append('unique_id', JSON.stringify(this.unique_id));
-
-                const { data } = await axios.post(
-                  '/beatsomeoneApi/user_order_update', param,{
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                console.log(data);
-                if(data.message == 'ok'){
-                    this.cor_id = data.cor_id;
+        methods: {
+            async ajaxOrderList() {
+                try {
+                    this.isLoading = true;
+                    const {data} = await axios.get(
+                        '/beatsomeoneApi/user_order_list', {}
+                    );
+                    this.myOrder_list = data.result;
+                    this.selectedItems = this.myOrder_list.length;
+                    this.myMember = data.mem_result;
+                    this.unique_id = data.unique_id;
+                    console.log(this.unique_id);
+                } catch (err) {
+                    console.log('ajaxCartList error');
+                } finally {
+                    this.isLoading = false;
                 }
-              } catch (err) {
-                console.log('ajaxUpdateOrder error');
-              } finally {
-                this.isLoading = false;
-              }
             },
-            goBack: function(e){
+            async ajaxUpdateOrder() {
+                try {
+                    this.isLoading = true;
+                    var param = new FormData();
+                    param.append('pay_type', JSON.stringify(this.payMethod));
+                    param.append('priceType', JSON.stringify(this.getPriceType()));
+                    param.append('total_price_sum', JSON.stringify(this.formatPrice(this.totalPriceKr, this.totalPriceEn, false)));
+                    param.append('usePoint', JSON.stringify(this.usePoint));
+                    param.append('unique_id', JSON.stringify(this.unique_id));
+
+                    for (const key in this.allatForm) {
+                        param.append('allat_' + key, this.allatForm[key]);
+                    }
+
+                    const {data} = await axios.post(
+                        '/beatsomeoneApi/user_order_update', param, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        });
+                    console.log(data);
+                    if (data.message == 'ok') {
+                        this.cor_id = data.cor_id;
+                    }
+                } catch (err) {
+                    console.log('ajaxUpdateOrder error');
+                } finally {
+                    this.isLoading = false;
+                }
+            },
+            goBack: function (e) {
                 window.location.href = '/cmall/cart';
             },
-            goPay: function(e){
-                if((this.totalPrice - this.usePoint) <= 0){
+            goPay: function (e) {
+                if ((this.totalPrice - this.usePoint) <= 0) {
                     alert("결제 금액을 확인해주세요");
                     return;
                 }
-                if(!this.payMethod){
+                if (!this.payMethod) {
                     alert("결제 방법을 선택해주세요");
                     return;
                 }
 
-                // if (this.payMethod === 1) {
-                //     this.allatForm.card_yn = 'Y'
-                //     this.allatForm.bank_yn = 'N'
-                // } else if (this.payMethod === 2) {
-                //     this.allatForm.card_yn = 'N'
-                //     this.allatForm.bank_yn = 'Y'
-                // } else {
-                //     alert('준비중 입니다')
-                //     return false
-                // }
-                //
-                // this.allatForm.order_no = this.unique_id
-                // this.allatForm.amt = this.totalPriceKr
-                // this.allatForm.pmember_id = this.myMember[0].mem_id
-                // this.allatForm.product_cd = this.myOrder_list[0].cit_id
-                // this.allatForm.product_nm = this.myOrder_list[0].cit_name
-                // this.allatForm.buyer_nm = (!!this.myMember[0].mem_firstname && !!this.myMember[0].mem_lastname) ? this.myMember[0].mem_firstname + ' ' + this.myMember[0].mem_lastname : this.myMember[0].mem_nickname
-                // this.allatForm.recp_nm = this.allatForm.buyer_nm
-                // this.allatForm.recp_addr = this.myMember[0].mem_address1 || this.myMember[0].mem_email
-                //
-                // setTimeout(function () {
-                //     window.AllatPay_Approval(document.fm1);
-                //     window.AllatPay_Closechk_Start();
-                // }, 300)
+                if (this.payMethod === 1) {
+                    this.allatForm.card_yn = 'Y'
+                    this.allatForm.bank_yn = 'N'
+                } else if (this.payMethod === 2) {
+                    this.allatForm.card_yn = 'N'
+                    this.allatForm.bank_yn = 'Y'
+                } else {
+                    alert('준비중 입니다')
+                    return false
+                }
 
-                this.ajaxUpdateOrder().then(()=>{
-                    if(this.cor_id == ''){
-                        alert("결제가 실패하였습니다.");
-                        return;
-                    }else{
-                        window.location.href = '/cmall/complete?cor_id='+this.cor_id;
+                // this.ajaxUpdateOrder().then(() => {
+                //     if (this.cor_id == '') {
+                //         alert("결제가 실패하였습니다.");
+                //         return;
+                //     } else {
+                //         window.location.href = '/cmall/complete?cor_id=' + this.cor_id;
+                //         // window.location.href = '/';
+                //     }
+                // });
+
+                this.allatForm.order_no = this.unique_id
+                this.allatForm.amt = this.totalPriceKr
+                this.allatForm.pmember_id = this.myMember[0].mem_id
+                this.allatForm.product_cd = this.myOrder_list[0].cit_id
+                this.allatForm.product_nm = this.myOrder_list[0].cit_name
+                this.allatForm.buyer_nm = (!!this.myMember[0].mem_firstname && !!this.myMember[0].mem_lastname) ? this.myMember[0].mem_firstname + ' ' + this.myMember[0].mem_lastname : this.myMember[0].mem_nickname
+                this.allatForm.recp_nm = this.allatForm.buyer_nm
+                this.allatForm.recp_addr = this.myMember[0].mem_address1 || this.myMember[0].mem_email
+
+                axios.post(
+                    '/beatsomeoneApi/set_session_order_price', {price: this.allatForm.amt}
+                ).then(
+                    () => {
+                        window.AllatPay_Approval(document.fm1)
+                        window.AllatPay_Closechk_Start()
                     }
-                });
+                )
             },
-            chgPayMethod: function(idx){
+            procCompletePay: function (result_cd, result_msg, enc_data) {
+                window.AllatPay_Closechk_End()
+
+                if (result_cd !== '0000') {
+                    setTimeout(function () {
+                        alert(result_cd + " : " + result_msg)
+                    }, 500)
+                } else {
+                    this.allatForm.enc_data = enc_data
+                    this.ajaxUpdateOrder().then(() => {
+                        if (this.cor_id == '') {
+                            alert("결제가 실패하였습니다.");
+                            return;
+                        } else {
+                            window.location.href = '/cmall/complete?cor_id=' + this.cor_id;
+                            // window.location.href = '/';
+                        }
+                    });
+                }
+            },
+            chgPayMethod: function (idx) {
                 this.payMethod = idx;
             },
-            calcTotalPrice: function(){
+            calcTotalPrice: function () {
                 let tpkr = 0.0;
                 let tpen = 0.0;
-                for(let i in this.myOrder_list){
-                    if(this.myOrder_list[i].detail[0].cit_lease_license_use == '1'){
+                for (let i in this.myOrder_list) {
+                    if (this.myOrder_list[i].detail[0].cit_lease_license_use == '1') {
                         tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
                         tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
-                    }
-                    else if(this.myOrder_list[i].detail[0].cit_mastering_license_use == '1'){
+                    } else if (this.myOrder_list[i].detail[0].cit_mastering_license_use == '1') {
                         tpkr += Number(this.myOrder_list[i].detail[0].cde_price_2);
                         tpen += Number(this.myOrder_list[i].detail[0].cde_price_d_2);
                     }
@@ -503,55 +532,55 @@
                 this.totalPriceKr = tpkr;
                 this.totalPriceEn = tpen;
             },
-            calcPoint: function(e){
+            calcPoint: function (e) {
                 this.usePoint = Number(e.target.value);
             },
-            checkToday: function(date){
+            checkToday: function (date) {
                 const input = new Date(date);
                 const today = new Date();
-                return input.getDate() === today.getDate() && 
-                        input.getMonth() === today.getMonth() &&
-                         input.getFullYear() === today.getFullYear();
+                return input.getDate() === today.getDate() &&
+                    input.getMonth() === today.getMonth() &&
+                    input.getFullYear() === today.getFullYear();
             },
-            formatPrice: function(kr, en, simbol){
-                if(!simbol){
-                    if(this.$i18n.locale === 'en'){
+            formatPrice: function (kr, en, simbol) {
+                if (!simbol) {
+                    if (this.$i18n.locale === 'en') {
                         return en;
-                    }else{
+                    } else {
                         return kr;
                     }
                 }
-                if(this.$i18n.locale === 'en'){
-                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
-                }else{
-                    return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                if (this.$i18n.locale === 'en') {
+                    return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                } else {
+                    return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
             },
-            formatCitName: function(data){
+            formatCitName: function (data) {
                 var rst;
                 var limitLth = 50
-                if(limitLth < data.length && data.length <= limitLth*2){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2);
-                }else if(limitLth < data.length && limitLth*2 < data.length){
-                    rst = data.substring(0,limitLth) + '<br>' + data.substring(limitLth,limitLth*2) + '...';
-                }else{
+                if (limitLth < data.length && data.length <= limitLth * 2) {
+                    rst = data.substring(0, limitLth) + '<br>' + data.substring(limitLth, limitLth * 2);
+                } else if (limitLth < data.length && limitLth * 2 < data.length) {
+                    rst = data.substring(0, limitLth) + '<br>' + data.substring(limitLth, limitLth * 2) + '...';
+                } else {
                     rst = data
                 }
                 return rst;
             },
-            getPriceType: function(){
-                if(this.$i18n.locale === 'en'){
+            getPriceType: function () {
+                if (this.$i18n.locale === 'en') {
                     return '$';
-                }else{
+                } else {
                     return '₩';
                 }
             },
-            toggleButton: function(e){
-                if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box"){
+            toggleButton: function (e) {
+                if (e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box") {
                     e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box active";
-                }else if(e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box active"){
+                } else if (e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box active") {
                     e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box";
-                }else{
+                } else {
                     //
                 }
             },
