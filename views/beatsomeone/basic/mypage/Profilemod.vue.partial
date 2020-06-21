@@ -94,11 +94,12 @@
 <script>
 
     import Profilemod_UserName from "./Profilemod_UserName";
+    require('@/assets/js/function')
+
+
     import Profilemod_Email from "./Profilemod_Email";
     import Profilemod_Password from "./Profilemod_Password";
     import Profilemod_SocialLink from "./Profilemod_SocialLink";
-
-    import { EventBus } from '*/src/eventbus';
 
     export default {
         components: {
@@ -126,7 +127,7 @@
             groupType: function() {
                 // return 'CUSTOMER';
                 if(this.info) {
-                    return this.info.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
+                    return this.info.mem_usertype === 1 ? 'CUSTOMER' : 'SELLER';
                 } else {
                     return null;
                 }
@@ -164,17 +165,14 @@
             updateUserName: function(d) {
                 log.debug('UPDATE USER NAME');
                 this.info.mem_username = d;
-                EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
             },
             updateEmail: function(d) {
                 log.debug('UPDATE EMAIL');
                 this.info.mem_email = d;
-                EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
             },
             updateUserInfo() {
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
-                    // alert('변경내용이 저장 되었습니다');
-                    EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
+                    alert('변경내용이 저장 되었습니다');
                 });
             },
             moveDashboard() {
@@ -188,6 +186,8 @@
 
 
 <style lang="scss">
+    @import '@/assets/scss/App.scss';
+
 
 </style>
 
