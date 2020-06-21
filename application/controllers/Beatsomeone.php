@@ -173,6 +173,17 @@ class Beatsomeone extends CB_Controller
 //        $view['view']['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
 
 
+        // 로그인 사용자의 경우 조회 이력 추가
+        // 비로그인 사용자 거부
+        $mem_id = $this->member->item('mem_id');
+        if($mem_id) {
+            $config = array(
+                'mem_id' => $mem_id,
+                'cit_id' => $view['view']['item']['cit_id'],
+            );
+            $this->Beatsomeone_model->insert_item_show_history($config);
+        }
+
 
 
         /**
@@ -197,6 +208,10 @@ class Beatsomeone extends CB_Controller
         $meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
         $page_name = str_replace($searchconfig, $replaceconfig, $page_name);
 
+
+        // 타이틀 정의
+        $page_title = 'Beatsomeone - '.$view['view']['item']['cit_name'].' ('.$view['view']['item']['musician'].')';
+
         $layoutconfig = array(
             'path' => 'beatsomeone',
             'layout' => 'layout',
@@ -212,6 +227,10 @@ class Beatsomeone extends CB_Controller
             'meta_keywords' => $meta_keywords,
             'meta_author' => $meta_author,
             'page_name' => $page_name,
+            'og_title' => $page_title,
+            'og_url' => site_url().'beatsomeone/detail/'.$view['view']['item']['cit_key'],
+            'og_description' => $page_title,
+            'og_image' => site_url().'uploads/cmallitem/'.$view['view']['item']['cit_file_1'],
         );
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;

@@ -237,6 +237,88 @@ class BeatsomeoneMypageApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    /**
+     * 개인정보 변경 : 패스워드 변경 : 패스워드 확인
+     */
+    public function checkCompareUserPassword()
+    {
+        $pwdOriginal = $this->input->post('pwdOriginal');
+        $mem_id = $this->member->item('mem_id');
+
+        // 비로그인 사용자 거부
+        if(!$mem_id) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        if ( ! function_exists('password_hash')) {
+            $this->load->helper('password');
+        }
+
+        $this->load->model('Member_model');
+        $user = $this->Member_model->get_by_memid($mem_id);
+
+        $result = null;
+
+        if(!password_verify($pwdOriginal, element('mem_password', $user))) {
+            $result = array(
+                'result' => false,
+            );
+        } else {
+            $result = array(
+                'result' => true,
+            );
+        }
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    /**
+     * 개인정보 변경 : 패스워드 변경 : 패스워드 업데이트
+     */
+    public function updateUserPassword()
+    {
+        $pwdOriginal = $this->input->post('pwdOriginal');
+        $pwdChange = $this->input->post('pwdChange');
+        $mem_id = $this->member->item('mem_id');
+
+        // 비로그인 사용자 거부
+        if(!$mem_id) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        if ( ! function_exists('password_hash')) {
+            $this->load->helper('password');
+        }
+
+        $this->load->model('Member_model');
+        $user = $this->Member_model->get_by_memid($mem_id);
+
+        $result = null;
+
+        if(!password_verify($pwdOriginal, element('mem_password', $user))) {
+            $result = array(
+                'result' => false,
+            );
+        } else {
+            $this->load->model('Beatsomeone_mypage_model');
+
+            $param = array(
+                'mem_password' => password_hash($pwdChange, PASSWORD_BCRYPT),
+            );
+
+            $this->Beatsomeone_mypage_model->updateUserPassword($mem_id,$param);
+
+            $result = array(
+                'result' => true,
+            );
+        }
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
 
 
 

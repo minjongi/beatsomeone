@@ -7,7 +7,7 @@
             </button>
         </div>
         <div></div>
-
+        <Profilemod_modal_password v-if="isModalOpen" @dismissModal="doDismissModal" @submitModal="doSubmitModal"></Profilemod_modal_password>
     </div>
 </template>
 
@@ -15,10 +15,10 @@
 <script>
 
 
-
+    import Profilemod_modal_password from "./Profilemod_modal_password";
 
     export default {
-
+        components: {Profilemod_modal_password},
         data: function () {
             return {
                 isModalOpen: false,

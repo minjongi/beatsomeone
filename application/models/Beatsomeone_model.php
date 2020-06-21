@@ -790,6 +790,20 @@ class Beatsomeone_model extends CB_Model
         return $rst->result_array();
     }
 
+    // 상품 조회 이력
+    public function insert_item_show_history($p)
+    {
+        $param = array(
+            'cit_id' => $p['cit_id'],
+            'mem_id' => $p['mem_id'],
+            'show_dt' => cdate('Y-m-d H:i:s')
+        );
+
+        $this->db->insert('cmall_item_show_history', $param);
+    }
+
+
+
     // 판매자 주문 및 상품 정보 조회
     public function get_sales_product_info($cor_id)
     {
