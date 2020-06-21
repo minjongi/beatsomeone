@@ -7,10 +7,10 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=1420">
-    <meta property="og:image" content="이미지"/>
-    <meta property="og:url" content="유알엘"/>
-    <meta property="og:description" content="디스크립션"/>
-    <meta property="og:title" content="타이틀"/>
+    <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
+    <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
+    <meta property="og:description" content="<?php echo html_escape(element('og_description', $layout)); ?>"/>
+    <meta property="og:title" content="<?php echo html_escape(element('og_title', $layout)); ?>"/>
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <title><?php echo html_escape(element('page_title', $layout)); ?></title>
