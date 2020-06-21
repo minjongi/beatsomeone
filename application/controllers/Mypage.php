@@ -128,7 +128,7 @@ class Mypage extends CB_Controller
         $userinfo = array(
             'mem_id' => $userinfo['mem_id'],
             'mem_username' => $userinfo['mem_username'],
-            'mem_location' => $userinfo['mem_location'],
+            'mem_address1' => $userinfo['mem_address1'],
             'mem_email' => $userinfo['mem_email'],
             'mem_firstname' => $userinfo['mem_firstname'],
             'mem_lastname' => $userinfo['mem_lastname'],

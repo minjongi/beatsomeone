@@ -57,7 +57,7 @@ class BeatsomeoneMypageApi extends CB_Controller
         $result = array(
             'mem_id' => $result['mem_id'],
             'mem_username' => $result['mem_username'],
-            'mem_location' => $result['mem_location'],
+            'mem_address1' => $result['mem_address1'],
             'mem_email' => $result['mem_email'],
             'mem_firstname' => $result['mem_firstname'],
             'mem_lastname' => $result['mem_lastname'],
@@ -92,7 +92,7 @@ class BeatsomeoneMypageApi extends CB_Controller
         $userinfo = array(
             'mem_id' => $userinfo['mem_id'],
             'mem_username' => $userinfo['mem_username'],
-            'mem_location' => $userinfo['mem_location'],
+            'mem_address1' => $userinfo['mem_address1'],
             'mem_email' => $userinfo['mem_email'],
             'mem_firstname' => $userinfo['mem_firstname'],
             'mem_lastname' => $userinfo['mem_lastname'],
@@ -219,7 +219,7 @@ class BeatsomeoneMypageApi extends CB_Controller
             'mem_type' => $this->input->post('mem_type'),
             'mem_firstname' => $this->input->post('mem_firstname'),
             'mem_lastname' => $this->input->post('mem_lastname'),
-            'mem_location' => $this->input->post('mem_location'),
+            'mem_address1' => $this->input->post('mem_address1'),
             'mem_profile_content' => $this->input->post('mem_profile_content'),
         );
 
