@@ -320,6 +320,34 @@ class BeatsomeoneMypageApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    /**
+     * 개인정보 변경 : 소셜 링크 정보
+     */
+    public function getSocialLinkInfo()
+    {
+        $mem_id = $this->member->item('mem_id');
+
+        // 비로그인 사용자 거부
+        if(!$mem_id) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $this->load->model('Beatsomeone_mypage_model');
+        $result = $this->Beatsomeone_mypage_model->getSocialLink($mem_id);
+
+        $result = array(
+            'facebook' => array_search('facebook', array_column($result, 'soc_type')) > -1  ? $result[array_search('facebook', array_column($result, 'soc_type'))]['update_dt'] : null,
+            'twitter' => array_search('twitter', array_column($result, 'soc_type')) > -1 ? $result[array_search('twitter', array_column($result, 'soc_type'))]['update_dt'] : null,
+            'google' => array_search('google', array_column($result, 'soc_type')) > -1 ? $result[array_search('google', array_column($result, 'soc_type'))]['update_dt'] : null,
+            'naver' => array_search('naver', array_column($result, 'soc_type')) > -1 ? $result[array_search('naver', array_column($result, 'soc_type'))]['update_dt'] : null,
+            'kakao' => array_search('kakao', array_column($result, 'soc_type')) > -1 ? $result[array_search('kakao', array_column($result, 'soc_type'))]['update_dt'] : null,
+        );
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
 
 
 }

@@ -991,8 +991,8 @@ class BeatsomeoneApi extends CB_Controller
 
         log_message('error', 'post : ' . print_r($this->input->post(), true));
         log_message('error', 'mem_id : ' .$mem_id );
-        log_message('error', 'unique_id : ' .$this->session->userdata('unique_id') );
-        log_message('error', 'order_cct_id : ' .$this->session->userdata('order_cct_id') );
+        //log_message('error', 'unique_id : ' .$this->session->userdata('unique_id') );
+        //log_message('error', 'order_cct_id : ' .$this->session->userdata('order_cct_id') );
         
 
         /*
@@ -1003,7 +1003,7 @@ class BeatsomeoneApi extends CB_Controller
                 OR ! $this->input->post('unique_id') 
                 OR $this->session->userdata('unique_id') !== $this->input->post('unique_id')) {
             alert('잘못된 접근입니다 111');
-        }*/
+        }
 
         if ( ! $this->session->userdata('unique_id')) {
             alert('잘못된 접근입니다');
@@ -1011,14 +1011,14 @@ class BeatsomeoneApi extends CB_Controller
 
         if ( ! $this->session->userdata('order_cct_id')) {
             //alert('잘못된 접근입니다');
-        }
+        }*/
 
         $this->load->model('Cmall_cart_model');
         $where = array();
         $where['cmall_cart.mem_id'] = $mem_id;
         $findex = 'cmall_item.cit_id';
         $forder = 'desc';
-        $session_cct_id = array();
+        //$session_cct_id = array();
 
         $good_mny = $this->input->post('good_mny', null, 0);    //request 값으로 받은 값
         $item_cct_price = 0;        //주문한 상품의 총 금액의 초기화
@@ -1037,7 +1037,7 @@ class BeatsomeoneApi extends CB_Controller
                     }
                 }
 
-                $session_cct_id[] = element('cct_id', $val);
+                //$session_cct_id[] = element('cct_id', $val);
             }
         }
 
@@ -1160,6 +1160,7 @@ class BeatsomeoneApi extends CB_Controller
         }
         $mem_id = (int) $this->member->item('mem_id');
         $cor_id = (int)json_decode($this->input->post("cor_id"));
+        /*
         $cor_id2 = $this->session->userdata('unique_id');
 
         $this->session->set_userdata('unique_id', '');
@@ -1171,6 +1172,7 @@ class BeatsomeoneApi extends CB_Controller
         log_message('error', print_r($cor_id, true) );
         log_message('error', print_r($cor_id2, true) );
         //log_message('error', print_r(gmp_intval(gmp_init($cor_id)), true) );
+        */
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model', 'Beatsomeone_model'));
 

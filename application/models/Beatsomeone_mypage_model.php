@@ -364,4 +364,27 @@ class Beatsomeone_mypage_model extends CB_Model
         return array( 'result' => $r);
     }
 
+
+    /**
+     * Manage Infomation : SNS 연결 정보 조회
+     * @param $mem_id 사용자 ID
+     * @return mixed
+     */
+    public function getSocialLink($mem_id)
+    {
+        $where = array(
+            'cb_m.mem_id =' => $mem_id,
+            'cb_m.smt_value <>' => '',
+        );
+
+        $this->db
+            ->select('s.soc_type, s.soc_value as update_dt')
+            ->join('cb_social as s','m.smt_value = s.soc_account_id and s.soc_key = \'update_datetime\'','inner')
+            ->where($where);
+
+        $qry = $this->db->get('cb_social_meta as cb_m');
+
+        return $qry->result_array();
+    }
+
 }
