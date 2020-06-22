@@ -142,7 +142,8 @@
                                         </div>
                                     </div>
                                     <div class='body' id="messageDisplay">
-                                        <div >
+                                        <!-- 스크롤 박스위치 -->
+                                        <div style="overflow-y: scroll;">
                                             <div v-for="(m, i) in messageDetail" v-bind:key="m.nte_id" class="chatBalloon" :class="mem_id === m.send_mem_id ? 'me' : ''">
                                                 <div>{{m.nte_content}}
                                                     <button v-if="m.nte_filename != ''" class="btn btn--glass" @click="filedown(m.nte_filename, m.nte_originname)">
@@ -178,7 +179,9 @@
                                             <div class="input_wrap inputbox unit">
                                                 <input type="text" placeholder="Enter your message..." :value="goMessText" @input="goMessText=$event.target.value" @keypress.enter="sendMess">
                                             </div>
-                                            <button class="btn btn--blue" style="width:64px;margin-left:-10px;">
+
+                                            <!-- 비활성화 상태 : disabled 클래스 추가 -->
+                                            <button class="btn btn--blue disabled" style="width:64px;margin-left:-10px;">
                                                 <img src="/assets/images/icon/send.png" @click="sendMess"/>
                                             </button>
                                         </div>
@@ -537,7 +540,7 @@
     }
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 </style>

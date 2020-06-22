@@ -2092,7 +2092,12 @@ textarea{
   }
 }
 
-
+.btn.disabled {
+    background-color: #262626;
+    img {
+      opacity: .3;
+    }
+}
 
 .faq{
 
