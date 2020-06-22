@@ -142,6 +142,7 @@
                                         </div>
                                     </div>
                                     <div class='body' id="messageDisplay">
+                                        <!-- 스크롤 박스위치 -->
                                         <div style="overflow-y: scroll;">
                                             <div v-for="(m, i) in messageDetail" v-bind:key="m.nte_id" class="chatBalloon" :class="mem_id === m.send_mem_id ? 'me' : ''">
                                                 <div>{{m.nte_content}}
