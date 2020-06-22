@@ -179,12 +179,16 @@
                                                 <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ funcStatus(item.cor_status) }} </div>
                                             </div>
                                             <div class="user"> {{ item.mem_userid }} </div>
-                                            <div v-if="item.cit_lease_license_use === '1' && caclLeftDay(item.cor_approve_datetime) <= 0 && item.cor_status === '1' " class="download">
+                                            <div v-if="item.cor_status === '1' && item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0 " class="download">
                                                 <span class="red">Unavailable</span>
                                             </div>
-                                            <div v-else-if="item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_approve_datetime) && item.cor_status === '1' " class="download">
-                                                <span>{{ caclLeftDay(item.cor_approve_datetime) }} days left</span>
-                                                <span class="gray">(~ {{ caclTargetDay(item.cor_approve_datetime) }})</span>
+                                            <div v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime)" class="download">
+                                                <span>{{ caclLeftDay(item.cor_datetime) }} days left</span>
+                                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
+                                            </div>
+                                            <div v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'" class="download">
+                                                <span>{{ caclLeftDay(item.cor_datetime) }} days left</span>
+                                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
                                             </div>
                                             <div v-else class="download">
                                                 <span class="red">Unavailable</span>
@@ -415,7 +419,11 @@
                 if(this.isEmpty(m)){
                     m = '';
                 }
-                return m + this.formatNumber(price);
+                if(m == '$'){
+                    return m + this.formatNumberEn(price);
+                }else{
+                    return m + this.formatNumber(price);
+                }
             },
             formatSub: function(data, genre, bpm){
                 return data + " (" + genre + " / " + bpm + "bpm)";
@@ -444,7 +452,7 @@
                 var tDate = new Date(orderDate);
                 var nDate = new Date();
                 tDate.setDate(tDate.getDate() + 60);
-                var diff = Math.abs(tDate.getTime() - nDate.getTime());
+                var diff = tDate.getTime() - nDate.getTime();
                 diff = Math.ceil(diff / (1000 * 3600 * 24));
                 return diff;
             },
@@ -572,6 +580,10 @@
             formatNumber(n){
                 //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
                 return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+            },
+            formatNumberEn(n){
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
             },
             calcFUncWaitingDeposit(){
                 let sumPriceKr = 0;
