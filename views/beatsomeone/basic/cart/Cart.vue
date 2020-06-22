@@ -24,8 +24,8 @@
                         </header>
                         <div class="row">
                             <div class="title-content">
-                                <div class="title">
-                                    <label for="checkAll" class="checkbox" style="margin-left:20px; margin-bottom:30px;">
+                                <div class="title" style="justify-content: space-between;">
+                                    <label for="checkAll" class="checkbox" style="margin-left:20px; margin-bottom:30px; width: auto;">
                                         <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
                                         <span></span><div style="font-weight:600">Select All ({{ cntSelectedItems }}/ {{ cntTotalItems }})</div>
                                     </label>
