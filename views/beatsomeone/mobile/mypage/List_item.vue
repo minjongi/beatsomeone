@@ -166,6 +166,9 @@
                         
                         <div class="row">
                             <div class="playList productList">
+                                <div v-if="!showDelete" class="no-text">
+                                    <p>{{msgEmptyCart}}</p>
+                                </div>
                                 <ul>
                                     <li v-for="(item, i) in paging()" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
                                         <!-- 2가지 동시에 있는경우 other클래스 추가. -->
@@ -457,6 +460,8 @@
                 totalpage: 0,
                 currPage: 1,
                 perPage: 10,
+                showDelete: false,
+                msgEmptyCart : "There is no registered product.",
             };
         },
         mounted(){
@@ -508,8 +513,10 @@
                 console.log(data);
                 this.myProduct_list = data;
                 if(this.myProduct_list.length == 0){
+                    this.showDelete = false;
                     this.totalpage = 1;
                 }else{
+                    this.showDelete = true;
                     this.totalpage = Math.ceil(this.myProduct_list.length / this.perPage);    
                 }
               } catch (err) {
