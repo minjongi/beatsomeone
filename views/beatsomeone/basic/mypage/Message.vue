@@ -143,7 +143,7 @@
                                     </div>
                                     <div class='body' id="messageDisplay">
                                         <!-- 스크롤 박스위치 -->
-                                        <div style="overflow-y: scroll;">
+                                        <div id="message-list" style="overflow-y: scroll;">
                                             <div v-for="(m, i) in messageDetail" v-bind:key="m.nte_id" class="chatBalloon" :class="mem_id === m.send_mem_id ? 'me' : ''">
                                                 <div>{{m.nte_content}}
                                                     <button v-if="m.nte_filename != ''" class="btn btn--glass" @click="filedown(m.nte_filename, m.nte_originname)">
@@ -246,6 +246,12 @@
                 attfileurlname: '',
                 searchUser: '',
             };
+        },
+        watch:{
+            messageList:()=>{
+                let ele = document.getElementById('message-list');
+                ele.scrollTop = ele.scrollHeight;
+            }
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
@@ -518,6 +524,10 @@
                 .catch((e) => console.log(e));
 
             },
+        },
+        updated(){
+          let ele = document.getElementById('message-list');
+          ele.scrollTop = ele.scrollHeight;
         }
     }
 </script>

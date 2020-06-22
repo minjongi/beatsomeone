@@ -122,7 +122,7 @@
                                         </div>
                                     </div>
                                     <div class='body' id="messageDisplay">
-                                        <div>
+                                        <div id="message-list">
                                             <div v-for="(m, i) in messageDetail" v-bind:key="m.nte_id" class="chatBalloon" :class="mem_id === m.send_mem_id ? 'me' : ''">
                                                 <div>{{m.nte_content}}
                                                     <button v-if="m.nte_filename != ''" class="btn btn--glass" @click="filedown(m.nte_filename, m.nte_originname)">
@@ -221,6 +221,12 @@
                 attfileurlname: '',
                 searchUser: '',
             };
+        },
+        watch:{
+            messageList:()=>{
+                let ele = document.getElementById('message-list');
+                ele.scrollTop = ele.scrollHeight;
+            }
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
@@ -496,6 +502,10 @@
                 .catch((e) => console.log(e));
 
             },
+        },
+        updated(){
+          let ele = document.getElementById('message-list');
+          ele.scrollTop = ele.scrollHeight;
         }
     }
 </script>
@@ -667,8 +677,11 @@
         background-color: rgba(white,.1);
         border-radius: 8px;
         height: 420px;
-        overflow-y: scroll;
-        padding: 16px 12px;
+        >div {
+            height: 420px;
+            overflow-y: scroll;
+            padding: 16px 12px;
+        }
         .chatBalloon {
             max-width: max-content;
             >*:first-child {
