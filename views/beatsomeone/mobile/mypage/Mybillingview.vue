@@ -89,7 +89,7 @@
                                     <li v-for="(item, i) in myOrderList" v-bind:key="item.order.cor_id + item.order.cit_id" class="playList__itembox" :id="'playList__item'+ item.order.cor_id + item.order.cit_id">
                                         <div class="playList__item playList__item--title other">
                                             <div class="n-flex">
-                                                <div class="info"> <div class="code">{{ 'item_'+(i+1) }}</div> </div>
+                                                <div class="info"> <div class="code">{{ item.order.Item.cit_id }}</div> </div>
                                                 <div class="edit">
                                                     <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
                                                         {{ funcDownStatus(cor_status, item.order.Item) }}
@@ -863,7 +863,7 @@
                 var tDate = new Date(orderDate);
                 var nDate = new Date();
                 tDate.setDate(tDate.getDate() + 60);
-                var diff = Math.abs(tDate.getTime() - nDate.getTime());
+                var diff = tDate.getTime() - nDate.getTime();
                 diff = Math.ceil(diff / (1000 * 3600 * 24));
                 return diff;
             },
@@ -898,7 +898,7 @@
             funcDownStatus: function(status, i){
                 if(status === '0'){
                     return 'Unavailable';
-                }else if(status === '1'){
+                }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
                     if(i.cit_lease_license_use == "1"
                         && i.cde_quantity <= i.cde_download){
                         return 'Download Complete';
@@ -907,10 +907,13 @@
                         && i.cde_quantity > i.cde_download){
                         return 'Download Available';
                     }
-                    if(i.cit_mastering_license_use == "1"){
+                    if(i.cit_mastering_license_use == "0" && i.cit_mastering_license_use == "1"){
                         return 'Download Available';
                     }
-
+                }else if(status === '1' && i.cit_lease_license_use === '1' && i.cit_mastering_license_use === '1'){
+                    return 'Expried';
+                }else if(status === '1' && i.cit_mastering_license_use === '1'){
+                    return 'Download Available';
                 }else{
                     return 'Expried';
                 }
@@ -930,6 +933,10 @@
                     if(i.cit_mastering_license_use == "1"){
                         return 'green';
                     }
+                }else if(status === '1' && i.cit_lease_license_use === '1' && i.cit_mastering_license_use === '1'){
+                    return 'gray';
+                }else if(status === '1' && i.cit_mastering_license_use === '1'){
+                    return 'blue';
                 }else{
                     return 'gray';
                 }
