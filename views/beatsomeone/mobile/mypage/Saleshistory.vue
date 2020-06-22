@@ -39,7 +39,7 @@
                         <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
+                                <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">Product List</li>
                                 <li @click="goPage('mybilling')">Order History</li>
                                 <li class="active" v-show="group_title == 'SELLER'">Sales History</li>
                                 <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>

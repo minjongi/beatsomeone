@@ -275,13 +275,13 @@
                                         </div>
                                         <div>
                                             <div class="input_wrap inputbox unit" style="height:48px">
-                                                <input type="number" value="0" @change="calcPoint">
+                                                <input type="number" value="0" v-model="useWPoint">
                                                 <span>P</span>
                                             </div>
-                                            <button class="btn btn--blue" style="width:100px;height:48px;margin-left:-10px;">Use</button>
+                                            <button class="btn btn--blue" style="width:100px;height:48px;margin-left:-10px;" @click="usePointFn">Use</button>
                                         </div>
                                         <p style="display:inline-block;">
-                                            <span>{{ point - usePoint}}</span> P left
+                                            <span>{{ remPoint }}</span> P left
                                         </p>
                                     </div>
                                 </div>
@@ -362,6 +362,8 @@
                 totalPriceKr: 0,
                 totalPriceEn: 0,
                 point: 0,
+                useWPoint: 0,
+                remPoint: 0,
                 usePoint: 0,
                 payMethod: 0,
                 unique_id: 0,
@@ -391,6 +393,7 @@
             this.ajaxOrderList().then(() => {
                 this.calcTotalPrice();
                 this.point = this.myMember[0].mem_point;
+                this.remPoint = this.myMember[0].mem_point;
             });
         },
         methods: {
@@ -521,9 +524,6 @@
                 this.totalPriceKr = tpkr;
                 this.totalPriceEn = tpen;
             },
-            calcPoint: function (e) {
-                this.usePoint = Number(e.target.value);
-            },
             checkToday: function (date) {
                 const input = new Date(date);
                 const today = new Date();
@@ -571,6 +571,17 @@
                     e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box";
                 } else {
                     //
+                }
+            },
+            usePointFn: function(){
+                if(this.point - this.useWPoint <= 0){
+                    alert("보유중인 포인트가 부족합니다.");
+                    this.useWPoint = 0;
+                    this.usePoint = 0;
+                    this.remPoint = this.point;
+                }else{
+                    this.remPoint = this.point - this.useWPoint;
+                    this.usePoint = this.useWPoint;
                 }
             },
         }

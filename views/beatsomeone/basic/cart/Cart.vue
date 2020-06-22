@@ -29,12 +29,13 @@
                                         <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
                                         <span></span><div style="font-weight:600">Select All ({{ cntSelectedItems }}/ {{ cntTotalItems }})</div>
                                     </label>
-                                    <button class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
+                                    <button v-show="showDelete" class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
+                                <p v-if="!showDelete">{{msgEmptyCart}}</p>
                                 <ul>
                                     <li v-for="(item, i) in myCart_list" v-bind:key="item.cct_id" class="playList__itembox" :id="'playList__item'+ item.cct_id">
                                         <div class="playList__item playList__item--title other">
@@ -154,51 +155,6 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <!--
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title active">
-                                            <div class="col check">
-                                                <label for="type2" class="checkbox">
-                                                    <input type="checkbox" hidden="hidden" id="type2" value="Music Lover">
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
-                                                        <div class="detail">MP3 or WAV + STEMS</div>
-                                                    </div>
-                                                </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col feature">
-                                                <div class="price">
-                                                    $ 10.00
-                                                </div>
-                                            </div>
-                                            <div class="col edit">
-                                                <button class="btn btn--blue round" style="height:40px; padding:0 16px;">Buy NOW</button>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    --> 
                                 </ul>
                             </div>
                         </div>
@@ -243,6 +199,8 @@
                 checkedItem:[],
                 cntTotalItems: 0,
                 cntSelectedItems: 0,
+                showDelete: false,
+                msgEmptyCart : "구매 가능한 목록이 없습니다",
             };
         },
         mounted(){
@@ -273,6 +231,11 @@
                 });*/
                 this.myCart_list = data;
                 this.cntTotalItems = this.myCart_list.length;
+                if(this.cntTotalItems == 0){
+                    this.showDelete = false;
+                }else{
+                    this.showDelete = true;
+                }
               } catch (err) {
                 console.log('ajaxCartList error');
               } finally {
@@ -407,7 +370,9 @@
                     if(confirm("정말로 삭제하시겠습니까?")){
                         this.ajaxDeleteCart().then(()=>{
                             this.ajaxCartList();
-                        });    
+                        });
+                        this.checkedItem = [];
+                        this.calcTotalPrice();
                     }
                 }
             },
