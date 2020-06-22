@@ -817,7 +817,6 @@ class Cmall extends CB_Controller
 
 	public function complete()
 	{
-
 		// 이벤트 라이브러리를 로딩합니다
 		$eventname = 'event_cmall_orderresult';
 		$this->load->event($eventname);

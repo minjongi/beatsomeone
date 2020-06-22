@@ -35,7 +35,7 @@
                             <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
                                 <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
+                                <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">Product List</li>
                                 <li @click="goPage('mybilling')">Order History</li>
                                 <li class="active" v-show="group_title == 'SELLER'">Sales History</li>
                                 <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
@@ -70,6 +70,8 @@
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         minDate="1970-01-01"
+                                        :maxDate="currDate"
+                                        :endingDateValue="currDate"
                                         @update="updateSearchDate"
                                         @reset="resetSearchDate"
                                 />
@@ -317,6 +319,7 @@
                 watingDepositDr: '',
                 orderCompleteDr: '',
                 refundCompleteDr: '',
+                currDate: new Date().toISOString().substring(0, 10),
 
             };
         },
