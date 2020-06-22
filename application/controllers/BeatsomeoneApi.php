@@ -1055,17 +1055,15 @@ class BeatsomeoneApi extends CB_Controller
         log_message('error', 'total_price_sum : ' .$total_price_sum );
         log_message('error', 'usePoint : ' .$usePoint );
 
-
-        $this->load->library('paymentlib');
+        $this->load->library('pg/allat');
 
         $insertdata = array();
         $result = '';
         $od_status = 'order'; //주문상태
 
-        $order_deposit = 0;
+        $order_deposit = $this->allat->procComplete();
         $cor_cash = 0;
 
-        //무통장입금
         $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
         $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
         $insertdata['cor_memo'] = $priceType;
@@ -1085,7 +1083,6 @@ class BeatsomeoneApi extends CB_Controller
         if ( ((int) $item_cct_price - (int) $order_deposit - $cor_cash) == 0 ) {
             $od_status = 'deposit'; //주문상태
         }
-
 
         // 정보 입력
         $cor_id = $this->session->userdata('unique_id');

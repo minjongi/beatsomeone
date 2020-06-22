@@ -301,7 +301,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
                             <button class="btn btn--gray" @click="goBack">Back</button>
                             <button type="submit" class="btn btn--submit" @click="goPay">Pay</button>
@@ -311,7 +310,7 @@
                 </section>
             </div>
         </div>
-        <div style="background-color: #ffffff;">
+        <div>
             <form name="fm1" method="POST">
                 <input type="text" name="allat_shop_id" v-model="allatForm.shop_id" maxlength=20 style="color:#000000;">
                 <!--주문번호-->
@@ -432,7 +431,7 @@
                                 'Content-Type': 'multipart/form-data'
                             }
                         });
-                    console.log(data);
+
                     if (data.message == 'ok') {
                         this.cor_id = data.cor_id;
                     }
@@ -466,16 +465,6 @@
                     return false
                 }
 
-                // this.ajaxUpdateOrder().then(() => {
-                //     if (this.cor_id == '') {
-                //         alert("결제가 실패하였습니다.");
-                //         return;
-                //     } else {
-                //         window.location.href = '/cmall/complete?cor_id=' + this.cor_id;
-                //         // window.location.href = '/';
-                //     }
-                // });
-
                 this.allatForm.order_no = this.unique_id
                 this.allatForm.amt = this.totalPriceKr
                 this.allatForm.pmember_id = this.myMember[0].mem_id
@@ -485,7 +474,7 @@
                 this.allatForm.recp_nm = this.allatForm.buyer_nm
                 this.allatForm.recp_addr = this.myMember[0].mem_address1 || this.myMember[0].mem_email
 
-                axios.post(
+                Http.post(
                     '/beatsomeoneApi/set_session_order_price', {price: this.allatForm.amt}
                 ).then(
                     () => {
