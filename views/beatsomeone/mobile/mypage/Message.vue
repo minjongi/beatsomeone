@@ -227,6 +227,13 @@
             messageList:()=>{
                 let ele = document.getElementById('message-list');
                 ele.scrollTop = ele.scrollHeight;
+            },
+            goMessText: function (e) {
+                if(this.goMessText.length == 0){
+                    this.sendBtnYn = false;
+                }else{
+                    this.sendBtnYn = true;
+                }
             }
         },
         mounted(){
@@ -251,16 +258,6 @@
             this.ajaxMessageList();
             this.ajaxUserInfo();
         },
-        watch: {
-            // 질문이 변경될 때 마다 이 기능이 실행됩니다.
-            goMessText: function (e) {
-                if(this.goMessText.length == 0){
-                    this.sendBtnYn = false;
-                }else{
-                    this.sendBtnYn = true;
-                }
-            }
-          },
         methods:{
             async ajaxUserInfo () {
               try {
