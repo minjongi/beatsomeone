@@ -120,7 +120,25 @@ class Mypage extends CB_Controller
                 $result['list'][$key]['num'] = $list_num--;
             }
         }
+
         $view['view']['data'] = $result;
+
+        // 사용자 정보 추가
+        $userinfo = $this->Member_model->get_by_memid($mem_id);
+        $userinfo = array(
+            'mem_id' => $userinfo['mem_id'],
+            'mem_username' => $userinfo['mem_username'],
+            'mem_address1' => $userinfo['mem_address1'],
+            'mem_email' => $userinfo['mem_email'],
+            'mem_firstname' => $userinfo['mem_firstname'],
+            'mem_lastname' => $userinfo['mem_lastname'],
+            'mem_type' => $userinfo['mem_type'],
+            'mem_profile_content' => $userinfo['mem_profile_content'],
+            'mem_usertype' => $userinfo['mem_usertype'],
+            'mem_nickname' => $userinfo['mem_nickname'],
+            'mem_photo' => $userinfo['mem_photo'],
+        );
+        $view['view']['userinfo'] = $userinfo;
 
         /**
          * 페이지네이션을 생성합니다
@@ -167,7 +185,8 @@ class Mypage extends CB_Controller
         $layoutconfig = array(
             'path' => 'beatsomeone',
             'layout' => 'layout',
-            'skin' => 'mypage/dashboard',
+            //'skin' => 'mypage/dashboard',
+            'skin' => 'mypage/mypage',
             'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
             'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
             'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),

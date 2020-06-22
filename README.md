@@ -92,12 +92,25 @@ Beat Someone
                 	)
                 	comment 'BS 유료 플랜 가격 테이블';
     
-    *       	- alter table cb_cmall_item add cit_start_datetime datetime null;
-            	- alter table cb_cmall_item add cit_share_count int default 0 null;
-                - alter table cb_cmall_item_detail add cde_price_d decimal(7,2) default 0.0 null;
-                - alter table cb_cmall_item_detail add cde_quantity int default 0 null;
-                - INSERT INTO beatsomeone.cb_bs_register_plan_cost (plan, monthly, monthly_d, yearly, yearly_d, yearly_discount_pc, yearly_discount_amt, yearly_discount_amt_d) VALUES ('MARKETPLACE', 0.000, 9.990, 0.000, 95.880, 20.000, 0.000, 24.000);
-                - INSERT INTO beatsomeone.cb_bs_register_plan_cost (plan, monthly, monthly_d, yearly, yearly_d, yearly_discount_pc, yearly_discount_amt, yearly_discount_amt_d) VALUES ('PRO PAGE', 0.000, 19.990, 0.000, 179.880, 25.000, 0.000, 24.000);
+    *       	alter table cb_cmall_item add cit_start_datetime datetime null;
+            	alter table cb_cmall_item add cit_share_count int default 0 null;
+                alter table cb_cmall_item_detail add cde_price_d decimal(7,2) default 0.0 null;
+                alter table cb_cmall_item_detail add cde_quantity int default 0 null;
+                INSERT INTO beatsomeone.cb_bs_register_plan_cost (plan, monthly, monthly_d, yearly, yearly_d, yearly_discount_pc, yearly_discount_amt, yearly_discount_amt_d) VALUES ('MARKETPLACE', 0.000, 9.990, 0.000, 95.880, 20.000, 0.000, 24.000);
+                INSERT INTO beatsomeone.cb_bs_register_plan_cost (plan, monthly, monthly_d, yearly, yearly_d, yearly_discount_pc, yearly_discount_amt, yearly_discount_amt_d) VALUES ('PRO PAGE', 0.000, 19.990, 0.000, 179.880, 25.000, 0.000, 24.000);
+
+* 3차 변경 데이터               
+    *           create table cb_cmall_item_show_history
+                (
+                    ish_id int auto_increment,
+                    cit_id int not null,
+                    mem_id int not null,
+                    show_dt datetime null,
+                    constraint cb_cmall_item_show_history_pk
+                        primary key (ish_id)
+                )
+                comment '조회 이력';
+
 
        
 ## 환경설정
