@@ -113,7 +113,7 @@
                                 <div class="messageChat" :style="'display: '+mchat">
                                     <div class="head">
                                         <div class="portait">
-                                            <img v-if="sEmpty(mchatUserPhoto)" src="/assets/images/member_default.png"/>
+                                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/member_default.png"/>
                                             <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
                                         </div>
                                         <div>
