@@ -94,7 +94,7 @@
                                                         <!-- All Check -->
                                                         <li class="filter__item">
                                                             <label class="checkbox">
-                                                                <input type="checkbox" hidden="hidden">
+                                                                <input type="checkbox" hidden="hidden" id="boolIdAllGenre" v-model="boolAllGenre" @change="funcAll('Genre', $event)">
                                                                 <span></span><div>All Genre</div>
                                                             </label>
                                                         </li>
@@ -120,8 +120,8 @@
                                                         <!-- All Check -->
                                                         <li class="filter__item">
                                                             <label class="checkbox">
-                                                                <input type="checkbox" hidden="hidden">
-                                                                <span></span><div>All Genre</div>
+                                                                <input type="checkbox" hidden="hidden" id="boolIdAllMood" v-model="boolAllMood" @change="funcAll('Mood', $event)">
+                                                                <span></span><div>All Mood</div>
                                                             </label>
                                                         </li>
 
@@ -139,8 +139,8 @@
                                                         <!-- All Check -->
                                                         <li class="filter__item">
                                                             <label class="checkbox">
-                                                                <input type="checkbox" hidden="hidden">
-                                                                <span></span><div>All Genre</div>
+                                                                <input type="checkbox" hidden="hidden" id="boolIdAllTrackType" v-model="boolAllTrackType"  @change="funcAll('TrackType', $event)">
+                                                                <span></span><div>All TrackType</div>
                                                             </label>
                                                         </li>
 
@@ -486,6 +486,9 @@
                 perPage: 10,
                 showDelete: false,
                 msgEmptyCart : "There is no registered product.",
+                boolAllGenre: false,
+                boolAllMood: false,
+                boolAllTrackType: false,
             };
         },
         mounted(){
@@ -735,6 +738,9 @@
                     this.selectedGenre = [];
                     this.selectedMood = [];
                     this.selectedTrackType = [];
+                    this.boolAllGenre = false;
+                    this.boolAllMood = false;
+                    this.boolAllTrackType = false;
                     this.ajaxItemList();
                 }
                 this.GMT = 0;
@@ -915,6 +921,34 @@
                 }
                 if(!isInit) {
                     this.isPlay = true;
+                }
+            },
+            funcAll(t, e){
+                if(t == 'Genre'){
+                    if(this.boolAllGenre){
+                        for(let g in this.listGenre){
+                            this.selectedGenre.push(this.listGenre[g]);
+                        }
+                    }else{
+                        this.selectedGenre = [];
+                    }
+                }else if(t == 'Mood'){
+                    if(this.boolAllMood){
+                        for(let m in this.listMoods){
+                            this.selectedMood.push(this.listMoods[m]);
+                        }
+                    }else{
+                        this.selectedMood = [];
+                    }
+                }else{
+                    if(this.boolAllTrackType){
+                        for(let m in this.listTrackType){
+                            this.selectedTrackType.push(this.listTrackType[m]);
+                        }
+                    }else{
+                        this.selectedTrackType = [];
+                    }
+
                 }
             },
         }
