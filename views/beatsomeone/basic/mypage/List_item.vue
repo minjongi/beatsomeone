@@ -87,6 +87,12 @@
                                             <div class="tab_container">
                                                 <div v-show="popup_filter === 0" class="tab_content active">
                                                     <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" hidden="hidden">
+                                                                <span></span><div>All Genre</div>
+                                                            </label>
+                                                        </li>
                                                         <li class="filter__item" v-for="(item, index) in listGenre" :key="'genre' + index" >
                                                             <label :for="'genrefillter'+index" class="checkbox">
                                                                 <input type="checkbox" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
@@ -105,6 +111,12 @@
                                                 </div>
 
                                                 <div v-show="popup_filter === 1" class="tab_content active">
+                                                    <li class="filter__item">
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" hidden="hidden">
+                                                            <span></span><div>All Genre</div>
+                                                        </label>
+                                                    </li>
                                                     <ul class="filter__list">
                                                         <li class="filter__item" v-for="(item, index) in listMoods" :key="'mood' + index" >
                                                             <label :for="'moodfillter'+index" class="checkbox">
@@ -117,6 +129,12 @@
 
                                                 <div v-show="popup_filter === 2" class="tab_content active">
                                                     <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" hidden="hidden">
+                                                                <span></span><div>All Genre</div>
+                                                            </label>
+                                                        </li>
                                                         <li class="filter__item" v-for="(item, index) in listTrackType" :key="'track' + index" >
                                                             <label :for="'trackfillter'+index" class="checkbox">
                                                                 <input type="checkbox" hidden="hidden" :id="'trackfillter'+index" :value="item" v-model="selectedTrackType">
