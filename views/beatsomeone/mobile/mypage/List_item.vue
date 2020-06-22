@@ -177,6 +177,7 @@
                                             <div class="row">
                                                 <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
                                                 <div class="col code">{{ item.cit_key }}</div>
+                                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                                             </div>
                                             
                                             <div class="row">
@@ -224,7 +225,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <p>MP3 or WAV</p>
                                                                 </div>
-                                                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
+                                                                <!-- <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item basic">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -265,7 +266,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <p>MP3 or WAV</p>
                                                                 </div>
-                                                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
+                                                                <!-- <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item basic">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -287,7 +288,7 @@
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <p>MP3 or WAV + STEMS</p>
                                                                 </div>
-                                                                <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
+                                                                <!-- <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item unlimited">
                                                                 <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
