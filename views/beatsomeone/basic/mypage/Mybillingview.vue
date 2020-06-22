@@ -102,11 +102,12 @@
                                                     </span>
                                                     <figcaption class="pointer">
                                                         <div class="info">
-                                                          <div class="code">{{ 'item_'+(i+1) }}</div>
+                                                          <div class="code">{{ item.order.Item.cit_id }}</div>
                                                         </div>
                                                         <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
                                                         <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
-                                                        <span class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span>
+                                                        <span v-if="item.order.Item.bpm > 0" class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span>
+                                                        <span v-else class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} </span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
@@ -146,7 +147,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, item.order.cor_memo) }}</div>
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
@@ -185,7 +186,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, item.order.cor_memo) }}</div>
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
@@ -205,22 +206,29 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}
+                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, item.order.cor_memo) }}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col edit">
-                                                <button  v-if="cor_status != '1'" class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
-
-                                                <button  v-else-if="cor_status === '1'" @click="downloadWithAxios(item.order.Item.cde_id, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                <button  v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0" @click="downloadWithAxios(item.order.Item.cde_id, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                <button  v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
+                                                <button  v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' " @click="downloadWithAxios(item.order.Item.cde_id, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                <button  v-else class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
 
                                                 <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
                                                     {{ funcDownStatus(cor_status, item.order.Item) }}
                                                 </div>
 
-                                                <div v-if="cor_status === '1' " class="download_period">
+                                                <div v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0" class="download_period">
                                                     <span> {{ caclLeftDay(item.order.cor_approve_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
+                                                </div>
+                                                <div v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " class="download_period">
+                                                    <span class="gray"> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
+                                                </div>
+                                                <div v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' " class="download_period">
+                                                    <span>  </span>
                                                 </div>
                                                 <div v-else-if="cor_status === '0' " class="download_period">
                                                     <span>  </span>
@@ -781,21 +789,14 @@
             },
             formatTotalPrice: function(price, simbol){
                 if(simbol === '$'){
-                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 0});
+                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }else{
                     return '₩ '+ Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
             },
             formatPrice: function(kr, en, simbol){
-                if(!simbol){
-                    if(this.$i18n.locale === 'en'){
-                        return en;
-                    }else{
-                        return kr;
-                    }
-                }
-                if(this.$i18n.locale === 'en'){
-                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                if(simbol == '$'){
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }else{
                     return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
@@ -861,7 +862,7 @@
                 var tDate = new Date(orderDate);
                 var nDate = new Date();
                 tDate.setDate(tDate.getDate() + 60);
-                var diff = Math.abs(tDate.getTime() - nDate.getTime());
+                var diff = tDate.getTime() - nDate.getTime();
                 diff = Math.ceil(diff / (1000 * 3600 * 24));
                 return diff;
             },
@@ -897,19 +898,17 @@
             funcDownStatus: function(status, i){
                 if(status === '0'){
                     return 'Unavailable';
-                }else if(status === '1'){
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity <= i.cde_download){
-                        return 'Download Complete';
-                    }
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity > i.cde_download){
+                }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
+                    if(i.cit_lease_license_use == "1"){
                         return 'Download Available';
                     }
-                    if(i.cit_mastering_license_use == "1"){
+                    if(i.cit_mastering_license_use == "0" && i.cit_mastering_license_use == "1"){
                         return 'Download Available';
                     }
-
+                }else if(status === '1' && i.cit_lease_license_use === '1' && i.cit_mastering_license_use === '1'){
+                    return 'Expried';
+                }else if(status === '1' && i.cit_mastering_license_use === '1'){
+                    return 'Download Available';
                 }else{
                     return 'Expried';
                 }
@@ -918,17 +917,19 @@
                 if(status === '0'){
                     return 'red';
                 }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity <= i.cde_download){
+                    if(i.cit_lease_license_use == "1"){
                         return 'blue';
                     }
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity > i.cde_download){
+                    if(i.cit_lease_license_use == "1"){
                         return 'green';
                     }
                     if(i.cit_mastering_license_use == "1"){
                         return 'green';
                     }
+                }else if(status === '1' && i.cit_lease_license_use === '1' && i.cit_mastering_license_use === '1'){
+                    return 'gray';
+                }else if(status === '1' && i.cit_mastering_license_use === '1'){
+                    return 'blue';
                 }else{
                     return 'gray';
                 }

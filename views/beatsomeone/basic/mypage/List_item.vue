@@ -81,12 +81,18 @@
                                         <div class="select-genre popup active">
                                             <div class="tab">
                                                 <button :class="popup_filter == 0 ? 'active' : ''" @click="popup_filter = 0">Genre<div class="count">{{selectedGenre.length}}</div></button>
-                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mode<div class="count">{{selectedMood.length}}</div></button>
+                                                <button :class="popup_filter == 1 ? 'active' : ''" @click="popup_filter = 1">Mood<div class="count">{{selectedMood.length}}</div></button>
                                                 <button :class="popup_filter == 2 ? 'active' : ''" @click="popup_filter = 2">Track Type<div class="count">{{selectedTrackType.length}}</div></button>
                                             </div>
                                             <div class="tab_container">
                                                 <div v-show="popup_filter === 0" class="tab_content active">
                                                     <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" hidden="hidden" id="boolIdAllGenre" v-model="boolAllGenre" @change="funcAll('Genre', $event)">
+                                                                <span></span><div>All Genre</div>
+                                                            </label>
+                                                        </li>
                                                         <li class="filter__item" v-for="(item, index) in listGenre" :key="'genre' + index" >
                                                             <label :for="'genrefillter'+index" class="checkbox">
                                                                 <input type="checkbox" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
@@ -105,6 +111,12 @@
                                                 </div>
 
                                                 <div v-show="popup_filter === 1" class="tab_content active">
+                                                    <li class="filter__item">
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" hidden="hidden" id="boolIdAllMood" v-model="boolAllMood" @change="funcAll('Mood', $event)">
+                                                            <span></span><div>All Mood</div>
+                                                        </label>
+                                                    </li>
                                                     <ul class="filter__list">
                                                         <li class="filter__item" v-for="(item, index) in listMoods" :key="'mood' + index" >
                                                             <label :for="'moodfillter'+index" class="checkbox">
@@ -117,6 +129,12 @@
 
                                                 <div v-show="popup_filter === 2" class="tab_content active">
                                                     <ul class="filter__list">
+                                                        <li class="filter__item">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" hidden="hidden" id="boolIdAllTrackType" v-model="boolAllTrackType"  @change="funcAll('TrackType', $event)">
+                                                                <span></span><div>All TrackType</div>
+                                                            </label>
+                                                        </li>
                                                         <li class="filter__item" v-for="(item, index) in listTrackType" :key="'track' + index" >
                                                             <label :for="'trackfillter'+index" class="checkbox">
                                                                 <input type="checkbox" hidden="hidden" :id="'trackfillter'+index" :value="item" v-model="selectedTrackType">
@@ -164,6 +182,9 @@
                         
                         <div class="row">
                             <div class="playList productList">
+                                <div v-if="!showDelete" class="no-text">
+                                    <p>{{msgEmptyCart}}</p>
+                                </div>
                                 <ul>
                                     <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
                                         <!-- 2가지 동시에 있는경우 other클래스 추가. -->
@@ -445,6 +466,11 @@
                 goSearchText:'',
                 currDate: new Date().toISOString().substring(0, 10),
                 playSt:'',
+                showDelete: false,
+                msgEmptyCart : "There is no registered product.",
+                boolAllGenre: false,
+                boolAllMood: false,
+                boolAllTrackType: false,
             };
         },
         mounted(){
@@ -491,6 +517,11 @@
                     console.log(d.cit_start_datetime);
                 });*/
                 this.myProduct_list = data;
+                if(this.myProduct_list.length == 0){
+                    this.showDelete = false;
+                }else{
+                    this.showDelete = true;
+                }
               } catch (err) {
                 console.log('ajaxItemList error');
               } finally {
@@ -668,6 +699,9 @@
                     this.selectedGenre = [];
                     this.selectedMood = [];
                     this.selectedTrackType = [];
+                    this.boolAllGenre = false;
+                    this.boolAllMood = false;
+                    this.boolAllTrackType = false;
                     this.ajaxItemList();
                 }
                 this.GMT = 0;
@@ -857,6 +891,34 @@
                 }
                 if(!isInit) {
                     this.isPlay = true;
+                }
+            },
+            funcAll(t, e){
+                if(t == 'Genre'){
+                    if(this.boolAllGenre){
+                        for(let g in this.listGenre){
+                            this.selectedGenre.push(this.listGenre[g]);
+                        }
+                    }else{
+                        this.selectedGenre = [];
+                    }
+                }else if(t == 'Mood'){
+                    if(this.boolAllMood){
+                        for(let m in this.listMoods){
+                            this.selectedMood.push(this.listMoods[m]);
+                        }
+                    }else{
+                        this.selectedMood = [];
+                    }
+                }else{
+                    if(this.boolAllTrackType){
+                        for(let m in this.listTrackType){
+                            this.selectedTrackType.push(this.listTrackType[m]);
+                        }
+                    }else{
+                        this.selectedTrackType = [];
+                    }
+
                 }
             },
         }

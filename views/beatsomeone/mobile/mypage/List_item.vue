@@ -91,6 +91,13 @@
                                             <div class="tab_container">
                                                 <div v-show="popup_filter === 0" class="tab_content active">
                                                     <ul class="filter__list">
+                                                        <!-- All Check -->
+                                                        <li class="filter__item">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" hidden="hidden" id="boolIdAllGenre" v-model="boolAllGenre" @change="funcAll('Genre', $event)">
+                                                                <span></span><div>All Genre</div>
+                                                            </label>
+                                                        </li>
                                                         <li class="filter__item" v-for="(item, index) in listGenre" :key="'genre' + index" >
                                                             <label :for="'genrefillter'+index" class="checkbox">
                                                                 <input type="checkbox" hidden="hidden" :id="'genrefillter'+index" :value="item" v-model="selectedGenre">
@@ -110,6 +117,14 @@
 
                                                 <div v-show="popup_filter === 1" class="tab_content active">
                                                     <ul class="filter__list">
+                                                        <!-- All Check -->
+                                                        <li class="filter__item">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" hidden="hidden" id="boolIdAllMood" v-model="boolAllMood" @change="funcAll('Mood', $event)">
+                                                                <span></span><div>All Mood</div>
+                                                            </label>
+                                                        </li>
+
                                                         <li class="filter__item" v-for="(item, index) in listMoods" :key="'mood' + index" >
                                                             <label :for="'moodfillter'+index" class="checkbox">
                                                                 <input type="checkbox" hidden="hidden" :id="'moodfillter'+index" :value="item" v-model="selectedMood">
@@ -121,6 +136,14 @@
 
                                                 <div v-show="popup_filter === 2" class="tab_content active">
                                                     <ul class="filter__list">
+                                                        <!-- All Check -->
+                                                        <li class="filter__item">
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" hidden="hidden" id="boolIdAllTrackType" v-model="boolAllTrackType"  @change="funcAll('TrackType', $event)">
+                                                                <span></span><div>All TrackType</div>
+                                                            </label>
+                                                        </li>
+
                                                         <li class="filter__item" v-for="(item, index) in listTrackType" :key="'track' + index" >
                                                             <label :for="'trackfillter'+index" class="checkbox">
                                                                 <input type="checkbox" hidden="hidden" :id="'trackfillter'+index" :value="item" v-model="selectedTrackType">
@@ -166,6 +189,9 @@
                         
                         <div class="row">
                             <div class="playList productList">
+                                <div v-if="!showDelete" class="no-text">
+                                    <p>{{msgEmptyCart}}</p>
+                                </div>
                                 <ul>
                                     <li v-for="(item, i) in paging()" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
                                         <!-- 2가지 동시에 있는경우 other클래스 추가. -->
@@ -174,6 +200,7 @@
                                             <div class="row">
                                                 <div class="col index">{{ calcSeq(myProduct_list.length,i) }}</div>
                                                 <div class="col code">{{ item.cit_key }}</div>
+                                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                                             </div>
                                             
                                             <div class="row">
@@ -221,7 +248,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <p>MP3 or WAV</p>
                                                                 </div>
-                                                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
+                                                                <!-- <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item basic">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -262,7 +289,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <p>MP3 or WAV</p>
                                                                 </div>
-                                                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
+                                                                <!-- <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item basic">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -284,7 +311,7 @@
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <p>MP3 or WAV + STEMS</p>
                                                                 </div>
-                                                                <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
+                                                                <!-- <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item unlimited">
                                                                 <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
@@ -457,6 +484,11 @@
                 totalpage: 0,
                 currPage: 1,
                 perPage: 10,
+                showDelete: false,
+                msgEmptyCart : "There is no registered product.",
+                boolAllGenre: false,
+                boolAllMood: false,
+                boolAllTrackType: false,
             };
         },
         mounted(){
@@ -508,8 +540,10 @@
                 console.log(data);
                 this.myProduct_list = data;
                 if(this.myProduct_list.length == 0){
+                    this.showDelete = false;
                     this.totalpage = 1;
                 }else{
+                    this.showDelete = true;
                     this.totalpage = Math.ceil(this.myProduct_list.length / this.perPage);    
                 }
               } catch (err) {
@@ -704,6 +738,9 @@
                     this.selectedGenre = [];
                     this.selectedMood = [];
                     this.selectedTrackType = [];
+                    this.boolAllGenre = false;
+                    this.boolAllMood = false;
+                    this.boolAllTrackType = false;
                     this.ajaxItemList();
                 }
                 this.GMT = 0;
@@ -884,6 +921,34 @@
                 }
                 if(!isInit) {
                     this.isPlay = true;
+                }
+            },
+            funcAll(t, e){
+                if(t == 'Genre'){
+                    if(this.boolAllGenre){
+                        for(let g in this.listGenre){
+                            this.selectedGenre.push(this.listGenre[g]);
+                        }
+                    }else{
+                        this.selectedGenre = [];
+                    }
+                }else if(t == 'Mood'){
+                    if(this.boolAllMood){
+                        for(let m in this.listMoods){
+                            this.selectedMood.push(this.listMoods[m]);
+                        }
+                    }else{
+                        this.selectedMood = [];
+                    }
+                }else{
+                    if(this.boolAllTrackType){
+                        for(let m in this.listTrackType){
+                            this.selectedTrackType.push(this.listTrackType[m]);
+                        }
+                    }else{
+                        this.selectedTrackType = [];
+                    }
+
                 }
             },
         }

@@ -24,18 +24,20 @@
                         </header>
                         <div class="row">
                             <div class="title-content">
-                                <div class="title">
-                                    <label for="checkAll" class="checkbox" style="margin-left:20px; margin-bottom:30px;">
+                                <div class="title" style="justify-content: space-between;">
+                                    <label for="checkAll" class="checkbox" style="margin-left:20px; margin-bottom:30px; width: auto;">
                                         <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
                                         <span></span><div style="font-weight:600">Select All ({{ cntSelectedItems }}/ {{ cntTotalItems }})</div>
                                     </label>
-                                    <button v-show="showDelete" class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
+                                    <button v-show="showDelete" class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px; font-size: 14px; font-weight: normal" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
-                                <p v-if="!showDelete">{{msgEmptyCart}}</p>
+                                <div v-if="!showDelete" class="no-text">
+                                    <p>{{msgEmptyCart}}</p>
+                                </div>
                                 <ul>
                                     <li v-for="(item, i) in myCart_list" v-bind:key="item.cct_id" class="playList__itembox" :id="'playList__item'+ item.cct_id">
                                         <div class="playList__item playList__item--title other">
@@ -200,7 +202,7 @@
                 cntTotalItems: 0,
                 cntSelectedItems: 0,
                 showDelete: false,
-                msgEmptyCart : "구매 가능한 목록이 없습니다",
+                msgEmptyCart : "There is no purchaseable list."
             };
         },
         mounted(){
@@ -459,4 +461,6 @@
     .playList__item .n-option .n-box .price {
         color: white;
     }
+
+    
 </style>

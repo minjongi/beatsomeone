@@ -2092,7 +2092,12 @@ textarea{
   }
 }
 
-
+.btn.disabled {
+    background-color: #262626;
+    img {
+      opacity: .3;
+    }
+}
 
 .faq{
 
@@ -3564,4 +3569,19 @@ textarea{
 
 .hidden {
   display: none;
+}
+
+
+/* No Text */
+.no-text {
+    display: flex;
+    margin-top: 167px;
+    justify-content: center;
+    align-items: center;
+    min-height: 176px;
+    >p {
+        font-size: 32px;
+        color: rgba(white,.3);
+        font-weight: 500;
+    }
 }

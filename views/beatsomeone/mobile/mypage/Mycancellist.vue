@@ -2,7 +2,7 @@
 
     <div class="wrapper">
         <Header :is-login="isLogin"/>
-        <div class="container sub">
+        <div class="container sub cancellist-wrap">
             <div class="mypage sublist">
                 <div class="wrap">
                     <div class="sublist__filter sticky">
@@ -22,39 +22,43 @@
                                     <div class="bio">
                                         Music Lover, KKOMA
                                     </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile__footer">
+                                <div class="location">
+                                    <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
+                                </div>
+                                <div class="brandshop">
+                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">Product List</li>
-                                <li class="active">Order History</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                        
                     </div>
 
-                    <div class="sublist__content" style="margin-bottom:100px;">
+                    <div class="row menu__wraper">
+                        <ul class="menu">
+                            <li @click="goPage('')">Dashboard</li>
+                            <li @click="goPage('profilemod')">Manage Information</li>
+                            <li @click="goPage('list_item')">Product List</li>
+                            <li class="active">Order History</li>
+                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                            <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                            <li @click="goPage('message')">Message</li>
+                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                            <li @click="goPage('inquiry')">Support
+                                <ul class="menu">
+                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('faq')">FAQ</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sublist__content">
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
-                                <div class="tab" style="height:64px;">
+                                <div class="tab n-flex" style="height:48px;">
                                     <div @click="goPage('mybilling')">Order History (123)</div>
                                     <div class="active">Cancellation / Refund History(32)</div>
                                 </div>
@@ -64,30 +68,33 @@
 
                         <div class="row" style="display:flex; margin-bottom:10px;">
                             <div class="search condition">
-                                <div class="filter">
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
+                                <div class="n-flex between filter">
+                                    <div class="condition active" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">1 year</div>
                                 </div>
                             </div>
-                            <div style="margin-left:auto; ">
-                                <div>
-                                    <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
-                                        <input type="date" placeholder="Start Date" />
-                                        <span>─</span>
-                                        <input type="date" placeholder="End Date" />
-                                        <button><img src="/assets/images/icon/calendar-white.png" /></button>
-                                    </div>
-                                </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div>
+                                <VueHotelDatepicker
+                                    class="search-date"
+                                    format="YYYY-MM-DD"
+                                    placeholder="Start date ~ End date"
+                                    :startDate="start_date"
+                                    :endDate="end_date"
+                                    minDate="1970-01-01"
+                                    @update="updateSearchDate"
+                                    @reset="resetSearchDate"
+                                />
                             </div>
                         </div>
                             
-                        <div class="row" style="display:flex; margin-bottom:30px;">
-                            <div class="tabmenu">
-                            </div>
-                            <div class="sort" style="text-align:right">
-                                <div class="custom-select" style="min-width:max-content;">
+                        <div class="row" style="margin-bottom:30px;">
+                            <div class="sort">
+                                <div class="custom-select">
                                     <button class="selected-option">
                                         Recent
                                     </button>
@@ -98,15 +105,11 @@
                             </div>
                         </div> 
 
-                        <div class="row" style="margin-bottom:20px;">
-                            <div class="main__media board mybillinglist">
-                                <div class="tab nowrap">
-                                    <div class="index">No</div>
-                                    <div class="date">Date</div>
-                                    <div class="product">Product</div>
-                                    <div class="totalprice">Total price</div>
-                                    <div class="status">Status</div>
-                                </div>
+                        <div class="row">
+                            <div class="tabmenu">
+                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
                             </div>
                         </div>
 
@@ -257,12 +260,6 @@
                                     <button>2</button>
                                     <button>3</button>
                                     <button>4</button>
-                                    <button>5</button>
-                                    <button>6</button>
-                                    <button>7</button>
-                                    <button>8</button>
-                                    <button>9</button>
-                                    <button>10</button>
                                     <button class="next active"><img src="/assets/images/icon/chevron_next.png"/></button>
                                 </div>
                             </div>
@@ -292,10 +289,11 @@
     import Velocity from "velocity-animate";
     //import MainPlayer from "@/vue/common/MainPlayer";
     import WaveSurfer from 'wavesurfer.js';
+    import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
 
     export default {
         components: {
-            Header, Footer
+            Header, Footer, VueHotelDatepicker
         },
         data: function() {
             return {
@@ -373,7 +371,10 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+
+    
 </style>

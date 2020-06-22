@@ -97,7 +97,7 @@
                                                         </div>
                                                         <div>
                                                             <div>
-                                                                <div class="user">{{ m.mem_nickname }}</div>
+                                                                <div class="user" style="margin-bottom: 8px;">{{ m.mem_nickname }}</div>
                                                                 <div class="date">{{ m.nte_datetime }}</div>
                                                             </div>
                                                             <div>
@@ -133,7 +133,7 @@
                                 <div class="messageChat" :style="'display: '+mchat">
                                     <div class="head">
                                         <div class="portait">
-                                            <img v-if="mchatUserPhoto === ''" src="/assets/images/member_default.png"/>
+                                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
                                             <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
                                          </div>
                                         <div>
@@ -142,7 +142,8 @@
                                         </div>
                                     </div>
                                     <div class='body' id="messageDisplay">
-                                        <div >
+                                        <!-- 스크롤 박스위치 -->
+                                        <div id="message-list" style="overflow-y: scroll;">
                                             <div v-for="(m, i) in messageDetail" v-bind:key="m.nte_id" class="chatBalloon" :class="mem_id === m.send_mem_id ? 'me' : ''">
                                                 <div>{{m.nte_content}}
                                                     <button v-if="m.nte_filename != ''" class="btn btn--glass" @click="filedown(m.nte_filename, m.nte_originname)">
@@ -150,7 +151,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="date">
-                                                    <span v-if="m.nte_read_datetime != '' && mem_id != m.send_mem_id" class="active">Seen</span>
+                                                    <!-- <span v-if="m.nte_read_datetime != '' && mem_id != m.send_mem_id" class="active">Seen</span> -->
                                                     {{ m.nte_datetime }}
                                                     <span v-if="mem_id === m.send_mem_id"></span>
                                                 
@@ -178,7 +179,9 @@
                                             <div class="input_wrap inputbox unit">
                                                 <input type="text" placeholder="Enter your message..." :value="goMessText" @input="goMessText=$event.target.value" @keypress.enter="sendMess">
                                             </div>
-                                            <button class="btn btn--blue" style="width:64px;margin-left:-10px;">
+
+                                            <!-- 비활성화 상태 : disabled 클래스 추가 -->
+                                            <button class="btn btn--blue" :class="sendBtnYn ? '' : 'disabled'" style="width:64px;margin-left:-10px;">
                                                 <img src="/assets/images/icon/send.png" @click="sendMess"/>
                                             </button>
                                         </div>
@@ -226,6 +229,7 @@
                 mem_address1: '',
                 mem_type: '',
                 mem_lastname: '',
+                mem_profile_content: '',
                 popup_filter:0,
                 dateType: 'All',
                 goMessText: '',
@@ -242,7 +246,21 @@
                 attfilename: '',
                 attfileurlname: '',
                 searchUser: '',
+                sendBtnYn: false,
             };
+        },
+        watch:{
+            messageList:()=>{
+                let ele = document.getElementById('message-list');
+                ele.scrollTop = ele.scrollHeight;
+            },
+            goMessText: function (e) {
+                if(this.goMessText.length == 0){
+                    this.sendBtnYn = false;
+                }else{
+                    this.sendBtnYn = true;
+                }
+            },
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
@@ -278,6 +296,7 @@
                 this.mem_address1 = data[0].mem_address1;
                 this.mem_type = data[0].mem_type;
                 this.mem_lastname = data[0].mem_lastname;
+                this.mem_profile_content = data[0].mem_profile_content;
 
                 if(this.mem_usertype == 1){
                     this.group_title = "CUSTOMER";
@@ -407,7 +426,7 @@
                     if(this.isEmpty(m.mem_type) && this.isEmpty(m.mem_lastname)){
                         this.mchatUserBio = '';
                     }else{
-                        this.mchatUserBio = m.mem_type + ', ' + m.mem_lastname;
+                        this.mchatUserBio = m.mem_profile_content;
                     }
 
                     var messageDisplay = document.getElementById("messageDisplay");
@@ -416,7 +435,7 @@
                 this.ajaxMessageRead(m.mem_id).then((data)=>{
                     if(data){
                         this.ajaxMessageList().then(()=>{
-                            console.log(this.tempList.length);
+                            //console.log(this.tempList.length);
                             for(let i in this.tempList){
                                 this.messageList.push(this.tempList[i]);
                             }
@@ -443,6 +462,11 @@
                 })
             },
             sendMess: function(e){
+                if(this.goMessText.length == 0){
+                    alert('메세지를 입력하세요');
+                    return;
+                }
+
                 let fn = '';
                 let fnurl = '';
                 if(!this.isEmpty(this.attfilename)){
@@ -515,6 +539,10 @@
                 .catch((e) => console.log(e));
 
             },
+        },
+        updated(){
+          let ele = document.getElementById('message-list');
+          ele.scrollTop = ele.scrollHeight;
         }
     }
 </script>
@@ -537,7 +565,7 @@
     }
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 </style>
