@@ -171,4 +171,16 @@ class Cmall_order_model extends CB_Model
 		$rows = $qry->row_array();
 		return $rows;
 	}
+
+    public function allat_log_insert($data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+
+        log_message('error', print_r($data, true));
+
+        $return = $this->db->insert('allat_log', $data);
+        return $return;
+    }
 }
