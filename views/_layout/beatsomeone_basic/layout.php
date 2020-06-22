@@ -7,6 +7,9 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=1420">
+
+    <meta property="fb:app_id" content="579999516228616"/>
+    <meta property="og:type" content="website"/>
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
     <meta property="og:description" content="<?php echo html_escape(element('og_description', $layout)); ?>"/>
