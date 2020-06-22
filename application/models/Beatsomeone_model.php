@@ -723,7 +723,7 @@ class Beatsomeone_model extends CB_Model
     // mypage 멤버 정보 조회
     public function get_user_info($p)
     {
-        $select = 'mem_id, mem_userid, mem_nickname, mem_email, mem_level, mem_point, mem_icon, mem_photo, mem_usertype, mem_address1, mem_type, mem_firstname, mem_lastname';
+        $select = 'mem_id, mem_userid, mem_nickname, mem_email, mem_level, mem_point, mem_icon, mem_photo, mem_usertype, mem_address1, mem_type, mem_firstname, mem_lastname, mem_profile_content';
         $this->db->select($select);
 
         //$this->db->join('cb_cmall_item_meta_v as p','p.cit_id = c.cit_id','left');
@@ -905,7 +905,7 @@ class Beatsomeone_model extends CB_Model
 
         $sql = " SELECT a.nte_id, a.recv_mem_id mem_id, a.related_note_id ";
         $sql .= "   , a.nte_content, a.nte_datetime, a.nte_read_datetime, a.nte_filename ";
-        $sql .= "   , b.mem_nickname, b.mem_phone, b.mem_type, b.mem_lastname ";
+        $sql .= "   , b.mem_nickname, b.mem_phone, b.mem_type, b.mem_profile_content ";
         $sql .= "FROM beatsomeone.cb_note a, beatsomeone.cb_member b ";
         $sql .= "where a.send_mem_id = ? ";
         $sql .= "and a.nte_type = 1 ";
@@ -913,7 +913,7 @@ class Beatsomeone_model extends CB_Model
         $sql .= "union all ";
         $sql .= "SELECT a.nte_id, a.send_mem_id mem_id, a.related_note_id ";
         $sql .= "   , a.nte_content, a.nte_datetime, a.nte_read_datetime, a.nte_filename ";
-        $sql .= "   , b.mem_nickname, b.mem_phone, b.mem_type, b.mem_lastname ";
+        $sql .= "   , b.mem_nickname, b.mem_phone, b.mem_type, b.mem_profile_content ";
         $sql .= "FROM beatsomeone.cb_note a, beatsomeone.cb_member b ";
         $sql .= "where recv_mem_id = ? ";
         $sql .= "and nte_type = 2 ";
