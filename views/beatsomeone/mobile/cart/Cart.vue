@@ -33,6 +33,9 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div v-if="!showDelete" class="no-text">
+                                <p>{{msgEmptyCart}}</p>
+                            </div>
                             <div class="playList productList cart">
                                 <ul>
                                     <li v-for="(item, i) in myCart_list" v-bind:key="item.cct_id" class="playList__itembox" :id="'playList__item'+ item.cct_id">
@@ -263,6 +266,7 @@
                 checkedItem:[],
                 cntTotalItems: 0,
                 cntSelectedItems: 0,
+                msgEmptyCart : "There is no purchaseable list."
             };
         },
         mounted(){
@@ -503,5 +507,18 @@
     }
     .productList .playList__item > * {
         height: auto;
+    }
+
+    /* No Text */
+    .no-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 280px;
+        >p {
+            font-size: 16px;
+            color: rgba(white,.3);
+            font-weight: 500;
+        }
     }
 </style>
