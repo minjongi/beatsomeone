@@ -181,7 +181,7 @@
                                             </div>
 
                                             <!-- 비활성화 상태 : disabled 클래스 추가 -->
-                                            <button class="btn btn--blue disabled" style="width:64px;margin-left:-10px;">
+                                            <button class="btn btn--blue" :class="sendBtnYn ? '' : 'disabled'" style="width:64px;margin-left:-10px;">
                                                 <img src="/assets/images/icon/send.png" @click="sendMess"/>
                                             </button>
                                         </div>
@@ -245,6 +245,7 @@
                 attfilename: '',
                 attfileurlname: '',
                 searchUser: '',
+                sendBtnYn: false,
             };
         },
         watch:{
@@ -272,6 +273,16 @@
             this.ajaxMessageList();
             this.ajaxUserInfo();
         },
+        watch: {
+            // 질문이 변경될 때 마다 이 기능이 실행됩니다.
+            goMessText: function (e) {
+                if(this.goMessText.length == 0){
+                    this.sendBtnYn = false;
+                }else{
+                    this.sendBtnYn = true;
+                }
+            }
+          },
         methods:{
             async ajaxUserInfo () {
               try {
@@ -452,6 +463,11 @@
                 })
             },
             sendMess: function(e){
+                if(this.goMessText.length == 0){
+                    alert('메세지를 입력하세요');
+                    return;
+                }
+
                 let fn = '';
                 let fnurl = '';
                 if(!this.isEmpty(this.attfilename)){

@@ -157,7 +157,7 @@
                                             <div class="input_wrap inputbox unit">
                                                 <input type="text" placeholder="Enter your message..." :value="goMessText" @input="goMessText=$event.target.value" @keypress.enter="sendMess">
                                             </div>
-                                            <button class="btn btn--blue" style="width:64px;margin-left:-10px;">
+                                            <button class="btn btn--blue" :class="sendBtnYn ? '' : 'disabled'" style="width:64px;margin-left:-10px;">
                                                 <img src="/assets/images/icon/send.png" @click="sendMess"/>
                                             </button>
                                         </div>
@@ -220,6 +220,7 @@
                 attfilename: '',
                 attfileurlname: '',
                 searchUser: '',
+                sendBtnYn: false,
             };
         },
         watch:{
@@ -250,6 +251,16 @@
             this.ajaxMessageList();
             this.ajaxUserInfo();
         },
+        watch: {
+            // 질문이 변경될 때 마다 이 기능이 실행됩니다.
+            goMessText: function (e) {
+                if(this.goMessText.length == 0){
+                    this.sendBtnYn = false;
+                }else{
+                    this.sendBtnYn = true;
+                }
+            }
+          },
         methods:{
             async ajaxUserInfo () {
               try {
@@ -430,6 +441,11 @@
                 })
             },
             sendMess: function(e){
+                if(this.goMessText.length == 0){
+                    alert('메세지를 입력하세요');
+                    return;
+                }
+                
                 let fn = '';
                 let fnurl = '';
                 if(!this.isEmpty(this.attfilename)){
