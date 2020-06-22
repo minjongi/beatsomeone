@@ -485,6 +485,108 @@
         <div id="waveform" ></div>
         <main-player></main-player>
         -->
+
+
+        <!-- 정산내역 팝업 -->
+        <div class="panel active">
+            <div class="popup payment_popup active">
+                <div class="popup close">
+                    <span></span>
+                    <span></span>
+                </div>
+                <h3><span class="blue">3월</span> 정산내역</h3>
+                <div class="payment_box_head">
+                    <div class="n-flex">
+                        <div class="n-flex between">
+                            <span>정산기간</span>
+                            <span>2020.03.01~2020.03.31</span>
+                        </div>
+                        <div class="n-flex between">
+                            <span>정산일시</span>
+                            <span>2020.04.10 12:00:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="payment_box" style="padding-top:0; padding-bottom:10px; margin-top:0; border:0;">
+                    <div class="tab row">
+                        <div>
+                            <div>
+                                <div class="title big">Settlement detail</div>
+                            </div>
+                            <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                                <div class="title">Total rental (VAT included)</div>
+                                <div>$ 120.00</div>
+                            </div>
+                            <div>
+                                <div class="subtitle">- Rent amount</div>
+                                <div>200</div>
+                            </div>
+                            <div>
+                                <div class="title">Total sales (VAT included)</div>
+                                <div>$ 120.00</div>
+                            </div>
+                            <div>
+                                <div class="subtitle">- Sales amount</div>
+                                <div>300</div>
+                            </div>
+                            <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                                <div class="title">Order total (VAT Included)</div>
+                                <div>$ 440.00</div>
+                            </div>
+                            <div>
+                                <div class="title">VAT (10%)</div>
+                                <div class="red">- $ 40.00</div>
+                            </div>
+                            <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                                <div class="title">Settlement</div>
+                                <div style="opacity:.7; font-weight:300;">$ 400.00</div>
+                            </div>
+                            <div>
+                                <div class="title">Fee (10%)</div>
+                                <div class="red">- $ 40.00</div>
+                            </div>
+                            <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                                <div class="title big">Total settlement</div>
+                                <div class="blue big">$ 365.00</div>
+                            </div>
+                        </div>         
+                        <div>
+                            <div class="col">
+                                <div class="title big">Help</div>
+                                <div>
+                                    <ul>
+                                        <li>
+                                            <strong>Total rental: </strong>It means the total purchase amount of the bit registered by the seller with the 'Rental' option. <span class="red">(At this time, the total is calculated as VAT included.)</span>
+                                        </li>
+                                        <li>
+                                            <strong>Rental amount: </strong>It refers to the number of bit purchases registered with the 'Rental' option.
+                                        </li>
+                                        <li>
+                                            <strong>Total Sales: </strong>It refers to the total purchase amount of the bits registered by the seller with the ‘Sale’ option. <span class="red">(In this case, the total is calculated as VAT included.)</span>
+                                        </li>
+                                        <li>
+                                            <strong>Sales volume: </strong>It means the number of purchases of the bit registered with the ‘Sale’ option.
+                                        </li>
+                                        <li>
+                                            <strong>Total purchase: </strong>Total sum of rentals and total sales. <span class="red">(In this case, the total is calculated as VAT included.)</span>
+                                        </li>
+                                        <li>
+                                            <strong>Settlement Amount: </strong>Total purchase price minus VAT.
+                                        </li>
+                                        <li>
+                                            <strong>Fee: </strong>A portion of the fee is deducted based on the settlement amount.
+                                        </li>
+                                        <li>
+                                            <strong>Total settlement: </strong>The amount of the settlement amount minus the fee.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>             
+                    </div>
+                </div>
+            </div>
+        </div>
         <Footer/>
     </div>
 
@@ -504,7 +606,7 @@
 
     export default {
         components: {
-            Header, Footer
+            // Header, Footer
         },
         data: function() {
             return {
@@ -585,7 +687,94 @@
     @import '@/assets/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+
+    /* 정산내역 팝업 CSS */
+    .panel {
+        .popup {
+            &.payment_popup {
+                border-radius: 8px;
+                position: relative;
+                background: #2B2C30;
+                h3 {
+                    margin-top: 40px;
+                    margin-bottom: 10px;
+                    padding: 0 40px;
+                    font-size: 24px;
+                    line-height: 28px;
+                }
+            }
+            .close {
+                position: absolute;
+                opacity: 1;
+                top: 22px;
+                right: 22px;
+                width: 12px;
+                height: 12px;
+                display: block;
+                cursor: pointer;
+                pointer-events: auto;
+                span {
+                    display: block;
+                    position: absolute;
+                    width: 17px;
+                    height: 2px;
+                    transform: rotate(45deg);
+                    background-color: white;
+                    border-radius: 2px;
+                    &:last-child {
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+            .payment_box_head {
+                padding: 30px 40px 0px;
+                h4 {
+                    margin-bottom: 10px;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+                >.n-flex {
+                    border-bottom: 1px solid rgba(255,255,255, .3);
+                    padding-bottom: 30px;
+                }
+                .n-flex {
+                    display: flex;
+                    > div {
+                        flex: 1;
+                        padding: 0 32px;
+                        &:first-child {
+                            padding-left: 0;
+                        }
+                    }
+                    &.between {
+                        justify-content: space-between;
+                    }
+                    span {
+                        font-weight: 600;
+                        font-size: 16px;
+                        &:last-child {
+                            font-weight: normal;
+                            color: rgba(white,.7);
+                        }
+                    }
+                }
+
+            }
+            .payment_box {
+                .tab {
+                    background: #2B2C30;
+                    border: none;
+                    margin: 0;
+                    > * .title + * {
+                        margin-right: 0;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
 </style>
