@@ -400,7 +400,7 @@
                 var tDate = new Date(orderDate);
                 var nDate = new Date();
                 tDate.setDate(tDate.getDate() + 60);
-                var diff = Math.abs(tDate.getTime() - nDate.getTime());
+                var diff = tDate.getTime() - nDate.getTime();
                 diff = Math.ceil(diff / (1000 * 3600 * 24));
                 return diff;
             },
@@ -568,6 +568,11 @@
                         && i.cde_quantity > i.cde_download){
                         return true;
                     }
+                    if(i.cit_lease_license_use == "1"
+                        && i.cit_mastering_license_use == "1"
+                        && i.cde_quantity > i.cde_download){
+                        return false;
+                    }
                     if(i.cit_mastering_license_use == "1"){
                         return true;
                     }
@@ -605,7 +610,13 @@
                                     && 0 < this.caclLeftDay(items[i].cor_datetime)
                                     && items[i].cde_quantity > items[i].cde_download){
                                 possCnt += 1;
-                            }else if(items[i].cit_mastering_license_use === '1'){
+                            }else if(items[i].cit_lease_license_use === '1'
+                                    && items[i].cit_mastering_license_use === '1'
+                                    && 0 < this.caclLeftDay(items[i].cor_datetime)
+                                    && items[i].cde_quantity > items[i].cde_download){
+                                possCnt += 1;
+                            }else if(items[i].cit_lease_license_use === '0'
+                                    && items[i].cit_mastering_license_use === '1'){
                                 possCnt += 1;
                             }
                         }
@@ -614,7 +625,7 @@
                 }else if(status === 'Impossible'){
                     let possCnt = 0;
                     for(let i in items){
-                        if(items[i].cor_status === '0'){
+                        if(items[i].cor_status != '1'){
                             possCnt += 1;
                         }
                     }
@@ -626,10 +637,15 @@
                             if(items[i].cit_lease_license_use === '1'
                                     && this.caclLeftDay(items[i].cor_datetime) <= 0){
                                 possCnt += 1;
+                            }else if(items[i].cit_lease_license_use === '1'
+                                    && items[i].cit_mastering_license_use === '1'
+                                    && this.caclLeftDay(items[i].cor_datetime) <= 0){
+                                possCnt += 1;
+                                //
                             }
                         }
-                        return possCnt;
                     }
+                    return possCnt;
                 }
             },
         }
