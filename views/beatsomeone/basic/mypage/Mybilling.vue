@@ -352,11 +352,19 @@
                 if(this.isEmpty(m)){
                     m = '';
                 }
-                return m + this.formatNumber(price);
+                if(m == '$'){
+                    return m + this.formatNumberEn(price);
+                }else{
+                    return m + this.formatNumber(price);
+                }
             },
             formatNumber(n){
                 //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
                 return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+            },
+            formatNumberEn(n){
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
             },
             formatCitName: function(data, limitLth){
                 let rst;
