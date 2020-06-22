@@ -29,7 +29,7 @@
                                         <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
                                         <span></span><div style="font-weight:600">Select All ({{ cntSelectedItems }}/ {{ cntTotalItems }})</div>
                                     </label>
-                                    <button v-show="showDelete" class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
+                                    <button v-show="showDelete" class="btn btn--red disable" style="width:100px; height:40px; margin-bottom:20px; font-size: 14px; font-weight: normal" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-top:-4px;" />Delete</button>
                                 </div>
                             </div>
                         </div>
