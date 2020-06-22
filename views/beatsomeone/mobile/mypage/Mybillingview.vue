@@ -1,7 +1,6 @@
 <template>
 
     <div class="wrapper">
-
         <Header :is-login="isLogin"/>
         <div class="container sub">
             <div class="mypage sublist">
@@ -88,9 +87,9 @@
                                 <ul>
                                     <li v-for="(item, i) in myOrderList" v-bind:key="item.order.cor_id + item.order.cit_id" class="playList__itembox" :id="'playList__item'+ item.order.cor_id + item.order.cit_id">
                                         <div class="playList__item playList__item--title other">
-                                            <div class="n-flex">
+                                            <div class="n-flex between">
                                                 <div class="info"> <div class="code">{{ 'item_'+(i+1) }}</div> </div>
-                                                <div class="edit">
+                                                <div class="edit" style="flex: auto;">
                                                     <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
                                                         {{ funcDownStatus(cor_status, item.order.Item) }}
                                                     </div>
@@ -104,6 +103,8 @@
 
                                                 <!-- <div class="download_period">40 days left<br/>(~2020.06.24 12:30:34)</div> -->
                                                 </div>
+                                                <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                <div class="price" v-show="item.order.Item.cit_mastering_license_use === '1' " style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div>
                                             </div>
 
                                             <div class="name">
@@ -125,7 +126,6 @@
                                                                     <span class="duration">0:00</span></span>
                                                                 </div>
                                                             </div>
-                                                            <!-- 기능필요 -->
                                                             <div class="amount"> <img src="/assets/images/icon/cd.png"/><div><span>500</span> left</div> </div>
                                                         </div>
                                                     </figcaption>
@@ -156,7 +156,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <div class="detail">MP3 or WAV</div>
                                                                 </div>
-                                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item basic" style="margin-left: 38px;">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -197,7 +197,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <div class="detail">MP3 or WAV</div>
                                                                 </div>
-                                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item basic" style="margin-left: 38px;">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -219,7 +219,7 @@
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <div class="detail">MP3 or WAV + STEMS</div>
                                                                 </div>
-                                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div>
+                                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div> -->
                                                             </button>
                                                             <div class="option_item unlimited" style="margin-left: 38px;">
                                                                 <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
