@@ -462,17 +462,5 @@
         color: white;
     }
 
-    /* No Text */
-    .no-text {
-        display: flex;
-        margin-top: 167px;
-        justify-content: center;
-        align-items: center;
-        min-height: 176px;
-        >p {
-            font-size: 32px;
-            color: rgba(white,.3);
-            font-weight: 500;
-        }
-    }
+    
 </style>
