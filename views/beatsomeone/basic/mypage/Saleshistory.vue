@@ -70,6 +70,8 @@
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         minDate="1970-01-01"
+                                        :maxDate="currDate"
+                                        :endingDateValue="currDate"
                                         @update="updateSearchDate"
                                         @reset="resetSearchDate"
                                 />
@@ -317,6 +319,7 @@
                 watingDepositDr: '',
                 orderCompleteDr: '',
                 refundCompleteDr: '',
+                currDate: new Date().toISOString().substring(0, 10),
 
             };
         },
