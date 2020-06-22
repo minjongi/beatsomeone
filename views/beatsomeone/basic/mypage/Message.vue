@@ -97,7 +97,7 @@
                                                         </div>
                                                         <div>
                                                             <div>
-                                                                <div class="user">{{ m.mem_nickname }}</div>
+                                                                <div class="user" style="margin-bottom: 8px;">{{ m.mem_nickname }}</div>
                                                                 <div class="date">{{ m.nte_datetime }}</div>
                                                             </div>
                                                             <div>
@@ -150,7 +150,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="date">
-                                                    <span v-if="m.nte_read_datetime != '' && mem_id != m.send_mem_id" class="active">Seen</span>
+                                                    <!-- <span v-if="m.nte_read_datetime != '' && mem_id != m.send_mem_id" class="active">Seen</span> -->
                                                     {{ m.nte_datetime }}
                                                     <span v-if="mem_id === m.send_mem_id"></span>
                                                 
