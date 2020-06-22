@@ -414,7 +414,7 @@
                 this.ajaxMessageRead(m.mem_id).then((data)=>{
                     if(data){
                         this.ajaxMessageList().then(()=>{
-                            console.log(this.tempList.length);
+                            //console.log(this.tempList.length);
                             for(let i in this.tempList){
                                 this.messageList.push(this.tempList[i]);
                             }
