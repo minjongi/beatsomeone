@@ -164,6 +164,9 @@
                         
                         <div class="row">
                             <div class="playList productList">
+                                <div v-if="!showDelete" class="no-text">
+                                    <p>{{msgEmptyCart}}</p>
+                                </div>
                                 <ul>
                                     <li v-for="(item, i) in myProduct_list" v-bind:key="item.cde_id" class="playList__itembox" :id="'playList__item'+ item.cit_id">
                                         <!-- 2가지 동시에 있는경우 other클래스 추가. -->
@@ -445,6 +448,8 @@
                 goSearchText:'',
                 currDate: new Date().toISOString().substring(0, 10),
                 playSt:'',
+                showDelete: false,
+                msgEmptyCart : "There is no registered product.",
             };
         },
         mounted(){
@@ -491,6 +496,11 @@
                     console.log(d.cit_start_datetime);
                 });*/
                 this.myProduct_list = data;
+                if(this.myProduct_list.length == 0){
+                    this.showDelete = false;
+                }else{
+                    this.showDelete = true;
+                }
               } catch (err) {
                 console.log('ajaxItemList error');
               } finally {
