@@ -147,7 +147,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, item.order.cor_memo) }}</div>
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
                                                     <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
@@ -186,7 +186,7 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, item.order.cor_memo) }}</div>
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
@@ -206,7 +206,7 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}
+                                                        <div class="price yellow">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, item.order.cor_memo) }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -789,21 +789,14 @@
             },
             formatTotalPrice: function(price, simbol){
                 if(simbol === '$'){
-                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 0});
+                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }else{
                     return '₩ '+ Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
             },
             formatPrice: function(kr, en, simbol){
-                if(!simbol){
-                    if(this.$i18n.locale === 'en'){
-                        return en;
-                    }else{
-                        return kr;
-                    }
-                }
-                if(this.$i18n.locale === 'en'){
-                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                if(simbol == '$'){
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }else{
                     return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
@@ -906,12 +899,7 @@
                 if(status === '0'){
                     return 'Unavailable';
                 }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity <= i.cde_download){
-                        return 'Download Complete';
-                    }
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity > i.cde_download){
+                    if(i.cit_lease_license_use == "1"){
                         return 'Download Available';
                     }
                     if(i.cit_mastering_license_use == "0" && i.cit_mastering_license_use == "1"){
@@ -929,12 +917,10 @@
                 if(status === '0'){
                     return 'red';
                 }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity <= i.cde_download){
+                    if(i.cit_lease_license_use == "1"){
                         return 'blue';
                     }
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity > i.cde_download){
+                    if(i.cit_lease_license_use == "1"){
                         return 'green';
                     }
                     if(i.cit_mastering_license_use == "1"){
