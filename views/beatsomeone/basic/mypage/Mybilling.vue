@@ -607,13 +607,11 @@
                     for(let i in items){
                         if(items[i].cor_status === '1'){
                             if(items[i].cit_lease_license_use === '1'
-                                    && 0 < this.caclLeftDay(items[i].cor_datetime)
-                                    && items[i].cde_quantity > items[i].cde_download){
+                                    && 0 < this.caclLeftDay(items[i].cor_datetime)){
                                 possCnt += 1;
                             }else if(items[i].cit_lease_license_use === '1'
                                     && items[i].cit_mastering_license_use === '1'
-                                    && 0 < this.caclLeftDay(items[i].cor_datetime)
-                                    && items[i].cde_quantity > items[i].cde_download){
+                                    && 0 < this.caclLeftDay(items[i].cor_datetime)){
                                 possCnt += 1;
                             }else if(items[i].cit_lease_license_use === '0'
                                     && items[i].cit_mastering_license_use === '1'){

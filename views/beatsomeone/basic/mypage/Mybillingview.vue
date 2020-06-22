@@ -906,12 +906,7 @@
                 if(status === '0'){
                     return 'Unavailable';
                 }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity <= i.cde_download){
-                        return 'Download Complete';
-                    }
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity > i.cde_download){
+                    if(i.cit_lease_license_use == "1"){
                         return 'Download Available';
                     }
                     if(i.cit_mastering_license_use == "0" && i.cit_mastering_license_use == "1"){
@@ -929,12 +924,10 @@
                 if(status === '0'){
                     return 'red';
                 }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity <= i.cde_download){
+                    if(i.cit_lease_license_use == "1"){
                         return 'blue';
                     }
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity > i.cde_download){
+                    if(i.cit_lease_license_use == "1"){
                         return 'green';
                     }
                     if(i.cit_mastering_license_use == "1"){
