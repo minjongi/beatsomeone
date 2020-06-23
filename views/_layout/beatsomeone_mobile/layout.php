@@ -27,7 +27,7 @@
     <?php if (isset($yield))echo $yield; ?>
 </div>
 
-</body>l
+</body>
 
 
 <script type="text/javascript">

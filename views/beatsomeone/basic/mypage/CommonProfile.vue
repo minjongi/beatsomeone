@@ -2,17 +2,17 @@
     <div class="row center" v-if="info">
         <div class="profile">
             <div class="portait" >
-                <img :src="info.mem_photo ? '/uploads/member_photo/' + info.mem_photo : '/assets/images/member_default.png'">
+                <img :src="info.mem_photo ? '/uploads/member_photo/' + info.mem_photo : '/assets/images/portait.png'">
             </div>
             <div class="info">
                 <div class="group">
                     <div class="group_title" :class="groupType">{{groupType}}</div>
                 </div>
                 <div class="username">
-                    {{ info.mem_username }}
+                    {{ info.mem_nickname }}
                 </div>
                 <div class="bio">
-                    {{ info.mem_type}}, {{ info.mem_nickname }}
+                    {{ info.mem_type}}, {{ info.mem_lastname }}
                 </div>
                 <div class="location">
                     <img class="site" src="/assets/images/icon/position.png"/><div>{{ info.mem_address1 }}</div>

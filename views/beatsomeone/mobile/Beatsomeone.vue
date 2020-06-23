@@ -250,7 +250,7 @@
         methods: {
             endVideoBG() {
                 const idx = Math.floor(Math.random() * 6) + 1
-                this.videoBGPath = '/uploads/data/bgvideo/pc/202006/bg' + idx + '.mp4'
+                this.videoBGPath = '/uploads/data/bgvideo/mobile/bg' + idx + '.mp4'
                 this.$refs.videoBG.src = this.videoBGPath
                 this.$refs.videoBG.play()
             },
