@@ -2787,4 +2787,73 @@ class Mypage extends CB_Controller
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
     }
+
+
+
+    /**
+     * 마이페이지>sellerreg 입니다
+     */
+    public function sellerreg($cit_id = '')
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_loginlog';
+        $this->load->event($eventname);
+        $this->load->helper( array('cmall'));
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        /*
+         * Business
+        */
+        $view['view']['cit_id'] = $cit_id;
+        
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = 'Beat Someone';
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage_loginlog');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage_loginlog');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage_loginlog');
+        $page_name = $this->cbconfig->item('site_page_name_mypage_loginlog');
+
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'mypage/sellerreg',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
 }
