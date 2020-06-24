@@ -23,12 +23,12 @@
                         </header>
                         <div class="row">
                             <div class="title-content">
-                                <div class="title">
-                                    <label for="checkAll" class="checkbox">
+                                <div class="title n-flex between">
+                                    <label for="checkAll" class="checkbox" style="width: auto;">
                                         <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
                                         <span></span><div style="font-weight:600">Select All ({{ cntSelectedItems }}/ {{ cntTotalItems }})</div>
                                     </label>
-                                    <button v-show="showDelete"  class="btn btn--red" :class="disableDelete ? 'disable' : ''" style="width: 72px; height: 28px; padding: 0 8px; display: flex; box-sizing: border-box; align-items: center; font-size: 12px; vertical-align: middle;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-right: 2px; width: 20px;" />Delete</button>
+                                    <button v-show="showDelete"  class="btn btn--red" :class="disableDelete ? 'disable' : ''" style="font-weight: normal; width: 72px; height: 28px; padding: 0 8px; display: flex; box-sizing: border-box; align-items: center; font-size: 12px; vertical-align: middle;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-right: 2px; width: 20px;" />Delete</button>
                                 </div>
                             </div>
                         </div>
