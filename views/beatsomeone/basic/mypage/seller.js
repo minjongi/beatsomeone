@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter  from 'vue-router';
 
 // i18n
-import i18n from '../../mobile/node_modules/*/src/i18n/i18n'
+import i18n from '*/src/i18n/i18n'
 import app from './Seller.vue';
 
 import Sellerlist from "./Sellerlist";

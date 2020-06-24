@@ -28,7 +28,7 @@
                                         <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
                                         <span></span><div style="font-weight:600">Select All ({{ cntSelectedItems }}/ {{ cntTotalItems }})</div>
                                     </label>
-                                    <button class="btn btn--red disable" style="width: 72px; height: 28px; padding: 0 8px; display: flex; box-sizing: border-box; align-items: center; font-size: 12px; vertical-align: middle;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-right: 2px; width: 20px;" />Delete</button>
+                                    <button v-show="showDelete"  class="btn btn--red" :class="disableDelete ? 'disable' : ''" style="width: 72px; height: 28px; padding: 0 8px; display: flex; box-sizing: border-box; align-items: center; font-size: 12px; vertical-align: middle;" @click="goDelete"><img src="/assets/images/icon/bin.png" style="margin-right: 2px; width: 20px;" />Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -265,6 +265,8 @@
                 checkedAll:false,
                 checkedItem:[],
                 cntTotalItems: 0,
+                disableDelete: true,
+                showDelete: false,
                 cntSelectedItems: 0,
                 msgEmptyCart : "There is no purchaseable list."
             };
@@ -376,11 +378,15 @@
                         //console.log(i);
                         this.checkedItem.push(this.myCart_list[i].cit_id);
                     }
+                    this.disableDelete = false;
+                }else{
+                    this.disableDelete = true;
                 }
                 this.calcTotalPrice();
             },
             setCheck: function() {
                 this.checkedAll = false;
+                this.disableDelete = false;
                 this.calcTotalPrice();
             },
             toggleButton: function(e){
@@ -427,6 +433,11 @@
                 this.totalPriceKr = tpkr;
                 this.totalPriceDr = tpen;
                 this.cntSelectedItems = cnt;
+                if(0 == this.cntSelectedItems){
+                    this.disableDelete = true;
+                }else{
+                    this.disableDelete = false;
+                }
             },
             goDelete: function(){
                 if(this.checkedItem.length == 0){
@@ -441,6 +452,7 @@
                         this.calcTotalPrice();
                         this.checkedAll = false;
                         this.cntSelectedItems = 0;
+                        this.disableDelete = true;
                     }
                 }
             },
