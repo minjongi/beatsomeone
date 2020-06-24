@@ -42,6 +42,7 @@
                             <li @click="goPage('profilemod')">Manage Information</li>
                             <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">Product List</li>
                             <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
                             <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
                             <li class="active">Message</li>
@@ -85,7 +86,7 @@
                                                 <li v-for="(m, i) in messageList" v-bind:key="i" class="playList__itembox" @click="goMChat($event, m)">
                                                     <div class="playList__item playList__item--title nowrap">
                                                         <div class="portait">
-                                                            <img v-if="m.mem_photo === ''" src="/assets/images/member_default.png"/>
+                                                            <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portait.png"/>
                                                             <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
                                                         </div>
                                                         <div style="max-width: calc(100% - 64px);">
@@ -113,7 +114,7 @@
                                 <div class="messageChat" :style="'display: '+mchat">
                                     <div class="head">
                                         <div class="portait">
-                                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/member_default.png"/>
+                                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
                                             <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
                                         </div>
                                         <div>
