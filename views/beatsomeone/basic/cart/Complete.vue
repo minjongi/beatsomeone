@@ -425,6 +425,12 @@
     .n-box.active .option_item.basic {
         height: 113px;
     }
+    .n-box .option_item.basic {
+        overflow: hidden;
+    }
+    .n-box .option_item.unlimited {
+        overflow: hidden;
+    }
     .n-box.active .option_item.unlimited {
         height: 140px;
     }
