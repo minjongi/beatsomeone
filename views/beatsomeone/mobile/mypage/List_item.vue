@@ -223,7 +223,10 @@
                                                                 <span class="duration">0:00</span></span>
                                                             </div>
                                                         </div>
-                                                        <div class="amount">
+                                                        <div v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'" class="amount">
+                                                            <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity_2 }}</span> left</div>
+                                                        </div>
+                                                        <div v-else class="amount">
                                                             <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
                                                         </div>
                                                     </div>

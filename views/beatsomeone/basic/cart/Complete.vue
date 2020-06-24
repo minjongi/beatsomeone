@@ -361,7 +361,7 @@
                 }
 
                 if(this.orderResult.cor_memo === '$'){
-                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 0});
+                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }else{
                     return '₩ '+ Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }

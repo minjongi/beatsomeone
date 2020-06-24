@@ -297,6 +297,11 @@
                 });*/
                 this.myCart_list = data;
                 this.cntTotalItems = this.myCart_list.length;
+                if(this.cntTotalItems == 0){
+                    this.showDelete = false;
+                }else{
+                    this.showDelete = true;
+                }
               } catch (err) {
                 console.log('ajaxCartList error');
               } finally {
@@ -431,7 +436,11 @@
                     if(confirm("정말로 삭제하시겠습니까?")){
                         this.ajaxDeleteCart().then(()=>{
                             this.ajaxCartList();
-                        });    
+                        });
+                        this.checkedItem = [];
+                        this.calcTotalPrice();
+                        this.checkedAll = false;
+                        this.cntSelectedItems = 0;
                     }
                 }
             },

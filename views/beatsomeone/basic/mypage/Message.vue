@@ -229,6 +229,7 @@
                 mem_address1: '',
                 mem_type: '',
                 mem_lastname: '',
+                mem_profile_content: '',
                 popup_filter:0,
                 dateType: 'All',
                 goMessText: '',
@@ -295,6 +296,7 @@
                 this.mem_address1 = data[0].mem_address1;
                 this.mem_type = data[0].mem_type;
                 this.mem_lastname = data[0].mem_lastname;
+                this.mem_profile_content = data[0].mem_profile_content;
 
                 if(this.mem_usertype == 1){
                     this.group_title = "CUSTOMER";
@@ -424,7 +426,7 @@
                     if(this.isEmpty(m.mem_type) && this.isEmpty(m.mem_lastname)){
                         this.mchatUserBio = '';
                     }else{
-                        this.mchatUserBio = m.mem_type + ', ' + m.mem_lastname;
+                        this.mchatUserBio = m.mem_profile_content;
                     }
 
                     var messageDisplay = document.getElementById("messageDisplay");
@@ -433,7 +435,7 @@
                 this.ajaxMessageRead(m.mem_id).then((data)=>{
                     if(data){
                         this.ajaxMessageList().then(()=>{
-                            console.log(this.tempList.length);
+                            //console.log(this.tempList.length);
                             for(let i in this.tempList){
                                 this.messageList.push(this.tempList[i]);
                             }

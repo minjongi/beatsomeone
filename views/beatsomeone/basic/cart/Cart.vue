@@ -375,6 +375,8 @@
                         });
                         this.checkedItem = [];
                         this.calcTotalPrice();
+                        this.checkedAll = false;
+                        this.cntSelectedItems = 0;
                     }
                 }
             },
