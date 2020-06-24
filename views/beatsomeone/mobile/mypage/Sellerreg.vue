@@ -1,23 +1,29 @@
 <template>
     <div class="wrapper">
+
         <Header :is-login="isLogin"></Header>
+<!--        <div style="margin-top: 100px;">-->
+<!--            <pre>{{ info }}</pre>-->
+<!--&lt;!&ndash;            <a type="button" @click="doJoin">가입</a>&ndash;&gt;-->
+<!--        </div>-->
+
+
         <router-view />
         <Footer></Footer>
     </div>
+
 </template>
 
 <script>
 
-    require('@/assets/js/function');
+    require('@/assets_m/js/function');
 
-    import Header from "@/views/beatsomeone/basic/include/Header";
-    import Footer from "@/views/beatsomeone/basic/include/Footer";
+    import Header from "@/views/beatsomeone/mobile/include/Header";
+    import Footer from "@/views/beatsomeone/mobile/include/Footer";
     import { EventBus } from '*/src/eventbus';
 
     export default {
-        components: {
-            Header, Footer
-        },
+        components: {Header,Footer},
         data: function() {
             return {
                 info: {},
@@ -33,6 +39,31 @@
                 this.doJoin();
             });
 
+            // this.info = {
+            //     "userType": "user",
+            //     "accountType": "email",
+            //     "username": "222",
+            //     "email": "333",
+            //     "password": "444",
+            //     "type": "Recording Artist"
+            // };
+
+            // this.info = {
+            //     "userType": "musician",
+            //     "plan": "pro",
+            //     //"plan": "free",
+            //     //"billTerm": "monthly",
+            //     "billTerm": "yearly",
+            //     "accountType": "email",
+            //     "username": "1111",
+            //     "email": "11@11.11",
+            //     "password": "1111",
+            //     "type": "Music Lover",
+            //     "firstname": "111",
+            //     "lastname": "222",
+            //     "location": "222",
+            //     "introduce": "222"
+            // };
         },
         mounted() {
             // 중간 리프레시 초기화
@@ -47,11 +78,14 @@
         methods: {
             doJoin() {
                 const form = {
+                    mem_type: this.info.type,
                     user_type: this.info.userType,
                     mem_userid : this.info.username,
                     mem_nickname : this.info.username,
                     mem_password : this.info.password,
-                    mem_username : this.info.firstname + this.info.lastname,
+                    mem_username : (this.info.firstname || '') + ' ' + (this.info.lastname || ''),
+                    mem_firstname : this.info.firstname || '',
+                    mem_lastname : this.info.lastname || '',
                     mem_email : this.info.email,
                     mem_address1 : this.info.location,
                     mem_profile_content : this.info.introduce,
@@ -61,12 +95,14 @@
                     promo_code : this.info.promo_code
                 };
 
-                console.log(form);
-
                 Http.post('/register/ajax_form_user',form).then(r => {
                     alert(this.$t('registerSuccess')) ;
                     //window.location.href = '/';
-                    this.$router.push({path: '/6'});
+                    if(this.info.userType == "user"){
+                        window.location.href = '/';
+                    }else{
+                        this.$router.push({path: '/6'});
+                    }
                 },e => {
                     alert(this.$t('registerFail'));
                 });
@@ -76,7 +112,7 @@
 </script>
 
 <style lang="scss">
-    @import '@/assets/scss/App.scss';
+    @import '@/assets_m/scss/App.scss';
 </style>
 
 <style lang="css">
