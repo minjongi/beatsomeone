@@ -164,7 +164,7 @@
                         10%
                     </td>
                     <td>
-                        O%<br>{{ $t('revenueToSeller') }}
+                        O%<br>({{ $t('revenueToSeller100') }})
                     </td>
                 </tr>
                 <tr>
