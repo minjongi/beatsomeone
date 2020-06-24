@@ -78,7 +78,3 @@
 <style lang="scss">
     @import '@/assets/scss/App.scss';
 </style>
-
-<style lang="css">
-
-</style>

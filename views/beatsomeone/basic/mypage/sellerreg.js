@@ -5,7 +5,6 @@ import VueRouter  from 'vue-router';
 import i18n from '*/src/i18n/i18n'
 import app from './Sellerreg.vue';
 
-import Sellerregbill from "./Sellerregbill";
 import Sellerregform from "./Sellerregform";
 
 Vue.use(VueRouter);
@@ -16,7 +15,6 @@ Vue.prototype.$log = console.log.bind(console);
 const router = new VueRouter({
   routes: [
     { path: '/', component: Sellerregform},
-    { path: '/Sellerregbill', component: Sellerregbill},
   ],
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
