@@ -140,12 +140,11 @@ class Bsregisterplancost extends CB_Controller
 
             $result = $this->Beatsomeone_model->merge_register_plan_cost($d);
 
-			if (!$result) {
+			if ($result === false) {
 				$view['view']['alert_message'] = '저장 실패 하였습니다';
 			} else {
 				$view['view']['alert_message'] = '저장 되었습니다';
 			}
-
 		}
 
 		//$view['view']['data'] = $getdata;
