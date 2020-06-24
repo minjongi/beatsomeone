@@ -14,8 +14,8 @@ Vue.prototype.$log = console.log.bind(console);
 
 const router = new VueRouter({
   routes: [
-    { path: '/sellerlist', component: Sellerlist},
-    { path: '/', component: Sellerbill},
+    { path: '/', component: Sellerlist},
+    { path: '/sellerbill', component: Sellerbill },
   ],
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }

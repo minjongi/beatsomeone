@@ -42,10 +42,11 @@
                             <li @click="goPage('profilemod')">Manage Information</li>
                             <li @click="goPage('list_item')">Product List</li>
                             <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
                             <li class="active" v-show="group_title == 'SELLER'">Settlement History</li>
                             <li @click="goPage('message')">Message</li>
-                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                            <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
                             <li @click="goPage('inquiry')">Support
                                 <ul class="menu">
                                     <li @click="goPage('inquiry')">Support Case</li>

@@ -36,10 +36,11 @@
                                 <li @click="goPage('#/profilemod')">Manage Information</li>
                                 <li class="active">Product List</li>
                                 <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
                                 <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
                                 <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
                                 <li @click="goPage('message')">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
                                         <li @click="goPage('inquiry')">Support Case</li>
@@ -222,7 +223,10 @@
                                                             <span class="duration">0:00</span></span>
                                                         </div>
                                                     </div>
-                                                    <div class="amount">
+                                                    <div v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'" class="amount">
+                                                        <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity_2 }}</span> left</div>
+                                                    </div>
+                                                    <div v-else class="amount">
                                                         <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
                                                     </div>
                                                 </div>

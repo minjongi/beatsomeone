@@ -1,38 +1,24 @@
 <template>
     <div class="container accounts accounts--start">
         <div class="accounts__title">
-            <h1>{{ $t('doYouCreateBeats') }}<br />{{ $t('thenJoin') }}</h1>
+            <h1>
+                <p class="yellow">Beat Someone과 함께하세요!</p>
+                비트를 좋아하는 사람들과 관계를 형성해보세요. <br /> 직접 만든 비트를 올리고 수익을 창출해보세요. <br /> 이 모든 건 아주 간단한 방법으로 시작됩니다.
+            </h1>
         </div>
         <div class="login accounts__defaultLayout">
-                <div class="accounts__case">
-                    <label for="listen " class="case case--listen">
-                        <input type="radio" name="case" id="listen " hidden  @click="currentUserType = 'user'" />
-                        <div>
-                            <span class="icon"></span>
-                            <p>{{ $t ('listenAndBuyMusic1') }}<br />{{ $t ('listenAndBuyMusic2') }}</p>
-                        </div>
-                    </label>
-
-                    <label for="monetize" class="case case--monetize">
-                        <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'musician'"/>
-                        <div>
-                            <span class="icon"></span>
-                            <p>{{ $t('monetizeMyMusic1') }}<br />{{ $t('monetizeMyMusic2') }}</p>
-                        </div>
-                    </label>
-                </div>
 
                 <div class="accounts__switch" v-if="isMusician">
                     <span class="accounts__switch-bg"></span>
                     <label for="monthly" @click="billTerm = 'monthly'">
                         <input type="radio" id="monthly" hidden name="bill" checked />
-                        <span>{{ $t('billMonthly') }}</span>
+                        <span>매월 청구</span>
                     </label>
                     <label for="yearly" @click="billTerm = 'yearly'">
                         <input type="radio" id="yearly" hidden name="bill" />
                         <span>
-                            {{ $t('billYearly') }}
-                            <em>{{ disBill }}{{ $t('savepercent') }}</em>
+                            매년 청구
+                            <em>(20% 이상 절약)</em>
                         </span>
                     </label>
                 </div>
@@ -113,26 +99,22 @@
                 <tr>
                     <th></th>
                     <th>
-                        <p>
-                            <br />
+                        <p style="min-height: 40px;">
+                            <!-- <br /> -->
                             {{ $t('free') }}
                         </p>
                         <h2><span>$</span>0.00</h2>
-                        <a href="#" class="btn btn--start" @click="doNext('free')">{{ $t('getStarted') }}</a>
+                        <a href="#" class="btn btn--start" @click="doNext('free')">업그레이드</a>
                     </th>
                     <th>
-                        <p>
-                            {{ $t('platinum') }}<br />
-                        </p>
-                        <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
-                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">{{ $t('getStarted') }}</a>
+                        <p> MARKETPLACE PLAN<br /> </p>
+                        <h2><span>$</span>9.99<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">업그레이드</a>
                     </th>
                     <th>
-                        <p>
-                            {{ $t('master') }}<br />
-                        </p>
-                        <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
-                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">{{ $t('getStarted') }}</a>
+                        <p> PRO PAGE<br />PLAN<br /> </p>
+                        <h2><span>$</span>19.99<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">업그레이드</a>
                     </th>
                 </tr>
                 </thead>
@@ -164,7 +146,7 @@
                         10%
                     </td>
                     <td>
-                        O%<br>({{ $t('revenueToSeller100') }})
+                        O%<br>{{ $t('revenueToSeller') }}
                     </td>
                 </tr>
                 <tr>
@@ -195,13 +177,13 @@
                 <tr>
                     <td></td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('free')">{{ $t('getStarted') }}</a>
+                        <a href="#" class="btn btn--start" @click="doNext('free')">업그레이드</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">{{ $t('getStarted') }}</a>
+                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">업그레이드</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">{{ $t('getStarted') }}</a>
+                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">업그레이드</a>
                     </td>
                 </tr>
                 <!--                    </tfoot>-->
@@ -250,20 +232,6 @@
             this.fetchData();
         },
         mounted() {
-
-            // var bg = document.querySelector(".accounts__switch-bg");
-            // // 월간
-            // document.getElementById("monthly").addEventListener("change", function() {
-            //     if (this.checked === true) {
-            //         bg.classList.remove("right");
-            //     }
-            // });
-            // // 연간
-            // document.getElementById("yearly").addEventListener("change", function() {
-            //     if (this.checked === true) {
-            //         bg.classList.add("right");
-            //     }
-            // });
 
         },
         watch: {
@@ -320,12 +288,12 @@
 
 </script>
 
-<style lang="scss">
-
-
-
-</style>
-
-<style lang="css">
-
+<style lang="css" scoped>
+.accounts .accounts__title p {
+    margin-bottom: 30px;
+}
+.accounts .accounts__title h1 {
+    line-height: 40px;
+    font-size: 30px;
+}
 </style>

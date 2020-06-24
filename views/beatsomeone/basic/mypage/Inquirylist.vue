@@ -40,7 +40,7 @@
                                 <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
                                 <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
                                 <li @click="goPage('message')">Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
                                 <li class="active">Support
                                     <ul class="menu">
                                         <li class="active">Support Case</li>
