@@ -144,7 +144,7 @@
                     <label for="privacy" class="checkbox" >
                         <input type="checkbox" hidden id="privacy" v-model="isCheckTos" />
                         <span></span> {{ $t('agreeToTermMsg') }}
-                        <a @click="doTermsOfService">{{ $t('termsOfService') }}</a>
+                        <a @click="doTermsOfService" target="_blank">{{ $t('termsOfService') }}</a>
                         &
                         <a @click="doPrivacyPolicy">{{ $t('privacyPolicy') }}.</a>
                     </label>
@@ -256,10 +256,14 @@
 
             },
             doTermsOfService() {
-                this.$router.push({path: '/TermsOfService'});
+                let routeData = this.$router.resolve({path: '/TermsOfService'});
+                window.open(routeData.href, '_blank');
             },
             doPrivacyPolicy() {
-                this.$router.push({path: '/PrivacyPolicy'});
+                //this.$router.push({path: '/PrivacyPolicy'});
+                let routeData = this.$router.resolve({path: '/PrivacyPolicy'});
+                window.open(routeData.href, '_blank');
+
             },
             validateUsername() {
                 if(!this.user.username) return;
