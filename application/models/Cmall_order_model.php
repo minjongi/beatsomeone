@@ -178,9 +178,18 @@ class Cmall_order_model extends CB_Model
             return false;
         }
 
-        log_message('error', print_r($data, true));
-
         $return = $this->db->insert('allat_log', $data);
+        return $return;
+    }
+
+    public function paypal_log_insert($data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+
+        $return = $this->db->insert('paypal_log', $data);
+
         return $return;
     }
 }

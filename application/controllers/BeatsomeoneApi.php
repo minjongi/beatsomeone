@@ -981,7 +981,6 @@ class BeatsomeoneApi extends CB_Controller
     }
 
     public function user_order_update(){
-
         // 비로그인 사용자 거부
         if(!$this->member->item('mem_id')) {
             $this->output->set_status_header('412');
@@ -993,7 +992,6 @@ class BeatsomeoneApi extends CB_Controller
         log_message('error', 'mem_id : ' .$mem_id );
         //log_message('error', 'unique_id : ' .$this->session->userdata('unique_id') );
         //log_message('error', 'order_cct_id : ' .$this->session->userdata('order_cct_id') );
-        
 
         /*
         $bigInt = gmp_init($this->input->post('unique_id'));
@@ -1044,24 +1042,28 @@ class BeatsomeoneApi extends CB_Controller
         if ( $item_cct_price != $good_mny ){
         }
 
-
         if ( ! is_numeric($this->input->post('total_price_sum'))) {
             alert('총 결제금액의 값은 숫자만 와야 합니다');
         }
-        $priceType = json_decode($this->input->post('priceType'));
-        $total_price_sum = json_decode($this->input->post('total_price_sum'));
+        $priceType = $this->input->post('priceType');
+        $total_price_sum = (int) $this->input->post('total_price_sum');
         $usePoint = (int) $this->input->post('usePoint');
         log_message('error', 'priceType : ' .$priceType );
         log_message('error', 'total_price_sum : ' .$total_price_sum );
         log_message('error', 'usePoint : ' .$usePoint );
 
-        $this->load->library('pg/allat');
-
         $insertdata = array();
-        $result = '';
         $od_status = 'order'; //주문상태
+        $payType = $this->input->post('pay_type', null, '');
 
-        $order_deposit = $this->allat->procComplete();
+        if ($payType == 3) {
+            $this->load->library('pg/paypal');
+            $order_deposit = $this->paypal->procComplete();
+        } else {
+            $this->load->library('pg/allat');
+            $order_deposit = $this->allat->procComplete();
+        }
+
         $cor_cash = 0;
 
         $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
@@ -1091,7 +1093,7 @@ class BeatsomeoneApi extends CB_Controller
         $insertdata['mem_nickname'] = $this->member->item('mem_nickname');
         $insertdata['mem_email'] = $this->input->post('mem_email', null, '');
         $insertdata['mem_phone'] = $this->input->post('mem_phone', null, '');
-        $insertdata['cor_pay_type'] = $this->input->post('pay_type', null, '');
+        $insertdata['cor_pay_type'] = $payType;
         $insertdata['cor_content'] = $this->input->post('cor_content', null, '');
         $insertdata['cor_ip'] = $this->input->ip_address();
         $insertdata['cor_useragent'] = $this->agent->agent_string();

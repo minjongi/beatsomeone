@@ -33,7 +33,7 @@
                         <div class="row">
                             <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
+                                <li @click="goPage('#/profilemod')">Manage Information</li>
                                 <li class="active">Product List</li>
                                 <li @click="goPage('mybilling')">Order History</li>
                                 <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>

@@ -47,8 +47,6 @@ class Allat extends CI_Controller
             return 0;
         }
 
-        log_message('error', '======================== ALLAT SUCCESS ========================');
-
         // reply_cd "0000" 일때만 성공
         $params['ORDER_NO']         =getValue("order_no",$at_txt);
         $params['AMT']              =getValue("amt",$at_txt);
@@ -81,8 +79,6 @@ class Allat extends CI_Controller
         $params['PARTCANCEL_YN']    =getValue("partcancel_yn",$at_txt);
         $params['RAW_DATA']         =$at_txt;
 
-
-        log_message('error', '======================== ALLAT allat_log_insert ========================');
         $this->CI->Cmall_order_model->allat_log_insert($params);
         return $at_amt;
     }
