@@ -253,17 +253,19 @@
                                         <div div class="title">
                                             Payment method
                                         </div>
-                                        <div>
+                                        <div v-if="currentLocale === 'ko'">
                                             <label class="checkbox" for="method1">
-                                                <input type="radio" name="method" id="method1" hidden="hidden" @change="chgPayMethod(1)">
+                                                <input type="radio" name="method" id="method1" hidden="hidden" value="1" v-model="payMethod" @change="chgPayMethod(1)">
                                                 <div class="btn btn--yellow" style="height:48px"><div class="icon credit"></div><div style="font-size:14px;">Credit</div></div>
                                             </label>
                                             <label class="checkbox" for="method2">
-                                                <input type="radio" name="method" id="method2" hidden="hidden" @change="chgPayMethod(2)">
+                                                <input type="radio" name="method" id="method2" hidden="hidden" value="2" v-model="payMethod" @change="chgPayMethod(2)">
                                                 <div class="btn btn--yellow" style="height:48px"><div class="icon wire"></div><div style="font-size:14px;">Wire</div></div>
                                             </label>
+                                        </div>
+                                        <div v-if="currentLocale === 'en'">
                                             <label class="checkbox" for="method3">
-                                                <input type="radio" name="method" id="method3" hidden="hidden" @change="chgPayMethod(3)">
+                                                <input type="radio" name="method" id="method3" hidden="hidden" value="3" v-model="payMethod">
                                                 <div class="btn btn--yellow" style="height:48px"><div class="icon paypal"></div><div style="font-size:14px;">PayPal</div></div>
                                             </label>
                                         </div>
@@ -301,12 +303,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
+                        <div class="btnbox col" style="width:50%; margin:30px auto 100px;" v-if="currentLocale === 'ko'">
                             <button class="btn btn--gray" @click="goBack">Back</button>
                             <button type="submit" class="btn btn--submit" @click="goPay">Pay</button>
                         </div>
+                        <div class="btnbox col" style="width:50%; margin:30px auto 100px;" v-if="currentLocale === 'en'">
+                            <button class="btn btn--gray mr-3" style="height:47px;" @click="goBack">Back</button>
+                            <PayPal
+                                    env="sandbox"
+                                    currency="USD"
+                                    locale="en_US"
+                                    :amount="this.totalPriceEn.toString() || '0'"
+                                    :client="paypal"
+                                    :invoice-number="orderNo"
+                                    :button-style="paypalBtnStyle"
+                                    @payment-authorized="paypalAuthorized"
+                                    @payment-completed="paypalCompleted"
+                                    @payment-cancelled="paypalCancelled">
+                            </PayPal>
+                        </div>
                     </div>
-
                 </section>
             </div>
         </div>
@@ -349,10 +365,11 @@
     import Header from "../include/Header"
     import Footer from "../include/Footer"
     import axios from 'axios'
+    import PayPal from 'vue-paypal-checkout'
 
     export default {
         components: {
-            Header, Footer
+            Header, Footer, PayPal
         },
         data: function () {
             return {
@@ -386,75 +403,115 @@
                     'vbank_yn': 'N',
                     'encode_type': 'U',
                     'enc_data': ''
-                }
-            };
+                },
+                paypal: {
+                    sandbox: 'AQRhzAlMZbwjG9B47YjqzJsQMmkQG6I4BA5hYiJjDFKiW2ysRUPkmKCInxmvCQ7Ij7zixTA_ZlPk8nC3',
+                    production: 'AQnRlgkRT0pVUuORozmUa2qd6nOJH2BBvCvg8miFYWVpueRjfM4oepwZ5GfNOkfqznCrVbbriZSC83Z3'
+                },
+                paypalBtnStyle: {
+                    label: 'pay',
+                    size: 'large',
+                    shape: 'rect',
+                },
+                paypalData: null
+            }
         },
         created() {
+            if (this.$i18n.locale === 'en') {
+                this.payMethod = 3
+            }
             this.ajaxOrderList().then(() => {
-                this.calcTotalPrice();
-                this.point = this.myMember[0].mem_point;
-                this.remPoint = this.myMember[0].mem_point;
-            });
+                this.calcTotalPrice()
+                this.point = this.myMember[0].mem_point
+                this.remPoint = this.myMember[0].mem_point
+            })
+        },
+        computed: {
+            orderNo() {
+                return this.unique_id || 'none'
+            },
+            currentLocale() {
+                if (this.$i18n.locale === 'en') {
+                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                    this.payMethod = 3
+                } else {
+                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                    this.payMethod = 0
+                }
+
+                return this.$i18n.locale
+            }
         },
         methods: {
+            paypalAuthorized: function (data) {
+            },
+            paypalCompleted: function (data) {
+                console.log(data)
+                this.paypalData = JSON.stringify(data)
+                this.ajaxUpdateOrder().then(() => {
+                    if (!this.cor_id) {
+                        alert("결제가 실패하였습니다.")
+                    } else {
+                        window.location.href = '/cmall/complete?cor_id=' + this.cor_id
+                    }
+                })
+
+            },
+            paypalCancelled: function (data) {
+                alert('결제를 취소하셨습니다')
+            },
             async ajaxOrderList() {
                 try {
-                    this.isLoading = true;
+                    this.isLoading = true
                     const {data} = await axios.get(
                         '/beatsomeoneApi/user_order_list', {}
-                    );
-                    this.myOrder_list = data.result;
-                    this.selectedItems = this.myOrder_list.length;
-                    this.myMember = data.mem_result;
-                    this.unique_id = data.unique_id;
-                    console.log(this.unique_id);
+                    )
+                    this.myOrder_list = data.result
+                    this.selectedItems = this.myOrder_list.length
+                    this.myMember = data.mem_result
+                    this.unique_id = data.unique_id
                 } catch (err) {
-                    console.log('ajaxCartList error');
+                    console.log('ajaxCartList error')
                 } finally {
-                    this.isLoading = false;
+                    this.isLoading = false
                 }
             },
             async ajaxUpdateOrder() {
                 try {
-                    this.isLoading = true;
-                    var param = new FormData();
-                    param.append('pay_type', JSON.stringify(this.payMethod));
-                    param.append('priceType', JSON.stringify(this.getPriceType()));
-                    param.append('total_price_sum', JSON.stringify(this.formatPrice(this.totalPriceKr, this.totalPriceEn, false)));
-                    param.append('usePoint', JSON.stringify(this.usePoint));
-                    param.append('unique_id', JSON.stringify(this.unique_id));
+                    this.isLoading = true
+                    var param = new FormData()
+                    param.append('pay_type', this.payMethod)
+                    param.append('priceType', this.getPriceType())
+                    param.append('total_price_sum', this.formatPrice(this.totalPriceKr, this.totalPriceEn, false))
+                    param.append('usePoint', this.usePoint)
+                    param.append('unique_id', this.unique_id)
+                    param.append('paypal_data', this.paypalData)
 
                     for (const key in this.allatForm) {
-                        param.append('allat_' + key, this.allatForm[key]);
+                        param.append('allat_' + key, this.allatForm[key])
                     }
 
-                    const {data} = await axios.post(
-                        '/beatsomeoneApi/user_order_update', param, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        });
-
-                    if (data.message == 'ok') {
-                        this.cor_id = data.cor_id;
+                    const {data} = await axios.post('/beatsomeoneApi/user_order_update', param)
+                    if (data.message === 'ok') {
+                        this.cor_id = data.cor_id
                     }
                 } catch (err) {
-                    console.log('ajaxUpdateOrder error');
+                    console.log('ajaxUpdateOrder error')
                 } finally {
-                    this.isLoading = false;
+                    this.isLoading = false
                 }
             },
             goBack: function (e) {
-                window.location.href = '/cmall/cart';
+                window.location.href = '/cmall/cart'
             },
             goPay: function (e) {
                 if ((this.totalPrice - this.usePoint) <= 0) {
-                    alert("결제 금액을 확인해주세요");
-                    return;
+                    alert("결제 금액을 확인해주세요")
+                    return
                 }
                 if (!this.payMethod) {
-                    alert("결제 방법을 선택해주세요");
-                    return;
+                    alert("결제 방법을 선택해주세요")
+                    return
                 }
 
                 if (this.payMethod === 1) {
@@ -497,91 +554,90 @@
                     this.allatForm.enc_data = enc_data
                     this.ajaxUpdateOrder().then(() => {
                         if (this.cor_id == '') {
-                            alert("결제가 실패하였습니다.");
-                            return;
+                            alert("결제가 실패하였습니다.")
+                            return
                         } else {
-                            window.location.href = '/cmall/complete?cor_id=' + this.cor_id;
-                            // window.location.href = '/';
+                            window.location.href = '/cmall/complete?cor_id=' + this.cor_id
                         }
-                    });
+                    })
                 }
             },
             chgPayMethod: function (idx) {
-                this.payMethod = idx;
+                this.payMethod = idx
             },
             calcTotalPrice: function () {
-                let tpkr = 0.0;
-                let tpen = 0.0;
+                let tpkr = 0.0
+                let tpen = 0.0
                 for (let i in this.myOrder_list) {
                     if (this.myOrder_list[i].detail[0].cit_lease_license_use == '1') {
-                        tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
-                        tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
+                        tpkr += Number(this.myOrder_list[i].detail[0].cde_price)
+                        tpen += Number(this.myOrder_list[i].detail[0].cde_price_d)
                     } else if (this.myOrder_list[i].detail[0].cit_mastering_license_use == '1') {
-                        tpkr += Number(this.myOrder_list[i].detail[0].cde_price_2);
-                        tpen += Number(this.myOrder_list[i].detail[0].cde_price_d_2);
+                        tpkr += Number(this.myOrder_list[i].detail[0].cde_price_2)
+                        tpen += Number(this.myOrder_list[i].detail[0].cde_price_d_2)
                     }
                 }
-                this.totalPriceKr = tpkr;
-                this.totalPriceEn = tpen;
+                this.totalPriceKr = tpkr
+                this.totalPriceEn = tpen
             },
             checkToday: function (date) {
-                const input = new Date(date);
-                const today = new Date();
+                const input = new Date(date)
+                const today = new Date()
                 return input.getDate() === today.getDate() &&
                     input.getMonth() === today.getMonth() &&
-                    input.getFullYear() === today.getFullYear();
+                    input.getFullYear() === today.getFullYear()
             },
             formatPrice: function (kr, en, simbol) {
                 if (!simbol) {
                     if (this.$i18n.locale === 'en') {
-                        return en;
+                        return en
                     } else {
-                        return kr;
+                        return kr
                     }
                 }
                 if (this.$i18n.locale === 'en') {
-                    return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                    return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 0})
                 } else {
-                    return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                    return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0})
                 }
             },
             formatCitName: function (data) {
-                var rst;
+                var rst
                 var limitLth = 50
                 if (limitLth < data.length && data.length <= limitLth * 2) {
-                    rst = data.substring(0, limitLth) + '<br>' + data.substring(limitLth, limitLth * 2);
+                    rst = data.substring(0, limitLth) + '<br>' + data.substring(limitLth, limitLth * 2)
                 } else if (limitLth < data.length && limitLth * 2 < data.length) {
-                    rst = data.substring(0, limitLth) + '<br>' + data.substring(limitLth, limitLth * 2) + '...';
+                    rst = data.substring(0, limitLth) + '<br>' + data.substring(limitLth, limitLth * 2) + '...'
                 } else {
                     rst = data
                 }
-                return rst;
+                return rst
             },
             getPriceType: function () {
                 if (this.$i18n.locale === 'en') {
-                    return '$';
+                    return '$'
                 } else {
-                    return '₩';
+                    return '₩'
                 }
             },
             toggleButton: function (e) {
                 if (e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box") {
-                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box active";
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box active"
                 } else if (e.target.parentElement.parentElement.parentElement.parentElement.className == "n-box active") {
-                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box";
+                    e.target.parentElement.parentElement.parentElement.parentElement.className = "n-box"
                 } else {
                     //
                 }
             },
             usePointFn: function(){
                 if(this.point - this.useWPoint <= 0){
-                    alert("보유중인 포인트가 부족합니다.");
-                    this.useWPoint = 0;
-                    this.usePoint = 0;
-                    this.remPoint = this.point;
+                    alert("보유중인 포인트가 부족합니다.")
+                    this.useWPoint = 0
+                    this.usePoint = 0
+                    this.remPoint = this.point
                 }else{
-                    this.remPoint = this.point - this.useWPoint;
-                    this.usePoint = this.useWPoint;
+                    this.remPoint = this.point - this.useWPoint
+                    this.usePoint = this.useWPoint
                 }
             },
         }
