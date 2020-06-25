@@ -1049,7 +1049,7 @@ class BeatsomeoneApi extends CB_Controller
             alert('총 결제금액의 값은 숫자만 와야 합니다');
         }
         $priceType = json_decode($this->input->post('priceType'));
-        $total_price_sum = (int) $this->input->post('total_price_sum');
+        $total_price_sum = json_decode($this->input->post('total_price_sum'));
         $usePoint = (int) $this->input->post('usePoint');
         log_message('error', 'priceType : ' .$priceType );
         log_message('error', 'total_price_sum : ' .$total_price_sum );
