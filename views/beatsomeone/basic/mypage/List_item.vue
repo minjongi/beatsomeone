@@ -794,7 +794,7 @@
                     }
                 }
                 if(this.$i18n.locale === 'en'){
-                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }else{
                     return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }

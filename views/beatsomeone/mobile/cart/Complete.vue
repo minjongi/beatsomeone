@@ -39,7 +39,7 @@
                                                         </span>
                                                         <figcaption class="pointer">
                                                             <h3 class="playList__title"> {{ formatCitName(rst.item[0].cit_name) }} </h3>
-                                                            <span class="playList__by">by {{ orderResult.mem_nickname }}</span>
+                                                            <span class="playList__by">by {{ rst.item[0].mem_nickname }}</span>
                                                         </figcaption>
                                                     </figure>
                                                 </div>
@@ -59,7 +59,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <div class="detail">MP3 or WAV</div>
                                                                 </div>
-                                                                <div class="price"> {{ formatPrice(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
+                                                                <div class="price"> {{ formatPrice2(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                             </button>
                                                             <div class="option_item basic">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -70,9 +70,9 @@
                                                         </div>
                                                         
                                                     </div>
-                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!--
                                                     <div class="n-box" v-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '1' ">
-                                                        <!-- UNLIMITED STEMS LICENSE
+                                                         UNLIMITED STEMS LICENSE
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -87,11 +87,11 @@
                                                                 <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
                                                                 <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
-                                                        </div> -->
+                                                        </div> 
                                                         
-                                                    </div>
+                                                    </div>-->
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' && item.item[0].cit_mastering_license_use === '0'" >
 
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -100,7 +100,7 @@
                                                                     <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
                                                                     <div class="detail">MP3 or WAV</div>
                                                                 </div>
-                                                                <div class="price"> {{ formatPrice(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
+                                                                <div class="price"> {{ formatPrice2(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                             </button>
                                                             <div class="option_item basic">
                                                                 <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
@@ -113,7 +113,7 @@
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' && item.item[0].cit_lease_license_use === '0' " >
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -121,7 +121,7 @@
                                                                     <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
                                                                     <div class="detail">MP3 or WAV + STEMS</div>
                                                                 </div>
-                                                                <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
+                                                                <div class="price"> {{ formatPrice2(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                             </button>
                                                             <div class="option_item unlimited">
                                                                 <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
@@ -192,7 +192,7 @@
                                     </div>
                                     <div class="n-flex between">
                                         <div class="title">Subtotal</div>
-                                        <div>{{ orderResult.cor_memo }} {{ totalPrice }}</div>
+                                        <div>{{ formatPrice(totalPrice, true) }}</div>
                                     </div>
                                     <div class="n-flex between">
                                         <div class="title">Points</div>
@@ -200,7 +200,7 @@
                                     </div>
                                     <div class="n-flex between total">
                                         <div>Total</div>
-                                        <div>{{ orderResult.cor_memo }} {{ totalPrice - point }}</div>
+                                        <div>{{ formatPrice(totalPrice - point, true) }}</div>
                                     </div>                           
                                 </div>
                             </div>
@@ -292,6 +292,20 @@
                     rst = data
                 }
                 return rst;
+            },
+            formatPrice2: function (kr, en, simbol) {
+                if (!simbol) {
+                    if (this.$i18n.locale === 'en') {
+                        return en;
+                    } else {
+                        return kr;
+                    }
+                }
+                if (this.$i18n.locale === 'en') {
+                    return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
+                } else {
+                    return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                }
             },
             formatPrice: function(price, simbol){
                 if(!simbol){

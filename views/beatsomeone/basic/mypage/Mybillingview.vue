@@ -102,7 +102,7 @@
                                                     </span>
                                                     <figcaption class="pointer">
                                                         <div class="info">
-                                                          <div class="code">{{ item.order.Item.cit_id }}</div>
+                                                          <div class="code">{{ item.order.Item.cit_key }}</div>
                                                         </div>
                                                         <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
                                                         <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
@@ -149,9 +149,9 @@
                                                         </div>
                                                         <div class="price yellow">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, item.order.cor_memo) }}</div>
                                                     </div>
-                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!-- 
                                                     <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
-                                                        <!-- UNLIMITED STEMS LICENSE
+                                                        UNLIMITED STEMS LICENSE
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -166,10 +166,10 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div> -->
-                                                    </div>
+                                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
+                                                    </div> -->
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0'" >
                                                         
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -190,7 +190,7 @@
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-else-if="item.order.Item.cit_mastering_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0'" >
                                                         
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -212,9 +212,9 @@
                                                 </div>
                                             </div>
                                             <div class="col edit">
-                                                <button  v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0" @click="downloadWithAxios(item.order.Item.cde_id, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                <button  v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0" @click="downloadWithAxios(item.order.Item.cde_filename, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
                                                 <button  v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
-                                                <button  v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' " @click="downloadWithAxios(item.order.Item.cde_id, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                <button  v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' " @click="downloadWithAxios(item.order.Item.cde_filename_2, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
                                                 <button  v-else class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
 
                                                 <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
@@ -944,26 +944,43 @@
                     this.descNoti = "If you are in a deposit waiting state or wish to cancel, please request a change through a <a href='/mypage/inquiry/'>Support Case</a> menu.";
                 }
             },
-            forceFileDownload(r, cde_id){
+            forceFileDownload(r, oriname){
                 const blob = new Blob([r.data], { type: 'application/mp3' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = 'beat_'+cde_id+'.mp3';
+                link.download = oriname;
                 link.click();
                 URL.revokeObjectURL(link.href);
             },
-            downloadWithAxios : function(cde_id, status, i){
-                if(this.getDownStatusColor(status, i) != 'green'){
+            downloadWithAxios : function(cde_filename, status, i){
+                console.log('downloadWithAxios');
+                if(!(this.getDownStatusColor(status, i) == 'green' || this.getDownStatusColor(status, i) == 'blue') ){
                     return;
                 }
 
+                let filename = '';
+                let oriname = '';
+                if(i.cit_lease_license_use == '1' && i.cit_mastering_license_use == '1'){
+                    filename = i.cde_filename;
+                    oriname = i.cde_originname;
+                }else if(i.cit_lease_license_use == '1' && i.cit_mastering_license_use == '0'){
+                    filename = i.cde_filename;
+                    oriname = i.cde_originname;
+                }else{
+                    filename = i.cde_filename_2;
+                    oriname = i.cde_originname_2;
+                }
+                console.log(filename);
+                console.log(oriname);
+
                 axios({
                     method: 'get',
-                    url: '/cmallact/download_sample/'+cde_id,
+                    //url: '/cmallact/download_sample/'+cde_id,
+                    url: '/uploads/cmallitemdetail/' + filename,
                     responseType: 'arraybuffer'
                 })
                 .then(r => {
-                    this.forceFileDownload(r, cde_id)   
+                    this.forceFileDownload(r, oriname)   
                 })
                 .catch(() => console.log('error occured'))
             },

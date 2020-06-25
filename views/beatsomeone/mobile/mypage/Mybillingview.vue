@@ -89,7 +89,7 @@
                                     <li v-for="(item, i) in myOrderList" v-bind:key="item.order.cor_id + item.order.cit_id" class="playList__itembox" :id="'playList__item'+ item.order.cor_id + item.order.cit_id">
                                         <div class="playList__item playList__item--title other">
                                             <div class="n-flex between">
-                                                <div class="info"> <div class="code">{{ item.order.Item.cit_id }}</div> </div>
+                                                <div class="info"> <div class="code">{{ item.order.Item.cit_key }}</div> </div>
                                                 <div class="edit">
                                                     <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
                                                         {{ funcDownStatus(cor_status, item.order.Item) }}
@@ -104,8 +104,9 @@
 
                                                 <!-- <div class="download_period">40 days left<br/>(~2020.06.24 12:30:34)</div> -->
                                                 </div>
-                                                <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
-                                                <div class="price" v-show="item.order.Item.cit_mastering_license_use === '1' " style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div>
+                                                <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                                <div class="price" v-show="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0' " style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div>
                                             </div>
 
                                             <div class="name">
@@ -130,9 +131,11 @@
                                                             <div class="amount"> <img src="/assets/images/icon/cd.png"/><div><span>500</span> left</div> </div>
                                                         </div>
                                                     </figcaption>
-                                                    <button  v-if="cor_status != '1'" class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
 
-                                                    <button  v-else-if="cor_status === '1'" @click="downloadWithAxios(item.order.Item.cde_id, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                    <button  v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0" @click="downloadWithAxios(item.order.Item.cde_filename, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                    <button  v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
+                                                    <button  v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' " @click="downloadWithAxios(item.order.Item.cde_filename_2, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                                    <button  v-else class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
                                                 </figure>
                                             </div>
                                             <div class="col n-option">
@@ -168,9 +171,9 @@
                                                         </div>
                                                         
                                                     </div>
-                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!--
                                                     <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
-                                                        <!-- UNLIMITED STEMS LICENSE 
+                                                         UNLIMITED STEMS LICENSE 
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -185,11 +188,11 @@
                                                                 <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
                                                                 <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
-                                                        </div>-->
+                                                        </div>
                                                         
-                                                    </div>
+                                                    </div>-->
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0'  " >
                                                         
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -211,7 +214,7 @@
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-else-if="item.order.Item.cit_mastering_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0' " >
                                                         
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -784,7 +787,7 @@
             },
             formatTotalPrice: function(price, simbol){
                 if(simbol === '$'){
-                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 0});
+                    return '$ '+ Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }else{
                     return '₩ '+ Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
@@ -798,7 +801,7 @@
                     }
                 }
                 if(this.$i18n.locale === 'en'){
-                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 0});
+                    return '$ '+ Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }else{
                     return '₩ '+ Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 }
@@ -952,26 +955,40 @@
                     this.descNoti = "If you are in a deposit waiting state or wish to cancel, please request a change through a <a href='/mypage/inquiry/'>Support Case</a> menu.";
                 }
             },
-            forceFileDownload(r, cde_id){
+            forceFileDownload(r, oriname){
                 const blob = new Blob([r.data], { type: 'application/mp3' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = 'beat_'+cde_id+'.mp3';
+                link.download = oriname;
                 link.click();
                 URL.revokeObjectURL(link.href);
             },
-            downloadWithAxios : function(cde_id, status, i){
-                if(this.getDownStatusColor(status, i) != 'green'){
+            downloadWithAxios : function(cde_filename, status, i){
+                if(!(this.getDownStatusColor(status, i) == 'green' || this.getDownStatusColor(status, i) == 'blue') ){
                     return;
+                }
+
+                let filename = '';
+                let oriname = '';
+                if(i.cit_lease_license_use == '1' && i.cit_mastering_license_use == '1'){
+                    filename = i.cde_filename;
+                    oriname = i.cde_originname;
+                }else if(i.cit_lease_license_use == '1' && i.cit_mastering_license_use == '0'){
+                    filename = i.cde_filename;
+                    oriname = i.cde_originname;
+                }else{
+                    filename = i.cde_filename_2;
+                    oriname = i.cde_originname_2;
                 }
 
                 axios({
                     method: 'get',
-                    url: '/cmallact/download_sample/'+cde_id,
+                    //url: '/cmallact/download_sample/'+cde_id,
+                    url: '/uploads/cmallitemdetail/' + filename,
                     responseType: 'arraybuffer'
                 })
                 .then(r => {
-                    this.forceFileDownload(r, cde_id)   
+                    this.forceFileDownload(r, oriname)   
                 })
                 .catch(() => console.log('error occured'))
             },
