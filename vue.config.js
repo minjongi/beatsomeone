@@ -44,6 +44,7 @@ module.exports = {
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
             m_sublist: ['./views/beatsomeone/mobile/sublist.js'],
             m_regist_item: ['./views/beatsomeone/mobile/mypage/regist_item.js'],
+            m_mypage: ['./views/beatsomeone/mobile/mypage/mypage.js'],
             m_list_item: ['./views/beatsomeone/mobile/mypage/list_item.js'],
             m_saleshistory: ['./views/beatsomeone/mobile/mypage/saleshistory.js'],
             m_cart: ['./views/beatsomeone/mobile/cart/cart.js'],
