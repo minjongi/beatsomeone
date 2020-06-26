@@ -86,7 +86,7 @@
                                                         <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                     </div>-->
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' && item.item[0].cit_mastering_license_use === '0'" >
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '0'" >
 
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -107,7 +107,7 @@
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' && item.item[0].cit_lease_license_use === '0'" >
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' && rst.item[0].cit_lease_license_use === '0'" >
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
