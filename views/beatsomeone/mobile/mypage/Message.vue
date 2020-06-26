@@ -229,6 +229,7 @@
                 attfileurlname: '',
                 searchUser: '',
                 sendBtnYn: false,
+                timerId: '',
             };
         },
         watch:{
@@ -409,6 +410,11 @@
                 if(this.mchat == "none"){
                     this.mchat = "flex";
                 }
+
+                if(!this.isEmpty(this.timerId)){
+                    clearInterval(this.timerId);
+                }
+
                 this.ajaxMessageDetail(m.mem_id).then(()=>{
                     this.mid = m.mem_id;
                     this.mchatUser = m.mem_nickname;
@@ -433,6 +439,34 @@
                         });
                     }
                 });
+                
+                this.timerId = setInterval(function(){
+                    console.log(m.mem_nickname);
+                    this.ajaxMessageDetail(m.mem_id).then(()=>{
+                        this.mid = m.mem_id;
+                        this.mchatUser = m.mem_nickname;
+                        this.mchatUserPhoto = m.mem_photo;
+                        if(this.isEmpty(m.mem_type) && this.isEmpty(m.mem_lastname)){
+                            this.mchatUserBio = '';
+                        }else{
+                            this.mchatUserBio = m.mem_profile_content;
+                        }
+
+                        var messageDisplay = document.getElementById("messageDisplay");
+                        messageDisplay.scrollTop = messageDisplay.scrollHeight;
+                    });
+                    this.ajaxMessageRead(m.mem_id).then((data)=>{
+                        if(data){
+                            this.ajaxMessageList().then(()=>{
+                                //console.log(this.tempList.length);
+                                for(let i in this.tempList){
+                                    this.messageList.push(this.tempList[i]);
+                                }
+                                this.tempList = [];
+                            });
+                        }
+                    });
+                }.bind(this, m), 3000);
                 //console.log(e);
             },
             attfile: function(e){
