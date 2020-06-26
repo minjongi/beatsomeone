@@ -22,7 +22,7 @@
                             </div> -->
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"> Ordered <div class="number" style="margin-left:8px;">{{ cntOrderItems }}</div> Items</div>
+                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600; cursor: auto;"> Ordered <div class="number" style="margin-left:8px;">{{ cntOrderItems }}</div> Items</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
