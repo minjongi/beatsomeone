@@ -22,7 +22,7 @@
                             </div> -->
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"> Ordered <div class="number" style="margin-left:8px;">{{ cntOrderItems }}</div> Items</div>
+                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600; cursor: auto;"> Ordered <div class="number" style="margin-left:8px;">{{ cntOrderItems }}</div> Items</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
@@ -86,7 +86,7 @@
                                                         <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                     </div>-->
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' && item.item[0].cit_mastering_license_use === '0'" >
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '0'" >
 
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -107,7 +107,7 @@
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' && item.item[0].cit_lease_license_use === '0'" >
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' && rst.item[0].cit_lease_license_use === '0'" >
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>

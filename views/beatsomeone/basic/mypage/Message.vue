@@ -212,6 +212,7 @@
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
     import FileUpload from 'vue-simple-upload/dist/FileUpload'
+    import "jquery.nicescroll"
 
     export default {
         components: {
@@ -248,6 +249,7 @@
                 attfileurlname: '',
                 searchUser: '',
                 sendBtnYn: false,
+                timerId: '',
             };
         },
         watch:{
@@ -276,6 +278,11 @@
                 $(this)
                     .find(".options")
                     .toggle();
+            });
+
+            // 커스텀 스크롤
+            $("#message-list").niceScroll({
+                cursorborder: "none"
             });
         },
         created() {
@@ -420,6 +427,11 @@
                 if(this.mchat == "none"){
                     this.mchat = "flex";
                 }
+
+                if(!this.isEmpty(this.timerId)){
+                    clearInterval(this.timerId);
+                }
+
                 this.ajaxMessageDetail(m.mem_id).then(()=>{
                     this.mid = m.mem_id;
                     this.mchatUser = m.mem_nickname;
@@ -444,6 +456,34 @@
                         });
                     }
                 });
+                
+                this.timerId = setInterval(function(){
+                    console.log(m.mem_nickname);
+                    this.ajaxMessageDetail(m.mem_id).then(()=>{
+                        this.mid = m.mem_id;
+                        this.mchatUser = m.mem_nickname;
+                        this.mchatUserPhoto = m.mem_photo;
+                        if(this.isEmpty(m.mem_type) && this.isEmpty(m.mem_lastname)){
+                            this.mchatUserBio = '';
+                        }else{
+                            this.mchatUserBio = m.mem_profile_content;
+                        }
+
+                        var messageDisplay = document.getElementById("messageDisplay");
+                        messageDisplay.scrollTop = messageDisplay.scrollHeight;
+                    });
+                    this.ajaxMessageRead(m.mem_id).then((data)=>{
+                        if(data){
+                            this.ajaxMessageList().then(()=>{
+                                //console.log(this.tempList.length);
+                                for(let i in this.tempList){
+                                    this.messageList.push(this.tempList[i]);
+                                }
+                                this.tempList = [];
+                            });
+                        }
+                    });
+                }.bind(this, m), 3000);
                 //console.log(e);
             },
             attfile: function(e){
@@ -576,4 +616,9 @@
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    .playList .playList__itembox.active {
+        .playList__item {
+            background-color: #252629;
+        }
+    }
 </style>

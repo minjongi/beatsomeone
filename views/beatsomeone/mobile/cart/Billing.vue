@@ -426,6 +426,7 @@
                 }
               } catch (err) {
                 console.log('ajaxUpdateOrder error');
+                console.log(err);
               } finally {
                 this.isLoading = false;
               }
