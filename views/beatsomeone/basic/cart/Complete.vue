@@ -38,7 +38,7 @@
                                                     </span>
                                                     <figcaption class="pointer">
                                                         <h3 class="playList__title"> {{ formatCitName(rst.item[0].cit_name) }} </h3>
-                                                        <span class="playList__by">by {{ orderResult.mem_nickname }}</span>
+                                                        <span class="playList__by">by {{ rst.item[0].mem_nickname }}</span>
                                                     </figcaption>
                                                 </figure>
                                             </div>
@@ -64,11 +64,11 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
+                                                        <div class="price"> {{ formatPrice2(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                     </div>
-                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!-- 
                                                     <div class="n-box" v-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '1' ">
-                                                        <!-- UNLIMITED STEMS LICENSE 
+                                                        UNLIMITED STEMS LICENSE 
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -83,10 +83,10 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>-->
-                                                    </div>
+                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
+                                                    </div>-->
                                                     <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_lease_license_use === '1' && item.item[0].cit_mastering_license_use === '0'" >
 
                                                         <div>
                                                             <button class="playList__item--button" >
@@ -103,11 +103,11 @@
                                                                 <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
                                                             </div>
                                                         </div>
-                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
+                                                        <div class="price"> {{ formatPrice2(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                     </div>
 
                                                     <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' " >
+                                                    <div class="n-box" v-else-if="rst.item[0].cit_mastering_license_use === '1' && item.item[0].cit_lease_license_use === '0'" >
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -122,7 +122,7 @@
                                                                 <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
                                                             </div>
                                                         </div>
-                                                        <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
+                                                        <div class="price"> {{ formatPrice2(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -255,7 +255,7 @@
                                     </div>
                                     <div>
                                         <div class="title">Subtotal</div>
-                                        <div>{{ orderResult.cor_memo }} {{ totalPrice }}</div>
+                                        <div>{{ formatPrice(totalPrice, true) }}</div>
                                     </div>
                                     <div>
                                         <div class="title">Points</div>
@@ -263,7 +263,7 @@
                                     </div>
                                     <div class="total">
                                         <div>Total</div>
-                                        <div>{{ orderResult.cor_memo }} {{ totalPrice - point }}</div>
+                                        <div>{{ formatPrice(totalPrice - point, true) }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -327,7 +327,7 @@
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                //console.log(data);
+                console.log(data);
                 this.orderResult = data.order;
                 this.orderResultList = data.orderdetail;
                 this.cntOrderItems = this.orderResultList.length;
@@ -354,6 +354,20 @@
                     rst = data
                 }
                 return rst;
+            },
+            formatPrice2: function (kr, en, simbol) {
+                if (!simbol) {
+                    if (this.$i18n.locale === 'en') {
+                        return en;
+                    } else {
+                        return kr;
+                    }
+                }
+                if (this.$i18n.locale === 'en') {
+                    return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
+                } else {
+                    return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                }
             },
             formatPrice: function(price, simbol){
                 if(!simbol){

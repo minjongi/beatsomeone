@@ -67,10 +67,9 @@
         },
         mounted() {
             // 중간 리프레시 초기화
-            if(this.$router.currentRoute.path != '/') {
+            if(this.$router.currentRoute.path !== '/' && this.$router.currentRoute.path !== '/TermsOfService' && this.$router.currentRoute.path !== '/PrivacyPolicy') {
                 this.$router.push({path: '/'});
             }
-
         },
         watch: {
 

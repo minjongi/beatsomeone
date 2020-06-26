@@ -35,7 +35,7 @@
                         <div class="row">
                             <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
+                                <li @click="goPage('#/profilemod')">Manage Information</li>
                                 <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">Product List</li>
                                 <li @click="goPage('mybilling')">Order History</li>
                                 <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
@@ -90,7 +90,7 @@
                                     <div>
                                         <div class="playList board fold messageList">
                                             <ul>
-                                                <li v-for="(m, i) in messageList" v-bind:key="i" class="playList__itembox" @click="goMChat($event, m)">
+                                                <li v-for="(m, i) in messageList" v-bind:key="i" class="playList__itembox" :class="mid == m.mem_id ? 'active' : ''" @click="goMChat($event, m)">
                                                     <div class="playList__item playList__item--title nowrap">
                                                         <div class="portait">
                                                             <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portait.png"/>
@@ -487,8 +487,15 @@
                         this.attfileurlname = '';
                         this.goMessText = '';
                         this.ajaxMessageDetail(this.mid);
-                        this.ajaxMessageList();
+                        this.ajaxMessageList().then(()=>{
+                            for(let i in this.messageList){
+                                if(this.messageList[i].mem_id == this.mid){
+                                    this.messageList[i].unread = 0;
+                                }
+                            }
+                        });
                     }
+
                 });
             },
             isEmpty: function(str){

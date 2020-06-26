@@ -307,7 +307,7 @@
                     _self = this
 
                 this.listSubgenres.forEach(function (val) {
-                    list.push(_self.$t('genre' + val.window.genLangCode(val)))
+                    list.push(_self.$t('genre' + window.genLangCode(val)))
                 })
 
                 return list
