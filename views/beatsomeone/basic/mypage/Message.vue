@@ -212,6 +212,7 @@
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
     import FileUpload from 'vue-simple-upload/dist/FileUpload'
+    import "jquery.nicescroll"
 
     export default {
         components: {
@@ -276,6 +277,11 @@
                 $(this)
                     .find(".options")
                     .toggle();
+            });
+
+            // 커스텀 스크롤
+            $("#message-list").niceScroll({
+                cursorborder: "none"
             });
         },
         created() {
@@ -576,4 +582,9 @@
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    .playList .playList__itembox.active {
+        .playList__item {
+            background-color: #252629;
+        }
+    }
 </style>
