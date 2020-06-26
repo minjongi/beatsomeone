@@ -215,10 +215,8 @@
                     currentBpmFr: 0,
                     currentBpmTo : 120,
                     search: null,
-                    sort: 'All Select',
+                    sort: 'Sort By',
                 },
-
-
             }
         },
         watch: {
@@ -435,7 +433,6 @@
             },1000),
             getTopList() {
                 const p = {
-                    sort: this.param.sort,
                     genre: this.param.currentGenre,
                     subgenre: this.param.currentSubgenres,
                     bpmFr: this.param.currentBpmFr,
