@@ -160,7 +160,7 @@
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
-                                            <h3>WAITING (Indie Rock Type Beat)</h3>
+                                            <h3>WAITING (Indie Rock Type Beat)1</h3>
                                             <p>by Fantom</p>
                                         </figcaption>
                                     </a>
