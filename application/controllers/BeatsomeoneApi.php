@@ -1100,7 +1100,7 @@ class BeatsomeoneApi extends CB_Controller
         $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
         $insertdata['status'] = $od_status;
 
-        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model', 'Member_model'));
         $res = $this->Cmall_order_model->insert($insertdata);
         if ($res) {
             $cwhere = array(
@@ -1111,7 +1111,11 @@ class BeatsomeoneApi extends CB_Controller
             if ($cartorder) {
                 foreach ($cartorder as $key => $val) {
                     $item = $this->Cmall_item_model
-                        ->get_one(element('cit_id', $val), 'cit_download_days');
+                        ->get_one(element('cit_id', $val), 'mem_id, cit_download_days');
+
+                    $seller = $this->Member_model
+                        ->get_one(element('mem_id', $item), '*');
+
                     $insertdetail = array(
                         'cor_id' => $cor_id,
                         'mem_id' => $mem_id,
@@ -1120,6 +1124,7 @@ class BeatsomeoneApi extends CB_Controller
                         'cod_download_days' => element('cit_download_days', $item),
                         'cod_count' => element('cct_count', $val),
                         'cod_status' => $od_status,
+                        'cod_seller_usertype' => element('mem_usertype', $seller)
                     );
                     log_message('error', print_r($insertdetail, true) );
                     $this->Cmall_order_detail_model->insert($insertdetail);
