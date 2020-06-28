@@ -25,6 +25,11 @@
                 </div>
             </div>
         </div>
+        <div class="commentsbox__row" v-else >
+            <div class="no-comment">
+                <p>아직 남겨진 댓글이 없습니다</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -73,5 +78,12 @@
 </script>
 
 <style scoped="scoped">
-
+    .no-comment {
+        padding: 80px 0;
+        text-align: center;
+    }
+    .no-comment p {
+        color:#fff;
+        font-size: 14px;
+    }
 </style>
