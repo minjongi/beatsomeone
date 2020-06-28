@@ -515,9 +515,9 @@
                 });
             },
             getItemRegCount() {
-                Http.get('/beatsomeoneApi/item_reg_count').then(r => {
-                    if (r.data.count > this.regLimit) {
-                        alert(this.$t('registrationLimitExceededMsg'))
+                Http.get('/beatsomeoneApi/chk_product_reg_limit').then(r => {
+                    if (r.data.status !== 'possible') {
+                        alert(this.$t(r.data.msgCode))
                         window.location.href = '/'
                     }
                 });

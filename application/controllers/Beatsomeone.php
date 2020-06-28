@@ -169,9 +169,24 @@ class Beatsomeone extends CB_Controller
 //            alert('이 상품은 현재 판매하지 않습니다');
 //        }
 //
-//        $view['view']['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $view['view']['item']));
-//        $view['view']['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
+//        $view['view']['item']['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $view['view']['item']));
+//        $view['view']['item']['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
 
+        $detail = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
+        $detailItem = [];
+        if (!empty($view['view']['item']['cit_lease_license_use'])) {
+            $detailItem[] = 'LEASE';
+        }
+        if (!empty($view['view']['item']['cit_mastering_license_use'])) {
+            $detailItem[] = 'STEM';
+        }
+
+        $view['view']['item']['detail'] = [];
+        foreach ($detail as $detailKey => $detailVal) {
+            if (in_array($detailVal['cde_title'], $detailItem)) {
+                $view['view']['item']['detail'][$detailVal['cde_title']] = $detailVal;
+            }
+        }
 
         // 로그인 사용자의 경우 조회 이력 추가
         // 비로그인 사용자 거부
