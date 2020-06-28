@@ -383,4 +383,11 @@
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .detail .detail__music .detail__music-info .utils .category span{
+        transition: all .3s;
+    }
+    .detail .detail__music .detail__music-info .utils .category span:hover{
+        opacity: 1;
+    }
 </style>
