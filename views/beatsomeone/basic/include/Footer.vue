@@ -28,7 +28,7 @@
             </h3>-->
             <ul>
               <li>
-                <a href="/">BEAT SOMEONE</a>
+                <a href="#//" style="cursor:default;">BEAT SOMEONE</a>
               </li>
               <li>
                 <a
