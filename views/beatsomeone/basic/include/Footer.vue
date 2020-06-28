@@ -23,10 +23,13 @@
       <div class="footer__content">
         <div class="footer__subLink">
           <div class="row">
-            <h3>
+            <!-- <h3>
               <a href="/">BEAT SOMEONE</a>
-            </h3>
+            </h3>-->
             <ul>
+              <li>
+                <a href="/">BEAT SOMEONE</a>
+              </li>
               <li>
                 <a
                   href="http://dev.beatsomeone.com/register#/TermsOfService"
