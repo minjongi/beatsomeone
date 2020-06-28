@@ -33,11 +33,13 @@
               <li>
                 <a
                   href="http://dev.beatsomeone.com/register#/TermsOfService"
+                  target="_blank"
                 >{{ $t('termsOfService') }}</a>
               </li>
               <li>
                 <a
                   href="http://dev.beatsomeone.com/register#/PrivacyPolicy"
+                  target="_blank"
                 >{{ $t('privacyPolicy') }}</a>
               </li>
               <li>
