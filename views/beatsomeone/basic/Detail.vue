@@ -32,10 +32,11 @@
                                     <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
                                     <span class="share pointer" @click="clickShare('facebook')">Facebook</span>
                                     <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
-
                                 </div>
+                            </div>
 
-                                <div class="category" v-if="item">
+                            <div class="utils" v-if="item" style="margin-top: 10px;" >
+                                <div class="category" v-if="item" style="width: 100%;">
                                      <span class="pointer" v-for="(t,i) in hashtag" :key="i" @click="clickHash(t)">
                                         {{ t }}
                                     </span>
