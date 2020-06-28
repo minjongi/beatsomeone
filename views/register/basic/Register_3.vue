@@ -303,7 +303,9 @@
 </style>
 
 <style lang="css">
-
+body, html {
+    background:#111214 !important;
+}
 .errortext {
     font-size: 14px;
     margin-top: 5px;
