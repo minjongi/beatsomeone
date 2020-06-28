@@ -15,7 +15,7 @@
             </div>
             <div class="purchase-list">
                 <ul>
-                    <li class="parchase-item" v-if="!!item.detail['LEASE']">
+                    <li class="parchase-item" v-if="item.cit_lease_license_use && !!item.detail && !!item.detail['LEASE'] && !!item.detail['LEASE'].cde_id">
                         <div class="parchase-info">
                             <h4 class="parchase-title">BASIC LEASE</h4>
                             <p class="parchase-desc">MP3 or WAV</p>
@@ -35,7 +35,7 @@
                             </a>
                         </div>
                     </li>
-                    <li class="parchase-item" v-if="!!item.detail['STEM']">
+                    <li class="parchase-item" v-if="item.cit_mastering_license_use && !!item.detail && !!item.detail.STEM && !!item.detail.STEM.cde_id">
                         <div class="parchase-info">
                             <h4 class="parchase-title">MASTERING LICENSE</h4>
                             <p class="parchase-desc">MP3 or WAV + STEMS</p>
@@ -102,6 +102,7 @@
                     } else {
                         EventBus.$emit('add_cart');
                         log.debug('장바구니 담기 성공');
+                        alert(this.$t('inMyShoppingCart'))
                         this.close()
                     }
                 });

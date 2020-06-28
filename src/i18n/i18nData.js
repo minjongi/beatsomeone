@@ -300,6 +300,7 @@ export default {
         registrationLimitExceededMsg: '등록 권한이 없습니다',
         registrationLimitExceededMsg10: '현재 등급의 음원 등록 제한은 10곡(1개월) 입니다, 추가 등록하시려면 등급을 업그레이드 해주세요!',
         registrationLimitExceededMsg20: '현재 등급의 음원 등록 제한은 20곡(30일) 입니다, 추가 등록하시려면 등급을 업그레이드 해주세요!',
+        inMyShoppingCart: '음원이 장바구니에 담겼습니다',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -601,5 +602,6 @@ export default {
         registrationLimitExceededMsg: 'You do not have permission to register',
         registrationLimitExceededMsg10: 'The current rating limit for music registration is 10 songs (1 month), so please upgrade your rating to register additional songs!',
         registrationLimitExceededMsg20: 'The current rating limit for music registration is 20 songs (30 Days), so please upgrade your rating to register additional songs!',
+        inMyShoppingCart: 'The sound source is in my shopping cart',
     } // en
 }
