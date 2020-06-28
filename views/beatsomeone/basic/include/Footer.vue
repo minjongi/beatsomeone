@@ -43,7 +43,7 @@
                 >{{ $t('privacyPolicy') }}</a>
               </li>
               <li>
-                <a href="http://dumdum.kr">{{ $t('aboutUs') }}</a>
+                <a href="http://dumdum.kr" target="_blank">{{ $t('aboutUs') }}</a>
               </li>
             </ul>
           </div>
@@ -100,7 +100,7 @@
                     /></a>
                 </div>
         -->
-        <p class="footer__copyright">copyright@beat someone 2019 .All Right reserved.</p>
+        <p class="footer__copyright">copyright@beatsomeone 2020 .All Right reserved.</p>
       </div>
     </div>
   </footer>
