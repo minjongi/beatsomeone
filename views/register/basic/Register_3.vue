@@ -22,7 +22,7 @@
                                 />
                             </div>
 
-                            <div v-if="errorValidUserId">
+                            <div v-if="errorValidUserId" class="errortext">
                                 {{ errorValidUserId }}
                             </div>
                         </label>
@@ -39,7 +39,7 @@
                                         required
                                 />
                             </div>
-                            <div v-if="errorValidEmail">
+                            <div v-if="errorValidEmail" class="errortext">
                                 {{ errorValidEmail }}
                             </div>
                         </label>
@@ -304,4 +304,12 @@
 
 <style lang="css">
 
+.errortext {
+    font-size: 14px;
+    margin-top: 5px;
+    opacity: .5;
+}
+.errortext:before {
+    content:'- ';
+}
 </style>
