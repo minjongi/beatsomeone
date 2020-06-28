@@ -6,16 +6,20 @@
           <img src="/assets/images/logo.png" alt />
         </div>
         <div class="footer__sns sns">
-          <a href="https://www.instagram.com/beatsomeone" class="sns__insta">
+          <a href="https://www.instagram.com/beatsomeone" class="sns__insta" target="_blank">
             <img src="/assets/images/icon/instagram.png" alt="instagram" />
           </a>
-          <a href="https://www.youtube.com/channel/UCkOZTgnHFgC0Cb04W0AJ1LQ" class="sns__insta">
+          <a
+            href="https://www.youtube.com/channel/UCkOZTgnHFgC0Cb04W0AJ1LQ"
+            class="sns__insta"
+            target="_blank"
+          >
             <img src="/assets/images/icon/youtube.png" alt="youtube" />
           </a>
-          <a href="https://www.facebook.com/beatsomeone" class="sns__insta">
+          <a href="https://www.facebook.com/beatsomeone" class="sns__insta" target="_blank">
             <img src="/assets/images/icon/facebook.png" alt="facebook" />
           </a>
-          <a href="https://twitter.com/beatsomeone1" class="sns__insta">
+          <a href="https://twitter.com/beatsomeone1" class="sns__insta" target="_blank">
             <img src="/assets/images/icon/twitter.png" alt="twitter" />
           </a>
         </div>
@@ -32,13 +36,13 @@
               </li>
               <li>
                 <a
-                  href="http://dev.beatsomeone.com/register#/TermsOfService"
+                  href="http://beatsomeone.com/register#/TermsOfService"
                   target="_blank"
                 >{{ $t('termsOfService') }}</a>
               </li>
               <li>
                 <a
-                  href="http://dev.beatsomeone.com/register#/PrivacyPolicy"
+                  href="http://beatsomeone.com/register#/PrivacyPolicy"
                   target="_blank"
                 >{{ $t('privacyPolicy') }}</a>
               </li>
