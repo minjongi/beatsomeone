@@ -17,12 +17,12 @@
                                 <span class="song">{{ item.cde_download }}</span>
 <!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
-                                <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
+                                <!-- <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
                                 <span class="share pointer" @click="clickShare('facebook')">Facebook</span>
                                 <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
                                 <a class="twitter-share-button"
                                    href="https://twitter.com/intent/tweet?text=Hello%20world">
-                                    Tweet</a>
+                                    Tweet</a> -->
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
