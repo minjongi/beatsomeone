@@ -224,7 +224,7 @@
                                     </div>
                                     <div class="row row--inner">
                                         <span class="col">
-                                            <p>
+                                            <p class="possible-sell">
                                                 {{ $t('availableQuantityForSale') }}
                                             </p>
                                         </span>
@@ -252,10 +252,20 @@
                             <div class="col">
                                 <label class="form-item">
                                     <p class="form-title required">{{ $t('primaryGenre') }}</p>
-                                    <select v-model="item.genre" class="custom-select-basic">
+                                    <!-- <select v-model="item.genre" class="custom-select-basic">
                                         <option value="">{{ $t('select') }}</option>
                                         <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ listGenreName[index] }}</option>
-                                    </select>
+                                    </select> -->
+                                    <div class="custom-select ">
+                                        <button class="selected-option">
+                                            {{ $t('select') }}
+                                        </button>
+                                        <div class="options">
+                                            <button class="option" data-value="" v-for="(item, index) in listGenre" :key="'genre' + index" @click="param.sort = item">
+                                                {{ $t('select') }}
+                                            </button>
+                                        </div>
+                                    </div>
                                 </label>
                                 <label class="form-item">
                                     <p class="form-title ">{{ $t('subGenre') }}</p>
@@ -665,5 +675,12 @@
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     .col ~ .col:not(.btnbox) {
         margin-top: 0;
+    }
+
+    .possible-sell {
+        line-height:1.25em !important;
+        height: 55px !important;
+        display: flex !important;
+        align-items: center !important;   
     }
 </style>

@@ -35,7 +35,7 @@
       center top;
     background-size: 100% auto;
     .main__section2-title {
-      padding: 110px 0 140px;
+      padding: 60px 0 140px;
       text-align: center;
       h1 {
         @include titleFont(
@@ -44,6 +44,8 @@
           $style: italic
         );
         margin-bottom: 20px;
+        word-break: keep-all;
+        line-height:1.25em;
       }
       a {
         @include borderLikeButton($padding: 10px 20px);
@@ -131,11 +133,18 @@
     .testimonials__btnbox {
       @include flex($justify: center);
       margin-top: 30px;
+      align-items: stretch;
       a {
         @include borderLikeButton($padding: 10px 20px);
         font-size: 12px;
         color: #fff;
         margin: 0 5px;
+        flex: 1;
+        word-break: keep-all;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;;
         &.beats {
           border-color: #ffda2a;
           color: #ffda2a;
@@ -146,9 +155,11 @@
 
   .main__desc {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 60px;
     h1 {
       @include titleFont($display: 3, $style: italic, $letterSpacing: -0.045em);
+      line-height:1.25em;
+      word-break: keep-all;
     }
     a {
       @include borderLikeButton($padding: 10px 20px);

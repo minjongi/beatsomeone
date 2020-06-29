@@ -14,19 +14,19 @@
                             <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
                             <p class="singer" v-if="item">{{ item.musician }}</p>
                             <div class="state" v-if="item">
-                                <span class="play">{{ item.cde_download }}</span>
+                                <span class="song">{{ item.cde_download }}</span>
 <!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
-                                <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
+                                <!-- <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
                                 <span class="share pointer" @click="clickShare('facebook')">Facebook</span>
                                 <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
                                 <a class="twitter-share-button"
                                    href="https://twitter.com/intent/tweet?text=Hello%20world">
-                                    Tweet</a>
+                                    Tweet</a> -->
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="#" class="buy"  @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
+                                    <a href="#" class="card"  @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
 
                                 </div>
                             </div>

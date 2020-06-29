@@ -330,3 +330,6 @@
     @import '/assets_m/plugins/slick/slick.css';
     @import '/assets_m/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 </style>
+<style scope="scope" lang="css">
+    .playList .playList__item{display: flex !important;}
+</style>

@@ -30,7 +30,7 @@
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
-                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">(${{ cartSum }})</a>
+                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">장바구니 (${{ cartSum }})</a>
                 </div>
 
                 <a href="" class="gnb__banner">

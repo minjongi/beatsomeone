@@ -855,7 +855,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = '/mypage/regist_item'+key;
+                window.location.href = '/mypage/regist_item/'+key;
             },
             isEmpty: function(str){
                 if(typeof str == "undefined" || str == null || str == "")

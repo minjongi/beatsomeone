@@ -30,7 +30,7 @@
                             </label>
                         </div>
                     </div>
-                    <div v-html="errorMsg" v-if="errorMsg" >
+                    <div v-html="errorMsg" v-if="errorMsg" class="errortext">
 
                     </div>
                     <div class="accounts__btnbox">
@@ -115,4 +115,15 @@
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    body, html {
+        background:#111214 !important;
+    }
+    .errortext p {
+        font-size: 14px;
+        margin-top: 5px;
+        opacity: .5;
+    }
+    .errortext p:before {
+        content:'- ';
+    }
 </style>

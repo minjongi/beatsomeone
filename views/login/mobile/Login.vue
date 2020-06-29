@@ -32,7 +32,7 @@
                             </label>
                         </div>
                     </div>
-                    <div v-html="errorMsg" v-if="errorMsg" >
+                    <div v-html="errorMsg" v-if="errorMsg" class="errortext">
 
                     </div>
                     <div class="accounts__btnbox">
@@ -110,6 +110,13 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style lang="css">
-
+<style lang="css" scope="scope">
+.errortext {
+    font-size: 14px;
+    margin-top: 5px;
+    opacity: .5;
+}
+.errortext:before {
+    content:'- ';
+}
 </style>

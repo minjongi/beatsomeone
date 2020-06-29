@@ -485,5 +485,14 @@
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
+    .playList .playList__item {
+        display: flex !important;
+    }
 
+</style>
+
+<style lang="css" scope="scope">
+    html, body{
+        background:#111214;
+    }
 </style>

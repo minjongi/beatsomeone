@@ -25,8 +25,10 @@
                 </div>
             </div>
 
+            <div class="no-comment" v-if="listComments.length === 0" >
+                <p>아직 남겨진 댓글이 없습니다</p>
+            </div>
         </div>
-
     </div>
 </template>
 
@@ -61,7 +63,7 @@
             getList() {
                 if(!this.item) return;
                 Http.get(`/beatsomeoneApi/list_comment/${this.item.cit_id}`).then(r=> {
-                    this.listComments = r.data;
+                    this.listComments = !r.data.length ? null : r.data;
                 });
             },
             timeago(date) {
@@ -77,5 +79,13 @@
 </script>
 
 <style scoped="scoped">
+    .no-comment {
+        padding: 40px 0;
+        text-align: center;
+    }
+    .no-comment p {
+        color:#fff;
+        font-size: 14px;
+    }
 
 </style>

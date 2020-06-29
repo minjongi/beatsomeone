@@ -14,6 +14,10 @@
         <div v-if="busy">
             <Loader key="loader" ></Loader>
         </div>
+
+        <div v-if="!list" clas="no-playLost__list">
+            <p>유사한 비트를 찾을 수 없습니다.</p>
+        </div>
     </div>
 </template>
 
@@ -127,4 +131,12 @@
 
 <style scoped="scoped">
 
+.no-playLost__list {
+    padding: 80px 0;
+    text-align: center;
+}
+.no-playLost__list p {
+    font-size: 14px;
+    color:#fff;
+}
 </style>

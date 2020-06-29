@@ -14,8 +14,6 @@
                 </p>
                 <p v-if="message" v-html="message">
                 </p>
-                <p v-if="errorMsg" v-html="errorMsg">
-                </p>
             </div>
             <div class="login accounts__defaultLayout">
                 <form action="/findaccount" method="post">
@@ -27,6 +25,7 @@
                                 <div class="input">
                                     <input type="email" name="idpw_email" placeholder="Type your email" />
                                 </div>
+                                <div v-if="errorMsg" v-html="errorMsg" class="errortext"></div>
                             </label>
                         </div>
                     </div>
@@ -83,5 +82,15 @@
 </style>
 
 <style lang="css">
-
+body, html {
+    background:#111214 !important;
+}
+.errortext p{
+    font-size: 14px;
+    margin-top: 5px;
+    opacity: .5;
+}
+.errortext p:before {
+    content:'- ';
+}
 </style>

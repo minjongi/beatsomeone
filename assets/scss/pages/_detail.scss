@@ -132,6 +132,15 @@
               padding-left: 28px;
             }
           }
+          div.share {
+            background: url("/assets/images/icon/shared.png") no-repeat left center;
+            margin-left: 25px;
+            padding-left: 35px;
+            span {
+              margin-left: 0;
+              padding-left: 0;
+            }
+          }
           span {
             font-size: 14px;
             font-weight: 600;
@@ -144,9 +153,9 @@
             &.talk {
               background: url("/assets/images/icon/talk.png") no-repeat left center;
             }
-            &.share {
-              background: url("/assets/images/icon/shared.png") no-repeat left center;
-            }
+            // &.share {
+            //   background: url("/assets/images/icon/shared.png") no-repeat left center;
+            // }
             &.atob {
               background: url("/assets/images/icon/atob.png") no-repeat left center;
             }
