@@ -185,7 +185,7 @@ class Mypage extends CB_Controller
         $layoutconfig = array(
             'path' => 'beatsomeone',
             'layout' => 'layout',
-            //'skin' => 'mypage/dashboard',
+//            'skin' => 'mypage/dashboard',
             'skin' => 'mypage/mypage',
             'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
             'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),

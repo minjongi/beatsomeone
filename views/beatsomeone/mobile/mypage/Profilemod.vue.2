@@ -29,7 +29,7 @@
 
             <div class="row">
                 <div class="type"><span>Type</span></div>
-                <div class="data radio-grop">
+                <div class="data">
                     <label for="type1" class="checkbox">
                         <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover" v-model="info.mem_type">
                         <span></span><div> Music Lover</div>
@@ -51,16 +51,16 @@
 
             <div class="row">
                 <div class="type"><span>Name</span></div>
-                <div class="data input_wrap">
+                <div class="data">
                     <input class="inputbox firstname" type="text" v-model="info.mem_firstname" placeholder="Enter your firstname..." >
-                    <input class="inputbox lastname" style="margin-left: 10px;" type="text" v-model="info.mem_lastname" placeholder="Enter your lastname..." >
+                    <input class="inputbox lastname" type="text" v-model="info.mem_lastname" placeholder="Enter your lastname..." >
                 </div>
                 <div></div>
             </div>
 
             <div class="row">
                 <div class="type"><span>City of Residence, State</span></div>
-                <div class="data input_wrap">
+                <div class="data">
                     <input class="inputbox" type="text" v-model="info.mem_address1" placeholder="Enter your location...">
                 </div>
                 <div></div>
@@ -68,8 +68,8 @@
 
             <div class="row">
                 <div class="type"><span>Bio</span></div>
-                <div class="data input_wrap">
-                    <textarea class="firstname" style="height: 128px;" type="text" v-model="info.mem_profile_content" placeholder="Enter your bio..." />
+                <div class="data">
+                    <textarea class="firstname" type="text" v-model="info.mem_profile_content" placeholder="Enter your bio..." />
                 </div>
                 <div></div>
             </div>
@@ -78,14 +78,10 @@
 
         </div>
 
-        <div class="n-flex" style="margin-top: 30px;">
+        <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
+            <button class="btn btn--gray" @click="moveDashboard">Cancel</button>
             <button type="submit" class="btn btn--submit" @click="updateUserInfo">Save</button>
         </div>
-
-<!--        <div class="btnbox col" style="width:50%; margin:30px auto 100px;">-->
-<!--            <button class="btn btn&#45;&#45;gray" @click="moveDashboard">Cancel</button>-->
-<!--            <button type="submit" class="btn btn&#45;&#45;submit" @click="updateUserInfo">Save</button>-->
-<!--        </div>-->
     </div>
 
 

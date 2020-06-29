@@ -75,7 +75,6 @@
                 ws: null,
                 isPlay: false,
                 isReady: false,
-                purchaseTypeSelectorPopup: false
 
             };
         },

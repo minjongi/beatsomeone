@@ -174,7 +174,6 @@
             </div>
         </div>
         <main-player></main-player>
-        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup" :item="item"></PurchaseTypeSelector>
         <Footer/>
     </div>
 
@@ -192,10 +191,9 @@
     import Loader from '*/vue/common/Loader';
     import MainPlayer from "@/vue/common/MainPlayer";
     import KeepAliveGlobal from 'vue-keep-alive-global';
-    import PurchaseTypeSelector from "./component/PurchaseTypeSelectorList";
 
     export default {
-        components: {Header,Footer,Index_Items,Loader,MainPlayer,KeepAliveGlobal,PurchaseTypeSelector},
+        components: {Header,Footer,Index_Items,Loader,MainPlayer,KeepAliveGlobal},
         data: function() {
             return {
                 isLogin: false,
@@ -219,7 +217,6 @@
                     search: null,
                     sort: 'Sort By',
                 },
-                purchaseTypeSelectorPopup: false
             }
         },
         watch: {
