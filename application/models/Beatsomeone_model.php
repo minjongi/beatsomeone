@@ -283,7 +283,9 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice,';
+        $select .= 'p.cde_id, p.cde_price,p.cde_price_d, p.cde_download,';
+        $select .= 'p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2,';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
@@ -370,13 +372,19 @@ class Beatsomeone_model extends CB_Model
 
 
     // 회원별 음원 등록수 조회
-    public function get_item_reg_count_by_mem_id($memId)
+    public function get_item_reg_count_by_mem_id($memId, $usertype=1)
     {
-        $where['mem_id'] = $memId;
-        $select = 'COUNT(*) AS totalCount';
+        if ($usertype < 2) {
+            return 0;
+        }
 
         $this->db->select('COUNT(*) AS totalCount');
         $this->db->where(['mem_id' => $memId]);
+
+        if ($usertype == 2) {
+            $this->db->where('cit_datetime <=', date('Y-m-01'));
+        }
+
         $qry = $this->db->get($this->_table);
         return $qry->row_array()['totalCount'];
     }

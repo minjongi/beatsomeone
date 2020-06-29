@@ -35,17 +35,18 @@
                         <div class="row">
                             <ul class="menu">
                                 <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li  class="active" >Support
+                                <li @click="goPage('#/profilemod')">Manage Information</li>
+                                <li class="active">Product List</li>
+                                <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
+                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
+                                <li @click="goPage('message')">Message</li>
+                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
+                                <li @click="goPage('inquiry')">Support
                                     <ul class="menu">
                                         <li @click="goPage('inquiry')">Support Case</li>
-                                        <li class="active" @click="goPage('faq')">FAQ</li>
+                                        <li @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>
                             </ul>

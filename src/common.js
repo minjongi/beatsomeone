@@ -1,5 +1,5 @@
 window.sortItem = [
-    'Sort By Staff Picks',
+    'Sort By',
     'Top Downloads',
     'Newest'
 ];

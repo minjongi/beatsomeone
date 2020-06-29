@@ -174,6 +174,7 @@
             </div>
         </div>
         <main-player></main-player>
+        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup" :item="item"></PurchaseTypeSelector>
         <Footer/>
     </div>
 
@@ -191,9 +192,10 @@
     import Loader from '*/vue/common/Loader';
     import MainPlayer from "@/vue/common/MainPlayer";
     import KeepAliveGlobal from 'vue-keep-alive-global';
+    import PurchaseTypeSelector from "./component/PurchaseTypeSelectorList";
 
     export default {
-        components: {Header,Footer,Index_Items,Loader,MainPlayer,KeepAliveGlobal},
+        components: {Header,Footer,Index_Items,Loader,MainPlayer,KeepAliveGlobal,PurchaseTypeSelector},
         data: function() {
             return {
                 isLogin: false,
@@ -215,10 +217,9 @@
                     currentBpmFr: 0,
                     currentBpmTo : 120,
                     search: null,
-                    sort: 'All Select',
+                    sort: 'Sort By',
                 },
-
-
+                purchaseTypeSelectorPopup: false
             }
         },
         watch: {
@@ -369,19 +370,18 @@
                 this.getList();
                 this.getTopList();
             },100),
-            addCart() {
-
-                let detail_qty = {};
-                detail_qty[this.item['cde_id']] = 1;
-                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
-                    if(!r) {
-                        log.debug('장바구니 담기 실패');
-                    } else {
-                        EventBus.$emit('add_cart');
-                        log.debug('장바구니 담기 성공');
-
-                    }
-                });
+            addCart(item) {
+                // let detail_qty = {};
+                // detail_qty[this.item['cde_id']] = 1;
+                // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                //     if(!r) {
+                //         log.debug('장바구니 담기 실패');
+                //     } else {
+                //         EventBus.$emit('add_cart');
+                //         log.debug('장바구니 담기 성공');
+                //
+                //     }
+                // });
             },
             selectItem(i) {
                 const path = `/beatsomeone/detail/${i.cit_key}`;
@@ -435,7 +435,6 @@
             },1000),
             getTopList() {
                 const p = {
-                    sort: this.param.sort,
                     genre: this.param.currentGenre,
                     subgenre: this.param.currentSubgenres,
                     bpmFr: this.param.currentBpmFr,
@@ -482,11 +481,9 @@
 
 <style lang="scss">
     @import '@/assets/scss/App.scss';
-
 </style>
 
-<style lang="css">
+<style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-
 </style>
