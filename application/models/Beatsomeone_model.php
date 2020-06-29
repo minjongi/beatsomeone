@@ -1024,4 +1024,28 @@ class Beatsomeone_model extends CB_Model
         return $this->db->insert_id();;
     }
 
+    public function insert_membership_purchase_log($params)
+    {
+        $data = [
+            'mem_id' => $params['mem_id'],
+            'bill_term' => $params['bill_term'],
+            'plan' => $params['plan'],
+            'plan_name' => $params['plan_name'],
+            'start_date' => $params['start_date'],
+            'end_date' => $params['end_date'],
+            'pay_method' => $params['pay_method'],
+            'amount' => $params['amount']
+        ];
+        $this->db->insert('cb_member_membership_purchase_log', $data);
+    }
+
+    public function update_membership_member($memId, $usertype)
+    {
+        $updateData = [
+            'mem_usertype' => $usertype
+        ];
+
+        $this->db->where('mem_id', $memId);
+        $this->db->update('cmall_item_detail', $updateData);
+    }
 }

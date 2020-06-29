@@ -45,16 +45,15 @@
                     &nbsp;
                     <span class="tooltip">{{ item.cde_price }}&#8361;</span>
                 </a>
-                <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">{{ $t('download') }}</a>
-                <a href="" class="shared">{{ $t('share') }}</a>
+                <a v-if="false" :href="`/cmallact/download_sample/${item.cde_id}`" class="download">{{ $t('download') }}</a>
             </div>
-            <div class="col more">
+            <div class="col more_shared">
                 <button>
-                    {{ $t('more') }}
+                    {{ $t('share') }}
                     <span class="tooltip">
-                        <a href="">action1</a>
-                        <a href="">action2</a>
-                        <a href="">action3</a>
+                        <a @click="clickShare('twitter')">Twitter</a>
+                        <a @click="clickShare('facebook')">Facebook</a>
+                        <a @click="copyLinkToClipboard()">CopyLink</a>
                     </span>
                 </button>
             </div>
@@ -290,6 +289,100 @@
             clickHash(h) {
                 const path = `/beatsomeone/sublist?search=${h}`;
                 window.location.href = path;
+            },
+            // 공유 클릭
+            clickShare(sns) {
+                Http.post(`/beatsomeoneApi/increase_item_share_count`, {
+                    cit_id: this.item.cit_id
+                }).then(r => {
+                    if (!r) {
+                        log.debug("공유 카운트 증가 실패");
+                    } else {
+                        log.debug("공유 카운트 증가 성공");
+                    }
+                });
+
+                var url = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
+
+                var o;
+                var _url = encodeURIComponent(url);
+                var _txt = encodeURIComponent(txt);
+                var _br = encodeURIComponent("\r\n");
+
+                switch (sns) {
+                    case "facebook":
+                        o = {
+                            method: "popup",
+                            url: "http://www.facebook.com/sharer/sharer.php?u=" + _url
+                        };
+                        break;
+
+                    case "twitter":
+                        o = {
+                            method: "popup",
+                            url: "http://twitter.com/intent/tweet?text=" + _txt + "&url=" + _url
+                        };
+                        break;
+
+                    case "kakaostory":
+                        o = {
+                            method: "popup",
+                            url: "https://story.kakao.com/share?url=" + _url
+                        };
+                        break;
+
+                    case "band":
+                        o = {
+                            method: "popup",
+                            url: "http://www.band.us/plugin/share?body=" + _txt + _br + _url
+                        };
+                        break;
+
+                    default:
+                        alert("지원하지 않는 SNS입니다.");
+                        return false;
+                }
+
+                switch (o.method) {
+                    case "popup":
+                        window.open(
+                            o.url,
+                            "snspopup",
+                            "width=500, height=400, menubar=no, status=no, toolbar=no"
+                        );
+                        break;
+
+                    case "web2app":
+                        if (navigator.userAgent.match(/android/i)) {
+                            // Android
+                            setTimeout(function() {
+                                location.href =
+                                    "intent://" + o.param + "#Intent;" + o.g_proto + ";end";
+                            }, 100);
+                        } else if (navigator.userAgent.match(/(iphone)|(ipod)|(ipad)/i)) {
+                            // Apple
+                            setTimeout(function() {
+                                location.href = o.a_store;
+                            }, 200);
+                            setTimeout(function() {
+                                location.href = o.a_proto + o.param;
+                            }, 100);
+                        } else {
+                            alert("이 기능은 모바일에서만 사용할 수 있습니다.");
+                        }
+                        break;
+                }
+            },
+            // 링크 복사
+            copyLinkToClipboard() {
+                var t = document.createElement("textarea");
+                document.body.appendChild(t);
+                t.value = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                t.select();
+                document.execCommand("copy");
+                document.body.removeChild(t);
+                alert(`복사되었습니다\nCtrl + V 를 눌러 확인해보세요`);
             }
         }
     }

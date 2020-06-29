@@ -50,6 +50,9 @@ class Register extends CB_Controller
         $eventname = 'event_register_index';
         $this->load->event($eventname);
 
+        $view['getData']['billTerm'] = $this->input->get('billTerm');
+        $view['getData']['plan'] = $this->input->get('plan');
+        $view['getData']['planName'] = $this->input->get('planName');
 
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);

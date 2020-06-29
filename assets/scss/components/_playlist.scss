@@ -233,7 +233,7 @@
     }
     .utils {
       @include flex();
-      padding: 0 30px;
+      padding: 0 20px;
       margin-left: 30px;
       position: relative;
       &:after {
@@ -294,6 +294,64 @@
           width: 18px;
           height: 18px;
           background: url('/assets/images/icon/shared.png') no-repeat center;
+        }
+      }
+    }
+    .more_shared {
+      text-align: center;
+      padding: 0 30px 0 0;
+      button {
+        cursor: pointer;
+        @include textIndet;
+        width: 20px;
+        height: 20px;
+        background: url('/assets/images/icon/shared.png') no-repeat center;
+        position: relative;
+        overflow: initial;
+        opacity: 0.3;
+        transition: 0.3s ease;
+        .tooltip {
+          bottom: 15px;
+          width: 130px;
+          background: #2b2c30;
+          a {
+            display: block;
+            height: 0;
+            line-height: 40px;
+            overflow: hidden;
+            color: #9ea1a8;
+            transition: all 0.5s;
+            border-bottom: 1px solid #1b1a1f;
+            &:last-child {
+              border-bottom: 0;
+            }
+            &:hover {
+              color: $color-white;
+              background: #1c1d22;
+            }
+          }
+          &:after {
+            content: '';
+            display: block;
+            @include position($bottom: -10px, $left: 50%);
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-top: 5px solid #2b2c30;
+            border-bottom: 5px solid transparent;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+          }
+        }
+        &:hover {
+          opacity: 1;
+        }
+        &:hover .tooltip {
+          opacity: 1;
+          bottom: 30px;
+          a {
+            height: 40px;
+          }
         }
       }
     }

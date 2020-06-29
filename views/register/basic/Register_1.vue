@@ -300,7 +300,7 @@
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: plan, planName: this.planName, billTerm: this.billTerm  });
 
                 if(islogin){
-                    this.$router.push({path: '/6'});    
+                    this.$router.push({path: '/6'});
                 }else{
                     this.$router.push({path: '/2'});
                 }

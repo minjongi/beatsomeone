@@ -1560,4 +1560,45 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
     }
+
+    // 멤버십 구매
+    public function membership_purchase()
+    {
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $this->load->model('Beatsomeone_model');
+
+        $startDate = date('Y-m-d');
+        $endDate = date("Y-m-d", strtotime($startDate . '+ 1 days'));
+
+        $params = [
+            'mem_id' => $this->member->item('mem_id'),
+            'bill_term' => $this->input->post('bill_term', null, ''),
+            'plan' => $this->input->post('plan', null, ''),
+            'plan_name' => $this->input->post('plan_name', null, ''),
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'pay_method' => $this->input->post('pay_method', null, ''),
+            'amount' => $this->input->post('amount', null, '')
+        ];
+        $id = $this->Beatsomeone_model->insert_membership_purchase_log($params);
+
+        $usertype = 0;
+        if ($params['plan'] == 'MARKETPLACE') {
+            $usertype = 3;
+        } else if ($params['plan'] == 'Pro Page') {
+            $usertype = 4;
+        }
+
+        if (!empty($usertype)) {
+            $this->Beatsomeone_model->update_membership_member($this->member->item('mem_id'), $usertype);
+        }
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($id));
+    }
 }

@@ -100,13 +100,17 @@
                     if(this.info.userType == "user"){
                         window.location.href = '/';
                     }else{
-                        this.$router.push({path: '/6'});
+                        window.location.href = '/register?billTerm=' + this.info.billTerm + '&plan=' + this.info.plan + '&planName=' + this.info.planName;
                     }
-                    
                 },e => {
                     alert(this.$t('registerFail'));
                 });
             },
+            goPurchase() {
+                if(this.isLogin) {
+                    this.$router.push({path: '/6'});
+                }
+            }
         },
     }
 </script>
