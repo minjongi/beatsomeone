@@ -138,6 +138,9 @@
         font-size: 12px;
         color: #fff;
         margin: 0 5px;
+        flex: 1;
+        word-break: keep-all;
+        text-align: center;
         &.beats {
           border-color: #ffda2a;
           color: #ffda2a;
@@ -148,9 +151,11 @@
 
   .main__desc {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 60px;
     h1 {
       @include titleFont($display: 3, $style: italic, $letterSpacing: -0.045em);
+      line-height:1.25em;
+      word-break: keep-all;
     }
     a {
       @include borderLikeButton($padding: 10px 20px);
