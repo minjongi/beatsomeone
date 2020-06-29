@@ -59,7 +59,6 @@
                 </button>
             </div>
         </div>
-        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup" :item="item"></PurchaseTypeSelector>
     </li>
 </template>
 
@@ -67,10 +66,8 @@
     import { EventBus } from '*/src/eventbus';
     import $ from 'jquery';
     import WaveSurfer from 'wavesurfer.js';
-    import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
     export default {
-        components: {PurchaseTypeSelector},
         props: ['item'],
         data: function () {
             return {
@@ -78,7 +75,6 @@
                 ws: null,
                 isPlay: false,
                 isReady: false,
-                purchaseTypeSelectorPopup: false
 
             };
         },
@@ -205,6 +201,7 @@
 
             },
             addCart() {
+                console.log('addCart()')
                 this.item.detail = {
                     'LEASE': {
                         cde_id: this.item.cde_id || null,
@@ -217,7 +214,8 @@
                         cde_price_d: this.item.cde_id_2 || null
                     }
                 }
-                this.purchaseTypeSelectorPopup = true
+                // EventBus.$emit('addCart',this.item);
+                // this.purchaseTypeSelectorPopup = true
             },
             selectItem(i) {
                 const path = `/beatsomeone/detail/${i.cit_key}`;
@@ -305,9 +303,6 @@
                     if(el) {
                         el.innerHTML = this.time_convert(parseInt(this.ws.getDuration(), 10));
                     }
-
-
-
 
                     if(this.isPlay) {
                         this.start(true);
