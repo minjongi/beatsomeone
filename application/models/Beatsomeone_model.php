@@ -1040,6 +1040,14 @@ class Beatsomeone_model extends CB_Model
         ];
 
         $this->db->where('mem_id', $memId);
-        $this->db->update('cmall_item_detail', $updateData);
+        $this->db->update('member', $updateData);
+    }
+
+    public function chk_membership_purchase_promotion($memId)
+    {
+        $this->db->select('COUNT(*) AS totalCount');
+        $this->db->where(['mem_id' => $memId, 'pay_method' => 'promotion']);
+        $qry = $this->db->get('member_membership_purchase_log');
+        return $qry->row_array()['totalCount'];
     }
 }

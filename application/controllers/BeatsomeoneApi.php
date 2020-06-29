@@ -1573,7 +1573,7 @@ class BeatsomeoneApi extends CB_Controller
         $this->load->model('Beatsomeone_model');
 
         $startDate = date('Y-m-d');
-        $endDate = date("Y-m-d", strtotime($startDate . '+ 1 days'));
+        $endDate = date("Y-m-d", strtotime($startDate . '+ 30 days'));
 
         $params = [
             'mem_id' => $this->member->item('mem_id'),
@@ -1600,5 +1600,59 @@ class BeatsomeoneApi extends CB_Controller
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($id));
+    }
+
+    // 멤버십 구매 프로모션
+    public function membership_purchase_promotion()
+    {
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $this->load->model('Beatsomeone_model');
+
+        $result = $this->Beatsomeone_model->chk_membership_purchase_promotion($this->member->item('mem_id'));
+        if ($result > 0) {
+            $this->output->set_content_type('text/json');
+            $this->output->set_output(json_encode(['status' => 'already']));
+            return;
+        }
+
+        $startDate = date('Y-m-d');
+        $endDate = date("Y-m-d", strtotime($startDate . '+ 30 days'));
+
+        $params = [
+            'mem_id' => $this->member->item('mem_id'),
+            'bill_term' => 'monthly',
+            'plan' => 'Pro Page',
+            'plan_name' => 'Platinum',
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'pay_method' => 'promotion',
+            'amount' => 0
+        ];
+        $id = $this->Beatsomeone_model->insert_membership_purchase_log($params);
+
+        $usertype = 4;
+        $this->Beatsomeone_model->update_membership_member($this->member->item('mem_id'), $usertype);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($id));
+    }
+
+    public function chk_membership_purchase_promotion()
+    {
+        // 비로그인 사용자 거부
+        if(!$this->member->item('mem_id')) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $this->load->model('Beatsomeone_model');
+
+        $resut = $this->Beatsomeone_model->chk_membership_purchase_promotion($this->member->item('mem_id'));
+        print_r($resut);
     }
 }

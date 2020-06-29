@@ -95,15 +95,14 @@
                 };
 
                 Http.post('/register/ajax_form_user',form).then(r => {
-                    alert(this.$t('registerSuccess')) ;
-                    //window.location.href = '/';
+                    alert(this.$t('registerSuccess'))
                     if(this.info.userType == "user"){
-                        window.location.href = '/';
+                        window.location.href = '/'
                     }else{
-                        window.location.href = '/register?billTerm=' + this.info.billTerm + '&plan=' + this.info.plan + '&planName=' + this.info.planName;
+                        window.location.href = '/register?billTerm=' + (this.info.billTerm || '') + '&plan=' + (this.info.plan || '') + '&planName=' + (this.info.planName || '')
                     }
                 },e => {
-                    alert(this.$t('registerFail'));
+                    alert(this.$t('registerFail'))
                 });
             },
             goPurchase() {
