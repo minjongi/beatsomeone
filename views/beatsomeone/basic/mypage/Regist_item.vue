@@ -224,7 +224,7 @@
                                     </div>
                                     <div class="row row--inner">
                                         <span class="col">
-                                            <p>
+                                            <p class="possible-sell">
                                                 {{ $t('availableQuantityForSale') }}
                                             </p>
                                         </span>
@@ -665,5 +665,12 @@
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     .col ~ .col:not(.btnbox) {
         margin-top: 0;
+    }
+
+    .possible-sell {
+        line-height:1.25em !important;
+        height: 55px !important;
+        display: flex !important;
+        align-items: center !important;   
     }
 </style>
