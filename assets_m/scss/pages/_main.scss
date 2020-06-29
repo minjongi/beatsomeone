@@ -44,6 +44,8 @@
           $style: italic
         );
         margin-bottom: 20px;
+        word-break: keep-all;
+        line-height:1.25em;
       }
       a {
         @include borderLikeButton($padding: 10px 20px);
