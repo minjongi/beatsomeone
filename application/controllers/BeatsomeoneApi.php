@@ -175,15 +175,6 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
-    // 회원별 음원 등록수 조회
-    public function item_reg_count()
-    {
-        $this->load->model('Beatsomeone_model');
-        $totalCount = $this->Beatsomeone_model->get_item_reg_count_by_mem_id($this->member->item('mem_id'));
-        $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode(['count' => intval($totalCount)]));
-    }
-
     // 연관음반 추가 대상 조회
     public function search_item_list_for_addRelation()
     {
@@ -203,12 +194,6 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
     }
-
-
-
-
-
-
 
     // detail similar tracks 조회
     public function detail_similartracks_list($cit_id = '')
@@ -306,8 +291,6 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
-
-
     // Comment 추가
     public function add_comment()
     {
@@ -380,7 +363,6 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
-
     // Comment 조회
     public function list_comment($cit_id = '')
     {
@@ -446,8 +428,6 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
-
-
     // GUID 생성
     private function getGUID(){
         if (function_exists('com_create_guid')){
@@ -466,8 +446,6 @@ class BeatsomeoneApi extends CB_Controller
         }
     }
 
-
-
     // 사용자 상품 등록
     public function merge_item()
     {
@@ -475,6 +453,13 @@ class BeatsomeoneApi extends CB_Controller
         if(!$this->member->item('mem_id')) {
             $this->output->set_status_header('412');
             return;
+        }
+
+        $chkResult = $this->chk_product_reg_limit_proc($this->member->item('mem_id'));
+
+        if ($chkResult !== true) {
+            $this->output->set_content_type('text/json');
+            $this->output->set_output(json_encode(['status' => 'limited']));
         }
 
         // Load Module
@@ -540,7 +525,6 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
     }
-
 
     // 상품 파일 업로드 (음원)
     public function upload_item_file()
@@ -781,8 +765,6 @@ class BeatsomeoneApi extends CB_Controller
         }
 
     }
-
-
 
     // mypage 멤버 정보 조회
     public function get_user_info()
@@ -1100,7 +1082,7 @@ class BeatsomeoneApi extends CB_Controller
         $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
         $insertdata['status'] = $od_status;
 
-        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model', 'Member_model'));
         $res = $this->Cmall_order_model->insert($insertdata);
         if ($res) {
             $cwhere = array(
@@ -1111,7 +1093,11 @@ class BeatsomeoneApi extends CB_Controller
             if ($cartorder) {
                 foreach ($cartorder as $key => $val) {
                     $item = $this->Cmall_item_model
-                        ->get_one(element('cit_id', $val), 'cit_download_days');
+                        ->get_one(element('cit_id', $val), 'mem_id, cit_download_days');
+
+                    $seller = $this->Member_model
+                        ->get_one(element('mem_id', $item), '*');
+
                     $insertdetail = array(
                         'cor_id' => $cor_id,
                         'mem_id' => $mem_id,
@@ -1120,6 +1106,7 @@ class BeatsomeoneApi extends CB_Controller
                         'cod_download_days' => element('cit_download_days', $item),
                         'cod_count' => element('cct_count', $val),
                         'cod_status' => $od_status,
+                        'cod_seller_usertype' => element('mem_usertype', $seller)
                     );
                     log_message('error', print_r($insertdetail, true) );
                     $this->Cmall_order_detail_model->insert($insertdetail);
@@ -1509,5 +1496,68 @@ class BeatsomeoneApi extends CB_Controller
             'TOTAL_PRICE',
             $price
         );
+    }
+
+    // 판매자 등급별 상품 등록수
+    private function get_product_reg_limit($usertype)
+    {
+        switch ($usertype) {
+            case 4:
+                return 10000000;
+            case 3:
+                return 20;
+            case 2:
+                return 10;
+        }
+        return 0;
+    }
+
+    // 판매자 등급별 상품 등록수 제한 확인
+    private function chk_product_reg_limit_proc($memId)
+    {
+        $this->load->model('Member_model');
+        $memberInfo = $this->Member_model->get_by_memid($memId);
+        $result = true;
+
+        if ($memberInfo['mem_usertype'] == 4) {
+            return true;
+        }
+
+        $limitCnt = $this->get_product_reg_limit($memberInfo['mem_usertype']);
+
+        if (empty($limitCnt)) {
+            return false;
+        }
+
+        $this->load->model('Beatsomeone_model');
+        $totalCount = $this->Beatsomeone_model->get_item_reg_count_by_mem_id($memId, $memberInfo['mem_usertype']);
+
+        if ($limitCnt <= $totalCount) {
+            return ['totalCount' => $totalCount, 'limitCnt' => $limitCnt];
+        }
+
+        return true;
+    }
+
+    // 판매자 등급별 상품 등록수 제한 확인
+    public function chk_product_reg_limit()
+    {
+        // 비로그인 사용자 거부
+        $memId = $this->member->item('mem_id');
+        if(!$memId) {
+            $this->output->set_status_header('412');
+            return;
+        }
+
+        $result = $this->chk_product_reg_limit_proc($memId);
+        if ($result === true) {
+            $result = ['status' => 'possible', 'msg' => 'possible', 'msgCode' => ''];
+        } else {
+            $msgCode = 'registrationLimitExceededMsg' . (($result === false) ? '' : $result['limitCnt']);
+            $result = ['status' => 'limited', 'msg' => 'limited', 'msgCode' => $msgCode];
+        }
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
     }
 }

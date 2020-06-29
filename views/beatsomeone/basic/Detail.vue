@@ -101,6 +101,7 @@
       </div>
     </div>
     <main-player></main-player>
+        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup" :item="item"></PurchaseTypeSelector>
     <Footer />
   </div>
 </template>
@@ -112,27 +113,26 @@ import Footer from "./include/Footer";
 
 import { EventBus } from "*/src/eventbus";
 import MainPlayer from "@/vue/common/MainPlayer";
+    import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
 export default {
-  components: { Header, Footer, MainPlayer },
+        components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
   data: function() {
     return {
-      isLogin: false,
-      item: null,
-      comment: null,
-      music: null,
-      currentTab: "SIMILAR TRACKS"
-    };
+        isLogin: false,
+        item: null,
+        comment: null,
+        music: null,
+        currentTab: 'SIMILAR TRACKS',
+        purchaseTypeSelectorPopup: false
+    }
   },
-
   computed: {
     releaseDt: function() {
       if (!this.item) return null;
       const t = new Date(Date.parse(this.item.cit_start_datetime));
 
-      return `${t.getFullYear()}.${("0" + t.getMonth()).slice(-2)}.${(
-        "0" + t.getDate()
-      ).slice(-2)}`;
+      return `${t.getFullYear()}.${('0' + (t.getMonth() + 1)).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
     },
     hashtag() {
       return this.item.hashTag ? this.item.hashTag.split(",") : "";
@@ -147,7 +147,8 @@ export default {
   },
 
   mounted() {
-    EventBus.$on("player_request_start", r => {
+    EventBus.$on('player_request_start',r=> {
+
       log.debug({
         "DETAIL : player_request_start": r
       });
@@ -157,17 +158,16 @@ export default {
       }
     });
 
-    EventBus.$on("main_player_play", r => {
+            EventBus.$on('main_player_play',r=> {
       log.debug({
-        "DETAIL : main_player_play": r
-      });
-
+                    'DETAIL : main_player_play':r,
+                })
       if (this._uid != r._uid) {
         this.music.pause();
       }
     });
 
-    EventBus.$on("player_request_start", r => {
+            EventBus.$on('player_request_start',r=> {
       if (this._uid != r._uid) {
         this.music.pause();
       }
@@ -245,21 +245,7 @@ export default {
     },
     // 카트 추가
     addCart() {
-      let detail_qty = {};
-      detail_qty[this.item.cde_id] = 1;
-      Http.post(`/beatsomeoneApi/itemAction`, {
-        stype: "cart",
-        cit_id: this.item.cit_id,
-        chk_detail: [this.item.cde_id],
-        detail_qty: detail_qty
-      }).then(r => {
-        if (!r) {
-          log.debug("장바구니 담기 실패");
-        } else {
-          EventBus.$emit("add_cart");
-          log.debug("장바구니 담기 성공");
-        }
-      });
+                this.purchaseTypeSelectorPopup = true
     },
     // 공유 클릭
     clickShare(sns) {

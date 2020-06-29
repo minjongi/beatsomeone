@@ -654,6 +654,7 @@ class Cmall extends CB_Controller
 		$where = array();
 		$where['cmall_cart.mem_id'] = $mem_id;
 		$result = $this->Cmall_cart_model->get_cart_list($where, $findex, $forder);
+
 		if ($result) {
 			foreach ($result as $key => $val) {
 				$result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));

@@ -64,8 +64,7 @@
 
                                                 <!-- Option -->
                                                 <div class="option">
-                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' ">
+                                                    <div class="n-box" v-if="item.cde_id === item.detail[0].cde_id">
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -83,49 +82,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!-- 
-                                                    <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' ">
-                                                        UNLIMITED STEMS LICENSE //둘다 있는경우 lease만 보여주도록함
-                                                        <div>
-                                                            <button class="playList__item--button" >
-                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                <div>
-                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV + STEMS</div>
-                                                                </div>
-                                                                <div class="price"> {{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2) }} </div>
-                                                            </button>
-                                                            <div class="option_item unlimited">
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>UNLIMITED</span></div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>-->
-                                                    <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-else-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '0' " >
-
-                                                        <div>
-                                                            <button class="playList__item--button" >
-                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                <div>
-                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV</div>
-                                                                </div>
-                                                                <div class="price"> {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }} </div>
-                                                            </button>
-                                                            <div class="option_item basic">
-                                                                <div><img src="/assets/images/icon/parchase-info1.png"><span>Available for 60 days</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info2.png"><span>Unable to edit arbitrarily</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info3.png"><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><img src="/assets/images/icon/parchase-info5.png"><span>No other activities not authorized by the platform</span></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-else-if="item.detail[0].cit_mastering_license_use === '1' && item.detail[0].cit_lease_license_use === '0' " >
-
+                                                    <div class="n-box" v-if="item.cde_id === item.detail[0].cde_id_2">
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
@@ -142,6 +99,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <!-- <div class="col feature">
@@ -337,34 +295,20 @@
                 let tpkr = 0.0;
                 let tpen = 0.0;
                 let cnt = 0;
-                if(this.checkedAll){
-                    for(let i in this.myCart_list){
-                        if(this.myCart_list[i].detail[0].cit_lease_license_use == '1'){
+
+                for(let i in this.myCart_list){
+                    if(this.checkedItem.includes(this.myCart_list[i].cit_id)){
+                        if (this.myCart_list[i].cde_id === this.myCart_list[i].detail[0].cde_id_2) {
+                            tpkr += Number(this.myCart_list[i].detail[0].cde_price_2);
+                            tpen += Number(this.myCart_list[i].detail[0].cde_price_d_2);
+                        } else {
                             tpkr += Number(this.myCart_list[i].detail[0].cde_price);
                             tpen += Number(this.myCart_list[i].detail[0].cde_price_d);
                         }
-                        else if(this.myCart_list[i].detail[0].cit_mastering_license_use == '1'){
-                            tpkr += Number(this.myCart_list[i].detail[0].cde_price_2);
-                            tpen += Number(this.myCart_list[i].detail[0].cde_price_d_2);
-                        }
                         cnt++;
                     }
-                }else{
-                    for(let i in this.myCart_list){
-                        if(this.checkedItem.includes(this.myCart_list[i].cit_id)){
-
-                            if(this.myCart_list[i].detail[0].cit_lease_license_use == '1'){
-                                tpkr += Number(this.myCart_list[i].detail[0].cde_price);
-                                tpen += Number(this.myCart_list[i].detail[0].cde_price_d);
-                            }
-                            else if(this.myCart_list[i].detail[0].cit_mastering_license_use == '1'){
-                                tpkr += Number(this.myCart_list[i].detail[0].cde_price_2);
-                                tpen += Number(this.myCart_list[i].detail[0].cde_price_d_2);
-                            }
-                            cnt++;
-                        }
-                    }
                 }
+
                 this.totalPriceKr = tpkr;
                 this.totalPriceDr = tpen;
                 this.cntSelectedItems = cnt;
