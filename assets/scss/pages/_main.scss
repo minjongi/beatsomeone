@@ -195,6 +195,7 @@
     margin-top: 300px;
     h1 {
       @include titleFont($display: 1, $style: italic, $letterSpacing: -0.045em);
+      line-height:1.25em;
     }
     a {
       @include borderLikeButton;
