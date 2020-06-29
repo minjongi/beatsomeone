@@ -25,7 +25,7 @@
                                 <div class="input">
                                     <input type="email" name="idpw_email" placeholder="Type your email" />
                                 </div>
-                                <p v-if="errorMsg" v-html="errorMsg" class="errortext"></p>
+                                <div v-if="errorMsg" v-html="errorMsg" class="errortext"></div>
                             </label>
                         </div>
                     </div>
@@ -85,12 +85,12 @@
 body, html {
     background:#111214 !important;
 }
-.errortext {
+.errortext p{
     font-size: 14px;
     margin-top: 5px;
     opacity: .5;
 }
-.errortext:before {
+.errortext p:before {
     content:'- ';
 }
 </style>
