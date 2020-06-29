@@ -113,7 +113,7 @@ import Footer from "./include/Footer";
 
 import { EventBus } from "*/src/eventbus";
 import MainPlayer from "@/vue/common/MainPlayer";
-    import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
+import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
 export default {
         components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
@@ -124,7 +124,7 @@ export default {
         comment: null,
         music: null,
         currentTab: 'SIMILAR TRACKS',
-        purchaseTypeSelectorPopup: false
+      purchaseTypeSelectorPopup: false
     }
   },
   computed: {

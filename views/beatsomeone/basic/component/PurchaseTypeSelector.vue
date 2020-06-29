@@ -61,13 +61,9 @@
 </div>
 </template>
 
-
 <script>
-    require('@/assets/js/function')
-
     import { EventBus } from '*/src/eventbus'
     import $ from "jquery"
-    import 'jquery.nicescroll'
 
     export default {
         props: ['purchaseTypeSelectorPopup', 'item'],
@@ -76,7 +72,6 @@
             }
         },
         mounted(){
-            console.log('mounted purchase : ' + this.item)
             $('body').on('click', '.parchase-dropdown button', function(){
                 $(this).toggleClass('active')
                 $(this).parents('.parchase-item').find('.parchase-description').toggle()
@@ -100,7 +95,6 @@
                     if(!r) {
                         log.debug('장바구니 담기 실패');
                     } else {
-                        EventBus.$emit('add_cart');
                         log.debug('장바구니 담기 성공');
                         alert(this.$t('inMyShoppingCart'))
                         this.close()
@@ -127,10 +121,6 @@
         },
     }
 </script>
-
-<style lang="scss">
-    @import '@/assets/scss/App.scss';
-</style>
 
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';
