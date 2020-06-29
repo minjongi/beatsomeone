@@ -14,7 +14,7 @@
                 </div>
                 <nav class="header__nav">
                     <a href=""></a>
-                    <a href="/cmall/wishlist">{{ $t('favorite') }}</a>
+                    <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
                     <a href="">{{ $t('freeBeats') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>

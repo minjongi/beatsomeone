@@ -134,11 +134,7 @@ class Beatsomeone_model extends CB_Model
 
     public function get_main_trending_list($config)
     {
-
         $where['cit_status'] = 1;
-
-
-
         $limit = element('limit', $config) ? element('limit', $config) : 4;
 
         $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = cmall_item.cit_id AND p1.cim_key = "info_content_1"','left');
@@ -146,8 +142,9 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = cmall_item.cit_id AND p3.cim_key = "info_content_3"','left');
         $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND m1.mem_id = "'.$this->member->item('mem_id').'"','left');
+        $this->db->join('cb_member as m', 'm.mem_id = cmall_item.mem_id', 'left');
 
-        $this->db->select('cmall_item.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish');
+        $this->db->select('cmall_item.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish, m.mem_nickname');
         $this->db->where($where);
         $this->db->limit($limit);
         $this->db->order_by('cit_order', 'asc');
@@ -297,7 +294,6 @@ class Beatsomeone_model extends CB_Model
         $result = $qry->result_array();
 
         return $result;
-
     }
 
 
@@ -312,8 +308,6 @@ class Beatsomeone_model extends CB_Model
         $bpmTo = element('bpmTo', $config);
         $moods = element('moods', $config);
         $trackType = element('trackType', $config);
-
-
 
         $where['cit_status'] = 1;
         // search
@@ -357,9 +351,9 @@ class Beatsomeone_model extends CB_Model
 
         //$limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','inner');
+        $this->db->join('cb_member as m','m.mem_id = cmall_item.mem_id','left');
 
-
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, m.mem_nickname';
 
         $this->db->select($select);
         $this->db->where($where);

@@ -1,7 +1,7 @@
 <template>
     <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
         <div class="playList__item playList__item--title">
-            <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish">
+            <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish" v-if="!hideFav">
                 <button>{{ $t('favorite') }}</button>
             </div>
             <div class="col name">
@@ -72,7 +72,7 @@
         components: {
             PurchaseTypeSelector
         },
-        props: ['item'],
+        props: ['item', 'hideFav'],
         data: function () {
             return {
                 isOpenSubmenu: false,
