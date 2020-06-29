@@ -3,7 +3,7 @@
   overflow: hidden;
   background:#303136;
   display: flex !important;
-  flex-wrap: wrap;
+  padding: 10px 0;
 
   .addAudioFile__icon {
     width: 75px;
@@ -24,7 +24,7 @@
     p {
       color:#fff;
       font-size: 15px;
-      @include ellipsis;
+      line-height:1.25em;
     }
     .format {
       font-size: 13px;
