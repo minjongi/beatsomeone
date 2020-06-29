@@ -256,7 +256,7 @@
                                         <option value="">{{ $t('select') }}</option>
                                         <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ listGenreName[index] }}</option>
                                     </select> -->
-                                    <div class="custom-select " v-model="item.genre">
+                                    <div class="custom-select ">
                                         <button class="selected-option">
                                             {{ $t('select') }}
                                         </button>

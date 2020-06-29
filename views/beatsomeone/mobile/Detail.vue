@@ -14,7 +14,7 @@
                             <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
                             <p class="singer" v-if="item">{{ item.musician }}</p>
                             <div class="state" v-if="item">
-                                <span class="play">{{ item.cde_download }}</span>
+                                <span class="song">{{ item.cde_download }}</span>
 <!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
                                 <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
