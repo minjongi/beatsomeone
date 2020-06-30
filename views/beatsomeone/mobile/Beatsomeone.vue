@@ -332,4 +332,7 @@
 </style>
 <style scope="scope" lang="css">
     .playList .playList__item{display: flex !important;}
+    .albumItem .albumItem__link {
+        text-align: left !important;
+    }
 </style>
