@@ -113,6 +113,11 @@
           right: -15px;
           transform: rotate(180deg);
         }
+
+        &:hover {
+          background: url('/assets/images/icon/slide-arrow-active.png') no-repeat center;
+          background-size: 50px 50px;
+        }
       }
     }
     .trending__title {
