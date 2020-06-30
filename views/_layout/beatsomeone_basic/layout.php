@@ -41,7 +41,6 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #FFFFFF;
             z-index: 10001;
             max-width:400px;
             width:100%;
