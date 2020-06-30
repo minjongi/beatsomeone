@@ -1,5 +1,5 @@
 <template>
-<div class="modal" id="purchase" v-if="purchaseTypeSelectorPopup" @click.self="close">
+<div class="modal" v-if="purchaseTypeSelectorPopup" @click.self="close">
     <div class="modal__content">
         <header class="modal__header">
             <h2 class="modal__title">PLEASE SELECT A PURCHASE TYPE</h2>

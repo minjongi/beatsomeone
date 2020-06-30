@@ -64,7 +64,6 @@ module.exports = {
             m_dashboard: ['./views/beatsomeone/mobile/mypage/dashboard.js'],
             m_faq: ['./views/beatsomeone/mobile/mypage/faq.js'],
             m_inquiry: ['./views/beatsomeone/mobile/mypage/inquiry.js'],
-            m_status_item: ['./views/mypage/mobile/status_item.js'],
             m_login: ['./views/login/mobile/login.js'],
             m_register: ['./views/register/mobile/register.js'],
             m_findaccount: ['./views/findaccount/mobile/findaccount.js'],
