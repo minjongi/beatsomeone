@@ -64,7 +64,7 @@
             getList() {
                 if(!this.item) return;
                 Http.get(`/beatsomeoneApi/list_comment/${this.item.cit_id}`).then(r=> {
-                    this.listComments = r.data;
+                    this.listComments = !r.data.length ? null : r.data;
                 });
             },
             timeago(date) {
