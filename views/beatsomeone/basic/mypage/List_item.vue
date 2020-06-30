@@ -873,9 +873,9 @@
                     });
                 }
 
-                if(item.cde_id) {
+                if(item.preview_cde_id) {
                     //this.wavesurfer.load(`http://dev.beatsomeone.com/uploads/cmallitemdetail/${item.cde_filename}`);
-                    this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
+                    this.wavesurfer.load(`/cmallact/download_sample/${item.preview_cde_id}`);
                 }
 
                 this.wavesurfer.on("ready", () => {

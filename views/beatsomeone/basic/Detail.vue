@@ -199,7 +199,7 @@
         watch: {
             item: function (n) {
                 if (n) {
-                    this.music.load(`/cmallact/download_sample/${n.cde_id}`);
+                    this.music.load(`/cmallact/download_sample/${n.preview_cde_id}`);
                 }
             }
         },
