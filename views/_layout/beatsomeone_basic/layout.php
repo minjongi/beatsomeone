@@ -48,6 +48,9 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
         .noti-content img {
             max-width:400px;
             width:100%;
+            margin:0;
+            padding:0;
+            border:0;
         }
     </style>
 </head>
@@ -67,8 +70,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
                 <img src="/assets/images/popup/noti_mt1.png">
             </div>
             <div>
-                <img src="/assets/images/popup/noti_mt2.png" onclick="closePopup(true)" style="width:49%;">
-                <img src="/assets/images/popup/noti_mt3.png" onclick="closePopup()" style="width:49%;">
+                <img src="/assets/images/popup/noti_mt2.png" onclick="closePopup(true)" style="width:49%;"><img src="/assets/images/popup/noti_mt3.png" onclick="closePopup()" style="width:49%;">
             </div>
         </div>
     </div>
