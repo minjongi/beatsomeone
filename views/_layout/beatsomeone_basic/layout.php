@@ -24,8 +24,49 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <script src="/src/common.js?v=<?php echo time(); ?>"></script>
 
     <?php echo $this->managelayout->display_css(); ?>
+
+    <style>
+        .noti-wrap {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #000000;
+            z-index: 10000;
+            opacity: 0.7;
+        }
+        .noti-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFFFFF;
+            z-index: 10001;
+            max-width:400px;
+            width:100%;
+        }
+        .noti-content img {
+            max-width:400px;
+            width:100%;
+        }
+    </style>
 </head>
 <body>
+<?php if (empty($_COOKIE['mt-popup-close']) || $_COOKIE['mt-popup-close'] !== 'Y') { ?>
+    <div id="noti-popup">
+        <div class="noti-wrap"></div>
+        <div class="noti-content">
+            <div>
+                <img src="/assets/images/popup/noti_mt1.png">
+            </div>
+            <div>
+                <img src="/assets/images/popup/noti_mt2.png" onclick="closePopup(true)" style="width:49%;">
+                <img src="/assets/images/popup/noti_mt3.png" onclick="closePopup()" style="width:49%;">
+            </div>
+        </div>
+    </div>
+<?php } ?>
 
 <div id="app">
     <?php if (isset($yield))echo $yield; ?>
@@ -33,8 +74,21 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
 
 </body>
 
-
 <script type="text/javascript">
+    function closePopup(isForever) {
+        if (isForever) {
+            setCookie('mt-popup-close', 'Y', 365);
+        }
+        document.querySelector('#noti-popup').remove();
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
     $(document).on('click', '.viewpcversion', function(){
         Cookies.set('device_view_type', 'desktop', { expires: 1 });
     });
