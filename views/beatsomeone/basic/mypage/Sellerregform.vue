@@ -295,4 +295,8 @@
     line-height: 40px;
     font-size: 30px;
 }
+.wrapper {
+    background: url("/assets/images/signup01-bg.png") no-repeat center -50px;
+    background-size: 100% auto;
+}
 </style>
