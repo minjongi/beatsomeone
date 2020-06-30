@@ -146,8 +146,12 @@
         height: 20px;
         background: url("/assets_m/images/icon/more.png") no-repeat center;
         position: relative;
-        overflow: initial;
-
+        overflow: initial;  
+        opacity: .3;
+        transition: all .3s;
+        &.js-active {
+          opacity: 1;
+        }
         &.js-active + .tooltip {
           opacity: 1;
           bottom: 30px;
