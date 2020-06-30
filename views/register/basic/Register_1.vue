@@ -49,7 +49,6 @@
                     <th></th>
                     <th>
                         <p>
-                            <br />
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>0.00</h2>
@@ -114,7 +113,6 @@
                     <th></th>
                     <th>
                         <p>
-                            <br />
                             {{ $t('free') }}
                         </p>
                         <h2><span>$</span>0.00</h2>
@@ -327,5 +325,8 @@
 </style>
 
 <style lang="css">
-
+.wrapper {
+    background: url("/assets/images/signup01-bg.png") no-repeat center -50px;
+    background-size: 100% auto;
+}
 </style>

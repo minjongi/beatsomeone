@@ -22,7 +22,7 @@
                                     <a href="#" class="buy" v-if="item" @click="addCart">
                                         <span>{{ item.cde_price }}&#8361;</span>
                                     </a>
-                                    <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span>
+                  <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
                                     <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.comment_cnt }}</span>
                                     <div class="share">
                                         <span>{{ item.cit_share_count }}</span> /
@@ -178,7 +178,7 @@
                 barWidth: 5,
                 barRadius: 2,
                 barGap: 2,
-                height: 200
+      height: 200,
             });
 
             this.music.on("ready", () => {

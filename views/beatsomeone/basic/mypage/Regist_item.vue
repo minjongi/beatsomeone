@@ -103,7 +103,7 @@
                                         </div>
                                     </label>
                                 </div>
-                                <div class="form-item">
+                                <div class="form-item" style="margin-top: 30px;">
                                     <p class="form-title">{{ $t('audiofilesForStreaming') }}</p>
                                     <label for="streamingFile" class="addAudioFile waves-effect" @click="chkModifyAlert">
                                         <div class="addAudioFile__icon">
