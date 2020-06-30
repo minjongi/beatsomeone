@@ -187,7 +187,7 @@ export default {
       barWidth: 5,
       barRadius: 2,
       barGap: 2,
-      height: 200
+      height: 200,
     });
 
     this.music.on("ready", () => {
