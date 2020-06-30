@@ -35,7 +35,6 @@
                     <th></th>
                     <th>
                         <p>
-                            <br />
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>0.00</h2>
