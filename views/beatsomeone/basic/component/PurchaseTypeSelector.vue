@@ -1,5 +1,5 @@
 <template>
-<div class="modal" v-if="purchaseTypeSelectorPopup" @click.self="close">
+<div class="modal" id="purchase" v-if="purchaseTypeSelectorPopup" @click.self="close">
     <div class="modal__content">
         <header class="modal__header">
             <h2 class="modal__title">PLEASE SELECT A PURCHASE TYPE</h2>
@@ -15,23 +15,23 @@
             </div>
             <div class="purchase-list">
                 <ul>
-                    <li class="parchase-item" v-if="item.cit_lease_license_use && !!item.detail && !!item.detail['LEASE'] && !!item.detail['LEASE'].cde_id">
+                    <li class="parchase-item" v-if="item.cit_lease_license_use && !!item.detail && !!item.detail.LEASE && !!item.detail.LEASE.cde_id">
                         <div class="parchase-info">
                             <h4 class="parchase-title">BASIC LEASE</h4>
                             <p class="parchase-desc">MP3 or WAV</p>
-                            <div class="parchase-description">
+                            <div class="parchase-description" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
                                 <p><i><img src="/assets/images/icon/parchase-info1.png" alt=""></i> Available for 60 days</p>
                                 <p><i><img src="/assets/images/icon/parchase-info2.png" alt=""></i> Unable to edit arbitrarily</p>
                                 <p><i><img src="/assets/images/icon/parchase-info3.png" alt=""></i> Rented members cannot be re-rented to others</p>
                                 <p><i><img src="/assets/images/icon/parchase-info5.png" alt=""></i> no other activities not authorized by the platform</p>
                             </div>
                             <div class="parchase-dropdown">
-                                <button class="">정보열람</button>
+                                <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id" @click="openDesc(item.detail.LEASE.cde_id)">정보열람</button>
                             </div>
                         </div>
                         <div>
-                            <a class="buy waves-effect" @click="addCart(item.detail['LEASE'].cde_id)">
-                                <span>{{ formatPrice(item.detail['LEASE'].cde_price, item.detail['LEASE'].cde_price_d, true) }}</span>
+                            <a class="buy waves-effect" @click="addCart(item.detail.LEASE.cde_id)">
+                                <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
                             </a>
                         </div>
                     </li>
@@ -39,18 +39,18 @@
                         <div class="parchase-info">
                             <h4 class="parchase-title">MASTERING LICENSE</h4>
                             <p class="parchase-desc">MP3 or WAV + STEMS</p>
-                            <div class="parchase-description">
+                            <div class="parchase-description" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
                                 <p><i><img src="/assets/images/icon/parchase-info4.png" alt=""></i> UNLIMITED</p>
                                 <p><i><img src="/assets/images/icon/parchase-info4.png"></i> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released.</p>
                                 <p><i><img src="/assets/images/icon/parchase-info4.png"></i> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020)</p>
                             </div>
                             <div class="parchase-dropdown">
-                                <button class="">정보열람</button>
+                                <button :ref="'purchaseBtn' + item.detail.STEM.cde_id" @click="openDesc(item.detail.STEM.cde_id)">정보열람</button>
                             </div>
                         </div>
                         <div>
-                            <a class="buy waves-effect" @click="addCart(item.detail['STEM'].cde_id)">
-                                <span>{{ formatPrice(item.detail['STEM'].cde_price, item.detail['STEM'].cde_price_d, true) }}</span>
+                            <a class="buy waves-effect" @click="addCart(item.detail.STEM.cde_id)">
+                                <span>{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</span>
                             </a>
                         </div>
                     </li>
@@ -61,13 +61,9 @@
 </div>
 </template>
 
-
 <script>
-    require('@/assets/js/function')
-
     import { EventBus } from '*/src/eventbus'
     import $ from "jquery"
-    import 'jquery.nicescroll'
 
     export default {
         props: ['purchaseTypeSelectorPopup', 'item'],
@@ -76,11 +72,6 @@
             }
         },
         mounted(){
-            console.log('mounted purchase : ' + this.item)
-            $('body').on('click', '.parchase-dropdown button', function(){
-                $(this).toggleClass('active')
-                $(this).parents('.parchase-item').find('.parchase-description').toggle()
-            })
         },
         watch: {
             item : function(n){
@@ -93,6 +84,10 @@
             },
         },
         methods: {
+            openDesc(id) {
+                this.$refs['purchaseBtn' + id].classList.toggle('active')
+                this.$refs['purchaseDesc' + id].style.display = (this.$refs['purchaseDesc' + id].style.display === 'block') ? 'none' : 'block'
+            },
             addCart(cde_id) {
                 let detail_qty = {};
                 detail_qty[cde_id] = 1;
@@ -100,7 +95,6 @@
                     if(!r) {
                         log.debug('장바구니 담기 실패');
                     } else {
-                        EventBus.$emit('add_cart');
                         log.debug('장바구니 담기 성공');
                         alert(this.$t('inMyShoppingCart'))
                         this.close()
@@ -127,10 +121,6 @@
         },
     }
 </script>
-
-<style lang="scss">
-    @import '@/assets/scss/App.scss';
-</style>
 
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';

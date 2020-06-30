@@ -116,13 +116,10 @@
           </div>
           <div class="sublist__content">
             <div class="row">
-              <h1
-                class="section-title"
-                v-if="param.search"
-              >{{ $t('searchResultsFor') }} '{{ param.search }}'</h1>
+              <h1 class="section-title" v-if="param.search">{{ $t('searchResultsFor') }} '{{ param.search }}'</h1>
               <h2 class="section-title">
-                TOP
-                <span class="number">5</span>
+                <span v-if="!param.search">TOP</span>
+                <span class="number" v-if="!param.search">5</span>
                 <div class="sort">
                   <span>{{ $t('sortBy') }}</span>
                   <div class="custom-select">
@@ -139,7 +136,7 @@
                   </div>
                 </div>
               </h2>
-              <div class="topFive">
+              <div class="topFive" v-if="!param.search">
                 <div
                   class="trending__slide-item albumItem"
                   v-for="(i,index) in listTop5"
@@ -151,13 +148,14 @@
                   </button>
                   <a href="#//" class="albumItem__link">
                     <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                    <p class="albumItem__singer">{{ i.musician }}</p>
+                    <p class="albumItem__singer">{{ i.mem_nickname }}</p>
                   </a>
                 </div>
               </div>
             </div>
             <div class="row">
-              <h2 class="section-title">{{ $t('playList') }}</h2>
+              <h2 class="section-title" v-if="!param.search">{{ $t('playList') }}</h2>
+              <h2 class="section-title" v-else>SEARCH RESULTS</h2>
               <div
                 class="playList"
                 v-infinite-scroll="loading"

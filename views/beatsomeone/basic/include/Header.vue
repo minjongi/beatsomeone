@@ -14,10 +14,10 @@
                 </div>
                 <nav class="header__nav">
                     <a href=""></a>
-                    <a href="/cmall/wishlist">{{ $t('favorite') }}</a>
+                    <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
                     <a href="">{{ $t('freeBeats') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
-                    <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
+                    <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>

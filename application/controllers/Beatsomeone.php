@@ -152,7 +152,7 @@ class Beatsomeone extends CB_Controller
         if (empty($cit_key)) {
             show_404();
         }
-        $this->load->model(array('Cmall_item_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model','Beatsomeone_model'));
+        $this->load->model(array('Cmall_item_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model', 'Beatsomeone_model', 'Member_model'));
 
         $where = array(
             'cit_key' => $cit_key,
@@ -187,6 +187,8 @@ class Beatsomeone extends CB_Controller
                 $view['view']['item']['detail'][$detailVal['cde_title']] = $detailVal;
             }
         }
+
+        $view['view']['item']['member'] = $this->Member_model->get_one(element('mem_id', $view['view']['item']));
 
         // 로그인 사용자의 경우 조회 이력 추가
         // 비로그인 사용자 거부

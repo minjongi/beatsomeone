@@ -1,7 +1,7 @@
 <template>
     <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
         <div class="playList__item playList__item--title">
-            <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish">
+            <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish" v-if="!hideFav">
                 <button>{{ $t('favorite') }}</button>
             </div>
             <div class="col name">
@@ -45,20 +45,20 @@
                     &nbsp;
                     <span class="tooltip">{{ item.cde_price }}&#8361;</span>
                 </a>
-                <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">{{ $t('download') }}</a>
-                <a href="" class="shared">{{ $t('share') }}</a>
+                <a v-if="false" :href="`/cmallact/download_sample/${item.cde_id}`" class="download">{{ $t('download') }}</a>
             </div>
-            <div class="col more">
+            <div class="col more_shared">
                 <button>
-                    {{ $t('more') }}
+                    {{ $t('share') }}
                     <span class="tooltip">
-                <a href="">action1</a>
-                <a href="">action2</a>
-                <a href="">action3</a>
-              </span>
+                        <a @click="clickShare('twitter')">Twitter</a>
+                        <a @click="clickShare('facebook')">Facebook</a>
+                        <a @click="copyLinkToClipboard()">CopyLink</a>
+                    </span>
                 </button>
             </div>
         </div>
+        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup" :item="item"></PurchaseTypeSelector>
     </li>
 </template>
 
@@ -66,16 +66,20 @@
     import { EventBus } from '*/src/eventbus';
     import $ from 'jquery';
     import WaveSurfer from 'wavesurfer.js';
+    import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
     export default {
-        props: ['item'],
+        components: {
+            PurchaseTypeSelector
+        },
+        props: ['item', 'hideFav'],
         data: function () {
             return {
                 isOpenSubmenu: false,
                 ws: null,
                 isPlay: false,
                 isReady: false,
-
+                purchaseTypeSelectorPopup: false
             };
         },
         computed: {
@@ -100,16 +104,12 @@
                 }
             }
         },
-        // beforeDestroy() {
-        //     this.ws.destroy();
-        // },
         mounted() {
             EventBus.$on('index_items_open_submenu',r=> {
                 if(this._uid !== r) {
                     this.isOpenSubmenu = false;
                 }
             });
-
             EventBus.$on('player_request_start',r=> {
                 log.debug({
                     'ON ITEM: player_request_start':r,
@@ -119,7 +119,6 @@
                 if(this._uid != r.item._uid) {
                     this.stop();
                 }
-
             });
             // 메인 플레이어 재생 시작
             EventBus.$on('main_player_play',r=> {
@@ -148,10 +147,6 @@
                     this.stop();
                 }
             });
-
-            // this.setAudioInstance(this.item);
-
-
         },
         methods: {
             stop() {
@@ -160,9 +155,6 @@
                 }
 
                 const el = $('#playList__item'+this.item.cit_id);
-                // log.debug({
-                //   'STOP el':el,
-                // })
                 el.removeClass('playing');
                 this.isPlay = false;
             },
@@ -172,18 +164,11 @@
                     this.ws.play();
                 }
 
-                // if(this.isReady && !this.ws.isPlaying()) {
-                //     this.ws.play();
-                // }
                 const el = $('#playList__item'+this.item.cit_id);
-                // log.debug({
-                //     'START el':el,
-                // })
                 el.addClass('playing');
                 if(!isInit) {
                     this.isPlay = true;
                 }
-
             },
             openSubmenu() {
                 this.isOpenSubmenu = !this.isOpenSubmenu;
@@ -192,16 +177,11 @@
             toggleWish() {
                 Http.post( `/beatsomeoneApi/toggle_wish_item/${this.item.cit_id}`).then(r=> {
                     if(r === true) {
-                        // log.debug({
-                        //     'toggleWish':this.item,
-                        // })
                         this.item.is_wish = this.item.is_wish === '1' ? '0' : '1';
                     }
                 });
-
             },
             addCart() {
-                console.log('addCart()')
                 this.item.detail = {
                     'LEASE': {
                         cde_id: this.item.cde_id || null,
@@ -214,41 +194,27 @@
                         cde_price_d: this.item.cde_id_2 || null
                     }
                 }
-                // EventBus.$emit('addCart',this.item);
-                // this.purchaseTypeSelectorPopup = true
+                this.purchaseTypeSelectorPopup = true
             },
             selectItem(i) {
                 const path = `/beatsomeone/detail/${i.cit_key}`;
                 window.location.href = path;
             },
             playAudio(i) {
-
-                // if(!this.isReady) return;
-
                 // 재생 시작
                 if(!this.isPlay) {
-                    // log.debug({
-                    //     'EMIT ITEM : item player_request_start':this.item,
-                    // });
-
                     if(!this.ws ) {
                         this.setAudioInstance(this.item);
                     }
 
                     EventBus.$emit('player_request_start',{'_uid':this._uid,'item':this.item,'ws':this.ws});
                     this.start();
-
                 }
                 // 중지
                 else {
-                    // log.debug({
-                    //     'EMIT ITEM : item player_request_stop':this.item,
-                    // });
                     EventBus.$emit('player_request_stop',{'_uid':this._uid,'item':this.item,'ws':this.ws});
-
                     this.stop();
                 }
-
             },
             time_convert(num) {
                 var minutes = Math.floor(num / 60);
@@ -272,11 +238,6 @@
                 }
 
                 this.ws.on("play", () => {
-
-                    // document
-                    //     .querySelector("#playList__item" + item.id)
-                    //     .classList.add("playing");
-                    //this.start();
                     const el = document.querySelector(
                         "#playList__item" + this.item.cit_id
                     );
@@ -309,12 +270,10 @@
                     }
 
                     this.isReady = true;
-
                 });
                 this.ws.on("pause", () => {
 
                 });
-
             },
             //다운로드 증가
             increaseMusicCount() {
@@ -330,19 +289,108 @@
             clickHash(h) {
                 const path = `/beatsomeone/sublist?search=${h}`;
                 window.location.href = path;
+            },
+            // 공유 클릭
+            clickShare(sns) {
+                Http.post(`/beatsomeoneApi/increase_item_share_count`, {
+                    cit_id: this.item.cit_id
+                }).then(r => {
+                    if (!r) {
+                        log.debug("공유 카운트 증가 실패");
+                    } else {
+                        log.debug("공유 카운트 증가 성공");
+                    }
+                });
+
+                var url = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
+
+                var o;
+                var _url = encodeURIComponent(url);
+                var _txt = encodeURIComponent(txt);
+                var _br = encodeURIComponent("\r\n");
+
+                switch (sns) {
+                    case "facebook":
+                        o = {
+                            method: "popup",
+                            url: "http://www.facebook.com/sharer/sharer.php?u=" + _url
+                        };
+                        break;
+
+                    case "twitter":
+                        o = {
+                            method: "popup",
+                            url: "http://twitter.com/intent/tweet?text=" + _txt + "&url=" + _url
+                        };
+                        break;
+
+                    case "kakaostory":
+                        o = {
+                            method: "popup",
+                            url: "https://story.kakao.com/share?url=" + _url
+                        };
+                        break;
+
+                    case "band":
+                        o = {
+                            method: "popup",
+                            url: "http://www.band.us/plugin/share?body=" + _txt + _br + _url
+                        };
+                        break;
+
+                    default:
+                        alert("지원하지 않는 SNS입니다.");
+                        return false;
+                }
+
+                switch (o.method) {
+                    case "popup":
+                        window.open(
+                            o.url,
+                            "snspopup",
+                            "width=500, height=400, menubar=no, status=no, toolbar=no"
+                        );
+                        break;
+
+                    case "web2app":
+                        if (navigator.userAgent.match(/android/i)) {
+                            // Android
+                            setTimeout(function() {
+                                location.href =
+                                    "intent://" + o.param + "#Intent;" + o.g_proto + ";end";
+                            }, 100);
+                        } else if (navigator.userAgent.match(/(iphone)|(ipod)|(ipad)/i)) {
+                            // Apple
+                            setTimeout(function() {
+                                location.href = o.a_store;
+                            }, 200);
+                            setTimeout(function() {
+                                location.href = o.a_proto + o.param;
+                            }, 100);
+                        } else {
+                            alert("이 기능은 모바일에서만 사용할 수 있습니다.");
+                        }
+                        break;
+                }
+            },
+            // 링크 복사
+            copyLinkToClipboard() {
+                var t = document.createElement("textarea");
+                document.body.appendChild(t);
+                t.value = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                t.select();
+                document.execCommand("copy");
+                document.body.removeChild(t);
+                alert(`복사되었습니다\nCtrl + V 를 눌러 확인해보세요`);
             }
         }
     }
-
-
-
 </script>
 
 <style scoped="scoped" lang="scss">
-
     .timer {
         margin-left:20px !important;
         width:63px;
     }
-
 </style>

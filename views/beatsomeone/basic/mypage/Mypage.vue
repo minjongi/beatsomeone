@@ -1,6 +1,4 @@
 <template>
-
-
     <div class="wrapper">
         <Header :is-login="isLogin"/>
         <div class="container sub">
@@ -11,7 +9,6 @@
                     <div class="wrap">
                         <Dashboard_Header v-if="isDisplayTop" ></Dashboard_Header>
                         <div class="main__media">
-
                             <div class="sublist" >
                                 <div class="wrap" :class="{'addPaddingTop':!isDisplayTop}">
                                     <CommonSidePanel :userinfo="userInfo" :current="'dashboard'"></CommonSidePanel>
@@ -25,17 +22,11 @@
                 </section>
             </div>
         </div>
-
         <Footer/>
     </div>
-
-
 </template>
 
-
 <script>
-
-
     import Dashboard_Header from "./Dashboard_Header";
     require('@/assets/js/function')
     import Header from "../include/Header"
@@ -100,7 +91,6 @@
         }
     }
 </script>
-
 
 <style lang="scss">
     @import '@/assets/scss/App.scss';

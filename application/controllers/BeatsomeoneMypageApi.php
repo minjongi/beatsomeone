@@ -349,5 +349,26 @@ class BeatsomeoneMypageApi extends CB_Controller
     }
 
 
+    public function get_favorites_list()
+    {
+        required_user_login();
 
+        $view = array();
+        $view['view'] = array();
+
+        $this->load->model(array('Cmall_wishlist_model'));
+
+        $findex = $this->Cmall_wishlist_model->primary_key;
+        $forder = 'desc';
+        $limit = $this->input->post('limit') ? $this->input->post('limit') : 10;
+        $offset = $this->input->post('offset');
+        $where = [
+            'cmall_wishlist.mem_id' => $this->member->item('mem_id'),
+            'cit_status' => 1
+        ];
+        $result = $this->Cmall_wishlist_model->get_list($limit, $offset, $where, '', $findex, $forder);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result['list']));
+    }
 }
