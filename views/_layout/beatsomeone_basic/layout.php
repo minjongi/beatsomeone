@@ -54,6 +54,13 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
 </head>
 <body>
 <?php if (empty($_COOKIE['mt-popup-close']) || $_COOKIE['mt-popup-close'] !== 'Y') { ?>
+    <style>
+        body, html {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
     <div id="noti-popup">
         <div class="noti-wrap"></div>
         <div class="noti-content">
@@ -79,6 +86,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
         if (isForever) {
             setCookie('mt-popup-close', 'Y', 365);
         }
+        $('html, body').css({'overflow': 'auto', 'height': 'auto'});
         document.querySelector('#noti-popup').remove();
     }
 
