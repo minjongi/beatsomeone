@@ -70,7 +70,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
                 <img src="/assets/images/popup/noti_mt1.png">
             </div>
             <div>
-                <img src="/assets/images/popup/noti_mt2.png" onclick="closePopup(true)" style="width:49%;"><img src="/assets/images/popup/noti_mt3.png" onclick="closePopup()" style="width:49%;">
+                <img src="/assets/images/popup/noti_mt2.png" onclick="closePopup(true)" style="width:50%;"><img src="/assets/images/popup/noti_mt3.png" onclick="closePopup()" style="width:50%;">
             </div>
         </div>
     </div>
