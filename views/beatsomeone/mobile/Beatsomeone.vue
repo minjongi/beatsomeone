@@ -17,7 +17,7 @@
                                 </p>
                             </div>
                         </header>
-                        <div class="main__media">
+                        <div class="main__media" style="position:relative;z-index: 100;">
                             <div class="tab">
                                 <div class="tab__scroll">
                                     <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}" @click="currentGenre = g">
