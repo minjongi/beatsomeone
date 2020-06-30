@@ -127,9 +127,14 @@
             padding: 0 16px;
             border-radius: 3px;
             span {
-              background: url("/assets/images/icon/buy.png") no-repeat left center;
+              background: url("/assets/images/icon/cart.png") no-repeat left center;
               margin: 0;
               padding-left: 28px;
+              background-size: auto 18px;
+              line-height: 24px;
+              display: block;
+              margin: auto;
+              margin: 8px auto;
             }
           }
           div.share {
