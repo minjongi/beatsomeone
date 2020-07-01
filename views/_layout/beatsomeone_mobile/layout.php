@@ -49,6 +49,10 @@
     <?php echo $this->managelayout->display_css(); ?>
 
     <style>
+        /*body {*/
+        /*    overflow: hidden;*/
+        /*}*/
+
         .noti-wrap {
             width: 100%;
             height: 100%;
