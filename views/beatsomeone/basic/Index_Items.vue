@@ -231,7 +231,10 @@
                     progressColor: "#c3ac45",
                     hideScrollbar: true,
                     height: 40,
-                    backgroundColor: 'transparent'
+                    backgroundColor: 'transparent',
+                    drawingContextAttributes: {
+                        desynchronized: false
+                    }
                 });
                 if(item.cde_id) {
                     this.ws.load(`/cmallact/download_sample/${item.cde_id}`);
