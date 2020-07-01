@@ -409,4 +409,8 @@
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .player__progress wave {
+        background: none !important;
+    }
 </style>
