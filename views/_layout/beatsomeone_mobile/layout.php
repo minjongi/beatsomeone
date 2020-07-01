@@ -49,9 +49,9 @@
     <?php echo $this->managelayout->display_css(); ?>
 
     <style>
-        /*body {*/
-        /*    overflow: hidden;*/
-        /*}*/
+        body {
+            overflow: hidden;
+        }
 
         .noti-wrap {
             width: 100%;
@@ -79,21 +79,20 @@
     </style>
 </head>
 <body>
-<!--<div class="noti-wrap"></div>-->
-<!--<div class="noti-content">-->
-<!--    <img src="/assets_m/images/popup/pc_only.png" onclick="closeBrowser()">-->
-<!--</div>-->
+<div class="noti-wrap"></div>
+<div class="noti-content">
+    <img src="/assets_m/images/popup/pc_only.png" onclick="closeBrowser()">
+</div>
 <div id="app">
     <?php if (isset($yield))echo $yield; ?>
 </div>
 
 </body>
 
-
 <script type="text/javascript">
-<!--    --><?php //if ($_SERVER['REQUEST_URI'] !== '/') { ?>
-    // location.replace('/');
-<!--    --><?php //} ?>
+    <?php if ($_SERVER['REQUEST_URI'] !== '/') { ?>
+        location.replace('/');
+    <?php } ?>
 
     function closeBrowser() {
         parent.window.open('about:blank', '_self').close();
@@ -112,4 +111,3 @@
 <?php echo $this->managelayout->display_script(); ?>
 
 </html>
-
