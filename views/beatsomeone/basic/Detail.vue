@@ -25,7 +25,7 @@
                   <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
                                     <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.comment_cnt }}</span>
                                     <div class="share">
-                                        <span>{{ item.cit_share_count }}</span> /
+                                        <!-- <span>{{ item.cit_share_count }}</span> / -->
                                         <span class="share pointer" @click="clickShare('twitter')">Twitter</span> /
                                         <span class="share pointer" @click="clickShare('facebook')">Facebook</span> /
                                         <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
