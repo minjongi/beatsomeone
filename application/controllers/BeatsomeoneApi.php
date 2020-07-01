@@ -699,10 +699,6 @@ class BeatsomeoneApi extends CB_Controller
         if ($this->input->post('stype')) {
             // 로그인 여부 확인
             if ( ! $mem_id) {
-                $this->session->set_flashdata(
-                    'message',
-                    '로그인 후 이용이 가능합니다'
-                );
                 return false;
             }
 
@@ -848,10 +844,7 @@ class BeatsomeoneApi extends CB_Controller
                 }
             }
         }
-        $this->session->set_flashdata(
-            'message',
-            '정상적으로 삭제되었습니다'
-        );
+
         $result = array();
         $result['message'] = '정상적으로 삭제되었습니다';
         $this->output->set_content_type('text/json');
