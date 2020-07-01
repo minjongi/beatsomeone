@@ -8,5 +8,7 @@
 <?php $this->managelayout->add_script('window.vm.$children[0].$data.init = t;'); ?>
 <?php $this->managelayout->add_script('window.vm.$children[0].$data.isLogin = '.($this->member->is_member() ? 'true' : 'false')); ?>
 
+<?php $this->managelayout->add_script('var __t1 = '.json_encode(element('user', $view)).'; '); ?>
+<?php $this->managelayout->add_script('window.vm.$children[0].$data.userInfo = __t1;'); ?>
 
 

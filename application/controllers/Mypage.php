@@ -127,6 +127,7 @@ class Mypage extends CB_Controller
         $userinfo = $this->Member_model->get_by_memid($mem_id);
         $userinfo = array(
             'mem_id' => $userinfo['mem_id'],
+            'mem_userid' => $userinfo['mem_userid'],
             'mem_username' => $userinfo['mem_username'],
             'mem_address1' => $userinfo['mem_address1'],
             'mem_email' => $userinfo['mem_email'],

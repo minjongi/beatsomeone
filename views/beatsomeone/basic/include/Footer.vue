@@ -3,7 +3,7 @@
         <div class="wrap">
             <div class="footer__top">
                 <div class="footer__logo">
-                    <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
+                    <a ><img src="/assets/images/logo.png" alt=""/></a>
                 </div>
                 <div class="footer__sns sns">
                     <a href="https://www.instagram.com/beatsomeone" class="sns__insta"
@@ -28,7 +28,7 @@
                 <div class="footer__subLink">
                     <div class="row">
                         <h3>
-                            <a href="/">BEAT SOMEONE</a>
+                            <a >BEAT SOMEONE</a>
                         </h3>
                         <ul>
                             <li><a href="http://dev.beatsomeone.com/register#/TermsOfService">{{ $t('termsOfService') }}</a></li>
@@ -90,7 +90,7 @@
                 </div>
                 -->
                 <p class="footer__copyright">
-                    copyright@beat someone 2019 .All Right reserved.
+                    copyright@beat someone 2020 .All Right reserved.
                 </p>
             </div>
         </div>

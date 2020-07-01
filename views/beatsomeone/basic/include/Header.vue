@@ -15,7 +15,7 @@
                 <nav class="header__nav">
                     <a href=""></a>
                     <a href="/cmall/wishlist">{{ $t('favorite') }}</a>
-                    <a href="">{{ $t('freeBeats') }}</a>
+                    <a @click="moveAction('freeBeats')">{{ $t('freeBeats') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
@@ -42,6 +42,7 @@
         },
         data: function () {
             return {
+                userInfo: null,
                 searchText: null,
                 cartSum: 0,
             };
@@ -52,6 +53,7 @@
           },
         },
         created() {
+            this.fetchUserInfo();
             EventBus.$on('add_cart',() => {
                 this.updateCartSum();
             });
@@ -65,6 +67,11 @@
             },
         },
         methods: {
+            fetchUserInfo() {
+                Http.post('/beatsomeoneApi/get_user_info').then(r=> {
+                    this.userInfo = r[0];
+                });
+            },
             updateCartSum() {
                 Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
                     if(r >= 0) {
@@ -84,11 +91,34 @@
                 Vuecookies.set('locale', locale)
                 this.$i18n.locale = locale
             },
+            moveAction(o) {
+                let url = null;
+                // 로그인시
+                if(this.userInfo) {
+                    switch(o) {
+                        case 'freeBeats': {
+                            url = this.userInfo.mem_usertype == 1 ? '무료비트URL수정필요' : '음원등록URL수정필요';
+                            break;
+                        }
+                    }
+                }
+                // 비로그인시
+                else {
+                    url = '무료비트URL수정필요';
+                }
+
+                // 이동
+                window.location.href = url;
+            },
         },
     }
 
 </script>
 
 <style scoped="scoped">
+
+    .header .header__nav a {
+        cursor: pointer !important;
+    }
 
 </style>

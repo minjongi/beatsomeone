@@ -71,9 +71,10 @@
             },
             doSubmit() {
                 this.doValidation().then(r => {
-                    log.debug('성공');
+
 
                     Http.post('/BeatsomeoneMypageApi/updateUserPassword',{'pwdOriginal' : this.info.pwdOriginal, 'pwdChange': this.info.pwdC1 }).then(r=> {
+                        alert(this.$t('dashboard_profilemod_pwd_change_ok'));
                         this.$emit('submitModal');
                     }).catch(e=> {
                         log.debug('업데이트 실패');

@@ -32,8 +32,8 @@
                         </div>
                         <div class="row">
                             <div class="filter">
-                                <h2 class="filter__title">{{ $t('subGenres') }}</h2>
-                                <div class="filter__content">
+                                <h2 class="filter__title folded">{{ $t('subGenres') }}</h2>
+                                <div class="filter__content" style="display: none;">
                                     <ul class="filter__list">
                                         <li class="filter__item" v-for="(f,index) in listSubgenres" :key="index">
                                             <label :for="'fillter2'+index" class="checkbox">
@@ -54,8 +54,8 @@
                         </div>
                         <div class="row">
                             <div class="filter">
-                                <h2 class="filter__title">BPM</h2>
-                                <div class="filter__content">
+                                <h2 class="filter__title folded">BPM</h2>
+                                <div class="filter__content" style="display: none;">
                                     <div class="bpmRange">
                                         <input type="text" />
                                     </div>
@@ -217,6 +217,7 @@
                     search: null,
                     sort: 'All Select',
                 },
+                objRange: null,
 
 
             }
@@ -245,18 +246,19 @@
         },
         mounted() {
 
-            $(".filter__title").on("click", function() {
-                $(this).toggleClass("folded");
-                $(this)
+            $(".filter__title").on("click", (event) => {
+                $(event.currentTarget).toggleClass("folded");
+                $(event.currentTarget)
                     .siblings(".filter__content")
                     .stop()
                     .slideToggle();
+
             });
 
 
             // BPM range
             if ($(".bpmRange").length) {
-                $(".bpmRange input").ionRangeSlider({
+                this.objRange = $(".bpmRange input").ionRangeSlider({
                     skin: "round",
                     type: "double",
                     min: 0,
@@ -267,10 +269,10 @@
                         // log.debug({
                         //     'rpm onStart':data,
                         // })
-                        $("#bpm-start").val(data.from_pretty);
-                        $("#bpm-end").val(data.to_pretty);
-                        this.param.currentBpmFr = data.from_pretty;
-                        this.param.currentBpmTo = data.to_pretty;
+                        $("#bpm-start").val(data.from);
+                        $("#bpm-end").val(data.to);
+                        this.param.currentBpmFr = data.from;
+                        this.param.currentBpmTo = data.to;
                     },
                     onChange: (data) => {
                         // log.debug({

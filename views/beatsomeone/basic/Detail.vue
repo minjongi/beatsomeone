@@ -77,11 +77,11 @@
                     </div>
 
                     <div class="detail__content">
-                        <transition name="fade" mode="out-in">
-                        <keep-alive>
+<!--                        <transition name="fade" mode="out-in">-->
+<!--                        <keep-alive>-->
                             <router-view :item="item"/>
-                        </keep-alive>
-                        </transition>
+<!--                        </keep-alive>-->
+<!--                        </transition>-->
                     </div>
 
 
@@ -256,6 +256,7 @@
                         log.debug('장바구니 담기 실패');
                     } else {
                         EventBus.$emit('add_cart');
+                        alert(this.$t('addcart'));
                         log.debug('장바구니 담기 성공');
 
                     }

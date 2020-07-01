@@ -209,6 +209,7 @@
                         log.debug('장바구니 담기 실패');
                     } else {
                         EventBus.$emit('add_cart');
+                        alert(this.$t('addcart'));
                         log.debug('장바구니 담기 성공');
 
                     }

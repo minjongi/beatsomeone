@@ -68,11 +68,11 @@
                     </div>
                 </div>
                 <div class="detail__content">
-                    <transition name="fade" mode="out-in">
-                        <keep-alive>
+<!--                    <transition name="fade" mode="out-in">-->
+<!--                        <keep-alive>-->
                             <router-view :item="item"/>
-                        </keep-alive>
-                    </transition>
+<!--                        </keep-alive>-->
+<!--                    </transition>-->
                 </div>
             </div>
         </div>

@@ -25,7 +25,7 @@
                 <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
                     <a href="/cmall/wishlist">{{ $t('favorite') }}</a>
-                    <a href="">{{ $t('freeBeats') }}</a>
+                    <a @click="moveAction('freeBeats')">{{ $t('freeBeats') }}</a>
                     <a href="/mypage/list_item" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
@@ -60,6 +60,7 @@
         },
         data: function () {
             return {
+                userInfo: null,
                 searchText: null,
                 cartSum: 0,
                 isOpen: false,
@@ -71,6 +72,7 @@
           },
         },
         created() {
+            this.fetchUserInfo();
             EventBus.$on('add_cart',() => {
                 this.updateCartSum();
             });
@@ -84,6 +86,11 @@
             },
         },
         methods: {
+            fetchUserInfo() {
+              Http.post('/beatsomeoneApi/get_user_info').then(r=> {
+                  this.userInfo = r[0];
+              });
+            },
             toggleOpenMenu() {
               this.isOpen = !this.isOpen;
 
@@ -106,6 +113,25 @@
                 let locale = this.$i18n.locale === 'en' ? 'ko' : 'en'
                 Vuecookies.set('locale', locale)
                 this.$i18n.locale = locale
+            },
+            moveAction(o) {
+                let url = null;
+                // 로그인시
+                if(this.userInfo) {
+                    switch(o) {
+                        case 'freeBeats': {
+                            url = this.userInfo.mem_usertype == 1 ? '무료비트URL수정필요' : '음원등록URL수정필요';
+                            break;
+                        }
+                    }
+                }
+                // 비로그인시
+                else {
+                    url = '무료비트URL수정필요';
+                }
+
+                // 이동
+                window.location.href = url;
             },
         },
     }

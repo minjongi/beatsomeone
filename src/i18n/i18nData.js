@@ -5,6 +5,7 @@ export default {
         unlimited: '조건 제한없음',
         month: '개월',
         year: '년',
+        addcart: '음원이 장바구니에 담겼습니다.',
         allowedCharLength: '최대 30자까지 가능',
         all: '전체',
         allGenre: '모든 장르',
@@ -298,12 +299,15 @@ export default {
         enterNumberRentalsAvailable: '임대 가능수량을 입력해 주세요',
         enterSalesPrice: '판매가격을 입력해 주세요',
         notPossibleModifyMusicFileMsg: '음원 등록 후 음원파일 수정은 불가합니다, 문의를 통해 요청 하시기 바랍니다',
+        dashboard_profilemod_save_ok: '정보가 수정 되었습니다.',
+        dashboard_profilemod_pwd_change_ok: '비밀번호가 변경 되었습니다.',
     }, // ko
     en: {
         currencySymbol: '$',
         unlimited: 'Unlimited',
         month: 'month',
         year: 'year',
+        addcart : 'The sound source is in my shopping cart.',
         allowedCharLength: '9 out of 60 Maximum characters allowed',
         all: 'All',
         allGenre: 'All Genre',
@@ -597,5 +601,7 @@ export default {
         enterNumberRentalsAvailable: 'Please enter the number of rentals available',
         enterSalesPrice: 'Please enter a sales price',
         notPossibleModifyMusicFileMsg: 'It is not possible to modify the music file after registering the music source, please make a request through inquiry',
+        dashboard_profilemod_save_ok: 'Personal information has been modified.',
+        dashboard_profilemod_pwd_change_ok: 'Your password has been changed.',
     } // en
 }
