@@ -495,4 +495,7 @@
     html, body{
         background:#111214;
     }
+    .sub .playList .playList__item > div {
+        margin-bottom: 0 !important;
+    }
 </style>

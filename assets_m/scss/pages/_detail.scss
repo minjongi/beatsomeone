@@ -121,9 +121,12 @@
       margin-right: 15px;
       flex: none;
       width: 110px;
+      height: 110px;
       border-radius: 8px;
       .btn-play {
         position: relative;
+        width: 100%;
+        height: 100%;
         &:after {
           content: "";
           width: 45px;
@@ -155,6 +158,9 @@
       img {
         vertical-align: top;
         opacity: 0.5;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
   }
