@@ -26,7 +26,7 @@
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="#" class="card"  @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
+                                    <a href="#" class="buy"  @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
 
                                 </div>
                             </div>
