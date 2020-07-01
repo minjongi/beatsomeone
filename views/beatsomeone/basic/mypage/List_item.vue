@@ -870,6 +870,10 @@
                         progressColor: "#c3ac45",
                         hideScrollbar: true,
                         height: 40,
+
+                    drawingContextAttributes: {
+                        desynchronized: false
+                    }
                     });
                 }
 
