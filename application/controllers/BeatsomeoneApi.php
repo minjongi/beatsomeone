@@ -1651,8 +1651,6 @@ class BeatsomeoneApi extends CB_Controller
         }
 
         $this->load->model('Beatsomeone_model');
-
         $resut = $this->Beatsomeone_model->chk_membership_purchase_promotion($this->member->item('mem_id'));
-        print_r($resut);
     }
 }
