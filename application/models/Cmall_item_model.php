@@ -119,7 +119,7 @@ Cmall_item_model extends CB_Model
 			$this->db->order_by('cit_order', 'asc');
 		}
 		$qry = $this->db->get($this->_table);
-		echo "<xmp>".print_R($que , true)."</xmp>";
+		echo "<xmp>".print_R($qry , true)."</xmp>";
 		$result = $qry->result_array();
 
 		return $result;
