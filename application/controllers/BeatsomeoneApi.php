@@ -766,10 +766,10 @@ class BeatsomeoneApi extends CB_Controller
     public function get_user_info()
     {
         // 비로그인 사용자 거부
-        if(!$this->member->item('mem_id')) {
-            $this->output->set_status_header('412');
-            return;
-        }
+//        if(!$this->member->item('mem_id')) {
+//            $this->output->set_status_header('412');
+//            return;
+//        }
 
         $this->load->model('Beatsomeone_model');
 

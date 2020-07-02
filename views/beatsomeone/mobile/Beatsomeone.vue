@@ -52,7 +52,7 @@
                                     {{ $t('bitTradingMessage1') }}<br/>
                                     {{ $t('bitTradingMessage2') }}
                                 </h1>
-                                <a href="/register">
+                                <a @click="moveAction('startSelling')">
                                     {{ $t('lendOrSellMyBeat') }}
                                 </a>
                             </div>
@@ -124,7 +124,7 @@
                                         </figure>
                                     </article>
                                     <div class="testimonials__btnbox">
-                                        <a href="/register">{{ $t('startSelling') }}</a>
+                                        <a @click="moveAction('startSelling')">{{ $t('startSelling') }}</a>
                                         <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                                     {{ $t('musicWorldMsg2') }}<br/>
                                     {{ $t('areYouReady') }}
                                 </h1>
-                                <a href="/register">
+                                <a @click="moveAction('startSelling')">
                                     {{ $t('trustOurTeamMsg') }}
                                 </a>
                             </div>
@@ -166,6 +166,7 @@
         components: {Header,Footer,Index_Items,MainPlayer,KeepAliveGlobal},
         data: function() {
             return {
+                userInfo: null,
                 isLogin: false,
                 init : {},
                 list: null,
@@ -317,7 +318,40 @@
                         { complete: done }
                     )
                 }, delay)
-            }
+            },
+            moveAction(o) {
+                let url = null;
+                // 로그인시
+                if(this.userInfo) {
+                    switch(o) {
+                        case 'startSelling': {
+                            switch (this.userInfo.mem_usertype) {
+                                case '1':
+                                    url = '/mypage/sellerreg';
+                                    break;
+                                case '2':
+                                    url = '/mypage/regist_item';
+                                    break;
+                                case '3':
+                                    url = '/mypage/regist_item';
+                                    break;
+                                case '4':
+                                    url = '/mypage/regist_item';
+                                    break;
+
+                            }
+                            break;
+                        }
+                    }
+                }
+                // 비로그인시
+                else {
+                    url = '/register';
+                }
+
+                // 이동
+                window.location.href = url;
+            },
         },
     }
 </script>

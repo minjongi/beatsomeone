@@ -4,7 +4,7 @@
         <div class="data">
             <div class="input_wrap col">
                 <input class="inputbox" minlength="3" maxlength="30" ref="username" :disabled="!isUserNameEditing" @keydown.enter="checkDuplicateUsername" type="text" v-model="tempUserName" placeholder="Enter your new username..." >
-                <CommonCaution v-if="!isNicknameAreDuplicated">Please note that the login ID will change when you change your email.</CommonCaution>
+                <CommonCaution v-if="!isNicknameAreDuplicated">Please note that the login ID will change when you change your Username.</CommonCaution>
                 <CommonCaution css="red" v-if="isNicknameAreDuplicated"> The '{{ this.errrorMsg }}' is already in use. Please change it to another nickname.</CommonCaution>
             </div>
             <button class="btn btn--blue active" v-if="!isUserNameEditing" @click="setUsernameEdit(true)">

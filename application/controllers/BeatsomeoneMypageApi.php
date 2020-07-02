@@ -56,6 +56,7 @@ class BeatsomeoneMypageApi extends CB_Controller
 
         $result = array(
             'mem_id' => $result['mem_id'],
+            'mem_userid' => $result['mem_userid'],
             'mem_username' => $result['mem_username'],
             'mem_address1' => $result['mem_address1'],
             'mem_email' => $result['mem_email'],

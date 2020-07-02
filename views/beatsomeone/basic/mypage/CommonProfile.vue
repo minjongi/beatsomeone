@@ -12,9 +12,9 @@
                     {{ info.mem_nickname }}
                 </div>
                 <div class="bio">
-                    {{ info.mem_type}}, {{ info.mem_lastname }}
+                    {{ info.mem_userid }}, {{ info.mem_type}}, {{ info.mem_lastname }} {{ info.mem_firstname }}
                 </div>
-                <div class="location">
+                <div class="location" v-if="info.mem_address1">
                     <img class="site" src="/assets/images/icon/position.png"/><div>{{ info.mem_address1 }}</div>
                 </div>
                 <div class="brandshop">

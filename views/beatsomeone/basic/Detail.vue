@@ -81,11 +81,7 @@
                         </button>
                     </div>
                     <div class="detail__content">
-                        <transition name="fade">
-                            <keep-alive>
-                                <router-view :item="item"/>
-                            </keep-alive>
-                        </transition>
+                      <router-view :item="item"/>
                     </div>
                 </div>
             </div>
