@@ -110,7 +110,14 @@ Cmall_item_model extends CB_Model
 		$this->db->select('cmall_item.*');
 		$this->db->where($where);
 		$this->db->limit($limit);
-		$this->db->order_by('cit_order', 'asc');
+
+		// 노출 시 랜덤 노출 처리
+		if (element('order', $config) == 'rand') {
+			$this->db->order_by('rand()', '');
+		}
+		else {
+			$this->db->order_by('cit_order', 'asc');
+		}
 		$qry = $this->db->get($this->_table);
 		$result = $qry->result_array();
 

@@ -69,6 +69,7 @@ class Beatsomeone extends CB_Controller
         $config = array(
             'cit_type1' => '1',
             'limit' => '4',
+			'order' => 'rand', // 메인페이지 랜덤 노출
         );
         $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
         $view['view']['type2'] = 'V1';
