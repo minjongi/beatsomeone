@@ -71,6 +71,13 @@ class Beatsomeone extends CB_Controller
             'limit' => '4',
         );
         $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
+		
+		// 메인페이지 아이템 랜덤 노출 처리
+		if(sizeof($view['view']['type1']) > 0 ) {
+			$arr = array(); $cnt = 0;
+			foreach( $view['view']['type1'] as $k=>$v) {$arr[mt_rand(0,9999)] = $view['view']['type1'][$k];}
+			foreach( $arr as $k=>$v) {$view['view']['type1'][$cnt] = $arr[$k]; $cnt ++; }
+		}
 		//echo "<xmp>". print_r($view['view']['type1'] , true) ."</xmp>";
         $view['view']['type2'] = 'V1';
 
