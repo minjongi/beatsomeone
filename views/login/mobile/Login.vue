@@ -32,7 +32,7 @@
                             </label>
                         </div>
                     </div>
-                    <div v-html="errorMsg" v-if="errorMsg" >
+                    <div v-html="errorMsg" v-if="errorMsg" class="errortext">
 
                     </div>
                     <div class="accounts__btnbox">
@@ -44,23 +44,23 @@
 
                 <div class="accounts__social">
                     <h2>SNS Log in</h2>
-                    <a href=""
+                    <a @click="socialLogin('facebook')"
                     ><img
                             src="@/assets_m/images/accounts-facebook.png"
                             :alt="$t('loginFacebook')"
                     /></a>
-                    <a href=""
+                    <a @click="socialLogin('twitter')"
                     ><img
                             src="@/assets_m/images/accounts-twitter.png"
                             :alt="$t('loginTwitter')"
                     /></a>
-                    <a href=""
+                    <a @click="socialLogin('google')"
                     ><img src="@/assets_m/images/accounts-google.png" :alt="$t('loginGoogle')"
                     /></a>
-                    <a href=""
+                    <a @click="socialLogin('naver')"
                     ><img src="@/assets_m/images/accounts-naver.png" :alt="$t('loginNaver')"
                     /></a>
-                    <a href=""
+                    <a @click="socialLogin('kakao')"
                     ><img src="@/assets_m/images/accounts-kakao.png" :alt="$t('loginKakao')"
                     /></a>
                 </div>
@@ -95,6 +95,13 @@
         watch: {
         },
         methods: {
+            socialLogin(social_type) {
+
+                if (social_type !== 'facebook' && social_type !== 'twitter' && social_type !== 'google' && social_type !== 'naver' && social_type !== 'kakao') {
+                    return false;
+                }
+                window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
+            }
         },
     }
 </script>
@@ -103,6 +110,13 @@
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style lang="css">
-
+<style lang="css" scope="scope">
+.errortext {
+    font-size: 14px;
+    margin-top: 5px;
+    opacity: .5;
+}
+.errortext:before {
+    content:'- ';
+}
 </style>

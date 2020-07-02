@@ -35,7 +35,6 @@
                     <th></th>
                     <th>
                         <p>
-                            <br />
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>0.00</h2>
@@ -295,5 +294,9 @@
 .accounts .accounts__title h1 {
     line-height: 40px;
     font-size: 30px;
+}
+.wrapper {
+    background: url("/assets/images/signup01-bg.png") no-repeat center -50px;
+    background-size: 100% auto;
 }
 </style>

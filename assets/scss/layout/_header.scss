@@ -8,6 +8,9 @@
     background: #000;
   }
   .wrap {
+    width: 100%;
+    max-width: 1420px;
+    min-width: 880px;
     height: 55px;
     @include flex();
   }

@@ -102,7 +102,7 @@
                 });
             },
 
-             social_connect_on(social_type) {
+            social_connect_on(social_type) {
 
                 if (social_type !== 'facebook' && social_type !== 'twitter' && social_type !== 'google' && social_type !== 'naver' && social_type !== 'kakao') {
                     return false;
@@ -112,7 +112,7 @@
                     window.location.reload();
                 }
 
-             },
+            },
         },
 
     }

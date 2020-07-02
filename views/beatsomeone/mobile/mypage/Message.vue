@@ -112,7 +112,7 @@
 
                                 <!-- 챗팅창 -->
                                 <div class="messageChat" :style="'display: '+mchat">
-                                    <div class="head">
+                                    <div class="head" style="position: relative;">
                                         <div class="portait">
                                             <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
                                             <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
@@ -120,6 +120,10 @@
                                         <div>
                                             <div class="user">{{ mchatUser }}</div>
                                             <div class="bio">{{ mchatUserBio }}</div>
+                                        </div>
+                                        <div class="icon-close">
+                                            <span></span>
+                                            <span></span>
                                         </div>
                                     </div>
                                     <div class='body' id="messageDisplay">
@@ -189,6 +193,7 @@
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
     import FileUpload from 'vue-simple-upload/dist/FileUpload'
+    import "jquery.nicescroll"
 
     export default {
         components: {
@@ -224,6 +229,7 @@
                 attfileurlname: '',
                 searchUser: '',
                 sendBtnYn: false,
+                timerId: '',
             };
         },
         watch:{
@@ -255,6 +261,11 @@
                     $(this).removeClass("active");
                     $(this).find(".options").hide();
                 }
+            });
+
+            // 커스텀 스크롤
+            $("#message-list").niceScroll({
+                cursorborder: "none"
             });
         },
         created() {
@@ -399,6 +410,11 @@
                 if(this.mchat == "none"){
                     this.mchat = "flex";
                 }
+
+                if(!this.isEmpty(this.timerId)){
+                    clearInterval(this.timerId);
+                }
+
                 this.ajaxMessageDetail(m.mem_id).then(()=>{
                     this.mid = m.mem_id;
                     this.mchatUser = m.mem_nickname;
@@ -423,6 +439,34 @@
                         });
                     }
                 });
+                
+                this.timerId = setInterval(function(){
+                    console.log(m.mem_nickname);
+                    this.ajaxMessageDetail(m.mem_id).then(()=>{
+                        this.mid = m.mem_id;
+                        this.mchatUser = m.mem_nickname;
+                        this.mchatUserPhoto = m.mem_photo;
+                        if(this.isEmpty(m.mem_type) && this.isEmpty(m.mem_lastname)){
+                            this.mchatUserBio = '';
+                        }else{
+                            this.mchatUserBio = m.mem_profile_content;
+                        }
+
+                        var messageDisplay = document.getElementById("messageDisplay");
+                        messageDisplay.scrollTop = messageDisplay.scrollHeight;
+                    });
+                    this.ajaxMessageRead(m.mem_id).then((data)=>{
+                        if(data){
+                            this.ajaxMessageList().then(()=>{
+                                //console.log(this.tempList.length);
+                                for(let i in this.tempList){
+                                    this.messageList.push(this.tempList[i]);
+                                }
+                                this.tempList = [];
+                            });
+                        }
+                    });
+                }.bind(this, m), 3000);
                 //console.log(e);
             },
             attfile: function(e){
@@ -707,6 +751,7 @@
         }
         .chatBalloon {
             max-width: max-content;
+            word-break: break-word;
             >*:first-child {
                 position: relative;
                 background-color: rgba(255, 255, 255, 0.1);
@@ -795,6 +840,48 @@
         }
         .btn.btn--blue {
             background-color: #4890ff;
+        }
+    }
+}
+
+.playList .playList__itembox.active {
+    .playList__item {
+        background-color: #252629;
+    }
+}
+
+.sublist .sublist__content {
+    position: relative;
+}
+.messageChat {
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: black;
+    margin-right: -16px;
+    margin-left: -16px;
+    padding: 0 16px 16px;
+}
+
+.icon-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 8px;
+    width: 16px;
+    height: 16px;
+    span {
+        top: 50%;
+        height: 2px;
+        position: absolute;
+        background: #4c4c4c;
+        width: 16px;
+        display: block;
+        transform: rotate(45deg);
+        &:last-child {
+            transform: rotate(-45deg);
         }
     }
 }

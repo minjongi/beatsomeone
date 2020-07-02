@@ -14,13 +14,20 @@
                             <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
                             <p class="singer" v-if="item">{{ item.musician }}</p>
                             <div class="state" v-if="item">
-                                <span class="play">{{ item.cde_download }}</span>
+                                <span class="song">{{ item.cde_download }}</span>
 <!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
+                                <!-- <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
+                                <span class="share pointer" @click="clickShare('facebook')">Facebook</span>
+                                <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
+                                <a class="twitter-share-button"
+                                   href="https://twitter.com/intent/tweet?text=Hello%20world">
+                                    Tweet</a> -->
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a href="#" class="buy"  @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
+
                                 </div>
                             </div>
                         </div>
@@ -291,7 +298,93 @@
                         log.debug('카운트 증가 성공');
                     }
                 });
-            }
+            },
+            // 공유 클릭
+            clickShare(sns) {
+                Http.post( `/beatsomeoneApi/increase_item_share_count`,{cit_id:this.item.cit_id}).then(r=> {
+                    if(!r) {
+                        log.debug('공유 카운트 증가 실패');
+                    } else {
+                        log.debug('공유 카운트 증가 성공');
+                    }
+                });
+
+                var url = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
+
+                var o;
+                var _url = encodeURIComponent(url);
+                var _txt = encodeURIComponent(txt);
+                var _br = encodeURIComponent('\r\n');
+
+                switch(sns) {
+                    case 'facebook':
+                        o = {
+                            method:'web2app',
+                            url:'http://www.facebook.com/sharer/sharer.php?u=' + _url
+                        };
+                        break;
+
+                    case 'twitter':
+                        o = {
+                            method:'web2app',
+                            url:'http://twitter.com/intent/tweet?text=' + _txt + '&url=' + _url
+                        };
+                        break;
+
+                    case 'kakaostory':
+                        o = {
+                            method:'web2app',
+                            url:'https://story.kakao.com/share?url=' + _url
+                        };
+                        break;
+
+                    case 'band':
+                        o = {
+                            method:'web2app',
+                            url:'http://www.band.us/plugin/share?body=' + _txt + _br + _url
+                        };
+                        break;
+
+                    default:
+                        alert('지원하지 않는 SNS입니다.');
+                        return false;
+                }
+
+                switch(o.method) {
+                    case 'popup':
+                        window.open(o.url,'snspopup','width=500, height=400, menubar=no, status=no, toolbar=no');
+                        break;
+
+                    case 'web2app':
+                        if (navigator.userAgent.match(/android/i))
+                        {
+                            // Android
+                            setTimeout(function(){ location.href = 'intent://' + o.param + '#Intent;' + o.g_proto + ';end'}, 100);
+                        }
+                        else if (navigator.userAgent.match(/(iphone)|(ipod)|(ipad)/i))
+                        {
+                            // Apple
+                            setTimeout(function(){ location.href = o.a_store; }, 200);
+                            setTimeout(function(){ location.href = o.a_proto + o.param }, 100);
+                        }
+                        else
+                        {
+                            alert('이 기능은 모바일에서만 사용할 수 있습니다.');
+                        }
+                        break;
+                }
+            },
+            // 링크 복사
+            copyLinkToClipboard() {
+                var t = document.createElement("textarea");
+                document.body.appendChild(t);
+                t.value = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                t.select();
+                document.execCommand('copy');
+                document.body.removeChild(t);
+                alert(`복사되었습니다\nCtrl + V 를 눌러 확인해보세요`);
+            },
         },
 
     }
@@ -307,9 +400,17 @@
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
     }
+
+    .share {
+        margin-left: 10px;
+    }
 </style>
 
 <style lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+
+    .player__progress wave {
+        background: none !important;
+    }
 </style>

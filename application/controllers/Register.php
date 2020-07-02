@@ -50,6 +50,12 @@ class Register extends CB_Controller
         $eventname = 'event_register_index';
         $this->load->event($eventname);
 
+        $view['getData']['billTerm'] = $this->input->get('billTerm');
+        $view['getData']['plan'] = $this->input->get('plan');
+        $view['getData']['planName'] = $this->input->get('planName');
+        if (empty($view['getData']['billTerm']) || empty($view['getData']['plan']) || empty($view['getData']['planName'])) {
+            $view['getData'] = [];
+        }
 
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
@@ -497,11 +503,6 @@ class Register extends CB_Controller
         }
         $this->load->model('Member_register_model');
         $this->Member_register_model->insert($member_register_data);
-
-        $this->session->set_flashdata(
-            'nickname',
-            $this->input->post('mem_nickname')
-        );
 
         $this->session->set_userdata(
             'mem_id',

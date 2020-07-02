@@ -5,10 +5,11 @@
             <li :class="{'active':current === 'profilemod'}" @click="goRoute('profilemod')">Manage Information</li>
             <li :class="{'active':current === 'list_item'}" @click="goPage('list_item')">Product List</li>
             <li :class="{'active':current === 'mybilling'}" @click="goPage('mybilling')">Order History</li>
+            <li :class="{'active':current === 'regist_item'}" @click="goPage('regist_item')" v-show="groupType == 'SELLER'">Registration of Beat</li>
             <li :class="{'active':current === 'saleshistory'}" @click="goPage('saleshistory')" v-show="groupType == 'SELLER'">Sales History</li>
             <li :class="{'active':current === 'seller'}" @click="goPage('seller')" v-show="groupType == 'SELLER'">Settlement History</li>
             <li :class="{'active':current === 'message'}" @click="goPage('message')">Message</li>
-            <li :class="{'active':current === 'sellerregister'}" v-show="groupType == 'CUSTOMER'">Seller Register</li>
+            <li :class="{'active':current === 'sellerreg'}" @click="goPage('sellerreg')" v-show="groupType == 'CUSTOMER'">Seller Register</li>
             <li :class="{'active':current === 'inquiry'}" @click="goPage('inquiry')">Support
                 <ul class="menu">
                     <li @click="goPage('inquiry')">Support Case</li>
@@ -17,14 +18,9 @@
             </li>
         </ul>
     </div>
-
 </template>
 
-
 <script>
-
-    import { EventBus } from '*/src/eventbus';
-
     export default {
         props: ['groupType'],
         data: function () {

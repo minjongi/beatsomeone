@@ -22,7 +22,7 @@
                             </div>
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600"><div class="number">{{ selectedItems }}</div>Selected Items</div>
+                            <div class="checkbox" style="margin-left:20px; margin-bottom:30px; font-weight:600; cursor: auto;"><div class="number">{{ selectedItems }}</div>Selected Items</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
@@ -310,7 +310,7 @@
                         <div class="btnbox col" style="width:50%; margin:30px auto 100px;" v-if="currentLocale === 'en'">
                             <button class="btn btn--gray mr-3" style="height:47px;" @click="goBack">Back</button>
                             <PayPal
-                                    env="sandbox"
+                                    env="production"
                                     currency="USD"
                                     locale="en_US"
                                     :amount="this.totalPriceEn.toString() || '0'"
@@ -350,7 +350,7 @@
                 <!--주문정보암호화필드-->
                 <input type=hidden name=allat_enc_data value="">
                 <!--테스트 여부-->
-                <input type=hidden name="allat_test_yn" value="Y" maxlength=1>
+                <input type=hidden name="allat_test_yn" value="N" maxlength=1>
                 <input type="hidden" name="allat_card_yn" v-model="allatForm.card_yn" maxlength="1">
                 <input type="hidden" name="allat_bank_yn" v-model="allatForm.bank_yn" maxlength="1">
                 <input type="hidden" name="allat_vbank_yn" v-model="allatForm.vbank_yn" maxlength="1">

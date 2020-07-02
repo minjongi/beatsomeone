@@ -72,7 +72,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, p.preview_cde_id,';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
@@ -111,7 +111,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('(select cit_id, count(*) as cnt from cb_cmall_cart as c group by cit_id) AS t2','t2.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, p.preview_cde_id,';
         $select .= 'IFNULL(q.cnt,0) AS comment_cnt, ';
         $select .= 'IFNULL(t1.cnt,0) + IFNULL(t2.cnt,0)  AS sell_cnt, ';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
@@ -134,11 +134,7 @@ class Beatsomeone_model extends CB_Model
 
     public function get_main_trending_list($config)
     {
-
         $where['cit_status'] = 1;
-
-
-
         $limit = element('limit', $config) ? element('limit', $config) : 4;
 
         $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = cmall_item.cit_id AND p1.cim_key = "info_content_1"','left');
@@ -146,8 +142,9 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta as p3','p3.cit_id = cmall_item.cit_id AND p3.cim_key = "info_content_3"','left');
         $this->db->join('cb_cmall_item_detail as m1','m1.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND m1.mem_id = "'.$this->member->item('mem_id').'"','left');
+        $this->db->join('cb_member as m', 'm.mem_id = cmall_item.mem_id', 'left');
 
-        $this->db->select('cmall_item.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish');
+        $this->db->select('cmall_item.*, p1.cim_value as genre, p2.cim_value as bpm, p3.cim_value as musician, m1.cde_id, m1.cde_price, (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish, m.mem_nickname');
         $this->db->where($where);
         $this->db->limit($limit);
         $this->db->order_by('cit_order', 'asc');
@@ -283,7 +280,9 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice,';
+        $select .= 'p.cde_id, p.cde_price,p.cde_price_d, p.cde_download,';
+        $select .= 'p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2, p.preview_cde_id,';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
@@ -295,7 +294,6 @@ class Beatsomeone_model extends CB_Model
         $result = $qry->result_array();
 
         return $result;
-
     }
 
 
@@ -310,8 +308,6 @@ class Beatsomeone_model extends CB_Model
         $bpmTo = element('bpmTo', $config);
         $moods = element('moods', $config);
         $trackType = element('trackType', $config);
-
-
 
         $where['cit_status'] = 1;
         // search
@@ -355,9 +351,9 @@ class Beatsomeone_model extends CB_Model
 
         //$limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','inner');
+        $this->db->join('cb_member as m','m.mem_id = cmall_item.mem_id','left');
 
-
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, m.mem_nickname';
 
         $this->db->select($select);
         $this->db->where($where);
@@ -370,13 +366,19 @@ class Beatsomeone_model extends CB_Model
 
 
     // 회원별 음원 등록수 조회
-    public function get_item_reg_count_by_mem_id($memId)
+    public function get_item_reg_count_by_mem_id($memId, $usertype=1)
     {
-        $where['mem_id'] = $memId;
-        $select = 'COUNT(*) AS totalCount';
+        if ($usertype < 2) {
+            return 0;
+        }
 
         $this->db->select('COUNT(*) AS totalCount');
         $this->db->where(['mem_id' => $memId]);
+
+        if ($usertype == 2) {
+            $this->db->where('cit_datetime <=', date('Y-m-01'));
+        }
+
         $qry = $this->db->get($this->_table);
         return $qry->row_array()['totalCount'];
     }
@@ -1016,4 +1018,36 @@ class Beatsomeone_model extends CB_Model
         return $this->db->insert_id();;
     }
 
+    public function insert_membership_purchase_log($params)
+    {
+        $data = [
+            'mem_id' => $params['mem_id'],
+            'bill_term' => $params['bill_term'],
+            'plan' => $params['plan'],
+            'plan_name' => $params['plan_name'],
+            'start_date' => $params['start_date'],
+            'end_date' => $params['end_date'],
+            'pay_method' => $params['pay_method'],
+            'amount' => $params['amount']
+        ];
+        $this->db->insert('cb_member_membership_purchase_log', $data);
+    }
+
+    public function update_membership_member($memId, $usertype)
+    {
+        $updateData = [
+            'mem_usertype' => $usertype
+        ];
+
+        $this->db->where('mem_id', $memId);
+        $this->db->update('member', $updateData);
+    }
+
+    public function chk_membership_purchase_promotion($memId)
+    {
+        $this->db->select('COUNT(*) AS totalCount');
+        $this->db->where(['mem_id' => $memId, 'pay_method' => 'promotion']);
+        $qry = $this->db->get('member_membership_purchase_log');
+        return $qry->row_array()['totalCount'];
+    }
 }

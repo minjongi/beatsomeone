@@ -103,7 +103,7 @@
                                         </div>
                                     </label>
                                 </div>
-                                <div class="form-item">
+                                <div class="form-item" style="margin-top: 30px;">
                                     <p class="form-title">{{ $t('audiofilesForStreaming') }}</p>
                                     <label for="streamingFile" class="addAudioFile waves-effect" @click="chkModifyAlert">
                                         <div class="addAudioFile__icon">
@@ -224,7 +224,7 @@
                                     </div>
                                     <div class="row row--inner">
                                         <span class="col">
-                                            <p>
+                                            <p class="possible-sell">
                                                 {{ $t('availableQuantityForSale') }}
                                             </p>
                                         </span>
@@ -291,7 +291,7 @@
                 </div>
             </section>
             <div class="registered__btnbox">
-                <a href="/beatsomeone/sublist" class="btn btn--list waves-effect">{{ $t('list') }}</a>
+                <a href="/mypage/list_item" class="btn btn--list waves-effect">{{ $t('list') }}</a>
                 <button type="submit" class="btn btn--save waves-effect" @click="doSubmit" ref="doSubmit">{{ $t('save') }}</button>
             </div>
         </div>
@@ -521,12 +521,12 @@
                 })
             },
             getItemRegCount() {
-                // Http.get('/beatsomeoneApi/item_reg_count').then(r => {
-                //     if (r.data.count > this.regLimit) {
-                //         alert(this.$t('registrationLimitExceededMsg'))
-                //         window.location.href = '/'
-                //     }
-                // });
+                Http.get('/beatsomeoneApi/chk_product_reg_limit').then(r => {
+                    if (r.data.status !== 'possible') {
+                        alert(this.$t(r.data.msgCode))
+                        window.location.href = '/'
+                    }
+                });
             },
             // 저장
             doSubmit() {
@@ -665,5 +665,12 @@
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     .col ~ .col:not(.btnbox) {
         margin-top: 0;
+    }
+
+    .possible-sell {
+        line-height:1.25em !important;
+        height: 55px !important;
+        display: flex !important;
+        align-items: center !important;   
     }
 </style>

@@ -120,10 +120,10 @@
                         <h2 class="section-title" v-if="param.search">
                             <div class="wrap">{{ $t('searchResultsFor') }} '{{ param.search }}'</div>
                         </h2>
-                        <h2 class="section-title">
+                        <h2 class="section-title" v-if="!param.search">
                             <div class="wrap">TOP <span class="number">5</span></div>
                         </h2>
-                        <div class="topFive">
+                        <div class="topFive" v-if="!param.search">
                             <div class="topFice__slider">
                                 <div class="trending__slide-item albumItem" v-for="(i,index) in listTop5" :key="index" @click="selectItem(i)">
                                     <button class="albumItem__cover">
@@ -485,5 +485,17 @@
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
+    .playList .playList__item {
+        display: flex !important;
+    }
 
+</style>
+
+<style lang="css" scope="scope">
+    html, body{
+        background:#111214;
+    }
+    .sub .playList .playList__item > div {
+        margin-bottom: 0 !important;
+    }
 </style>

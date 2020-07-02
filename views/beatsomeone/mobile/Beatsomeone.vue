@@ -17,7 +17,7 @@
                                 </p>
                             </div>
                         </header>
-                        <div class="main__media">
+                        <div class="main__media" style="position:relative;z-index: 100;">
                             <div class="tab">
                                 <div class="tab__scroll">
                                     <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}" @click="currentGenre = g">
@@ -363,4 +363,10 @@
 <style lang="css">
     @import '/assets_m/plugins/slick/slick.css';
     @import '/assets_m/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+</style>
+<style scope="scope" lang="css">
+    .playList .playList__item{display: flex !important;}
+    .albumItem .albumItem__link {
+        text-align: left !important;
+    }
 </style>

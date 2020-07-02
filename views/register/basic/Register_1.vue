@@ -49,7 +49,6 @@
                     <th></th>
                     <th>
                         <p>
-                            <br />
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>0.00</h2>
@@ -114,7 +113,6 @@
                     <th></th>
                     <th>
                         <p>
-                            <br />
                             {{ $t('free') }}
                         </p>
                         <h2><span>$</span>0.00</h2>
@@ -300,7 +298,7 @@
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: plan, planName: this.planName, billTerm: this.billTerm  });
 
                 if(islogin){
-                    this.$router.push({path: '/6'});    
+                    this.$router.push({path: '/6'});
                 }else{
                     this.$router.push({path: '/2'});
                 }
@@ -327,5 +325,8 @@
 </style>
 
 <style lang="css">
-
+.wrapper {
+    background: url("/assets/images/signup01-bg.png") no-repeat center -50px;
+    background-size: 100% auto;
+}
 </style>

@@ -172,7 +172,8 @@
                                     <div class="form-title">
                                         <label for="c1" class="checkbox">
                                             <input type="checkbox" hidden="" id="c1" v-model="item.licenseLeaseUseYn">
-                                            <span></span> {{ $t('basicLeaseLicensePrice') }}
+                                            <span></span> 
+                                            <p>{{ $t('basicLeaseLicensePrice') }}</p>
                                         </label>
                                     </div>
                                     <div class="row row--inner">
@@ -210,7 +211,8 @@
                                     <div class="form-title">
                                         <label for="c2" class="checkbox">
                                             <input type="checkbox" hidden="" id="c2" v-model="item.licenseStemUseYn">
-                                            <span></span> {{ $t('masteringLicensePrice') }}
+                                            <span></span> 
+                                            <p style="flex: 1;">{{ $t('masteringLicensePrice') }}</p>
                                         </label>
                                     </div>
                                     <div class="row row--inner">
@@ -227,7 +229,7 @@
                                     </div>
                                     <div class="row row--inner">
                                         <span class="col">
-                                            <p>
+                                            <p style="display:flex;align-items:center;height: 55px;line-height:1.25em">
                                                 {{ $t('availableQuantityForSale') }}
                                             </p>
                                         </span>
@@ -515,9 +517,9 @@
                 });
             },
             getItemRegCount() {
-                Http.get('/beatsomeoneApi/item_reg_count').then(r => {
-                    if (r.data.count > this.regLimit) {
-                        alert(this.$t('registrationLimitExceededMsg'))
+                Http.get('/beatsomeoneApi/chk_product_reg_limit').then(r => {
+                    if (r.data.status !== 'possible') {
+                        alert(this.$t(r.data.msgCode))
                         window.location.href = '/'
                     }
                 });

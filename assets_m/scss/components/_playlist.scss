@@ -4,6 +4,7 @@
   }
   .playList__itembox {
     margin-bottom: 1px;
+    display: flex;
     &.playing {
       .playList__item {
         background: #2b2c30;
@@ -60,6 +61,9 @@
           margin-right: 20px;
           img {
             border-radius: 3px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
           }
           i {
             @include position($top: -5px, $right: -5px);
@@ -146,8 +150,12 @@
         height: 20px;
         background: url("/assets_m/images/icon/more.png") no-repeat center;
         position: relative;
-        overflow: initial;
-
+        overflow: initial;  
+        opacity: .3;
+        transition: all .3s;
+        &.js-active {
+          opacity: 1;
+        }
         &.js-active + .tooltip {
           opacity: 1;
           bottom: 30px;
