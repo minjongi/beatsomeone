@@ -47,7 +47,7 @@ class BeatsomeoneApi extends CB_Controller
         // DB Querying (장르별 Top 5)
         $config = array(
             'cit_type1' => '1',
-            'limit' => '4',
+            'limit' => '20',
             'genre' => urldecode($genre),
             'bpm' => $this->input->get('bpm'),
             'sort' => $this->input->get('sort'),

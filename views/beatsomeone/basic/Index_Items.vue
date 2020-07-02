@@ -17,7 +17,7 @@
                         <h3 class="playList__title">
                             {{ item.cit_name }}
                         </h3>
-                        <span class="playList__by">{{ item.musician }} ( {{ item.bpm }}Bpm )</span>
+                        <span class="playList__by">by {{ item.mem_nickname }}</span>
                     </figcaption>
                 </figure>
 
