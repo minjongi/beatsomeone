@@ -50,7 +50,8 @@ class BeatsomeoneApi extends CB_Controller
             'limit' => '4',
             'genre' => urldecode($genre),
             'bpm' => $this->input->get('bpm'),
-            'sort' => $this->input->get('sort'),
+            //'sort' => $this->input->get('sort'),
+			'sort' => $this->input->get('rand'),
             'voice' => $this->input->get('voice'),
 
         );
