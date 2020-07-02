@@ -2,8 +2,11 @@
     <div class="title-content">
         <h4 class="title">
             Recently Listen
-
         </h4>
+
+        <h3 v-if="data.length === 0">
+            {{ $t('dashboard_RecentlyListen_notexists') }}
+        </h3>
 
         <div class="n-flex topFive recentListen">
             <div class="trending__slide-item albumItem" v-for="(o,index) in data" :key="index">
