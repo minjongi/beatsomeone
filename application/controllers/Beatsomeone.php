@@ -71,7 +71,7 @@ class Beatsomeone extends CB_Controller
             'limit' => '4',
         );
         $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
-		echo "<xmp>". print_r($view['view']['type1'] , true) ."</xmp>";
+		//echo "<xmp>". print_r($view['view']['type1'] , true) ."</xmp>";
         $view['view']['type2'] = 'V1';
 
 
