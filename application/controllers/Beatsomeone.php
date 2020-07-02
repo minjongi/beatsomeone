@@ -123,6 +123,9 @@ class Beatsomeone extends CB_Controller
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
 
+echo "<xmp>". print_r(element('layout', $view) , true) ."</xmp>";
+echo "<xmp>". print_r($view , true) ."</xmp>";
+
     }
 
     /**
