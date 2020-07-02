@@ -419,16 +419,16 @@
                         case 'startSelling': {
                             switch (this.userInfo.mem_usertype) {
                                 case '1':
-                                    url = '판매자 전환 URL';
+                                    url = '/mypage/sellerreg';
                                     break;
                                 case '2':
-                                    url = '음원등록 URL';
+                                    url = '/mypage/regist_item';
                                     break;
                                 case '3':
-                                    url = '음원등록 URL';
+                                    url = '/mypage/regist_item';
                                     break;
                                 case '4':
-                                    url = '음원등록 URL';
+                                    url = '/mypage/regist_item';
                                     break;
 
                             }
