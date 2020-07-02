@@ -3,7 +3,7 @@
     <div class="row" v-if="info">
 
         <div class="box"  >
-            <Profilemod_UserName :username="info.mem_username" @updatedUserName="updateUserName"></Profilemod_UserName>
+            <Profilemod_UserName :username="info.mem_userid" @updatedUserName="updateUserName"></Profilemod_UserName>
             <div class="row">
                 <div class="type"><span>User Group</span></div>
                 <div class="data">
@@ -165,7 +165,7 @@
             },
             updateUserName: function(d) {
                 log.debug('UPDATE USER NAME');
-                this.info.mem_username = d;
+                this.info.mem_userid = d;
                 EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
             },
             updateEmail: function(d) {
@@ -175,7 +175,7 @@
             },
             updateUserInfo() {
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
-                    // alert('변경내용이 저장 되었습니다');
+                    alert(this.$t('dashboard_profilemod_save_ok'));
                     EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
                 });
             },

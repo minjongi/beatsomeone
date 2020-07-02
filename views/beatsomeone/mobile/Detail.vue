@@ -56,7 +56,7 @@
                                         type="text"
                                         placeholder="Write a comment..."
                                         id="comment"
-                                        max="200"
+                                        maxlength="200"
                                         v-model="comment"
                                         @keydown.enter.prevent="sendComment"
                                 />
@@ -71,14 +71,14 @@
             <div class="detail__body">
                 <div class="tab">
                     <div class="tab__scroll-none">
-                        <button v-for="t in tabs" :key="t.title" :class="{active: t.title === currentTab }" @click="selectTab(t)">{{ t.title }}</button>
+                        <button v-for="t in tabs" :key="t.title" :class="{active: t.id === currentTab }" @click="selectTab(t)">{{ t.title }}</button>
                     </div>
                 </div>
                 <div class="detail__content">
 <!--                    <transition name="fade" mode="out-in">-->
-<!--                        <keep-alive>-->
+                        <keep-alive>
                             <router-view :item="item"/>
-<!--                        </keep-alive>-->
+                        </keep-alive>
 <!--                    </transition>-->
                 </div>
             </div>
@@ -104,7 +104,7 @@
                 item: null,
                 comment: null,
                 music: null,
-                currentTab: 'SIMILAR TRACKS',
+                currentTab: 1,
                 playlist: null,
                 player: null,
             }
@@ -118,9 +118,9 @@
             },
             tabs() {
                 return [
-                    {path: '/', title: this.$t('similarTrack')},
-                    {path: '/comments', title: this.$t('comments')},
-                    {path: '/infomation', title: this.$t('information')}
+                    {path: "/", id: 1, title: this.$t("similarTrack")},
+                    {path: "/comments", id: 2, title: this.$t("comments")},
+                    {path: "/infomation", id: 3, title: this.$t("information")}
                 ]
             }
         },
@@ -128,7 +128,7 @@
 
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
-            }).title;
+            }).id;
 
             EventBus.$on('player_request_start',r=> {
 
@@ -244,7 +244,7 @@
             },
             // 탭 선택
             selectTab(t) {
-                this.currentTab = t.title;
+                this.currentTab = t.id;
                 this.$router.push({ path: t.path, params: { item: this.item} });
             },
             // 코멘트 입력

@@ -54,8 +54,8 @@
             </div>
             <div class="row">
               <div class="filter">
-                <h2 class="filter__title">BPM</h2>
-                <div class="filter__content">
+                <h2 class="filter__title folded">BPM</h2>
+                <div class="filter__content" style="display: none;">
                   <div class="bpmRange">
                     <input type="text" />
                   </div>
@@ -278,10 +278,10 @@ export default {
           // log.debug({
           //     'rpm onStart':data,
           // })
-          $("#bpm-start").val(data.from_pretty);
-          $("#bpm-end").val(data.to_pretty);
-          this.param.currentBpmFr = data.from_pretty;
-          this.param.currentBpmTo = data.to_pretty;
+          $("#bpm-start").val(data.from);
+          $("#bpm-end").val(data.to);
+          this.param.currentBpmFr = data.from;
+          this.param.currentBpmTo = data.to;
         },
         onChange: data => {
           // log.debug({

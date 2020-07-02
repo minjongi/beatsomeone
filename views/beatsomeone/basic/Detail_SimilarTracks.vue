@@ -1,5 +1,5 @@
 <template>
-    <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false">
+    <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false"  v-if="list">
         <ul id="playList__list" class="playList__list">
             <transition-group
                     name="staggered-fade"
@@ -15,8 +15,8 @@
             <Loader key="loader" ></Loader>
         </div>
         
-        <div v-if="!list" clas="no-playLost__list">
-            <p>유사한 비트를 찾을 수 없습니다.</p>
+        <div v-if="list.length === 0" clas="no-playLost__list">
+            <p>{{ $t('detail_similarTracks_notexists') }}</p>
         </div>
     </div>
 </template>
