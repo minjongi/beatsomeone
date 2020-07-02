@@ -4,8 +4,9 @@
         <div class="data">
             <div class="input_wrap col">
                 <input class="inputbox" minlength="3" maxlength="30" ref="username" :disabled="!isUserNameEditing" @keydown.enter="checkDuplicateUsername" type="text" v-model="tempUserName" placeholder="Enter your new username..." >
-                <CommonCaution v-if="!isNicknameAreDuplicated">Please note that the login ID will change when you change your email.</CommonCaution>
-                <CommonCaution css="red" v-if="isNicknameAreDuplicated"> The '{{ this.errrorMsg }}' is already in use. Please change it to another nickname.</CommonCaution>
+                <CommonCaution v-if="!isNicknameAreDuplicated && !isNicknameAreInvalid">Please note that the login ID will change when you change your Username.</CommonCaution>
+                <CommonCaution css="red" v-if="isNicknameAreDuplicated"> The '{{ this.errrorMsg }}' is already in use. Please change it to another Username.</CommonCaution>
+                <CommonCaution css="red" v-if="isNicknameAreInvalid"> Invalid Username.</CommonCaution>
             </div>
             <button class="btn btn--blue active" v-if="!isUserNameEditing" @click="setUsernameEdit(true)">
                 Change
@@ -37,6 +38,7 @@
                 isUserNameEditing: false,
                 tempUserName: null,
                 isNicknameAreDuplicated: false,
+                isNicknameAreInvalid: false,
                 errrorMsg: null,
             }
         },
@@ -60,8 +62,24 @@
                 }
                 this.isUserNameEditing = mode;
                 this.isNicknameAreDuplicated = false;
+                this.isNicknameAreInvalid = false;
+            },
+            validation() {
+                this.isNicknameAreInvalid = false;
+                // 변경 패스워드 안전성
+                if(!/^[a-zA-Z0-9_]{4,12}$/.test(this.tempUserName)) {
+                    log.debug('Validation FALSE');
+                    this.isNicknameAreInvalid = true;
+                    return false;
+                }
+
+                return true;
             },
             checkDuplicateUsername() {
+
+                // Validation Check
+                if(!this.validation()) return false;
+
                 Http.post('/BeatsomeoneMypageApi/checkDuplicateMemUsername',{'mem_username' : this.tempUserName}).then(r => {
                     log.debug({
                         'checkDuplicateUsername':r,

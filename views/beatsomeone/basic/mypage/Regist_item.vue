@@ -252,20 +252,10 @@
                             <div class="col">
                                 <label class="form-item">
                                     <p class="form-title required">{{ $t('primaryGenre') }}</p>
-                                    <!-- <select v-model="item.genre" class="custom-select-basic">
+                                    <select v-model="item.genre" class="custom-select-basic">
                                         <option value="">{{ $t('select') }}</option>
                                         <option v-for="(item, index) in listGenre" :key="'genre' + index" :value="item">{{ listGenreName[index] }}</option>
-                                    </select> -->
-                                    <div class="custom-select ">
-                                        <button class="selected-option">
-                                            {{ $t('select') }}
-                                        </button>
-                                        <div class="options">
-                                            <button class="option" data-value="" v-for="(item, index) in listGenre" :key="'genre' + index" @click="param.sort = item">
-                                                {{ $t('select') }}
-                                            </button>
-                                        </div>
-                                    </div>
+                                    </select>
                                 </label>
                                 <label class="form-item">
                                     <p class="form-title ">{{ $t('subGenre') }}</p>

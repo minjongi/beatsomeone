@@ -58,7 +58,7 @@
                                         type="text"
                                         :placeholder="$t('writeComment')"
                                         id="comment"
-                                        max="200"
+                                        maxlength="200"
                                         v-model="comment"
                                         @keydown.enter.prevent="sendComment"
                                 />
@@ -75,17 +75,15 @@
                         <button
                                 v-for="t in tabs"
                                 :key="t.title"
-                                :class="{active: t.title === currentTab }"
+                                :class="{active: t.id === currentTab }"
                                 @click="selectTab(t)"
                         >{{ t.title }}
                         </button>
                     </div>
                     <div class="detail__content">
-                        <transition name="fade">
-                            <keep-alive>
-                                <router-view :item="item"/>
-                            </keep-alive>
-                        </transition>
+                        <keep-alive>
+                            <router-view :item="item"/>
+                        </keep-alive>
                     </div>
                 </div>
             </div>
@@ -114,7 +112,7 @@
                 item: null,
                 comment: null,
                 music: null,
-                currentTab: 'SIMILAR TRACKS',
+                currentTab: 1,
                 purchaseTypeSelectorPopup: false
             }
         },
@@ -130,9 +128,9 @@
             },
             tabs() {
                 return [
-                    {path: "/", title: this.$t("similarTrack")},
-                    {path: "/comments", title: this.$t("comments")},
-                    {path: "/infomation", title: this.$t("information")}
+                    {path: "/", id: 1, title: this.$t("similarTrack")},
+                    {path: "/comments", id: 2, title: this.$t("comments")},
+                    {path: "/infomation", id: 3, title: this.$t("information")}
                 ];
             }
         },
@@ -166,7 +164,7 @@
 
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
-            }).title;
+            }).id;
 
             const playbtn = document.querySelector(".detail__player-controller");
 
@@ -202,14 +200,14 @@
         watch: {
             item: function (n) {
                 if (n) {
-                    this.music.load(`/cmallact/download_sample/${n.cde_id}`);
+                    this.music.load(`/cmallact/download_sample/${n.preview_cde_id}`);
                 }
             }
         },
         methods: {
             // 탭 선택
             selectTab(t) {
-                this.currentTab = t.title;
+                this.currentTab = t.id;
                 this.$router.push({path: t.path, params: {item: this.item}});
             },
             // 코멘트 입력

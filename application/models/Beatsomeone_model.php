@@ -54,9 +54,11 @@ class Beatsomeone_model extends CB_Model
             $where['p.voice'] = 1;
         }
 
+        $where['cmall_item.cit_type1'] = 1;
+        $this->db->order_by('RAND()', 'desc');
+
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
         if(!$sort || $sort == 'Sort By Staff Picks') {
-            $where['cmall_item.cit_type1'] = 1;
             $this->db->order_by('cde_download', 'desc');
         }
         // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
@@ -75,8 +77,9 @@ class Beatsomeone_model extends CB_Model
         $limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
+        $this->db->join('cb_member as m','m.mem_id = cmall_item.mem_id','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, p.preview_cde_id, m.mem_nickname, ';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
@@ -114,7 +117,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('(select cit_id, count(*) as cnt from cb_cmall_cart as c group by cit_id) AS t2','t2.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, p.preview_cde_id,';
         $select .= 'IFNULL(q.cnt,0) AS comment_cnt, ';
         $select .= 'IFNULL(t1.cnt,0) + IFNULL(t2.cnt,0)  AS sell_cnt, ';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
@@ -285,7 +288,7 @@ class Beatsomeone_model extends CB_Model
 
         $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice,';
         $select .= 'p.cde_id, p.cde_price,p.cde_price_d, p.cde_download,';
-        $select .= 'p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2,';
+        $select .= 'p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2, p.preview_cde_id,';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);

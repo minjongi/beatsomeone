@@ -47,7 +47,7 @@ class BeatsomeoneApi extends CB_Controller
         // DB Querying (장르별 Top 5)
         $config = array(
             'cit_type1' => '1',
-            'limit' => '4',
+            'limit' => '20',
             'genre' => urldecode($genre),
             'bpm' => $this->input->get('bpm'),
             //'sort' => $this->input->get('sort'),
@@ -700,10 +700,6 @@ class BeatsomeoneApi extends CB_Controller
         if ($this->input->post('stype')) {
             // 로그인 여부 확인
             if ( ! $mem_id) {
-                $this->session->set_flashdata(
-                    'message',
-                    '로그인 후 이용이 가능합니다'
-                );
                 return false;
             }
 
@@ -771,10 +767,10 @@ class BeatsomeoneApi extends CB_Controller
     public function get_user_info()
     {
         // 비로그인 사용자 거부
-        if(!$this->member->item('mem_id')) {
-            $this->output->set_status_header('412');
-            return;
-        }
+//        if(!$this->member->item('mem_id')) {
+//            $this->output->set_status_header('412');
+//            return;
+//        }
 
         $this->load->model('Beatsomeone_model');
 
@@ -849,10 +845,7 @@ class BeatsomeoneApi extends CB_Controller
                 }
             }
         }
-        $this->session->set_flashdata(
-            'message',
-            '정상적으로 삭제되었습니다'
-        );
+
         $result = array();
         $result['message'] = '정상적으로 삭제되었습니다';
         $this->output->set_content_type('text/json');
@@ -1652,8 +1645,6 @@ class BeatsomeoneApi extends CB_Controller
         }
 
         $this->load->model('Beatsomeone_model');
-
         $resut = $this->Beatsomeone_model->chk_membership_purchase_promotion($this->member->item('mem_id'));
-        print_r($resut);
     }
 }

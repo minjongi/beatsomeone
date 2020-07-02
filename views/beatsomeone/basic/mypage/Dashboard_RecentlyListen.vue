@@ -4,6 +4,11 @@
             <div>Recently Listen</div>
             <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
+
+        <h3 v-if="data.length === 0">
+            {{ $t('dashboard_RecentlyListen_notexists') }}
+        </h3>
+
         <div class="topFive recentListen">
             <div class="trending__slide-item albumItem" v-for="(o,index) in data" :key="index">
                 <a :href="'/beatsomeone/detail/'+o.cit_key">

@@ -15,7 +15,7 @@
                 <nav class="header__nav">
                     <a href=""></a>
                     <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
-                    <a href="">{{ $t('freeBeats') }}</a>
+                    <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
@@ -42,6 +42,7 @@
         },
         data: function () {
             return {
+                userInfo: null,
                 searchText: null,
                 cartSum: 0,
             };
@@ -52,6 +53,7 @@
           },
         },
         created() {
+            this.fetchUserInfo();
             EventBus.$on('add_cart',() => {
                 this.updateCartSum();
             });
@@ -65,6 +67,11 @@
             },
         },
         methods: {
+            fetchUserInfo() {
+                Http.post('/beatsomeoneApi/get_user_info').then(r=> {
+                    this.userInfo = r[0];
+                });
+            },
             updateCartSum() {
                 Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
                     if(r >= 0) {
@@ -90,5 +97,9 @@
 </script>
 
 <style scoped="scoped">
+
+    .header .header__nav a {
+        cursor: pointer !important;
+    }
 
 </style>

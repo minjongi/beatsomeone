@@ -63,7 +63,7 @@ class Beatsomeone extends CB_Controller
         /**
          * Data Querying
          */
-        $this->load->model('Cmall_item_model');
+        $this->load->model(array('Cmall_item_model','Beatsomeone_model'));
 
         // DB Querying (장르별 Top 5)
         $config = array(
@@ -73,6 +73,12 @@ class Beatsomeone extends CB_Controller
         $view['view']['type1'] = $this->Cmall_item_model->get_latest($config);
         $view['view']['type2'] = 'V1';
 
+        // 사용자 정보 조회
+        if($this->member->item('mem_id')) {
+            $view['view']['user'] = $this->Beatsomeone_model->get_user_info(array(
+                'mem_id' => $this->member->item('mem_id'),
+            ))[0];
+        }
 
 
         $view['view']['canonical'] = site_url('beatsomeone');

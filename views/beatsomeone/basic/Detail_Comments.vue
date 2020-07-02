@@ -1,5 +1,5 @@
 <template>
-    <div class="commentsbox">
+    <div class="commentsbox"  >
         <div class="commentsbox__row" v-if="listComments">
             <div class="comment" v-for="c in listComments" :key="c.cqa_id">
                 <div class="comment__author-img" v-if="c">
@@ -10,7 +10,7 @@
                     <div class="comment__info">
                         <div class="writer">
                             <span>{{ c.mem_nickname }}</span>
-                            <a href="">{{ $t('report') }}</a>
+<!--                            <a href="">{{ $t('report') }}</a>-->
                         </div>
 
 <!--                        <span class="comment__created-at">8 day ago</span>-->
@@ -25,9 +25,9 @@
                 </div>
             </div>
         </div>
-        <div class="commentsbox__row" v-else >
+        <div class="commentsbox__row" v-if="!listComments" >
             <div class="no-comment">
-                <p>아직 남겨진 댓글이 없습니다</p>
+                <p>{{ $t('detail_comments_notexists') }}</p>
             </div>
         </div>
     </div>

@@ -1,7 +1,8 @@
 <template>
     <div class="commentsbox">
-        <div class="commentsbox__row">
-            <div class="comment" v-for="c in listComments" :key="c.cqa_id">
+
+        <div class="commentsbox__row" >
+            <div class="comment" v-for="c in listComments" :key="c.cqa_id" v-if="listComments">
                 <div class="comment__author-img">
                     <img v-if="!c.mem_photo" src="https://via.placeholder.com/35x35" alt="">
                     <img v-if="c.mem_photo" :src="'/uploads/member_photo/' + c.mem_photo" alt="">
@@ -10,7 +11,7 @@
                     <div class="comment__info">
                         <div class="writer">
                             <span>{{ c.mem_nickname }}</span>
-                            <a href="">{{ $t('report') }}</a>
+<!--                            <a href="">{{ $t('report') }}</a>-->
                         </div>
 
 <!--                        <span class="comment__created-at">8 day ago</span>-->
@@ -25,8 +26,8 @@
                 </div>
             </div>
 
-            <div class="no-comment" v-if="listComments.length === 0" >
-                <p>아직 남겨진 댓글이 없습니다</p>
+            <div class="no-comment"  v-if="!listComments" >
+                <p>{{ $t('detail_comments_notexists') }}</p>
             </div>
         </div>
     </div>

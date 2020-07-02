@@ -2,8 +2,12 @@
     <div class="title-content">
         <h4 class="title">
             Expried soon
-
         </h4>
+
+        <h3 v-if="data.length === 0">
+            {{ $t('dashboard_ExpiredSoon_notexists') }}
+        </h3>
+
 
         <div v-if="data.length > 0" >
             <div class="slide">
@@ -33,21 +37,21 @@
             </div>
         </div>
 
-        <div class="playList" v-if="data.length === 0">
-            <ul class="itemContainer">
-                <li class="playList__itembox" >
-                    <div class="playList__item playList__item--title active">
-                        <div class="col name">
-                            <figure>
-                                <figcaption>
-                                    <h3 class="playList__title">Not Exists</h3>
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+<!--        <div class="playList" v-if="data.length === 0">-->
+<!--            <ul class="itemContainer">-->
+<!--                <li class="playList__itembox" >-->
+<!--                    <div class="playList__item playList__item&#45;&#45;title active">-->
+<!--                        <div class="col name">-->
+<!--                            <figure>-->
+<!--                                <figcaption>-->
+<!--                                    <h3 class="playList__title">Not Exists</h3>-->
+<!--                                </figcaption>-->
+<!--                            </figure>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
 
     </div>
 </template>

@@ -504,11 +504,6 @@ class Register extends CB_Controller
         $this->load->model('Member_register_model');
         $this->Member_register_model->insert($member_register_data);
 
-        $this->session->set_flashdata(
-            'nickname',
-            $this->input->post('mem_nickname')
-        );
-
         $this->session->set_userdata(
             'mem_id',
             $mem_id

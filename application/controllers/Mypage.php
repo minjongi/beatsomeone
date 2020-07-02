@@ -88,45 +88,46 @@ class Mypage extends CB_Controller
         /**
          * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
          */
-        $param =& $this->querystring;
-        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
-
-        $this->load->model('Member_login_log_model');
-
-        $findex = $this->Member_login_log_model->primary_key;
-        $forder = 'desc';
-
-        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
-        $offset = ($page - 1) * $per_page;
+//        $param =& $this->querystring;
+//        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+//
+//        $this->load->model('Member_login_log_model');
+//
+//        $findex = $this->Member_login_log_model->primary_key;
+//        $forder = 'desc';
+//
+//        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+//        $offset = ($page - 1) * $per_page;
 
         /**
          * 게시판 목록에 필요한 정보를 가져옵니다.
          */
-        $where = array(
-            'mem_id' => $mem_id,
-        );
-        $result = $this->Member_login_log_model
-            ->get_list($per_page, $offset, $where, '', $findex, $forder);
-        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
-        if (element('list', $result)) {
-            foreach (element('list', $result) as $key => $val) {
-                if (element('mll_useragent', $val)) {
-                    $userAgent = get_useragent_info(element('mll_useragent', $val));
-                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
-                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
-                    $result['list'][$key]['os'] = $userAgent['os'];
-                    $result['list'][$key]['engine'] = $userAgent['engine'];
-                }
-                $result['list'][$key]['num'] = $list_num--;
-            }
-        }
-
-        $view['view']['data'] = $result;
+//        $where = array(
+//            'mem_id' => $mem_id,
+//        );
+//        $result = $this->Member_login_log_model
+//            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+//        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+//        if (element('list', $result)) {
+//            foreach (element('list', $result) as $key => $val) {
+//                if (element('mll_useragent', $val)) {
+//                    $userAgent = get_useragent_info(element('mll_useragent', $val));
+//                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
+//                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
+//                    $result['list'][$key]['os'] = $userAgent['os'];
+//                    $result['list'][$key]['engine'] = $userAgent['engine'];
+//                }
+//                $result['list'][$key]['num'] = $list_num--;
+//            }
+//        }
+//
+//        $view['view']['data'] = $result;
 
         // 사용자 정보 추가
         $userinfo = $this->Member_model->get_by_memid($mem_id);
         $userinfo = array(
             'mem_id' => $userinfo['mem_id'],
+            'mem_userid' => $userinfo['mem_userid'],
             'mem_username' => $userinfo['mem_username'],
             'mem_address1' => $userinfo['mem_address1'],
             'mem_email' => $userinfo['mem_email'],
@@ -140,15 +141,15 @@ class Mypage extends CB_Controller
         );
         $view['view']['userinfo'] = $userinfo;
 
-        /**
-         * 페이지네이션을 생성합니다
-         */
-        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
-        $config['total_rows'] = $result['total_rows'];
-        $config['per_page'] = $per_page;
-        $this->pagination->initialize($config);
-        $view['view']['paging'] = $this->pagination->create_links();
-        $view['view']['page'] = $page;
+//        /**
+//         * 페이지네이션을 생성합니다
+//         */
+//        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
+//        $config['total_rows'] = $result['total_rows'];
+//        $config['per_page'] = $per_page;
+//        $this->pagination->initialize($config);
+//        $view['view']['paging'] = $this->pagination->create_links();
+//        $view['view']['page'] = $page;
 
 
 		// 이벤트가 존재하면 실행합니다

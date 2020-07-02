@@ -17,7 +17,7 @@
                         <h3 class="playList__title">
                             {{ item.cit_name }}
                         </h3>
-                        <span class="playList__by">{{ item.musician }} ( {{ item.bpm }}Bpm )</span>
+                        <span class="playList__by">by {{ item.mem_nickname }}</span>
                     </figcaption>
                 </figure>
 
@@ -185,13 +185,13 @@
                 this.item.detail = {
                     'LEASE': {
                         cde_id: this.item.cde_id || null,
-                        cde_price: this.item.cde_id || null,
-                        cde_price_d: this.item.cde_id || null
+                        cde_price: this.item.cde_price || null,
+                        cde_price_d: this.item.cde_price_d || null
                     },
                     'STEM': {
                         cde_id: this.item.cde_id_2 || null,
-                        cde_price: this.item.cde_id_2 || null,
-                        cde_price_d: this.item.cde_id_2 || null
+                        cde_price: this.item.cde_price_2 || null,
+                        cde_price_d: this.item.cde_price_d_2 || null
                     }
                 }
                 this.purchaseTypeSelectorPopup = true
@@ -236,8 +236,8 @@
                         desynchronized: false
                     }
                 });
-                if(item.cde_id) {
-                    this.ws.load(`/cmallact/download_sample/${item.cde_id}`);
+                if(item.preview_cde_id) {
+                    this.ws.load(`/cmallact/download_sample/${item.preview_cde_id}`);
                 }
 
                 this.ws.on("play", () => {

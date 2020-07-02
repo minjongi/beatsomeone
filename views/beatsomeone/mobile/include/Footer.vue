@@ -36,7 +36,7 @@
                 </div>
                 -->
                 <p class="footer__copyright">
-                    copyright@beat someone2019 .All Right reserved.
+                    copyright@beat someone 2020 .All Right reserved.
                 </p>
             </div>
         </div>

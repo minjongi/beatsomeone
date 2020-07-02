@@ -246,7 +246,7 @@ class Beatsomeone_mypage_model extends CB_Model
     {
         $where = array(
             'm.mem_id !=' => $mem_id,
-            'm.mem_username' => $mem_username
+            'm.mem_userid' => $mem_username
         );
 
         $this->db
@@ -272,7 +272,7 @@ class Beatsomeone_mypage_model extends CB_Model
 
         $r = $this->db
             ->where($where)
-            ->set('mem_username', $mem_username)
+            ->set('mem_userid', $mem_username)
             ->update('cb_member');
 
 
