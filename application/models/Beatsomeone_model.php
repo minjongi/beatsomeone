@@ -67,6 +67,10 @@ class Beatsomeone_model extends CB_Model
         if($sort == 'Top Downloads') {
             $this->db->order_by('cde_download', 'desc');
         }
+		// 만약 정렬 조건이 [Rand] 인 경우에는 랜덤노출
+        if($sort == 'Rand') {
+            $this->db->order_by('cde_download', 'rand');
+        }
 
         $limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
