@@ -82,7 +82,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->where($where);
         $this->db->limit($limit);
 
-
+echo "<xmp>". print_r(this->db , true) ."</xmp>";
         $qry = $this->db->get($this->_table);
         $result = $qry->result_array();
 
