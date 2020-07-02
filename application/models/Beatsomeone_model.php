@@ -69,7 +69,7 @@ class Beatsomeone_model extends CB_Model
         }
 		// 만약 정렬 조건이 [rand] 인 경우에는 랜덤노출
         if($sort == 'rand') {
-            $this->db->order_by('cde_download', 'rand');
+            $this->db->order_by('cde_download', 'RANDOM');
         }
 
         $limit = element('limit', $config) ? element('limit', $config) : 4;
