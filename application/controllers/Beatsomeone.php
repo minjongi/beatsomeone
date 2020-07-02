@@ -76,6 +76,7 @@ class Beatsomeone extends CB_Controller
 		if(sizeof($view['view']['type1']) > 0 ) {
 			$arr = array(); $cnt = 0;
 			foreach( $view['view']['type1'] as $k=>$v) {$arr[mt_rand(0,9999)] = $view['view']['type1'][$k];}
+			sort($arr);
 			echo "<xmp>". print_r($arr , true) ."</xmp>";
 			foreach( $arr as $k=>$v) {$view['view']['type1'][$cnt] = $arr[$k]; $cnt ++; }
 			echo "<xmp>". print_r($view['view']['type1'] , true) ."</xmp>";
