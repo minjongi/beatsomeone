@@ -122,47 +122,47 @@
                             </article>
                             <article class="testimonials__lists">
                                 <figure class="card card--testimonials">
-                                    <a href="">
+                                    <a href="https://youtu.be/0khjIlr6Avw" target="_blank">
                                         <div class="img">
                                             <img
-                                                    src="@/assets/images/dummy/testimonials1.png"
+                                                    src="@/assets/images/testimonials/testimonials_001.png"
                                                     alt=""
                                             />
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
-                                            <h3>WAITING (Indie Rock Type Beat)</h3>
-                                            <p>by Fantom</p>
+                                            <h3>글로벌 Spinnin’ Records 1위 & Splice 리믹스 2위</h3>
+                                            <p>by Rothchild</p>
                                         </figcaption>
                                     </a>
                                 </figure>
                                 <figure class="card card--testimonials">
-                                    <a href="">
+                                    <a href="https://youtu.be/mMxhVtF3qFA" target="_blank">
                                         <div class="img">
                                             <img
-                                                    src="@/assets/images/dummy/testimonials2.png"
+                                                    src="@/assets/images/testimonials/testimonials_002.png"
                                                     alt=""
                                             />
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
-                                            <h3>WAITING (Indie Rock Type Beat)</h3>
-                                            <p>by Fantom</p>
+                                            <h3>TXT 작사, 유재하 음악경연대회 수상</h3>
+                                            <p>by 수경(빨간의자)</p>
                                         </figcaption>
                                     </a>
                                 </figure>
                                 <figure class="card card--testimonials">
-                                    <a href="">
+                                    <a href="https://youtu.be/_tPZc-MsIwE" target="_blank">
                                         <div class="img">
                                             <img
-                                                    src="@/assets/images/dummy/testimonials3.png"
+                                                    src="@/assets/images/testimonials/testimonials_003.png"
                                                     alt=""
                                             />
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
-                                            <h3>WAITING (Indie Rock Type Beat)</h3>
-                                            <p>by Fantom</p>
+                                            <h3>정규앨범 ‘Gang Byeon Buk-Ro Drive’ 발매</h3>
+                                            <p>by NOP.K</p>
                                         </figcaption>
                                     </a>
                                 </figure>
