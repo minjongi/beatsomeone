@@ -4,7 +4,7 @@
 
         <div class="title-content">
             <div class="title">
-                <div>Manage Information</div>
+                <div>{{$t('manageInformation')}}</div>
             </div>
         </div>
         <div class="box" style="padding-bottom:50px;" >
@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="type"><span>User Group</span></div>
                 <div class="data">
-                   <div class="group_title" :class="groupType">{{ groupType }}</div>
+                   <div class="group_title" :class="groupType">{{ $t(groupType) }}</div>
                 </div>
             </div>
             <div class="row" v-if="isSeller">

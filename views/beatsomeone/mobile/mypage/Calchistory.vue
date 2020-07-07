@@ -27,22 +27,22 @@
                                         <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
                                     </div>
                                     <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
+                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
+                                <li @click="goPage('')">{{$t('dashboard')}}</li>
+                                <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
+                                <li @click="goPage('list_item')">{{$t('productList')}}</li>
                                 <li>Order History</li>
-                                <li v-show="group_title == 'SELLER'">Sales History</li>
-                                <li v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li>Message</li>
-                                <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li  class="active" >Support
+                                <li v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
+                                <li v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
+                                <li>{{$t('chat')}}</li>
+                                <li v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
+                                <li  class="active" >{{$t('support1')}}
                                     <ul class="menu">
                                         <li @click="goPage('inquiry')">Support Case</li>
                                         <li class="active" @click="goPage('faq')">FAQ</li>

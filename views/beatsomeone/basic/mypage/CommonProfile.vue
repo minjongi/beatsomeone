@@ -6,7 +6,7 @@
             </div>
             <div class="info">
                 <div class="group">
-                    <div class="group_title" :class="groupType">{{groupType}}</div>
+                    <div class="group_title" :class="groupType">{{$t(groupType)}}</div>
                 </div>
                 <div class="username">
                     {{ info.mem_nickname }}
@@ -18,7 +18,7 @@
                     <img class="site" src="/assets/images/icon/position.png"/><div>{{ info.mem_address1 }}</div>
                 </div>
                 <div class="brandshop">
-                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
+                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
                 </div>
             </div>
         </div>

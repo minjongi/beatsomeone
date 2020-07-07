@@ -27,21 +27,21 @@
                                         <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
                                     </div>
                                     <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
+                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <ul class="menu">
-                                <li>Dashboard</li>
-                                <li>Manage Information</li>
-                                <li class="active">Product List</li>
+                                <li>{{$t('dashboard')}}</li>
+                                <li>{{$t('manageInformation')}}</li>
+                                <li class="active">{{$t('productList')}}</li>
                                 <li>Order History</li>
-                                <li>Sales History</li>
-                                <li>Settlement History</li>
-                                <li>Message</li>
-                                <li>Support</li>
+                                <li>{{$t('salesHistory')}}</li>
+                                <li>{{$t('settlementHistory')}}</li>
+                                <li>{{$t('chat')}}</li>
+                                <li>{{$t('support1')}}</li>
                             </ul>
                         </div>
                     </div>

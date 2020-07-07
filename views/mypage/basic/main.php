@@ -4,7 +4,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="<?php echo site_url('mypage'); ?>" title="마이페이지">마이페이지</a></li>
         <?php if($this->member->item('mem_usertype') == 2) { ?>
-		<li><a href="<?php echo site_url('mypage/dashboard'); ?>" title="dashboard">dashboard</a></li>
+		<li><a href="<?php echo site_url('mypage/dashboard'); ?>" title="dashboard">{{$t('dashboard')}}</a></li>
 		<li><a href="<?php echo site_url('mypage/regist_item'); ?>" title="음원등록">음원등록</a></li>
         <li><a href="<?php echo site_url('mypage/list_item'); ?>" title="상품리스트">상품리스트</a></li>
         <li><a href="<?php echo site_url('mypage/profilemod'); ?>" title="정보관리">정보관리</a></li>

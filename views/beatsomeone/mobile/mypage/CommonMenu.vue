@@ -1,15 +1,15 @@
 <template>
     <div class="row menu__wraper">
         <ul class="menu">
-            <li :class="{'active':current === 'dashboard'}" @click="goRoute('dashboard')">Dashboard</li>
-            <li :class="{'active':current === 'profilemod'}" @click="goRoute('profilemod')">Manage Information</li>
-            <li :class="{'active':current === 'list_item'}" @click="goPage('list_item')">Product List</li>
+            <li :class="{'active':current === 'dashboard'}" @click="goRoute('dashboard')">{{$t('dashboard')}}</li>
+            <li :class="{'active':current === 'profilemod'}" @click="goRoute('profilemod')">{{$t('manageinformation')}}</li>
+            <li :class="{'active':current === 'list_item'}" @click="goPage('list_item')">{{$t('productList')}}</li>
             <li :class="{'active':current === 'mybilling'}" @click="goPage('mybilling')">Order History</li>
-            <li :class="{'active':current === 'saleshistory'}" @click="goPage('saleshistory')" v-show="groupType == 'SELLER'">Sales History</li>
-            <li :class="{'active':current === 'seller'}" @click="goPage('seller')" v-show="groupType == 'SELLER'">Settlement History</li>
-            <li :class="{'active':current === 'message'}" @click="goPage('message')">Message</li>
-            <li :class="{'active':current === 'sellerregister'}" v-show="groupType == 'CUSTOMER'">Seller Register</li>
-            <li :class="{'active':current === 'inquiry'}" @click="goPage('inquiry')">Support
+            <li :class="{'active':current === 'saleshistory'}" @click="goPage('saleshistory')" v-show="groupType == 'SELLER'">{{$t('salesHistory')}}</li>
+            <li :class="{'active':current === 'seller'}" @click="goPage('seller')" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
+            <li :class="{'active':current === 'message'}" @click="goPage('message')">{{$t('chat')}}</li>
+            <li :class="{'active':current === 'sellerregister'}" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
+            <li :class="{'active':current === 'inquiry'}" @click="goPage('inquiry')">{{$t('support1')}}
                 <ul class="menu">
                     <li @click="goPage('inquiry')">Support Case</li>
                     <li @click="goPage('faq')">FAQ</li>

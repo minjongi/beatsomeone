@@ -44,7 +44,7 @@
                 <div class="brandshop">
                   <img class="shop" src="/assets/images/icon/shop.png" /><a
                     href="#"
-                    >Go to Brandshop ></a
+                    >{{ $t('goToBrandshop') }} ></a
                   >
                 </div>
               </div>
@@ -53,19 +53,19 @@
 
           <div class="row menu__wraper">
             <ul class="menu">
-              <li @click="goPage('')">Dashboard</li>
-              <li @click="goPage('profilemod')">Manage Information</li>
-              <li @click="goPage('list_item')">Product List</li>
+              <li @click="goPage('')">{{$t('dashboard')}}</li>
+              <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
+              <li @click="goPage('list_item')">{{$t('productList')}}</li>
               <li @click="goPage('mybilling')">Order History</li>
               <li
                 @click="goPage('saleshistory')"
                 v-show="group_title == 'SELLER'"
               >
-                Sales History
+                {{$t('salesHistory')}}
               </li>
-              <li v-show="group_title == 'SELLER'">Settlement History</li>
-              <li @click="goPage('message')">Message</li>
-              <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
+              <li v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
+              <li @click="goPage('message')">{{$t('chat')}}</li>
+              <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
               <li class="active" @click="goPage('inquiry')">
                 Support
                 <!-- <ul class="menu">

@@ -29,7 +29,7 @@
                                     <img class="site" src="/assets/images/icon/position.png"/><span>{{mem_address1}}</span>
                                 </div>
                                 <div class="brandshop">
-                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
+                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
                                 </div>
                             </div>
                         </div>
@@ -37,16 +37,16 @@
 
                     <div class="row menu__wraper">
                         <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">Product List</li>
+                                <li @click="goPage('')">{{$t('dashboard')}}</li>
+                                <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
+                                <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">{{$t('productList')}}</li>
                                 <li @click="goPage('mybilling')">Order History</li>
-                                <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
-                                <li class="active" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
+                                <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
+                                <li class="active" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
+                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
+                                <li @click="goPage('message')">{{$t('chat')}}</li>
+                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
+                                <li @click="goPage('inquiry')">{{$t('support1')}}
                                     <!-- <ul class="menu">
                                         <li @click="goPage('inquiry')">Support Case</li>
                                         <li @click="goPage('faq')">FAQ</li>

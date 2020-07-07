@@ -6,11 +6,10 @@
         <div class="container accounts">
             <div class="accounts__title">
                 <h1>
-                    We will find your ID and password
+                    {{ $t('findYourIDAndPassword') }}
                 </h1>
                 <p>
-                    If you enter the registered email when you sign up, your ID and
-                    password will be emailed to you
+                    {{ $t('enterRegisteredMsg') }}
                 </p>
                 <p v-if="message" v-html="message">
                 </p>
@@ -21,9 +20,9 @@
                     <div class="accounts__form">
                         <div class="row">
                             <label for="">
-                                <p class="form-title">Email</p>
+                                <p class="form-title">{{ $t('email') }}</p>
                                 <div class="input">
-                                    <input type="email" name="idpw_email" placeholder="Type your email" />
+                                    <input type="email" name="idpw_email" placeholder="{{ $t('typeYourEmail1') }}" />
                                 </div>
                                 <div v-if="errorMsg" v-html="errorMsg" class="errortext"></div>
                             </label>
@@ -31,7 +30,7 @@
                     </div>
                     <div class="accounts__btnbox">
                         <button type="submit" class="btn btn--submit" >
-                            send
+                            {{ $t('send1') }}
                         </button>
                     </div>
                 </form>
