@@ -424,7 +424,6 @@
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    @import '/assets/plugins/flatpickr/flatpickr.css';
 
     .cart .playList__item > * {
         height: auto;

@@ -1,7 +1,5 @@
 <template>
-
     <div class="row" v-if="info">
-
         <div class="title-content">
             <div class="title">
                 <div>{{$t('manageInformation')}}</div>
@@ -86,17 +84,13 @@
             <button type="submit" class="btn btn--submit" @click="updateUserInfo">{{$t('save')}}</button>
         </div>
     </div>
-
-
 </template>
 
-
 <script>
-
-    import Profilemod_UserName from "./Profilemod_UserName";
-    import Profilemod_Email from "./Profilemod_Email";
-    import Profilemod_Password from "./Profilemod_Password";
-    import Profilemod_SocialLink from "./Profilemod_SocialLink";
+    import Profilemod_UserName from "./component/Profilemod_UserName";
+    import Profilemod_Email from "./component/Profilemod_Email";
+    import Profilemod_Password from "./component/Profilemod_Password";
+    import Profilemod_SocialLink from "./component/Profilemod_SocialLink";
 
     import { EventBus } from '*/src/eventbus';
 
@@ -106,7 +100,6 @@
             Profilemod_Password,
             Profilemod_Email,
             Profilemod_UserName,
-
         },
         data: function() {
             return {

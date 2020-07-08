@@ -10,9 +10,7 @@
     </header>
 </template>
 
-
 <script>
-
     import { EventBus } from '*/src/eventbus';
 
     export default {
@@ -31,11 +29,5 @@
         methods: {
 
         },
-
     }
-
 </script>
-
-<style scoped="scoped" lang="sass">
-
-</style>

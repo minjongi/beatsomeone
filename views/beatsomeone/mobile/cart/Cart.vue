@@ -495,7 +495,6 @@
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    @import '/assets/plugins/flatpickr/flatpickr.css';
 
     // 충돌문제 2020-06-04
     .main .main__section1-title {

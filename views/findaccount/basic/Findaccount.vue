@@ -22,7 +22,7 @@
                             <label for="">
                                 <p class="form-title">{{ $t('email') }}</p>
                                 <div class="input">
-                                    <input type="email" name="idpw_email" placeholder="{{ $t('typeYourEmail1') }}" />
+                                    <input type="email" name="idpw_email" :placeholder="$t('typeYourEmail1')" />
                                 </div>
                                 <div v-if="errorMsg" v-html="errorMsg" class="errortext"></div>
                             </label>

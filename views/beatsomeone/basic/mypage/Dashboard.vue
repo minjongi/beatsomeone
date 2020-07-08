@@ -1,5 +1,4 @@
 <template>
-
     <div v-if="info">
         <div class="row" v-if="false && isSeller">
             <Dashboard_SettlementOverview :data="info.SettlementOverview"></Dashboard_SettlementOverview>
@@ -24,21 +23,18 @@
             <Dashboard_SupportCase :data="info.SupportCase"></Dashboard_SupportCase>
         </div>
     </div>
-
 </template>
 
-
 <script>
-
-    import Dashboard_OrderDetails from "./Dashboard_OrderDetails";
-    import Dashboard_ExpiredSoon from "./Dashboard_ExpiredSoon";
-    import Dashboard_ProductDetails from "./Dashboard_ProductDetails";
-    import Dashboard_Chart from "./Dashboard_Chart";
-    import Dashboard_SettlementOverview from "./Dashboard_SettlementOverview";
-    import Dashboard_Header from "./Dashboard_Header";
-    import Dashboard_RecentlyListen from "./Dashboard_RecentlyListen";
-    import Dashboard_Message from "./Dashboard_Message";
-    import Dashboard_SupportCase from "./Dashboard_SupportCase";
+    import Dashboard_OrderDetails from "./component/Dashboard_OrderDetails";
+    import Dashboard_ExpiredSoon from "./component/Dashboard_ExpiredSoon";
+    import Dashboard_ProductDetails from "./component/Dashboard_ProductDetails";
+    import Dashboard_Chart from "./component/Dashboard_Chart";
+    import Dashboard_SettlementOverview from "./component/Dashboard_SettlementOverview";
+    import Dashboard_Header from "./component/Dashboard_Header";
+    import Dashboard_RecentlyListen from "./component/Dashboard_RecentlyListen";
+    import Dashboard_Message from "./component/Dashboard_Message";
+    import Dashboard_SupportCase from "./component/Dashboard_SupportCase";
 
     export default {
         components: {
@@ -51,7 +47,6 @@
             Dashboard_ProductDetails,
             Dashboard_ExpiredSoon,
             Dashboard_OrderDetails,
-
         },
         data: function() {
             return {
@@ -68,7 +63,6 @@
                 return this.groupType === 'SELLER';
             },
             groupType: function() {
-                // return 'CUSTOMER';
                 if(this.info && this.info.UserInfo) {
                     return this.info.UserInfo.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
                 } else {
