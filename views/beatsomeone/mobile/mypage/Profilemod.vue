@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="type"><span>{{$t('bio')}}</span></div>
                 <div class="data input_wrap">
-                    <textarea class="firstname" style="height: 128px;" type="text" v-model="info.mem_profile_content" :placeholder="{{$t('enterYourBio')}}" />
+                    <textarea class="firstname" style="height: 128px;" type="text" v-model="info.mem_profile_content" :placeholder="$t('enterYourBio')" />
                 </div>
                 <div></div>
             </div>

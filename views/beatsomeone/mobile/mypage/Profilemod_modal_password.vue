@@ -8,7 +8,7 @@
                     <div class="type"><span>{{$t('currentPassword')}}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" ref="firstForm" @keydown.enter="doSubmit" v-model="info.pwdOriginal" type="password" :placeholder="{{$t('enterYourCurrentPassword')}}">
+                            <input class="inputbox" ref="firstForm" @keydown.enter="doSubmit" v-model="info.pwdOriginal" type="password" :placeholder="$t('enterYourCurrentPassword')">
                             <CommonCaution css="red" v-if="errors.pwdOriginal">{{$t('incorrectPasswordMsg')}}</CommonCaution>
                         </div>
                     </div>
@@ -18,7 +18,7 @@
                     <div class="type"><span>{{$t('newPassword')}}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" @keydown.enter="doSubmit" v-model="info.pwdC1" type="password" :placeholder="{{$t('enterYourNewPassword')}}">
+                            <input class="inputbox" @keydown.enter="doSubmit" v-model="info.pwdC1" type="password" :placeholder="$t('enterYourNewPassword')">
                             <CommonCaution css="red" v-if="errors.pwdC1">{{$t('passwordCharactersMsg')}}</CommonCaution>
                         </div>
                     </div>

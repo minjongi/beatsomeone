@@ -5,10 +5,9 @@
         </h4>
         <div class="n-flex splitboard">
             <div class="blue">{{ buyCnt }}<span>{{$t('buy')}}</span></div>
-            <div class="red">{{ cancelCnt }}<span>{{($t('cancel')}}</span></div>
-            <div class="green">{{ refundCnt }}<span>{{($t('refund')}}</span></div>
+            <div class="red">{{ cancelCnt }}<span>{{$t('cancel1')}}</span></div>
+            <div class="green">{{ refundCnt }}<span>{{$t('refund')}}</span></div>
         </div>
-
     </div>
 </template>
 
