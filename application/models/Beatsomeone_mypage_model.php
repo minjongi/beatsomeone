@@ -45,9 +45,9 @@ class Beatsomeone_mypage_model extends CB_Model
     public function getProductDetails($mem_id)
     {
         return array(
-            'Total' => 12,
-            'Selling' => 2,
-            'Pending' => 7,
+            'Total' => '-',
+            'Selling' => '-',
+            'Pending' => '-',
         );
     }
 
