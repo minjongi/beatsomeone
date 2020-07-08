@@ -41,19 +41,10 @@
             },
         },
         created() {
-
         },
         mounted() {
-
         },
         methods: {
-
         },
-
     }
-
 </script>
-
-<style scoped="scoped" lang="sass">
-
-</style>

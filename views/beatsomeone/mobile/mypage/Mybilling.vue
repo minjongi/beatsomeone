@@ -258,7 +258,6 @@
 
 </template>
 
-
 <script>
     require('@/assets_m/js/function')
     import Header from "../include/Header"

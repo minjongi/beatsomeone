@@ -67,7 +67,7 @@
                             <div class="search condition">
                                 <div class="filter">
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">{{$t('all')}}</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">{{$t('months3')}}v>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">{{$t('months3')}}</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">{{$t('months6')}}</div>
                                     <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">{{$t('year1')}}</div>
                                 </div>
@@ -87,7 +87,7 @@
                                 />
                             </div>
                         </div>
-                            
+
                         <div class="row" style="display:flex; margin-bottom:30px;">
                             <div class="tabmenu">
                                 <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}} ({{calcTotalCnt}})</div>
@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
                         <div class="row" style="margin-bottom:10px;">
                             <div class="main__media board mybillinglist">
@@ -306,48 +306,48 @@
         },
         methods:{
             async ajaxUserInfo () {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/get_user_info', {}
-                );
-                //console.log(data);
-                this.mem_photo = data[0].mem_photo;
-                this.mem_usertype = data[0].mem_usertype;
-                this.mem_nickname = data[0].mem_nickname;
-                this.mem_address1 = data[0].mem_address1;
-                this.mem_type = data[0].mem_type;
-                this.mem_lastname = data[0].mem_lastname;
+                try {
+                    this.isLoading = true;
+                    const { data } = await axios.get(
+                        '/beatsomeoneApi/get_user_info', {}
+                    );
+                    //console.log(data);
+                    this.mem_photo = data[0].mem_photo;
+                    this.mem_usertype = data[0].mem_usertype;
+                    this.mem_nickname = data[0].mem_nickname;
+                    this.mem_address1 = data[0].mem_address1;
+                    this.mem_type = data[0].mem_type;
+                    this.mem_lastname = data[0].mem_lastname;
 
-                if(this.mem_usertype == 1){
-                    this.group_title = "CUSTOMER";
-                }else{
-                    this.group_title = "SELLER";
+                    if(this.mem_usertype == 1){
+                        this.group_title = "CUSTOMER";
+                    }else{
+                        this.group_title = "SELLER";
+                    }
+                } catch (err) {
+                    console.log('ajaxUserInfo error');
+                } finally {
+                    this.isLoading = false;
                 }
-              } catch (err) {
-                console.log('ajaxUserInfo error');
-              } finally {
-                this.isLoading = false;
-              }
             },
             async ajaxOrderList() {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/user_order_history', {}
-                );
-                this.myOrderList = data.sp_list.reverse();
-                if(this.myOrderList.length == 0){
-                    this.totalpage = 1;
-                }else{
-                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);    
+                try {
+                    this.isLoading = true;
+                    const { data } = await axios.get(
+                        '/beatsomeoneApi/user_order_history', {}
+                    );
+                    this.myOrderList = data.sp_list.reverse();
+                    if(this.myOrderList.length == 0){
+                        this.totalpage = 1;
+                    }else{
+                        this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);
+                    }
+                    console.log(this.myOrderList);
+                } catch (err) {
+                    console.log('ajaxOrderList error');
+                } finally {
+                    this.isLoading = false;
                 }
-                console.log(this.myOrderList);
-              } catch (err) {
-                console.log('ajaxOrderList error');
-              } finally {
-                this.isLoading = false;
-              }
             },
             formatPr: function(m, price){
                 if(this.isEmpty(m)){
@@ -380,7 +380,7 @@
             },
             formatSub: function(data, size){
                 if(1 < size){
-                    return data + " 외 " + (size-1) + "건"; 
+                    return data + " 외 " + (size-1) + "건";
                 }
                 return data;
             },
@@ -450,17 +450,17 @@
                     }
                     else if(this.search_condition_active_idx == 2){
                         let m3 = moment(new Date().getTime()).add("-3", "M");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m3)); 
-                        this.myOrderList = rst; 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m3));
+                        this.myOrderList = rst;
                     }
                     else if(this.search_condition_active_idx == 3){
                         let m6 = moment(new Date().getTime()).add("-6", "M");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m6)); 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m6));
                         this.myOrderList = rst;
                     }
                     else if(this.search_condition_active_idx == 4){
                         let m12 = moment(new Date().getTime()).add("-1", "y");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m12)); 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m12));
                         this.myOrderList = rst;
                     }
                 });
@@ -474,8 +474,8 @@
                         this.search_tabmenu_idx = 1;
                     }
                     else if(menu == 2){
-                        let rst = list.filter(item => item['items'][0].cor_status === '0'); 
-                        this.myOrderList = rst; 
+                        let rst = list.filter(item => item['items'][0].cor_status === '0');
+                        this.myOrderList = rst;
                         this.search_tabmenu_idx = 2;
                     }
                     else if(menu == 3){
@@ -515,8 +515,8 @@
                     if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
                         this.myOrderList = list;
                     }else{
-                        let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0,10) 
-                                                    && item['items'][0].cor_datetime.substr(0,10) <= this.end_date);
+                        let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0,10)
+                            && item['items'][0].cor_datetime.substr(0,10) <= this.end_date);
                         this.myOrderList = rst;
                     }
                 });
@@ -526,11 +526,11 @@
             },
             prevPage: function(){
                 if(this.currPage == 1) return
-                this.currPage -= 1; 
+                this.currPage -= 1;
             },
             nextPage: function(){
                 if(this.currPage == this.totalpage) return
-                this.currPage += 1; 
+                this.currPage += 1;
             },
             setSearchCondition: function(idx){
                 this.search_condition_active_idx = idx;
@@ -545,7 +545,7 @@
                 if(this.myOrderList.length == 0){
                     this.totalpage = 1;
                 }else{
-                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);    
+                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);
                 }
                 return list.slice((this.currPage - 1) * this.perPage , this.currPage * this.perPage);
             },
@@ -562,7 +562,7 @@
                 if(this.orderType == od){
                     return;
                 }else{
-                    this.orderType = od;    
+                    this.orderType = od;
                     this.myOrderList.reverse();
                 }
             },
@@ -616,14 +616,14 @@
                     for(let i in items){
                         if(items[i].cor_status === '1'){
                             if(items[i].cit_lease_license_use === '1'
-                                    && 0 < this.caclLeftDay(items[i].cor_datetime)){
+                                && 0 < this.caclLeftDay(items[i].cor_datetime)){
                                 possCnt += 1;
                             }else if(items[i].cit_lease_license_use === '1'
-                                    && items[i].cit_mastering_license_use === '1'
-                                    && 0 < this.caclLeftDay(items[i].cor_datetime)){
+                                && items[i].cit_mastering_license_use === '1'
+                                && 0 < this.caclLeftDay(items[i].cor_datetime)){
                                 possCnt += 1;
                             }else if(items[i].cit_lease_license_use === '0'
-                                    && items[i].cit_mastering_license_use === '1'){
+                                && items[i].cit_mastering_license_use === '1'){
                                 possCnt += 1;
                             }
                         }
@@ -642,11 +642,11 @@
                     for(let i in items){
                         if(items[i].cor_status === '1'){
                             if(items[i].cit_lease_license_use === '1'
-                                    && this.caclLeftDay(items[i].cor_datetime) <= 0){
+                                && this.caclLeftDay(items[i].cor_datetime) <= 0){
                                 possCnt += 1;
                             }else if(items[i].cit_lease_license_use === '1'
-                                    && items[i].cit_mastering_license_use === '1'
-                                    && this.caclLeftDay(items[i].cor_datetime) <= 0){
+                                && items[i].cit_mastering_license_use === '1'
+                                && this.caclLeftDay(items[i].cor_datetime) <= 0){
                                 possCnt += 1;
                                 //
                             }
@@ -696,10 +696,10 @@
         }
         // 한줄표기
         >.genre {
-            height: 26px; 
-            white-space: nowrap; 
-            display: inline-block; 
-            text-overflow: ellipsis; 
+            height: 26px;
+            white-space: nowrap;
+            display: inline-block;
+            text-overflow: ellipsis;
             overflow: hidden;
             color: rgba(white,.3);
             span {
