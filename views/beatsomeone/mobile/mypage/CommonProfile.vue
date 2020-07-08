@@ -43,7 +43,7 @@
         },
         computed: {
             groupType() {
-                return this.info ? (this.info.mem_usertype === '2' ? 'SELLER' : 'CUSTOMER') : null;
+                return this.info ? (this.info.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER') : null;
             },
         },
         created() {

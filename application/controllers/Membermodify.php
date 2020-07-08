@@ -396,7 +396,7 @@ class Membermodify extends CB_Controller
 					}
 				} else {
                     // 뮤지션 회원은 계좌 관련 필수 입력 받는다
-				    if($mem_usertype == 2) {
+				    if($mem_usertype >= 2) {
                         if ($key === 'mem_musician_bank' || $key === 'mem_musician_account' || $key === 'mem_musician_account_nm') {
                             $required = '|required';
                         } else {
