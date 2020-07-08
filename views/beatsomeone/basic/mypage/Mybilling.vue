@@ -36,7 +36,7 @@
                                 <li @click="goPage('')">{{$t('dashboard')}}</li>
                                 <li @click="goPage('#/profilemod')">{{$t('manageInformation')}}</li>
                                 <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                                <li class="active">Order History</li>
+                                <li class="active">{{$t('orderHistory')}}</li>
                                 <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                                 <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                                 <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -44,7 +44,7 @@
                                 <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                                 <li @click="goPage('inquiry')">{{$t('support1')}}
                                     <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
+                                        <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                         <li @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>
@@ -56,7 +56,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:64px;">
-                                    <div class="active">Order History ({{calcTotalCnt}})</div>
+                                    <div class="active">{{$t('orderHistory')}} ({{calcTotalCnt}})</div>
                                     <div @click="gocancellist">Cancellation / Refund History(0)</div>
                                 </div>
                             </div>
@@ -66,17 +66,17 @@
                         <div class="row" style="display:flex; margin-bottom:10px;">
                             <div class="search condition">
                                 <div class="filter">
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">1 year</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">{{$t('all')}}</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">{{$t('months3')}}v>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">{{$t('months6')}}</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">{{$t('year1')}}</div>
                                 </div>
                             </div>
                             <div style="margin-left:auto; ">
                                 <VueHotelDatepicker
                                         class="search-date"
                                         format="YYYY-MM-DD"
-                                        placeholder="Start date ~ End date"
+                                        :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         minDate="1970-01-01"
@@ -90,9 +90,9 @@
                             
                         <div class="row" style="display:flex; margin-bottom:30px;">
                             <div class="tabmenu">
-                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}} ({{calcTotalCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{$t('wait')}} ({{calcWaitCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">{{$t('payComplete1')}} ({{calcCompleteCnt}})</div>
                             </div>
                             <div class="sort" style="text-align:right">
                                 <div class="custom-select" style="flex: 3;">
@@ -100,9 +100,9 @@
                                         {{ downType }}
                                     </button>
                                     <div class="options">
-                                        <button data-value="" class="option" @click="funcDownType('All')"> All </button>
-                                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> Download Complete </button>
-                                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> Not Downloaded </button>
+                                        <button data-value="" class="option" @click="funcDownType('All')"> {{$t('total1')}} </button>
+                                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> {{$t('downloadComplete')}} </button>
+                                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> {{$t('notDownloaded')}} </button>
                                     </div>
                                 </div>
 
@@ -111,8 +111,8 @@
                                         {{ orderType }}
                                     </button>
                                     <div class="options">
-                                        <button data-value="" class="option" @click="funcOrderType('Recent')"> Recent </button>
-                                        <button data-value="" class="option" @click="funcOrderType('Past')"> Past </button>
+                                        <button data-value="" class="option" @click="funcOrderType('Recent')"> {{$t('recent')}} </button>
+                                        <button data-value="" class="option" @click="funcOrderType('Past')"> {{$t('past')}} </button>
                                     </div>
                                 </div>
                             </div>
@@ -121,12 +121,12 @@
                         <div class="row" style="margin-bottom:10px;">
                             <div class="main__media board mybillinglist">
                                 <div class="tab nowrap">
-                                    <div class="index">No</div>
-                                    <div class="date">Date</div>
-                                    <div class="product">Product</div>
-                                    <div class="totalprice">Total price</div>
-                                    <div class="status">Status</div>
-                                    <div class="download">Download</div>
+                                    <div class="index">{{$t('orderNumber')}}</div>
+                                    <div class="date">{{$t('date')}}</div>
+                                    <div class="product">{{$t('product')}}</div>
+                                    <div class="totalprice">{{$t('totalPrice')}}</div>
+                                    <div class="status">{{$t('status')}}</div>
+                                    <div class="download">{{$t('download1')}}</div>
                                 </div>
                             </div>
                         </div>
@@ -145,17 +145,17 @@
                                             </div>
                                             <div class="totalprice" v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
                                             <div class="status">
-                                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ funcStatus(item['items'][0].cor_status) }} </div>
+                                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ $t(funcStatus(item['items'][0].cor_status)) }} </div>
                                             </div>
                                             <div class="download">
                                                 <div v-if="0 < funcDownStatus('Possible', item['items'])" class="download">
-                                                    <span class="green">Possible {{ funcDownStatus('Possible', item['items'])}} </span>
+                                                    <span class="green">{{$t('possible')}} {{ funcDownStatus('Possible', item['items'])}} </span>
                                                 </div>
                                                 <div v-if="0 < funcDownStatus('Impossible', item['items'])" class="download">
-                                                    <span class="red">Impossible {{ funcDownStatus('Impossible', item['items'])}} </span>
+                                                    <span class="red">{{$t('impossible')}} {{ funcDownStatus('Impossible', item['items'])}} </span>
                                                 </div>
                                                 <div v-if="0 < funcDownStatus('Expired', item['items'])" class="download">
-                                                    <span class="gray">Expired {{ funcDownStatus('Expired', item['items'])}} </span>
+                                                    <span class="gray">{{$t('expired')}} {{ funcDownStatus('Expired', item['items'])}} </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -551,11 +551,11 @@
             },
             funcStatus(s){
                 if(s == '0'){
-                    return "Deposit Waiting";
+                    return "depositWaiting";
                 }else if(s == '1'){
-                    return "Order Complete";
+                    return "orderComplete";
                 }else{
-                    return "Refund Complete";
+                    return "refundComplete";
                 }
             },
             funcOrderType(od){

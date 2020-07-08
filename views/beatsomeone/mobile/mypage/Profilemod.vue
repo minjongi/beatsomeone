@@ -5,7 +5,7 @@
         <div class="box"  >
             <Profilemod_UserName :username="info.mem_userid" @updatedUserName="updateUserName"></Profilemod_UserName>
             <div class="row">
-                <div class="type"><span>User Group</span></div>
+                <div class="type"><span>{{$t('userGroup')}}</span></div>
                 <div class="data">
                    <div class="group_title" :class="groupType">{{ groupType }}</div>
                 </div>
@@ -13,7 +13,7 @@
 
 
             <div class="row" v-if="isSeller">
-                <div class="type"><span>Seller Class</span></div>
+                <div class="type"><span>{{$t('sellerClass')}}</span></div>
                 <div class="n-flex between data" style="margin-top: -10px; margin-bottom: -10px;">
                     <div class="seller_class " :class="sellerClass">{{ sellerClass }}</div>
 
@@ -28,7 +28,7 @@
             <Profilemod_Password></Profilemod_Password>
 
             <div class="row">
-                <div class="type"><span>Type</span></div>
+                <div class="type"><span>{{$t('yourType')}}</span></div>
                 <div class="data radio-grop">
                     <label for="type1" class="checkbox">
                         <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover" v-model="info.mem_type">
@@ -50,26 +50,26 @@
             </div>
 
             <div class="row">
-                <div class="type"><span>Name</span></div>
+                <div class="type"><span>{{$t('realName')}}</span></div>
                 <div class="data input_wrap">
-                    <input class="inputbox firstname" type="text" v-model="info.mem_firstname" placeholder="Enter your firstname..." >
-                    <input class="inputbox lastname" style="margin-left: 10px;" type="text" v-model="info.mem_lastname" placeholder="Enter your lastname..." >
+                    <input class="inputbox firstname" type="text" v-model="info.mem_firstname" :placeholder="$t('enterYourFirstname1')" >
+                    <input class="inputbox lastname" style="margin-left: 10px;" type="text" v-model="info.mem_lastname" :placeholder="$t('enterYourLastname1')" >
                 </div>
                 <div></div>
             </div>
 
             <div class="row">
-                <div class="type"><span>City of Residence, State</span></div>
+                <div class="type"><span>{{$t('cityOfResidenceState')}}</span></div>
                 <div class="data input_wrap">
-                    <input class="inputbox" type="text" v-model="info.mem_address1" placeholder="Enter your location...">
+                    <input class="inputbox" type="text" v-model="info.mem_address1" :placeholder="$t('enterYourLocation')">
                 </div>
                 <div></div>
             </div>
 
             <div class="row">
-                <div class="type"><span>Bio</span></div>
+                <div class="type"><span>{{$t('bio')}}</span></div>
                 <div class="data input_wrap">
-                    <textarea class="firstname" style="height: 128px;" type="text" v-model="info.mem_profile_content" placeholder="Enter your bio..." />
+                    <textarea class="firstname" style="height: 128px;" type="text" v-model="info.mem_profile_content" :placeholder="{{$t('enterYourBio')}}" />
                 </div>
                 <div></div>
             </div>
@@ -79,7 +79,7 @@
         </div>
 
         <div class="n-flex" style="margin-top: 30px;">
-            <button type="submit" class="btn btn--submit" @click="updateUserInfo">Save</button>
+            <button type="submit" class="btn btn--submit" @click="updateUserInfo">{{$t('save')}}</button>
         </div>
 
 <!--        <div class="btnbox col" style="width:50%; margin:30px auto 100px;">-->

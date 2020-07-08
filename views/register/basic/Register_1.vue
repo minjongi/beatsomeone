@@ -59,7 +59,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('personalChatFunction') }}</td>
-                    <td>{{ $t('unlimited1') }}</td>
+                    <td>{{ $t('unlimited') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('freeBeatDownload') }}</td>
@@ -138,8 +138,8 @@
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
-                    <td>{{ $t('unlimited1') }}</td>
-                    <td>{{ $t('unlimited1') }}</td>
+                    <td>{{ $t('unlimited') }}</td>
+                    <td>{{ $t('unlimited') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -174,7 +174,7 @@
                         20
                     </td>
                     <td>
-                        {{ $t('unlimited1') }}
+                        {{ $t('unlimited') }}
                     </td>
                 </tr>
                 <tr>

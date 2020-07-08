@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <h4 class="title">
-            <span>Message you received</span>
+            <span>{{$t('messageYouReceived')}}</span>
             <a class="more" href="/mypage/message">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
         <div>
@@ -20,8 +20,8 @@
                                     </figcaption>
                                 </figure>
                             </div>
-                            <div class="action" :class="{'active': o.status === 'Unread'}">
-                                {{ o.status }}
+                            <div class="action" :class="{'active': o.status === 'unread'}">
+                                {{ $t(o.status) }}
                             </div>
                         </div>
                     </li>

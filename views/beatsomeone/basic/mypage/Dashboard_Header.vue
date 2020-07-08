@@ -1,11 +1,11 @@
 <template>
     <header class="main__section1-title" >
         <div class="banner">
-            <h3>Together with <span>beatsomeone</span>!</h3>
+            <h3>{{$t('togetherWithBeatsomeone')}}</h3>
             <p>
-                Let’s make a relationship with people you like. Make your profits by beats you made. These can be started in an easy way.
+                {{$t('makeRelationshipWithPeopleMsg')}}
             </p>
-            <button class="btn btn--yellow round">Start Selling</button>
+            <button class="btn btn--yellow round">{{$t('startSelling1')}}</button>
         </div>
     </header>
 </template>

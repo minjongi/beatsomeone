@@ -38,7 +38,7 @@
                                 <li @click="goPage('')">{{$t('dashboard')}}</li>
                                 <li @click="goPage('#/profilemod')">{{$t('manageInformation')}}</li>
                                 <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                                <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
                                 <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                                 <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                                 <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -46,7 +46,7 @@
                                 <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                                 <li class="active">{{$t('support1')}}
                                     <ul class="menu">
-                                        <li class="active">Support Case</li>
+                                        <li class="active">{{$t('supportCase')}}</li>
                                         <li @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>
@@ -62,7 +62,7 @@
                                 <div class="title-content">
                                     <div class="title">
                                         <div>{{$t('support1')}}</div>
-                                        <button class="btn btn--gray">Back</button>
+                                        <button class="btn btn--gray">{{$t('back')}}</button>
                                     </div>
                                 </div>
 

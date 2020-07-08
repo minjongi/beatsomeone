@@ -60,7 +60,7 @@
 
                 <tr>
                     <td>개인 메시지(채팅) 기능</td>
-                    <td>{{ $t('unlimited1') }}</td>
+                    <td>{{ $t('unlimited') }}</td>
                 </tr>
                 <tr>
                     <td>무료비트 다운로드</td>
@@ -180,7 +180,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>{{ $t('unlimited1') }}</td>
+                    <td>{{ $t('unlimited') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -238,7 +238,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>{{ $t('unlimited1') }}</td>
+                    <td>{{ $t('unlimited') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -255,7 +255,7 @@
                 <tr>
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
-                        {{ $t('unlimited1') }}
+                        {{ $t('unlimited') }}
                     </td>
                 </tr>
                 <tr>

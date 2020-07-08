@@ -81,7 +81,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     </style>
 </head>
 <body>
-<?php if (empty($_COOKIE['mt-popup-close']) || $_COOKIE['mt-popup-close'] !== 'Y') { ?>
+<?php /*if (empty($_COOKIE['mt-popup-close']) || $_COOKIE['mt-popup-close'] !== 'Y') { ?>
     <style>
         body, html {
             overflow: hidden;
@@ -100,7 +100,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
             </div>
         </div>
     </div>
-<?php } ?>
+<?php } */ ?>
 
 <div id="app">
     <?php if (isset($yield))echo $yield; ?>

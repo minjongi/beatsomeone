@@ -2,10 +2,10 @@
 
     <div class="row">
         <div class="title-content">
-            <h4 class="title"> Settlement Overview </h4>
+            <h4 class="title">{{$t('settlementOverview')}}</h4>
             <!-- <p>
-                ※· We will guide the amount of sales and settlements based on the current month / day.<br/>
-                ※· Exact sales / settlement amount can be checked on the basis of 20-25 days of the following month.
+                ※· {{$t('guideAmountSalesSettlementsMsg')}}<br/>
+                ※· {{$t('exactSalesSettlementAmountMsg')}}
             </p> -->
         </div>
 
@@ -13,9 +13,9 @@
             <div class="splitboard">
                 <div class="blue">
                     ₩ {{ data.EstimatedSales.toLocaleString() }}
-                    <div class="change">(Change {{ data.EstimatedSales_C.toLocaleString() }}{{ data.EstimatedSales_C > 0 ? '▲' : '▼' }})</div>
+                    <div class="change">({{$t('change')}} {{ data.EstimatedSales_C.toLocaleString() }}{{ data.EstimatedSales_C > 0 ? '▲' : '▼' }})</div>
                     <span>
-                    Estimated sales amount
+                    {{$t('estimatedSalesAmount')}}
                     <button class="button active">
                         <img src="/assets/images/icon/tip.png"/>
                     </button>
@@ -28,7 +28,7 @@
                     ₩ {{ data.EstimatedSettlement.toLocaleString() }}
                     <div class="change">(Change {{ data.EstimatedSettlement_C.toLocaleString() }}{{ data.EstimatedSettlement_C > 0 ? '▲' : '▼' }})</div>
                     <span>
-                    Estimated settlement amount
+                    {{$t('estimatedSettlementAmount')}}
                     <button class="button">
                         <img src="/assets/images/icon/tip.png"/>
                     </button>
@@ -41,7 +41,7 @@
                     ₩ {{ data.LastMonthSettlement.toLocaleString() }}
                     <div class="change">(Change {{ data.LastMonthSettlement_C.toLocaleString() }}{{ data.LastMonthSettlement_C > 0 ? '▲' : '▼' }})</div>
                     <span>
-                    Last month settlement amount
+                    {{$t('lastMonthSettlementAmount')}}
                     <button class="button">
                         <img src="/assets/images/icon/tip.png"/>
                     </button>

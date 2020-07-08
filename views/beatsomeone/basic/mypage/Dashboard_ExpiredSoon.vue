@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>Expried soon </div>
+            <div>{{$t('expriedSoon')}} </div>
             <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
 

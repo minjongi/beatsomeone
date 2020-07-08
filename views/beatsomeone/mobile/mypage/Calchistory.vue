@@ -37,14 +37,14 @@
                                 <li @click="goPage('')">{{$t('dashboard')}}</li>
                                 <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
                                 <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                                <li>Order History</li>
+                                <li>{{$t('orderHistory')}}</li>
                                 <li v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                                 <li v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
                                 <li>{{$t('chat')}}</li>
                                 <li v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                                 <li  class="active" >{{$t('support1')}}
                                     <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
+                                        <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                         <li class="active" @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>

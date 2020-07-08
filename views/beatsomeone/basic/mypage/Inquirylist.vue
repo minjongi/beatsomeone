@@ -36,7 +36,7 @@
                                 <li @click="goPage('')">{{$t('dashboard')}}</li>
                                 <li @click="goPage('#/profilemod')">{{$t('manageInformation')}}</li>
                                 <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                                <li @click="goPage('mybilling')">Order History</li>
+                                <li @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
                                 <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                                 <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                                 <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -44,7 +44,7 @@
                                 <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                                 <li class="active">{{$t('support1')}}
                                     <ul class="menu">
-                                        <li class="active">Support Case</li>
+                                        <li class="active">{{$t('supportCase')}}</li>
                                         <li @click="goPage('faq')">FAQ</li>
                                     </ul>
                                 </li>
@@ -239,7 +239,7 @@
                                     </div>
                                 </div>
                                 <div class="input_wrap line" style="margin-left:20px; width:100%;">
-                                    <input type="text" placeholder="Enter your searchword...">
+                                    <input type="text" :placeholder="$t('enterYourSearchword')">
                                     <button><img src="/assets/images/icon/searchicon.png"/></button>
                                 </div>
                             </div>

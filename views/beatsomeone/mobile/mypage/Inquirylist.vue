@@ -56,7 +56,7 @@
               <li @click="goPage('')">{{$t('dashboard')}}</li>
               <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
               <li @click="goPage('list_item')">{{$t('productList')}}</li>
-              <li @click="goPage('mybilling')">Order History</li>
+              <li @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
               <li
                 @click="goPage('saleshistory')"
                 v-show="group_title == 'SELLER'"
@@ -69,7 +69,7 @@
               <li class="active" @click="goPage('inquiry')">
                 Support
                 <!-- <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                     <li @click="goPage('faq')">FAQ</li>
                                 </ul> -->
               </li>
@@ -81,7 +81,7 @@
               <div class="main__media board inquirylist">
                 <div class="tab" style="height:48px;">
                   <div class="active" @click="goPage('inquiry')">
-                    Support Case
+                    {{$t('supportCase')}}
                   </div>
                   <div @click="goPage('faq')">FAQ</div>
                 </div>
@@ -141,7 +141,7 @@
                   </div>
                 </div>
                 <div class="input_wrap line">
-                  <input type="text" placeholder="Enter your searchword..." />
+                  <input type="text" :placeholder="$t('enterYourSearchword')" />
                   <button>
                     <img src="/assets/images/icon/searchicon.png" />
                   </button>

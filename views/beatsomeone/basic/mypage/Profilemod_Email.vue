@@ -1,24 +1,23 @@
 <template>
     <div class="row">
-        <div class="type"><span>Email</span></div>
+        <div class="type"><span>{{$t('email')}}</span></div>
         <div class="data">
             <div class="input_wrap col">
-                <input class="inputbox" ref="Email" maxlength="50" :disabled="!isEmailEditing" @keydown.enter="doSubmit" type="email" v-model="tempEmail" placeholder="Enter your new Email..." >
-                <CommonCaution v-if="!isEmailAreDuplicated && !isEmailFormError">Please note that the login ID will change when you change your email.</CommonCaution>
+                <input class="inputbox" ref="Email" maxlength="50" :disabled="!isEmailEditing" @keydown.enter="doSubmit" type="email" v-model="tempEmail" :placeholder="$t('enterYourNewEmail')" >
+                <CommonCaution v-if="!isEmailAreDuplicated && !isEmailFormError">{{$t('noteChangeEmailMsg')}}</CommonCaution>
                 <CommonCaution css="red" v-if="isEmailAreDuplicated"> The '{{ this.errrorMsg }}' is already in use. Please change it to another Email.</CommonCaution>
                 <CommonCaution css="red" v-if="isEmailFormError"> It does not fit the email format. Please enter the correct e-mail address you are currently using.</CommonCaution>
             </div>
             <button class="btn btn--blue active" v-if="!isEmailEditing" @click="setEmailEdit(true)">
-                Change
+                {{$t('change1')}}
             </button>
             <button class="btn btn--blue active" v-if="isEmailEditing" @click="doSubmit">
-                Save
+                {{$t('save')}}
             </button>
-
         </div>
         <div class="active">
             <button class="btn btn--gray" v-if="isEmailEditing"  @click="setEmailEdit(false)">
-                Cancel
+                {{$t('cancel1')}}
             </button>
         </div>
     </div>

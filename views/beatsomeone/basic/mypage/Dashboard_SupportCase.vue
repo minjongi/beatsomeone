@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>Support Case</div>
+            <div>{{$t('supportCase')}}</div>
             <button class="btn btn--glass" onclick='location.href = "/mypage/inquiry"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div>
@@ -17,8 +17,8 @@
                                     </figcaption>
                                 </figure>
                             </div>
-                            <div class="action" :class="{'active': o.status === 'Open'}">
-                                {{ o.status }}
+                            <div class="action" :class="{'active': o.status === 'answerCompleted'}">
+                                {{ $t(o.status) }}
                             </div>
                         </div>
                     </li>

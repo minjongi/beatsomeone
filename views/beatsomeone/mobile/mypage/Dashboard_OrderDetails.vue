@@ -1,12 +1,12 @@
 <template>
     <div class="title-content">
         <h4 class="title">
-            Order Details
+            {{$t('orderDetails')}}
         </h4>
         <div class="n-flex splitboard">
-            <div class="blue">{{ buyCnt }}<span>Buy</span></div>
-            <div class="red">{{ cancelCnt }}<span>Cancel</span></div>
-            <div class="green">{{ refundCnt }}<span>Refund</span></div>
+            <div class="blue">{{ buyCnt }}<span>{{$t('buy')}}</span></div>
+            <div class="red">{{ cancelCnt }}<span>{{($t('cancel')}}</span></div>
+            <div class="green">{{ refundCnt }}<span>{{($t('refund')}}</span></div>
         </div>
 
     </div>

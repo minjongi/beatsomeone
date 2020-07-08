@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>Message you received</div>
+            <div>{{$t('messageYouReceived')}}</div>
             <button class="btn btn--glass" onclick='location.href = "/mypage/message"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div>
@@ -20,8 +20,8 @@
                                     </figcaption>
                                 </figure>
                             </div>
-                            <div class="action" :class="{'active': o.status === 'Unread'}">
-                                {{ o.status }}
+                            <div class="action" :class="{'active': o.status === 'unread'}">
+                                {{ $t(o.status) }}
                             </div>
                         </div>
                     </li>

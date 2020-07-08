@@ -42,7 +42,7 @@
                             <li @click="goPage('')">{{$t('dashboard')}}</li>
                             <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
                             <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">{{$t('productList')}}</li>
-                            <li class="active">Order History</li>
+                            <li class="active">{{$t('orderHistory')}}</li>
                             <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                             <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -50,7 +50,7 @@
                             <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                             <li @click="goPage('inquiry')">{{$t('support1')}}
                                 <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                     <li @click="goPage('faq')">FAQ</li>
                                 </ul>
                             </li>
@@ -62,16 +62,16 @@
                         <div class="row" style="margin-bottom:30px;">
 
                             <div class="title-content">
-                                <h4 class="title"> Order detail </h4>
+                                <h4 class="title"> {{$t('orderDetail')}} </h4>
                                 <div class="n-box">
                                     <div class="n-flex">
-                                        <span>No</span> <span class="index">{{ no }}</span>
+                                        <span>{{$t('orderNumber')}}</span> <span class="index">{{ no }}</span>
                                     </div>
                                     <div class="n-flex">
-                                        <span>Date</span> <span class="date">{{ cor_datetime }}</span>
+                                        <span>{{$t('date')}}</span> <span class="date">{{ cor_datetime }}</span>
                                     </div>
                                     <div class="n-flex">
-                                        <span>Status</span> <span :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"> {{ funcStatus(cor_status) }} </span>
+                                        <span>{{$t('status')}}</span> <span :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"> {{ $t(funcStatus(cor_status)) }} </span>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                         <div class="row" style="margin-bottom:10px;">
                             
                             <div class="title-content">
-                                <h4 class="title"> <span class="yellow">{{ myOrderList.length }}</span> Ordered items </h4>
+                                <h4 class="title"> <span class="yellow">{{ myOrderList.length }}</span> {{$t('orderedItems')}} </h4>
                             </div>
 
                             <div class="playList productList orderlist" style="margin-top:10px;">
@@ -92,17 +92,17 @@
                                                 <div class="info"> <div class="code">{{ item.order.Item.cit_key }}</div> </div>
                                                 <div class="edit">
                                                     <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
-                                                        {{ funcDownStatus(cor_status, item.order.Item) }}
+                                                        {{ $t(funcDownStatus(cor_status, item.order.Item)) }}
                                                     </div>
                                                     <!--
                                                     <div v-if="cor_status === '1' " class="download_period">
-                                                        <span> {{ caclLeftDay(item.order.cor_approve_datetime) }} days left <br/> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
+                                                        <span> {{ caclLeftDay(item.order.cor_approve_datetime) }} {{$t('daysLeft')}} <br/> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
                                                     </div>
                                                     <div v-else-if="cor_status === '0' " class="download_period"> <span>  </span> </div>
                                                     <div v-else class="download_period"> <span class="gray"> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span> </div>
                                                     -->
 
-                                                <!-- <div class="download_period">40 days left<br/>(~2020.06.24 12:30:34)</div> -->
+                                                <!-- <div class="download_period">40 {{$t('daysLeft')}}<br/>(~2020.06.24 12:30:34)</div> -->
                                                 </div>
                                                 <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
                                                 <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
@@ -157,36 +157,36 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
+                                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
                                                                 </div>
                                                                 <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item basic" style="margin-left: 38px;">
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
                                                             </div>
                                                         </div>
                                                         
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!--
                                                     <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
-                                                         UNLIMITED STEMS LICENSE 
+                                                         {{$t('unlimitedStemsLicense')}}
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
+                                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
                                                                 </div>
                                                                 <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
                                                             </button>
                                                             <div class="option_item unlimited" style="margin-left: 38px;">
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
                                                             </div>
                                                         </div>
                                                         
@@ -198,16 +198,16 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
+                                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
                                                                 </div>
                                                                 <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
                                                             </button>
                                                             <div class="option_item basic" style="margin-left: 38px;">
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
                                                             </div>
                                                         </div>
                                                         
@@ -220,15 +220,15 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
+                                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
                                                                 </div>
                                                                 <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div> -->
                                                             </button>
                                                             <div class="option_item unlimited" style="margin-left: 38px;">
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
                                                             </div>
                                                         </div>
                                                         
@@ -247,8 +247,8 @@
 
                         <div class="row">
                             <div class="title-content text-info">
-                                <p>Beat download is not available when the deposit is in a waiting state.</p>
-                                <p>Beat download is available for 60 days after payment is completed.</p>
+                                <p>{{$t('downloadNotAvailableWhenDepositMsg')}}</p>
+                                <p>{{$t('downloadAvailable60Msg')}}</p>
                             </div>
                         </div>
 
@@ -256,23 +256,23 @@
                             <div class="payment_box">
                                 <div class="n-box">
                                     <div class="n-flex between">
-                                        <span class="title">Method</span>
+                                        <span class="title">{{$t('payMethod1')}}</span>
                                         <span>{{ payType }}</span>
                                     </div>
                                     <div class="n-flex between">
-                                        <span class="title">Detail</span>
+                                        <span class="title">{{$t('payMethodDetail')}}</span>
                                         <span>{{ cor_pg }}</span>
                                     </div>
                                     <div class="n-flex between">
-                                        <span class="title">Subtotal</span>
+                                        <span class="title">{{$t('paySubtotal')}}</span>
                                         <span>{{ totalPrice }}</span>
                                     </div>
                                     <div class="n-flex between">
-                                        <span class="title">Points</span>
+                                        <span class="title">{{$t('usePoints')}}</span>
                                         <span>0 P</span>
                                     </div>
                                     <div class="n-flex between total">
-                                        <span>Total</span>
+                                        <span>{{$t('payTotal')}}</span>
                                         <span>{{ totalPrice }}</span>
                                     </div>                           
                                 </div>
@@ -283,8 +283,8 @@
                         </div>
 
                         <div class="n-flex n-btnbox">
-                            <button class="btn btn--gray" @click="goPage('mybilling')">Back to List</button>
-                            <button v-if="cor_status==='1'" type="submit" class="btn btn--submit" >Request Refund</button>
+                            <button class="btn btn--gray" @click="goPage('mybilling')">{{$t('backToList')}}</button>
+                            <button v-if="cor_status==='1'" type="submit" class="btn btn--submit">{{$t('requestRefund')}}</button>
                         </div>
                     </div>
                 </div>
@@ -302,16 +302,16 @@
                     <div class="title">CHANGE PASSWORD</div>
                     <div class="tab">
                         <div>
-                            <div class="title">No</div>
+                            <div class="title">{{$t('no')}}</div>
                             <div>Order_099</div>
                         </div>
                         <div>
-                            <div class="title">Date</div>
+                            <div class="title">{{$t('date')}}</div>
                             <div>0000-00-00 00:00:00</div>
                         </div>
                         <div>
-                            <div class="title">Status</div>
-                            <div class="blue">Order Complete</div>
+                            <div class="title">{{$t('status')}}</div>
+                            <div class="blue">{{$t('orderComplete')}}</div>
                         </div>
                     </div>
                     <div class="col">
@@ -319,7 +319,7 @@
                             <div class="title">
                                 <label for="checkAll" class="checkbox" style="margin-left:20px;">
                                     <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="setCheckAll">
-                                    <span></span><div style="font-weight:600">Select All (0/4)</div>
+                                    <span></span><div style="font-weight:600">{{$t('selectAll')}} (0/4)</div>
                                 </label>
                             </div>
                         </div>
@@ -352,14 +352,14 @@
                                                 <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                 <div>
                                                     <div class="title">BASIC LEASE</div>
-                                                    <div class="detail">MP3 or WAV</div>
+                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
                                                 </div>
                                             </div>
                                             <div class="option_item">
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
                                             </div>
                                         </div>
                                         <div class="col feature">
@@ -394,14 +394,14 @@
                                                 <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                 <div>
                                                     <div class="title">BASIC LEASE</div>
-                                                    <div class="detail">MP3 or WAV</div>
+                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
                                                 </div>
                                             </div>
                                             <div class="option_item">
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
                                             </div>
                                         </div>
                                         <div class="col feature">
@@ -436,14 +436,14 @@
                                                 <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                 <div>
                                                     <div class="title">BASIC LEASE</div>
-                                                    <div class="detail">MP3 or WAV</div>
+                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
                                                 </div>
                                             </div>
                                             <div class="option_item">
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
                                             </div>
                                         </div>
                                         <div class="col feature">
@@ -478,14 +478,14 @@
                                                 <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                 <div>
                                                     <div class="title">BASIC LEASE</div>
-                                                    <div class="detail">MP3 or WAV</div>
+                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
                                                 </div>
                                             </div>
                                             <div class="option_item">
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
-                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
                                             </div>
                                         </div>
                                         <div class="col feature">
@@ -534,7 +534,7 @@
             <div class="popup" :class="{ 'active': reqref === 1 }" style="width:1110px;">
 
                 <div class="box" style="padding-bottom:50px;">
-                    <div class="title" style="margin-bottom:30px;">REQUEST REFUND</div>
+                    <div class="title" style="margin-bottom:30px;">{{$t('requestRefund')}}</div>
                     <div class="row" style="margin-bottom:30px;">
                         <div class="type"></div>
                         <div class="data">
@@ -699,7 +699,7 @@
                 this.cor_datetime = this.myOrderList[0].order.cor_datetime;
                 this.cor_approve_datetime = this.myOrderList[0].order.cor_approve_datetime;
                 this.cor_status = this.myOrderList[0].order.cor_status;
-                this.payType = this.formPayType(this.myOrderList[0].order.cor_pay_type);
+                this.payType = this.$t(this.formPayType(this.myOrderList[0].order.cor_pay_type));
                 this.totalPrice = this.formatTotalPrice(this.myOrderList[0].order.cor_total_money, this.myOrderList[0].order.cor_memo);
                 this.cor_pg = this.myOrderList[0].order.cor_pg;
                 this.funcDesc();
@@ -718,11 +718,11 @@
             },
             formPayType: function(pt){
                 if(pt == 1){
-                    return 'Credit Card';
+                    return 'creditCard';
                 }else if(pt == 2){
-                    return 'Wire Transfer';
+                    return 'realtimeBankTransfer';
                 }else{
-                    return 'Paypal';
+                    return 'paypal';
                 }
             },
             goPage: function(page){
@@ -745,11 +745,11 @@
             },
             funcStatus(s){
                 if(s == '0'){
-                    return "Deposit Waiting";
+                    return "depositWaiting";
                 }else if(s == '1'){
-                    return "Order Complete";
+                    return "orderComplete";
                 }else{
-                    return "Refund Complete";
+                    return "refundComplete";
                 }
             },
             setCheckAll: function(){
@@ -901,25 +901,25 @@
             },
             funcDownStatus: function(status, i){
                 if(status === '0'){
-                    return 'Unavailable';
+                    return 'unavailable1';
                 }else if(status === '1' && this.caclLeftDay(this.cor_approve_datetime) > 0){
                     if(i.cit_lease_license_use == "1"
                         && i.cde_quantity <= i.cde_download){
-                        return 'Download Complete';
+                        return 'downloadComplete';
                     }
                     if(i.cit_lease_license_use == "1"
                         && i.cde_quantity > i.cde_download){
-                        return 'Download Available';
+                        return 'downloadAvailable';
                     }
                     if(i.cit_mastering_license_use == "0" && i.cit_mastering_license_use == "1"){
-                        return 'Download Available';
+                        return 'downloadAvailable';
                     }
                 }else if(status === '1' && i.cit_lease_license_use === '1' && i.cit_mastering_license_use === '1'){
-                    return 'Expried';
+                    return 'expried';
                 }else if(status === '1' && i.cit_mastering_license_use === '1'){
-                    return 'Download Available';
+                    return 'downloadAvailable';
                 }else{
-                    return 'Expried';
+                    return 'expried';
                 }
             },
             getDownStatusColor: function(status, i){
@@ -947,12 +947,12 @@
             },
             funcDesc: function(){
                 if(this.cor_status === '0' ){
-                    this.descNoti = "If you are in a deposit waiting state or wish to cancel, please request a change through a <a href='/mypage/inquiry/'>Support Case</a> menu.";
+                    this.descNoti = this.$t('depositWaitingStateSupportCaseMenuMsg') + ' ' + '<a href="/mypage/inquiry/">' + this.$t('shortcut') + '</a>';
                 }else if(this.cor_status === '1'
                      && this.caclLeftDay(this.cor_approve_datetime) < 0 ){
                     this.descNoti = "If the download period has , the purchased bit cannot be downloaded";
                 }else{
-                    this.descNoti = "If you are in a deposit waiting state or wish to cancel, please request a change through a <a href='/mypage/inquiry/'>Support Case</a> menu.";
+                    this.descNoti = this.$t('depositWaitingStateSupportCaseMenuMsg') + ' ' + '<a href="/mypage/inquiry/">' + this.$t('shortcut') + '</a>';
                 }
             },
             forceFileDownload(r, oriname){

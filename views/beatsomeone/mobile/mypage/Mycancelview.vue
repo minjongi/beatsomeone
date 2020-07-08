@@ -41,7 +41,7 @@
                             <li @click="goPage('')">{{$t('dashboard')}}</li>
                             <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
                             <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                            <li class="active">Order History</li>
+                            <li class="active">{{$t('orderHistory')}}</li>
                             <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                             <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -49,7 +49,7 @@
                             <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                             <li @click="goPage('inquiry')">{{$t('support1')}}
                                 <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                     <li @click="goPage('faq')">FAQ</li>
                                 </ul>
                             </li>
@@ -133,8 +133,8 @@
                                                 <div><button class="playList__item--button"><span class="option_fold"><img
                                                         src="/assets/images/icon/togglefold.png"></span>
                                                     <div>
-                                                        <div class="title">BASIC LEASE LICENSE</div>
-                                                        <div class="detail">MP3 or WAV</div>
+                                                        <div class="title">{{$t('basicLeaseLicense')}}</div>
+                                                        <div class="detail">{{$t('mp3Orwav')}}</div>
                                                     </div>
                                                     </button>
                                                     <div class="option_item basic" style="margin-left: 38px;">
@@ -165,8 +165,8 @@
 
                         <div class="row">
                             <div class="title-content text-info">
-                                <p>Beat download is not available when the deposit is in a waiting state.</p>
-                                <p>Beat download is available for 60 days after payment is completed.</p>
+                                <p>{{$t('downloadNotAvailableWhenDepositMsg')}}</p>
+                                <p>{{$t('downloadAvailable60Msg')}}</p>
                             </div>
                         </div>
 
@@ -175,7 +175,7 @@
                                 <div class="n-box">
                                     <div class="n-flex between">
                                         <span class="title">Method</span>
-                                        <span  style="font-weight: 600;">Wire Transfer</span>
+                                        <span  style="font-weight: 600;">{{$t('realtimeBankTransfer')}}</span>
                                     </div>
                                     <div class="n-flex between">
                                         <span class="title">Paid</span>
@@ -208,12 +208,12 @@
                             </div>
                             <p class="desc">
                                 <img data-v-6049000a="" src="/assets/images/icon/info_blue.png">
-                                <span>If you are in a deposit waiting state or wish to cancel, please request a change through a <a href="/mypage/inquiry/">Support Case</a> menu.</span>
+                                <span>{{$t('depositWaitingStateSupportCaseMenuMsg')}} <a href="/mypage/inquiry/">{{$t('shortcut')}}</a></span>
                             </p>
                         </div>
 
                         <div class="n-flex n-btnbox">
-                            <button class="btn btn--gray">Back to List</button>
+                            <button class="btn btn--gray">{{$t('backToList')}}</button>
                         </div>
                     </div>
                 </div>

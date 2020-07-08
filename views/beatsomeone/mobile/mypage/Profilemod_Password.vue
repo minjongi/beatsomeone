@@ -1,9 +1,9 @@
 <template>
     <div class="row">
-        <div class="type"><span>Password</span></div>
+        <div class="type"><span>{{$t('password')}}</span></div>
         <div class="data">
             <button class="btn btn--blue" @click="toggleModalOpen">
-                Change Password
+                {{$t('changePassword')}}
             </button>
         </div>
         <div></div>

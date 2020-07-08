@@ -41,7 +41,7 @@
                             <li @click="goPage('')">{{$t('dashboard')}}</li>
                             <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
                             <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                            <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
                             <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                             <li class="active" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -49,7 +49,7 @@
                             <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                             <li @click="goPage('inquiry')">{{$t('support1')}}
                                 <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                     <li @click="goPage('faq')">FAQ</li>
                                 </ul>
                             </li>
@@ -81,9 +81,9 @@
                         <!-- <div style="margin-left:auto; ">
                             <div>
                                 <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
-                                    <input type="date" placeholder="Start Date" />
+                                    <input type="date" :placeholder="$t('startDate')" />
                                     <span>─</span>
-                                    <input type="date" placeholder="End Date" />
+                                    <input type="date" :placeholder="$t('endDate')" />
                                     <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                                 <VueHotelDatepicker
                                     class="search-date"
                                     format="YYYY-MM-DD"
-                                    placeholder="Start date ~ End date"
+                                    :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
                                     :startDate="start_date"
                                     :endDate="end_date"
                                     minDate="1970-01-01"
@@ -401,7 +401,7 @@
                     </div>
 
                      <div style="margin-top: 30px;"> 
-                         <button class="btn btn--gray"> Back to List </button>
+                         <button class="btn btn--gray"> {{$t('backToList')}} </button>
                      </div>
                 </div>
             </div>

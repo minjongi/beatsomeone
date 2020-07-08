@@ -1,24 +1,23 @@
 <template>
     <div class="row">
-        <div class="type"><span>Username</span></div>
+        <div class="type"><span>{{$t('username')}}</span></div>
         <div class="data">
             <div class="input_wrap col">
-                <input class="inputbox" minlength="3" maxlength="30" ref="username" :disabled="!isUserNameEditing" @keydown.enter="checkDuplicateUsername" type="text" v-model="tempUserName" placeholder="Enter your new username..." >
-                <CommonCaution v-if="!isNicknameAreDuplicated && !isNicknameAreInvalid">Please note that the login ID will change when you change your Username.</CommonCaution>
+                <input class="inputbox" minlength="3" maxlength="30" ref="username" :disabled="!isUserNameEditing" @keydown.enter="checkDuplicateUsername" type="text" v-model="tempUserName" :placeholder="$t('enterYourNewUsername')" >
+                <CommonCaution v-if="!isNicknameAreDuplicated && !isNicknameAreInvalid">{{$t('noteIDChangeMsg')}}</CommonCaution>
                 <CommonCaution css="red" v-if="isNicknameAreDuplicated"> The '{{ this.errrorMsg }}' is already in use. Please change it to another Username.</CommonCaution>
                 <CommonCaution css="red" v-if="isNicknameAreInvalid"> Invalid Username.</CommonCaution>
             </div>
             <button class="btn btn--blue active" v-if="!isUserNameEditing" @click="setUsernameEdit(true)">
-                Change
+                {{$t('change1')}}
             </button>
             <button class="btn btn--blue active" v-if="isUserNameEditing" @click="checkDuplicateUsername">
-                Save
+                {{$t('save')}}
             </button>
-
         </div>
         <div class="active">
             <button class="btn btn--gray" v-if="isUserNameEditing"  @click="setUsernameEdit(false)">
-                Cancel
+                {{$t('cancel1')}}
             </button>
         </div>
     </div>

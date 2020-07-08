@@ -42,14 +42,14 @@
                             <li @click="goPage('')">{{$t('dashboard')}}</li>
                             <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
                             <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                            <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                             <li v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
                             <li @click="goPage('message')">{{$t('chat')}}</li>
                             <li v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                             <li class="active" @click="goPage('inquiry')">{{$t('support1')}}
                                 <!-- <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                     <li @click="goPage('faq')">FAQ</li>
                                 </ul> -->
                             </li>
@@ -61,14 +61,14 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:48px;">
-                                    <div class="active" @click="goPage('inquiry')">Support Case</div>
+                                    <div class="active" @click="goPage('inquiry')">{{$t('supportCase')}}</div>
                                     <div @click="goPage('faq')">FAQ</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row" style="margin-bottom:20px;">
-                            <button class="btn btn--gray">Back</button>
+                            <button class="btn btn--gray">{{$t('back')}}</button>
                         </div>
 
                         <div class="row inquiry-mod">

@@ -116,21 +116,21 @@ class Beatsomeone_mypage_model extends CB_Model
                 'mem_name' => 'User 1',
                 'mem_photo' => '2020/03/9d8475aaa1fcc0736a927b791bd826e4.png',
                 'sendDt' => new DateTime(),
-                'status' => 'Unread'
+                'status' => 'unread'
             ),
             array(
                 'mem_id' => 1,
                 'mem_name' => 'User 1',
                 'mem_photo' => '2020/03/9d8475aaa1fcc0736a927b791bd826e4.png',
                 'sendDt' => new DateTime(),
-                'status' => 'Read'
+                'status' => 'read'
             ),
             array(
                 'mem_id' => 2,
                 'mem_name' => 'User 2',
                 'mem_photo' => '2020/03/ba3c4af02c9648a053cdc2928115b444.png',
                 'sendDt' => new DateTime(),
-                'status' => 'Read'
+                'status' => 'read'
             ),
 
         );
@@ -150,21 +150,21 @@ class Beatsomeone_mypage_model extends CB_Model
                 'title' => 'What is the usage range of my bought beatsomeone of this item contains music of tension',
                 'contents' => 'What is the usage range of my bought beatsomeone of this item contains music of tension',
                 'regDt' => new DateTime(),
-                'status' => 'Open'
+                'status' => 'answerCompleted'
             ),
             array(
                 'sp_id' => 2,
                 'title' => 'What is the usage range of my bought beatsomeone of this item contains music of tension',
                 'contents' => 'What is the usage range of my bought beatsomeone of this item contains music of tension',
                 'regDt' => new DateTime(),
-                'status' => 'Closed'
+                'status' => 'answerWaiting'
             ),
             array(
                 'sp_id' => 3,
                 'title' => 'What is the usage range of my bought beatsomeone of this item contains music of tension',
                 'contents' => 'What is the usage range of my bought beatsomeone of this item contains music of tension',
                 'regDt' => new DateTime(),
-                'status' => 'Closed'
+                'status' => 'answerWaiting'
             ),
 
         );

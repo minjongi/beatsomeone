@@ -38,7 +38,7 @@
             </div>
         </li>
         <li>
-            <span>MP3 or WAV (.MP3 or .WAV) 첨부</span>
+            <span>{{$t('mp3Orwav')}} (.MP3 or .WAV) 첨부</span>
             <div class="form-text text-primary group">
                 <div v-if="item.cde_originname">
                     <a>{{ item.cde_originname }}</a>
@@ -87,7 +87,7 @@
         </li>
 
         <li>
-            <span>BASIC LEASE LICENSE (MP3 or WAV) PRICE</span>
+            <span>{{$t('basicLeaseLicense')}} ({{$t('mp3Orwav')}}) PRICE</span>
             <div class="form-text text-primary group">
             <input type="text" id="licenseLeasePriceKR" name="licenseLeasePriceKR" class="form-control input" v-model="item.licenseLeasePriceKR" />
             <input type="text" id="licenseLeasePriceDL" name="licenseLeasePriceDL" class="form-control input" v-model="item.licenseLeasePriceDL" />
@@ -95,7 +95,7 @@
             </div>
         </li>
         <li>
-            <span>UNLIMITED STEMS LICENSE PRICE</span>
+            <span>{{$t('unlimitedStemsLicensePrice')}}</span>
             <div class="form-text text-primary group">
             <input type="text" id="licenseStemPriceKR" name="licenseStemPriceKR" class="form-control input" v-model="item.licenseStemPriceKR" />
             <input type="text" id="licenseStemPriceDL" name="licenseStemPriceDL" class="form-control input" v-model="item.licenseStemPriceDL" />

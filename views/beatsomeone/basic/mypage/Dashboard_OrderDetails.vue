@@ -1,13 +1,13 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>Order Details</div>
+            <div>{{$t('orderDetails')}}</div>
             <button class="btn btn--glass" onclick='location.href = "/mypage/mybilling"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div class="splitboard">
-            <div class="blue">{{ buyCnt }}<span>Buy</span></div>
-            <div class="red">{{ cancelCnt }}<span>Cancel</span></div>
-            <div class="green">{{ refundCnt }}<span>Refund</span></div>
+            <div class="blue">{{ buyCnt }}<span>{{$t('buy')}}</span></div>
+            <div class="red">{{ cancelCnt }}<span>{{$t('cancel')}}</span></div>
+            <div class="green">{{ refundCnt }}<span>{{$t('refund')}}</span></div>
         </div>
 
     </div>

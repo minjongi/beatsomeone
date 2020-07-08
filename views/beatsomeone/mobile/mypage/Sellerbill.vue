@@ -41,7 +41,7 @@
                             <li @click="goPage('')">{{$t('dashboard')}}</li>
                             <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
                             <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                            <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
                             <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                             <li class="active" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -49,7 +49,7 @@
                             <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                             <li @click="goPage('inquiry')">{{$t('support1')}}
                                 <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                     <li @click="goPage('faq')">FAQ</li>
                                 </ul>
                             </li>
@@ -82,7 +82,7 @@
                                     <VueHotelDatepicker
                                         class="search-date"
                                         format="YYYY-MM-DD"
-                                        placeholder="Start date ~ End date"
+                                        :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         minDate="1970-01-01"
@@ -110,7 +110,7 @@
                             <div class="n-swiper-wrap">
                                 <ul class="n-swiper">
                                     <li>
-                                        <h4>Estimated Settlement Amount</h4>
+                                        <h4>{{$t('estimatedSettlementAmount')}}</h4>
                                         <div class="date">2020-08</div>
                                         <div class="num blue">₩ 337,282,172 </div>
                                     </li>
@@ -120,7 +120,7 @@
                                         <div class="num green">₩ 337,282,172 </div>
                                     </li>
                                     <li>
-                                        <h4>Estimated Settlement Amount</h4>
+                                        <h4>{{$t('estimatedSettlementAmount')}}</h4>
                                         <div class="date">2020-06</div>
                                         <div class="num blue">₩ 337,282,172 </div>
                                     </li>

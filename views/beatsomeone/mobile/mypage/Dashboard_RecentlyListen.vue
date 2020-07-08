@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <h4 class="title">
-            Recently Listen
+            {{$t('recentlyListen')}}
         </h4>
 
         <h3 v-if="data.length === 0">

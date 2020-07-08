@@ -1,18 +1,18 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>Settlement Overview</div>
+            <div>{{$t('settlementOverview')}}</div>
         </div>
         <p>
-            ※· We will guide the amount of sales and settlements based on the current month / day.<br/>
-            ※· Exact sales / settlement amount can be checked on the basis of 20-25 days of the following month.
+            ※· {{$t('guideAmountSalesSettlementsMsg')}}<br/>
+            ※· {{$t('exactSalesSettlementAmountMsg')}}
         </p>
         <div>
             <div class="splitboard" v-if="data">
                 <div class="blue">
                     ₩ {{ data.EstimatedSales.toLocaleString() }}
-                    <div class="change">(Change {{ data.EstimatedSales_C.toLocaleString() }}{{ data.EstimatedSales_C > 0 ? '▲' : '▼' }})</div>
-                    <span>Estimated sales amount
+                    <div class="change">({{$t('change')}} {{ data.EstimatedSales_C.toLocaleString() }}{{ data.EstimatedSales_C > 0 ? '▲' : '▼' }})</div>
+                    <span>{{$t('estimatedSalesAmount')}}
                         <button class="button">
                             <img src="/assets/images/icon/tip.png"/>
                             <span data-v-27fa6da0="" class="tooltip">
@@ -26,7 +26,7 @@
                 <div class="blue">
                     ₩ {{ data.EstimatedSettlement.toLocaleString() }}
                     <div class="change">(Change {{ data.EstimatedSettlement_C.toLocaleString() }}{{ data.EstimatedSettlement_C > 0 ? '▲' : '▼' }})</div>
-                    <span>Estimated settlement amount
+                    <span>{{$t('estimatedSettlementAmount')}}
                         <button class="button">
                             <img src="/assets/images/icon/tip.png"/>
                             <span data-v-27fa6da0="" class="tooltip">
@@ -40,7 +40,7 @@
                 <div class="red">
                     ₩ {{ data.LastMonthSettlement.toLocaleString() }}
                     <div class="change">(Change {{ data.LastMonthSettlement_C.toLocaleString() }}{{ data.LastMonthSettlement_C > 0 ? '▲' : '▼' }})</div>
-                    <span>Last month settlement amount
+                    <span>{{$t('lastMonthSettlementAmount')}}
                         <button class="button">
                             <img src="/assets/images/icon/tip.png"/>
                             <span data-v-27fa6da0="" class="tooltip">

@@ -4,14 +4,14 @@
             <li :class="{'active':current === 'dashboard'}" @click="goRoute('dashboard')">{{$t('dashboard')}}</li>
             <li :class="{'active':current === 'profilemod'}" @click="goRoute('profilemod')">{{$t('manageinformation')}}</li>
             <li :class="{'active':current === 'list_item'}" @click="goPage('list_item')">{{$t('productList')}}</li>
-            <li :class="{'active':current === 'mybilling'}" @click="goPage('mybilling')">Order History</li>
+            <li :class="{'active':current === 'mybilling'}" @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
             <li :class="{'active':current === 'saleshistory'}" @click="goPage('saleshistory')" v-show="groupType == 'SELLER'">{{$t('salesHistory')}}</li>
             <li :class="{'active':current === 'seller'}" @click="goPage('seller')" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
             <li :class="{'active':current === 'message'}" @click="goPage('message')">{{$t('chat')}}</li>
             <li :class="{'active':current === 'sellerregister'}" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
             <li :class="{'active':current === 'inquiry'}" @click="goPage('inquiry')">{{$t('support1')}}
                 <ul class="menu">
-                    <li @click="goPage('inquiry')">Support Case</li>
+                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                     <li @click="goPage('faq')">FAQ</li>
                 </ul>
             </li>

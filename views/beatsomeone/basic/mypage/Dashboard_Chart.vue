@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>Chart</div>
+            <div>{{$t('chart')}}</div>
         </div>
         <div class="chart" style="height:320px;">
             <Dashboard_ChartObject ref="chart" :chartdata="chartdata" :options="options" :styles="{'height':'320px'}"></Dashboard_ChartObject>

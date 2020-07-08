@@ -2,41 +2,41 @@
     <div class="panel active">
         <div class="popup active" style="width:560px;">
             <div class="box" style="padding-bottom:50px;">
-                <div class="title">CHANGE PASSWORD</div>
-                <p>※ Please enter the password within 4 to 12 characters in English (case sensitive) and numeric combination.</p>
+                <div class="title">{{$t('changePassword')}}</div>
+                <p>※ {{$t('passwordCharactersMsg')}}</p>
                 <div class="col">
-                    <div class="type"><span>Current password</span></div>
+                    <div class="type"><span>{{$t('currentPassword')}}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" ref="firstForm" @keydown.enter="doSubmit" v-model="info.pwdOriginal" type="password" placeholder="Enter your current password...">
-                            <CommonCaution css="red" v-if="errors.pwdOriginal">잘못된 비밀번호를 입력하셨습니다. 다시 확인 후 입력해주세요</CommonCaution>
+                            <input class="inputbox" ref="firstForm" @keydown.enter="doSubmit" v-model="info.pwdOriginal" type="password" :placeholder="{{$t('enterYourCurrentPassword')}}">
+                            <CommonCaution css="red" v-if="errors.pwdOriginal">{{$t('incorrectPasswordMsg')}}</CommonCaution>
                         </div>
                     </div>
                 </div>
 
                 <div class="col">
-                    <div class="type"><span>New password</span></div>
+                    <div class="type"><span>{{$t('newPassword')}}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" @keydown.enter="doSubmit" v-model="info.pwdC1" type="password" placeholder="Enter your new password...">
-                            <CommonCaution css="red" v-if="errors.pwdC1">비밀번호 양식에 맞지 않습니다. 영문 숫자 조합 4~12자 이내로 입력해주세요</CommonCaution>
+                            <input class="inputbox" @keydown.enter="doSubmit" v-model="info.pwdC1" type="password" :placeholder="{{$t('enterYourNewPassword')}}">
+                            <CommonCaution css="red" v-if="errors.pwdC1">{{$t('passwordCharactersMsg')}}</CommonCaution>
                         </div>
                     </div>
                 </div>
 
                 <div class="col">
-                    <div class="type"><span>New password confirm</span></div>
+                    <div class="type"><span>{{$t('newPasswordConfirm')}}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" @keydown.enter="doSubmit" v-model="info.pwdC2" type="password" placeholder="Enter your new password again...">
-                            <CommonCaution css="red" v-if="errors.pwdC2">입력하신 비밀번호와 맞지 않습니다. 다시 확인 후 입력해주세요</CommonCaution>
+                            <input class="inputbox" @keydown.enter="doSubmit" v-model="info.pwdC2" type="password" :placeholder="$t('enterYourNewPasswordAgain')">
+                            <CommonCaution css="red" v-if="errors.pwdC2">{{$t('confirmIncorrectPasswordMsg')}}</CommonCaution>
                         </div>
                     </div>
                 </div>
 
                 <div class="btnbox col">
-                    <button class="btn btn--gray" @click="dismissModal">Cancel</button>
-                    <button type="submit" class="btn btn--blue" @click="doSubmit">Save</button>
+                    <button class="btn btn--gray" @click="dismissModal">{{$t('cancel1')}}</button>
+                    <button type="submit" class="btn btn--blue" @click="doSubmit">{{$t('save')}}</button>
                 </div>
             </div>
         </div>

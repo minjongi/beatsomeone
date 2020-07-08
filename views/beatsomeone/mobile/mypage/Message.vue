@@ -41,7 +41,7 @@
                             <li @click="goPage('')">{{$t('dashboard')}}</li>
                             <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
                             <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">{{$t('productList')}}</li>
-                            <li @click="goPage('mybilling')">Order History</li>
+                            <li @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
                             <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                             <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -49,7 +49,7 @@
                             <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                             <li @click="goPage('inquiry')">{{$t('support1')}}
                                 <!-- <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                     <li @click="goPage('faq')">FAQ</li>
                                 </ul> -->
                             </li>
@@ -68,13 +68,13 @@
                                                 {{ dateType }}
                                             </button>
                                             <div class="options" >
-                                            <button v-show="dateType != 'All'" class="option" @click="funcDateType('All')"> All </button>
-                                            <button v-show="dateType != 'Read'" class="option" @click="funcDateType('Read')"> Read </button>
-                                            <button v-show="dateType != 'Unread'" data-value="" class="option" @click="funcDateType('Unread')"> Unread  </button>
+                                            <button v-show="dateType != 'All'" class="option" @click="funcDateType('All')"> {{$t('all')}} </button>
+                                            <button v-show="dateType != 'Read'" class="option" @click="funcDateType('Read')"> {{$t('read')}} </button>
+                                            <button v-show="dateType != 'Unread'" data-value="" class="option" @click="funcDateType('Unread')"> {{$t('unread')}} </button>
                                             </div>
                                         </div>
                                         <!-- <div class="input_wrap line">
-                                            <input class="inputbox" type="text" placeholder="Enter your searchword..." :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
+                                            <input class="inputbox" type="text" :placeholder="$t('enterYourSearchword')" :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
                                             <button @click="goSearchUser">
                                                 <img src="/assets/images/icon/searchicon.png">
                                             </button>

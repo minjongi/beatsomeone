@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <h4 class="title">
-            Expried soon
+            {{$t('expriedSoon')}}
         </h4>
 
         <h3 v-if="data.length === 0">

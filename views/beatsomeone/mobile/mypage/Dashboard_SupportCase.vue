@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <h4 class="title">
-            <span>Support Case</span>
+            <span>{{$t('supportCase')}}</span>
             <a class="more" href="/mypage/inquiry">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
         <div>
@@ -17,8 +17,8 @@
                                     </figcaption>
                                 </figure>
                             </div>
-                            <div class="action" :class="{'active': o.status === 'Open'}">
-                                {{ o.status }}
+                            <div class="action" :class="{'active': o.status === 'answerCompleted'}">
+                                {{ $t(o.status) }}
                             </div>
                         </div>
                     </li>

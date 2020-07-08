@@ -41,7 +41,7 @@
                             <li @click="goPage('')">{{$t('dashboard')}}</li>
                             <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
                             <li @click="goPage('list_item')">{{$t('productList')}}</li>
-                            <li class="active">Order History</li>
+                            <li class="active">{{$t('orderHistory')}}</li>
                             <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
                             <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
                             <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
@@ -49,7 +49,7 @@
                             <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
                             <li @click="goPage('inquiry')">{{$t('support1')}}
                                 <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
+                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
                                     <li @click="goPage('faq')">FAQ</li>
                                 </ul>
                             </li>
@@ -60,7 +60,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
                                 <div class="tab n-flex" style="height:48px;">
-                                    <div @click="goPage('mybilling')">Order History (123)</div>
+                                    <div @click="goPage('mybilling')">{{$t('orderHistory')}} (123)</div>
                                     <div class="active">Cancellation / Refund History(32)</div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                 <VueHotelDatepicker
                                     class="search-date"
                                     format="YYYY-MM-DD"
-                                    placeholder="Start date ~ End date"
+                                    :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
                                     :startDate="start_date"
                                     :endDate="end_date"
                                     minDate="1970-01-01"

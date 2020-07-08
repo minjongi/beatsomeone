@@ -1,33 +1,33 @@
 <template>
     <div class="row">
 
-        <div class="type"><span>Linked Account</span></div>
+        <div class="type"><span>{{$t('linkedAccount')}}</span></div>
         <div class="data">
             <div class="sns" v-if="info">
                 <div class="n-flex between">
                     <div><img src="/assets/images/icon/icon_kakao.png"/> Kakao <span class="linkDt" v-if="info.kakao">{{ info.kakao }} 연결 완료</span></div>
                     <button class="btn" :class="{'btn--yellow':!info.kakao, 'btn--gray':info.kakao}" @click="toggleConnect('kakao')">
-                        {{ !info.kakao ? 'Link' : 'Unlink'}}</button>
+                        {{ $t(!info.kakao ? 'Link' : 'Unlink') }}</button>
                 </div>
                 <div class="n-flex between">
                     <div><img src="/assets/images/icon/icon_naver.png"/> Naver <span class="linkDt" v-if="info.naver">  {{ info.naver }} 연결 완료</span></div>
                     <button class="btn" :class="{'btn--yellow':!info.naver, 'btn--gray':info.naver}" @click="toggleConnect('naver')">
-                        {{ !info.naver ? 'Link' : 'Unlink'}}</button>
+                        {{ $t(!info.naver ? 'Link' : 'Unlink') }}</button>
                 </div>
                 <div class="n-flex between">
                     <div><img src="/assets/images/icon/icon_facebook.png"/> Facebook <span class="linkDt" v-if="info.facebook">  {{ info.facebook }} 연결 완료</span></div>
                     <button class="btn" :class="{'btn--yellow':!info.facebook, 'btn--gray':info.facebook}" @click="toggleConnect('facebook')">
-                        {{ !info.facebook ? 'Link' : 'Unlink'}}</button>
+                        {{ $t(!info.facebook ? 'Link' : 'Unlink') }}</button>
                 </div>
                 <div class="n-flex between">
                     <div><img src="/assets/images/icon/icon_twitter.png"/> Twitter <span class="linkDt" v-if="info.twitter">  {{ info.twitter }} 연결 완료</span></div>
                     <button class="btn" :class="{'btn--yellow':!info.twitter, 'btn--gray':info.twitter}" @click="toggleConnect('twitter')">
-                        {{ !info.twitter ? 'Link' : 'Unlink'}}</button>
+                        {{ $t(!info.twitter ? 'Link' : 'Unlink') }}</button>
                 </div>
                 <div class="n-flex between">
                     <div><img src="/assets/images/icon/icon_google.png"/> Google <span class="linkDt" v-if="info.google">  {{ info.google }} 연결 완료</span></div>
                     <button class="btn" :class="{'btn--yellow':!info.google, 'btn--gray':info.google}" @click="toggleConnect('google')">
-                        {{ !info.google ? 'Link' : 'Unlink'}}</button>
+                        {{ $t(!info.google ? 'Link' : 'Unlink') }}</button>
                 </div>
             </div>
         </div>
