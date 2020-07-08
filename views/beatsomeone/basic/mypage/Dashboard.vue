@@ -1,11 +1,11 @@
 <template>
 
     <div v-if="info">
-        <div class="row" v-if="isSeller">
+        <div class="row" v-if="false && isSeller">
             <Dashboard_SettlementOverview :data="info.SettlementOverview"></Dashboard_SettlementOverview>
         </div>
 
-        <div class="row" v-if="isSeller">
+        <div class="row" v-if="false && isSeller">
             <Dashboard_Chart :data="info.Chart"></Dashboard_Chart>
         </div>
 
@@ -19,7 +19,7 @@
             <Dashboard_RecentlyListen :data="info.RecentlyListen"></Dashboard_RecentlyListen>
         </div>
 
-        <div class="row double" style="margin-bottom:100px;">
+        <div class="row double" style="margin-bottom:100px;" v-if="false">
             <Dashboard_Message :data="info.Message"></Dashboard_Message>
             <Dashboard_SupportCase :data="info.SupportCase"></Dashboard_SupportCase>
         </div>
