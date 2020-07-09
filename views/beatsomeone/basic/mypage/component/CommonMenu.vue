@@ -8,9 +8,9 @@
             <li :class="{'active':current === 'mybilling'}" @click="goRoute('mybilling')">{{$t('orderHistory')}}</li>
             <li :class="{'active':current === 'saleshistory'}" @click="goRoute('saleshistory')" v-show="groupType == 'SELLER'">{{$t('salesHistory')}}</li>
             <li :class="{'active':current === 'message'}" @click="goRoute('message')">{{$t('chat')}}</li>
-            <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-if="true" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
-            <li :class="{'active':current === 'sellerreg'}" @click="goRoute('sellerreg')" v-if="true" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
-            <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')" v-if="true">{{$t('support1')}}
+            <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-if="false" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
+            <li :class="{'active':current === 'sellerreg'}" @click="goRoute('sellerreg')" v-if="false" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
+            <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')" v-if="false">{{$t('support1')}}
                 <ul class="menu">
                     <li @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
                     <li @click="goRoute('faq')">FAQ</li>
