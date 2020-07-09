@@ -20,7 +20,7 @@
                             <h4 class="parchase-title">BASIC LEASE</h4>
                             <p class="parchase-desc">{{$t('mp3Orwav')}}</p>
                             <div class="parchase-description" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
-                                <p><i><img src="/assets/images/icon/parchase-info1.png" alt=""></i> available60Days</p>
+                                <p><i><img src="/assets/images/icon/parchase-info1.png" alt=""></i> {{$t('available60Days')}}</p>
                                 <p><i><img src="/assets/images/icon/parchase-info2.png" alt=""></i> {{$t('unableToEditArbitrarily')}}</p>
                                 <p><i><img src="/assets/images/icon/parchase-info3.png" alt=""></i> {{$t('rentedMembersCannotBeRerentedToOthers')}}</p>
                                 <p><i><img src="/assets/images/icon/parchase-info5.png" alt=""></i> {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</p>

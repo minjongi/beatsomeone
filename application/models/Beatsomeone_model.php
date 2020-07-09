@@ -218,18 +218,6 @@ class Beatsomeone_model extends CB_Model
         $moods = element('moods', $config);
         $trackType = element('trackType', $config);
 
-        log_message('debug','$limit : ' . $limit);
-        log_message('debug','$offset : ' . $offset);
-        log_message('debug','$sort : ' . $sort);
-        log_message('debug','$search : ' . $search);
-        log_message('debug','$bpmFr : ' . $bpmFr);
-        log_message('debug','$bpmTo : ' . $bpmTo);
-        log_message('debug','$genre : ' . $genre);
-        log_message('debug','$subgenre : ' . $subgenre);
-        log_message('debug','$moods : ' . $moods);
-        log_message('debug','$trackType : ' . $trackType);
-
-
         $where['cit_status'] = 1;
         // search
         if ($search) {
@@ -261,8 +249,9 @@ class Beatsomeone_model extends CB_Model
         }
 
         // 만약 정렬 조건이 없거나 [All Select] 인경우에는 조회수 높은 순으로 조회
-        if(!$sort || $sort == 'All Select') {
-            $this->db->order_by('cmall_item.cit_hit', 'desc');
+        if(!$sort || $sort == 'All Select' || $sort == 'Sort By') {
+            $this->db->order_by('RAND()', 'desc');
+//            $this->db->order_by('cmall_item.cit_hit', 'desc');
         }
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
         if($sort == 'Sort By Staff Picks') {
