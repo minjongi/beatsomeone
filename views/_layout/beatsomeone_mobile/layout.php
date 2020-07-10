@@ -90,9 +90,9 @@
 </body>
 
 <script type="text/javascript">
-    <?php if ($_SERVER['REQUEST_URI'] !== '/') { ?>
+    <?php /* if ($_SERVER['REQUEST_URI'] !== '/') { ?>
         location.replace('/');
-    <?php } ?>
+    <?php } */ ?>
 
     function closeBrowser() {
         // parent.window.open('about:blank', '_self').close();
