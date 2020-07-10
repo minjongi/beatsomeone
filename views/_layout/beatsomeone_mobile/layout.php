@@ -49,9 +49,9 @@
     <?php echo $this->managelayout->display_css(); ?>
 
     <style>
-        body {
-            overflow: hidden;
-        }
+        /*body {*/
+        /*    overflow: hidden;*/
+        /*}*/
 
         .noti-wrap {
             width: 100%;
@@ -79,8 +79,8 @@
     </style>
 </head>
 <body>
-<div class="noti-wrap"></div>
-<div class="noti-content">
+<div class="noti-wrap" id="noti01"></div>
+<div class="noti-content" id="noti02">
     <img src="/assets_m/images/popup/pc_only.png" onclick="closeBrowser()">
 </div>
 <div id="app">
@@ -95,7 +95,9 @@
     <?php } ?>
 
     function closeBrowser() {
-        parent.window.open('about:blank', '_self').close();
+        // parent.window.open('about:blank', '_self').close();
+        document.querySelector('#noti01').remove()
+        document.querySelector('#noti02').remove()
     }
 
     $(document).on('click', '.viewpcversion', function(){
