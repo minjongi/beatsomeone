@@ -404,7 +404,7 @@ export default {
       const p = {
         limit: 10,
         offset: 0,
-        sort: 'random',
+        sort: this.param.sort || 'random',
         genre: this.param.currentGenre,
         subgenre: this.param.currentSubgenres,
         bpmFr: this.param.currentBpmFr,
@@ -414,7 +414,12 @@ export default {
         search: this.param.search
       };
       Http.post(`/beatsomeoneApi/sublist_list`, p).then(r => {
-        this.randomList = r
+        if (!this.param.sort) {
+          this.randomList = r
+        } else {
+          this.list = r
+          this.last_offset = this.offset
+        }
       });
     },
     getListMore: _.debounce(function() {
