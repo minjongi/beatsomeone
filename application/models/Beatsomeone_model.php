@@ -250,8 +250,10 @@ class Beatsomeone_model extends CB_Model
 
         // 만약 정렬 조건이 없거나 [All Select] 인경우에는 조회수 높은 순으로 조회
         if(!$sort || $sort == 'All Select' || $sort == 'Sort By') {
+            $this->db->order_by('cmall_item.cit_hit', 'desc');
+        }
+        if($sort == 'random') {
             $this->db->order_by('RAND()', 'desc');
-//            $this->db->order_by('cmall_item.cit_hit', 'desc');
         }
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
         if($sort == 'Sort By Staff Picks') {

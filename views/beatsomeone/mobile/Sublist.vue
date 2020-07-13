@@ -146,6 +146,13 @@
                                     v-on:before-enter="beforeEnter"
                                     v-on:enter="enter"
                                     v-on:leave="leave">
+
+                                <template v-for="item in randomList"  >
+                                    <KeepAliveGlobal :key="'randomList' + item.cit_key">
+                                        <Index_Items :item="item" :key="'randomList' + item.cit_key"></Index_Items>
+                                    </KeepAliveGlobal>
+                                </template>
+
                                 <template v-for="item in list"  >
                                     <KeepAliveGlobal :key="item.cit_key">
                                         <Index_Items :item="item" :key="item.cit_key"></Index_Items>
@@ -191,9 +198,10 @@
                 listMoods: ['All'].concat(window.moods),
                 listTrackType: ['All types'].concat(window.trackType),
                 offset: 0,
-                last_offset: 0,
-                list: null,
+                last_offset: null,
+                list: [],
                 listTop5: null,
+                randomList: null,
                 param: {
                     currentGenre: null,
                     currentSubgenres : null,
@@ -255,7 +263,7 @@
                     min: 0,
                     max: 170,
                     from: 0,
-                    to: 125,
+                    to: 0,
                     onStart: (data) => {
 
                         $("#bpm-start").val(0);
@@ -386,7 +394,7 @@
                 const p = {
                     limit: 10,
                     offset: 0,
-                    sort: this.param.sort,
+                    sort: 'random',
                     genre: this.param.currentGenre,
                     subgenre: this.param.currentSubgenres,
                     bpmFr: this.param.currentBpmFr,
@@ -396,8 +404,7 @@
                     search: this.param.search
                 }
                 Http.post(`/beatsomeoneApi/sublist_list`,p).then(r=> {
-                    this.list = r;
-                    this.offset = this.list.length;
+                    this.randomList = r
                 });
             },
             getListMore: _.debounce(function() {
