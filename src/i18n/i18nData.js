@@ -460,6 +460,8 @@ export default {
         confirmIncorrectPasswordMsg: '입력하신 비밀번호와 맞지 않습니다. 다시 확인 후 입력해주세요',
         shortcut: '바로가기',
         unlimitedStemsLicensePrice: '마스터링 판매 라이선스 금액',
+        detailSimilarTracksNotexists: '등록된 유사한 트랙이 없습니다',
+        detailCommentsNotexists: '등록된 코멘트가 없습니다'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -921,5 +923,7 @@ export default {
         confirmIncorrectPasswordMsg: '입력하신 비밀번호와 맞지 않습니다. 다시 확인 후 입력해주세요',
         shortcut: '바로가기',
         unlimitedStemsLicensePrice: 'UNLIMITED STEMS LICENSE PRICE',
+        detailSimilarTracksNotexists: '등록된 유사한 트랙이 없습니다',
+        detailCommentsNotexists: '등록된 코멘트가 없습니다'
     } // en
 }

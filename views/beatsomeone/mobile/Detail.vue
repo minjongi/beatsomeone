@@ -107,6 +107,7 @@
                 currentTab: 1,
                 playlist: null,
                 player: null,
+                isIncreaseMusicCount: false
             }
         },
         computed: {
@@ -201,7 +202,11 @@
                             }],
                             callbacks: {
                                 play: () => {
-                                    //console.log("MAIN played")
+                                    if (this.isIncreaseMusicCount === false) {
+                                        this.increaseMusicCount()
+                                        this.isIncreaseMusicCount = true
+                                    }
+                                    // console.log("MAIN played")
                                     //EventBus.$emit('index_items_stop_all_played', {'_uid':this._uid,'item':this.item});
                                     EventBus.$emit('stop_main_player',{'_uid':this._uid,'item':this.item});
                                 },

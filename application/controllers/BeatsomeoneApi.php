@@ -80,13 +80,19 @@ class BeatsomeoneApi extends CB_Controller
     // 음악 다운로드 수 증가
     public function increase_music_count()
     {
-
         $this->load->model('Beatsomeone_model');
-
         $config = array(
             'cde_id' => $this->input->post('cde_id') ,
         );
-        $result = $this->Beatsomeone_model->increase_download_count($config);
+
+        $result = 0;
+        if (!$this->session->userdata('cmall_item_detail_id_' . element('cde_id', $config))) {
+            $result = $this->Beatsomeone_model->increase_download_count($config);
+            $this->session->set_userdata(
+                'cmall_item_detail_id_' . element('cde_id', $config),
+                '1'
+            );
+        }
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));

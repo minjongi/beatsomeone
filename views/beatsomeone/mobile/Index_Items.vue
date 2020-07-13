@@ -226,6 +226,7 @@
                     if(el) {
                         el.classList.add("playing");
                     }
+                    this.increaseMusicCount()
                 });
 
                 this.ws.on("audioprocess", (e) => {

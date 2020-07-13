@@ -113,7 +113,8 @@
                 comment: null,
                 music: null,
                 currentTab: 1,
-                purchaseTypeSelectorPopup: false
+                purchaseTypeSelectorPopup: false,
+                isIncreaseMusicCount: false
             }
         },
         computed: {
@@ -181,11 +182,13 @@
                     desynchronized: false
                 }
             });
-
             this.music.on("ready", () => {
-                this.increaseMusicCount();
             });
             this.music.on("play", () => {
+                if (this.isIncreaseMusicCount === false) {
+                    this.increaseMusicCount()
+                    this.isIncreaseMusicCount = true
+                }
                 playbtn.classList.add("playing");
                 //EventBus.$emit('index_items_stop_all_played',{'_uid':this._uid,'item':this.item});
                 EventBus.$emit("stop_main_player", {_uid: this._uid, item: this.item});

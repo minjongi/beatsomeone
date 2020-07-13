@@ -131,7 +131,7 @@ class Beatsomeone_model extends CB_Model
 
         $this->db->where('cde_id',$cde_id);
         $this->db->set('cde_download', 'cde_download+1', FALSE);
-        $this->db->update('cmall_item_detail');
+        return $this->db->update('cmall_item_detail');
     }
 
     public function get_main_trending_list($config)
