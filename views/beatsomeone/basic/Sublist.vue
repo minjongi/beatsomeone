@@ -404,7 +404,7 @@ export default {
       const p = {
         limit: 10,
         offset: 0,
-        sort: this.param.sort || 'random',
+        sort: (!this.param.sort || this.param.sort === 'Sort By') ? 'random' : this.param.sort,
         genre: this.param.currentGenre,
         subgenre: this.param.currentSubgenres,
         bpmFr: this.param.currentBpmFr,
@@ -414,7 +414,7 @@ export default {
         search: this.param.search
       };
       Http.post(`/beatsomeoneApi/sublist_list`, p).then(r => {
-        if (!this.param.sort) {
+        if (!this.param.sort || this.param.sort === 'Sort By') {
           this.randomList = r
         } else {
           this.list = r
