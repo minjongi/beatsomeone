@@ -407,14 +407,13 @@
                     if (!this.param.sort || this.param.sort === 'Sort By') {
                         this.randomList = r
                     } else {
+                        this.randomList = null
                         this.list = r
                         this.last_offset = this.offset
                     }
                 });
             },
             getListMore: _.debounce(function() {
-
-                //if(this.busy) return;
                 this.busy = true;
                 const p = {
                     limit: 10,

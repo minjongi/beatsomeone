@@ -219,6 +219,8 @@ class Beatsomeone_model extends CB_Model
         $trackType = element('trackType', $config);
 
         $where['cit_status'] = 1;
+        $this->db->where('cit_start_datetime <= now()');
+
         // search
         if ($search) {
             $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
@@ -303,6 +305,8 @@ class Beatsomeone_model extends CB_Model
         $trackType = element('trackType', $config);
 
         $where['cit_status'] = 1;
+        $this->db->where('cit_start_datetime <= now()');
+
         // search
         if ($search) {
             $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
