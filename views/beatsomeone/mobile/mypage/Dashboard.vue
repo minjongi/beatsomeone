@@ -30,15 +30,15 @@
 
 <script>
 
-    import Dashboard_OrderDetails from "./Dashboard_OrderDetails";
-    import Dashboard_ExpiredSoon from "./Dashboard_ExpiredSoon";
-    import Dashboard_ProductDetails from "./Dashboard_ProductDetails";
-    import Dashboard_Chart from "./Dashboard_Chart";
-    import Dashboard_SettlementOverview from "./Dashboard_SettlementOverview";
+    import Dashboard_OrderDetails from "./component/Dashboard_OrderDetails";
+    import Dashboard_ExpiredSoon from "./component/Dashboard_ExpiredSoon";
+    import Dashboard_ProductDetails from "./component/Dashboard_ProductDetails";
+    import Dashboard_Chart from "./component/Dashboard_Chart";
+    import Dashboard_SettlementOverview from "./component/Dashboard_SettlementOverview";
 
-    import Dashboard_RecentlyListen from "./Dashboard_RecentlyListen";
-    import Dashboard_Message from "./Dashboard_Message";
-    import Dashboard_SupportCase from "./Dashboard_SupportCase";
+    import Dashboard_RecentlyListen from "./component/Dashboard_RecentlyListen";
+    import Dashboard_Message from "./component/Dashboard_Message";
+    import Dashboard_SupportCase from "./component/Dashboard_SupportCase";
 
     export default {
         components: {

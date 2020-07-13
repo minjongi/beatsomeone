@@ -19,7 +19,6 @@ import Inquiry from './Inquiry.vue'
 import Inquiryenroll from './Inquiryenroll.vue'
 import Inquirymod from './Inquirymod.vue'
 import Inquiryview from './Inquiryview.vue'
-
 import Faq from './Faq.vue'
 import Favorites from "./Favorites.vue"
 

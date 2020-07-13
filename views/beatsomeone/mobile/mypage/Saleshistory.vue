@@ -1,61 +1,5 @@
 <template>
-
-    <div class="wrapper saleshistory">
-        <Header :is-login="isLogin"/>
-        <div class="container sub">
-            <div class="mypage sublist">
-                <div class="wrap">
-                    <div class="sublist__filter sticky">
-                        <div class="row center">
-                            <div class="profile">
-                                <div class="portait">
-                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
-                                </div>
-                                <div class="info">
-                                    <div class="group">
-                                        <div class="group_title" :class="group_title">{{group_title}}</div>
-                                    </div>
-                                    <div class="username">
-                                        {{mem_nickname}}
-                                    </div>
-                                    <div class="bio">
-                                        {{ mem_type }}, {{ mem_lastname }}
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="profile__footer">
-                                <div class="location">
-                                    <img class="site" src="/assets/images/icon/position.png"/><span>{{mem_address1}}</span>
-                                </div>
-                                <div class="brandshop">
-                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row menu__wraper">
-                        <ul class="menu">
-                                <li @click="goPage('')">{{$t('dashboard')}}</li>
-                                <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
-                                <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">{{$t('productList')}}</li>
-                                <li @click="goPage('mybilling')">{{$t('orderHistory')}}</li>
-                                <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
-                                <li class="active" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
-                                <li @click="goPage('message')">{{$t('chat')}}</li>
-                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
-                                <li @click="goPage('inquiry')">{{$t('support1')}}
-                                    <!-- <ul class="menu">
-                                        <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul> -->
-                                </li>
-                            </ul>
-                    </div>
-
-                    <div class="sublist__content" style="margin-bottom:100px;">
+    <div class="sublist__content" style="margin-bottom:100px;">
 
                         <div class="row" style="margin-bottom:10px;">
                             <div class="search condition" style="margin-bottom:10px;">
@@ -280,23 +224,9 @@
                         </div>
 
                     </div>
-                </div>
-            </div>
-        </div>
-        <!--
-        <div id="waveform" ></div>
-        <main-player></main-player>
-        -->
-        <Footer/>
-    </div>
-
 </template>
 
-
 <script>
-    require('@/assets_m/js/function')
-    import Header from "../include/Header"
-    import Footer from "../include/Footer"
     import axios from 'axios'
     import moment from "moment";
     import $ from "jquery";
@@ -304,19 +234,11 @@
 
     export default {
         components: {
-            Header, Footer, VueHotelDatepicker
+            VueHotelDatepicker
         },
         data: function() {
             return {
                 isLogin: false,
-                mem_photo: '',
-                mem_usertype: '',
-                mem_nickname: '',
-                mem_address1: '',
-                mem_type: '',
-                mem_lastname: '',
-                group_title: 'SELLER',
-                product_status: 'PENDING',
                 mySalesList: [],
                 search_condition_active_idx: 1,
                 search_tabmenu_idx: 1,
@@ -375,39 +297,12 @@
                 this.calcFUncOrderComplete();
                 this.calcFUncRefundComplete();
             });
-            this.ajaxUserInfo();
         },
         computed:{
-
         },
         filters:{
         },
         methods:{
-            async ajaxUserInfo () {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/get_user_info', {}
-                );
-                //console.log(data);
-                this.mem_photo = data[0].mem_photo;
-                this.mem_usertype = data[0].mem_usertype;
-                this.mem_nickname = data[0].mem_nickname;
-                this.mem_address1 = data[0].mem_address1;
-                this.mem_type = data[0].mem_type;
-                this.mem_lastname = data[0].mem_lastname;
-
-                if(this.mem_usertype == 1){
-                    this.group_title = "CUSTOMER";
-                }else{
-                    this.group_title = "SELLER";
-                }
-              } catch (err) {
-                console.log('ajaxUserInfo error');
-              } finally {
-                this.isLoading = false;
-              }
-            },
             async ajaxSalesList() {
               try {
                 this.isLoading = true;
@@ -713,11 +608,6 @@
         }
     }
 </script>
-
-
-<style lang="scss">
-    @import '@/assets_m/scss/App.scss';
-</style>
 
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';

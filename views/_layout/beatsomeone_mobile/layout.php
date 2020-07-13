@@ -47,42 +47,9 @@
     <script src="/src/common.js?v=<?php echo time(); ?>"></script>
 
     <?php echo $this->managelayout->display_css(); ?>
-
-    <style>
-        /*body {*/
-        /*    overflow: hidden;*/
-        /*}*/
-
-        .noti-wrap {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: #000000;
-            z-index: 10000;
-            opacity: 0.7;
-        }
-        .noti-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10001;
-            max-width:400px;
-            width:100%;
-        }
-        .noti-content img {
-            max-width:400px;
-            width:100%;
-        }
-    </style>
 </head>
 <body>
-<div class="noti-wrap" id="noti01"></div>
-<div class="noti-content" id="noti02">
-    <img src="/assets_m/images/popup/pc_only.png" onclick="closeBrowser()">
-</div>
+
 <div id="app">
     <?php if (isset($yield))echo $yield; ?>
 </div>
@@ -90,16 +57,6 @@
 </body>
 
 <script type="text/javascript">
-    <?php /* if ($_SERVER['REQUEST_URI'] !== '/') { ?>
-        location.replace('/');
-    <?php } */ ?>
-
-    function closeBrowser() {
-        // parent.window.open('about:blank', '_self').close();
-        document.querySelector('#noti01').remove()
-        document.querySelector('#noti02').remove()
-    }
-
     $(document).on('click', '.viewpcversion', function(){
         Cookies.set('device_view_type', 'desktop', { expires: 1 });
     });

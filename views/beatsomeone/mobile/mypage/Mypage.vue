@@ -37,12 +37,12 @@
 <script>
 
 
-    import Dashboard_Header from "./Dashboard_Header";
+    import Dashboard_Header from "./component/Dashboard_Header";
     require('@/assets_m/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
     import { EventBus } from '*/src/eventbus';
-    import CommonTopPanel from "./CommonTopPanel";
+    import CommonTopPanel from "./component/CommonTopPanel";
 
     export default {
         components: {

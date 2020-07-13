@@ -1,300 +1,230 @@
 <template>
-
-    <div class="wrapper">
-        <Header :is-login="isLogin"/>
-        <div class="container sub">
-            <div class="mypage sublist">
-                <div class="wrap mybilling-view">
-                    <div class="sublist__filter sticky">
-                        <div class="row center">
-                            <div class="profile">
-                                <div class="portait">
-                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
-                                </div>
-                                <div class="info">
-                                    <div class="group">
-                                        <div class="group_title" :class="group_title">{{group_title}}</div>
-                                    </div>
-                                    <div class="username">
-                                        {{mem_nickname}}
-                                    </div>
-                                    <div class="bio">
-                                        {{ mem_type }}, {{ mem_lastname }}
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <div class="profile__footer">
-                                <div class="location">
-                                    <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
-                                </div>
-                                <div class="brandshop">
-                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
-                                </div>
-                            </div>
-                        </div>
-                        
+    <div style="margin-bottom:100px;">
+        <div class="row" style="margin-bottom:30px;">
+            <div class="title-content">
+                <h4 class="title"> {{$t('orderDetail')}} </h4>
+                <div class="n-box">
+                    <div class="n-flex">
+                        <span>{{$t('orderNumber')}}</span> <span class="index">{{ no }}</span>
                     </div>
-
-                    <div class="row menu__wraper">
-                        <ul class="menu">
-                            <li @click="goPage('')">{{$t('dashboard')}}</li>
-                            <li @click="goPage('profilemod')">{{$t('manageInformation')}}</li>
-                            <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">{{$t('productList')}}</li>
-                            <li class="active">{{$t('orderHistory')}}</li>
-                            <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">{{$t('registrationOfBeat')}}</li>
-                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">{{$t('salesHistory')}}</li>
-                            <li @click="goPage('seller')" v-show="group_title == 'SELLER'">{{$t('settlementHistory')}}</li>
-                            <li @click="goPage('message')">{{$t('chat')}}</li>
-                            <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
-                            <li @click="goPage('inquiry')">{{$t('support1')}}
-                                <ul class="menu">
-                                    <li @click="goPage('inquiry')">{{$t('supportCase')}}</li>
-                                    <li @click="goPage('faq')">FAQ</li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div class="n-flex">
+                        <span>{{$t('date')}}</span> <span class="date">{{ cor_datetime }}</span>
                     </div>
-
-                    <div class="sublist__content" style="margin-bottom:100px;">
-
-                        <div class="row" style="margin-bottom:30px;">
-
-                            <div class="title-content">
-                                <h4 class="title"> {{$t('orderDetail')}} </h4>
-                                <div class="n-box">
-                                    <div class="n-flex">
-                                        <span>{{$t('orderNumber')}}</span> <span class="index">{{ no }}</span>
-                                    </div>
-                                    <div class="n-flex">
-                                        <span>{{$t('date')}}</span> <span class="date">{{ cor_datetime }}</span>
-                                    </div>
-                                    <div class="n-flex">
-                                        <span>{{$t('status')}}</span> <span :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"> {{ $t(funcStatus(cor_status)) }} </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row" style="margin-bottom:10px;">
-                            
-                            <div class="title-content">
-                                <h4 class="title"> <span class="yellow">{{ myOrderList.length }}</span> {{$t('orderedItems')}} </h4>
-                            </div>
-
-                            <div class="playList productList orderlist" style="margin-top:10px;">
-                                <ul>
-                                    <li v-for="(item, i) in myOrderList" v-bind:key="item.order.cor_id + item.order.cit_id" class="playList__itembox" :id="'playList__item'+ item.order.cor_id + item.order.cit_id">
-                                        <div class="playList__item playList__item--title other">
-                                            <div class="n-flex between">
-                                                <div class="info"> <div class="code">{{ item.order.Item.cit_key }}</div> </div>
-                                                <div class="edit">
-                                                    <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
-                                                        {{ $t(funcDownStatus(cor_status, item.order.Item)) }}
-                                                    </div>
-                                                    <!--
-                                                    <div v-if="cor_status === '1' " class="download_period">
-                                                        <span> {{ caclLeftDay(item.order.cor_approve_datetime) }} {{$t('daysLeft')}} <br/> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
-                                                    </div>
-                                                    <div v-else-if="cor_status === '0' " class="download_period"> <span>  </span> </div>
-                                                    <div v-else class="download_period"> <span class="gray"> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span> </div>
-                                                    -->
-
-                                                <!-- <div class="download_period">40 {{$t('daysLeft')}}<br/>(~2020.06.24 12:30:34)</div> -->
-                                                </div>
-                                                <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
-                                                <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
-                                                <div class="price" v-show="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0' " style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div>
-                                            </div>
-
-                                            <div class="name">
-                                                <figure class="n-flex" style="margin-right: 0;">
-                                                    <span class="playList__cover">
-                                                        <img v-if="!item.order.Item.cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
-                                                        <img v-else :src="'/uploads/cmallitem/' + item.order.Item.cit_file_1" alt="">
-                                                        <i v-show="checkToday(item.order.cor_datetime)" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
-                                                        <!-- <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
-                                                        <span class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span> -->
-                                                        <div class="n-flex">
-                                                            <div class="listen">
-                                                                <div class="playbtn">
-                                                                    <button class="btn-play" @click="playAudio(item.order.Item, $event)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
-                                                                    <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
-                                                                    <span class="duration">0:00</span></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="amount"> <img src="/assets/images/icon/cd.png"/><div><span>500</span> left</div> </div>
-                                                        </div>
-                                                    </figcaption>
-
-                                                    <button  v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0" @click="downloadWithAxios(item.order.Item.cde_filename, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
-                                                    <button  v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
-                                                    <button  v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' " @click="downloadWithAxios(item.order.Item.cde_filename_2, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
-                                                    <button  v-else class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
-                                                </figure>
-                                            </div>
-                                            <div class="col n-option">
-
-                                                <div class="feature">
-                                                    
-                                                    <!--
-                                                    <div class="amount">
-                                                        <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
-                                                    </div>-->
-                                                </div>
-
-
-                                                <!-- Option -->
-                                                <div class="option">
-                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
-                                                        <div>
-                                                            <button class="playList__item--button" >
-                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                <div>
-                                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
-                                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
-                                                                </div>
-                                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
-                                                            </button>
-                                                            <div class="option_item basic" style="margin-left: 38px;">
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!--
-                                                    <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
-                                                         {{$t('unlimitedStemsLicense')}}
-                                                        <div>
-                                                            <button class="playList__item--button" >
-                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                <div>
-                                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
-                                                                </div>
-                                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
-                                                            </button>
-                                                            <div class="option_item unlimited" style="margin-left: 38px;">
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>-->
-                                                    <!-- BASIC LEASE LICENSE -->
-                                                    <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0'  " >
-                                                        
-                                                        <div>
-                                                            <button class="playList__item--button" >
-                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                <div>
-                                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
-                                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
-                                                                </div>
-                                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
-                                                            </button>
-                                                            <div class="option_item basic" style="margin-left: 38px;">
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>
-
-                                                    <!-- UNLIMITED STEMS LICENSE -->
-                                                    <div class="n-box" v-else-if="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0' " >
-                                                        
-                                                        <div>
-                                                            <button class="playList__item--button" >
-                                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                <div>
-                                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
-                                                                </div>
-                                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div> -->
-                                                            </button>
-                                                            <div class="option_item unlimited" style="margin-left: 38px;">
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col genre" v-html="calcTag(item.order.Item.hashTag)"></div>  
-                                        </div>
-                                    </li>
-
-                                </ul>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="title-content text-info">
-                                <p>{{$t('downloadNotAvailableWhenDepositMsg')}}</p>
-                                <p>{{$t('downloadAvailable60Msg')}}</p>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="payment_box">
-                                <div class="n-box">
-                                    <div class="n-flex between">
-                                        <span class="title">{{$t('payMethod1')}}</span>
-                                        <span>{{ payType }}</span>
-                                    </div>
-                                    <div class="n-flex between">
-                                        <span class="title">{{$t('payMethodDetail')}}</span>
-                                        <span>{{ cor_pg }}</span>
-                                    </div>
-                                    <div class="n-flex between">
-                                        <span class="title">{{$t('paySubtotal')}}</span>
-                                        <span>{{ totalPrice }}</span>
-                                    </div>
-                                    <div class="n-flex between">
-                                        <span class="title">{{$t('usePoints')}}</span>
-                                        <span>0 P</span>
-                                    </div>
-                                    <div class="n-flex between total">
-                                        <span>{{$t('payTotal')}}</span>
-                                        <span>{{ totalPrice }}</span>
-                                    </div>                           
-                                </div>
-                            </div>
-                            <p class="desc">
-                                <img src="/assets/images/icon/info_blue.png"><span v-html="descNoti"></span>
-                            </p>
-                        </div>
-
-                        <div class="n-flex n-btnbox">
-                            <button class="btn btn--gray" @click="goPage('mybilling')">{{$t('backToList')}}</button>
-                            <button v-if="cor_status==='1'" type="submit" class="btn btn--submit">{{$t('requestRefund')}}</button>
-                        </div>
+                    <div class="n-flex">
+                        <span>{{$t('status')}}</span> <span :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"> {{ $t(funcStatus(cor_status)) }} </span>
                     </div>
                 </div>
             </div>
         </div>
-        <!--
-        <div id="waveform" ></div>
-        <main-player></main-player>
-        -->
 
+        <div class="row" style="margin-bottom:10px;">
+
+            <div class="title-content">
+                <h4 class="title"> <span class="yellow">{{ myOrderList.length }}</span> {{$t('orderedItems')}} </h4>
+            </div>
+
+            <div class="playList productList orderlist" style="margin-top:10px;">
+                <ul>
+                    <li v-for="(item, i) in myOrderList" v-bind:key="item.order.cor_id + item.order.cit_id" class="playList__itembox" :id="'playList__item'+ item.order.cor_id + item.order.cit_id">
+                        <div class="playList__item playList__item--title other">
+                            <div class="n-flex between">
+                                <div class="info"> <div class="code">{{ item.order.Item.cit_key }}</div> </div>
+                                <div class="edit">
+                                    <div class="download_status" :class="getDownStatusColor(cor_status, item.order.Item)">
+                                        {{ $t(funcDownStatus(cor_status, item.order.Item)) }}
+                                    </div>
+                                    <!--
+                                    <div v-if="cor_status === '1' " class="download_period">
+                                        <span> {{ caclLeftDay(item.order.cor_approve_datetime) }} {{$t('daysLeft')}} <br/> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span>
+                                    </div>
+                                    <div v-else-if="cor_status === '0' " class="download_period"> <span>  </span> </div>
+                                    <div v-else class="download_period"> <span class="gray"> (~ {{ caclTargetDay(item.order.cor_approve_datetime) }}) </span> </div>
+                                    -->
+
+                                <!-- <div class="download_period">40 {{$t('daysLeft')}}<br/>(~2020.06.24 12:30:34)</div> -->
+                                </div>
+                                <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                <div class="price" v-show="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0' " style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div>
+                                <div class="price" v-show="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0' " style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div>
+                            </div>
+
+                            <div class="name">
+                                <figure class="n-flex" style="margin-right: 0;">
+                                    <span class="playList__cover">
+                                        <img v-if="!item.order.Item.cit_file_1" :src="'/assets/images/cover_default.png'" alt="">
+                                        <img v-else :src="'/uploads/cmallitem/' + item.order.Item.cit_file_1" alt="">
+                                        <i v-show="checkToday(item.order.cor_datetime)" class="label new">N</i>
+                                    </span>
+                                    <figcaption class="pointer">
+                                        <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
+                                        <!-- <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
+                                        <span class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span> -->
+                                        <div class="n-flex">
+                                            <div class="listen">
+                                                <div class="playbtn">
+                                                    <button class="btn-play" @click="playAudio(item.order.Item, $event)" :data-action="'playAction' + item.order.Item.cit_id ">재생</button>
+                                                    <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
+                                                    <span class="duration">0:00</span></span>
+                                                </div>
+                                            </div>
+                                            <div class="amount"> <img src="/assets/images/icon/cd.png"/><div><span>500</span> left</div> </div>
+                                        </div>
+                                    </figcaption>
+
+                                    <button  v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0" @click="downloadWithAxios(item.order.Item.cde_filename, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                    <button  v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' " class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
+                                    <button  v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' " @click="downloadWithAxios(item.order.Item.cde_filename_2, cor_status, item.order.Item)" class="btn-edit"><img src="/assets/images/icon/down.png"/></button>
+                                    <button  v-else class="btn-edit unable"><img src="/assets/images/icon/down.png"/></button>
+                                </figure>
+                            </div>
+                            <div class="col n-option">
+
+                                <div class="feature">
+
+                                    <!--
+                                    <div class="amount">
+                                        <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
+                                    </div>-->
+                                </div>
+
+
+                                <!-- Option -->
+                                <div class="option">
+                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE -->
+                                    <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
+                                        <div>
+                                            <button class="playList__item--button" >
+                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                <div>
+                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
+                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
+                                                </div>
+                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
+                                            </button>
+                                            <div class="option_item basic" style="margin-left: 38px;">
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!--
+                                    <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
+                                         {{$t('unlimitedStemsLicense')}}
+                                        <div>
+                                            <button class="playList__item--button" >
+                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                <div>
+                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
+                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                </div>
+                                                <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
+                                            </button>
+                                            <div class="option_item unlimited" style="margin-left: 38px;">
+                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
+                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
+                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
+                                            </div>
+                                        </div>
+
+                                    </div>-->
+                                    <!-- BASIC LEASE LICENSE -->
+                                    <div class="n-box" v-else-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0'  " >
+
+                                        <div>
+                                            <button class="playList__item--button" >
+                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                <div>
+                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
+                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
+                                                </div>
+                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
+                                            </button>
+                                            <div class="option_item basic" style="margin-left: 38px;">
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- UNLIMITED STEMS LICENSE -->
+                                    <div class="n-box" v-else-if="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0' " >
+
+                                        <div>
+                                            <button class="playList__item--button" >
+                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                                                <div>
+                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
+                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                </div>
+                                                <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div> -->
+                                            </button>
+                                            <div class="option_item unlimited" style="margin-left: 38px;">
+                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
+                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
+                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col genre" v-html="calcTag(item.order.Item.hashTag)"></div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="title-content text-info">
+                <p>{{$t('downloadNotAvailableWhenDepositMsg')}}</p>
+                <p>{{$t('downloadAvailable60Msg')}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="payment_box">
+                <div class="n-box">
+                    <div class="n-flex between">
+                        <span class="title">{{$t('payMethod1')}}</span>
+                        <span>{{ payType }}</span>
+                    </div>
+                    <div class="n-flex between">
+                        <span class="title">{{$t('payMethodDetail')}}</span>
+                        <span>{{ cor_pg }}</span>
+                    </div>
+                    <div class="n-flex between">
+                        <span class="title">{{$t('paySubtotal')}}</span>
+                        <span>{{ totalPrice }}</span>
+                    </div>
+                    <div class="n-flex between">
+                        <span class="title">{{$t('usePoints')}}</span>
+                        <span>0 P</span>
+                    </div>
+                    <div class="n-flex between total">
+                        <span>{{$t('payTotal')}}</span>
+                        <span>{{ totalPrice }}</span>
+                    </div>
+                </div>
+            </div>
+            <p class="desc">
+                <img src="/assets/images/icon/info_blue.png"><span v-html="descNoti"></span>
+            </p>
+        </div>
+
+        <div class="n-flex n-btnbox">
+            <button class="btn btn--gray" @click="goPage('mybilling')">{{$t('backToList')}}</button>
+            <button v-if="cor_status==='1'" type="submit" class="btn btn--submit">{{$t('requestRefund')}}</button>
+        </div>
 
         <div class="panel" :class="{ 'active': reqref === 1 }" style="display: none;">
             <div class="popup" style="width:1110px; display:none;">
@@ -514,7 +444,7 @@
                     </div>
 
                     <div class="col" style="margin:0">
-                        
+
                         <div class="title-content" style="margin:0;">
                             <div class="title"></div>
                             <p style="margin:0">
@@ -581,17 +511,10 @@
 
         </div>
         <main-player></main-player>
-        <Footer/>
-
     </div>
-
 </template>
 
-
 <script>
-    require('@/assets_m/js/function')
-    import Header from "../include/Header"
-    import Footer from "../include/Footer"
     import axios from 'axios'
     import moment from "moment";
     import $ from "jquery";
@@ -601,7 +524,7 @@
 
     export default {
         components: {
-            Header, Footer, MainPlayer
+            MainPlayer
         },
         data: function() {
             return {
@@ -618,8 +541,6 @@
                 mem_address1: '',
                 mem_type: '',
                 mem_lastname: '',
-                group_title: 'SELLER',
-                product_status: 'PENDING',
                 myOrderList: [],
                 checkedAll: [],
                 reqref:0,
@@ -654,34 +575,8 @@
             this.getParam();
             this.ajaxOrderList().then(()=>{
             });
-            this.ajaxUserInfo();
         },
         methods:{
-            async ajaxUserInfo () {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/get_user_info', {}
-                );
-                //console.log(data);
-                this.mem_photo = data[0].mem_photo;
-                this.mem_usertype = data[0].mem_usertype;
-                this.mem_nickname = data[0].mem_nickname;
-                this.mem_address1 = data[0].mem_address1;
-                this.mem_type = data[0].mem_type;
-                this.mem_lastname = data[0].mem_lastname;
-
-                if(this.mem_usertype == 1){
-                    this.group_title = "CUSTOMER";
-                }else{
-                    this.group_title = "SELLER";
-                }
-              } catch (err) {
-                console.log('ajaxUserInfo error');
-              } finally {
-                this.isLoading = false;
-              }
-            },
             async ajaxOrderList() {
               try {
                 this.isLoading = true;
@@ -995,11 +890,6 @@
         }
     }
 </script>
-
-
-<style lang="scss">
-    @import '@/assets_m/scss/App.scss';
-</style>
 
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
