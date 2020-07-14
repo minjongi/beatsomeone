@@ -42,6 +42,8 @@ class Beatsomeone_model extends CB_Model
         log_message('debug','Voice : ' . $voice);
 
         $where['cit_status'] = 1;
+        $this->db->where('cit_start_datetime <= now()');
+
         if (element('genre', $config) && element('genre', $config) !== 'All Genre') {
             $where['p.genre'] = element('genre', $config);
         }
@@ -137,6 +139,8 @@ class Beatsomeone_model extends CB_Model
     public function get_main_trending_list($config)
     {
         $where['cit_status'] = 1;
+        $this->db->where('cit_start_datetime <= now()');
+
         $limit = element('limit', $config) ? element('limit', $config) : 4;
 
         $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = cmall_item.cit_id AND p1.cim_key = "info_content_1"','left');
