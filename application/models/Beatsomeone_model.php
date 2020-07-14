@@ -309,6 +309,7 @@ class Beatsomeone_model extends CB_Model
         $trackType = element('trackType', $config);
 
         $where['cit_status'] = 1;
+        $where['cmall_item.cit_type1'] = 1;
         $this->db->where('cit_start_datetime <= now()');
 
         // search
@@ -338,7 +339,6 @@ class Beatsomeone_model extends CB_Model
         }
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
         if($sort == 'Sort By Staff Picks') {
-            $where['cmall_item.cit_type1'] = 1;
             $this->db->order_by('cde_download', 'desc');
         }
         // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
