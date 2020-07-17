@@ -7,7 +7,12 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=1420">
-
+    <title><?php echo html_escape(element('page_title', $layout)); ?></title>
+    <?php if (element('meta_description', $layout)) { ?><meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
+    <?php if (element('meta_keywords', $layout)) { ?><meta name="keywords" content="<?php echo html_escape(element('meta_keywords', $layout)); ?>"><?php } ?>
+    <?php if (element('meta_author', $layout)) { ?><meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
+    <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
+    <?php if (element('canonical', $view)) { ?><link rel="canonical" href="<?php echo element('canonical', $view); ?>" /><?php } ?>
     <meta property="fb:app_id" content="579999516228616"/>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
@@ -42,7 +47,6 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     </script>
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <title><?php echo html_escape(element('page_title', $layout)); ?></title>
 
     <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />
     <script src="/dist/chunk-common.js?v=<?php echo time(); ?>"></script>
