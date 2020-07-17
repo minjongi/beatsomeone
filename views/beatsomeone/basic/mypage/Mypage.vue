@@ -99,4 +99,7 @@
     .addPaddingTop {
         padding-top: 100px;
     }
+    .info {
+        width: 1090px;
+    }
 </style>

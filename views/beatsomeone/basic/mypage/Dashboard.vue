@@ -1,5 +1,5 @@
 <template>
-    <div v-if="info">
+    <div v-if="info" class="info">
         <div class="row" v-if="false && isSeller">
             <Dashboard_SettlementOverview :data="info.SettlementOverview"></Dashboard_SettlementOverview>
         </div>
