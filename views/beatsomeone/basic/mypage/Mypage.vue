@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper">
         <Header :is-login="isLogin"/>
-        <div class="container sub">
-            <div class="main mypage sublist" style="overflow:initial;">
+        <div class="">
+            <div class="main mypage" style="overflow:initial;">
                 <section class="main__section1" style="background:none;">
                     <div class="BG" v-if="isDisplayTop" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
                     <div class="filter"></div>

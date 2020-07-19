@@ -18,7 +18,7 @@
             <Dashboard_RecentlyListen :data="info.RecentlyListen"></Dashboard_RecentlyListen>
         </div>
 
-        <div class="row double" style="margin-bottom:100px;" v-if="false">
+        <div class="row double" style="margin-bottom:100px;">
             <Dashboard_Message :data="info.Message"></Dashboard_Message>
             <Dashboard_SupportCase :data="info.SupportCase"></Dashboard_SupportCase>
         </div>

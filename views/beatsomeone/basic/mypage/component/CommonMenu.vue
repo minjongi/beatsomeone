@@ -12,8 +12,8 @@
             <li :class="{'active':current === 'sellerreg'}" @click="goRoute('sellerreg')" v-if="false" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
             <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')" v-if="false">{{$t('support1')}}
                 <ul class="menu">
-                    <li @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
-                    <li @click="goRoute('faq')">FAQ</li>
+                    <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
+                    <li :class="{'active':current === 'faq'}" @click="goRoute('faq')">FAQ</li>
                 </ul>
             </li>
         </ul>
