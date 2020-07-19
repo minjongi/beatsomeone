@@ -2,7 +2,7 @@
     <div class="row menu__wraper">
         <ul class="menu">
             <li :class="{'active':current === 'dashboard'}" @click="goRoute('dashboard')">{{$t('dashboard')}}</li>
-            <li :class="{'active':current === 'profilemod'}" @click="goRoute('profilemod')">{{$t('manageinformation')}}</li>
+            <li :class="{'active':current === 'profilemod'}" @click="goRoute('profilemod')">{{$t('manageInformation')}}</li>
             <li :class="{'active':current === 'list_item'}" @click="goRoute('list_item')">{{$t('productList')}}</li>
             <li :class="{'active':current === 'regist_item'}" @click="goPage('regist_item')" v-show="groupType == 'SELLER'">{{$t('registrationOfBeat')}}</li>
             <li :class="{'active':current === 'mybilling'}" @click="goRoute('mybilling')">{{$t('orderHistory')}}</li>

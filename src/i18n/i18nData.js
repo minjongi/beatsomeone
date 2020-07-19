@@ -781,7 +781,7 @@ export default {
         estimatedSettlementAmount: 'Estimated settlement amount',
         lastMonthSettlementAmount: 'Last month settlement amount',
         chart: 'Chart',
-        togetherWithBeatsomeone: 'Together with <u>beatsomeone</u>!',
+        togetherWithBeatsomeone: 'Together with <span>beatsomeone</span>!',
         makeRelationshipWithPeopleMsg: 'Let’s make a relationship with people you like. Make your profits by beats you made. These can be started in an easy way.',
         startSelling1: 'Start Selling',
         orderDetails: 'Order Details',
