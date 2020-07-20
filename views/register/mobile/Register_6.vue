@@ -4,7 +4,7 @@
             {{ $t('paymentMethodMsg') }}
         </h1>
         <h1 class="accounts__result-title" style="margin-bottom: 50px;">
-            프로모션으로 마스터 플랜을 이용해 보세요
+            {{ $t('tryMasterPlanPromotion') }}
         </h1>
         <div class="accounts__title" v-if="false">
             <h1>
