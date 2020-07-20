@@ -2986,7 +2986,8 @@ class Register extends CB_Controller
 		if ($this->_mem_userid_check($userid) === false) {
 			$result = array(
 				'result' => 'no',
-				'reason' => $userid . '은(는) 예약어로 사용하실 수 없는 회원아이디입니다',
+//				'reason' => $userid . '은(는) 예약어로 사용하실 수 없는 회원아이디입니다',
+				'reason' => lang('usernameAlreadyUse'),
 			);
 			exit(json_encode($result));
 		}

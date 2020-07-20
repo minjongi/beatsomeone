@@ -70,7 +70,7 @@
                                     </template>
                                 </transition-group>
                                 <div class="playList__btnbox">
-                                    <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('more') }}</a>
+                                    <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
                                 </div>
                             </div>
                         </div>

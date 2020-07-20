@@ -40,7 +40,7 @@
                                     </template>
                                 </transition-group>
                                 <div class="playList__btnbox">
-                                    <a class="playList__more pointer" @click="moveMore">{{ $t('more') }}</a>
+                                    <a class="playList__more pointer" @click="moveMore">{{ $t('mainMore') }}</a>
                                 </div>
                             </div>
                         </div>
