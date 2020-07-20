@@ -1,11 +1,19 @@
 <template>
     <div class="container accounts accounts--result">
-        <h1 class="accounts__result-title">
+        <h1 class="accounts__result-title" v-if="false">
             {{ $t('paymentMethodMsg') }}
         </h1>
-        <div class="accounts__title">
+        <h1 class="accounts__result-title" style="margin-bottom: 50px;">
+            프로모션으로 마스터 플랜을 이용해 보세요
+        </h1>
+        <div class="accounts__title" v-if="false">
             <h1>
                 {{$parent.info.planName}}
+            </h1>
+        </div>
+        <div class="accounts__title">
+            <h1>
+                Master
             </h1>
         </div>
         <div class="login accounts__defaultLayout">
@@ -16,19 +24,35 @@
                     <span>{{ $t('billMonthly') }}</span>
                 </label>
                 <label for="yearly">
-                    <input type="radio" id="yearly" value="yearly" hidden name="bill"  v-model="billTerm"/>
+                    <input type="radio" id="yearly" value="yearly" hidden name="bill"  v-model="billTerm" disabled/>
                     <span>{{ $t('billYearly') }}</span>
                 </label>
             </div>
-            <div class="accounts__plan-price">
+            <div class="accounts__plan-price" v-if="false">
                 <h2>
                     <span>$</span>
                     {{ cost | money }}
                 </h2>
                 <div class="_saving">Instant Savings of {{ $t('currencySymbol') }}<span>{{disBill}}</span></div>
             </div>
+            <div class="accounts__plan-price">
+                <h2>
+                    <span>$</span>
+                    {{ 0 }}
+                </h2>
+            </div>
 
             <div class="accounts__payments">
+                <div class="accounts__btnbox">
+                    <button type="submit" class="btn btn--submit" @click="doPromotionJoin">
+                        {{ $t('checkout') }}
+                    </button>
+                    <p>
+                        {{ $t('refundPolicyMsg') }}
+                    </p>
+                </div>
+            </div>
+            <div class="accounts__payments" v-if="false">
                 <label for="promoCode" class="checkbox">
                     <input type="checkbox" hidden id="promoCode" @change="promoCheckYn($event)" />
                     <span></span> {{ $t('havePromoCode') }}
@@ -135,6 +159,18 @@
         methods: {
             doJoin() {
                 EventBus.$emit('finish_join_form',{ "promo_code" : this.promoValue});
+            },
+            doPromotionJoin() {
+                Http.post('/beatsomeoneApi/membership_purchase_promotion').then(r => {
+                    if (!!r.status && r.status === 'already') {
+                        alert('이미 프로모션에 참여하셨습니다')
+                    } else {
+                        alert('프로모션 멤버십이 등록되었습니다')
+                    }
+                    window.location.href = '/'
+                },e => {
+                    alert('처리중 오류가 발생하였습니다')
+                });
             },
             fetchData() {
                 Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {

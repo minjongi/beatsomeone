@@ -38,36 +38,10 @@
                 Object.assign(this.info,d);
                 this.doJoin();
             });
-
-            // this.info = {
-            //     "userType": "user",
-            //     "accountType": "email",
-            //     "username": "222",
-            //     "email": "333",
-            //     "password": "444",
-            //     "type": "Recording Artist"
-            // };
-
-            // this.info = {
-            //     "userType": "musician",
-            //     "plan": "pro",
-            //     //"plan": "free",
-            //     //"billTerm": "monthly",
-            //     "billTerm": "yearly",
-            //     "accountType": "email",
-            //     "username": "1111",
-            //     "email": "11@11.11",
-            //     "password": "1111",
-            //     "type": "Music Lover",
-            //     "firstname": "111",
-            //     "lastname": "222",
-            //     "location": "222",
-            //     "introduce": "222"
-            // };
         },
         mounted() {
             // 중간 리프레시 초기화
-            if(this.$router.currentRoute.path != '/') {
+            if(this.$router.currentRoute.path !== '/' && this.$router.currentRoute.path !== '/TermsOfService' && this.$router.currentRoute.path !== '/PrivacyPolicy') {
                 this.$router.push({path: '/'});
             }
 
@@ -96,17 +70,21 @@
                 };
 
                 Http.post('/register/ajax_form_user',form).then(r => {
-                    alert(this.$t('registerSuccess')) ;
-                    //window.location.href = '/';
+                    alert(this.$t('registerSuccess'))
                     if(this.info.userType == "user"){
-                        window.location.href = '/';
+                        window.location.href = '/'
                     }else{
-                        this.$router.push({path: '/6'});
+                        window.location.href = '/register?billTerm=' + (this.info.billTerm || '') + '&plan=' + (this.info.plan || '') + '&planName=' + (this.info.planName || '')
                     }
                 },e => {
-                    alert(this.$t('registerFail'));
+                    alert(this.$t('registerFail'))
                 });
             },
+            goPurchase() {
+                if(this.isLogin) {
+                    this.$router.push({path: '/6'});
+                }
+            }
         },
     }
 </script>
