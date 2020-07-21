@@ -2,7 +2,7 @@
     <div class="row center" v-if="info">
         <div class="profile">
             <div class="portait" >
-                <img :src="info.mem_photo ? '/uploads/member_photo/' + info.mem_photo : '/assets/images/portait.png'">
+                <img :src="info.mem_photo ? info.mem_photo : '/assets/images/portait.png'">
             </div>
             <div class="info">
                 <div class="group">
