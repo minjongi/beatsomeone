@@ -43,6 +43,15 @@
         gtag('config', 'UA-163407325-2');
     </script>
 
+    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+    <script type="text/javascript">
+        if(!wcs_add) var wcs_add = {};
+        wcs_add["wa"] = "4cfe6334e1f218";
+        if(window.wcs) {
+            wcs_do();
+        }
+    </script>
+
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />
