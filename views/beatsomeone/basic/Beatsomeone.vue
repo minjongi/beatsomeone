@@ -36,8 +36,7 @@
                                         {{ listSortParamName }}
                                     </button>
                                     <div class="options">
-                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i"
-                                                @click="param.sort = o">
+                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o">
                                             {{ listSortName[i] }}
                                         </button>
                                     </div>
@@ -293,7 +292,8 @@
         },
         computed: {
             listSortParamName() {
-                return this.listSortName[this.listSort.indexOf(this.param.sort)]
+                let idx = this.listSort.indexOf(this.param.sort) < 0 ? 0 : this.listSort.indexOf(this.param.sort)
+                return this.listSortName[idx]
             },
             listGenreName() {
                 let list = [],
