@@ -24,13 +24,13 @@
             <div class="gnb__content">
                 <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
-                    <a href="/cmall/wishlist">{{ $t('favorite') }}</a>
-                    <a @click="moveAction('freeBeats')">{{ $t('freeBeats') }}</a>
-                    <a href="/mypage/list_item" v-if="isLogin">{{ $t('mypage') }}</a>
+                    <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
+                    <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                    <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
-                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">장바구니 (${{ cartSum }})</a>
+                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>
                 </div>
 
                 <a href="" class="gnb__banner">

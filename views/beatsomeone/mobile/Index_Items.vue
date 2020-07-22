@@ -24,7 +24,7 @@
                     </figcaption>
                 </figure>
             </div>
-            <div class="col more">
+            <div class="col more" v-if="false">
                 <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">
                     {{ $t('more') }}
                 </button>
