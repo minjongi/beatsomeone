@@ -198,7 +198,7 @@
                             "songs": [{
                                 "name": n.cit_name,
                                 "artist": n.musician,
-                                "url": `/cmallact/download_sample/${n.cde_id}`,
+                                "url": `/cmallact/download_sample/${n.preview_cde_id}`,
                             }],
                             callbacks: {
                                 play: () => {
