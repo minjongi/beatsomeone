@@ -87,37 +87,37 @@
                                     </article>
                                     <article class="testimonials__lists">
                                         <figure class="card card--testimonials">
-                                            <a href="">
+                                            <a href="https://youtu.be/0gGCw6CNQ6U" target="_blank">
                                                 <div class="img">
-                                                    <img src="@/assets_m/images/dummy/testimonials1.png" alt=""/>
+                                                    <img src="@/assets_m/images/testimonials/testimonials_004.png" alt=""/>
                                                 </div>
                                                 <figcaption>
-                                                    <h3>WAITING (Indie Rock Type Beat)</h3>
-                                                    <p>by Fantom</p>
+                                                    <h3>작사·작곡·편곡·보컬, 만능 뮤지션</h3>
+                                                    <p>by CHORDA</p>
                                                 </figcaption>
                                             </a>
                                             <button class="play">재생</button>
                                         </figure>
                                         <figure class="card card--testimonials">
-                                            <a href="">
+                                            <a href="https://youtu.be/pCzTJXycusQ" target="_blank">
                                                 <div class="img">
-                                                    <img src="@/assets_m/images/dummy/testimonials2.png" alt=""/>
+                                                    <img src="@/assets_m/images/testimonials/testimonials_005.png" alt=""/>
                                                 </div>
                                                 <figcaption>
-                                                    <h3>WAITING (Indie Rock Type Beat)</h3>
-                                                    <p>by Fantom</p>
+                                                    <h3>재즈힙합, 새로움이 끝이 없다</h3>
+                                                    <p>by SEORILLA</p>
                                                 </figcaption>
                                             </a>
                                             <button class="play">재생</button>
                                         </figure>
                                         <figure class="card card--testimonials">
-                                            <a href="">
+                                            <a href="https://youtu.be/iB9A5UJo3L8" target="_blank">
                                                 <div class="img">
-                                                    <img src="@/assets_m/images/dummy/testimonials3.png" alt=""/>
+                                                    <img src="@/assets_m/images/testimonials/testimonials_006.png" alt=""/>
                                                 </div>
                                                 <figcaption>
-                                                    <h3>WAITING (Indie Rock Type Beat)</h3>
-                                                    <p>by Fantom</p>
+                                                    <h3>실력파 프로듀서의 첫 앨범</h3>
+                                                    <p>by 김달란</p>
                                                 </figcaption>
                                             </a>
                                             <button class="play">재생</button>
@@ -185,7 +185,7 @@
             this.getTrendingList();
 
             // Testimonials List
-            this.getTestimonialsList();
+            // this.getTestimonialsList();
         },
         mounted() {
             // 메인페이지: 서브 앨범 슬라이드 이벤트

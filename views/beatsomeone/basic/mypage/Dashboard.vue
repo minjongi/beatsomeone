@@ -10,8 +10,8 @@
 
         <div class="row double">
             <Dashboard_OrderDetails :data="info.OrderDetails"></Dashboard_OrderDetails>
-            <Dashboard_ExpiredSoon :data="info.ExpiredSoon" v-if="isCustomer"></Dashboard_ExpiredSoon>
-            <Dashboard_ProductDetails :data="info.ProductDetails" v-if="isSeller"></Dashboard_ProductDetails>
+            <Dashboard_ExpiredSoon :data="info.ExpiredSoon" v-if="isCustomer && false"></Dashboard_ExpiredSoon>
+            <Dashboard_ProductDetails :data="info.ProductDetails" v-if="isSeller && false"></Dashboard_ProductDetails>
         </div>
 
         <div class="row">

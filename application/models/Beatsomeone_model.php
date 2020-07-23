@@ -77,7 +77,9 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
         $this->db->join('cb_member as m','m.mem_id = cmall_item.mem_id','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, p.preview_cde_id, m.mem_nickname, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, m.mem_nickname,';
+        $select .= 'p.cde_id, p.cde_price,p.cde_price_d, p.cde_download,';
+        $select .= 'p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2, p.preview_cde_id,';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
@@ -229,15 +231,22 @@ class Beatsomeone_model extends CB_Model
         if ($search) {
             $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
         }
+
+        $genreWhere = [];
         // Genre
         if ($genre && $genre !== 'All Genre') {
-            $this->db->where('p.genre',$genre);
+            $genreWhere[] = "p.genre = '" . $genre . "'";
+            $genreWhere[] = "p.subgenre = '" . $genre . "'";
         }
-
         // SubGenre
         if ($subgenre && $subgenre !== 'All') {
-            $this->db->where('p.subgenre',$subgenre);
+            $genreWhere[] = "p.genre = '" . $subgenre . "'";
+            $genreWhere[] = "p.subgenre = '" . $subgenre . "'";
         }
+        if (!empty($genreWhere)) {
+            $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
+        }
+
         // Bpm
         if ($bpmFr) {
             $this->db->where('p.bpm >=',$bpmFr + 0);
@@ -287,7 +296,6 @@ class Beatsomeone_model extends CB_Model
         $this->db->where($where);
         $this->db->limit($limit);
         $this->db->offset($offset);
-
 
         $qry = $this->db->get($this->_table);
         $result = $qry->result_array();
