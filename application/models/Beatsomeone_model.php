@@ -324,15 +324,22 @@ class Beatsomeone_model extends CB_Model
         if ($search) {
             $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
         }
+
+        $genreWhere = [];
         // Genre
         if ($genre && $genre !== 'All Genre') {
-            $this->db->where('p.genre',$genre);
+            $genreWhere[] = "p.genre = '" . $genre . "'";
+            $genreWhere[] = "p.subgenre = '" . $genre . "'";
         }
-
         // SubGenre
         if ($subgenre && $subgenre !== 'All') {
-            $this->db->where('p.subgenre',$subgenre);
+            $genreWhere[] = "p.genre = '" . $subgenre . "'";
+            $genreWhere[] = "p.subgenre = '" . $subgenre . "'";
         }
+        if (!empty($genreWhere)) {
+            $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
+        }
+
         // Bpm
         if ($bpmFr) {
             $this->db->where('p.bpm >=',$bpmFr + 0);

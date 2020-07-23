@@ -133,9 +133,7 @@ class BeatsomeoneApi extends CB_Controller
     // sublist 목록 조회
     public function sublist_list()
     {
-
         $this->load->model('Beatsomeone_model');
-
 
         $config = array(
             'limit' =>  $this->input->post('limit') ,
@@ -160,9 +158,7 @@ class BeatsomeoneApi extends CB_Controller
     // sublist Top 5 조회
     public function sublist_top_list($genre = '')
     {
-
         $this->load->model('Beatsomeone_model');
-
 
         $config = array(
             'sort' =>  $this->input->post('sort') ,
