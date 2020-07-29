@@ -43,6 +43,8 @@
         text-align:center;
     }
     .smtm9 img {
+        margin: 0 auto;
         max-width:100%;
+        display: block;
     }
 </style>
