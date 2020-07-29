@@ -580,34 +580,8 @@
             this.getParam();
             this.ajaxOrderList().then(()=>{
             });
-            this.ajaxUserInfo();
         },
         methods:{
-            async ajaxUserInfo () {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/get_user_info', {}
-                );
-                //console.log(data);
-                this.mem_photo = data[0].mem_photo;
-                this.mem_usertype = data[0].mem_usertype;
-                this.mem_nickname = data[0].mem_nickname;
-                this.mem_address1 = data[0].mem_address1;
-                this.mem_type = data[0].mem_type;
-                this.mem_lastname = data[0].mem_lastname;
-
-                if(this.mem_usertype == 1){
-                    this.group_title = "CUSTOMER";
-                }else{
-                    this.group_title = "SELLER";
-                }
-              } catch (err) {
-                console.log('ajaxUserInfo error');
-              } finally {
-                this.isLoading = false;
-              }
-            },
             async ajaxOrderList() {
               try {
                 this.isLoading = true;
@@ -619,7 +593,6 @@
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                console.log(data);
                 this.myOrderList = data.result;
 
                 this.cor_datetime = this.myOrderList[0].order.cor_datetime;
@@ -637,10 +610,12 @@
               }
             },
             getParam: function(){
-                let uri = window.location.search.substring(1);
-                let params = new URLSearchParams(uri);
-                this.cid = params.get('cid');
-                this.no = params.get('n');
+                this.cid = window.location.hash.split('?')[1].split('&')[0].split('=')[1]
+                this.no = window.location.hash.split('?')[1].split('&')[1].split('=')[1]
+                // let uri = window.location.search.substring(1);
+                // let params = new URLSearchParams(uri);
+                // this.cid = params.get('cid');
+                // this.no = params.get('n');
             },
             formPayType: function(pt){
                 if(pt == 1){
