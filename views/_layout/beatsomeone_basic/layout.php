@@ -114,7 +114,6 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
         </div>
     </div>
 <?php } */ ?>
-
 <div id="app">
     <?php if (isset($yield))echo $yield; ?>
 </div>

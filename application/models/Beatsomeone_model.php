@@ -44,8 +44,15 @@ class Beatsomeone_model extends CB_Model
         $where['cit_status'] = 1;
         $this->db->where('cit_start_datetime <= now()');
 
-        if (element('genre', $config) && element('genre', $config) !== 'All Genre') {
-            $where['p.genre'] = element('genre', $config);
+        $genre = element('genre', $config);
+        $genreWhere = [];
+        // Genre
+        if ($genre && $genre !== 'All Genre') {
+            $genreWhere[] = "p.genre = '" . $genre . "'";
+            $genreWhere[] = "p.subgenre = '" . $genre . "'";
+        }
+        if (!empty($genreWhere)) {
+            $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
         }
 
         if ($bpm) {
@@ -287,8 +294,9 @@ class Beatsomeone_model extends CB_Model
         //$limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
+        $this->db->join('cb_member as m','m.mem_id = cmall_item.mem_id','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice,';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, m.mem_nickname,';
         $select .= 'p.cde_id, p.cde_price,p.cde_price_d, p.cde_download,';
         $select .= 'p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2, p.preview_cde_id,';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
