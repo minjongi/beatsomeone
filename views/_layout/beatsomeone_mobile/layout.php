@@ -4,7 +4,12 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="fb:app_id" content="579999516228616"/>
-
+    <title><?php echo html_escape(element('page_title', $layout)); ?></title>
+    <?php if (element('meta_description', $layout)) { ?><meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
+    <?php if (element('meta_keywords', $layout)) { ?><meta name="keywords" content="<?php echo html_escape(element('meta_keywords', $layout)); ?>"><?php } ?>
+    <?php if (element('meta_author', $layout)) { ?><meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
+    <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
+    <?php if (element('canonical', $view)) { ?><link rel="canonical" href="<?php echo element('canonical', $view); ?>" /><?php } ?>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
@@ -38,8 +43,16 @@
         gtag('config', 'UA-163407325-2');
     </script>
 
+    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+    <script type="text/javascript">
+        if(!wcs_add) var wcs_add = {};
+        wcs_add["wa"] = "4cfe6334e1f218";
+        if(window.wcs) {
+            wcs_do();
+        }
+    </script>
+
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <title><?php echo html_escape(element('page_title', $layout)); ?></title>
 
     <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />
     <script src="/dist/chunk-common.js?v=<?php echo time(); ?>"></script>
@@ -47,8 +60,57 @@
     <script src="/src/common.js?v=<?php echo time(); ?>"></script>
 
     <?php echo $this->managelayout->display_css(); ?>
+
+    <style>
+        .noti-wrap {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #000000;
+            z-index: 10000;
+            opacity: 0.7;
+        }
+        .noti-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10001;
+            max-width:400px;
+            width:100%;
+        }
+        .noti-content img {
+            max-width:400px;
+            width:100%;
+            margin:0;
+            padding:0;
+            border:0;
+        }
+    </style>
 </head>
 <body>
+<?php if (empty($_COOKIE['mt-popup-close']) || $_COOKIE['mt-popup-close'] !== 'Y') { ?>
+<style>
+    body, html {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<div id="noti-popup">
+    <div class="noti-wrap"></div>
+    <div class="noti-content">
+        <div>
+            <img src="/assets_m/images/popup/0722/1.png">
+        </div>
+        <div>
+            <img src="/assets_m/images/popup/0722/2.png" onclick="closePopup(true)" style="width:50%;"><img src="/assets_m/images/popup/0722/3.png" onclick="closePopup()" style="width:50%;">
+        </div>
+    </div>
+</div>
+ <?php } ?>
 
 <div id="app">
     <?php if (isset($yield))echo $yield; ?>
@@ -57,6 +119,21 @@
 </body>
 
 <script type="text/javascript">
+    function closePopup(isForever) {
+        if (isForever) {
+            setCookie('mt-popup-close', 'Y', 1);
+        }
+        $('html, body').css({'overflow': 'auto', 'height': 'auto'});
+        document.querySelector('#noti-popup').remove();
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
     $(document).on('click', '.viewpcversion', function(){
         Cookies.set('device_view_type', 'desktop', { expires: 1 });
     });

@@ -178,6 +178,17 @@ class Beatsomeone extends CB_Controller
 //        $view['view']['item']['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $view['view']['item']));
 //        $view['view']['item']['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
 
+
+//        update_hit($primary_value = '')
+
+        if ( ! $this->session->userdata('cmall_item_id_' . element('cit_id', $view['view']['item']))) {
+            $this->Cmall_item_model->update_hit(element('cit_id', $view['view']['item']));
+            $this->session->set_userdata(
+                'cmall_item_id_' . element('cit_id', $view['view']['item']),
+                '1'
+            );
+        }
+
         $detail = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
         $detailItem = [];
         if (!empty($view['view']['item']['cit_lease_license_use'])) {

@@ -27,7 +27,7 @@
         </div>
         <div class="commentsbox__row" v-if="!listComments" >
             <div class="no-comment">
-                <p>{{ $t('detail_comments_notexists') }}</p>
+                <p>{{ $t('detailCommentsNotexists') }}</p>
             </div>
         </div>
     </div>

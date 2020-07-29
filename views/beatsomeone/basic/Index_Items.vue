@@ -28,7 +28,6 @@
                 <span v-for="(t,i) in hashtag" :key="i">
                     <button @click="clickHash(t)" v-hover="'active'">{{ t }}</button>
                 </span>
-
             </div>
             <div class="col playbtn">
                 <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
@@ -40,12 +39,11 @@
             <div class="col spectrum">
                 <div class="wave"></div>
             </div>
-            <div class="col utils">
-                <a @click="addCart" class="cart" >
-                    &nbsp;
-                    <span class="tooltip">{{ item.cde_price }}&#8361;</span>
-                </a>
-                <a v-if="false" :href="`/cmallact/download_sample/${item.cde_id}`" class="download">{{ $t('download') }}</a>
+            <div class="col buybtn">
+                <button @click="addCart">구매하기</button>
+            </div>
+            <div class="col utils" v-if="false">
+                <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">{{ $t('download') }}</a>
             </div>
             <div class="col more_shared">
                 <button>
@@ -247,6 +245,7 @@
                     if(el) {
                         el.classList.add("playing");
                     }
+                    this.increaseMusicCount()
                 });
 
                 this.ws.on("audioprocess", (e) => {

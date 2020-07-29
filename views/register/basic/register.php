@@ -9,3 +9,13 @@ if ($this->member->is_member()) {
     $this->managelayout->add_script('window.vm.$children[0].goPurchase()');
 }
 ?>
+<script charset="euc-kr" src="https://tx.allatpay.com/common/NonAllatPayRE.js"></script>
+<script>
+    window.allat_shop_receive_url = '<?= site_url('pg/allat/proc') ?>';
+</script>
+<script language=Javascript>
+    // 결과값 반환( receive 페이지에서 호출 )
+    function result_submit(result_cd, result_msg, enc_data) {
+        vm.$children[0].$children[2].procCompletePay(result_cd, result_msg, enc_data);
+    }
+</script>
