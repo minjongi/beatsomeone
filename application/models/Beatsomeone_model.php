@@ -44,8 +44,15 @@ class Beatsomeone_model extends CB_Model
         $where['cit_status'] = 1;
         $this->db->where('cit_start_datetime <= now()');
 
-        if (element('genre', $config) && element('genre', $config) !== 'All Genre') {
-            $where['p.genre'] = element('genre', $config);
+        $genre = element('genre', $config);
+        $genreWhere = [];
+        // Genre
+        if ($genre && $genre !== 'All Genre') {
+            $genreWhere[] = "p.genre = '" . $genre . "'";
+            $genreWhere[] = "p.subgenre = '" . $genre . "'";
+        }
+        if (!empty($genreWhere)) {
+            $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
         }
 
         if ($bpm) {
