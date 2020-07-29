@@ -365,6 +365,15 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    public function get_unique_id()
+    {
+        $this->load->model('Unique_id_model');
+        $unique_id = $this->Unique_id_model->get_id($this->input->ip_address());
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode(['unique_id' => $unique_id]));
+    }
+
     // Comment 조회
     public function list_comment($cit_id = '')
     {
@@ -1567,17 +1576,35 @@ class BeatsomeoneApi extends CB_Controller
 
         $this->load->model('Beatsomeone_model');
 
+        $payType = $this->input->post('pay_type', null, '');
+
+        if ($payType == 3) {
+            $this->load->library('pg/paypal');
+            $order_deposit = $this->paypal->procComplete();
+            $payMethod = 'paypal';
+        } else {
+            $this->load->library('pg/allat');
+            $order_deposit = $this->allat->procComplete();
+            $payMethod = $payType === 1 ? 'allat_card' : 'allat_bank';
+        }
+
+        if (empty($order_deposit)) {
+            return false;
+        }
+
+        $bill_term = $this->input->post('bill_term', null, '');
+        $termDays = ($bill_term === 'yearly') ? '365' : '30';
         $startDate = date('Y-m-d');
-        $endDate = date("Y-m-d", strtotime($startDate . '+ 30 days'));
+        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
 
         $params = [
             'mem_id' => $this->member->item('mem_id'),
-            'bill_term' => $this->input->post('bill_term', null, ''),
+            'bill_term' => $bill_term,
             'plan' => $this->input->post('plan', null, ''),
             'plan_name' => $this->input->post('plan_name', null, ''),
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'pay_method' => $this->input->post('pay_method', null, ''),
+            'pay_method' => $payMethod,
             'amount' => $this->input->post('amount', null, '')
         ];
         $id = $this->Beatsomeone_model->insert_membership_purchase_log($params);
