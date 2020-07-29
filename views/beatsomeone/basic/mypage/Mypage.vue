@@ -2,7 +2,7 @@
     <div class="wrapper">
         <Header :is-login="isLogin"/>
         <div class="container sub">
-            <div class="main mypage" style="overflow:initial;">
+            <div class="main mypage sublist" style="overflow:initial;">
                 <section class="main__section1" style="background:none;">
                     <div class="BG" v-if="isDisplayTop" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
                     <div class="filter"></div>
@@ -27,11 +27,11 @@
 </template>
 
 <script>
-    import Dashboard_Header from "./Dashboard_Header";
+    import Dashboard_Header from "./component/Dashboard_Header";
     require('@/assets/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
-    import CommonSidePanel from "./CommonSidePanel";
+    import CommonSidePanel from "./component/CommonSidePanel";
     import { EventBus } from '*/src/eventbus';
 
     export default {
@@ -87,7 +87,6 @@
             judgeDisplayTop: function() {
                 this.isDisplayTop = this.$router.currentRoute.path === '/' && this.isCustomer;
             },
-
         }
     }
 </script>
@@ -100,5 +99,4 @@
     .addPaddingTop {
         padding-top: 100px;
     }
-
 </style>

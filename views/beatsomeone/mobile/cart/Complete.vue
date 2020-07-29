@@ -8,7 +8,7 @@
                     <div class="filter"></div>
                     <div class="wrap">
                         <header class="main__section1-title">
-                            <h1>THANK YOU<br/>FOR YOUR ORDER</h1><!-- 
+                            <h1>{{$t('payComplete')}}<br/>{{$t('forYourorder')}}</h1><!--
                             <div class="step" style="margin-top:30px;">
                                 <div class="stage active done">
                                     <span>1</span>Cart
@@ -22,7 +22,7 @@
                             </div> -->
                         </header>
                         <div class="row">
-                            <div class="checkbox" style="margin-bottom:30px; font-weight:600"> Ordered <div class="number" style="margin-left:8px; color: #ffda2a">{{ cntOrderItems }}</div> Items</div>
+                            <div class="checkbox" style="margin-bottom:30px; font-weight:600"> {{$t('ordered')}} <div class="number" style="margin-left:8px; color: #ffda2a">{{ cntOrderItems }}</div> {{$t('items')}}</div>
                         </div>
                         <div class="row">
                             <div class="playList productList cart">
@@ -56,36 +56,36 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
+                                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
                                                                 </div>
                                                                 <div class="price"> {{ formatPrice2(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                             </button>
                                                             <div class="option_item basic">
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
                                                             </div>
                                                         </div>
                                                         
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!--
                                                     <div class="n-box" v-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '1' ">
-                                                         UNLIMITED STEMS LICENSE
+                                                         {{$t('unlimitedStemsLicense')}}
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
+                                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
                                                                 </div>
                                                                 <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                             </button>
                                                             <div class="option_item unlimited">
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
                                                             </div>
                                                         </div> 
                                                         
@@ -97,16 +97,16 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">BASIC LEASE LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
+                                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
                                                                 </div>
                                                                 <div class="price"> {{ formatPrice2(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                             </button>
                                                             <div class="option_item basic">
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60 days</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit arbitrarily</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members cannot be re-rented to others</span></div>
-                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other activities not authorized by the platform</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
+                                                                <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
                                                             </div>
                                                         </div>
                                                         
@@ -118,15 +118,15 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">UNLIMITED STEMS LICENSE</div>
-                                                                    <div class="detail">MP3 or WAV + STEMS</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
+                                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
                                                                 </div>
                                                                 <div class="price"> {{ formatPrice2(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                             </button>
                                                             <div class="option_item unlimited">
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> We encourage you to recognize a total of 30% of the copyright shares (composition 20% + arrangement 10% recommended) in the name of the seller when the song is officially released. </span> </div>
-                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> Note: Korean Music Copyright Association (KOMCA) Copyright Standards, 41.67% for lyrics, 41,67% for composition, 16,66% for arrangement (Music Copyright Association, May 2020) </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
+                                                                <div> <span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
                                                             </div>
                                                         </div>
                                                         
@@ -163,12 +163,12 @@
                                                 <div>
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
-                                                        <div class="title">UNLIMITED STEMS LICENSE PRICE</div>
-                                                        <div class="detail">MP3 or WAV + STEMS</div>
+                                                        <div class="title">{{$t('unlimitedStemsLicense')}} PRICE</div>
+                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
-                                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>UNLIMITED</span></div>
+                                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited')}}</span></div>
                                                 </div>
                                             </div>
                                             <div class="col feature">
@@ -183,36 +183,36 @@
                             </div>
                         </div>
                         <div class="row fluid n-total">
-                            <div class="title">Your order information</div>
+                            <div class="title">{{$t('yourOrderInformation')}}</div>
                             <div class="payment_box" style="max-width:initial!important;padding-top:0; margin-top:0; border:0;">
                                 <div class="tab">
                                     <div class="n-flex between">
-                                        <div class="title">Method</div>
-                                        <div>Credit card</div>
+                                        <div class="title">{{$t('payMethod1')}}</div>
+                                        <div>{{ $t('creditCard') }}</div>
                                     </div>
                                     <div class="n-flex between">
-                                        <div class="title">Subtotal</div>
+                                        <div class="title">{{$t('paySubtotal')}}</div>
                                         <div>{{ formatPrice(totalPrice, true) }}</div>
                                     </div>
                                     <div class="n-flex between">
-                                        <div class="title">Points</div>
+                                        <div class="title">{{$t('usePoints')}}</div>
                                         <div>0 P</div>
                                     </div>
                                     <div class="n-flex between total">
-                                        <div>Total</div>
+                                        <div>{{$t('payTotal')}}</div>
                                         <div>{{ formatPrice(totalPrice - point, true) }}</div>
                                     </div>                           
                                 </div>
                             </div>
                             <p class="desc">
                                 <img src="/assets/images/icon/info_blue.png">
-                                Bought Item can be able to download at order history.
+                                {{$t('downloadAtOrderHistoryMsg')}}
                             </p>
                         </div>
 
                         <div class="n-flex btnbox" style="margin-top: 12px;">
-                            <button class="btn btn--gray" @click="goMain">Go to main</button>
-                            <button type="submit" class="btn btn--submit" @click="goOrderHistory">Order History</button>
+                            <button class="btn btn--gray" @click="goMain">{{$t('goToMain')}}</button>
+                            <button type="submit" class="btn btn--submit" @click="goOrderHistory">{{$t('orderHistory')}}</button>
                         </div>
                     </div>
 
@@ -361,5 +361,4 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-    @import '/assets/plugins/flatpickr/flatpickr.css';
 </style>

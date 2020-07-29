@@ -11,8 +11,8 @@
 
         <div class="row double">
             <Dashboard_OrderDetails :data="info.OrderDetails"></Dashboard_OrderDetails>
-            <Dashboard_ExpiredSoon :data="info.ExpiredSoon" v-if="isCustomer"></Dashboard_ExpiredSoon>
-            <Dashboard_ProductDetails :data="info.ProductDetails" v-if="isSeller"></Dashboard_ProductDetails>
+            <Dashboard_ExpiredSoon :data="info.ExpiredSoon" v-if="isCustomer && false"></Dashboard_ExpiredSoon>
+            <Dashboard_ProductDetails :data="info.ProductDetails" v-if="isSeller && false"></Dashboard_ProductDetails>
         </div>
 
         <div class="row">
@@ -30,15 +30,15 @@
 
 <script>
 
-    import Dashboard_OrderDetails from "./Dashboard_OrderDetails";
-    import Dashboard_ExpiredSoon from "./Dashboard_ExpiredSoon";
-    import Dashboard_ProductDetails from "./Dashboard_ProductDetails";
-    import Dashboard_Chart from "./Dashboard_Chart";
-    import Dashboard_SettlementOverview from "./Dashboard_SettlementOverview";
+    import Dashboard_OrderDetails from "./component/Dashboard_OrderDetails";
+    import Dashboard_ExpiredSoon from "./component/Dashboard_ExpiredSoon";
+    import Dashboard_ProductDetails from "./component/Dashboard_ProductDetails";
+    import Dashboard_Chart from "./component/Dashboard_Chart";
+    import Dashboard_SettlementOverview from "./component/Dashboard_SettlementOverview";
 
-    import Dashboard_RecentlyListen from "./Dashboard_RecentlyListen";
-    import Dashboard_Message from "./Dashboard_Message";
-    import Dashboard_SupportCase from "./Dashboard_SupportCase";
+    import Dashboard_RecentlyListen from "./component/Dashboard_RecentlyListen";
+    import Dashboard_Message from "./component/Dashboard_Message";
+    import Dashboard_SupportCase from "./component/Dashboard_SupportCase";
 
     export default {
         components: {

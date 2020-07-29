@@ -24,7 +24,7 @@
                     </figcaption>
                 </figure>
             </div>
-            <div class="col more">
+            <div class="col more" v-if="false">
                 <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">
                     {{ $t('more') }}
                 </button>
@@ -210,8 +210,8 @@
                     height: 50,
 
                 });
-                if(item.cde_id) {
-                    this.ws.load(`/cmallact/download_sample/${item.cde_id}`);
+                if(item.preview_cde_id) {
+                    this.ws.load(`/cmallact/download_sample/${item.preview_cde_id}`);
                 }
 
                 this.ws.on("play", () => {
@@ -226,6 +226,7 @@
                     if(el) {
                         el.classList.add("playing");
                     }
+                    this.increaseMusicCount()
                 });
 
                 this.ws.on("audioprocess", (e) => {

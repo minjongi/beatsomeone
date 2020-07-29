@@ -1,76 +1,20 @@
 <template>
-
-    <div class="wrapper saleshistory">
-        <Header :is-login="isLogin"/>
-        <div class="container sub">
-            <div class="mypage sublist">
-                <div class="wrap">
-                    <div class="sublist__filter sticky">
-                        <div class="row center">
-                            <div class="profile">
-                                <div class="portait">
-                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
-                                </div>
-                                <div class="info">
-                                    <div class="group">
-                                        <div class="group_title" :class="group_title">{{group_title}}</div>
-                                    </div>
-                                    <div class="username">
-                                        {{mem_nickname}}
-                                    </div>
-                                    <div class="bio">
-                                        {{ mem_type }}, {{ mem_lastname }}
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="profile__footer">
-                                <div class="location">
-                                    <img class="site" src="/assets/images/icon/position.png"/><span>{{mem_address1}}</span>
-                                </div>
-                                <div class="brandshop">
-                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row menu__wraper">
-                        <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')" v-show="group_title == 'SELLER'">Product List</li>
-                                <li @click="goPage('mybilling')">Order History</li>
-                                <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
-                                <li class="active" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <!-- <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul> -->
-                                </li>
-                            </ul>
-                    </div>
-
-                    <div class="sublist__content" style="margin-bottom:100px;">
+    <div class="sublist__content" style="margin-bottom:100px;">
 
                         <div class="row" style="margin-bottom:10px;">
                             <div class="search condition" style="margin-bottom:10px;">
                                 <div class="filter">
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">1 year</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">{{$t('all')}}</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">{{$t('months3')}}</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">{{$t('months6')}}</div>
+                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">{{$t('1year')}}</div>
                                 </div>
                             </div>
                             <div style="margin-bottom:10px;">
                                 <VueHotelDatepicker
                                         class="search-date"
                                         format="YYYY-MM-DD"
-                                        placeholder="Start date ~ End date"
+                                        :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
                                         :startDate="start_date"
                                         :endDate="end_date"
                                         minDate="1970-01-01"
@@ -82,9 +26,9 @@
                                 <!--
                                 <div>
                                     <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
-                                        <input type="date" placeholder="Start Date" @change="goStartDate"/>
+                                        <input type="date" :placeholder="$t('startDate')" @change="goStartDate"/>
                                         <span>─</span>
-                                        <input type="date" placeholder="End Date" @change="goEndDate"/>
+                                        <input type="date" :placeholder="$t('endDate')" @change="goEndDate"/>
                                         <button><img src="/assets/images/icon/calendar-white.png" /></button>
                                     </div>
                                 </div>
@@ -97,13 +41,13 @@
                                 <div class="tab">
                                     <div class="splitboard">
                                         <div class="green">&#8361; {{watingDepositKr }} <br/>$ {{ watingDepositDr }}
-                                            <span>Waiting Deposit</span>
+                                            <span>{{$t('waitingDeposit')}}</span>
                                         </div>
                                         <div class="blue">&#8361; {{orderCompleteKr }} <br/>$ {{ orderCompleteDr }}
-                                            <span>Order Complete</span>
+                                            <span>{{$t('orderComplete')}}</span>
                                         </div>
                                         <div class="red">&#8361; {{refundCompleteKr }} <br/>$ {{ refundCompleteDr }}
-                                            <span>Refund Complete</span>
+                                            <span>{{$t('refundComplete')}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -118,9 +62,9 @@
                                         {{ downType }}
                                     </button>
                                     <div class="options">
-                                        <button data-value="" class="option" @click="funcDownType('All')"> All </button>
-                                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> Download Complete </button>
-                                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> Not Downloaded </button>
+                                        <button data-value="" class="option" @click="funcDownType('All')"> {{$t('all')}} </button>
+                                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> {{$t('downloadComplete')}} </button>
+                                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> {{$t('notDownloaded')}} </button>
                                     </div>
                                 </div>
 
@@ -129,17 +73,17 @@
                                         {{ orderType }}
                                     </button>
                                     <div class="options">
-                                        <button data-value="" class="option" @click="funcOrderType('Recent')"> Recent </button>
-                                        <button data-value="" class="option" @click="funcOrderType('Past')"> Past </button>
+                                        <button data-value="" class="option" @click="funcOrderType('Recent')"> {{$t('recent')}} </button>
+                                        <button data-value="" class="option" @click="funcOrderType('Past')"> {{$t('past')}} </button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="tabmenu">
-                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">Refund Complete ({{calcRefundCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}} ({{calcTotalCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{$t('wait')}} ({{calcWaitCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">{{$t('payComplete1')}} ({{calcCompleteCnt}})</div>
+                                <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">{{$t('refundComplete')}} ({{calcRefundCnt}})</div>
                             </div>
 
                         </div> 
@@ -147,14 +91,14 @@
                         <!-- <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board mybillinglist saleshistory">
                                 <div class="tab nowrap">
-                                    <div class="index">No</div>
-                                    <div class="date">Date</div>
-                                    <div class="cover">Cover</div>
-                                    <div class="product">Product</div>
-                                    <div class="totalprice">Total price</div>
-                                    <div class="status">Status</div>
-                                    <div class="user">Buyer</div>
-                                    <div class="download">Expire period</div>
+                                    <div class="index">{{$t('orderNumber')}}</div>
+                                    <div class="date">{{$t('date')}}</div>
+                                    <div class="cover">{{$t('cover')}}</div>
+                                    <div class="product">{{$t('product')}}</div>
+                                    <div class="totalprice">{{$t('totalPrice')}}</div>
+                                    <div class="status">{{$t('status')}}</div>
+                                    <div class="user">{{$t('buyer')}}</div>
+                                    <div class="download">{{$t('expirePeriod')}}</div>
                                 </div>
                             </div>
                         </div> -->
@@ -175,7 +119,7 @@
                                             <div class="n-flex between">
                                                 <div>
                                                     <div class="status">
-                                                        <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ funcStatus(item.cor_status) }} </div>
+                                                        <div :class="{ 'green': item.cor_status === '0', 'blue': item.cor_status === '1', 'red': item.cor_status === '2' }"> {{ $t(funcStatus(item.cor_status)) }} </div>
                                                     </div>
                                                     <div class="subject" v-html="formatCitName(item.cit_name,50)"> </div>
                                                 </div>
@@ -193,18 +137,18 @@
                                             </div> -->
                                         
                                             <div v-if="item.cor_status === '1' && item.cit_lease_license_use === '1' && caclLeftDay(item.cor_datetime) <= 0 " class="download">
-                                                <span class="red">Unavailable</span>
+                                                <span class="red">{{$t('unavailable')}}</span>
                                             </div>
                                             <div v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime)" class="download">
-                                                <span>{{ caclLeftDay(item.cor_datetime) }} days left</span>
+                                                <span>{{ caclLeftDay(item.cor_datetime) }} {{$t('daysLeft')}}</span>
                                                 <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
                                             </div>
                                             <div v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'" class="download">
-                                                <span>{{ caclLeftDay(item.cor_datetime) }} days left</span>
+                                                <span>{{ caclLeftDay(item.cor_datetime) }} {{$t('daysLeft')}}</span>
                                                 <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
                                             </div>
                                             <div v-else class="download">
-                                                <span class="red">Unavailable</span>
+                                                <span class="red">{{$t('unavailable')}}</span>
                                             </div>
                                             
                                         </div>
@@ -231,7 +175,7 @@
                                             </div>
                                             <div class="user">User_001</div>
                                             <div class="download">
-                                                <span>37 days left</span>
+                                                <span>37 {{$t('daysLeft')}}</span>
                                                 <span class="gray">(~2020.06.24 12:30:34)</span>
                                             </div>
                                         </div>
@@ -257,7 +201,7 @@
                                             </div>
                                             <div class="user">User_001</div>
                                             <div class="download">
-                                                <span>37 days left</span>
+                                                <span>37 {{$t('daysLeft')}}</span>
                                                 <span class="gray">(~2020.06.24 12:30:34)</span>
                                             </div>
                                         </div>
@@ -280,23 +224,9 @@
                         </div>
 
                     </div>
-                </div>
-            </div>
-        </div>
-        <!--
-        <div id="waveform" ></div>
-        <main-player></main-player>
-        -->
-        <Footer/>
-    </div>
-
 </template>
 
-
 <script>
-    require('@/assets_m/js/function')
-    import Header from "../include/Header"
-    import Footer from "../include/Footer"
     import axios from 'axios'
     import moment from "moment";
     import $ from "jquery";
@@ -304,19 +234,11 @@
 
     export default {
         components: {
-            Header, Footer, VueHotelDatepicker
+            VueHotelDatepicker
         },
         data: function() {
             return {
                 isLogin: false,
-                mem_photo: '',
-                mem_usertype: '',
-                mem_nickname: '',
-                mem_address1: '',
-                mem_type: '',
-                mem_lastname: '',
-                group_title: 'SELLER',
-                product_status: 'PENDING',
                 mySalesList: [],
                 search_condition_active_idx: 1,
                 search_tabmenu_idx: 1,
@@ -375,39 +297,12 @@
                 this.calcFUncOrderComplete();
                 this.calcFUncRefundComplete();
             });
-            this.ajaxUserInfo();
         },
         computed:{
-
         },
         filters:{
         },
         methods:{
-            async ajaxUserInfo () {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/get_user_info', {}
-                );
-                //console.log(data);
-                this.mem_photo = data[0].mem_photo;
-                this.mem_usertype = data[0].mem_usertype;
-                this.mem_nickname = data[0].mem_nickname;
-                this.mem_address1 = data[0].mem_address1;
-                this.mem_type = data[0].mem_type;
-                this.mem_lastname = data[0].mem_lastname;
-
-                if(this.mem_usertype == 1){
-                    this.group_title = "CUSTOMER";
-                }else{
-                    this.group_title = "SELLER";
-                }
-              } catch (err) {
-                console.log('ajaxUserInfo error');
-              } finally {
-                this.isLoading = false;
-              }
-            },
             async ajaxSalesList() {
               try {
                 this.isLoading = true;
@@ -658,11 +553,11 @@
             },
             funcStatus(s){
                 if(s == '0'){
-                    return "Deposit Waiting";
+                    return "depositWaiting";
                 }else if(s == '1'){
-                    return "Order Complete";
+                    return "orderComplete";
                 }else{
-                    return "Refund Complete";
+                    return "refundComplete";
                 }
             },
             paging() {
@@ -713,11 +608,6 @@
         }
     }
 </script>
-
-
-<style lang="scss">
-    @import '@/assets_m/scss/App.scss';
-</style>
 
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';

@@ -1,74 +1,17 @@
 <template>
-
-    <div class="wrapper">
-        <Header :is-login="isLogin"/>
-
-        <div class="container sub">
-            <div class="mypage sublist">
-                <div class="wrap inquiryview-wrap">
-                    <div class="sublist__filter sticky">
-                        <div class="row center">
-                            <div class="profile">
-                                <div class="portait">
-                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
-                                </div>
-                                <div class="info">
-                                    <div class="group">
-                                        <div class="group_title" :class="group_title">{{group_title}}</div>
-                                    </div>
-                                    <div class="username">
-                                        {{mem_nickname}}
-                                    </div>
-                                    <div class="bio">
-                                        Music Lover, KKOMA
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <div class="profile__footer">
-                                <div class="location">
-                                    <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
-                                </div>
-                                <div class="brandshop">
-                                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
-
-                    <div class="row menu__wraper">
-                        <ul class="menu">
-                            <li @click="goPage('')">Dashboard</li>
-                            <li @click="goPage('profilemod')">Manage Information</li>
-                            <li @click="goPage('list_item')">Product List</li>
-                            <li @click="goPage('mybilling')">Order History</li>
-                            <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                            <li v-show="group_title == 'SELLER'">Settlement History</li>
-                            <li @click="goPage('message')">Message</li>
-                            <li v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                            <li class="active" @click="goPage('inquiry')">Support
-                                <!-- <ul class="menu">
-                                    <li @click="goPage('inquiry')">Support Case</li>
-                                    <li @click="goPage('faq')">FAQ</li>
-                                </ul> -->
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="sublist__content">
+    <div class="sublist__content">
 
                         <div class="row" style="margin-bottom:20px;">
                             <div class="main__media board inquirylist">
                                 <div class="tab" style="height:48px;">
-                                    <div class="active" @click="goPage('inquiry')">Support Case</div>
+                                    <div class="active" @click="goPage('inquiry')">{{$t('supportCase')}}</div>
                                     <div @click="goPage('faq')">FAQ</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row" style="margin-bottom:20px;">
-                            <button class="btn btn--gray">Back</button>
+                            <button class="btn btn--gray">{{$t('back')}}</button>
                         </div>
 
                         <div class="row" style="margin-bottom:30px;">
@@ -161,67 +104,23 @@
                         </div>
 
                     </div>
-                </div>
-            </div>
-        </div>
-        <div id="waveform" ></div>
-        <!--
-        <main-player></main-player>
-        -->
-        <Footer/>
-    </div>
-
-
 </template>
 
-
 <script>
-    require('@/assets_m/js/function')
-    import Header from "../include/Header"
-    import Footer from "../include/Footer"
-
     import $ from "jquery";
-    import { EventBus } from '*/src/eventbus';
-    import Velocity from "velocity-animate";
-    //import MainPlayer from "@/vue/common/MainPlayer";
-    import WaveSurfer from 'wavesurfer.js';
 
     export default {
         components: {
-            // Header, Footer
         },
         data: function() {
             return {
                 isLogin: false,
-                group_title: 'SELLER',
-                product_status: 'PENDING',
                 popup_filter:0,
-                ws: null,
-                isPlay: false,
-                isReady: false,
-                wavesurfer: null,
             };
         },
         mounted(){
-                        // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
-
-                $(this)
-                    .siblings(".custom-select")
-                    .removeClass("active")
-                    .find(".options")
-                    .hide();
-                $(this).toggleClass("active");
-                $(this)
-                    .find(".options")
-                    .toggle();
-            });
         },
         created() {
-                Http.get('/beatsomeoneApi/get_user_regist_item_list').then(r => {
-                    console.log(r.data);
-                    this.myProduct_list = r.data;
-                });
         },
         methods:{
             goPage: function(page){
@@ -236,11 +135,6 @@
         },
     }
 </script>
-
-
-<style lang="scss">
-    @import '@/assets_m/scss/App.scss';
-</style>
 
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';

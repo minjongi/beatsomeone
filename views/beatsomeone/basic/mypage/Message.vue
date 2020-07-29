@@ -1,222 +1,148 @@
 <template>
-
-    <div class="wrapper">
-        <Header :is-login="isLogin"/>
-
-        <div class="container sub">
-            <div class="mypage sublist">
-                <div class="wrap">
-                    <div class="sublist__filter sticky">
-                        <div class="row center">
-                            <div class="profile">
-                                <div class="portait">
-                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
-                                </div>
-                                <div class="info">
-                                    <div class="group">
-                                        <div class="group_title" :class="group_title">{{group_title}}</div>
-                                    </div>
-                                    <div class="username">
-                                        {{mem_nickname}}
-                                    </div>
-                                    <div class="bio">
-                                        {{ mem_type }}, {{ mem_lastname }}
-                                    </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
-                                </div>
+    <div>
+        <div class="row" style="margin-bottom:30px;">
+            <div class="title-content">
+                <div class="title">
+                    <div>{{$t('chat')}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:30px;">
+            <div class="message">
+                <div>
+                    <div class="sort">
+                        <div class="custom-select custom-select-dropdown">
+                            <button class="selected-option">
+                                {{ dateType }}
+                            </button>
+                            <div class="options" >
+                            <button v-show="dateType != 'All'" class="option" @click="funcDateType('All')"> {{$t('all')}} </button>
+                            <button v-show="dateType != 'Read'" class="option" @click="funcDateType('Read')"> {{$t('read')}} </button>
+                            <button v-show="dateType != 'Unread'" data-value="" class="option" @click="funcDateType('Unread')"> {{$t('unread')}} </button>
                             </div>
                         </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('#/profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li class="active">Order History</li>
-                                <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
+                        <div class="input_wrap line" >
+                            <input type="text" :placeholder="$t('enterYourSearchword')" :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
+                            <button @click="goSearchUser">
+                                <img src="/assets/images/icon/searchicon.png">
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="playList board fold messageList">
+                            <ul>
+                                <li v-for="(m, i) in messageList" v-bind:key="i" class="playList__itembox" :class="mid == m.mem_id ? 'active' : ''" @click="goMChat($event, m)">
+                                    <div class="playList__item playList__item--title nowrap">
+                                        <div class="portait">
+                                            <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portait.png"/>
+                                            <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <div class="user" style="margin-bottom: 8px;">{{ m.mem_nickname }}</div>
+                                                <div class="date">{{ m.nte_datetime }}</div>
+                                            </div>
+                                            <div>
+                                                <div class="body">{{ formatConName(m.nte_content, 50) }}</div>
+                                                <div v-show="m.unread != 0" class="noti">{{ m.unread }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </li>
+                                <!--
+                                <li class="playList__itembox">
+                                    <div class="playList__item playList__item--title nowrap ">
+                                        <div class="portait">
+                                            <img src="/assets/images/member_default.png"/>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <div class="user">User_001</div>
+                                                <div class="date">0000-00-00 00:00:00</div>
+                                            </div>
+                                            <div>
+                                                <div class="body">You recieved a message.</div>
+                                                <div class="noti">1</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                -->
                             </ul>
                         </div>
                     </div>
-                    <div class="sublist__content">
-                        
-
-                        <div class="row" style="margin-bottom:30px;">
-                            
-                            <div class="title-content">
-                                <div class="title">
-                                    <div>Message</div>
-                                </div>
-                            </div>
-
+                </div>
+                <div class="messageChat" :style="'display: '+mchat">
+                    <div class="head">
+                        <div class="portait">
+                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
+                            <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
+                         </div>
+                        <div>
+                            <div class="user">{{ mchatUser }}</div>
+                            <div class="bio">{{ mchatUserBio }}</div>
                         </div>
-
-                        <div class="row" style="margin-bottom:30px;">
-
-                            <div class="message">
-                                <div>
-                                    <div class="sort">
-                                        <div class="custom-select custom-select-dropdown">
-                                            <button class="selected-option">
-                                                {{ dateType }}
-                                            </button>
-                                            <div class="options" >
-                                            <button v-show="dateType != 'All'" class="option" @click="funcDateType('All')"> All </button>
-                                            <button v-show="dateType != 'Read'" class="option" @click="funcDateType('Read')"> Read </button>
-                                            <button v-show="dateType != 'Unread'" data-value="" class="option" @click="funcDateType('Unread')"> Unread  </button>
-                                            </div>
-                                        </div>
-                                        <div class="input_wrap line" >
-                                            <input type="text" placeholder="Enter your searchword..." :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
-                                            <button @click="goSearchUser">
-                                                <img src="/assets/images/icon/searchicon.png">
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="playList board fold messageList">
-                                            <ul>
-                                                <li v-for="(m, i) in messageList" v-bind:key="i" class="playList__itembox" :class="mid == m.mem_id ? 'active' : ''" @click="goMChat($event, m)">
-                                                    <div class="playList__item playList__item--title nowrap">
-                                                        <div class="portait">
-                                                            <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portait.png"/>
-                                                            <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
-                                                        </div>
-                                                        <div>
-                                                            <div>
-                                                                <div class="user" style="margin-bottom: 8px;">{{ m.mem_nickname }}</div>
-                                                                <div class="date">{{ m.nte_datetime }}</div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="body">{{ formatConName(m.nte_content, 50) }}</div>
-                                                                <div v-show="m.unread != 0" class="noti">{{ m.unread }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <!--
-                                                <li class="playList__itembox">
-                                                    <div class="playList__item playList__item--title nowrap ">
-                                                        <div class="portait">
-                                                            <img src="/assets/images/member_default.png"/>
-                                                        </div>
-                                                        <div>
-                                                            <div>
-                                                                <div class="user">User_001</div>
-                                                                <div class="date">0000-00-00 00:00:00</div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="body">You recieved a message.</div>
-                                                                <div class="noti">1</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                -->
-                                            </ul>
-                                        </div>
-                                    </div>
+                    </div>
+                    <div class='body' id="messageDisplay">
+                        <!-- 스크롤 박스위치 -->
+                        <div id="message-list" style="overflow-y: scroll;">
+                            <div v-for="(m, i) in messageDetail" v-bind:key="m.nte_id" class="chatBalloon" :class="mem_id === m.send_mem_id ? 'me' : ''">
+                                <div>{{m.nte_content}}
+                                    <button v-if="m.nte_filename != ''" class="btn btn--glass" @click="filedown(m.nte_filename, m.nte_originname)">
+                                        <img src="/assets/images/icon/file.png"/>{{ m.nte_originname }}
+                                    </button>
                                 </div>
-                                <div class="messageChat" :style="'display: '+mchat">
-                                    <div class="head">
-                                        <div class="portait">
-                                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
-                                            <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
-                                         </div>
-                                        <div>
-                                            <div class="user">{{ mchatUser }}</div>
-                                            <div class="bio">{{ mchatUserBio }}</div>
-                                        </div>
-                                    </div>
-                                    <div class='body' id="messageDisplay">
-                                        <!-- 스크롤 박스위치 -->
-                                        <div id="message-list" style="overflow-y: scroll;">
-                                            <div v-for="(m, i) in messageDetail" v-bind:key="m.nte_id" class="chatBalloon" :class="mem_id === m.send_mem_id ? 'me' : ''">
-                                                <div>{{m.nte_content}}
-                                                    <button v-if="m.nte_filename != ''" class="btn btn--glass" @click="filedown(m.nte_filename, m.nte_originname)">
-                                                        <img src="/assets/images/icon/file.png"/>{{ m.nte_originname }}
-                                                    </button>
-                                                </div>
-                                                <div class="date">
-                                                    <!-- <span v-if="m.nte_read_datetime != '' && mem_id != m.send_mem_id" class="active">Seen</span> -->
-                                                    {{ m.nte_datetime }}
-                                                    <span v-if="mem_id === m.send_mem_id"></span>
-                                                
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="attached" :class="attfilename != '' ? 'active' : ''">
-                                            <div class="btn btn--glass">
-                                                <img src="/assets/images/icon/file.png"/>{{attfilename}}
-                                                <button class="close" @click="attfilename = ''">
-                                                    <img src="/assets/images/icon/x-white.png"/>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="foot">
-                                        <label class="btn btn--glass" for="file">
-                                            <input type="file" id="file" ref="file" style="display:none;" @change="attfile" @drop="attfile">
-                                            <img style="height:24px;" src="/assets/images/icon/file.png"/>
-                                        </label>
-
-                                        <div>
-                                            <div class="input_wrap inputbox unit">
-                                                <input type="text" placeholder="Enter your message..." :value="goMessText" @input="goMessText=$event.target.value" @keypress.enter="sendMess">
-                                            </div>
-
-                                            <!-- 비활성화 상태 : disabled 클래스 추가 -->
-                                            <button class="btn btn--blue" :class="sendBtnYn ? '' : 'disabled'" style="width:64px;margin-left:-10px;">
-                                                <img src="/assets/images/icon/send.png" @click="sendMess"/>
-                                            </button>
-                                        </div>
-
-                                    </div>
+                                <div class="date">
+                                    <!-- <span v-if="m.nte_read_datetime != '' && mem_id != m.send_mem_id" class="active">Seen</span> -->
+                                    {{ m.nte_datetime }}
+                                    <span v-if="mem_id === m.send_mem_id"></span>
 
                                 </div>
                             </div>
                         </div>
 
+                        <div class="attached" :class="attfilename != '' ? 'active' : ''">
+                            <div class="btn btn--glass">
+                                <img src="/assets/images/icon/file.png"/>{{attfilename}}
+                                <button class="close" @click="attfilename = ''">
+                                    <img src="/assets/images/icon/x-white.png"/>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="foot">
+                        <label class="btn btn--glass" for="file">
+                            <input type="file" id="file" ref="file" style="display:none;" @change="attfile" @drop="attfile">
+                            <img style="height:24px;" src="/assets/images/icon/file.png"/>
+                        </label>
+
+                        <div>
+                            <div class="input_wrap inputbox unit">
+                                <input type="text" placeholder="Enter your message..." :value="goMessText" @input="goMessText=$event.target.value" @keypress.enter="sendMess">
+                            </div>
+
+                            <!-- 비활성화 상태 : disabled 클래스 추가 -->
+                            <button class="btn btn--blue" :class="sendBtnYn ? '' : 'disabled'" style="width:64px;margin-left:-10px;">
+                                <img src="/assets/images/icon/send.png" @click="sendMess"/>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <Footer/>
     </div>
 </template>
 
-
 <script>
-    require('@/assets/js/function')
-    import Header from "../include/Header"
-    import Footer from "../include/Footer"
-    import moment from "moment";
     import axios from 'axios'
-    import $ from "jquery";
-    import { EventBus } from '*/src/eventbus';
-    import Velocity from "velocity-animate";
+    import $ from "jquery"
     import FileUpload from 'vue-simple-upload/dist/FileUpload'
     import "jquery.nicescroll"
 
     export default {
         components: {
-            Header, Footer, FileUpload
+            FileUpload
         },
         data: function() {
             return {
@@ -595,9 +521,9 @@
     }
 </script>
 
-
-<style lang="scss">
-    @import '@/assets/scss/App.scss';
+<style scoped="scoped" lang="scss">
+    @import '/assets/plugins/slick/slick.css';
+    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
     .message_list_title{
         display: inline-block;
@@ -605,17 +531,13 @@
         white-space: nowrap;
         overflow: hidden;
         width: 150px;
-        
+
         > * {
             display: inline-block;
             margin-left: 5px;
         }
     }
-</style>
 
-<style scoped="scoped" lang="scss">
-    @import '/assets/plugins/slick/slick.css';
-    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     .playList .playList__itembox.active {
         .playList__item {
             background-color: #252629;

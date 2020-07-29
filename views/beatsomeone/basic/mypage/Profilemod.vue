@@ -1,22 +1,20 @@
 <template>
-
     <div class="row" v-if="info">
-
         <div class="title-content">
             <div class="title">
-                <div>Manage Information</div>
+                <div>{{$t('manageInformation')}}</div>
             </div>
         </div>
         <div class="box" style="padding-bottom:50px;" >
             <Profilemod_UserName :username="info.mem_userid" @updatedUserName="updateUserName"></Profilemod_UserName>
             <div class="row">
-                <div class="type"><span>User Group</span></div>
+                <div class="type"><span>{{$t('userGroup')}}</span></div>
                 <div class="data">
-                   <div class="group_title" :class="groupType">{{ groupType }}</div>
+                   <div class="group_title" :class="groupType">{{ $t(groupType) }}</div>
                 </div>
             </div>
             <div class="row" v-if="isSeller">
-                <div class="type"><span>Seller Class</span></div>
+                <div class="type"><span>{{$t('sellerClass')}}</span></div>
                 <div class="data">
                     <div class="seller_class" :class="sellerClass">{{ sellerClass }}</div>
                 </div>
@@ -31,7 +29,7 @@
             <Profilemod_Password></Profilemod_Password>
 
             <div class="row">
-                <div class="type"><span>Type</span></div>
+                <div class="type"><span>{{$t('yourType')}}</span></div>
                 <div class="data">
                     <label for="type1" class="checkbox">
                         <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover" v-model="info.mem_type">
@@ -53,10 +51,10 @@
             </div>
 
             <div class="row">
-                <div class="type"><span>Name</span></div>
+                <div class="type"><span>{{$t('realName')}}</span></div>
                 <div class="data">
-                    <input class="inputbox firstname" type="text" v-model="info.mem_firstname" placeholder="Enter your firstname..." >
-                    <input class="inputbox lastname" type="text" v-model="info.mem_lastname" placeholder="Enter your lastname..." >
+                    <input class="inputbox firstname" type="text" v-model="info.mem_firstname" :placeholder="$t('enterYourFirstname1')" >
+                    <input class="inputbox lastname" type="text" v-model="info.mem_lastname" :placeholder="$t('enterYourLastname1')" >
                 </div>
                 <div></div>
             </div>
@@ -64,15 +62,15 @@
             <div class="row">
                 <div class="type"><span>City of Residence, State</span></div>
                 <div class="data">
-                    <input class="inputbox" type="text" v-model="info.mem_address1" placeholder="Enter your location...">
+                    <input class="inputbox" type="text" v-model="info.mem_address1" :placeholder="$t('enterYourLocation')">
                 </div>
                 <div></div>
             </div>
 
             <div class="row">
-                <div class="type"><span>Bio</span></div>
+                <div class="type"><span>{{$t('bio')}}</span></div>
                 <div class="data">
-                    <textarea class="firstname" type="text" v-model="info.mem_profile_content" placeholder="Enter your bio..." />
+                    <textarea class="firstname" type="text" v-model="info.mem_profile_content" :placeholder="$t('enterYourBio')" />
                 </div>
                 <div></div>
             </div>
@@ -82,21 +80,17 @@
         </div>
 
         <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-            <button class="btn btn--gray" @click="moveDashboard">Cancel</button>
-            <button type="submit" class="btn btn--submit" @click="updateUserInfo">Save</button>
+            <button class="btn btn--gray" @click="moveDashboard">{{$t('cancel1')}}</button>
+            <button type="submit" class="btn btn--submit" @click="updateUserInfo">{{$t('save')}}</button>
         </div>
     </div>
-
-
 </template>
 
-
 <script>
-
-    import Profilemod_UserName from "./Profilemod_UserName";
-    import Profilemod_Email from "./Profilemod_Email";
-    import Profilemod_Password from "./Profilemod_Password";
-    import Profilemod_SocialLink from "./Profilemod_SocialLink";
+    import Profilemod_UserName from "./component/Profilemod_UserName";
+    import Profilemod_Email from "./component/Profilemod_Email";
+    import Profilemod_Password from "./component/Profilemod_Password";
+    import Profilemod_SocialLink from "./component/Profilemod_SocialLink";
 
     import { EventBus } from '*/src/eventbus';
 
@@ -106,7 +100,6 @@
             Profilemod_Password,
             Profilemod_Email,
             Profilemod_UserName,
-
         },
         data: function() {
             return {

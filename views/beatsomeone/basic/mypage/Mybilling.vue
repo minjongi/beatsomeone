@@ -1,248 +1,176 @@
 <template>
-
-    <div class="wrapper">
-        <Header :is-login="isLogin"/>
-        <div class="container sub">
-            <div class="mypage sublist">
-                <div class="wrap">
-                    <div class="sublist__filter sticky">
-                        <div class="row center">
-                            <div class="profile">
-                                <div class="portait">
-                                    <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'/uploads/member_photo/' + mem_photo" alt="">
-                                </div>
-                                <div class="info">
-                                    <div class="group">
-                                        <div class="group_title" :class="group_title">{{group_title}}</div>
-                                    </div>
-                                    <div class="username">
-                                        {{mem_nickname}}
-                                    </div>
-                                    <div class="bio">
-                                        {{ mem_type }}, {{ mem_lastname }}
-                                    </div>
-                                    <div class="location">
-                                        <img class="site" src="/assets/images/icon/position.png"/><div>{{mem_address1}}</div>
-                                    </div>
-                                    <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">Go to Brandshop ></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <ul class="menu">
-                                <li @click="goPage('')">Dashboard</li>
-                                <li @click="goPage('#/profilemod')">Manage Information</li>
-                                <li @click="goPage('list_item')">Product List</li>
-                                <li class="active">Order History</li>
-                                <li @click="goPage('regist_item')" v-show="group_title == 'SELLER'">Registration of Beat</li>
-                                <li @click="goPage('saleshistory')" v-show="group_title == 'SELLER'">Sales History</li>
-                                <li @click="goPage('seller')" v-show="group_title == 'SELLER'">Settlement History</li>
-                                <li @click="goPage('message')">Message</li>
-                                <li @click="goPage('sellerreg')" v-show="group_title == 'CUSTOMER'">Seller Register</li>
-                                <li @click="goPage('inquiry')">Support
-                                    <ul class="menu">
-                                        <li @click="goPage('inquiry')">Support Case</li>
-                                        <li @click="goPage('faq')">FAQ</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+    <div>
+        <div class="row" style="margin-bottom:20px;">
+            <div class="main__media board inquirylist">
+                <div class="tab" style="height:64px;">
+                    <div class="active">{{$t('orderHistory')}} ({{calcTotalCnt}})</div>
+                    <div @click="gocancellist">Cancellation / Refund History(0)</div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="display:flex; margin-bottom:10px;">
+            <div class="search condition">
+                <div class="filter">
+                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">{{$t('all')}}</div>
+                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">{{$t('months3')}}</div>
+                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">{{$t('months6')}}</div>
+                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">{{$t('year1')}}</div>
+                </div>
+            </div>
+            <div style="margin-left:auto; ">
+                <VueHotelDatepicker
+                        class="search-date"
+                        format="YYYY-MM-DD"
+                        :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
+                        :startDate="start_date"
+                        :endDate="end_date"
+                        minDate="1970-01-01"
+                        :maxDate="currDate"
+                        :endingDateValue="currDate"
+                        @update="updateSearchDate"
+                        @reset="resetSearchDate"
+                />
+            </div>
+        </div>
+        <div class="row" style="display:flex; margin-bottom:30px;">
+            <div class="tabmenu">
+                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}} ({{calcTotalCnt}})</div>
+                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{$t('wait')}} ({{calcWaitCnt}})</div>
+                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">{{$t('payComplete1')}} ({{calcCompleteCnt}})</div>
+            </div>
+            <div class="sort" style="text-align:right">
+                <div class="custom-select" style="flex: 3;">
+                    <button class="selected-option">
+                        {{ downType }}
+                    </button>
+                    <div class="options">
+                        <button data-value="" class="option" @click="funcDownType('All')"> {{$t('total1')}} </button>
+                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> {{$t('downloadComplete')}} </button>
+                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> {{$t('notDownloaded')}} </button>
                     </div>
+                </div>
 
-                    <div class="sublist__content" style="margin-bottom:100px;">
-                        <div class="row" style="margin-bottom:20px;">
-                            <div class="main__media board inquirylist">
-                                <div class="tab" style="height:64px;">
-                                    <div class="active">Order History ({{calcTotalCnt}})</div>
-                                    <div @click="gocancellist">Cancellation / Refund History(0)</div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row" style="display:flex; margin-bottom:10px;">
-                            <div class="search condition">
-                                <div class="filter">
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
-                                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">1 year</div>
-                                </div>
-                            </div>
-                            <div style="margin-left:auto; ">
-                                <VueHotelDatepicker
-                                        class="search-date"
-                                        format="YYYY-MM-DD"
-                                        placeholder="Start date ~ End date"
-                                        :startDate="start_date"
-                                        :endDate="end_date"
-                                        minDate="1970-01-01"
-                                        :maxDate="currDate"
-                                        :endingDateValue="currDate"
-                                        @update="updateSearchDate"
-                                        @reset="resetSearchDate"
-                                />
-                            </div>
-                        </div>
-                            
-                        <div class="row" style="display:flex; margin-bottom:30px;">
-                            <div class="tabmenu">
-                                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">Total ({{calcTotalCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">Wait ({{calcWaitCnt}})</div>
-                                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">Complete ({{calcCompleteCnt}})</div>
-                            </div>
-                            <div class="sort" style="text-align:right">
-                                <div class="custom-select" style="flex: 3;">
-                                    <button class="selected-option">
-                                        {{ downType }}
-                                    </button>
-                                    <div class="options">
-                                        <button data-value="" class="option" @click="funcDownType('All')"> All </button>
-                                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> Download Complete </button>
-                                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> Not Downloaded </button>
-                                    </div>
-                                </div>
-
-                                <div class="custom-select" style="min-width:max-content;">
-                                    <button class="selected-option">
-                                        {{ orderType }}
-                                    </button>
-                                    <div class="options">
-                                        <button data-value="" class="option" @click="funcOrderType('Recent')"> Recent </button>
-                                        <button data-value="" class="option" @click="funcOrderType('Past')"> Past </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-
-                        <div class="row" style="margin-bottom:10px;">
-                            <div class="main__media board mybillinglist">
-                                <div class="tab nowrap">
-                                    <div class="index">No</div>
-                                    <div class="date">Date</div>
-                                    <div class="product">Product</div>
-                                    <div class="totalprice">Total price</div>
-                                    <div class="status">Status</div>
-                                    <div class="download">Download</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-bottom:30px;">
-                            <div class="playList board mybillinglist">
-
-                                <ul>
-                                    <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox" :id="'slist'+ item['id']" @click="goOrderDetail(item['id'], myOrderList.length - ((currPage - 1) * perPage) - i )" >
-                                        <div class="playList__item playList__item--title nowrap pointer active">
-                                            <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }} </div>
-                                            <div class="date">
-                                                {{ item['items'][0].cor_datetime }}
-                                            </div>
-                                            <div class="subject" v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])">
-                                            </div>
-                                            <div class="totalprice" v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
-                                            <div class="status">
-                                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ funcStatus(item['items'][0].cor_status) }} </div>
-                                            </div>
-                                            <div class="download">
-                                                <div v-if="0 < funcDownStatus('Possible', item['items'])" class="download">
-                                                    <span class="green">Possible {{ funcDownStatus('Possible', item['items'])}} </span>
-                                                </div>
-                                                <div v-if="0 < funcDownStatus('Impossible', item['items'])" class="download">
-                                                    <span class="red">Impossible {{ funcDownStatus('Impossible', item['items'])}} </span>
-                                                </div>
-                                                <div v-if="0 < funcDownStatus('Expired', item['items'])" class="download">
-                                                    <span class="gray">Expired {{ funcDownStatus('Expired', item['items'])}} </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_009</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Order Complete</div>
-                                            </div>
-                                            <div class="download">
-                                                <span class="green">Possible 2</span>
-                                                <span class="gray">Expired 2</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_008</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="green">Deposit Waiting</div>
-                                            </div>
-                                            <div class="download">
-                                                <span class="red">Impossible 2</span>
-                                                <span class="gray">Expired 2</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title nowrap active">
-                                            <div class="index">Order_007</div>
-                                            <div class="date">
-                                                0000-00-00 00:00:00
-                                            </div>
-                                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                                            <div class="totalprice">$ 10.00</div>
-                                            <div class="status">
-                                                <div class="blue">Order Complete</div>
-                                            </div>
-                                            <div class="download">
-                                                <span class="green">Possible 2</span>
-                                                <span class="red">Impossible 2</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    -->
-                                </ul>
-
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-bottom:30px;">
-                            <div class="pagination">
-                                <div>
-                                    <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/></button>
-
-                                    <button v-for="n in makePageList(this.totalpage)" v-bind:key="n" :class="{ 'active': currPage === n }" @click="currPage = n">{{n}}</button>
-                                    <button class="next active" @click="nextPage"><img src="/assets/images/icon/chevron_next.png"/></button>
-                                </div>
-                            </div>
-                        </div>
-
+                <div class="custom-select" style="min-width:max-content;">
+                    <button class="selected-option">
+                        {{ orderType }}
+                    </button>
+                    <div class="options">
+                        <button data-value="" class="option" @click="funcOrderType('Recent')"> {{$t('recent')}} </button>
+                        <button data-value="" class="option" @click="funcOrderType('Past')"> {{$t('past')}} </button>
                     </div>
                 </div>
             </div>
         </div>
-        <Footer/>
-    </div>
+        <div class="row" style="margin-bottom:10px;">
+            <div class="main__media board mybillinglist">
+                <div class="tab nowrap">
+                    <div class="index">{{$t('orderNumber')}}</div>
+                    <div class="date">{{$t('date')}}</div>
+                    <div class="product">{{$t('product')}}</div>
+                    <div class="totalprice">{{$t('totalPrice')}}</div>
+                    <div class="status">{{$t('status')}}</div>
+                    <div class="download">{{$t('download1')}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:30px;">
+            <div class="playList board mybillinglist">
+                <ul>
+                    <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox" :id="'slist'+ item['id']" @click="goOrderDetail(item['id'], myOrderList.length - ((currPage - 1) * perPage) - i )" >
+                        <div class="playList__item playList__item--title nowrap pointer active">
+                            <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }} </div>
+                            <div class="date">
+                                {{ item['items'][0].cor_datetime }}
+                            </div>
+                            <div class="subject" v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])">
+                            </div>
+                            <div class="totalprice" v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
+                            <div class="status">
+                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ $t(funcStatus(item['items'][0].cor_status)) }} </div>
+                            </div>
+                            <div class="download">
+                                <div v-if="0 < funcDownStatus('Possible', item['items'])" class="download">
+                                    <span class="green">{{$t('possible')}} {{ funcDownStatus('Possible', item['items'])}} </span>
+                                </div>
+                                <div v-if="0 < funcDownStatus('Impossible', item['items'])" class="download">
+                                    <span class="red">{{$t('impossible')}} {{ funcDownStatus('Impossible', item['items'])}} </span>
+                                </div>
+                                <div v-if="0 < funcDownStatus('Expired', item['items'])" class="download">
+                                    <span class="gray">{{$t('expired')}} {{ funcDownStatus('Expired', item['items'])}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--
+                    <li class="playList__itembox">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">Order_009</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                            <div class="totalprice">$ 10.00</div>
+                            <div class="status">
+                                <div class="blue">Order Complete</div>
+                            </div>
+                            <div class="download">
+                                <span class="green">Possible 2</span>
+                                <span class="gray">Expired 2</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">Order_008</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                            <div class="totalprice">$ 10.00</div>
+                            <div class="status">
+                                <div class="green">Deposit Waiting</div>
+                            </div>
+                            <div class="download">
+                                <span class="red">Impossible 2</span>
+                                <span class="gray">Expired 2</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">Order_007</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
+                            <div class="totalprice">$ 10.00</div>
+                            <div class="status">
+                                <div class="blue">Order Complete</div>
+                            </div>
+                            <div class="download">
+                                <span class="green">Possible 2</span>
+                                <span class="red">Impossible 2</span>
+                            </div>
+                        </div>
+                    </li>
+                    -->
+                </ul>
 
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:30px;">
+            <div class="pagination">
+                <div>
+                    <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/></button>
+                    <button v-for="n in makePageList(this.totalpage)" v-bind:key="n" :class="{ 'active': currPage === n }" @click="currPage = n">{{n}}</button>
+                    <button class="next active" @click="nextPage"><img src="/assets/images/icon/chevron_next.png"/></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
-
 <script>
-    require('@/assets/js/function')
-    import Header from "../include/Header"
-    import Footer from "../include/Footer"
     import axios from 'axios'
     import moment from "moment";
     import $ from "jquery";
@@ -250,7 +178,7 @@
 
     export default {
         components: {
-            Header, Footer,VueHotelDatepicker
+            VueHotelDatepicker
         },
         data: function() {
             return {
@@ -306,48 +234,48 @@
         },
         methods:{
             async ajaxUserInfo () {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/get_user_info', {}
-                );
-                //console.log(data);
-                this.mem_photo = data[0].mem_photo;
-                this.mem_usertype = data[0].mem_usertype;
-                this.mem_nickname = data[0].mem_nickname;
-                this.mem_address1 = data[0].mem_address1;
-                this.mem_type = data[0].mem_type;
-                this.mem_lastname = data[0].mem_lastname;
+                try {
+                    this.isLoading = true;
+                    const { data } = await axios.get(
+                        '/beatsomeoneApi/get_user_info', {}
+                    );
+                    //console.log(data);
+                    this.mem_photo = data[0].mem_photo;
+                    this.mem_usertype = data[0].mem_usertype;
+                    this.mem_nickname = data[0].mem_nickname;
+                    this.mem_address1 = data[0].mem_address1;
+                    this.mem_type = data[0].mem_type;
+                    this.mem_lastname = data[0].mem_lastname;
 
-                if(this.mem_usertype == 1){
-                    this.group_title = "CUSTOMER";
-                }else{
-                    this.group_title = "SELLER";
+                    if(this.mem_usertype == 1){
+                        this.group_title = "CUSTOMER";
+                    }else{
+                        this.group_title = "SELLER";
+                    }
+                } catch (err) {
+                    console.log('ajaxUserInfo error');
+                } finally {
+                    this.isLoading = false;
                 }
-              } catch (err) {
-                console.log('ajaxUserInfo error');
-              } finally {
-                this.isLoading = false;
-              }
             },
             async ajaxOrderList() {
-              try {
-                this.isLoading = true;
-                const { data } = await axios.get(
-                  '/beatsomeoneApi/user_order_history', {}
-                );
-                this.myOrderList = data.sp_list.reverse();
-                if(this.myOrderList.length == 0){
-                    this.totalpage = 1;
-                }else{
-                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);    
+                try {
+                    this.isLoading = true;
+                    const { data } = await axios.get(
+                        '/beatsomeoneApi/user_order_history', {}
+                    );
+                    this.myOrderList = data.sp_list.reverse();
+                    if(this.myOrderList.length == 0){
+                        this.totalpage = 1;
+                    }else{
+                        this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);
+                    }
+                    console.log(this.myOrderList);
+                } catch (err) {
+                    console.log('ajaxOrderList error');
+                } finally {
+                    this.isLoading = false;
                 }
-                console.log(this.myOrderList);
-              } catch (err) {
-                console.log('ajaxOrderList error');
-              } finally {
-                this.isLoading = false;
-              }
             },
             formatPr: function(m, price){
                 if(this.isEmpty(m)){
@@ -380,7 +308,7 @@
             },
             formatSub: function(data, size){
                 if(1 < size){
-                    return data + " 외 " + (size-1) + "건"; 
+                    return data + " 외 " + (size-1) + "건";
                 }
                 return data;
             },
@@ -450,17 +378,17 @@
                     }
                     else if(this.search_condition_active_idx == 2){
                         let m3 = moment(new Date().getTime()).add("-3", "M");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m3)); 
-                        this.myOrderList = rst; 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m3));
+                        this.myOrderList = rst;
                     }
                     else if(this.search_condition_active_idx == 3){
                         let m6 = moment(new Date().getTime()).add("-6", "M");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m6)); 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m6));
                         this.myOrderList = rst;
                     }
                     else if(this.search_condition_active_idx == 4){
                         let m12 = moment(new Date().getTime()).add("-1", "y");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m12)); 
+                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m12));
                         this.myOrderList = rst;
                     }
                 });
@@ -474,8 +402,8 @@
                         this.search_tabmenu_idx = 1;
                     }
                     else if(menu == 2){
-                        let rst = list.filter(item => item['items'][0].cor_status === '0'); 
-                        this.myOrderList = rst; 
+                        let rst = list.filter(item => item['items'][0].cor_status === '0');
+                        this.myOrderList = rst;
                         this.search_tabmenu_idx = 2;
                     }
                     else if(menu == 3){
@@ -515,22 +443,22 @@
                     if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
                         this.myOrderList = list;
                     }else{
-                        let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0,10) 
-                                                    && item['items'][0].cor_datetime.substr(0,10) <= this.end_date);
+                        let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0,10)
+                            && item['items'][0].cor_datetime.substr(0,10) <= this.end_date);
                         this.myOrderList = rst;
                     }
                 });
             },
             goOrderDetail: function(cid, n){
-                window.location.href = '/mypage/mybillingView?cid='+cid+'&n='+n;
+                window.location.href = '/mypage#/mybillingView?cid='+cid+'&n='+n;
             },
             prevPage: function(){
                 if(this.currPage == 1) return
-                this.currPage -= 1; 
+                this.currPage -= 1;
             },
             nextPage: function(){
                 if(this.currPage == this.totalpage) return
-                this.currPage += 1; 
+                this.currPage += 1;
             },
             setSearchCondition: function(idx){
                 this.search_condition_active_idx = idx;
@@ -545,24 +473,24 @@
                 if(this.myOrderList.length == 0){
                     this.totalpage = 1;
                 }else{
-                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);    
+                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);
                 }
                 return list.slice((this.currPage - 1) * this.perPage , this.currPage * this.perPage);
             },
             funcStatus(s){
                 if(s == '0'){
-                    return "Deposit Waiting";
+                    return "depositWaiting";
                 }else if(s == '1'){
-                    return "Order Complete";
+                    return "orderComplete";
                 }else{
-                    return "Refund Complete";
+                    return "refundComplete";
                 }
             },
             funcOrderType(od){
                 if(this.orderType == od){
                     return;
                 }else{
-                    this.orderType = od;    
+                    this.orderType = od;
                     this.myOrderList.reverse();
                 }
             },
@@ -608,7 +536,7 @@
                 }
             },
             gocancellist() {
-                window.location.href = '/mypage/mycancelList';
+                this.$router.push({path: '/mycancelList'})
             },
             funcDownStatus: function(status, items){
                 if(status === 'Possible'){
@@ -616,14 +544,14 @@
                     for(let i in items){
                         if(items[i].cor_status === '1'){
                             if(items[i].cit_lease_license_use === '1'
-                                    && 0 < this.caclLeftDay(items[i].cor_datetime)){
+                                && 0 < this.caclLeftDay(items[i].cor_datetime)){
                                 possCnt += 1;
                             }else if(items[i].cit_lease_license_use === '1'
-                                    && items[i].cit_mastering_license_use === '1'
-                                    && 0 < this.caclLeftDay(items[i].cor_datetime)){
+                                && items[i].cit_mastering_license_use === '1'
+                                && 0 < this.caclLeftDay(items[i].cor_datetime)){
                                 possCnt += 1;
                             }else if(items[i].cit_lease_license_use === '0'
-                                    && items[i].cit_mastering_license_use === '1'){
+                                && items[i].cit_mastering_license_use === '1'){
                                 possCnt += 1;
                             }
                         }
@@ -642,11 +570,11 @@
                     for(let i in items){
                         if(items[i].cor_status === '1'){
                             if(items[i].cit_lease_license_use === '1'
-                                    && this.caclLeftDay(items[i].cor_datetime) <= 0){
+                                && this.caclLeftDay(items[i].cor_datetime) <= 0){
                                 possCnt += 1;
                             }else if(items[i].cit_lease_license_use === '1'
-                                    && items[i].cit_mastering_license_use === '1'
-                                    && this.caclLeftDay(items[i].cor_datetime) <= 0){
+                                && items[i].cit_mastering_license_use === '1'
+                                && this.caclLeftDay(items[i].cor_datetime) <= 0){
                                 possCnt += 1;
                                 //
                             }
@@ -658,11 +586,6 @@
         }
     }
 </script>
-
-
-<style lang="scss">
-    @import '@/assets/scss/App.scss';
-</style>
 
 <style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
@@ -696,10 +619,10 @@
         }
         // 한줄표기
         >.genre {
-            height: 26px; 
-            white-space: nowrap; 
-            display: inline-block; 
-            text-overflow: ellipsis; 
+            height: 26px;
+            white-space: nowrap;
+            display: inline-block;
+            text-overflow: ellipsis;
             overflow: hidden;
             color: rgba(white,.3);
             span {

@@ -436,6 +436,40 @@
         opacity: 1;
       }
     }
+
+    .buybtn {
+      text-align: right;
+      padding: 0 15px;
+      position: relative;
+      margin-right: 15px;
+
+      &:after {
+        content: '';
+        width: 1px;
+        height: 14px;
+        background: $white-line;
+        display: block;
+        @include position($right: 0, $top: 50%);
+        transform: translateY(-50%);
+      }
+
+      button {
+        cursor: pointer;
+        background: url(/assets/images/icon/cart.png) no-repeat 12px center;
+        font-size: 15px;
+        border: 1px solid #fff;
+        color: #fff;
+        padding: 10px 15px 5px 40px;
+        line-height: 20px;
+        border-radius: 2em;
+        margin: 2px;
+        opacity: 0.3;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
   }
   .playList__item {
     height: 90px;
