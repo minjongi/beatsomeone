@@ -249,11 +249,11 @@
                 <p class="form-title">Is the music copyright officially registered beat?</p>
                 <div class="input nInput">
                   <label for="c_no" class="checkbox">
-                    <input type="checkbox" hidden id="c_no" v-model="item.licenseLeaseUseYn" />
+                    <input type="checkbox" hidden id="c_no" />
                     <span></span> NO
                   </label>
                   <label for="c_yes" class="checkbox">
-                    <input type="checkbox" hidden id="c_yes" v-model="item.licenseLeaseUseYn" />
+                    <input type="checkbox" hidden id="c_yes" />
                     <span></span> YES
                   </label>
                 </div>
@@ -264,14 +264,14 @@
             <div class="row">
               <div class="col">
                 <div class="form-item">
-                  <div class="form-title">
-                    <label for="c1" class="checkbox">
-                      <input type="checkbox" hidden id="c1" v-model="item.licenseLeaseUseYn" />
-                      <span></span>
-                      {{ $t('basicLeaseLicensePrice') }}
-                    </label>
-                  </div>
                   <div class="row row--inner">
+                    <div class="form-title">
+                      <label for="c1" class="checkbox">
+                        <input type="checkbox" hidden id="c1" v-model="item.licenseLeaseUseYn" />
+                        <span></span>
+                        {{ $t('basicLeaseLicensePrice') }}
+                      </label>
+                    </div>
                     <span class="col">
                       <div class="input">
                         <input
@@ -284,6 +284,13 @@
                       </div>
                     </span>
                     <span class="col">
+                      <div class="form-title">
+                        <label for="c3" class="checkbox">
+                          <input type="checkbox" hidden id="c3" />
+                          <span></span>
+                          FREE BEAT
+                        </label>
+                      </div>
                       <div class="input">
                         <input
                           type="number"
