@@ -53,7 +53,7 @@
                   </p>
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchasev-info3.png" alt />
+                      <img src="/assets/images/icon/parchase-info3.png" alt />
                     </i>
                     <!-- {{$t('rentedMembersCannotBeRerentedToOthers')}} -->
                     Unable to register commercial music copyrights
