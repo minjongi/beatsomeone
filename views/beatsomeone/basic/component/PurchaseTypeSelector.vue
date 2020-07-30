@@ -239,7 +239,6 @@ export default {
 /* 추가 해야할 부분 */
 .copybox {
   padding-left: 30px;
-  margin-top: -5px;
 }
 .copybox span {
   display: block;
@@ -277,6 +276,6 @@ export default {
   flex: 0 !important;
 }
 #purchase .modal__content .modal__body .parchase-item .parchase-description p {
-  margin-bottom: 5px;
+  margin-bottom: 5px !important;
 }
 </style>
