@@ -295,6 +295,9 @@ export default {
   margin-top: 5px;
   flex-direction: column;
 }
+.playList .playList__item {
+  height: auto !important;
+}
 .playList .playList__itembox {
   height: 70px !important;
 }
