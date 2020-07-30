@@ -23,13 +23,9 @@
               <span class="playList__by">{{ item.musician }} ( {{ item.bpm }}Bpm )</span>
 
               <div class="tags">
-                <div>
-                  <button style="color:#3873d3;">FREE</button>
-                  <button style="color:#ffda2a;">Original</button>
-                </div>
-                <div>
-                  <button style="color:#fff;">Copyright Registered</button>
-                </div>
+                <button style="color:#3873d3;">FREE</button>
+                <button style="color:#ffda2a;">Original</button>
+                <button style="color:#fff;">Copyright Registered</button>
               </div>
             </div>
           </figcaption>
@@ -299,7 +295,6 @@ export default {
   justify-content: space-between;
 }
 .tags {
-  padding-right: 30px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
