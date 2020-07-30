@@ -246,10 +246,16 @@
 
             <div class="row">
               <div class="form-item">
-                <p class="form-title">{{ $t('urlOfYourTrack') }}</p>
+                <p class="form-title">Is the music copyright officially registered beat?</p>
                 <div class="input">
-                  <input type="text" placeholder readonly v-model="item.url" />
-                  <button class="form-copy" type="button">{{ $t('copy') }}</button>
+                  <label for="c_no" class="checkbox">
+                    <input type="checkbox" hidden id="c_no" v-model="item.licenseLeaseUseYn" />
+                    <span></span> NO
+                  </label>
+                  <label for="c_yes" class="checkbox" style="margin-top: 5px;">
+                    <input type="checkbox" hidden id="c_yes" v-model="item.licenseLeaseUseYn" />
+                    <span></span> YES
+                  </label>
                 </div>
               </div>
             </div>
