@@ -558,6 +558,7 @@ export default {
   color: white;
 }
 
+// 추가
 .cart .playList__item.other .option .active .option_item {
   height: auto !important;
   margin-top: 20px !important;
