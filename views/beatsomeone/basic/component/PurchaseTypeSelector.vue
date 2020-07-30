@@ -20,8 +20,18 @@
               v-if="item.cit_lease_license_use && !!item.detail && !!item.detail.LEASE && !!item.detail.LEASE.cde_id"
             >
               <div class="parchase-info">
-                <h4 class="parchase-title">BASIC LEASE</h4>
-                <p class="parchase-desc">{{$t('mp3Orwav')}}</p>
+                <div class="parchase-headern">
+                  <div>
+                    <h4 class="parchase-title">BASIC LEASE</h4>
+                    <p class="parchase-desc">{{$t('mp3Orwav')}}</p>
+                  </div>
+
+                  <div class="parchase-btnbox">
+                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE.cde_id)">
+                      <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
+                    </a>
+                  </div>
+                </div>
                 <div class="parchase-description" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
                   <p>
                     <i>
@@ -56,11 +66,6 @@
                   <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id">정보열람</button>
                   <span>Detailed condition</span>
                 </div>
-              </div>
-              <div>
-                <a class="buy waves-effect" @click="addCart(item.detail.LEASE.cde_id)">
-                  <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
-                </a>
               </div>
             </li>
             <li
@@ -249,5 +254,18 @@ export default {
 .copytransfer {
   font-size: 13px;
   color: #3873d3;
+}
+.parchase-headern {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.parchase-headern div {
+  flex: 1;
+}
+.parchase-btnbox {
+  margin-left: auto;
+  padding-left: 10px;
+  flex: none;
 }
 </style>
