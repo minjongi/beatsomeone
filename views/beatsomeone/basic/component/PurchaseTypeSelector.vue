@@ -231,6 +231,13 @@ export default {
   font-size: 11px;
   color: #3873d3;
   margin-bottom: 5px;
+  display: flex;
+  align-items: flex-start;
+}
+.copybox span:before {
+  content: "*";
+  font-size: 11px;
+  color: #3873d3;
 }
 
 .copytransfer {
