@@ -292,10 +292,31 @@ export default {
 };
 </script>
 
-<style scoped="scoped">
+<style scoped="scoped" lang="scss">
 .playList__bottom-info {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.tags {
+  padding-right: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  button {
+    height: 20px;
+    padding: 0 8px;
+    border: 1px solid #fff;
+    opacity: 0.3;
+    transition: all 0.3s;
+    font-size: 10px;
+    border-radius: 2em;
+    & + button {
+      margin-left: 5px;
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 </style>
