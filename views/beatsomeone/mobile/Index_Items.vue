@@ -291,9 +291,12 @@ export default {
 <style scoped="scoped" lang="scss">
 .playList__bottom-info {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
   margin-top: 5px;
+  flex-direction: column;
+}
+.playList .playList__itembox {
+  height: 70px !important;
 }
 .playList .playList__item .name figure figcaption {
   padding-right: 10px;
@@ -306,6 +309,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-top: 5px;
+  width: 100%;
   button {
     height: 20px;
     padding: 0 8px;
