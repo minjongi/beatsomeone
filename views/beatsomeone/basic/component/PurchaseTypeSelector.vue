@@ -233,11 +233,14 @@ export default {
   margin-bottom: 5px;
   display: flex;
   align-items: flex-start;
+  line-height: 15px;
 }
 .copybox span:before {
   content: "*";
   font-size: 11px;
   color: #3873d3;
+  margin-top: 2px;
+  margin-right: 3px;
 }
 
 .copytransfer {
