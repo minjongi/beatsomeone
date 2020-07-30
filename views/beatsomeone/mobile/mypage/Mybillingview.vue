@@ -705,7 +705,7 @@ import $ from "jquery";
 import MainPlayer from "@/vue/common/MainPlayer";
 import { EventBus } from "*/src/eventbus";
 import WaveSurfer from "wavesurfer.js";
-import ParchaseComponent from "./component/ParchaseComponent";
+import ParchaseComponent from "./component/Parchase";
 
 export default {
   components: {
