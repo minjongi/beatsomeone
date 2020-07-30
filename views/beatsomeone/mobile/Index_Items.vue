@@ -295,8 +295,12 @@ export default {
   justify-content: space-between;
   margin-top: 5px;
 }
-.playList .playList__item .name figure figcaption .playList__by {
-  margin-top: 0;
+.playList .playList__item .name figure figcaption {
+  padding-right: 10px;
+
+  .playList__by {
+    margin-top: 0;
+  }
 }
 .tags {
   display: flex;
