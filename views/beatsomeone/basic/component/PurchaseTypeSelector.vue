@@ -232,6 +232,9 @@ export default {
   margin-left: 5px;
   opacity: 0.3;
 }
+.parchase-dropdown:hover span {
+  opacity: 1;
+}
 
 /* 추가 해야할 부분 */
 .copybox {
