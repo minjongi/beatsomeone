@@ -471,18 +471,6 @@ export default {
   .col.playbtn {
     width: 180px;
     flex: none;
-  }
-  .col.spectrum {
-    width: 0px !important;
-    display: none !important;
-  }
-  .col.more_shared {
-    width: 50px;
-    flex: none;
-  }
-  .buybtn {
-    width: 145px;
-    flex: none;
     &:before {
       content: "";
       width: 1px;
@@ -497,6 +485,18 @@ export default {
       -webkit-transform: translateY(-50%);
       transform: translateY(-50%);
     }
+  }
+  .col.spectrum {
+    width: 0px !important;
+    display: none !important;
+  }
+  .col.more_shared {
+    width: 50px;
+    flex: none;
+  }
+  .buybtn {
+    width: 145px;
+    flex: none;
   }
 }
 </style>
