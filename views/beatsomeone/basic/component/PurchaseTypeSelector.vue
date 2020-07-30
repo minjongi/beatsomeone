@@ -233,6 +233,7 @@ export default {
   opacity: 0.3;
 }
 
+/* 추가 해야할 부분 */
 .copybox {
   padding-left: 30px;
   margin-top: -5px;
@@ -253,11 +254,12 @@ export default {
   margin-top: 2px;
   margin-right: 3px;
 }
-
 .copytransfer {
   font-size: 13px;
   color: #3873d3;
 }
+/* 추가 해야할 부분 끝 */
+
 .parchase-headern {
   display: flex;
   align-items: flex-start;
