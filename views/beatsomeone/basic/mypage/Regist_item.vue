@@ -880,4 +880,7 @@ export default {
 .registered .form-item .input {
   margin-top: 0 !important;
 }
+.registered .form-title .checkbox {
+  flex-wrap: nowrap;
+}
 </style>
