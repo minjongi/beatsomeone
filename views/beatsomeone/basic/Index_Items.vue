@@ -23,16 +23,18 @@
 
         <!-- 서브리스트 토글 버튼 -->
         <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
-      </div>
-      <div class="col tags">
-        <div>
-          <button style="color:#3873d3;">FREE</button>
-          <button style="color:#ffda2a;">Original</button>
+
+        <div class="tags">
+          <div>
+            <button style="color:#3873d3;">FREE</button>
+            <button style="color:#ffda2a;">Original</button>
+          </div>
+          <div>
+            <button style="color:#fff;">Copyright Registered</button>
+          </div>
         </div>
-        <div>
-          <button style="color:#fff;">Copyright Registered</button>
-        </div>
       </div>
+
       <div class="col genre">
         <span v-for="(t,i) in hashtag" :key="i">
           <button @click="clickHash(t)" v-hover="'active'">{{ t }}</button>
@@ -413,38 +415,36 @@ export default {
   width: 63px;
 }
 .playList .playList__item .name {
-  width: 300px;
   figure {
-    margin-right: 0;
     figcaption {
-      width: 205px;
     }
   }
-}
-.col.tags {
-  padding-right: 30px;
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
 
-    &:first-child {
-      margin-bottom: 5px;
+  .tags {
+    padding-right: 30px;
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      &:first-child {
+        margin-bottom: 5px;
+      }
     }
-  }
-  button {
-    height: 20px;
-    padding: 0 8px;
-    border: 1px solid #fff;
-    opacity: 0.3;
-    transition: all 0.3s;
-    font-size: 10px;
-    border-radius: 2em;
-    & + button {
-      margin-left: 5px;
-    }
-    &:hover {
-      opacity: 1;
+    button {
+      height: 20px;
+      padding: 0 8px;
+      border: 1px solid #fff;
+      opacity: 0.3;
+      transition: all 0.3s;
+      font-size: 10px;
+      border-radius: 2em;
+      & + button {
+        margin-left: 5px;
+      }
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 }
