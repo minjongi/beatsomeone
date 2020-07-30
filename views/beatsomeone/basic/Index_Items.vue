@@ -417,6 +417,10 @@ export default {
 .playList .playList__item .spectrum {
   width: 200px;
   flex: none;
+
+  .sublist & {
+    width: 100px;
+  }
 }
 .playList .playList__item .name {
   flex: 1;
