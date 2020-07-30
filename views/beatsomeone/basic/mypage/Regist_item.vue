@@ -265,14 +265,14 @@
               <div class="col">
                 <div class="form-item">
                   <div class="row row--inner">
-                    <div class="form-title">
-                      <label for="c1" class="checkbox">
-                        <input type="checkbox" hidden id="c1" v-model="item.licenseLeaseUseYn" />
-                        <span></span>
-                        {{ $t('basicLeaseLicensePrice') }}
-                      </label>
-                    </div>
                     <span class="col">
+                      <div class="form-title">
+                        <label for="c1" class="checkbox">
+                          <input type="checkbox" hidden id="c1" v-model="item.licenseLeaseUseYn" />
+                          <span></span>
+                          {{ $t('basicLeaseLicensePrice') }}
+                        </label>
+                      </div>
                       <div class="input">
                         <input
                           type="number"
