@@ -466,12 +466,16 @@ export default {
 }
 
 .sublist {
+  .col.name figure {
+    min-width: none;
+  }
   .col.playbtn {
     width: 180px;
     flex: none;
   }
   .col.spectrum {
-    width: 100px !important;
+    width: 0px !important;
+    display: none !important;
   }
   .col.more_shared {
     width: 50px;
