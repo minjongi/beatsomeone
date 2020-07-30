@@ -88,11 +88,22 @@
               v-if="item.cit_mastering_license_use && !!item.detail && !!item.detail.STEM && !!item.detail.STEM.cde_id"
             >
               <div class="parchase-info">
-                <h4 class="parchase-title">MASTERING LICENSE</h4>
-                <p class="parchase-desc">
-                  {{$t('mp3OrwavStems')}}
-                  <span class="copytransfer">+ Include Copyright Transfer</span>
-                </p>
+                <div class="parchase-headern">
+                  <div>
+                    <h4 class="parchase-title">MASTERING LICENSE</h4>
+                    <p class="parchase-desc">
+                      {{$t('mp3OrwavStems')}}
+                      <span class="copytransfer">+ Include Copyright Transfer</span>
+                    </p>
+                  </div>
+
+                  <div class="parchase-btnbox">
+                    <a class="buy waves-effect" @click="addCart(item.detail.STEM.cde_id)">
+                      <span>{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</span>
+                    </a>
+                  </div>
+                </div>
+
                 <div class="parchase-description" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
                   <p>
                     <i>
@@ -139,11 +150,6 @@
                   <button :ref="'purchaseBtn' + item.detail.STEM.cde_id">정보열람</button>
                   <span>Detailed condition</span>
                 </div>
-              </div>
-              <div>
-                <a class="buy waves-effect" @click="addCart(item.detail.STEM.cde_id)">
-                  <span>{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</span>
-                </a>
               </div>
             </li>
           </ul>
