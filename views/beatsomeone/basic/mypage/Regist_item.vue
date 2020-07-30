@@ -247,12 +247,12 @@
             <div class="row">
               <div class="form-item">
                 <p class="form-title">Is the music copyright officially registered beat?</p>
-                <div class="input">
+                <div class="input nInput">
                   <label for="c_no" class="checkbox">
                     <input type="checkbox" hidden id="c_no" v-model="item.licenseLeaseUseYn" />
                     <span></span> NO
                   </label>
-                  <label for="c_yes" class="checkbox" style="margin-top: 5px;">
+                  <label for="c_yes" class="checkbox">
                     <input type="checkbox" hidden id="c_yes" v-model="item.licenseLeaseUseYn" />
                     <span></span> YES
                   </label>
@@ -850,7 +850,13 @@ export default {
 .col ~ .col:not(.btnbox) {
   margin-top: 0;
 }
-
+.nInput {
+  display: flex;
+  align-items: center;
+}
+.nInput .checkbox {
+  margin-right: 15px;
+}
 .possible-sell {
   line-height: 1.25em !important;
   height: 55px !important;
