@@ -407,8 +407,7 @@
                     <br />· Registration of commercial music copyrights is possible
                     <br />· All editing rights can be obtained
                     <br />· No restrictions on all other commercial uses
-                    <br />
-· Sold exclusively to only one purchaser (share of ownership or transfer of ownership)
+                    <br />· Sold exclusively to only one purchaser (share of ownership or transfer of ownership)
                   </p>
                   <div class="copybox">
                     <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
@@ -906,7 +905,7 @@ export default {
 }
 
 .copybox {
-  padding-left: 30px;
+  margin-top: 5px;
 }
 .copybox span {
   display: block;
@@ -915,7 +914,7 @@ export default {
   margin-bottom: 5px;
   display: flex;
   align-items: flex-start;
-  line-height: 15px;
+  line-height: 11px;
 }
 .copybox span:before {
   content: "*";
