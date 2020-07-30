@@ -415,6 +415,7 @@ export default {
 .playList .playList__item .name {
   width: 300px;
   figure {
+    margin-right: 0;
     figcaption {
       width: 205px;
     }
