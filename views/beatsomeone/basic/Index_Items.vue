@@ -414,13 +414,16 @@ export default {
   margin-left: 20px !important;
   width: 63px;
 }
+.sublist .col.playbtn {
+  flex: none;
+}
 .playList .playList__item .spectrum {
   width: 200px;
   flex: none;
-
-  .sublist & {
-    width: 100px;
-  }
+}
+.sublist .col.playbtn {
+  width: 180px;
+  flex: none;
 }
 .playList .playList__item .name {
   flex: 1;
