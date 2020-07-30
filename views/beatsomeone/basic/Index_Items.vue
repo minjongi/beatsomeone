@@ -24,7 +24,15 @@
         <!-- 서브리스트 토글 버튼 -->
         <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
       </div>
-      <div class="col tags">1</div>
+      <div class="col tags">
+        <div>
+          <button style="color:#3873d3;">FREE</button>
+          <button style="color:#ffda2a;">Original</button>
+        </div>
+        <div>
+          <button style="color:#fff;">Copyright Registered</button>
+        </div>
+      </div>
       <div class="col genre">
         <span v-for="(t,i) in hashtag" :key="i">
           <button @click="clickHash(t)" v-hover="'active'">{{ t }}</button>
@@ -406,5 +414,21 @@ export default {
 }
 .col.tags {
   padding-right: 30px;
+  padding-left: 10px;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  button {
+    height: 20px;
+    padding: 0 8px;
+    border: 1px solid #fff;
+    opacity: 0.3;
+    transition: all 0.3s;
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 </style>
