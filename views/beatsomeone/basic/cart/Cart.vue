@@ -123,26 +123,46 @@
                                   class="price"
                                 >{{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}</div>
                               </button>
-                              <div class="option_item basic">
-                                <div>
-                                  <img src="/assets/images/icon/parchase-info6.png" alt />
-                                  <span>Profits from performances and can be used in broadcasting</span>
-                                </div>
-                                <div>
-                                  <img src="/assets/images/icon/parchase-info8.png" />
-                                  <span>Registration of commercial music copyrights is possible</span>
-                                </div>
-                                <div>
-                                  <img src="/assets/images/icon/parchase-info9.png" />
-                                  <span>All editing rights can be obtained</span>
-                                </div>
-                                <div>
-                                  <img src="/assets/images/icon/parchase-info4.png" />
-                                  <span>No restrictions on all other commercial uses</span>
-                                </div>
-                                <div>
-                                  <img src="/assets/images/icon/parchase-info10.png" />
-                                  <span>Sold exclusively to only one purchaser (share of ownership)</span>
+                              <div class="parchase-description">
+                                <p>
+                                  <i>
+                                    <img src="/assets/images/icon/parchase-info6.png" alt />
+                                  </i>
+                                  <!-- {{$t('unlimited1')}} -->
+                                  Profits from performances and can be used in broadcasting
+                                </p>
+                                <p>
+                                  <i>
+                                    <img src="/assets/images/icon/parchase-info8.png" />
+                                  </i>
+                                  <!-- {{$t('unlimitedMsg1')}} -->
+                                  Registration of commercial music copyrights is possible
+                                </p>
+                                <p>
+                                  <i>
+                                    <img src="/assets/images/icon/parchase-info9.png" />
+                                  </i>
+                                  <!-- {{$t('unlimitedMsg2')}} -->
+                                  All editing rights can be obtained
+                                </p>
+                                <p>
+                                  <i>
+                                    <img src="/assets/images/icon/parchase-info4.png" />
+                                  </i>
+                                  <!-- {{$t('unlimitedMsg2')}} -->
+                                  No restrictions on all other commercial uses
+                                </p>
+                                <p>
+                                  <i>
+                                    <img src="/assets/images/icon/parchase-info10.png" />
+                                  </i>
+                                  <!-- {{$t('unlimitedMsg2')}} -->
+                                  Sold exclusively to only one purchaser (share of ownership)
+                                </p>
+
+                                <div class="copybox">
+                                  <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
+                                  <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
                                 </div>
                               </div>
                             </div>
