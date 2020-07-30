@@ -481,7 +481,6 @@ export default {
       top: 50%;
       bottom: auto;
       right: 0;
-      right: auto;
       -webkit-transform: translateY(-50%);
       transform: translateY(-50%);
     }
