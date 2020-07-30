@@ -270,7 +270,8 @@
                         <label for="c1" class="checkbox">
                           <input type="checkbox" hidden id="c1" v-model="item.licenseLeaseUseYn" />
                           <span></span>
-                          {{ $t('basicLeaseLicensePrice') }}
+                          <!-- {{ $t('basicLeaseLicensePrice') }} -->
+                          BASIC LEASE LICENSE PRICE
                         </label>
                       </div>
                       <div class="input">
@@ -319,14 +320,20 @@
                     </span>
                   </div>
                   <p class="form-info mt-15">
-                    · {{ $t('itemRegMsg1') }}
+                    · Provide mp3 or wav file
+                    <br />· Profits from performances and can be used in broadcasting
+                    <br />· Available for 60 days
+                    <br />· Unable to register commercial music copyrights
+                    <br />· Only simple cutting editing is possible
+                    <br />· Will continue to be sold to the majority other than this buyer
+                    <!-- · {{ $t('itemRegMsg1') }}
                     <br />
                     <br />
                     · {{ $t('itemRegMsg2') }} /
                     <br />
                     {{ $t('itemRegMsg3') }} /
                     <br />
-                    {{ $t('itemRegMsg4') }}
+                    {{ $t('itemRegMsg4') }}-->
                   </p>
                 </div>
               </div>
@@ -338,7 +345,8 @@
                         <label for="c2" class="checkbox">
                           <input type="checkbox" hidden id="c2" v-model="item.licenseStemUseYn" />
                           <span></span>
-                          {{ $t('masteringLicensePrice') }}
+                          <!-- {{ $t('masteringLicensePrice') }} -->
+                          MASTERING LICENSE PRICE
                         </label>
                       </div>
                       <div class="input">
@@ -389,11 +397,23 @@
                     </span>
                   </div>
                   <p class="form-info mt-15">
-                    · {{ $t('itemRegMsg5') }}
+                    <!-- · {{ $t('itemRegMsg5') }}
                     <br />
                     <br />
-                    · {{ $t('itemRegMsg6') }}
+
+                    · {{ $t('itemRegMsg6') }}-->
+                    · Provide mp3 or wav + STEMS files
+                    <br />· Profits from performances and can be used in broadcasting
+                    <br />· Registration of commercial music copyrights is possible
+                    <br />· All editing rights can be obtained
+                    <br />· No restrictions on all other commercial uses
+                    <br />
+· Sold exclusively to only one purchaser (share of ownership or transfer of ownership)
                   </p>
+                  <div class="copybox">
+                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
+                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -883,5 +903,25 @@ export default {
 .registered .form-title .checkbox {
   flex-wrap: nowrap;
   height: 30px;
+}
+
+.copybox {
+  padding-left: 30px;
+}
+.copybox span {
+  display: block;
+  font-size: 11px;
+  color: #3873d3;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: flex-start;
+  line-height: 15px;
+}
+.copybox span:before {
+  content: "*";
+  font-size: 11px;
+  color: #3873d3;
+  margin-top: 2px;
+  margin-right: 3px;
 }
 </style>
