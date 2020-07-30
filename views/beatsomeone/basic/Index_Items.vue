@@ -412,9 +412,16 @@ export default {
   margin-left: 20px !important;
   width: 63px;
 }
+.playList .playList__item .name {
+  width: 300px;
+  figure {
+    figcaption {
+      width: 205px;
+    }
+  }
+}
 .col.tags {
   padding-right: 30px;
-  padding-left: 10px;
   div {
     display: flex;
     align-items: center;
