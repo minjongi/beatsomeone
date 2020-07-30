@@ -424,6 +424,8 @@ export default {
   figure {
     width: auto;
     flex: 1;
+    width: calc(100% - 150px);
+    margin-right: 5px;
     figcaption {
       width: calc(100% - 85px);
     }
@@ -431,6 +433,8 @@ export default {
 
   .tags {
     padding-right: 30px;
+    width: 150px;
+    flex: none;
     div {
       display: flex;
       align-items: center;
