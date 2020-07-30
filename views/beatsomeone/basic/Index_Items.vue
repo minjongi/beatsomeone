@@ -421,10 +421,6 @@ export default {
   width: 200px;
   flex: none;
 }
-.sublist .col.playbtn {
-  width: 180px;
-  flex: none;
-}
 .playList .playList__item .name {
   flex: 1;
   width: auto;
@@ -466,6 +462,24 @@ export default {
         opacity: 1;
       }
     }
+  }
+}
+
+.sublist {
+  .col.playbtn {
+    width: 180px;
+    flex: none;
+  }
+  .col.spectrum {
+    width: 100px !important;
+  }
+  .col.more_shared {
+    width: 50px;
+    flex: none;
+  }
+  .buybtn {
+    width: 145px;
+    flex: none;
   }
 }
 </style>
