@@ -48,11 +48,8 @@
                     {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}
                   </p>
                 </div>
-                <div class="parchase-dropdown">
-                  <button
-                    :ref="'purchaseBtn' + item.detail.LEASE.cde_id"
-                    @click="openDesc(item.detail.LEASE.cde_id)"
-                  >정보열람</button>
+                <div class="parchase-dropdown" @click="openDesc(item.detail.LEASE.cde_id)">
+                  <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id">정보열람</button>
                   <span>Detailed condition</span>
                 </div>
               </div>
@@ -215,6 +212,7 @@ export default {
 .parchase-dropdown span {
   color: #fff;
   font-size: 13px;
-  marign-left: 5px;
+  margin-left: 5px;
+  opacity: 0.3;
 }
 </style>
