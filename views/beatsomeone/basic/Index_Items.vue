@@ -427,7 +427,7 @@ export default {
   figure {
     width: auto;
     flex: 1;
-    width: calc(100% - 150px);
+    width: calc(100% - 160px);
     figcaption {
       width: calc(100% - 85px);
     }
