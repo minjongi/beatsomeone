@@ -414,7 +414,13 @@ export default {
   margin-left: 20px !important;
   width: 63px;
 }
+.playList .playList__item .spectrum {
+  width: 200px;
+  flex: none;
+}
 .playList .playList__item .name {
+  flex: 1;
+  width: auto;
   figure {
     figcaption {
     }
