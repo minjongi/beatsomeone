@@ -817,4 +817,8 @@ export default {
 .nInput .checkbox {
   margin-right: 15px;
 }
+.checkbox input[type="radio"] + span {
+  position: relative;
+  border-radius: 20px;
+}
 </style>
