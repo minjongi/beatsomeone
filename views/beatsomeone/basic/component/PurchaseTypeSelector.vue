@@ -65,7 +65,10 @@
             >
               <div class="parchase-info">
                 <h4 class="parchase-title">MASTERING LICENSE</h4>
-                <p class="parchase-desc">{{$t('mp3OrwavStems')}}</p>
+                <p class="parchase-desc">
+                  {{$t('mp3OrwavStems')}}
+                  <span class="copytransfer">+ Include Copyright Transfer</span>
+                </p>
                 <div class="parchase-description" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
                   <p>
                     <i>
@@ -86,11 +89,9 @@
                     {{$t('unlimitedMsg2')}}
                   </p>
                 </div>
-                <div class="parchase-dropdown">
-                  <button
-                    :ref="'purchaseBtn' + item.detail.STEM.cde_id"
-                    @click="openDesc(item.detail.STEM.cde_id)"
-                  >정보열람</button>
+                <div class="parchase-dropdown" @click="openDesc(item.detail.STEM.cde_id)">
+                  <button :ref="'purchaseBtn' + item.detail.STEM.cde_id">정보열람</button>
+                  <span>Detailed condition</span>
                 </div>
               </div>
               <div>
@@ -214,5 +215,10 @@ export default {
   font-size: 13px;
   margin-left: 5px;
   opacity: 0.3;
+}
+
+.parchase-desc .copytransfer {
+  font-size: 13px;
+  color: #3873d3;
 }
 </style>
