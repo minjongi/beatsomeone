@@ -55,17 +55,12 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-.playList__item.other .active .option_item.basic {
-  height: auto !important;
-  margin-top: 20px !important;
-  margin-bottom: 0 !important;
-}
-.playList__item.other .option .active .option_item {
-  height: auto !important;
-  margin-top: 20px !important;
+.option_item.basic {
+  margin-top: 15px !important;
   margin-bottom: 0 !important;
 }
 .parchase-description {
+  padding-left: 0 !important;
 }
 .parchase-description p {
   display: -webkit-box;
