@@ -65,9 +65,7 @@
                     <div class="detail">{{$t('mp3OrwavStems')}}</div>
                   </div>
                 </div>
-                <div class="option_item">
-                  <ParchaseComponent></ParchaseComponent>
-                </div>
+                <ParchaseComponent></ParchaseComponent>
               </div>
               <div class="col feature">
                 <div class="listen">
@@ -167,9 +165,7 @@
                     <div class="detail">{{$t('mp3OrwavStems')}}</div>
                   </div>
                 </div>
-                <div class="option_item">
-                  <ParchaseComponent></ParchaseComponent>
-                </div>
+                <ParchaseComponent></ParchaseComponent>
               </div>
               <div class="col feature">
                 <div class="listen">

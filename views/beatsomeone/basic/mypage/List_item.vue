@@ -321,9 +321,7 @@
                           <div class="detail">{{$t('mp3Orwav')}}</div>
                         </div>
                       </button>
-                      <div class="option_item basic">
-                        <ParchaseComponent></ParchaseComponent>
-                      </div>
+                      <ParchaseComponent></ParchaseComponent>
                     </div>
                     <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                   </div>
