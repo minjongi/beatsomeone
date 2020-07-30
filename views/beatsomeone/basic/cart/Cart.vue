@@ -555,4 +555,36 @@ export default {
 .playList__item .n-option .n-box .price {
   color: white;
 }
+
+.parchase-description {
+  display: none;
+  margin-top: 30px;
+}
+.parchase-description p {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  font-size: 14px;
+  margin-bottom: 10px;
+  line-height: 20px;
+}
+.parchase-description p:last-child {
+  margin-bottom: 0;
+}
+.parchase-description p i {
+  -webkit-box-flex: 0;
+  -ms-flex: none;
+  flex: none;
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+  line-height: 20px;
+  height: 20px;
+}
+.parchase-description p {
+  margin-bottom: 5px !important;
+}
 </style>
