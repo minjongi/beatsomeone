@@ -906,12 +906,13 @@ export default {
 
 .copybox {
   margin-top: 5px;
+  padding-left: 0;
 }
 .copybox span {
   display: block;
   font-size: 11px;
   color: #3873d3;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   display: flex;
   align-items: flex-start;
   line-height: 11px;
