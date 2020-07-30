@@ -249,11 +249,11 @@
                 <p class="form-title">Is the music copyright officially registered beat?</p>
                 <div class="input nInput">
                   <label for="c_no" class="checkbox">
-                    <input type="checkbox" hidden id="c_no" />
+                    <input type="radio" name="officially" hidden id="c_no" />
                     <span></span> NO
                   </label>
                   <label for="c_yes" class="checkbox">
-                    <input type="checkbox" hidden id="c_yes" />
+                    <input type="radio" name="officially" hidden id="c_yes" />
                     <span></span> YES
                   </label>
                 </div>
@@ -332,15 +332,15 @@
               </div>
               <div class="col">
                 <div class="form-item">
-                  <div class="form-title">
-                    <label for="c2" class="checkbox">
-                      <input type="checkbox" hidden id="c2" v-model="item.licenseStemUseYn" />
-                      <span></span>
-                      {{ $t('masteringLicensePrice') }}
-                    </label>
-                  </div>
                   <div class="row row--inner">
                     <span class="col">
+                      <div class="form-title">
+                        <label for="c2" class="checkbox">
+                          <input type="checkbox" hidden id="c2" v-model="item.licenseStemUseYn" />
+                          <span></span>
+                          {{ $t('masteringLicensePrice') }}
+                        </label>
+                      </div>
                       <div class="input">
                         <input
                           type="number"
@@ -352,6 +352,13 @@
                       </div>
                     </span>
                     <span class="col">
+                      <div class="form-title">
+                        <label for="c4" class="checkbox">
+                          <input type="checkbox" hidden id="c4" />
+                          <span></span>
+                          Include Copyright Transfer?
+                        </label>
+                      </div>
                       <div class="input">
                         <input
                           type="number"
