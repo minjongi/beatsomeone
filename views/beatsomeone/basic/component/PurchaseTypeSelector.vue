@@ -47,10 +47,10 @@
                     </i>
                     {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}
                   </p>
-                </div>
-                <div class="copybox">
-                  <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                  <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                  <div class="copybox">
+                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
+                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                  </div>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.LEASE.cde_id)">
                   <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id">정보열람</button>
@@ -92,10 +92,10 @@
                     </i>
                     {{$t('unlimitedMsg2')}}
                   </p>
-                </div>
-                <div class="copybox">
-                  <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                  <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                  <div class="copybox">
+                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
+                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                  </div>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.STEM.cde_id)">
                   <button :ref="'purchaseBtn' + item.detail.STEM.cde_id">정보열람</button>
@@ -227,7 +227,7 @@ export default {
 
 .copybox {
   padding-left: 30px;
-  margin-top: 5px;
+  margin-top: -5px;
 }
 .copybox span {
   display: block;
