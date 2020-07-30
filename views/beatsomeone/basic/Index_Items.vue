@@ -428,7 +428,6 @@ export default {
     width: auto;
     flex: 1;
     width: calc(100% - 150px);
-    margin-right: 5px;
     figcaption {
       width: calc(100% - 85px);
     }
@@ -436,7 +435,7 @@ export default {
 
   .tags {
     padding-right: 30px;
-    width: 150px;
+    width: 160px;
     flex: none;
     div {
       display: flex;
@@ -467,7 +466,7 @@ export default {
 
 .sublist {
   .col.name figure {
-    min-width: none;
+    min-width: auto;
   }
   .col.playbtn {
     width: 180px;
