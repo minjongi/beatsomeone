@@ -419,6 +419,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    &:first-child {
+      margin-bottom: 5px;
+    }
   }
   button {
     height: 20px;
@@ -426,6 +430,11 @@ export default {
     border: 1px solid #fff;
     opacity: 0.3;
     transition: all 0.3s;
+    font-size: 10px;
+    border-radius: 2em;
+    & + button {
+      margin-left: 5px;
+    }
     &:hover {
       opacity: 1;
     }
