@@ -1246,5 +1246,5 @@ export default {
 }
 .parchase-description p {
   margin-bottom: 5px !important;
-
+}
 </style>
