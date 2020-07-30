@@ -386,22 +386,27 @@ export default {
   opacity: 1;
 }
 
+.detail .detail__music .detail__music-info .utils {
+  position: relative;
+}
 .detail__header {
   .tags {
-    padding-right: 30px;
-    width: 160px;
-    flex: none;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    flex: 1;
+    position: absolute;
+    top: -35px;
+    right: 0;
+    z-index: 10;
 
     button {
-      height: 20px;
-      padding: 0 8px;
+      height: 25px;
+      padding: 0 1em;
       border: 1px solid #fff;
       opacity: 0.3;
       transition: all 0.3s;
-      font-size: 10px;
+      font-size: 12px;
       border-radius: 2em;
       & + button {
         margin-left: 5px;
