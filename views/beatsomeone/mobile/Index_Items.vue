@@ -301,6 +301,9 @@ export default {
 .playList .playList__itembox {
   height: 70px !important;
 }
+.playList .playList__item .name figure {
+  margin-right: 0 !important;
+}
 .playList .playList__item .name figure figcaption {
   padding-right: 10px;
 
