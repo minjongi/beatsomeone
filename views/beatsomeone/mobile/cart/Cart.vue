@@ -707,9 +707,11 @@ export default {
 
 // 추가
 .option_item.basic {
-  height: auto !important;
   margin-top: 15px !important;
   margin-bottom: 0 !important;
+}
+.parchase-description {
+  padding-left: 0 !important;
 }
 .parchase-description p {
   display: -webkit-box;
