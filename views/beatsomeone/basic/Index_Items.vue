@@ -483,6 +483,20 @@ export default {
   .buybtn {
     width: 145px;
     flex: none;
+    &:before {
+      content: "";
+      width: 1px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      display: block;
+      position: absolute;
+      top: 50%;
+      bottom: auto;
+      right: 0;
+      right: auto;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
   }
 }
 </style>
