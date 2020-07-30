@@ -24,7 +24,7 @@
         <!-- 서브리스트 토글 버튼 -->
         <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
       </div>
-      <div class="col tags">태그입력</div>
+      <div class="col tags">1</div>
       <div class="col genre">
         <span v-for="(t,i) in hashtag" :key="i">
           <button @click="clickHash(t)" v-hover="'active'">{{ t }}</button>
@@ -403,5 +403,8 @@ export default {
 .timer {
   margin-left: 20px !important;
   width: 63px;
+}
+.col.tags {
+  padding-right: 30px;
 }
 </style>
