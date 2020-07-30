@@ -23,7 +23,10 @@
                 <div class="parchase-headern">
                   <div>
                     <h4 class="parchase-title">BASIC LEASE</h4>
-                    <p class="parchase-desc">{{$t('mp3Orwav')}}</p>
+                    <p class="parchase-desc">
+                      {{$t('mp3Orwav')}}
+                      <span class="copytransfer">+ Include Copyright Transfer</span>
+                    </p>
                   </div>
 
                   <div class="parchase-btnbox">
@@ -266,6 +269,6 @@ export default {
 .parchase-btnbox {
   margin-left: auto;
   padding-left: 10px;
-  flex: none;
+  flex: 0 !important;
 }
 </style>
