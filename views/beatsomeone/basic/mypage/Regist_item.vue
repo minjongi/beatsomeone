@@ -870,4 +870,7 @@ export default {
   display: flex !important;
   align-items: center !important;
 }
+.registered .form-item .input {
+  margin-top: 0 !important;
+}
 </style>
