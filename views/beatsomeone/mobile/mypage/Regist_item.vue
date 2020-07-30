@@ -259,7 +259,7 @@
               </div>
             </div>
 
-            <!-- 추가 끝  -->
+            <!-- 가 끝  -->
 
             <div class="row">
               <div class="col">
@@ -271,6 +271,15 @@
                       <p>{{ $t('basicLeaseLicensePrice') }}</p>
                     </label>
                   </div>
+
+                  <div class="form-title">
+                    <label for="c3" class="checkbox">
+                      <input type="checkbox" hidden id="c3" />
+                      <span></span>
+                      <p>FREE BEAT</p>
+                    </label>
+                  </div>
+
                   <div class="row row--inner">
                     <span class="col">
                       <div class="input">
@@ -320,6 +329,13 @@
                       <input type="checkbox" hidden id="c2" v-model="item.licenseStemUseYn" />
                       <span></span>
                       <p style="flex: 1;">{{ $t('masteringLicensePrice') }}</p>
+                    </label>
+                  </div>
+                  <div class="form-title">
+                    <label for="c3" class="checkbox">
+                      <input type="checkbox" hidden id="c3" />
+                      <span></span>
+                      <p>Include Copyright Transfer?</p>
                     </label>
                   </div>
                   <div class="row row--inner">
@@ -793,4 +809,12 @@ export default {
 <style scoped="scoped" lang="css">
 @import "/assets/plugins/slick/slick.css";
 @import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
+
+.nInput {
+  display: flex;
+  align-items: center;
+}
+.nInput .checkbox {
+  margin-right: 15px;
+}
 </style>
