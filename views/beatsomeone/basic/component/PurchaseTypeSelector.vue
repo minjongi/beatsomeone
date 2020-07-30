@@ -47,6 +47,11 @@
                     </i>
                     {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}
                   </p>
+
+                  <div class="copybox">
+                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
+                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                  </div>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.LEASE.cde_id)">
                   <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id">정보열람</button>
@@ -217,7 +222,18 @@ export default {
   opacity: 0.3;
 }
 
-.parchase-desc .copytransfer {
+.copybox {
+  padding-left: 30px;
+  margin-top: 5px;
+}
+.copybox span {
+  display: block;
+  font-size: 11px;
+  color: #3873d3;
+  margin-bottom: 5px;
+}
+
+.copytransfer {
   font-size: 13px;
   color: #3873d3;
 }
