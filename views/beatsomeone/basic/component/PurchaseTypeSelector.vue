@@ -273,4 +273,7 @@ export default {
   padding-left: 10px;
   flex: 0 !important;
 }
+#purchase .modal__content .modal__body .parchase-item .parchase-description p {
+  margin-bottom: 5px;
+}
 </style>
