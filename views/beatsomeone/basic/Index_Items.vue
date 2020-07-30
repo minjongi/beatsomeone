@@ -498,4 +498,8 @@ export default {
     flex: none;
   }
 }
+
+.playList .playList__item .buybtn button {
+  white-space: nowrap;
+}
 </style>
