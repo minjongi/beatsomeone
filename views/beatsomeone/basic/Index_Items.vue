@@ -422,7 +422,10 @@ export default {
   flex: 1;
   width: auto;
   figure {
+    width: auto;
+    flex: 1;
     figcaption {
+      width: calc(100% - 85px);
     }
   }
 
