@@ -882,5 +882,6 @@ export default {
 }
 .registered .form-title .checkbox {
   flex-wrap: nowrap;
+  height: 30px;
 }
 </style>
