@@ -272,6 +272,16 @@ export default {
   opacity: 1;
 }
 
+#purchase
+  .modal__content
+  .modal__body
+  .parchase-item
+  .parchase-dropdown:hover
+  button {
+  background: url("/assets/images/icon/dropdown-up.png") no-repeat center;
+  background-size: 100% 100%;
+}
+
 /* 추가 해야할 부분 */
 .copybox {
   padding-left: 30px;
