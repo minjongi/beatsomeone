@@ -421,9 +421,14 @@ export default {
   width: 200px;
   flex: none;
 }
+.playList .playList__item .favorite {
+  width: 70px;
+  padding-left: 30px;
+}
 .playList .playList__item .name {
   flex: 1;
   width: auto;
+  padding-left: 30px;
   figure {
     width: auto;
     flex: 1;
