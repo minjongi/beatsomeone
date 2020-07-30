@@ -112,50 +112,8 @@
                           <div class="detail">{{$t('mp3Orwav')}}</div>
                         </div>
                       </button>
-                      <div class="option_item basic">
-                        <div class="parchase-description">
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info6.png" alt />
-                            </i>
-                            <!-- {{$t('available60Days')}} -->
-                            Profits from performances and can be used in broadcasting
-                          </p>
-                          <p></p>
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info1.png" alt />
-                            </i>
-                            <!-- {{$t('available60Days')}} -->
-                            Available for 60 days
-                          </p>
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info3.png" alt />
-                            </i>
-                            <!-- {{$t('rentedMembersCannotBeRerentedToOthers')}} -->
-                            Unable to register commercial music copyrights
-                          </p>
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info2.png" alt />
-                            </i>
-                            <!-- {{$t('unableToEditArbitrarily')}} -->
-                            Only simple cutting editing is possible
-                          </p>
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info7.png" alt />
-                            </i>
-                            <!-- {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}} -->
-                            Will continue to be sold to the majority other than this buyer
-                          </p>
-                          <div class="copybox">
-                            <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                            <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
-                          </div>
-                        </div>
-                      </div>
+
+                      <ParchaseComponent></ParchaseComponent>
                     </div>
                     <div
                       class="price yellow"
@@ -197,50 +155,7 @@
                           <div class="detail">{{$t('mp3Orwav')}}</div>
                         </div>
                       </button>
-                      <div class="option_item basic">
-                        <div class="parchase-description">
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info6.png" alt />
-                            </i>
-                            <!-- {{$t('available60Days')}} -->
-                            Profits from performances and can be used in broadcasting
-                          </p>
-                          <p></p>
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info1.png" alt />
-                            </i>
-                            <!-- {{$t('available60Days')}} -->
-                            Available for 60 days
-                          </p>
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info3.png" alt />
-                            </i>
-                            <!-- {{$t('rentedMembersCannotBeRerentedToOthers')}} -->
-                            Unable to register commercial music copyrights
-                          </p>
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info2.png" alt />
-                            </i>
-                            <!-- {{$t('unableToEditArbitrarily')}} -->
-                            Only simple cutting editing is possible
-                          </p>
-                          <p>
-                            <i>
-                              <img src="/assets/images/icon/parchase-info7.png" alt />
-                            </i>
-                            <!-- {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}} -->
-                            Will continue to be sold to the majority other than this buyer
-                          </p>
-                          <div class="copybox">
-                            <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                            <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
-                          </div>
-                        </div>
-                      </div>
+                      <ParchaseComponent></ParchaseComponent>
                     </div>
                     <div
                       class="price yellow"
@@ -768,10 +683,12 @@ import $ from "jquery";
 import MainPlayer from "@/vue/common/MainPlayer";
 import { EventBus } from "*/src/eventbus";
 import WaveSurfer from "wavesurfer.js";
+import ParchaseComponent from "./component/Parchase";
 
 export default {
   components: {
     MainPlayer,
+    ParchaseComponent,
   },
   data: function () {
     return {
