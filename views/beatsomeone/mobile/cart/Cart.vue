@@ -138,10 +138,7 @@
                                   >{{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}</div>
                                 </button>
                                 <div class="option_item basic">
-                                  <div
-                                    class="parchase-description"
-                                    :ref="'purchaseDesc' + item.detail.LEASE.cde_id"
-                                  >
+                                  <div class="parchase-description">
                                     <p>
                                       <i>
                                         <img src="/assets/images/icon/parchase-info6.png" alt />
