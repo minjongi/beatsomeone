@@ -32,7 +32,7 @@
                 />
             </div>
         </div>
-        <div class="row" style="display:flex; margin-bottom:30px;">
+        <div class="d-flex align-items-center justify-content-between mb-30">
             <div class="tabmenu">
                 <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}} ({{calcTotalCnt}})</div>
                 <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{$t('wait')}} ({{calcWaitCnt}})</div>

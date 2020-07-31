@@ -15,7 +15,7 @@
                     <div>
                         <div>
                             <div class="category">Title</div>
-                            <div class="body">testestestestestestestestesteststestesttestestestestsest</div>
+                            <div class="body">{{ title }}</div>
                         </div>
                     </div>
 
@@ -26,7 +26,7 @@
                         </div>
                         <div>
                             <div class="category">Date</div>
-                            <div class="body">0000-00-00 00:00:00</div>
+                            <div class="body">{{ createdAt }}</div>
                         </div>
                     </div>
                     <div>
@@ -58,12 +58,7 @@
                                 <div class="row">
                                     <div class="mark">Q</div>
                                     <div class="answer">
-                                        When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                        If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                         BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                         <br/>
-                                        After the changes have been made, the rights for sale will be opened.<br/>
-                                        From this point on, you can sell the beats you have made.<br/>
+                                        {{ description }}
                                     </div>
                                 </div>
                             </div>

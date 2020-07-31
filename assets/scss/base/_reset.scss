@@ -88,6 +88,7 @@ video {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 h1,
 h2,
 h3,
@@ -96,6 +97,7 @@ h5,
 h6 {
   font-size: 1rem;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -110,17 +112,21 @@ nav,
 section {
   display: block;
 }
+
 img {
   max-width: 100%;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -128,6 +134,7 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   table-layout: fixed;
   border-collapse: collapse;
@@ -135,17 +142,20 @@ table {
   width: 100%;
   min-width: 100%;
 }
+
 tr,
 th,
 td {
   vertical-align: middle;
 }
+
 a,
 a:active,
 a:visited,
 a:hover {
   text-decoration: none;
 }
+
 html,
 body {
   min-width: 1420px;
@@ -154,11 +164,13 @@ body {
   font-family: $default-font, 'Noto Sans KR';
   background: #000;
 }
+
 .wrapper {
   width: 100%;
   min-width: 1420px;
   margin: 0 auto;
 }
+
 .wrap {
   width: 1420px;
   box-sizing: border-box;
@@ -170,12 +182,31 @@ body {
 *[hidden] {
   display: none !important;
 }
+
 .text-center {
   text-align: center !important;
 }
+
 .text-left {
   text-align: left !important;
 }
+
 .text-right {
   text-align: right !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+
+.mb-30 {
+  margin-bottom: 30px !important;
 }

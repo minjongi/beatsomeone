@@ -15,7 +15,7 @@
                     <div class="type"><span>Title</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" type="text" placeholder="Please enter your title about problem..." />
+                            <input class="inputbox" type="text" id="inquiry_title" placeholder="Please enter your title about problem..." />
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="type"><span>Bio</span></div>
                     <div class="data">
-                        <textarea class="firstname" type="text" placeholder="Please decribe your problem detaily..." style="height:360px"/>
+                        <textarea class="firstname" id="inquiry_description" type="text" placeholder="Please decribe your problem detaily..." style="height:360px"/>
                     </div>
                 </div>
 
@@ -41,27 +41,26 @@
                     <div class="data">
                         <div>
                             <div class="flie_list">
-                                <div>
+                                <div v-show="attached_files.length === 0">
                                     <span>No attached file.</span>
                                 </div>
-                                <div>
+                                <div v-for="file in attached_files" :key="file.name">
                                     <img src="/assets/images/icon/file.png"/>
-                                    <span>musicsong1.mp3</span>
-                                    <img src="/assets/images/icon/delete.png"/>
+                                    <span>{{ file.name }}</span>
                                 </div>
                             </div>
                             <div class="caution">
-                                <div>
-                                    <img class="caution" src="/assets/images/icon/caution.png"/>
-                                    <img class="warning" src="/assets/images/icon/warning.png"/>
-                                </div>
+<!--                                <div>-->
+<!--                                    <img class="caution" src="/assets/images/icon/caution.png"/>-->
+<!--                                    <img class="warning" src="/assets/images/icon/warning.png"/>-->
+<!--                                </div>-->
                                 <span>
-                                    {{$t('noteChangeEmailMsg')}}
+                                    You can upload only jpg, png, gif, doc, and pdf files within 00mb
                                 </span>
                             </div>
                         </div>
                         <label class="btn btn--blue" for="attachbtn">
-                            <input type="file" id="attachbtn" style="display:none;">
+                            <input type="file" id="attachbtn" style="display:none;" multiple v-on:change="changeFiles">
                             <div>Attach</div>
                         </label>
                     </div>
@@ -69,7 +68,7 @@
             </div>
             <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
                 <button class="btn btn--gray" @click="goPage('inquiry')">Cancel</button>
-                <button type="submit" class="btn btn--submit">Submit</button>
+                <button type="submit" class="btn btn--submit" v-on:click="submitInquiry">Submit</button>
             </div>
         </div>
     </div>
@@ -92,6 +91,7 @@
                 isPlay: false,
                 isReady: false,
                 wavesurfer: null,
+                attached_files: []
             };
         },
         mounted(){
@@ -105,6 +105,47 @@
             goInquirymod() {
                 this.$router.push({path: '/inquirymod'});
             },
+            goPage(page) {
+                this.current = page;
+
+                let p = null;
+                switch (page) {
+                    case 'dashboard':
+                    case '':
+                        p = '/'
+                        break
+                    default:
+                        p = '/' + page
+                        break
+                }
+                this.$router.push({path: p})
+            },
+            changeFiles(event) {
+                this.attached_files = event.target.files;
+            },
+            submitInquiry() {
+                let formData = new FormData();
+                let title = $('#inquiry_title').val();
+                let description = $('#inquiry_description').val();
+                formData.append('file', this.attached_files);
+                formData.append('title', title);
+                formData.append('description', description);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/beatsomeoneMypageApi/store_inquiry',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        window.location.href = '/mypage';
+                    },
+                    error: function(xhr, statusCode, error) {
+
+                    }
+                })
+
+            }
         }
     }
 </script>

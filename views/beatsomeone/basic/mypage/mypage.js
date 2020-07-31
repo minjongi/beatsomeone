@@ -49,7 +49,7 @@ const router = new VueRouter({
         { path: '/inquiry', component: Inquiry},
         { path: '/inquiryenroll', component: Inquiryenroll},
         { path: '/inquirymod', component: Inquirymod},
-        { path: '/inquiryview', component: Inquiryview},
+        { path: '/inquiry/:post_id', component: Inquiryview},
         { path: '/faq', component: Faq},
         { path: '/favorites', component: Favorites},
     ],
