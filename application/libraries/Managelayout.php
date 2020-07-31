@@ -142,15 +142,15 @@ class Managelayout extends CI_Controller
 		$meta_author = element('meta_author', $config) ? element('meta_author', $config) : $CI->cbconfig->item('site_meta_author_default');
 		$page_name = element('page_name', $config) ? element('page_name', $config) : $CI->cbconfig->item('site_page_name_default');
 
-        $data['og_title'] = element('og_title', $config);
-        $data['og_description'] = element('og_description', $config);
-        $data['og_url'] = element('og_url', $config);
-        $data['og_image'] = element('og_image', $config);
         $data['page_title'] = $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
 		$data['meta_description'] = $meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
 		$data['meta_keywords'] = $meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
 		$data['meta_author'] = $meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
 		$data['page_name'] = $page_name = str_replace($searchconfig, $replaceconfig, $page_name);
+        $data['og_title'] = element('og_title', $config) ?? $page_title;
+        $data['og_description'] = element('og_description', $config) ?? $meta_description;
+        $data['og_url'] = element('og_url', $config);
+        $data['og_image'] = element('og_image', $config);
 
 		$layoutdirname = $device_view_type === 'mobile' ? element('mobile_layout_dir', $config) : element('layout_dir', $config);
 		if (empty($layoutdirname)) {

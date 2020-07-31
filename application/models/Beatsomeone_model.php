@@ -42,8 +42,17 @@ class Beatsomeone_model extends CB_Model
         log_message('debug','Voice : ' . $voice);
 
         $where['cit_status'] = 1;
-        if (element('genre', $config) && element('genre', $config) !== 'All Genre') {
-            $where['p.genre'] = element('genre', $config);
+        $this->db->where('cit_start_datetime <= now()');
+
+        $genre = element('genre', $config);
+        $genreWhere = [];
+        // Genre
+        if ($genre && $genre !== 'All Genre') {
+            $genreWhere[] = "p.genre = '" . $genre . "'";
+            $genreWhere[] = "p.subgenre = '" . $genre . "'";
+        }
+        if (!empty($genreWhere)) {
+            $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
         }
 
         if ($bpm) {
@@ -75,7 +84,9 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
         $this->db->join('cb_member as m','m.mem_id = cmall_item.mem_id','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, p.preview_cde_id, m.mem_nickname, ';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, m.mem_nickname,';
+        $select .= 'p.cde_id, p.cde_price,p.cde_price_d, p.cde_download,';
+        $select .= 'p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2, p.preview_cde_id,';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
         $this->db->select($select);
         $this->db->where($where);
@@ -131,12 +142,14 @@ class Beatsomeone_model extends CB_Model
 
         $this->db->where('cde_id',$cde_id);
         $this->db->set('cde_download', 'cde_download+1', FALSE);
-        $this->db->update('cmall_item_detail');
+        return $this->db->update('cmall_item_detail');
     }
 
     public function get_main_trending_list($config)
     {
         $where['cit_status'] = 1;
+        $this->db->where('cit_start_datetime <= now()');
+
         $limit = element('limit', $config) ? element('limit', $config) : 4;
 
         $this->db->join('cb_cmall_item_meta as p1','p1.cit_id = cmall_item.cit_id AND p1.cim_key = "info_content_1"','left');
@@ -219,19 +232,28 @@ class Beatsomeone_model extends CB_Model
         $trackType = element('trackType', $config);
 
         $where['cit_status'] = 1;
+        $this->db->where('cit_start_datetime <= now()');
+
         // search
         if ($search) {
             $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
         }
+
+        $genreWhere = [];
         // Genre
         if ($genre && $genre !== 'All Genre') {
-            $this->db->where('p.genre',$genre);
+            $genreWhere[] = "p.genre = '" . $genre . "'";
+            $genreWhere[] = "p.subgenre = '" . $genre . "'";
         }
-
         // SubGenre
         if ($subgenre && $subgenre !== 'All') {
-            $this->db->where('p.subgenre',$subgenre);
+            $genreWhere[] = "p.genre = '" . $subgenre . "'";
+            $genreWhere[] = "p.subgenre = '" . $subgenre . "'";
         }
+        if (!empty($genreWhere)) {
+            $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
+        }
+
         // Bpm
         if ($bpmFr) {
             $this->db->where('p.bpm >=',$bpmFr + 0);
@@ -250,8 +272,10 @@ class Beatsomeone_model extends CB_Model
 
         // 만약 정렬 조건이 없거나 [All Select] 인경우에는 조회수 높은 순으로 조회
         if(!$sort || $sort == 'All Select' || $sort == 'Sort By') {
+            $this->db->order_by('cmall_item.cit_hit', 'desc');
+        }
+        if($sort == 'random') {
             $this->db->order_by('RAND()', 'desc');
-//            $this->db->order_by('cmall_item.cit_hit', 'desc');
         }
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
         if($sort == 'Sort By Staff Picks') {
@@ -270,8 +294,9 @@ class Beatsomeone_model extends CB_Model
         //$limit = element('limit', $config) ? element('limit', $config) : 4;
         $this->db->join('cb_cmall_item_meta_v as p','p.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
+        $this->db->join('cb_member as m','m.mem_id = cmall_item.mem_id','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice,';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, m.mem_nickname,';
         $select .= 'p.cde_id, p.cde_price,p.cde_price_d, p.cde_download,';
         $select .= 'p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2, p.preview_cde_id,';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
@@ -279,7 +304,6 @@ class Beatsomeone_model extends CB_Model
         $this->db->where($where);
         $this->db->limit($limit);
         $this->db->offset($offset);
-
 
         $qry = $this->db->get($this->_table);
         $result = $qry->result_array();
@@ -301,19 +325,29 @@ class Beatsomeone_model extends CB_Model
         $trackType = element('trackType', $config);
 
         $where['cit_status'] = 1;
+        $where['cmall_item.cit_type1'] = 1;
+        $this->db->where('cit_start_datetime <= now()');
+
         // search
         if ($search) {
             $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
         }
+
+        $genreWhere = [];
         // Genre
         if ($genre && $genre !== 'All Genre') {
-            $this->db->where('p.genre',$genre);
+            $genreWhere[] = "p.genre = '" . $genre . "'";
+            $genreWhere[] = "p.subgenre = '" . $genre . "'";
         }
-
         // SubGenre
         if ($subgenre && $subgenre !== 'All') {
-            $this->db->where('p.subgenre',$subgenre);
+            $genreWhere[] = "p.genre = '" . $subgenre . "'";
+            $genreWhere[] = "p.subgenre = '" . $subgenre . "'";
         }
+        if (!empty($genreWhere)) {
+            $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
+        }
+
         // Bpm
         if ($bpmFr) {
             $this->db->where('p.bpm >=',$bpmFr + 0);
@@ -328,7 +362,6 @@ class Beatsomeone_model extends CB_Model
         }
         // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
         if($sort == 'Sort By Staff Picks') {
-            $where['cmall_item.cit_type1'] = 1;
             $this->db->order_by('cde_download', 'desc');
         }
         // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회

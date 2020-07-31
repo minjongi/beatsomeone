@@ -38,32 +38,6 @@
                 Object.assign(this.info,d);
                 this.doJoin();
             });
-
-            // this.info = {
-            //     "userType": "user",
-            //     "accountType": "email",
-            //     "username": "222",
-            //     "email": "333",
-            //     "password": "444",
-            //     "type": "Recording Artist"
-            // };
-
-            // this.info = {
-            //     "userType": "musician",
-            //     "plan": "pro",
-            //     //"plan": "free",
-            //     //"billTerm": "monthly",
-            //     "billTerm": "yearly",
-            //     "accountType": "email",
-            //     "username": "1111",
-            //     "email": "11@11.11",
-            //     "password": "1111",
-            //     "type": "Music Lover",
-            //     "firstname": "111",
-            //     "lastname": "222",
-            //     "location": "222",
-            //     "introduce": "222"
-            // };
         },
         mounted() {
             // 중간 리프레시 초기화

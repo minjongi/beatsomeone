@@ -328,7 +328,7 @@
         </div>
         <div>
             <form name="fm1" method="POST">
-                <input type="text" name="allat_shop_id" v-model="allatForm.shop_id" maxlength=20 style="color:#000000;">
+                <input type="text" name="allat_shop_id" v-model="allatForm.shop_id" maxlength=20>
                 <!--주문번호-->
                 <input type="text" name="allat_order_no" v-model="allatForm.order_no" maxlength=70>
                 <!--승인금액-->
@@ -350,7 +350,7 @@
                 <!--주문정보암호화필드-->
                 <input type=hidden name=allat_enc_data value="">
                 <!--테스트 여부-->
-                <input type=hidden name="allat_test_yn" value="N" maxlength=1>
+                <input type=hidden name="allat_test_yn" v-model="allatForm.test_yn" maxlength=1>
                 <input type="hidden" name="allat_card_yn" v-model="allatForm.card_yn" maxlength="1">
                 <input type="hidden" name="allat_bank_yn" v-model="allatForm.bank_yn" maxlength="1">
                 <input type="hidden" name="allat_vbank_yn" v-model="allatForm.vbank_yn" maxlength="1">
@@ -397,7 +397,7 @@
                     'recp_nm': '',
                     'recp_addr': '',
                     'shop_receive_url': window.allat_shop_receive_url,
-                    'test_yn': 'Y',
+                    'test_yn': 'N',
                     'card_yn': 'N',
                     'bank_yn': 'N',
                     'vbank_yn': 'N',

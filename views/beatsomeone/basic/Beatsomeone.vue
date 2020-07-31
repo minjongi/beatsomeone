@@ -36,8 +36,7 @@
                                         {{ listSortParamName }}
                                     </button>
                                     <div class="options">
-                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i"
-                                                @click="param.sort = o">
+                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o">
                                             {{ listSortName[i] }}
                                         </button>
                                     </div>
@@ -70,7 +69,7 @@
                                     </template>
                                 </transition-group>
                                 <div class="playList__btnbox">
-                                    <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('more') }}</a>
+                                    <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -122,47 +121,47 @@
                             </article>
                             <article class="testimonials__lists">
                                 <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/0khjIlr6Avw" target="_blank">
+                                    <a href="https://youtu.be/0gGCw6CNQ6U" target="_blank">
                                         <div class="img">
                                             <img
-                                                    src="@/assets/images/testimonials/testimonials_001.png"
+                                                    src="@/assets/images/testimonials/testimonials_004.png"
                                                     alt=""
                                             />
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
-                                            <h3>글로벌 Spinnin’ Records 1위 & Splice 리믹스 2위</h3>
-                                            <p>by Rothchild</p>
+                                            <h3>작사·작곡·편곡·보컬 모두 소화 가능한 만능 뮤지션</h3>
+                                            <p>by CHORDA</p>
                                         </figcaption>
                                     </a>
                                 </figure>
                                 <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/mMxhVtF3qFA" target="_blank">
+                                    <a href="https://youtu.be/pCzTJXycusQ" target="_blank">
                                         <div class="img">
                                             <img
-                                                    src="@/assets/images/testimonials/testimonials_002.png"
+                                                    src="@/assets/images/testimonials/testimonials_005.png"
                                                     alt=""
                                             />
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
-                                            <h3>TXT 작사, 유재하 음악경연대회 수상</h3>
-                                            <p>by 수경(빨간의자)</p>
+                                            <h3>재즈힙합을 사랑하는 자유로운 영혼의 소유자</h3>
+                                            <p>by SEORILLA</p>
                                         </figcaption>
                                     </a>
                                 </figure>
                                 <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/_tPZc-MsIwE" target="_blank">
+                                    <a href="https://youtu.be/iB9A5UJo3L8" target="_blank">
                                         <div class="img">
                                             <img
-                                                    src="@/assets/images/testimonials/testimonials_003.png"
+                                                    src="@/assets/images/testimonials/testimonials_006.png"
                                                     alt=""
                                             />
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
-                                            <h3>정규앨범 ‘Gang Byeon Buk-Ro Drive’ 발매</h3>
-                                            <p>by NOP.K</p>
+                                            <h3>실력파 프로듀서에서, 첫 싱글음반 '핑계'를 발매</h3>
+                                            <p>by 김달란</p>
                                         </figcaption>
                                     </a>
                                 </figure>
@@ -279,7 +278,7 @@
             this.getTrendingList()
 
             // Testimonials List
-            this.getTestimonialsList()
+            // this.getTestimonialsList()
 
             // Amplitude.init({
             //     "songs": this.listPlayer,
@@ -293,7 +292,8 @@
         },
         computed: {
             listSortParamName() {
-                return this.listSortName[this.listSort.indexOf(this.param.sort)]
+                let idx = this.listSort.indexOf(this.param.sort) < 0 ? 0 : this.listSort.indexOf(this.param.sort)
+                return this.listSortName[idx]
             },
             listGenreName() {
                 let list = [],

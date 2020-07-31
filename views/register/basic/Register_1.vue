@@ -248,21 +248,19 @@
             this.fetchData();
         },
         mounted() {
-
-            // var bg = document.querySelector(".accounts__switch-bg");
-            // // 월간
-            // document.getElementById("monthly").addEventListener("change", function() {
-            //     if (this.checked === true) {
-            //         bg.classList.remove("right");
-            //     }
-            // });
-            // // 연간
-            // document.getElementById("yearly").addEventListener("change", function() {
-            //     if (this.checked === true) {
-            //         bg.classList.add("right");
-            //     }
-            // });
-
+            var bg = document.querySelector(".accounts__switch-bg");
+            // 월간
+            document.getElementById("monthly").addEventListener("change", function() {
+                if (this.checked === true) {
+                    bg.classList.remove("right");
+                }
+            });
+            // 연간
+            document.getElementById("yearly").addEventListener("change", function() {
+                if (this.checked === true) {
+                    bg.classList.add("right");
+                }
+            });
         },
         watch: {
             currentUserType(n) {
@@ -290,9 +288,9 @@
         methods: {
             doNext(plan) {
                 var islogin = this.$parent.isLogin;
-                if(plan=="Marketplace"){
+                if(plan === "Marketplace"){
                     this.planName = this.$t('Platinum');
-                }else if(plan=="Pro Page"){
+                }else if(plan === "Pro Page"){
                     this.planName = this.$t('Master');
                 }
                 EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: plan, planName: this.planName, billTerm: this.billTerm  });

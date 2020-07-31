@@ -15,8 +15,8 @@
             <Loader key="loader" ></Loader>
         </div>
 
-        <div v-if="list.length === 0" clas="no-playLost__list">
-            <p>{{ $t('detail_similarTracks_notexists') }}</p>
+        <div v-if="list.length === 0" class="no-playLost__list">
+            <p>{{ $t('detailSimilarTracksNotexists') }}</p>
         </div>
     </div>
 </template>

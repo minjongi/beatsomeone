@@ -80,13 +80,19 @@ class BeatsomeoneApi extends CB_Controller
     // 음악 다운로드 수 증가
     public function increase_music_count()
     {
-
         $this->load->model('Beatsomeone_model');
-
         $config = array(
             'cde_id' => $this->input->post('cde_id') ,
         );
-        $result = $this->Beatsomeone_model->increase_download_count($config);
+
+        $result = 0;
+        if (!$this->session->userdata('cmall_item_detail_id_' . element('cde_id', $config))) {
+            $result = $this->Beatsomeone_model->increase_download_count($config);
+            $this->session->set_userdata(
+                'cmall_item_detail_id_' . element('cde_id', $config),
+                '1'
+            );
+        }
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -127,9 +133,7 @@ class BeatsomeoneApi extends CB_Controller
     // sublist 목록 조회
     public function sublist_list()
     {
-
         $this->load->model('Beatsomeone_model');
-
 
         $config = array(
             'limit' =>  $this->input->post('limit') ,
@@ -154,9 +158,7 @@ class BeatsomeoneApi extends CB_Controller
     // sublist Top 5 조회
     public function sublist_top_list($genre = '')
     {
-
         $this->load->model('Beatsomeone_model');
-
 
         $config = array(
             'sort' =>  $this->input->post('sort') ,
@@ -361,6 +363,15 @@ class BeatsomeoneApi extends CB_Controller
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
+    }
+
+    public function get_unique_id()
+    {
+        $this->load->model('Unique_id_model');
+        $unique_id = $this->Unique_id_model->get_id($this->input->ip_address());
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode(['unique_id' => $unique_id]));
     }
 
     // Comment 조회
@@ -1565,17 +1576,35 @@ class BeatsomeoneApi extends CB_Controller
 
         $this->load->model('Beatsomeone_model');
 
+        $payType = $this->input->post('pay_type', null, '');
+
+        if ($payType == 3) {
+            $this->load->library('pg/paypal');
+            $order_deposit = $this->paypal->procComplete();
+            $payMethod = 'paypal';
+        } else {
+            $this->load->library('pg/allat');
+            $order_deposit = $this->allat->procComplete();
+            $payMethod = $payType === 1 ? 'allat_card' : 'allat_bank';
+        }
+
+        if (empty($order_deposit)) {
+            return false;
+        }
+
+        $bill_term = $this->input->post('bill_term', null, '');
+        $termDays = ($bill_term === 'yearly') ? '365' : '30';
         $startDate = date('Y-m-d');
-        $endDate = date("Y-m-d", strtotime($startDate . '+ 30 days'));
+        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
 
         $params = [
             'mem_id' => $this->member->item('mem_id'),
-            'bill_term' => $this->input->post('bill_term', null, ''),
+            'bill_term' => $bill_term,
             'plan' => $this->input->post('plan', null, ''),
             'plan_name' => $this->input->post('plan_name', null, ''),
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'pay_method' => $this->input->post('pay_method', null, ''),
+            'pay_method' => $payMethod,
             'amount' => $this->input->post('amount', null, '')
         ];
         $id = $this->Beatsomeone_model->insert_membership_purchase_log($params);
