@@ -116,7 +116,10 @@
           </div>
           <div class="sublist__content">
             <div class="row">
-              <h1 class="section-title" v-if="param.search">{{ $t('searchResultsFor') }} '{{ param.search }}'</h1>
+              <h1
+                class="section-title"
+                v-if="param.search"
+              >{{ $t('searchResultsFor') }} '{{ param.search }}'</h1>
               <h2 class="section-title">
                 <span v-if="!param.search">TOP</span>
                 <span class="number" v-if="!param.search">5</span>
@@ -213,9 +216,9 @@ export default {
     Index_Items,
     Loader,
     MainPlayer,
-    KeepAliveGlobal
+    KeepAliveGlobal,
   },
-  data: function() {
+  data: function () {
     return {
       isLogin: false,
       listSort: window.sortItem,
@@ -237,8 +240,8 @@ export default {
         currentBpmFr: 0,
         currentBpmTo: 120,
         search: null,
-        sort: "Sort By"
-      }
+        sort: "Sort By",
+      },
     };
   },
   watch: {
@@ -252,8 +255,8 @@ export default {
         if (o) {
           this.updateAllList();
         }
-      }
-    }
+      },
+    },
   },
   created() {
     this.param.currentGenre = this.listFilter[0];
@@ -264,12 +267,9 @@ export default {
     this.updateAllList();
   },
   mounted() {
-    $(".filter__title").on("click", function() {
+    $(".filter__title").on("click", function () {
       $(this).toggleClass("folded");
-      $(this)
-        .siblings(".filter__content")
-        .stop()
-        .slideToggle();
+      $(this).siblings(".filter__content").stop().slideToggle();
     });
 
     // BPM range
@@ -281,7 +281,7 @@ export default {
         max: 170,
         from: 0,
         to: 0,
-        onStart: data => {
+        onStart: (data) => {
           // log.debug({
           //     'rpm onStart':data,
           // })
@@ -290,7 +290,7 @@ export default {
           this.param.currentBpmFr = data.from;
           this.param.currentBpmTo = data.to;
         },
-        onChange: data => {
+        onChange: (data) => {
           // log.debug({
           //   'rpm onChange':data,
           // })
@@ -298,21 +298,19 @@ export default {
           $("#bpm-end").val(data.to_pretty);
           this.param.currentBpmFr = data.from_pretty;
           this.param.currentBpmTo = data.to_pretty;
-        }
+        },
       });
     }
 
     // 커스텀 셀렉트 옵션
-    $(".custom-select").on("click", function() {
+    $(".custom-select").on("click", function () {
       $(this)
         .siblings(".custom-select")
         .removeClass("active")
         .find(".options")
         .hide();
       $(this).toggleClass("active");
-      $(this)
-        .find(".options")
-        .toggle();
+      $(this).find(".options").toggle();
     });
 
     //this.onScroll();
@@ -325,7 +323,7 @@ export default {
       let list = [],
         _self = this;
 
-      this.listSort.forEach(function(val) {
+      this.listSort.forEach(function (val) {
         list.push(_self.$t("sortItem" + window.genLangCode(val)));
       });
 
@@ -335,7 +333,7 @@ export default {
       let list = [],
         _self = this;
 
-      this.listFilter.forEach(function(val) {
+      this.listFilter.forEach(function (val) {
         list.push(_self.$t("genre" + window.genLangCode(val)));
       });
 
@@ -345,7 +343,7 @@ export default {
       let list = [],
         _self = this;
 
-      this.listSubgenres.forEach(function(val) {
+      this.listSubgenres.forEach(function (val) {
         list.push(_self.$t("genre" + window.genLangCode(val)));
       });
 
@@ -355,7 +353,7 @@ export default {
       let list = [],
         _self = this;
 
-      this.listMoods.forEach(function(val) {
+      this.listMoods.forEach(function (val) {
         list.push(_self.$t("moods" + window.genLangCode(val)));
       });
 
@@ -365,12 +363,12 @@ export default {
       let list = [],
         _self = this;
 
-      this.listTrackType.forEach(function(val) {
+      this.listTrackType.forEach(function (val) {
         list.push(_self.$t("trackType" + window.genLangCode(val)));
       });
 
       return list;
-    }
+    },
   },
   methods: {
     loading() {
@@ -379,22 +377,22 @@ export default {
       this.busy = true;
       this.getListMore();
     },
-    updateAllList: _.debounce(function() {
+    updateAllList: _.debounce(function () {
       this.getList();
       this.getTopList();
     }, 100),
-            addCart(item) {
-                // let detail_qty = {};
-                // detail_qty[this.item['cde_id']] = 1;
-                // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
-                //     if(!r) {
-                //         log.debug('장바구니 담기 실패');
-                //     } else {
-                //         EventBus.$emit('add_cart');
-                //         log.debug('장바구니 담기 성공');
-                //
-                //     }
-                // });
+    addCart(item) {
+      // let detail_qty = {};
+      // detail_qty[this.item['cde_id']] = 1;
+      // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
+      //     if(!r) {
+      //         log.debug('장바구니 담기 실패');
+      //     } else {
+      //         EventBus.$emit('add_cart');
+      //         log.debug('장바구니 담기 성공');
+      //
+      //     }
+      // });
     },
     selectItem(i) {
       const path = `/beatsomeone/detail/${i.cit_key}`;
@@ -404,26 +402,29 @@ export default {
       const p = {
         limit: 10,
         offset: 0,
-        sort: (!this.param.sort || this.param.sort === 'Sort By') ? 'random' : this.param.sort,
+        sort:
+          !this.param.sort || this.param.sort === "Sort By"
+            ? "random"
+            : this.param.sort,
         genre: this.param.currentGenre,
         subgenre: this.param.currentSubgenres,
         bpmFr: this.param.currentBpmFr,
         bpmTo: this.param.currentBpmTo,
         moods: this.param.currentMoods,
         trackType: this.param.currentTrackType,
-        search: this.param.search
+        search: this.param.search,
       };
-      Http.post(`/beatsomeoneApi/sublist_list`, p).then(r => {
-        if (!this.param.sort || this.param.sort === 'Sort By') {
-          this.randomList = r
+      Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
+        if (!this.param.sort || this.param.sort === "Sort By") {
+          this.randomList = r;
         } else {
-          this.randomList = null
-          this.list = r
-          this.last_offset = this.offset
+          this.randomList = null;
+          this.list = r;
+          this.last_offset = this.offset;
         }
       });
     },
-    getListMore: _.debounce(function() {
+    getListMore: _.debounce(function () {
       this.busy = true;
       const p = {
         limit: 10,
@@ -435,9 +436,9 @@ export default {
         bpmTo: this.param.currentBpmTo,
         moods: this.param.currentMoods,
         trackType: this.param.currentTrackType,
-        search: this.param.search
+        search: this.param.search,
       };
-      Http.post(`/beatsomeoneApi/sublist_list`, p).then(r => {
+      Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
         this.list = this.list.concat(r);
         this.last_offset = this.offset;
         this.offset = this.list.length;
@@ -460,19 +461,19 @@ export default {
         moods: this.param.currentMoods,
         trackType: this.param.currentTrackType,
         search: this.param.search,
-        limit: 5
+        limit: 5,
       };
-      Http.post(`/beatsomeoneApi/sublist_top_list`, p).then(r => {
+      Http.post(`/beatsomeoneApi/sublist_top_list`, p).then((r) => {
         this.listTop5 = r;
       });
     },
-    beforeEnter: function(el) {
+    beforeEnter: function (el) {
       el.style.opacity = 0;
       el.style.height = 0;
     },
-    enter: function(el, done) {
+    enter: function (el, done) {
       var delay = el.dataset.index * 150;
-      setTimeout(function() {
+      setTimeout(function () {
         Velocity(
           el,
           { opacity: 1, height: 90, "margin-bottom": 1 },
@@ -480,9 +481,9 @@ export default {
         );
       }, delay);
     },
-    leave: function(el, done) {
+    leave: function (el, done) {
       var delay = el.dataset.index * 150;
-      setTimeout(function() {
+      setTimeout(function () {
         Velocity(
           el,
           { opacity: 0, height: 0, "margin-bottom": 0 },
@@ -490,8 +491,8 @@ export default {
           { complete: done }
         );
       }, delay);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -500,6 +501,6 @@ export default {
 </style>
 
 <style scoped="scoped" lang="css">
-    @import '/assets/plugins/slick/slick.css';
-    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+@import "/assets/plugins/slick/slick.css";
+@import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
 </style>

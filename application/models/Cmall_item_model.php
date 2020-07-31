@@ -111,6 +111,7 @@ Cmall_item_model extends CB_Model
 		$this->db->where($where);
 		$this->db->limit($limit);
 		$this->db->order_by('cit_order', 'asc');
+
 		$qry = $this->db->get($this->_table);
 		$result = $qry->result_array();
 
