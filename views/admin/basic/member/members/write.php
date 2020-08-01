@@ -123,7 +123,7 @@
                 <?php
                 if (element('mem_photo', element('data', $view))) {
                     ?>
-                    <img src="<?php echo member_photo_url(element('mem_photo', element('data', $view))); ?>" alt="회원 사진" title="회원 사진"/>
+                    <img src="<?php echo element('mem_photo', element('data', $view)); ?>" alt="회원 사진" title="회원 사진"/>
                     <label for="mem_photo_del">
                         <input type="checkbox" name="mem_photo_del" id="mem_photo_del" value="1" <?php echo set_checkbox('mem_photo_del', '1'); ?> /> 삭제
                     </label>

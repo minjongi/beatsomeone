@@ -429,4 +429,83 @@ class BeatsomeoneMypageApi extends CB_Controller
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
     }
+
+    public function updateAvatar() {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_membermodify_modify';
+        $this->load->event($eventname);
+
+        required_user_login();
+
+        $this->load->library('upload');
+        $uploadconfig = array();
+        $result = false;
+        if (isset($_FILES) && isset($_FILES['mem_photo']) && isset($_FILES['mem_photo']['name']) && $_FILES['mem_photo']['name']) {
+            $upload_path = config_item('uploads_dir') . '/member_photo/';
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+            $upload_path .= cdate('Y') . '/';
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+            $upload_path .= cdate('m') . '/';
+            if (is_dir($upload_path) === false) {
+                mkdir($upload_path, 0707);
+                $file = $upload_path . 'index.php';
+                $f = @fopen($file, 'w');
+                @fwrite($f, '');
+                @fclose($f);
+                @chmod($file, 0644);
+            }
+
+            $uploadconfig['upload_path'] = $upload_path;
+            $uploadconfig['allowed_types'] = 'jpg|jpeg|png|gif';
+            $uploadconfig['max_size'] = '2000';
+            $uploadconfig['max_width'] = '1000';
+            $uploadconfig['max_height'] = '1000';
+            $uploadconfig['encrypt_name'] = true;
+
+            $this->upload->initialize($uploadconfig);
+            $updatedata = array();
+            $updatephoto = null;
+            if ($this->upload->do_upload('mem_photo')) {
+                $img = $this->upload->data();
+                $updatephoto = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $img);
+            } else {
+                $file_error = $this->upload->display_errors();
+            }
+            if ($updatephoto) {
+                $updatedata['mem_photo'] = base_url(). config_item('uploads_dir') . '/member_photo/' . $updatephoto;
+            }
+            $getdata = $this->member;
+            if (element('mem_photo', $getdata) && $updatephoto) {
+                // 기존 파일 삭제
+                @unlink(config_item('uploads_dir') . '/member_photo/' . element('mem_photo', $getdata));
+            }
+            $this->load->model('Member_model');
+            $mem_id = (int) $this->member->item('mem_id');
+            $result = $this->Member_model->update($mem_id, $updatedata);
+        }
+
+        $this->output->set_content_type('text/json');
+        if ($result) {
+            $result = [
+                'avatar' => $updatedata['mem_photo']
+            ];
+            $this->output->set_output(json_encode($result));
+        } else {
+            $this->output->set_status_header(400);
+        }
+    }
 }
