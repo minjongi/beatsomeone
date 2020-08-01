@@ -62,10 +62,10 @@
                   </button>
                   <div>
                     <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                    <div class="detail">{{$t('lang31')}}</div>
                   </div>
                 </div>
-                <ParchaseComponent></ParchaseComponent>
+                <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
               </div>
               <div class="col feature">
                 <div class="listen">
@@ -162,10 +162,10 @@
                   </button>
                   <div>
                     <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                    <div class="detail">{{$t('lang31')}}</div>
                   </div>
                 </div>
-                <ParchaseComponent></ParchaseComponent>
+                <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
               </div>
               <div class="col feature">
                 <div class="listen">
@@ -551,6 +551,7 @@ export default {
   data: function () {
     return {
       isLogin: false,
+      item: {}
     };
   },
   mounted() {},

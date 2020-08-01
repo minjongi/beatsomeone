@@ -317,11 +317,11 @@
                           <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton" />
                         </span>
                         <div>
-                          <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
-                          <div class="detail">{{$t('mp3Orwav')}}</div>
+                          <div class="title" @click.self="toggleButton">{{$t('lang23')}}</div>
+                          <div class="detail">{{$t('lang24')}}</div>
                         </div>
                       </button>
-                      <ParchaseComponent></ParchaseComponent>
+                      <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
                     </div>
                     <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                   </div>
@@ -357,11 +357,11 @@
                           <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton" />
                         </span>
                         <div>
-                          <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
-                          <div class="detail">{{$t('mp3Orwav')}}</div>
+                          <div class="title" @click.self="toggleButton">{{$t('lang23')}}</div>
+                          <div class="detail">{{$t('lang24')}}</div>
                         </div>
                       </button>
-                      <ParchaseComponent></ParchaseComponent>
+                      <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
                     </div>
                     <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                   </div>
@@ -377,24 +377,11 @@
                           <div
                             class="title"
                             @click.self="toggleButton"
-                          >{{$t('unlimitedStemsLicense')}}</div>
-                          <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                          >{{$t('lang30')}}</div>
+                          <div class="detail">{{$t('lang31')}}</div>
                         </div>
                       </button>
-                      <div class="option_item unlimited">
-                        <div>
-                          <img src="/assets/images/icon/parchase-info4.png" />
-                          <span>{{$t('unlimited1')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info4.png" />
-                          <span>{{$t('unlimitedMsg1')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info4.png" />
-                          <span>{{$t('unlimitedMsg2')}}</span>
-                        </div>
-                      </div>
+                      <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
                     </div>
                     <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
                   </div>

@@ -160,12 +160,12 @@
                           <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton" />
                         </span>
                         <div>
-                          <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
-                          <div class="detail">{{$t('mp3Orwav')}}</div>
+                          <div class="title" @click.self="toggleButton">{{$t('lang23')}}</div>
+                          <div class="detail">{{$t('lang24')}}</div>
                         </div>
                         <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
                       </button>
-                      <ParchaseComponent></ParchaseComponent>
+                      <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
                     </div>
                   </div>
                   <!-- BASIC LEASE LICENSE -->
@@ -201,12 +201,12 @@
                           <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton" />
                         </span>
                         <div>
-                          <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
-                          <div class="detail">{{$t('mp3Orwav')}}</div>
+                          <div class="title" @click.self="toggleButton">{{$t('lang23')}}</div>
+                          <div class="detail">{{$t('lang24')}}</div>
                         </div>
                         <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, true) }}</div> -->
                       </button>
-                      <ParchaseComponent></ParchaseComponent>
+                      <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
                     </div>
                   </div>
 
@@ -224,31 +224,12 @@
                           <div
                             class="title"
                             @click.self="toggleButton"
-                          >{{$t('unlimitedStemsLicense')}}</div>
-                          <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                          >{{$t('lang30')}}</div>
+                          <div class="detail">{{$t('lang31')}}</div>
                         </div>
                         <!-- <div class="price" style="color: white;">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }} </div> -->
                       </button>
-                      <div class="option_item unlimited" style="margin-left: 38px;">
-                        <div>
-                          <span class="img-box">
-                            <img src="/assets/images/icon/parchase-info4.png" />
-                          </span>
-                          <span>{{$t('unlimited1')}}</span>
-                        </div>
-                        <div>
-                          <span class="img-box">
-                            <img src="/assets/images/icon/parchase-info4.png" />
-                          </span>
-                          <span>{{$t('unlimitedMsg1')}}</span>
-                        </div>
-                        <div>
-                          <span class="img-box">
-                            <img src="/assets/images/icon/parchase-info4.png" />
-                          </span>
-                          <span>{{$t('unlimitedMsg2')}}</span>
-                        </div>
-                      </div>
+                      <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
                     </div>
                   </div>
                 </div>
