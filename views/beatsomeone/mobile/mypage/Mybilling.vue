@@ -440,7 +440,7 @@
                 });
             },
             goOrderDetail: function(cid, n){
-                window.location.href = '/mypage/mybillingView?cid='+cid+'&n='+n;
+                window.location.href = '/mypage#/mybillingView?cid='+cid+'&n='+n;
             },
             prevPage: function(){
                 if(this.currPage == 1) return
@@ -521,7 +521,7 @@
                 }
             },
             gocancellist() {
-                window.location.href = '/mypage/mycancelList';
+                window.location.href = '/mypage#/mycancelList';
             },
         }
     }

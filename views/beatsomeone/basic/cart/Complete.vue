@@ -394,7 +394,7 @@
                 window.location.href = '/';
             },
             goOrderHistory: function(e){
-                window.location.href = '/mypage/mybilling';
+                window.location.href = '/mypage#/mybilling';
             },
             checkToday: function(date){
                 const input = new Date(date);

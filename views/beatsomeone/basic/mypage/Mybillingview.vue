@@ -1036,7 +1036,7 @@ export default {
         this.descNoti =
           this.$t("depositWaitingStateSupportCaseMenuMsg") +
           " " +
-          '<a href="/mypage/inquiry/">' +
+          '<a href="/mypage#/inquiry/">' +
           this.$t("shortcut") +
           "</a>";
       } else if (
@@ -1049,7 +1049,7 @@ export default {
         this.descNoti =
           this.$t("depositWaitingStateSupportCaseMenuMsg") +
           " " +
-          '<a href="/mypage/inquiry/">' +
+          '<a href="/mypage#/inquiry/">' +
           this.$t("shortcut") +
           "</a>";
       }

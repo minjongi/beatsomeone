@@ -2,7 +2,7 @@
     <div class="title-content">
         <div class="title">
             <div>{{$t('supportCase')}}</div>
-            <button class="btn btn--glass" onclick='location.href = "/mypage/inquiry"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
+            <button class="btn btn--glass" onclick='location.href = "/mypage#/inquiry"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div>
             <div class="playList" >
@@ -50,7 +50,7 @@
         },
         methods: {
             onClick(o) {
-                window.location.href = `/mypage/inquiry/${o.sp_id}`;
+                window.location.href = `/mypage#/inquiry/${o.sp_id}`;
             },
             truncate(str, n) {
                 return (str.length > n) ? str.substr(0, n-1) + '...' : str;

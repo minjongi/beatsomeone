@@ -471,7 +471,7 @@
         </div>
       </section>
       <div class="registered__btnbox">
-        <a href="/mypage/list_item" class="btn btn--list waves-effect">{{ $t('list') }}</a>
+        <a href="/mypage#/list_item" class="btn btn--list waves-effect">{{ $t('list') }}</a>
         <button
           type="submit"
           class="btn btn--save waves-effect"

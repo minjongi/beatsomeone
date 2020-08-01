@@ -529,7 +529,7 @@
         <img src="/assets/images/icon/info_blue.png" />
         {{$t('depositWaitingStateSupportCaseMenuMsg')}}
         <a
-          href="/mypage/inquiry/"
+          href="/mypage#/inquiry/"
         >{{$t('shortcut')}}</a>
       </p>
     </div>
