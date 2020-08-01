@@ -245,15 +245,15 @@
 
             <div class="row">
               <div class="form-item">
-                <p class="form-title">Is the music copyright officially registered beat?</p>
+                <p class="form-title">{{ $t('lang4') }}</p>
                 <div class="input nInput">
                   <label for="c_no" class="checkbox">
                     <input type="radio" name="officially" hidden id="c_no" />
-                    <span></span> NO
+                    <span></span> {{ $t('lang5') }}
                   </label>
                   <label for="c_yes" class="checkbox">
                     <input type="radio" name="officially" hidden id="c_yes" />
-                    <span></span> YES
+                    <span></span> {{ $t('lang6') }}
                   </label>
                 </div>
               </div>
@@ -279,7 +279,7 @@
                     <label for="c3" class="checkbox">
                       <input type="checkbox" hidden id="c3" />
                       <span></span>
-                      <p>FREE BEAT</p>
+                      <p>{{ $t('lang7') }}</p>
                     </label>
                   </div>
 
@@ -314,20 +314,12 @@
                     </span>
                   </div>
                   <p class="form-info mt-15">
-                    <!-- · {{ $t('itemRegMsg1') }}
-                    <br />
-                    <br />
-                    · {{ $t('itemRegMsg2') }} /
-                    <br />
-                    {{ $t('itemRegMsg3') }} /
-                    <br />
-                    {{ $t('itemRegMsg4') }}-->
-                    · Provide mp3 or wav file
-                    <br />· Profits from performances and can be used in broadcasting
-                    <br />· Available for 60 days
-                    <br />· Unable to register commercial music copyrights
-                    <br />· Only simple cutting editing is possible
-                    <br />· Will continue to be sold to the majority other than this buyer
+                    · {{ $t('lang9') }}
+                    <br />· {{ $t('lang10') }}
+                    <br />· {{ $t('lang11') }}
+                    <br />· {{ $t('lang12') }}
+                    <br />· {{ $t('lang13') }}
+                    <br />· {{ $t('lang14') }}
                   </p>
                 </div>
               </div>
@@ -347,7 +339,7 @@
                     <label for="c3" class="checkbox">
                       <input type="checkbox" hidden id="c3" />
                       <span></span>
-                      <p>Include Copyright Transfer?</p>
+                      <p>{{ $t('lang8') }}</p>
                     </label>
                   </div>
                   <div class="row row--inner">
@@ -389,20 +381,16 @@
                     </span>
                   </div>
                   <p class="form-info mt-15">
-                    <!-- · {{ $t('itemRegMsg5') }}
-                    <br />
-                    <br />
-                    · {{ $t('itemRegMsg6') }}-->
-                    · Provide mp3 or wav + STEMS files
-                    <br />· Profits from performances and can be used in broadcasting
-                    <br />· Registration of commercial music copyrights is possible
-                    <br />· All editing rights can be obtained
-                    <br />· No restrictions on all other commercial uses
-                    <br />· Sold exclusively to only one purchaser (share of ownership or transfer of ownership)
+                    · {{ $t('lang15') }}
+                    <br />· {{ $t('lang16') }}
+                    <br />· {{ $t('lang17') }}
+                    <br />· {{ $t('lang18') }}
+                    <br />· {{ $t('lang19') }}
+                    <br />· {{ $t('lang20') }}
                   </p>
                   <div class="copybox">
-                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                    <span>{{ $t('lang21') }}</span>
+                    <span>{{ $t('lang22') }}</span>
                   </div>
                 </div>
               </div>

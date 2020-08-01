@@ -50,10 +50,8 @@ class BeatsomeoneApi extends CB_Controller
             'limit' => '20',
             'genre' => urldecode($genre),
             'bpm' => $this->input->get('bpm'),
-            //'sort' => $this->input->get('sort'),
-			'sort' => 'rand', // 상상너머 : 2020-07-02 - 요청에 의한 랜덤노출
+            'sort' => $this->input->get('sort'),
             'voice' => $this->input->get('voice'),
-
         );
         $result = $this->Beatsomeone_model->get_main_list($config);
 

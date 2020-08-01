@@ -23,9 +23,9 @@
               <span class="playList__by">{{ item.musician }} ( {{ item.bpm }}Bpm )</span>
 
               <div class="tags">
-                <button style="color:#3873d3;">FREE</button>
-                <button style="color:#ffda2a;">Original</button>
-                <button style="color:#fff;">Copyright Registered</button>
+                <button style="color:#3873d3;">{{ $t('lang1') }}</button>
+                <button style="color:#ffda2a;">{{ $t('lang2') }}</button>
+                <button style="color:#fff;">{{ $t('lang3') }}</button>
               </div>
             </div>
           </figcaption>

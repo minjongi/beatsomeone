@@ -22,10 +22,10 @@
               <div class="parchase-info">
                 <div class="parchase-headern">
                   <div>
-                    <h4 class="parchase-title">BASIC LEASE</h4>
+                    <h4 class="parchase-title">{{ $t('lang23') }}</h4>
                     <p class="parchase-desc">
-                      {{$t('mp3Orwav')}}
-                      <span class="copytransfer">+ Include Copyright Transfer</span>
+                      {{$t('lang24')}}
+                      <span class="copytransfer">{{ $t('lang32') }}</span>
                     </p>
                   </div>
 
@@ -40,46 +40,41 @@
                     <i>
                       <img src="/assets/images/icon/parchase-info6.png" alt />
                     </i>
-                    <!-- {{$t('available60Days')}} -->
-                    Profits from performances and can be used in broadcasting
+                    {{$t('lang25')}}
                   </p>
                   <p></p>
                   <p>
                     <i>
                       <img src="/assets/images/icon/parchase-info1.png" alt />
                     </i>
-                    <!-- {{$t('available60Days')}} -->
-                    Available for 60 days
+                    {{$t('lang26')}}
                   </p>
                   <p>
                     <i>
                       <img src="/assets/images/icon/parchase-info3.png" alt />
                     </i>
-                    <!-- {{$t('rentedMembersCannotBeRerentedToOthers')}} -->
-                    Unable to register commercial music copyrights
+                    {{$t('lang27')}}
                   </p>
                   <p>
                     <i>
                       <img src="/assets/images/icon/parchase-info2.png" alt />
                     </i>
-                    <!-- {{$t('unableToEditArbitrarily')}} -->
-                    Only simple cutting editing is possible
+                    {{$t('lang28')}}
                   </p>
                   <p>
                     <i>
                       <img src="/assets/images/icon/parchase-info7.png" alt />
                     </i>
-                    <!-- {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}} -->
-                    Will continue to be sold to the majority other than this buyer
+                    {{$t('lang29')}}
                   </p>
                   <div class="copybox">
-                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                    <span>{{ $t('lang21') }}</span>
+                    <span>{{ $t('lang22') }}</span>
                   </div>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.LEASE.cde_id)">
                   <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id">정보열람</button>
-                  <span>Detailed condition</span>
+                  <span>{{ $t('lang40') }}</span>
                 </div>
               </div>
             </li>
@@ -90,10 +85,10 @@
               <div class="parchase-info">
                 <div class="parchase-headern">
                   <div>
-                    <h4 class="parchase-title">MASTERING LICENSE</h4>
+                    <h4 class="parchase-title">{{ $t('lang30') }}</h4>
                     <p class="parchase-desc">
-                      {{$t('mp3OrwavStems')}}
-                      <span class="copytransfer">+ Include Copyright Transfer</span>
+                      {{ $t('lang31') }}
+                      <span class="copytransfer">{{ $t('lang32') }}</span>
                     </p>
                   </div>
 
@@ -109,46 +104,41 @@
                     <i>
                       <img src="/assets/images/icon/parchase-info6.png" alt />
                     </i>
-                    <!-- {{$t('unlimited1')}} -->
-                    Profits from performances and can be used in broadcasting
+                    {{ $t('lang33') }}
                   </p>
                   <p>
                     <i>
                       <img src="/assets/images/icon/parchase-info8.png" />
                     </i>
-                    <!-- {{$t('unlimitedMsg1')}} -->
-                    Registration of commercial music copyrights is possible
+                    {{$t('lang34')}}
                   </p>
                   <p>
                     <i>
                       <img src="/assets/images/icon/parchase-info9.png" />
                     </i>
-                    <!-- {{$t('unlimitedMsg2')}} -->
-                    All editing rights can be obtained
+                    {{$t('lang35')}}
                   </p>
                   <p>
                     <i>
                       <img src="/assets/images/icon/parchase-info4.png" />
                     </i>
-                    <!-- {{$t('unlimitedMsg2')}} -->
-                    No restrictions on all other commercial uses
+                    {{$t('lang36')}}
                   </p>
                   <p>
                     <i>
                       <img src="/assets/images/icon/parchase-info10.png" />
                     </i>
-                    <!-- {{$t('unlimitedMsg2')}} -->
-                    Sold exclusively to only one purchaser (share of ownership)
+                    {{$t('lang37')}}
                   </p>
 
                   <div class="copybox">
-                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+                    <span>{{ $t('lang21') }}</span>
+                    <span>{{ $t('lang22') }}</span>
                   </div>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.STEM.cde_id)">
                   <button :ref="'purchaseBtn' + item.detail.STEM.cde_id">정보열람</button>
-                  <span>Detailed condition</span>
+                  <span>{{ $t('lang40') }}</span>
                 </div>
               </div>
             </li>
