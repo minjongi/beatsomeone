@@ -667,15 +667,12 @@ export default {
         r.data.cde_id_1 = r.data.cde_id || 0;
         r.data.cde_id_2 = r.data.cde_id_2 || 0;
         r.data.cde_id_3 = r.data.cde_id_3 || 0;
-        r.data.url =
-          "http://beatsomeone.com/beatsomeone/detail/" + r.data.cit_key;
-        r.data.licenseLeaseUseYn =
-          r.data.cit_lease_license_use == 1 ? true : false;
+        r.data.url = "http://beatsomeone.com/beatsomeone/detail/" + r.data.cit_key;
+        r.data.licenseLeaseUseYn = r.data.cit_lease_license_use == 1 ? true : false;
         r.data.licenseLeasePriceKRW = r.data.cde_price;
         r.data.licenseLeasePriceUSD = r.data.cde_price_d;
         r.data.licenseLeaseQuantity = r.data.cde_quantity;
-        r.data.licenseStemUseYn =
-          r.data.cit_mastering_license_use == 1 ? true : false;
+        r.data.licenseStemUseYn = r.data.cit_mastering_license_use == 1 ? true : false;
         r.data.licenseStemPriceKRW = r.data.cde_price_2;
         r.data.licenseStemPriceUSD = r.data.cde_price_d_2;
         r.data.licenseStemQuantity = 1;
@@ -684,9 +681,10 @@ export default {
         r.data.streamingFileName = r.data.cde_originname_3;
         r.data.artworkPath = r.data.cit_file_1;
         r.data.artwork = "";
-        r.data.cit_start_datetime = !r.data.cit_start_datetime
-          ? ""
-          : new Date(Date.parse(r.data.cit_start_datetime)).toISOString();
+        r.data.cit_start_datetime = !r.data.cit_start_datetime ? "" : new Date(Date.parse(r.data.cit_start_datetime)).toISOString();
+        r.data.freebeat = r.data.cit_freebeat || 0;
+        r.data.include_copyright_transfer = r.data.cit_include_copyright_transfer || 0;
+        r.data.officially_registered = r.data.cit_officially_registered || 0;
         this.item = r.data;
       });
     },
