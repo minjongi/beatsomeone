@@ -34,9 +34,9 @@
               </div>
               <div class="utils" v-if="item" style="margin-top: 10px;">
                 <div class="tags">
-                  <button style="color:#3873d3;">{{ $t('lang1') }}</button>
-                  <button style="color:#ffda2a;">{{ $t('lang2') }}</button>
-                  <button style="color:#fff;">{{ $t('lang3') }}</button>
+                  <button style="color:#3873d3;" v-if="item.cit_freebeat">{{ $t('lang1') }}</button>
+                  <button style="color:#ffda2a;" v-if="item.cit_org_content">{{ $t('lang2') }}</button>
+                  <button style="color:#fff;" v-if="item.cit_officially_registered">{{ $t('lang3') }}</button>
                 </div>
                 <div class="category" v-if="item" style="width: 100%;">
                   <span

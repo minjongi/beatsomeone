@@ -248,11 +248,11 @@
                 <p class="form-title">{{ $t('lang4') }}</p>
                 <div class="input nInput">
                   <label for="c_no" class="checkbox">
-                    <input type="radio" name="officially" hidden id="c_no" />
+                    <input type="radio" name="officially" hidden id="c_no" value="0" v-model.number="item.officially_registered"/>
                     <span></span> {{ $t('lang5') }}
                   </label>
                   <label for="c_yes" class="checkbox">
-                    <input type="radio" name="officially" hidden id="c_yes" />
+                    <input type="radio" name="officially" hidden id="c_yes" value="1" v-model.number="item.officially_registered"/>
                     <span></span> {{ $t('lang6') }}
                   </label>
                 </div>
@@ -269,15 +269,14 @@
                       <input type="checkbox" hidden id="c1" v-model="item.licenseLeaseUseYn" />
                       <span></span>
                       <p>
-                        <!-- {{ $t('basicLeaseLicensePrice') }} -->
-                        BASIC LEASE LICENSE PRICE
+                        {{ $t('basicLeaseLicensePrice') }}
                       </p>
                     </label>
                   </div>
 
                   <div class="form-title">
                     <label for="c3" class="checkbox">
-                      <input type="checkbox" hidden id="c3" />
+                      <input type="checkbox" hidden id="c3" value="1" v-model="item.freebeat"/>
                       <span></span>
                       <p>{{ $t('lang7') }}</p>
                     </label>
@@ -290,6 +289,7 @@
                           type="number"
                           placeholder="KRW 5500"
                           v-model="item.licenseLeasePriceKRW"
+                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -299,6 +299,7 @@
                           type="number"
                           placeholder="USD 5.00"
                           v-model="item.licenseLeasePriceUSD"
+                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -309,7 +310,11 @@
                     </span>
                     <span class="col">
                       <div class="input">
-                        <input type="number" placeholder="0" v-model="item.licenseLeaseQuantity" />
+                        <input
+                                type="number"
+                                placeholder="0"
+                                v-model="item.licenseLeaseQuantity"
+                                :disabled="item.freebeat"/>
                       </div>
                     </span>
                   </div>
@@ -330,14 +335,13 @@
                       <input type="checkbox" hidden id="c2" v-model="item.licenseStemUseYn" />
                       <span></span>
                       <p style="flex: 1;">
-                        <!-- {{ $t('masteringLicensePrice') }} -->
-                        MASTERING LICENSE PRICE
+                        {{ $t('masteringLicensePrice') }}
                       </p>
                     </label>
                   </div>
                   <div class="form-title">
-                    <label for="c3" class="checkbox">
-                      <input type="checkbox" hidden id="c3" />
+                    <label for="c4" class="checkbox">
+                      <input type="checkbox" hidden id="c4" value="1" v-model="item.include_copyright_transfer"/>
                       <span></span>
                       <p>{{ $t('lang8') }}</p>
                     </label>
@@ -512,6 +516,9 @@ export default {
         stemFileName: "",
         streamingFileName: "",
         artworkPath: "",
+        freebeat: 0,
+        include_copyright_transfer: 0,
+        officially_registered: 0
       },
       uploadInProgress: {
         unTaggedFile: false,

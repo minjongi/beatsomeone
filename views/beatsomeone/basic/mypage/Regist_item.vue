@@ -249,11 +249,11 @@
                 <p class="form-title">{{ $t('lang4') }}</p>
                 <div class="input nInput">
                   <label for="c_no" class="checkbox">
-                    <input type="radio" name="officially" hidden id="c_no" />
+                    <input type="radio" name="officially" hidden id="c_no" value="0" v-model.number="item.officially_registered"/>
                     <span></span> {{ $t('lang5') }}
                   </label>
                   <label for="c_yes" class="checkbox">
-                    <input type="radio" name="officially" hidden id="c_yes" />
+                    <input type="radio" name="officially" hidden id="c_yes" value="1" v-model.number="item.officially_registered"/>
                     <span></span> {{ $t('lang6') }}
                   </label>
                 </div>
@@ -270,8 +270,7 @@
                         <label for="c1" class="checkbox">
                           <input type="checkbox" hidden id="c1" v-model="item.licenseLeaseUseYn" />
                           <span></span>
-                          <!-- {{ $t('basicLeaseLicensePrice') }} -->
-                          BASIC LEASE LICENSE PRICE
+                          {{ $t('basicLeaseLicensePrice') }}
                         </label>
                       </div>
                       <div class="input">
@@ -281,13 +280,14 @@
                           v-model.number="item.licenseLeasePriceKRW"
                           ref="licenseLeasePriceKRW"
                           @input="onlyNumber($event, 'licenseLeasePriceKRW')"
+                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
                     <span class="col">
                       <div class="form-title">
                         <label for="c3" class="checkbox">
-                          <input type="checkbox" hidden id="c3" />
+                          <input type="checkbox" hidden id="c3" value="1" v-model="item.freebeat"/>
                           <span></span>
                           {{ $t('lang7') }}
                         </label>
@@ -299,6 +299,7 @@
                           v-model.number="item.licenseLeasePriceUSD"
                           ref="licenseLeasePriceUSD"
                           @input="onlyNumber($event, 'licenseLeasePriceUSD')"
+                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -315,6 +316,7 @@
                           v-model.number="item.licenseLeaseQuantity"
                           ref="licenseLeaseQuantity"
                           @input="onlyNumber($event, 'licenseLeaseQuantity')"
+                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -337,8 +339,7 @@
                         <label for="c2" class="checkbox">
                           <input type="checkbox" hidden id="c2" v-model="item.licenseStemUseYn" />
                           <span></span>
-                          <!-- {{ $t('masteringLicensePrice') }} -->
-                          MASTERING LICENSE PRICE
+                          {{ $t('masteringLicensePrice') }}
                         </label>
                       </div>
                       <div class="input">
@@ -354,7 +355,7 @@
                     <span class="col">
                       <div class="form-title">
                         <label for="c4" class="checkbox">
-                          <input type="checkbox" hidden id="c4" />
+                          <input type="checkbox" hidden id="c4" value="1" v-model="item.include_copyright_transfer"/>
                           <span></span>
                           {{ $t('lang8') }}
                         </label>
@@ -531,6 +532,9 @@ export default {
         stemFileName: "",
         streamingFileName: "",
         artworkPath: "",
+        freebeat: 0,
+        include_copyright_transfer: 0,
+        officially_registered: 0
       },
       uploadInProgress: {
         unTaggedFile: false,

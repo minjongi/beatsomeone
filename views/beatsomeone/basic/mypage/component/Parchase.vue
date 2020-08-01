@@ -5,41 +5,36 @@
         <i>
           <img src="/assets/images/icon/parchase-info6.png" alt />
         </i>
-        <!-- {{$t('available60Days')}} -->
-        Profits from performances and can be used in broadcasting
+        {{$t('lang10')}}
       </p>
       <p></p>
       <p>
         <i>
           <img src="/assets/images/icon/parchase-info1.png" alt />
         </i>
-        <!-- {{$t('available60Days')}} -->
-        Available for 60 days
+        {{$t('lang11')}}
       </p>
       <p>
         <i>
           <img src="/assets/images/icon/parchase-info3.png" alt />
         </i>
-        <!-- {{$t('rentedMembersCannotBeRerentedToOthers')}} -->
-        Unable to register commercial music copyrights
+        {{$t('lang12')}}
       </p>
       <p>
         <i>
           <img src="/assets/images/icon/parchase-info2.png" alt />
         </i>
-        <!-- {{$t('unableToEditArbitrarily')}} -->
-        Only simple cutting editing is possible
+        {{$t('lang13')}}
       </p>
       <p>
         <i>
           <img src="/assets/images/icon/parchase-info7.png" alt />
         </i>
-        <!-- {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}} -->
-        Will continue to be sold to the majority other than this buyer
+        {{$t('lang14')}}
       </p>
       <div class="copybox">
-        <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-        <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
+        <span>{{$t('lang21')}}</span>
+        <span>{{$t('lang22')}}</span>
       </div>
     </div>
   </div>

@@ -510,7 +510,10 @@ class BeatsomeoneApi extends CB_Controller
             'cde_id_3' => $this->input->post('cde_id_3'),
             "mem_id" => $this->member->item('mem_id'),
             "mem_userid" => element('mem_userid',$this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid')),
-            "ip" => $this->input->ip_address()
+            "ip" => $this->input->ip_address(),
+            'freebeat' => $this->input->post('freebeat'),
+            'include_copyright_transfer' => $this->input->post('include_copyright_transfer'),
+            'officially_registered' => $this->input->post('officially_registered')
         );
 
         $jsonDataList = ['unTaggedFile', 'stemFile', 'streamingFile', 'artwork'];
