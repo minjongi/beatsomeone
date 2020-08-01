@@ -487,6 +487,7 @@ export default {
         lang40: '자세한 설명',
         lang41: '구매자 1명에게만 단독 판매 됨 (소유권 공유)',
         lang42: '구매자 1명에게만 단독 판매 됨 (소유권 양도)',
+        lang43: '음악저작권 양도 포함'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -975,5 +976,6 @@ export default {
         lang40: 'Detailed condition',
         lang41: 'Sold exclusively to only one purchaser (share of ownership)',
         lang42: 'Sold exclusively to only one purchaser (transfer of ownership)',
+        lang43: 'Copyright Transfer Include'
     } // en
 }

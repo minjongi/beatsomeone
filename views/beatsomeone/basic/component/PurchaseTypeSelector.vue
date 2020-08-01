@@ -25,7 +25,6 @@
                     <h4 class="parchase-title">{{ $t('lang23') }}</h4>
                     <p class="parchase-desc">
                       {{$t('lang24')}}
-                      <span class="copytransfer">{{ $t('lang32') }}</span>
                     </p>
                   </div>
 
@@ -67,10 +66,6 @@
                     </i>
                     {{$t('lang29')}}
                   </p>
-                  <div class="copybox">
-                    <span>{{ $t('lang21') }}</span>
-                    <span>{{ $t('lang22') }}</span>
-                  </div>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.LEASE.cde_id)">
                   <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id">정보열람</button>
@@ -88,7 +83,7 @@
                     <h4 class="parchase-title">{{ $t('lang30') }}</h4>
                     <p class="parchase-desc">
                       {{ $t('lang31') }}
-                      <span class="copytransfer">{{ $t('lang32') }}</span>
+                      <span class="copytransfer" v-if="item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
                     </p>
                   </div>
 
@@ -124,16 +119,25 @@
                     </i>
                     {{$t('lang36')}}
                   </p>
-                  <p>
+                  <p v-if="item.cit_include_copyright_transfer !== '1'">
                     <i>
                       <img src="/assets/images/icon/parchase-info10.png" />
                     </i>
-                    {{$t('lang37')}}
+                    {{$t('lang41')}}
+                  </p>
+                  <p v-else>
+                    <i>
+                      <img src="/assets/images/icon/parchase-info10.png" />
+                    </i>
+                    {{$t('lang42')}}
                   </p>
 
-                  <div class="copybox">
+                  <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
                     <span>{{ $t('lang21') }}</span>
                     <span>{{ $t('lang22') }}</span>
+                  </div>
+                  <div class="copybox" v-else>
+                    <span>{{ $t('lang43') }}</span>
                   </div>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.STEM.cde_id)">
