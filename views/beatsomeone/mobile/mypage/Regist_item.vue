@@ -775,6 +775,10 @@ export default {
         }
       }
 
+      this.item.freebeat = this.item.freebeat ? 1 : 0
+      this.item.include_copyright_transfer = this.item.include_copyright_transfer ? 1 : 0
+      this.item.officially_registered = this.item.officially_registered ? 1 : 0
+
       let param;
       _.forEach(this.item, (v, k) => {
         param = typeof v !== "object" ? v : JSON.stringify(v);

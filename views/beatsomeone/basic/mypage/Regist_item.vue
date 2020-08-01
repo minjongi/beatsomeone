@@ -709,9 +709,9 @@ export default {
         r.data.artworkPath = r.data.cit_file_1;
         r.data.artwork = "";
         r.data.cit_start_datetime = !r.data.cit_start_datetime ? "" : new Date(Date.parse(r.data.cit_start_datetime)).toISOString();
-        r.data.freebeat = r.data.cit_freebeat || 0;
-        r.data.include_copyright_transfer = r.data.cit_include_copyright_transfer || 0;
-        r.data.officially_registered = r.data.cit_officially_registered || 0;
+        r.data.freebeat = r.data.cit_freebeat == 1 ? 1 : 0;
+        r.data.include_copyright_transfer = r.data.cit_include_copyright_transfer == 1 ? 1 : 0;
+        r.data.officially_registered = r.data.cit_officially_registered == 1 ? 1 : 0;
         this.item = r.data;
       });
     },
@@ -807,6 +807,10 @@ export default {
           return false;
         }
       }
+
+      this.item.freebeat = this.item.freebeat ? 1 : 0
+      this.item.include_copyright_transfer = this.item.include_copyright_transfer ? 1 : 0
+      this.item.officially_registered = this.item.officially_registered ? 1 : 0
 
       let param;
       _.forEach(this.item, (v, k) => {
