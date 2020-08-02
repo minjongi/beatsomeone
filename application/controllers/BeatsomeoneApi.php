@@ -54,6 +54,7 @@ class BeatsomeoneApi extends CB_Controller
             'voice' => $this->input->get('voice'),
         );
         $result = $this->Beatsomeone_model->get_main_list($config);
+        $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -149,6 +150,7 @@ class BeatsomeoneApi extends CB_Controller
         );
 
         $result = $this->Beatsomeone_model->get_sublist_list($config);
+        $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -171,9 +173,22 @@ class BeatsomeoneApi extends CB_Controller
             'limit' => $this->input->post('limit') ,
         );
         $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
+        $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
+    }
+
+    public function filterFreebeat($list) {
+        foreach ($list as $key => $val) {
+            if ($val['cit_freebeat'] == 1) {
+                $list[$key]['cde_price'] = 0;
+                $list[$key]['cde_price_d'] = 0;
+                $list[$key]['cde_price_2'] = 0;
+                $list[$key]['cde_price_d_2'] = 0;
+            }
+        }
+        return $list;
     }
 
     // 연관음반 추가 대상 조회
@@ -821,7 +836,16 @@ class BeatsomeoneApi extends CB_Controller
                 $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
                 //$result[$key]['detail'] = $this->Cmall_cart_model->get_cart_detail($mem_id, element('cit_id', $val));
                 $result[$key]['detail'] = $this->Beatsomeone_model->get_product_info(element('cit_id', $val));
-                //log_message('error', print_r($result[$key]['detail'],true) );
+
+                foreach ($result[$key]['detail'] as $detailKey => $detailVal) {
+                    if ($detailVal['cit_freebeat'] != 1) {
+                        continue;
+                    }
+                    $result[$key]['detail'][$detailKey]['cde_price'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_2'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_d'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_d_2'] = 0;
+                }
             }
         }
         //log_message('error', var_dump($result));
@@ -932,6 +956,17 @@ class BeatsomeoneApi extends CB_Controller
                 $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
                 //$result[$key]['detail'] = $this->Cmall_cart_model->get_order_detail($mem_id, element('cit_id', $val));
                 $result[$key]['detail'] = $this->Beatsomeone_model->get_product_info(element('cit_id', $val));
+
+                foreach ($result[$key]['detail'] as $detailKey => $detailVal) {
+                    if ($detailVal['cit_freebeat'] != 1) {
+                        continue;
+                    }
+                    $result[$key]['detail'][$detailKey]['cde_price'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_2'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_d'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_d_2'] = 0;
+                }
+
                 if (empty($good_name)) {
                     $good_name = element('cit_name', $val);
                 }

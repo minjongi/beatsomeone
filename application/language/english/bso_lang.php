@@ -487,3 +487,5 @@ $lang['lang37'] = 'Sold exclusively to only one purchaser (share of ownership or
 $lang['lang40'] = 'Detailed condition';
 $lang['lang41'] = 'Sold exclusively to only one purchaser (share of ownership)';
 $lang['lang42'] = 'Sold exclusively to only one purchaser (transfer of ownership)';
+$lang['lang43'] = 'Would you like to offer a bit for free?';
+$lang['lang44'] = 'Notice : If checked, the rental and sales price will be 0';

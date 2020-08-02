@@ -645,7 +645,6 @@ export default {
   methods: {
     paypalAuthorized: function (data) {},
     paypalCompleted: function (data) {
-      console.log(data);
       this.paypalData = JSON.stringify(data);
       this.ajaxUpdateOrder().then(() => {
         if (!this.cor_id) {

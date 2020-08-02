@@ -20,7 +20,7 @@
               <div class="utils" v-if="item">
                 <div class="utils__info">
                   <a href="#" class="buy" v-if="item" @click="addCart">
-                    <span>{{ item.cde_price }}&#8361;</span>
+                    <span>{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</span>
                   </a>
                   <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
                   <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.comment_cnt }}</span>
@@ -356,6 +356,26 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(t);
       alert(`복사되었습니다\nCtrl + V 를 눌러 확인해보세요`);
+    },
+    formatPrice: function (kr, en, simbol) {
+      if (!simbol) {
+        if (this.$i18n.locale === "en") {
+          return en;
+        } else {
+          return kr;
+        }
+      }
+      if (this.$i18n.locale === "en") {
+        return (
+                "$ " +
+                Number(en).toLocaleString(undefined, { minimumFractionDigits: 2 })
+        );
+      } else {
+        return (
+                "₩ " +
+                Number(kr).toLocaleString("ko-KR", { minimumFractionDigits: 0 })
+        );
+      }
     },
   },
 };

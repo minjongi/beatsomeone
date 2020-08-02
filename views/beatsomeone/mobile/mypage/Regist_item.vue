@@ -258,6 +258,20 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="form-item">
+                <div class="form-title">
+                  <label for="c31" class="checkbox">
+                    {{ $t('lang44') }}
+                    <input type="checkbox" hidden id="c31" value="1" v-model="item.freebeat"/>
+                    <span class="ml-10"></span>
+                    <div class="notice-msg mt-5">
+                      ※ {{ $t('lang45') }}
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
 
             <!-- 가 끝  -->
 
@@ -271,14 +285,6 @@
                       <p>
                         {{ $t('basicLeaseLicensePrice') }}
                       </p>
-                    </label>
-                  </div>
-
-                  <div class="form-title">
-                    <label for="c3" class="checkbox">
-                      <input type="checkbox" hidden id="c3" value="1" v-model="item.freebeat"/>
-                      <span></span>
-                      <p>{{ $t('lang7') }}</p>
                     </label>
                   </div>
 
