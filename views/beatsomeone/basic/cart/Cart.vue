@@ -116,8 +116,8 @@
                                   <div
                                     class="title"
                                     @click.self="toggleButton"
-                                  >{{$t('basicLeaseLicense')}}</div>
-                                  <div class="detail">{{$t('mp3Orwav')}}</div>
+                                  >{{$t('lang23')}}</div>
+                                  <div class="detail">{{$t('lang24')}}</div>
                                 </div>
                                 <div
                                   class="price"
@@ -182,8 +182,8 @@
                                   <div
                                     class="title"
                                     @click.self="toggleButton"
-                                  >{{$t('unlimitedStemsLicense')}}</div>
-                                  <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                  >{{$t('lang30')}}</div>
+                                  <div class="detail">{{$t('lang31')}}</div>
                                 </div>
                                 <div
                                   class="price"

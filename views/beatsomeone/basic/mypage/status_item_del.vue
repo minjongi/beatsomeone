@@ -285,7 +285,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -359,7 +359,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -433,7 +433,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -507,7 +507,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -581,7 +581,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -655,7 +655,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -729,7 +729,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -803,7 +803,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -877,7 +877,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -951,7 +951,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">

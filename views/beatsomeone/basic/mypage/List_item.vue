@@ -306,7 +306,7 @@
                 <!-- Option -->
                 <div class="option">
                   <!-- BASIC LEASE LICENSE -->
-                  <!-- {{$t('unlimitedStemsLicense')}} -->
+                  <!-- {{$t('lang30')}} -->
                   <div
                     class="n-box"
                     v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' "
@@ -336,8 +336,8 @@
                                             <button class="playList__item--button" >
                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                 <div>
-                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                    <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
+                                                    <div class="detail">{{$t('lang31')}}</div>
                                                 </div>
                                             </button>
                                             <div class="option_item unlimited">
@@ -422,7 +422,7 @@
                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                     <div>
                                         <div class="title">BASIC LEASE</div>
-                                        <div class="detail">{{$t('mp3Orwav')}}</div>
+                                        <div class="detail">{{$t('lang24')}}</div>
                                     </div>
                                 </div>
                                 <div class="option_item">

@@ -1044,7 +1044,8 @@ class BeatsomeoneApi extends CB_Controller
         $good_mny = $this->input->post('good_mny', null, 0);    //request 값으로 받은 값
         $item_cct_price = 0;        //주문한 상품의 총 금액의 초기화
 
-
+        $totalCnt = 0;
+        $freebeatCnt = 0;
         $orderlist = $this->Cmall_cart_model->get_order_list($where, $findex, $forder);
         if ($orderlist) {
             foreach ($orderlist as $key => $val) {
@@ -1053,7 +1054,10 @@ class BeatsomeoneApi extends CB_Controller
                 if( !empty($details) ){
                     foreach((array) $details as $detail ){
                         if( empty($detail) ) continue;
-
+                        $totalCnt++;
+                        if ($detail['cit_freebeat'] == 1) {
+                            $freebeatCnt++;
+                        }
                         $item_cct_price += ((int) element('cit_price', $val) + (int) element('cde_price', $detail)) * element('cct_count', $detail);
                     }
                 }
@@ -1109,6 +1113,13 @@ class BeatsomeoneApi extends CB_Controller
             $od_status = 'deposit'; //주문상태
         }
 
+        if ($totalCnt === $freebeatCnt) {
+            $insertdata['cor_status'] = 1;
+            $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
+            $od_status = 'deposit'; //주문상태
+            $insertdata['cor_deposit'] = 0;
+        }
+
         // 정보 입력
         $cor_id = $this->session->userdata('unique_id');
         $insertdata['cor_id'] = $cor_id;
@@ -1123,8 +1134,12 @@ class BeatsomeoneApi extends CB_Controller
         $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
         $insertdata['status'] = $od_status;
 
+        $insertdata['cor_total_money'] = 1;
+        $insertdata['cor_cash_request'] =1;
+
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model', 'Member_model'));
         $res = $this->Cmall_order_model->insert($insertdata);
+
         if ($res) {
             $cwhere = array(
                 'mem_id' => $mem_id,

@@ -64,10 +64,9 @@
                         <!-- Option -->
                         <div class="option">
                           <!-- BASIC LEASE LICENSE -->
-                          <!-- UNLIMITED STEMS LICENSE -->
                           <div
                             class="n-box"
-                            v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' "
+                            v-if="item.detail[0].cde_title === 'STEM'"
                           >
                             <div>
                               <button class="playList__item--button">
@@ -81,88 +80,21 @@
                                   <div
                                     class="title"
                                     @click.self="toggleButton"
-                                  >{{$t('basicLeaseLicense')}}</div>
-                                  <div class="detail">{{$t('mp3Orwav')}}</div>
+                                  >{{$t('lang23')}}</div>
+                                  <div class="detail">{{$t('lang24')}}</div>
                                 </div>
                                 <div
                                   class="price 11221122"
                                   v-if="item.detail[0].cit_lease_license_use === '1'"
                                 >{{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}</div>
                               </button>
-                              <div class="option_item basic">
-                                <div class="parchase-description">
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info6.png" alt />
-                                    </i>
-                                    <!-- {{$t('available60Days')}} -->
-                                    Profits from performances and can be used in broadcasting
-                                  </p>
-                                  <p></p>
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info1.png" alt />
-                                    </i>
-                                    <!-- {{$t('available60Days')}} -->
-                                    Available for 60 days
-                                  </p>
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info3.png" alt />
-                                    </i>
-                                    <!-- {{$t('rentedMembersCannotBeRerentedToOthers')}} -->
-                                    Unable to register commercial music copyrights
-                                  </p>
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info2.png" alt />
-                                    </i>
-                                    <!-- {{$t('unableToEditArbitrarily')}} -->
-                                    Only simple cutting editing is possible
-                                  </p>
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info7.png" alt />
-                                    </i>
-                                    <!-- {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}} -->
-                                    Will continue to be sold to the majority other than this buyer
-                                  </p>
-                                  <div class="copybox">
-                                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
-                                  </div>
-                                </div>
-                              </div>
+                              <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
                             </div>
                           </div>
-
-                          <!-- BASIC LEASE LICENSE -->
                           <!-- UNLIMITED STEMS LICENSE -->
-                          <!--
-                                                        <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' ">{{$t('unlimitedStemsLicense')}}
-                                                            <div>
-                                                                <button class="playList__item--button" >
-                                                                    <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                    <div>
-                                                                        <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
-                                                                    </div>
-                                                                    <div class="price  1122" v-if="item.detail[0].cit_mastering_license_use === '1'" >
-                                                                            {{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2, true) }}
-                                                                        </div>
-                                                                </button>
-                                                                <div class="option_item unlimited">
-                                                                    <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
-                                                                    <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
-                                                                    <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
-                                                                </div>
-                                                            </div>
-                          </div>-->
-
-                          <!-- BASIC LEASE LICENSE -->
                           <div
                             class="n-box"
-                            v-else-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '0'"
+                            v-else
                           >
                             <div>
                               <button class="playList__item--button">
@@ -176,218 +108,21 @@
                                   <div
                                     class="title"
                                     @click.self="toggleButton"
-                                  >{{$t('basicLeaseLicense')}}</div>
-                                  <div class="detail">{{$t('mp3Orwav')}}</div>
-                                </div>
-                                <div
-                                  class="price 1111"
-                                  v-if="item.detail[0].cit_lease_license_use === '1'"
-                                >{{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, true) }}</div>
-                              </button>
-                              <div class="option_item basic">
-                                <div class="parchase-description">
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info6.png" alt />
-                                    </i>
-                                    <!-- {{$t('available60Days')}} -->
-                                    Profits from performances and can be used in broadcasting
-                                  </p>
-                                  <p></p>
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info1.png" alt />
-                                    </i>
-                                    <!-- {{$t('available60Days')}} -->
-                                    Available for 60 days
-                                  </p>
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info3.png" alt />
-                                    </i>
-                                    <!-- {{$t('rentedMembersCannotBeRerentedToOthers')}} -->
-                                    Unable to register commercial music copyrights
-                                  </p>
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info2.png" alt />
-                                    </i>
-                                    <!-- {{$t('unableToEditArbitrarily')}} -->
-                                    Only simple cutting editing is possible
-                                  </p>
-                                  <p>
-                                    <i>
-                                      <img src="/assets/images/icon/parchase-info7.png" alt />
-                                    </i>
-                                    <!-- {{$t('noOtherActivitiesNotAuthorizedByThePlatform')}} -->
-                                    Will continue to be sold to the majority other than this buyer
-                                  </p>
-                                  <div class="copybox">
-                                    <span>Seller's copyright must also be partially recognized when registering music copyrights.</span>
-                                    <span>If you wish to transfer copyrights, you need to contact the customer center.</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!-- UNLIMITED STEMS LICENSE -->
-                          <div
-                            class="n-box"
-                            v-else-if="item.detail[0].cit_mastering_license_use === '1' && item.detail[0].cit_lease_license_use === '0' "
-                          >
-                            <div>
-                              <button class="playList__item--button">
-                                <span class="option_fold">
-                                  <img
-                                    src="/assets/images/icon/togglefold.png"
-                                    @click.self="toggleButton"
-                                  />
-                                </span>
-                                <div>
-                                  <div
-                                    class="title"
-                                    @click.self="toggleButton"
-                                  >{{$t('unlimitedStemsLicense')}}</div>
-                                  <div class="detail 2222">{{$t('mp3OrwavStems')}}</div>
+                                  >{{$t('lang30')}}</div>
+                                  <div class="detail 2222">{{$t('lang31')}}</div>
                                 </div>
                                 <div
                                   class="price"
                                   v-if="item.detail[0].cit_mastering_license_use === '1'"
                                 >{{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2, true) }}</div>
                               </button>
-                              <div class="option_item unlimited">
-                                <div>
-                                  <span class="img-box">
-                                    <img src="/assets/images/icon/parchase-info4.png" />
-                                  </span>
-                                  <span>{{$t('unlimited1')}}</span>
-                                </div>
-                                <div>
-                                  <span class="img-box">
-                                    <img src="/assets/images/icon/parchase-info4.png" />
-                                  </span>
-                                  <span>{{$t('unlimitedMsg1')}}</span>
-                                </div>
-                                <div>
-                                  <span class="img-box">
-                                    <img src="/assets/images/icon/parchase-info4.png" />
-                                  </span>
-                                  <span>{{$t('unlimitedMsg2')}}</span>
-                                </div>
-                              </div>
+                              <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </li>
-                  <!--
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title active">
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">{{$t('unlimitedStemsLicense')}} PRICE</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
-                                                    </div>
-                                                </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>{{$t('unlimited')}}</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col feature">
-                                                <div class="price">
-                                                    $ 10.00
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title active">
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">BASIC LEASE</div>
-                                                        <div class="detail">{{$t('mp3Orwav')}}</div>
-                                                    </div>
-                                                </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info1.png"><span>{{$t('available60Days')}}</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info2.png"><span>{{$t('unableToEditArbitrarily')}}</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info3.png"><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
-                                                    <div><img src="/assets/images/icon/parchase-info5.png"><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col feature">
-                                                <div class="price">
-                                                    $ 10.00
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="playList__itembox">
-                                        <div class="playList__item playList__item--title active">
-                                            <div class="col name">
-                                                <figure>
-                                                    <span class="playList__cover">
-                                                        <img src="/assets/images/cover_default.png" alt="">
-                                                        <i ng-if="item.isNew" class="label new">N</i>
-                                                    </span>
-                                                    <figcaption class="pointer">
-                                                        <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                        <span class="playList__by"> ( Bpm )</span>
-                                                    </figcaption>
-                                                </figure>
-                                            </div>
-                                            <div class="col option">
-                                                <div>
-                                                    <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                                    <div>
-                                                        <div class="title">{{$t('unlimitedStemsLicense')}} PRICE</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
-                                                    </div>
-                                                </div>
-                                                <div class="option_item">
-                                                    <div><img src="/assets/images/icon/parchase-info4.png"><span>{{$t('unlimited')}}</span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col feature">
-                                                <div class="price">
-                                                    $ 10.00
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                  -->
                 </ul>
               </div>
             </div>
@@ -481,32 +216,43 @@
                 </div>
               </div>
             </div>
-            <div
-              class="btnbox col"
-              style="width:50%; margin:30px auto 100px;"
-              v-if="currentLocale === 'ko'"
-            >
-              <button class="btn btn--gray" @click="goBack">{{$t('back')}}</button>
-              <button type="submit" class="btn btn--submit" @click="goPay">{{$t('pay')}}</button>
+            <div v-if="!freebeatPay">
+              <div
+                      class="btnbox col"
+                      style="width:50%; margin:30px auto 100px;"
+                      v-if="currentLocale === 'ko'"
+              >
+                <button class="btn btn--gray" @click="goBack">{{$t('back')}}</button>
+                <button type="submit" class="btn btn--submit" @click="goPay">{{$t('pay')}}</button>
+              </div>
+              <div
+                      class="btnbox col"
+                      style="width:50%; margin:30px auto 100px;"
+                      v-if="currentLocale === 'en'"
+              >
+                <button class="btn btn--gray mr-3" style="height:47px;" @click="goBack">{{$t('back')}}</button>
+                <PayPal
+                        env="production"
+                        currency="USD"
+                        locale="en_US"
+                        :amount="this.totalPriceEn.toString() || '0'"
+                        :client="paypal"
+                        :invoice-number="orderNo"
+                        :button-style="paypalBtnStyle"
+                        @payment-authorized="paypalAuthorized"
+                        @payment-completed="paypalCompleted"
+                        @payment-cancelled="paypalCancelled"
+                ></PayPal>
+              </div>
             </div>
-            <div
-              class="btnbox col"
-              style="width:50%; margin:30px auto 100px;"
-              v-if="currentLocale === 'en'"
-            >
-              <button class="btn btn--gray mr-3" style="height:47px;" @click="goBack">{{$t('back')}}</button>
-              <PayPal
-                env="production"
-                currency="USD"
-                locale="en_US"
-                :amount="this.totalPriceEn.toString() || '0'"
-                :client="paypal"
-                :invoice-number="orderNo"
-                :button-style="paypalBtnStyle"
-                @payment-authorized="paypalAuthorized"
-                @payment-completed="paypalCompleted"
-                @payment-cancelled="paypalCancelled"
-              ></PayPal>
+            <div v-else>
+              <div
+                      class="btnbox col"
+                      style="width:50%; margin:30px auto 100px;"
+              >
+                <button class="btn btn--gray" @click="goBack">{{$t('back')}}</button>
+                <button type="button" class="btn btn--submit" @click="procFreebeatPay">{{$t('pay')}}</button>
+              </div>
             </div>
           </div>
         </section>
@@ -562,12 +308,14 @@ import Header from "../include/Header";
 import Footer from "../include/Footer";
 import axios from "axios";
 import PayPal from "vue-paypal-checkout";
+import ParchaseComponent from "../component/Parchase";
 
 export default {
   components: {
     Header,
     Footer,
     PayPal,
+    ParchaseComponent
   },
   data: function () {
     return {
@@ -576,6 +324,7 @@ export default {
       myMember: [],
       totalPriceKr: 0,
       totalPriceEn: 0,
+      freebeatPay: false,
       point: 0,
       useWPoint: 0,
       remPoint: 0,
@@ -769,21 +518,26 @@ export default {
       this.payMethod = idx;
     },
     calcTotalPrice: function () {
-      let tpkr = 0.0;
-      let tpen = 0.0;
+      let tpkr = 0.0,
+          tpen = 0.0,
+          freebeatCnt = 0
+
       for (let i in this.myOrder_list) {
-        if (this.myOrder_list[i].detail[0].cit_lease_license_use == "1") {
-          tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
-          tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
-        } else if (
-          this.myOrder_list[i].detail[0].cit_mastering_license_use == "1"
-        ) {
+        if (this.myOrder_list[i].cde_title === "STEM") {
           tpkr += Number(this.myOrder_list[i].detail[0].cde_price_2);
           tpen += Number(this.myOrder_list[i].detail[0].cde_price_d_2);
+        } else {
+          tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
+          tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
+        }
+
+        if (this.myOrder_list[i].detail[0].cit_freebeat == 1) {
+          freebeatCnt++
         }
       }
       this.totalPriceKr = tpkr;
       this.totalPriceEn = tpen;
+      this.freebeatPay = (freebeatCnt === this.myOrder_list.length)
     },
     checkToday: function (date) {
       const input = new Date(date);
@@ -867,6 +621,16 @@ export default {
         this.remPoint = this.point - this.useWPoint;
         this.usePoint = this.useWPoint;
       }
+    },
+    procFreebeatPay: function () {
+      this.ajaxUpdateOrder().then(() => {
+        if (this.cor_id == "") {
+          alert("결제가 실패하였습니다.");
+          return;
+        } else {
+          window.location.href = "/cmall/complete?cor_id=" + this.cor_id;
+        }
+      });
     },
   },
 };

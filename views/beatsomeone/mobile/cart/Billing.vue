@@ -89,8 +89,8 @@
                                     <div
                                       class="title"
                                       @click.self="toggleButton"
-                                    >{{$t('basicLeaseLicense')}}</div>
-                                    <div class="detail">{{$t('mp3Orwav')}}</div>
+                                    >{{$t('lang23')}}</div>
+                                    <div class="detail">{{$t('lang24')}}</div>
                                   </div>
                                   <div
                                     class="price 11221122"
@@ -147,13 +147,13 @@
                             <!-- BASIC LEASE LICENSE -->
                             <!-- UNLIMITED STEMS LICENSE -->
                             <!--
-                                                        <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' "> {{$t('unlimitedStemsLicense')}}
+                                                        <div class="n-box" v-if="item.detail[0].cit_lease_license_use === '1' && item.detail[0].cit_mastering_license_use === '1' "> {{$t('lang30')}}
                                                             <div>
                                                                 <button class="playList__item--button" >
                                                                     <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                     <div>
-                                                                        <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                                        <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
+                                                                        <div class="detail">{{$t('lang31')}}</div>
                                                                     </div>
                                                                     <div class="price  1122" v-if="item.detail[0].cit_mastering_license_use === '1'" >
                                                                             {{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2, true) }}
@@ -184,8 +184,8 @@
                                     <div
                                       class="title"
                                       @click.self="toggleButton"
-                                    >{{$t('basicLeaseLicense')}}</div>
-                                    <div class="detail">{{$t('mp3Orwav')}}</div>
+                                    >{{$t('lang23')}}</div>
+                                    <div class="detail">{{$t('lang24')}}</div>
                                   </div>
                                   <div
                                     class="price 1111"
@@ -256,8 +256,8 @@
                                     <div
                                       class="title"
                                       @click.self="toggleButton"
-                                    >{{$t('unlimitedStemsLicense')}}</div>
-                                    <div class="detail 2222">{{$t('mp3OrwavStems')}}</div>
+                                    >{{$t('lang30')}}</div>
+                                    <div class="detail 2222">{{$t('lang31')}}</div>
                                   </div>
                                   <div
                                     class="price"
@@ -318,8 +318,8 @@
                                                 <div>
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
-                                                        <div class="title">{{$t('unlimitedStemsLicense')}} PRICE</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="title">{{$t('lang30')}} PRICE</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -353,7 +353,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">BASIC LEASE</div>
-                                                        <div class="detail">{{$t('mp3Orwav')}}</div>
+                                                        <div class="detail">{{$t('lang24')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
@@ -389,8 +389,8 @@
                                                 <div>
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
-                                                        <div class="title">{{$t('unlimitedStemsLicense')}} PRICE</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="title">{{$t('lang30')}} PRICE</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">

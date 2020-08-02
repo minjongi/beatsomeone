@@ -129,8 +129,8 @@
                                     <div
                                       class="title"
                                       @click.self="toggleButton"
-                                    >{{$t('basicLeaseLicense')}}</div>
-                                    <div class="detail">{{$t('mp3Orwav')}}</div>
+                                    >{{$t('lang23')}}</div>
+                                    <div class="detail">{{$t('lang24')}}</div>
                                   </div>
                                   <div
                                     class="price"
@@ -193,8 +193,8 @@
                                                                 <button class="playList__item--button" >
                                                                     <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                     <div>
-                                                                        <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                                        <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
+                                                                        <div class="detail">{{$t('lang31')}}</div>
                                                                     </div>
                                                                     <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
                                                                             {{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2) }}
@@ -225,8 +225,8 @@
                                     <div
                                       class="title"
                                       @click.self="toggleButton"
-                                    >{{$t('basicLeaseLicense')}}</div>
-                                    <div class="detail">{{$t('mp3Orwav')}}</div>
+                                    >{{$t('lang23')}}</div>
+                                    <div class="detail">{{$t('lang24')}}</div>
                                   </div>
                                   <div
                                     class="price"
@@ -297,8 +297,8 @@
                                     <div
                                       class="title"
                                       @click.self="toggleButton"
-                                    >{{$t('unlimitedStemsLicense')}}</div>
-                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                    >{{$t('lang30')}}</div>
+                                    <div class="detail">{{$t('lang31')}}</div>
                                   </div>
                                   <div
                                     class="price"
@@ -366,7 +366,7 @@
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
                                                         <div class="title">{{$t('unlimitedStemsLicensePrice')}}</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">

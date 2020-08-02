@@ -311,8 +311,8 @@
                                             <button class="playList__item--button" >
                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                 <div>
-                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                    <p>{{$t('mp3OrwavStems')}}</p>
+                                                    <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
+                                                    <p>{{$t('lang31')}}</p>
                                                 </div>
                                                 <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
                                             </button>
@@ -391,7 +391,7 @@
                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                     <div>
                                         <div class="title">BASIC LEASE</div>
-                                        <div class="detail">{{$t('mp3Orwav')}}</div>
+                                        <div class="detail">{{$t('lang24')}}</div>
                                     </div>
                                 </div>
                                 <div class="option_item">

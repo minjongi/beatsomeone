@@ -56,8 +56,8 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
-                                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('lang23')}}</div>
+                                                                    <div class="detail">{{$t('lang24')}}</div>
                                                                 </div>
                                                                 <div class="price"> {{ formatPrice2(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                             </button>
@@ -72,13 +72,13 @@
                                                     </div>
                                                     <!-- BASIC LEASE LICENSE --><!-- UNLIMITED STEMS LICENSE --><!--
                                                     <div class="n-box" v-if="rst.item[0].cit_lease_license_use === '1' && rst.item[0].cit_mastering_license_use === '1' ">
-                                                         {{$t('unlimitedStemsLicense')}}
+                                                         {{$t('lang30')}}
                                                         <div>
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
+                                                                    <div class="detail">{{$t('lang31')}}</div>
                                                                 </div>
                                                                 <div class="price"> {{ formatPrice(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                             </button>
@@ -97,8 +97,8 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">{{$t('basicLeaseLicense')}}</div>
-                                                                    <div class="detail">{{$t('mp3Orwav')}}</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('lang23')}}</div>
+                                                                    <div class="detail">{{$t('lang24')}}</div>
                                                                 </div>
                                                                 <div class="price"> {{ formatPrice2(rst.item[0].cde_price, rst.item[0].cde_price_d, true) }} </div>
                                                             </button>
@@ -118,8 +118,8 @@
                                                             <button class="playList__item--button" >
                                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                                                                 <div>
-                                                                    <div class="title" @click.self="toggleButton">{{$t('unlimitedStemsLicense')}}</div>
-                                                                    <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                                    <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
+                                                                    <div class="detail">{{$t('lang31')}}</div>
                                                                 </div>
                                                                 <div class="price"> {{ formatPrice2(rst.item[0].cde_price_2, rst.item[0].cde_price_d_2, true) }} </div>
                                                             </button>
@@ -163,8 +163,8 @@
                                                 <div>
                                                     <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
                                                     <div>
-                                                        <div class="title">{{$t('unlimitedStemsLicense')}} PRICE</div>
-                                                        <div class="detail">{{$t('mp3OrwavStems')}}</div>
+                                                        <div class="title">{{$t('lang30')}} PRICE</div>
+                                                        <div class="detail">{{$t('lang31')}}</div>
                                                     </div>
                                                 </div>
                                                 <div class="option_item">
