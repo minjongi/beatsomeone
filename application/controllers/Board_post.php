@@ -119,7 +119,12 @@ class Board_post extends CB_Controller
 		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
 		$this->data = $view;
 		$this->layout = element('layout_skin_file', element('layout', $view));
-		$this->view = element('view_skin_file', element('layout', $view));
+		if ($this->input->is_ajax_request()) {
+            $this->output->set_content_type('text/json');
+            $this->output->set_output(json_encode($list));
+        } else {
+            $this->view = element('view_skin_file', element('layout', $view));
+        }
 	}
 
 

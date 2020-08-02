@@ -1962,11 +1962,18 @@ textarea {
     }
   }
 
-  button {
+  button, li {
     color: rgba(255, 255, 255, 0.3);
     width: 48px;
     height: 48px;
     transition: 0.3s ease;
+
+    a {
+      color: rgba(255, 255, 255, 0.3);
+      &:hover {
+        color: rgba(255, 255, 255, 1);
+      }
+    }
 
     &:hover {
       color: rgba(255, 255, 255, 1);
@@ -1975,6 +1982,10 @@ textarea {
     &.active {
       font-weight: bolder;
       color: #ffda2a;
+
+      a {
+        color: #ffda2a;
+      }
     }
   }
 }

@@ -373,63 +373,6 @@ class BeatsomeoneMypageApi extends CB_Controller
         $this->output->set_output(json_encode($result['list']));
     }
 
-    public function store_inquiry()
-    {
-        required_user_login();
-
-        $title = $this->input->post('title');
-        $description = $this->input->post('description');
-        $mem_id = $this->member->item('mem_id');
-
-
-        $this->load->model('Post_model');
-        $this->load->model('Board_model');
-        $support_board = $this->Board_model->get_one('', '', [
-            'brd_key' => 'support'
-        ]);
-
-        $data = [
-            'brd_id' => $support_board['brd_id'],
-            'post_title' => $title,
-            'post_content' => $description,
-            'mem_id' => $mem_id,
-            'post_userid' => $this->member->item('mem_userid'),
-            'post_username' => $this->member->item('mem_username'),
-            'post_nickname' => $this->member->item('mem_nickname'),
-            'post_ip' => $this->input->ip_address(),
-            'post_datetime' => cdate('Y-m-d H:i:s'),
-            'post_updated_datetime' => cdate('Y-m-d H:i:s'),
-            'post_device' => ($this->cbconfig->get_device_type() === 'mobile') ? 'mobile' : 'desktop',
-        ];
-        $this->Post_model->insert($data);
-
-
-        $result = [
-            'message' => 'Success',
-        ];
-        $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
-    }
-
-    public function get_inquiry_list() {
-        required_user_login();
-
-        $mem_id = (int) $this->member->item('mem_id');
-
-        $this->load->model('Post_model');
-        $this->load->model('Board_model');
-        $support_board = $this->Board_model->get_one('', '', [
-            'brd_key' => 'support'
-        ]);
-
-        $result = $this->Post_model->get_post_list('', '', [
-            'brd_id' => $support_board['brd_id'],
-            'post.mem_id' => $mem_id
-        ]);
-        $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
-    }
-
     public function updateAvatar() {
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_membermodify_modify';

@@ -44,39 +44,23 @@
             </div>
         </div>
 
-        <div class="row" style="margin-bottom:30px;">
-            <div class="pagination">
-                <div>
-                    <button class="prev active"><img src="/assets/images/icon/chevron_prev.png"/></button>
-                    <button class="active">1</button>
-<!--                    <button>2</button>-->
-<!--                    <button>3</button>-->
-<!--                    <button>4</button>-->
-<!--                    <button>5</button>-->
-<!--                    <button>6</button>-->
-<!--                    <button>7</button>-->
-<!--                    <button>8</button>-->
-<!--                    <button>9</button>-->
-<!--                    <button>10</button>-->
-                    <button class="next active"><img src="/assets/images/icon/chevron_next.png"/></button>
-                </div>
-            </div>
+        <div class="row paging" style="margin-bottom:30px;" v-html="paging_html" v-show="paging_html">
         </div>
 
         <div class="row">
             <div class="sort" style="">
                 <div class="custom-select">
-                    <button class="selected-option">
-                        Total
+                    <button class="selected-option" :data-value="search_field">
+                        {{ selected_option_html }}
                     </button>
-                    <div class="options">
-                        <button data-value="" class="option"> Title</button>
-                        <button data-value="" class="option"> Content</button>
+                    <div class="options" v-html="custom_options_html">
                     </div>
+                    <select v-html="search_select_html" v-model="search_field">
+                    </select>
                 </div>
                 <div class="input_wrap line" style="margin-left:20px; width:100%;">
-                    <input type="text" :placeholder="$t('enterYourSearchword')">
-                    <button><img src="/assets/images/icon/searchicon.png"/></button>
+                    <input type="text" v-model="search_keyword" :placeholder="$t('enterYourSearchword')">
+                    <button v-on:click="searchClicked"><img src="/assets/images/icon/searchicon.png"/></button>
                 </div>
             </div>
         </div>
@@ -102,6 +86,13 @@
                 isPlay: false,
                 isReady: false,
                 wavesurfer: null,
+                search_field: 'post_title',
+                search_keyword: '',
+                search_select_html: '',
+                custom_options_html: '',
+                selected_option_html: '',
+                paging_html: '',
+                query_string: '',
             };
         },
         mounted() {
@@ -117,9 +108,12 @@
                     .find(".options")
                     .toggle();
             });
+
+            $('.custom-select .options').on('click', '.option', this.optionClicked);
+            $('.paging').on('click', 'a', this.pageClicked);
         },
         created() {
-            this.fetchData()
+            this.fetchData('');
         },
         methods: {
             goInquiryview(inquiry) {
@@ -131,11 +125,45 @@
             goInquiryenroll() {
                 this.$router.push({path: '/inquiryenroll'});
             },
-            fetchData() {
-                Http.post('/BeatsomeoneMypageApi/get_inquiry_list').then(r => {
-                    this.inquiry_list = r.list;
-                    this.total_rows = r.total_rows;
-                });
+            fetchData(q) {
+                Http.get('/board/support?' + q)
+                    .then(r => r.data)
+                    .then(resBody => {
+                        this.total_rows = resBody.data.total_rows;
+                        this.inquiry_list = resBody.data.list;
+                        this.search_select_html = resBody.search_option;
+                        let optionsHtml = $(this.search_select_html);
+                        let customOptionsHtml = '';
+                        let selected_option_html = '';
+                        optionsHtml.each(function(index) {
+                            if (index === 0) {
+                                selected_option_html = $(this).html();
+                            }
+                            $(this).attr('selected') ? selected_option_html = $(this).html() : '';
+                            customOptionsHtml += '<button data-value="' + $(this).attr('value') + '" class="option ' + ($(this).attr('selected') ? 'selected' : '') + '">' + $(this).html() + '</button>';
+                        });
+                        this.custom_options_html = customOptionsHtml;
+                        this.selected_option_html = selected_option_html;
+                        this.paging_html = resBody.paging;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+            optionClicked(event) {
+                this.search_field = $(event.target).data('value');
+                this.selected_option_html = $(event.target).html();
+            },
+            pageClicked(event) {
+                event.preventDefault();
+                let page = $(event.target).data('ci-pagination-page');
+                this.query_string = `sfield=${this.search_field}&skeyword=${this.search_keyword}&page=${page}`;
+                this.fetchData(this.query_string);
+                // 'sfield=post_title&skeyword=10';
+            },
+            searchClicked(event) {
+                this.query_string = `sfield=${this.search_field}&skeyword=${this.search_keyword}`;
+                this.fetchData(this.query_string);
             }
         },
     }
@@ -151,4 +179,9 @@
         margin: auto;
         flex-flow: row nowrap;
     }
+
+    .custom-select select {
+        display: none;
+    }
+
 </style>
