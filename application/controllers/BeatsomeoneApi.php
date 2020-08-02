@@ -1134,9 +1134,6 @@ class BeatsomeoneApi extends CB_Controller
         $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
         $insertdata['status'] = $od_status;
 
-        $insertdata['cor_total_money'] = 1;
-        $insertdata['cor_cash_request'] =1;
-
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model', 'Member_model'));
         $res = $this->Cmall_order_model->insert($insertdata);
 
