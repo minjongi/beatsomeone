@@ -74,8 +74,8 @@
                                 <div><button class="playList__item--button"><span class="option_fold"><img
                                         src="/assets/images/icon/togglefold.png"></span>
                                     <div>
-                                        <div class="title">{{$t('basicLeaseLicense')}}</div>
-                                        <div class="detail">{{$t('mp3Orwav')}}</div>
+                                        <div class="title">{{$t('lang23')}}</div>
+                                        <div class="detail">{{$t('lang24')}}</div>
                                     </div>
                                     </button>
                                     <div class="option_item basic" style="margin-left: 38px;">
@@ -149,7 +149,7 @@
             </div>
             <p class="desc">
                 <img data-v-6049000a="" src="/assets/images/icon/info_blue.png">
-                <span>{{$t('depositWaitingStateSupportCaseMenuMsg')}} <a href="/mypage/inquiry/">{{$t('shortcut')}}</a></span>
+                <span>{{$t('depositWaitingStateSupportCaseMenuMsg')}} <a href="/mypage#/inquiry/">{{$t('shortcut')}}</a></span>
             </p>
         </div>
 

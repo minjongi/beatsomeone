@@ -50,7 +50,7 @@
         },
         methods: {
             onClick(o) {
-                window.location.href = `/mypage/inquiry/${o.sp_id}`;
+                window.location.href = `/mypage#/inquiry/${o.sp_id}`;
             },
             truncate(str, n) {
                 return (str.length > n) ? str.substr(0, n-1) + '...' : str;

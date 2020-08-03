@@ -830,7 +830,10 @@ class Cmallitem extends CB_Controller
 				'cit_updated_datetime' => cdate('Y-m-d H:i:s'),
 				'cit_download_days' => $cit_download_days,
                 'cit_lease_license_use' => $this->input->post('cit_lease_license_use', null, ''),
-                'cit_mastering_license_use' => $this->input->post('cit_mastering_license_use', null, ''),
+                'cit_freebeat' => $this->input->post('cit_freebeat', null, ''),
+                'cit_include_copyright_transfer' => $this->input->post('cit_include_copyright_transfer', null, ''),
+                'cit_officially_registered' => $this->input->post('cit_officially_registered', null, ''),
+                'cit_org_content' => $this->input->post('cit_org_content', null, ''),
 			);
 
 			if($cit_status && !element('cit_start_datetime', $getdata)) {

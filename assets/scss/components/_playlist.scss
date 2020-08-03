@@ -152,6 +152,9 @@
         }
       }
     }
+    .tags {
+      padding-right: 30px;
+    }
     .genre {
       @include flex();
       max-height: 50px;

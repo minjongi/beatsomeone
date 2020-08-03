@@ -124,7 +124,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('(select cit_id, count(*) as cnt from cb_cmall_cart as c group by cit_id) AS t2','t2.cit_id = cmall_item.cit_id','left');
         $this->db->join('cb_cmall_wishlist as w','w.cit_id = cmall_item.cit_id AND  w.mem_id = "'.$this->member->item('mem_id').'"','left');
 
-        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, p.cde_download, p.preview_cde_id,';
+        $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price, cde_price_d, p.cde_download, p.preview_cde_id,';
         $select .= 'IFNULL(q.cnt,0) AS comment_cnt, ';
         $select .= 'IFNULL(t1.cnt,0) + IFNULL(t2.cnt,0)  AS sell_cnt, ';
         $select .= ' (CASE WHEN w.cit_id IS NOT NULL THEN 1 ELSE 0 END) as is_wish';
@@ -543,7 +543,10 @@ class Beatsomeone_model extends CB_Model
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
                 'cit_start_datetime' => $p['cit_start_datetime'],
                 'cit_lease_license_use' => $p['licenseLeaseUseYn'],
-                'cit_mastering_license_use' => $p['licenseStemUseYn']
+                'cit_mastering_license_use' => $p['licenseStemUseYn'],
+                'cit_freebeat' => $p['freebeat'],
+                'cit_include_copyright_transfer' => $p['include_copyright_transfer'],
+                'cit_officially_registered' => $p['officially_registered']
             );
             if (!empty($p["artwork"]['filename'])) {
                 $data["cit_file_1"] = $p["artwork"]['filename'];
@@ -653,7 +656,10 @@ class Beatsomeone_model extends CB_Model
                 "cit_updated_datetime" => cdate('Y-m-d H:i:s'),
                 'cit_start_datetime' => $p['cit_start_datetime'],
                 'cit_lease_license_use' => $p['licenseLeaseUseYn'],
-                'cit_mastering_license_use' => $p['licenseStemUseYn']
+                'cit_mastering_license_use' => $p['licenseStemUseYn'],
+                'cit_freebeat' => $p['freebeat'],
+                'cit_include_copyright_transfer' => $p['include_copyright_transfer'],
+                'cit_officially_registered' => $p['officially_registered']
             );
             if (!empty($p["artwork"]['filename'])) {
                 $data["cit_file_1"] = $p["artwork"]['filename'];
@@ -891,7 +897,7 @@ class Beatsomeone_model extends CB_Model
     public function get_product_info($cit_id){
         $sql = "select distinct a.*, b.*, c.* ";
         $sql .= "from ( ";
-        $sql .= "    select cit_id, cit_key, cit_name, cit_status, cit_file_1, cit_lease_license_use, cit_mastering_license_use, mem_id  ";
+        $sql .= "    select cit_id, cit_key, cit_name, cit_status, cit_file_1, cit_lease_license_use, cit_mastering_license_use, mem_id, cit_freebeat  ";
         $sql .= "    from cb_cmall_item ";
         $sql .= "     ) a ";
         $sql .= "    join ( ";

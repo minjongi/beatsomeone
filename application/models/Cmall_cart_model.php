@@ -88,8 +88,9 @@ class Cmall_cart_model extends CB_Model
 
 	public function get_order_list($where = '', $findex = '', $forder = '', $limit = '')
 	{
-		$this->db->select('cmall_cart.*, cmall_item.cit_name, cmall_item.cit_key, cmall_item.cit_file_1, cmall_item.cit_price, cmall_item.cit_download_days');
+		$this->db->select('cmall_cart.*, cmall_item.cit_name, cmall_item.cit_key, cmall_item.cit_file_1, cmall_item.cit_price, cmall_item.cit_download_days, cmall_item.cit_freebeat, cmall_item.cit_include_copyright_transfer, cmall_item.cit_officially_registered, cmall_item.cit_org_content, cmall_item_detail.cde_title');
 		$this->db->join('cmall_item', 'cmall_cart.cit_id = cmall_item.cit_id', 'inner');
+        $this->db->join('cmall_item_detail', 'cmall_item_detail.cde_id = cmall_cart.cde_id', 'inner');
 		if ($where) {
 			$this->db->where($where);
 		}
@@ -135,8 +136,9 @@ class Cmall_cart_model extends CB_Model
 			return;
 		}
 
-		$this->db->select('cmall_item_detail.*, cmall_cart.cct_count, cct_datetime');
+		$this->db->select('cmall_item_detail.*, cmall_cart.cct_count, cct_datetime, cmall_item.cit_freebeat');
 		$this->db->join('cmall_item_detail', 'cmall_item_detail.cde_id = cmall_cart.cde_id', 'inner');
+        $this->db->join('cmall_item', 'cmall_item.cit_id = cmall_item_detail.cit_id', 'inner');
 		$this->db->where(array('cmall_cart.cit_id' => $cit_id));
 		$this->db->where(array('cmall_cart.mem_id' => $mem_id));
 		$this->db->where(array('cmall_cart.cct_order' => 1));

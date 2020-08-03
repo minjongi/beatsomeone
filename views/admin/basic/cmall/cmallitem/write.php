@@ -125,6 +125,29 @@
             <a data-toggle="collapse" href="#cmalltab3" aria-expanded="true" aria-controls="cmalltab3"><i class="fa fa-chevron-up pull-right"></i></a>
         </div>
         <div class="form-group">
+            <label class="col-sm-2 control-label">음원설정</label>
+            <div class="col-sm-10">
+                <label>
+                    <input type="checkbox" name="cit_freebeat" id="cit_freebeat" value="1"
+                        <?php echo set_checkbox('cit_freebeat', '1', (element('cit_freebeat', element('data', $view)) ? true : false)); ?> />
+                    무료비트
+                </label>
+                <label>
+                    <input type="checkbox" name="cit_include_copyright_transfer" id="cit_include_copyright_transfer" value="1"
+                        <?php echo set_checkbox('cit_include_copyright_transfer', '1', (element('cit_include_copyright_transfer', element('data', $view)) ? true : false)); ?> />
+                    저작권 양도 포함
+                </label>
+                <label>
+                    <input type="checkbox" name="cit_officially_registered" id="cit_officially_registered" value="1"
+                        <?php echo set_checkbox('cit_officially_registered', '1', (element('cit_officially_registered', element('data', $view)) ? true : false)); ?> />
+                    저작권 등록된 음원
+                </label>
+                <label>
+                    <input type="checkbox" name="cit_org_content" id="cit_org_content" value="1"
+                        <?php echo set_checkbox('cit_org_content', '1', (element('cit_org_content', element('data', $view)) ? true : false)); ?> />
+                    오리지널 콘텐츠
+                </label>
+            </div>
             <label class="col-sm-2 control-label">유통형태</label>
             <div class="col-sm-10">
                 <label>

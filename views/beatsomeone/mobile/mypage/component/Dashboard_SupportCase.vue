@@ -2,7 +2,7 @@
     <div class="title-content">
         <h4 class="title">
             <span>{{$t('supportCase')}}</span>
-            <a class="more" href="/mypage/inquiry">more <img src="/assets/images/icon/chevron-right.png"/></a>
+            <a class="more" href="/mypage#/inquiry">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
         <div>
             <div class="playList" >
@@ -50,7 +50,7 @@
         },
         methods: {
             onClick(o) {
-                window.location.href = `/mypage/inquiry/${o.sp_id}`;
+                window.location.href = `/mypage#/inquiry/${o.sp_id}`;
             },
             truncate(str, n) {
                 return (str.length > n) ? str.substr(0, n-1) + '...' : str;

@@ -201,8 +201,17 @@ class Beatsomeone extends CB_Controller
         $view['view']['item']['detail'] = [];
         foreach ($detail as $detailKey => $detailVal) {
             if (in_array($detailVal['cde_title'], $detailItem)) {
+                if ($view['view']['item']['cit_freebeat'] == 1) {
+                    $detailVal['cde_price'] = 0;
+                    $detailVal['cde_price_d'] = 0;
+                }
                 $view['view']['item']['detail'][$detailVal['cde_title']] = $detailVal;
             }
+        }
+
+        if ($view['view']['item']['cit_freebeat'] == 1) {
+            $view['view']['item']['cde_price'] = 0;
+            $view['view']['item']['cde_price_d'] = 0;
         }
 
         $view['view']['item']['member'] = $this->Member_model->get_one(element('mem_id', $view['view']['item']));

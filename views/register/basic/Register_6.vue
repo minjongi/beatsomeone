@@ -25,7 +25,7 @@
                     <span>{{ $t('currencySymbol') }}</span>
                     {{ localePrice(cost) }}
                 </h2>
-                <div class="_saving">{{ $t('instantSaving') }} {{ $t('currencySymbol') }}<span>{{ localePrice(disBill) }}</span></div>
+                <div class="_saving">{{ $t('instantSaving') }} {{ $t('currencySymbol') }}<span>{{ parseFloat(disBill.toString()).toFixed(0) }}</span></div>
             </div>
             <div class="accounts__payments">
                 <label for="promoCode" class="checkbox">

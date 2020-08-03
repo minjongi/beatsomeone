@@ -52,9 +52,9 @@ class BeatsomeoneApi extends CB_Controller
             'bpm' => $this->input->get('bpm'),
             'sort' => $this->input->get('sort'),
             'voice' => $this->input->get('voice'),
-
         );
         $result = $this->Beatsomeone_model->get_main_list($config);
+        $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -150,6 +150,7 @@ class BeatsomeoneApi extends CB_Controller
         );
 
         $result = $this->Beatsomeone_model->get_sublist_list($config);
+        $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -172,9 +173,22 @@ class BeatsomeoneApi extends CB_Controller
             'limit' => $this->input->post('limit') ,
         );
         $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
+        $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
+    }
+
+    public function filterFreebeat($list) {
+        foreach ($list as $key => $val) {
+            if ($val['cit_freebeat'] == 1) {
+                $list[$key]['cde_price'] = 0;
+                $list[$key]['cde_price_d'] = 0;
+                $list[$key]['cde_price_2'] = 0;
+                $list[$key]['cde_price_d_2'] = 0;
+            }
+        }
+        return $list;
     }
 
     // 연관음반 추가 대상 조회
@@ -511,7 +525,10 @@ class BeatsomeoneApi extends CB_Controller
             'cde_id_3' => $this->input->post('cde_id_3'),
             "mem_id" => $this->member->item('mem_id'),
             "mem_userid" => element('mem_userid',$this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid')),
-            "ip" => $this->input->ip_address()
+            "ip" => $this->input->ip_address(),
+            'freebeat' => $this->input->post('freebeat'),
+            'include_copyright_transfer' => $this->input->post('include_copyright_transfer'),
+            'officially_registered' => $this->input->post('officially_registered')
         );
 
         $jsonDataList = ['unTaggedFile', 'stemFile', 'streamingFile', 'artwork'];
@@ -819,7 +836,16 @@ class BeatsomeoneApi extends CB_Controller
                 $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
                 //$result[$key]['detail'] = $this->Cmall_cart_model->get_cart_detail($mem_id, element('cit_id', $val));
                 $result[$key]['detail'] = $this->Beatsomeone_model->get_product_info(element('cit_id', $val));
-                //log_message('error', print_r($result[$key]['detail'],true) );
+
+                foreach ($result[$key]['detail'] as $detailKey => $detailVal) {
+                    if ($detailVal['cit_freebeat'] != 1) {
+                        continue;
+                    }
+                    $result[$key]['detail'][$detailKey]['cde_price'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_2'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_d'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_d_2'] = 0;
+                }
             }
         }
         //log_message('error', var_dump($result));
@@ -930,6 +956,17 @@ class BeatsomeoneApi extends CB_Controller
                 $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
                 //$result[$key]['detail'] = $this->Cmall_cart_model->get_order_detail($mem_id, element('cit_id', $val));
                 $result[$key]['detail'] = $this->Beatsomeone_model->get_product_info(element('cit_id', $val));
+
+                foreach ($result[$key]['detail'] as $detailKey => $detailVal) {
+                    if ($detailVal['cit_freebeat'] != 1) {
+                        continue;
+                    }
+                    $result[$key]['detail'][$detailKey]['cde_price'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_2'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_d'] = 0;
+                    $result[$key]['detail'][$detailKey]['cde_price_d_2'] = 0;
+                }
+
                 if (empty($good_name)) {
                     $good_name = element('cit_name', $val);
                 }
@@ -1007,7 +1044,8 @@ class BeatsomeoneApi extends CB_Controller
         $good_mny = $this->input->post('good_mny', null, 0);    //request 값으로 받은 값
         $item_cct_price = 0;        //주문한 상품의 총 금액의 초기화
 
-
+        $totalCnt = 0;
+        $freebeatCnt = 0;
         $orderlist = $this->Cmall_cart_model->get_order_list($where, $findex, $forder);
         if ($orderlist) {
             foreach ($orderlist as $key => $val) {
@@ -1016,7 +1054,10 @@ class BeatsomeoneApi extends CB_Controller
                 if( !empty($details) ){
                     foreach((array) $details as $detail ){
                         if( empty($detail) ) continue;
-
+                        $totalCnt++;
+                        if ($detail['cit_freebeat'] == 1) {
+                            $freebeatCnt++;
+                        }
                         $item_cct_price += ((int) element('cit_price', $val) + (int) element('cde_price', $detail)) * element('cct_count', $detail);
                     }
                 }
@@ -1072,6 +1113,13 @@ class BeatsomeoneApi extends CB_Controller
             $od_status = 'deposit'; //주문상태
         }
 
+        if ($totalCnt === $freebeatCnt) {
+            $insertdata['cor_status'] = 1;
+            $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
+            $od_status = 'deposit'; //주문상태
+            $insertdata['cor_deposit'] = 0;
+        }
+
         // 정보 입력
         $cor_id = $this->session->userdata('unique_id');
         $insertdata['cor_id'] = $cor_id;
@@ -1088,6 +1136,7 @@ class BeatsomeoneApi extends CB_Controller
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model', 'Member_model'));
         $res = $this->Cmall_order_model->insert($insertdata);
+
         if ($res) {
             $cwhere = array(
                 'mem_id' => $mem_id,
