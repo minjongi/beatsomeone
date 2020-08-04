@@ -407,15 +407,25 @@ class Beatsomeone_model extends CB_Model
         return $qry->row_array()['totalCount'];
     }
 
-
     // 등록 비용 플랜 조회
     public function get_register_plan_cost()
     {
-
         $this->db->select('*');
         $qry = $this->db->get('cb_bs_register_plan_cost');
 
         $result = $qry->result_array();
+
+        return $result;
+    }
+
+    // 등록 비용 플랜 조회
+    public function get_register_plan_cost_by_plan($plan)
+    {
+        $this->db->select('*');
+        $this->db->where('plan =', strtoupper($plan));
+        $qry = $this->db->get('cb_bs_register_plan_cost');
+
+        $result = $qry->row_array();
 
         return $result;
     }

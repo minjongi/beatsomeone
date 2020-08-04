@@ -372,6 +372,10 @@ export default {
   },
   methods: {
     loading() {
+      if (!this.randomList.length || this.randomList.length < 10) {
+        return false
+      }
+
       if (this.busy) return;
       if (this.last_offset === this.offset) return;
       this.busy = true;
@@ -402,10 +406,7 @@ export default {
       const p = {
         limit: 10,
         offset: 0,
-        sort:
-          !this.param.sort || this.param.sort === "Sort By"
-            ? "random"
-            : this.param.sort,
+        sort: !this.param.sort || this.param.sort === "Sort By" ? "random" : this.param.sort,
         genre: this.param.currentGenre,
         subgenre: this.param.currentSubgenres,
         bpmFr: this.param.currentBpmFr,
@@ -443,13 +444,6 @@ export default {
         this.last_offset = this.offset;
         this.offset = this.list.length;
         this.busy = false;
-        // log.debug({
-        //     'read more':r,
-        // })
-        // if(r && r.length > 0) {
-        //     //this.offset = r[r.length - 1].cit_id;
-        //     this.offset = this.list.length;
-        // }
       });
     }, 1000),
     getTopList() {
