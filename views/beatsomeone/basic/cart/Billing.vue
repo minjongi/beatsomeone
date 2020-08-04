@@ -66,7 +66,7 @@
                           <!-- BASIC LEASE LICENSE -->
                           <div
                             class="n-box"
-                            v-if="item.detail[0].cde_title === 'STEM'"
+                            v-if="item.cde_title !== 'STEM'"
                           >
                             <div>
                               <button class="playList__item--button">

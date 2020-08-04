@@ -65,11 +65,19 @@
                     </div>
                 </div>
 
-                <div class="accounts__btnbox">
-                    <button type="submit" class="btn btn--submit" @click="goPay" v-if="locale !== 'en'">
+                <div class="accounts__btnbox" v-if="this.cost == 0">
+                    <button type="button" class="btn btn--submit" @click="procFreePay">
                         {{ $t('checkout') }}
                     </button>
-                    <div style="margin: 0 auto;" v-if="locale === 'en'">
+                    <p>
+                        {{ $t('refundPolicyMsg') }}
+                    </p>
+                </div>
+                <div class="accounts__btnbox" v-else>
+                    <button type="submit" class="btn btn--submit" @click="goPay" v-if="locale === 'ko'">
+                        {{ $t('checkout') }}
+                    </button>
+                    <div style="margin: 0 auto;" v-else>
                         <PayPal
                                 env="production"
                                 currency="USD"
@@ -378,6 +386,17 @@
                         }
                     })
                 }
+            },
+            procFreePay: function () {
+                this.ajaxMembershipPurchase().then(() => {
+                    if (this.cor_id == '') {
+                        alert("결제가 실패하였습니다.")
+                        return
+                    } else {
+                        alert("결제가 완료되었습니다.")
+                        window.location.href = '/mypage'
+                    }
+                })
             },
             async ajaxMembershipPurchase() {
                 try {

@@ -295,7 +295,6 @@
                           type="number"
                           placeholder="KRW 5500"
                           v-model="item.licenseLeasePriceKRW"
-                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -305,7 +304,6 @@
                           type="number"
                           placeholder="USD 5.00"
                           v-model="item.licenseLeasePriceUSD"
-                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -319,8 +317,7 @@
                         <input
                                 type="number"
                                 placeholder="0"
-                                v-model="item.licenseLeaseQuantity"
-                                :disabled="item.freebeat"/>
+                                v-model="item.licenseLeaseQuantity"/>
                       </div>
                     </span>
                   </div>
@@ -736,7 +733,7 @@ export default {
         return false;
       }
 
-      if (this.item.licenseLeaseUseYn) {
+      if (this.item.licenseLeaseUseYn && !this.item.freebeat) {
         if (!this.item.licenseLeasePriceKRW) {
           alert(this.$t("enterRentalPrice") + " (KRW)");
           return false;
@@ -753,7 +750,7 @@ export default {
         }
       }
 
-      if (this.item.licenseStemUseYn) {
+      if (this.item.licenseStemUseYn && !this.item.freebeat) {
         if (!this.item.licenseStemPriceKRW) {
           alert(this.$t("enterSalesPrice") + " (KRW)");
           return false;
