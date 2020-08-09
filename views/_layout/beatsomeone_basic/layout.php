@@ -20,6 +20,21 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta property="og:description" content="<?php echo html_escape(element('og_description', $layout)); ?>"/>
     <meta property="og:title" content="<?php echo html_escape(element('og_title', $layout)); ?>"/>
 
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "name": "<?php echo html_escape(element('page_title', $layout)); ?>",
+            "url": "http://beatsomeone.com",
+            "sameAs": [
+                "https://www.instagram.com/beatsomeone",
+                "https://www.youtube.com/channel/UCkOZTgnHFgC0Cb04W0AJ1LQ",
+                "https://www.facebook.com/beatsomeone",
+                "https://twitter.com/beatsomeone1"
+            ]
+        }
+    </script>
+
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
