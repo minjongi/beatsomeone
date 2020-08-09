@@ -343,6 +343,10 @@
         },
         methods: {
             loading() {
+                if (!this.randomList.length || this.randomList.length < 10) {
+                    return false
+                }
+
                 if(this.busy) return;
                 if(this.last_offset === this.offset) return;
                 this.busy = true;

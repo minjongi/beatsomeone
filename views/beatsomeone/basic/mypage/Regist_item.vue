@@ -294,7 +294,6 @@
                           v-model.number="item.licenseLeasePriceKRW"
                           ref="licenseLeasePriceKRW"
                           @input="onlyNumber($event, 'licenseLeasePriceKRW')"
-                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -309,7 +308,6 @@
                           v-model.number="item.licenseLeasePriceUSD"
                           ref="licenseLeasePriceUSD"
                           @input="onlyNumber($event, 'licenseLeasePriceUSD')"
-                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -326,7 +324,6 @@
                           v-model.number="item.licenseLeaseQuantity"
                           ref="licenseLeaseQuantity"
                           @input="onlyNumber($event, 'licenseLeaseQuantity')"
-                          :disabled="item.freebeat"
                         />
                       </div>
                     </span>
@@ -773,7 +770,7 @@ export default {
         return false;
       }
 
-      if (this.item.licenseLeaseUseYn) {
+      if (this.item.licenseLeaseUseYn && !this.item.freebeat) {
         if (!this.item.licenseLeasePriceKRW) {
           alert(this.$t("enterRentalPrice") + " (KRW)");
           return false;
@@ -790,7 +787,7 @@ export default {
         }
       }
 
-      if (this.item.licenseStemUseYn) {
+      if (this.item.licenseStemUseYn && !this.item.freebeat) {
         if (!this.item.licenseStemPriceKRW) {
           alert(this.$t("enterSalesPrice") + " (KRW)");
           return false;

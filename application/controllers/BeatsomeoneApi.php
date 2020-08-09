@@ -1637,11 +1637,19 @@ class BeatsomeoneApi extends CB_Controller
             $payMethod = $payType === 1 ? 'allat_card' : 'allat_bank';
         }
 
+        $bill_term = $this->input->post('bill_term', null, '');
+        $plan = $this->input->post('plan', null, '');
+
         if (empty($order_deposit)) {
-            return false;
+            $planCost = $this->Beatsomeone_model->get_register_plan_cost_by_plan($plan);
+            if (empty($planCost) || !isset($planCost[$bill_term])) {
+                return false;
+            }
+            if ($planCost[$bill_term] > 0) {
+                return false;
+            }
         }
 
-        $bill_term = $this->input->post('bill_term', null, '');
         $termDays = ($bill_term === 'yearly') ? '365' : '30';
         $startDate = date('Y-m-d');
         $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
@@ -1649,7 +1657,7 @@ class BeatsomeoneApi extends CB_Controller
         $params = [
             'mem_id' => $this->member->item('mem_id'),
             'bill_term' => $bill_term,
-            'plan' => $this->input->post('plan', null, ''),
+            'plan' => $plan,
             'plan_name' => $this->input->post('plan_name', null, ''),
             'start_date' => $startDate,
             'end_date' => $endDate,
