@@ -104,6 +104,10 @@
 
     .portait {
         display: flex;
+
+        img {
+            width: 100%;
+        }
     }
 
     .avatar-wrapper {

@@ -1,190 +1,194 @@
 <template>
     <div class="wrapper">
-        <Header :is-login="isLogin"></Header>
-
-        <main-player></main-player>
-        <div class="container">
-            <div class="main">
-                <section class="main__section1">
-                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted @ended="endVideoBG" ref="videoBG">
-                        <source src="" type="video/mp4">
-                    </video>
-                    <div class="filter"></div>
-                    <div class="wrap">
-                        <header class="main__section1-title">
-                            <h1>{{ $t('holidayGiveaway') }}</h1>
-                            <p>
-                                {{ $t('findingMusicMsg') }}<br/>
-                                {{ $t('mainMsg2') }}
-                            </p>
-                        </header>
-                        <div class="main__media">
-                            <div class="tab">
-                                <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}"
-                                        @click="currentGenre = g">
-                                    {{ listGenreName[i] }}
-                                </button>
-                            </div>
-                            <div class="filter">
-                                <label for="voice" class="switch">
-                                    {{ $t('voice') }}
-                                    <input type="checkbox" hidden id="voice" v-model="param.voice"/>
-                                    <span></span>
-                                </label>
-                                <div class="custom-select ">
-                                    <button class="selected-option">
-                                        {{ listSortParamName }}
+        <div class="smtm9-top">
+            <a href="/smtm9"><img src="/assets/images/event/smtm9/top.jpg"></a>
+        </div>
+        <div class="page-wrapper">
+            <Header :is-login="isLogin"></Header>
+            <main-player></main-player>
+            <div class="container">
+                <div class="main">
+                    <section class="main__section1">
+                        <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted @ended="endVideoBG" ref="videoBG">
+                            <source src="" type="video/mp4">
+                        </video>
+                        <div class="filter"></div>
+                        <div class="wrap">
+                            <header class="main__section1-title">
+                                <h1>{{ $t('holidayGiveaway') }}</h1>
+                                <p>
+                                    {{ $t('findingMusicMsg') }}<br/>
+                                    {{ $t('mainMsg2') }}
+                                </p>
+                            </header>
+                            <div class="main__media">
+                                <div class="tab">
+                                    <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}"
+                                            @click="currentGenre = g">
+                                        {{ listGenreName[i] }}
                                     </button>
-                                    <div class="options">
-                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o">
-                                            {{ listSortName[i] }}
+                                </div>
+                                <div class="filter">
+                                    <label for="voice" class="switch">
+                                        {{ $t('voice') }}
+                                        <input type="checkbox" hidden id="voice" v-model="param.voice"/>
+                                        <span></span>
+                                    </label>
+                                    <div class="custom-select ">
+                                        <button class="selected-option">
+                                            {{ listSortParamName }}
                                         </button>
+                                        <div class="options">
+                                            <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o">
+                                                {{ listSortName[i] }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="custom-select ">
+                                        <button class="selected-option">
+                                            {{ param.bpm.t }}
+                                        </button>
+                                        <div class="options">
+                                            <button class="option" data-value="" v-for="(o,i) in listBpm" :key="i"
+                                                    @click="param.bpm = o">
+                                                {{ o.t }}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="custom-select ">
-                                    <button class="selected-option">
-                                        {{ param.bpm.t }}
-                                    </button>
-                                    <div class="options">
-                                        <button class="option" data-value="" v-for="(o,i) in listBpm" :key="i"
-                                                @click="param.bpm = o">
-                                            {{ o.t }}
-                                        </button>
+                                <div class="playList">
+                                    <!-- 아래 템플릿 문자열로 붙임 -->
+                                    <transition-group
+                                            name="staggered-fade"
+                                            tag="ul"
+                                            v-bind:css="false"
+                                            v-on:before-enter="beforeEnter"
+                                            v-on:enter="enter"
+                                            v-on:leave="leave">
+                                        <template v-for="item in list">
+                                            <KeepAliveGlobal :key="item.cit_key">
+                                                <Index_Items :item="item" :key="item.cit_key"></Index_Items>
+                                            </KeepAliveGlobal>
+                                        </template>
+                                    </transition-group>
+                                    <div class="playList__btnbox">
+                                        <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="playList">
-                                <!-- 아래 템플릿 문자열로 붙임 -->
-                                <transition-group
-                                        name="staggered-fade"
-                                        tag="ul"
-                                        v-bind:css="false"
-                                        v-on:before-enter="beforeEnter"
-                                        v-on:enter="enter"
-                                        v-on:leave="leave">
-                                    <template v-for="item in list">
-                                        <KeepAliveGlobal :key="item.cit_key">
-                                            <Index_Items :item="item" :key="item.cit_key"></Index_Items>
-                                        </KeepAliveGlobal>
-                                    </template>
-                                </transition-group>
-                                <div class="playList__btnbox">
-                                    <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-                <section class="main__section2">
-                    <div class="filter reverse"></div>
-                    <div class="wrap">
-                        <header class="main__section2-title">
-                            <h1>
-                                {{ $t('bitTradingMessage1') }}<br/>
-                                {{ $t('bitTradingMessage2') }}
-                            </h1>
-                            <a class="startSelling" @click="moveAction('startSelling')">
-                                {{ $t('lendOrSellMyBeat') }}
-                            </a>
-                        </header>
-                        <!-- 트렌딜 슬라이드 부분 -->
-                        <div class="trending">
-                            <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
-                            <div class="trending__slider">
-                                <div class="slider">
-                                    <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
-                                    <div v-for="(i,index) in listTrending" :key="index"
-                                         class="trending__slide-item albumItem"
-                                         :onclick="`window.vm.$children[0].selectItem('${i.cit_key}')`">
+                    </section>
+                    <section class="main__section2">
+                        <div class="filter reverse"></div>
+                        <div class="wrap">
+                            <header class="main__section2-title">
+                                <h1>
+                                    {{ $t('bitTradingMessage1') }}<br/>
+                                    {{ $t('bitTradingMessage2') }}
+                                </h1>
+                                <a class="startSelling" @click="moveAction('startSelling')">
+                                    {{ $t('lendOrSellMyBeat') }}
+                                </a>
+                            </header>
+                            <!-- 트렌딜 슬라이드 부분 -->
+                            <div class="trending">
+                                <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
+                                <div class="trending__slider">
+                                    <div class="slider">
+                                        <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
+                                        <div v-for="(i,index) in listTrending" :key="index"
+                                             class="trending__slide-item albumItem"
+                                             :onclick="`window.vm.$children[0].selectItem('${i.cit_key}')`">
 
-                                        <button class="albumItem__cover">
-                                            <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
-                                        </button>
-                                        <a class="albumItem__link">
-                                            <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                                            <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                                            <button class="albumItem__cover">
+                                                <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
+                                            </button>
+                                            <a class="albumItem__link">
+                                                <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                                                <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 트렌드 슬라이드 끝 -->
+                            <!-- 제휴 업체 로그 이미지  -->
+                            <div class="alliance" @click="selectItem">
+                                <img src="@/assets/images/alliance.png" alt="" href="#" style="opacity: .3"/>
+                            </div>
+                            <!-- 제휴업체 로그 이미지 끝 -->
+                            <div class="testimonials">
+                                <article class="testimonials__title">
+                                    <h1>{{ $t('testimonials') }}</h1>
+                                    <p>{{ $t('bestTeamMember') }}</p>
+                                </article>
+                                <article class="testimonials__lists">
+                                    <figure class="card card--testimonials">
+                                        <a href="https://youtu.be/0gGCw6CNQ6U" target="_blank">
+                                            <div class="img">
+                                                <img
+                                                        src="@/assets/images/testimonials/testimonials_004.png"
+                                                        alt=""
+                                                />
+                                                <button class="card--testimonials_play"></button>
+                                            </div>
+                                            <figcaption>
+                                                <h3>작사·작곡·편곡·보컬 모두 소화 가능한 만능 뮤지션</h3>
+                                                <p>by CHORDA</p>
+                                            </figcaption>
                                         </a>
-                                    </div>
+                                    </figure>
+                                    <figure class="card card--testimonials">
+                                        <a href="https://youtu.be/pCzTJXycusQ" target="_blank">
+                                            <div class="img">
+                                                <img
+                                                        src="@/assets/images/testimonials/testimonials_005.png"
+                                                        alt=""
+                                                />
+                                                <button class="card--testimonials_play"></button>
+                                            </div>
+                                            <figcaption>
+                                                <h3>재즈힙합을 사랑하는 자유로운 영혼의 소유자</h3>
+                                                <p>by SEORILLA</p>
+                                            </figcaption>
+                                        </a>
+                                    </figure>
+                                    <figure class="card card--testimonials">
+                                        <a href="https://youtu.be/iB9A5UJo3L8" target="_blank">
+                                            <div class="img">
+                                                <img
+                                                        src="@/assets/images/testimonials/testimonials_006.png"
+                                                        alt=""
+                                                />
+                                                <button class="card--testimonials_play"></button>
+                                            </div>
+                                            <figcaption>
+                                                <h3>실력파 프로듀서에서, 첫 싱글음반 '핑계'를 발매</h3>
+                                                <p>by 김달란</p>
+                                            </figcaption>
+                                        </a>
+                                    </figure>
+                                </article>
+                                <div class="testimonials__btnbox">
+                                    <a class="startSelling" @click="moveAction('startSelling')">{{ $t('startSelling') }}</a>
+                                    <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
                                 </div>
                             </div>
-                        </div>
-                        <!-- 트렌드 슬라이드 끝 -->
-                        <!-- 제휴 업체 로그 이미지  -->
-                        <div class="alliance" @click="selectItem">
-                            <img src="@/assets/images/alliance.png" alt="" href="#" style="opacity: .3"/>
-                        </div>
-                        <!-- 제휴업체 로그 이미지 끝 -->
-                        <div class="testimonials">
-                            <article class="testimonials__title">
-                                <h1>{{ $t('testimonials') }}</h1>
-                                <p>{{ $t('bestTeamMember') }}</p>
-                            </article>
-                            <article class="testimonials__lists">
-                                <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/0gGCw6CNQ6U" target="_blank">
-                                        <div class="img">
-                                            <img
-                                                    src="@/assets/images/testimonials/testimonials_004.png"
-                                                    alt=""
-                                            />
-                                            <button class="card--testimonials_play"></button>
-                                        </div>
-                                        <figcaption>
-                                            <h3>작사·작곡·편곡·보컬 모두 소화 가능한 만능 뮤지션</h3>
-                                            <p>by CHORDA</p>
-                                        </figcaption>
-                                    </a>
-                                </figure>
-                                <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/pCzTJXycusQ" target="_blank">
-                                        <div class="img">
-                                            <img
-                                                    src="@/assets/images/testimonials/testimonials_005.png"
-                                                    alt=""
-                                            />
-                                            <button class="card--testimonials_play"></button>
-                                        </div>
-                                        <figcaption>
-                                            <h3>재즈힙합을 사랑하는 자유로운 영혼의 소유자</h3>
-                                            <p>by SEORILLA</p>
-                                        </figcaption>
-                                    </a>
-                                </figure>
-                                <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/iB9A5UJo3L8" target="_blank">
-                                        <div class="img">
-                                            <img
-                                                    src="@/assets/images/testimonials/testimonials_006.png"
-                                                    alt=""
-                                            />
-                                            <button class="card--testimonials_play"></button>
-                                        </div>
-                                        <figcaption>
-                                            <h3>실력파 프로듀서에서, 첫 싱글음반 '핑계'를 발매</h3>
-                                            <p>by 김달란</p>
-                                        </figcaption>
-                                    </a>
-                                </figure>
-                            </article>
-                            <div class="testimonials__btnbox">
-                                <a class="startSelling" @click="moveAction('startSelling')">{{ $t('startSelling') }}</a>
-                                <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
+                            <div class="main__desc">
+                                <h1>
+                                    {{ $t('musicWorldMsg1') }}<br/>
+                                    {{ $t('musicWorldMsg2') }}<br/>
+                                    {{ $t('areYouReady') }}
+
+                                </h1>
+                                <a class="startSelling" @click="moveAction('startSelling')">
+                                    {{ $t('trustOurTeamMsg') }}
+                                </a>
                             </div>
                         </div>
-                        <div class="main__desc">
-                            <h1>
-                                {{ $t('musicWorldMsg1') }}<br/>
-                                {{ $t('musicWorldMsg2') }}<br/>
-                                {{ $t('areYouReady') }}
-
-                            </h1>
-                            <a class="startSelling" @click="moveAction('startSelling')">
-                                {{ $t('trustOurTeamMsg') }}
-                            </a>
-                        </div>
-                    </div>
-                    <Footer></Footer>
-                </section>
+                        <Footer></Footer>
+                    </section>
+                </div>
             </div>
         </div>
     </div>

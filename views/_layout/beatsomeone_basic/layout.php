@@ -13,7 +13,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <?php if (element('meta_author', $layout)) { ?><meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
     <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
     <?php if (element('canonical', $view)) { ?><link rel="canonical" href="<?php echo element('canonical', $view); ?>" /><?php } ?>
-    <meta property="fb:app_id" content="579999516228616"/>
+    <meta property="fb:app_id" content="<?php echo html_escape(element('facebook_app_id', $layout)); ?>"/>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>

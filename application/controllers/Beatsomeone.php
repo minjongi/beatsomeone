@@ -93,6 +93,7 @@ class Beatsomeone extends CB_Controller
         $meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall');
         $meta_author = $this->cbconfig->item('site_meta_author_cmall');
         $page_name = $this->cbconfig->item('site_page_name_cmall');
+        $facebook_app_id = $this->cbconfig->item('facebook_app_id');
 
         $searchconfig = array(
             '{컨텐츠몰명}',
@@ -125,6 +126,7 @@ class Beatsomeone extends CB_Controller
         );
 
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $view['layout']['facebook_app_id'] = $facebook_app_id;
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
