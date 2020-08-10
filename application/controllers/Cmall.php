@@ -329,7 +329,16 @@ class Cmall extends CB_Controller
 			if ($this->input->post('stype') === 'wish') {
 				$return = $this->cmalllib->addwish($mem_id, $cit_id);
 				if ($return) {
-					redirect('cmall/wishlist');
+				    if ($this->input->is_ajax_request()) {
+                        $this->output->set_content_type('text/json');
+                        $result = [
+                            'status' => $return,
+                        ];
+                        $this->output->set_output(json_encode($return));
+                        return;
+                    } else {
+                        redirect('cmall/wishlist');
+                    }
 				}
 			}
 			// 장바구니 담기
@@ -1831,6 +1840,12 @@ class Cmall extends CB_Controller
 		}
 		$view['view']['data'] = $result;
 
+		if ($this->input->is_ajax_request()) {
+            $this->output->set_content_type('text/json');
+            $this->output->set_output(json_encode($result));
+            return;
+        }
+
 		/**
 		 * 페이지네이션을 생성합니다
 		 */
@@ -1867,22 +1882,38 @@ class Cmall extends CB_Controller
 		$meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
 		$page_name = str_replace($searchconfig, $replaceconfig, $page_name);
 
-		$layoutconfig = array(
-			'path' => 'cmall',
-			'layout' => 'layout',
-			'skin' => 'wishlist',
-			'layout_dir' => $this->cbconfig->item('layout_cmall'),
-			'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
-			'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
-			'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
-			'skin_dir' => $this->cbconfig->item('skin_cmall'),
-			'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
-			'page_title' => $page_title,
-			'meta_description' => $meta_description,
-			'meta_keywords' => $meta_keywords,
-			'meta_author' => $meta_author,
-			'page_name' => $page_name,
-		);
+//		$layoutconfig = array(
+//			'path' => 'cmall',
+//			'layout' => 'layout',
+//			'skin' => 'wishlist',
+//			'layout_dir' => $this->cbconfig->item('layout_cmall'),
+//			'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+//			'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+//			'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+//			'skin_dir' => $this->cbconfig->item('skin_cmall'),
+//			'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+//			'page_title' => $page_title,
+//			'meta_description' => $meta_description,
+//			'meta_keywords' => $meta_keywords,
+//			'meta_author' => $meta_author,
+//			'page_name' => $page_name,
+//		);
+        $layoutconfig = array(
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+            'skin' => 'cmall/wishlist',
+            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
 		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
 		$this->data = $view;
 		$this->layout = element('layout_skin_file', element('layout', $view));

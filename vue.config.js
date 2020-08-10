@@ -26,6 +26,7 @@ module.exports = {
             register: ['./views/register/basic/register.js'],
             findaccount: ['./views/findaccount/basic/findaccount.js'],
             smtm9: ['./views/beatsomeone/basic/smtm9/smtm9.js'],
+            wishlist: ['./views/beatsomeone/basic/cmall/wishlist.js'],
 
             m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
