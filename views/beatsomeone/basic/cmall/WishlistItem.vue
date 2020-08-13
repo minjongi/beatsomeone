@@ -3,7 +3,7 @@
         <div class="playList__item">
             <div class="col check">
                 <label class="checkbox">
-                    <input type="checkbox" hidden="hidden"/>
+                    <input type="checkbox" hidden="hidden" v-model="item.is_selected" @change="toggleFold"/>
                     <span></span>
                 </label>
             </div>
@@ -45,9 +45,6 @@
         props: [
             "item"
         ],
-        mounted() {
-            console.log(this.item);
-        },
         methods: {
             formatCitName: function (data) {
                 var rst;
@@ -69,7 +66,7 @@
                 return rst;
             },
             toggleFold: function (event) {
-
+                this.$emit('toggleSelected', this.item.is_selected);
             }
         }
     }

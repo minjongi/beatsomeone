@@ -102,6 +102,11 @@ class Document extends CB_Controller
 			$popup,
 			$writer_is_admin = true
 		);
+		if ($this->input->is_ajax_request()) {
+            $this->output->set_content_type('text/json');
+            $this->output->set_output(json_encode($data));
+            return;
+        }
 		$view['view']['data'] = $data;
 		$view['view']['doc_key'] = $doc_key;
 

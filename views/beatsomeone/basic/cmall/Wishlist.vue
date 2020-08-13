@@ -16,7 +16,7 @@
                             <div class="row">
                                 <div class="title-content">
                                     <div class="title" style="justify-content: space-between;">
-                                        <label for="checkAll" class="checkbox" style="margin-left:20px; margin-bottom:30px; width: auto;">
+                                        <label for="checkAll" class="checkbox">
                                             <input type="checkbox" hidden="hidden" id="checkAll" v-model="checkedAll" @change="toggleCheckAll"/>
                                             <span></span>
                                             <div style="font-weight:600">
@@ -32,9 +32,9 @@
                             </div>
                             <div class="row">
                                 <ul class="playList">
-                                    <template v-for="item in items">
+                                    <template v-for="item in listItems">
                                         <KeepAliveGlobal :key="item.cit_key">
-                                            <WishlistItem :item="item" :key="item.cit_key"></WishlistItem>
+                                            <WishlistItem :item="item" :key="item.cit_key" v-on:toggleSelected="onCheckClicked"></WishlistItem>
                                         </KeepAliveGlobal>
                                     </template>
                                 </ul>
@@ -66,7 +66,7 @@
                 isLogin: false,
                 totalRows: 0,
                 cntSelectedItems: 0,
-                items: [],
+                listItems: [],
                 checkedAll: false,
                 disableDelete: true,
 
@@ -76,7 +76,10 @@
             axios.get('/cmall/wishlist')
                 .then(res => res.data)
                 .then(data => {
-                    this.items = data.list;
+                    this.listItems = data.list;
+                    this.listItems.forEach(item => {
+                        item.is_selected = false;
+                    })
                     this.totalRows = data.total_rows;
 
                 })
@@ -90,6 +93,36 @@
                     this.disableDelete = false;
                 } else {
                     this.disableDelete = true;
+                }
+                this.listItems.forEach(item => {
+                    item.is_selected = this.checkedAll;
+                });
+                this.cntSelectedItems = 0;
+                this.listItems.forEach(item => {
+                    if (item.is_selected) {
+                        this.cntSelectedItems++;
+                    }
+                });
+            },
+            onCheckClicked: function () {
+                this.cntSelectedItems = 0;
+                this.listItems.forEach(item => {
+                    if (item.is_selected) {
+                        this.cntSelectedItems++;
+                    }
+                })
+            }
+        },
+        watch: {
+            listItems: {
+                deep: true,
+                handler() {
+                    this.cntSelectedItems = 0;
+                    this.listItems.forEach(item => {
+                        if (item.is_selected) {
+                            this.cntSelectedItems ++;
+                        }
+                    });
                 }
             }
         }
@@ -108,6 +141,11 @@
         height: 540px;
         overflow: hidden;
         background-repeat: no-repeat;
-        background-image: url('/assets/images/wishlist.png');
+        background-image: linear-gradient(#ffffff00 75%, #000), url('/assets/images/wishlist.png');
+    }
+    .title-content .title .checkbox {
+        margin-left:40px;
+        margin-bottom:30px;
+        width: auto;
     }
 </style>
