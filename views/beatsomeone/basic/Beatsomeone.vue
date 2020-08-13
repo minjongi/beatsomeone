@@ -215,7 +215,7 @@
                 listTrending: null,
                 listTestimonials: null,
                 currentGenre: 'All Genre',
-                listGenre: ['All Genre'].concat(window.genre).concat(['Free Beats']),
+                listGenre: ['All Genre'].concat(window.genre), // .concat(['Free Beats'])
                 listSort: window.sortItem,
                 listBpm: [
                     {t: 'BPM', v: null},
