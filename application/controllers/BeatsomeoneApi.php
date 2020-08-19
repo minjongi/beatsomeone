@@ -1667,9 +1667,9 @@ class BeatsomeoneApi extends CB_Controller
         $id = $this->Beatsomeone_model->insert_membership_purchase_log($params);
 
         $usertype = 0;
-        if ($params['plan'] == 'MARKETPLACE') {
+        if (strtoupper($params['plan']) == 'MARKETPLACE') {
             $usertype = 3;
-        } else if ($params['plan'] == 'Pro Page') {
+        } else if (strtoupper($params['plan']) == 'PRO PAGE') {
             $usertype = 4;
         }
 

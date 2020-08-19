@@ -191,7 +191,7 @@ export default {
       listTrending: null,
       listTestimonials: null,
       currentGenre: "All Genre",
-      listGenre: ["All Genre"].concat(window.genre).concat(["Free Beats"]),
+      listGenre: ["All Genre"].concat(window.genre), // .concat(["Free Beats"])
       videoBGPath: "",
     };
   },
