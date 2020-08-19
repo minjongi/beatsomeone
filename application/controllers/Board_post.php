@@ -55,76 +55,16 @@ class Board_post extends CB_Controller
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before'] = Events::trigger('before', $eventname);
 
-		$view['view']['list'] = $list = $this->_get_list($brd_key);
-		$view['view']['board_key'] = element('brd_key', element('board', $list));
+		$list = $this->_get_list($brd_key);
 
 		// stat_count_board ++
 		$this->_stat_count_board(element('brd_id', element('board', $list)));
 
-		$view['view']['is_admin'] = $is_admin = $this->member->is_admin(
-			array(
-				'board_id' => element('brd_id', element('board', $list)),
-				'group_id' => element('bgr_id', element('board', $list)),
-			)
-		);
-
 		// 이벤트가 존재하면 실행합니다
 		$view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
 
-		/**
-		 * 레이아웃을 정의합니다
-		 */
-		$page_title = $this->cbconfig->item('site_meta_title_board_list');
-		$meta_description = $this->cbconfig->item('site_meta_description_board_list');
-		$meta_keywords = $this->cbconfig->item('site_meta_keywords_board_list');
-		$meta_author = $this->cbconfig->item('site_meta_author_board_list');
-		$page_name = $this->cbconfig->item('site_page_name_board_list');
-
-		$searchconfig = array(
-			'{게시판명}',
-		);
-		$replaceconfig = array(
-			element('board_name', element('board', $list)),
-		);
-
-		$page_title = str_replace($searchconfig, $replaceconfig, $page_title);
-		$meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
-		$meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
-		$meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
-		$page_name = str_replace($searchconfig, $replaceconfig, $page_name);
-
-		$list_skin_file = element('use_gallery_list', element('board', $list)) ? 'gallerylist' : 'list';
-		$layout_dir = element('board_layout', element('board', $list)) ? element('board_layout', element('board', $list)) : $this->cbconfig->item('layout_board');
-		$mobile_layout_dir = element('board_mobile_layout', element('board', $list)) ? element('board_mobile_layout', element('board', $list)) : $this->cbconfig->item('mobile_layout_board');
-		$use_sidebar = element('board_sidebar', element('board', $list)) ? element('board_sidebar', element('board', $list)) : $this->cbconfig->item('sidebar_board');
-		$use_mobile_sidebar = element('board_mobile_sidebar', element('board', $list)) ? element('board_mobile_sidebar', element('board', $list)) : $this->cbconfig->item('mobile_sidebar_board');
-		$skin_dir = element('board_skin', element('board', $list)) ? element('board_skin', element('board', $list)) : $this->cbconfig->item('skin_board');
-		$mobile_skin_dir = element('board_mobile_skin', element('board', $list)) ? element('board_mobile_skin', element('board', $list)) : $this->cbconfig->item('mobile_skin_board');
-		$layoutconfig = array(
-			'path' => 'board',
-			'layout' => 'layout',
-			'skin' => $list_skin_file,
-			'layout_dir' => $layout_dir,
-			'mobile_layout_dir' => $mobile_layout_dir,
-			'use_sidebar' => $use_sidebar,
-			'use_mobile_sidebar' => $use_mobile_sidebar,
-			'skin_dir' => $skin_dir,
-			'mobile_skin_dir' => $mobile_skin_dir,
-			'page_title' => $page_title,
-			'meta_description' => $meta_description,
-			'meta_keywords' => $meta_keywords,
-			'meta_author' => $meta_author,
-			'page_name' => $page_name,
-		);
-		$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
-		$this->data = $view;
-		$this->layout = element('layout_skin_file', element('layout', $view));
-		if ($this->input->is_ajax_request()) {
-            $this->output->set_content_type('text/json');
-            $this->output->set_output(json_encode($list));
-        } else {
-            $this->view = element('view_skin_file', element('layout', $view));
-        }
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($list));
 	}
 
 
@@ -424,6 +364,16 @@ class Board_post extends CB_Controller
 			}
 		}
 		$view['view']['link_count'] = $link_count = count($link);
+
+		if ($board['brd_key'] == 'video') {
+            $this->output->set_content_type('text/json');
+            $result = [
+                'post' => $post,
+                'links' => $link,
+            ];
+            $this->output->set_output(json_encode($result));
+            return true;
+        }
 
 		$file_player = '';
 		if (element('post_file', $post) OR element('post_image', $post)) {
