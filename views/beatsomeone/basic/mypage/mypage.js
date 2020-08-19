@@ -20,7 +20,7 @@ import Inquiryenroll from './Inquiryenroll.vue'
 import Inquirymod from './Inquirymod.vue'
 import Inquiryview from './Inquiryview.vue'
 import Faq from './Faq.vue'
-import Favorites from "./Favorites.vue"
+import Favorites from "./FavoritesOld.vue"
 
 Vue.use(VueRouter)
 
