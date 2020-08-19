@@ -1,25 +1,5 @@
 <template>
-  <div class="wrapper">
-    <Header :is-login="isLogin" />
-    <div class="container">
-      <div class="row">
-        <h2 class="section-title">FAVORITES</h2>
-        <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
-          <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter"
-                            v-on:enter="enter" v-on:leave="leave">
-            <template v-for="item in list">
-              <KeepAliveGlobal :key="item.cit_key">
-                <Index_Items :item="item" :hideFav="true" :key="item.cit_key"></Index_Items>
-              </KeepAliveGlobal>
-            </template>
-          </transition-group>
-          <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
-        </div>
-      </div>
-      <main-player></main-player>
-    </div>
-    <Footer />
-  </div>
+  <div class="wrapper">test</div>
 </template>
 
 <script>
@@ -39,7 +19,7 @@ export default {
     Index_Items,
     Loader,
     MainPlayer,
-    KeepAliveGlobal
+    KeepAliveGlobal,
   },
   data: function () {
     return {
@@ -59,8 +39,7 @@ export default {
   created() {
     this.updateAllList();
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {},
   methods: {
     loading() {
@@ -76,8 +55,8 @@ export default {
       const p = {
         limit: 10,
         offset: 0,
-      }
-      Http.post(`/BeatsomeoneMypageApi/get_favorites_list`, p).then(r => {
+      };
+      Http.post(`/BeatsomeoneMypageApi/get_favorites_list`, p).then((r) => {
         this.list = r;
         this.offset = this.list.length;
       });
@@ -86,9 +65,9 @@ export default {
       this.busy = true;
       const p = {
         limit: 10,
-        offset: this.offset
-      }
-      Http.post(`/BeatsomeoneMypageApi/get_favorites_list`, p).then(r => {
+        offset: this.offset,
+      };
+      Http.post(`/BeatsomeoneMypageApi/get_favorites_list`, p).then((r) => {
         this.list = this.list.concat(r);
         this.last_offset = this.offset;
         this.offset = this.list.length;
@@ -103,9 +82,9 @@ export default {
       var delay = el.dataset.index * 150;
       setTimeout(function () {
         Velocity(
-            el,
-            {opacity: 1, height: 90, "margin-bottom": 1},
-            {complete: done}
+          el,
+          { opacity: 1, height: 90, "margin-bottom": 1 },
+          { complete: done }
         );
       }, delay);
     },
@@ -113,14 +92,14 @@ export default {
       var delay = el.dataset.index * 150;
       setTimeout(function () {
         Velocity(
-            el,
-            {opacity: 0, height: 0, "margin-bottom": 0},
+          el,
+          { opacity: 0, height: 0, "margin-bottom": 0 },
 
-            {complete: done}
+          { complete: done }
         );
       }, delay);
-    }
-  }
+    },
+  },
 };
 </script>
 
