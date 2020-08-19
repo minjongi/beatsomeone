@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Header :is-login="isLogin" />
+    <!-- <Header :is-login="isLogin" /> -->
     <div class="container">
       123
       <div class="row">
