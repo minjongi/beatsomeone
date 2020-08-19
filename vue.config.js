@@ -26,6 +26,7 @@ module.exports = {
             register: ['./views/register/basic/register.js'],
             findaccount: ['./views/findaccount/basic/findaccount.js'],
             smtm9: ['./views/beatsomeone/basic/smtm9/smtm9.js'],
+            favorites: ['./views/beatsomeone/basic/mypage/favorites.js'],
 
             m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
@@ -42,6 +43,7 @@ module.exports = {
             m_register: ['./views/register/mobile/register.js'],
             m_findaccount: ['./views/findaccount/mobile/findaccount.js'],
             m_smtm9: ['./views/beatsomeone/mobile/smtm9/smtm9.js'],
+            m_favorites: ['./views/beatsomeone/mobile/mypage/favorites.js'],
 
             admin_cmallitem_write: ['./views/admin/basic/cmall/cmallitem/write.js'],
         },
