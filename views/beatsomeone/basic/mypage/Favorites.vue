@@ -1,32 +1,5 @@
 <template>
-  <div class="wrapper">
-    <!-- <Header :is-login="isLogin" /> -->
-    <div class="container">
-      123
-      <div class="row">
-        <h2 class="section-title">FAVORITES2</h2>
-        <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
-          <transition-group
-            name="staggered-fade"
-            tag="ul"
-            v-bind:css="false"
-            v-on:before-enter="beforeEnter"
-            v-on:enter="enter"
-            v-on:leave="leave"
-          >
-            <template v-for="item in list">
-              <KeepAliveGlobal :key="item.cit_key">
-                <Index_Items :item="item" :hideFav="true" :key="item.cit_key"></Index_Items>
-              </KeepAliveGlobal>
-            </template>
-          </transition-group>
-          <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
-        </div>
-      </div>
-      <main-player></main-player>
-    </div>
-    <Footer />
-  </div>
+  <div class="wrapper">test</div>
 </template>
 
 <script>
