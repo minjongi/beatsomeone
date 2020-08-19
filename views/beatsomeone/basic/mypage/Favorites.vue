@@ -4,7 +4,7 @@
     <div class="container">
       123
       <div class="row">
-        <h2 class="section-title">FAVORITES</h2>
+        <h2 class="section-title">FAVORITES2</h2>
         <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
           <transition-group
             name="staggered-fade"
