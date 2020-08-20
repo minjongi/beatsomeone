@@ -890,7 +890,55 @@ class Register extends CB_Controller
                                     }
                                 }
                             } elseif ($pg == 'allat') {
+                                if ($bill_term == 'monthly') {
+                                    if ((float)$amount == (float)element('mgr_monthly_cost_w', $gval)) {
+                                        $gminsert = array(
+                                            'mgr_id' => $this->input->post('mgr_id'),
+                                            'mem_id' => $mem_id,
+                                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                                        );
+                                        $this->Member_group_member_model->insert($gminsert);
 
+                                        $termDays = '30';
+                                        $startDate = date('Y-m-d');
+                                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                                        $params = [
+                                            'mem_id' => $mem_id,
+                                            'bill_term' => $bill_term,
+                                            'plan_name' => $group_title,
+                                            'start_date' => $startDate,
+                                            'end_date' => $endDate,
+                                            'pay_method' => $pg,
+                                            'amount' => $amount
+                                        ];
+                                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                                    }
+                                } else {
+                                    if ((float)$amount == (float)element('mgr_year_cost_w', $gval)) {
+                                        $gminsert = array(
+                                            'mgr_id' => $this->input->post('mgr_id'),
+                                            'mem_id' => $mem_id,
+                                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                                        );
+                                        $this->Member_group_member_model->insert($gminsert);
+
+                                        $termDays = '365';
+                                        $startDate = date('Y-m-d');
+                                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                                        $params = [
+                                            'mem_id' => $mem_id,
+                                            'bill_term' => $bill_term,
+                                            'plan_name' => $group_title,
+                                            'start_date' => $startDate,
+                                            'end_date' => $endDate,
+                                            'pay_method' => $pg,
+                                            'amount' => $amount
+                                        ];
+                                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                                    }
+                                }
                             }
 
                         }

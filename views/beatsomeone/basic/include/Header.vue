@@ -1,8 +1,5 @@
 <template>
     <header class="header">
-        <div class="smtm9-top">
-            <a href="/smtm9"><img src="/assets/images/event/smtm9/top.jpg"></a>
-        </div>
         <div class="wrap">
             <h1 class="header__logo">
                 <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
