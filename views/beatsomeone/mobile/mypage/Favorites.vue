@@ -152,7 +152,7 @@ export default {
 
 .nfavorites__checkbox{justify-content: center;}
 .nfavorites__checkbox span{margin-right: 0;width: 15px; height: 15px;}
-.nfavorites__checkbox input:checked + span{border: none;background: url(./assets/images/checkbox-on.png) no-repeat center;background-size: 15px 15px;}
+.nfavorites__checkbox input:checked + span{border: none;background: url('/assets_m/images/icon/checkbox-on.png') no-repeat center;background-size: 15px 15px;}
 
 .nfavorites__actions{display: flex;align-items: center;justify-content: space-between;margin-bottom: 15px;padding-left: 18px;padding-right: 16px;}
 .nfavorites__delete{width: 80px;height: 30px;background:#ff5858;color:#fff;text-align: center;font-weight: 300;font-size: 12px;display:flex;align-items: center;justify-content: center;border-radius: 3px;transition:all .3s;}
