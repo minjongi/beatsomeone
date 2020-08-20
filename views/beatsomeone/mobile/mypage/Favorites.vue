@@ -160,6 +160,7 @@ export default {
 .nfavorites__delete:disabled{opacity:.4;}
 .nfavorites__delete i{background: url('/assets_m/images/trash.png') no-repeat center;width:16px;background-size: auto 16px;height: 16px;display:inline-block;vertical-align: middle;margin-right: 5px;}
 
+.nfavorites .playList .playList__item{display: flex;}
 .nfavorites .playList .playList__item .btns{width: 35px;margin-left: auto;margin-right: 15px;}
 .nfavorites .playList .playList__item .btns a{width: 35px;height: 35px;background:#4890ff url('/assets_m/images/cart.png') no-repeat center;border-radius: 50%;display: block;text-indent:-9999px;overflow: hidden;}
 
