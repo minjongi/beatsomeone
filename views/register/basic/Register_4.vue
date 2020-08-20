@@ -69,7 +69,11 @@
 
         data: function() {
             return {
-                user: {},
+                user: {
+                    firstname: '',
+                    lastname: '',
+                    location: '',
+                },
             }
         },
         created() {

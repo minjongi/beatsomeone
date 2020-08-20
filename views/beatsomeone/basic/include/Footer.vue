@@ -32,17 +32,17 @@
             </h3>-->
             <ul>
               <li>
-                <a href="#//" style="cursor:default;">BEAT SOMEONE</a>
+                <a href="#" style="cursor:default;">BEAT SOMEONE</a>
               </li>
               <li>
                 <a
-                  href="http://beatsomeone.com/register#/TermsOfService"
+                  href="/register/#/TermsOfService"
                   target="_blank"
                 >{{ $t('termsOfService') }}</a>
               </li>
               <li>
                 <a
-                  href="http://beatsomeone.com/register#/PrivacyPolicy"
+                  href="/register/#/PrivacyPolicy"
                   target="_blank"
                 >{{ $t('privacyPolicy') }}</a>
               </li>

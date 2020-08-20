@@ -81,7 +81,7 @@
 
                 return true;
             },
-            doNext(type) {
+            doNext() {
                 if(this.doValidation()) {
                     /*
                     if(!this.isMusician || this.$parent.info.plan === 'free') {
@@ -90,10 +90,8 @@
                         EventBus.$emit('submit_join_form',this.user);
                         this.$router.push({path: '/6'});
                     }*/
-                    EventBus.$emit('finish_join_form',this.user);
+                    EventBus.$emit('submit_join_form',this.user);
 
-                }else{
-                    type.preventDefault();
                 }
             },
         },
