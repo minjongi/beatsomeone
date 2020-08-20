@@ -5,7 +5,7 @@
           class="col favorite"
           :class="{active : item.is_wish === '1' }"
           @click="toggleWish"
-          v-if="!showCheck"
+          v-if="!hideFav"
       >
         <button>{{ $t('favorite') }}</button>
       </div>

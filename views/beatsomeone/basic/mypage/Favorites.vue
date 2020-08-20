@@ -15,7 +15,7 @@
               <div class="left">
                 <label for="c2" class="checkbox nfavorites__checkbox">
                   <input type="checkbox" hidden id="c2">
-                  <span></span> &nbsp; Select All(5/5)
+                  <span style="margin-right: 5px;"></span> Select All(5/5)
                 </label>
               </div>
               <div class="right">
