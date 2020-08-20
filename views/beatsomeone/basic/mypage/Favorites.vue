@@ -158,17 +158,17 @@ export default {
 <style lang="scss" scoped="scoped">
 @import "@/assets/scss/App.scss";
 
-.nfavorites {padding-top: 170px;background: url('./assets/images/favorites-bg.png') no-repeat left top;background-size: 100% auto;;}
+.nfavorites {padding-top: 170px;background: url('/assets/images/favorites-bg.png') no-repeat left top;background-size: 100% auto;;}
 .nfavorites__header{padding-left: 75px;margin-bottom: 130px;}
 .nfavorites__header h2{font-size: 40px;}
 
 .nfavorites__checkbox{justify-content: center;}
 .nfavorites__checkbox span{margin-right: 0;width: 20px; height: 20px;}
-.nfavorites__checkbox input:checked + span{border: none;background: url(./assets/images/checkbox-on.png) no-repeat center;background-size: 20px 20px;}
+.nfavorites__checkbox input:checked + span{border: none;background: url('/assets/images/checkbox-on.png') no-repeat center;background-size: 20px 20px;}
 
 .nfavorites__actions{display: flex;align-items: center;justify-content: space-between;margin-bottom: 20px;padding-left: 30px;}
 .nfavorites__delete{width: 100px;height: 40px;background:#ff5858;color:#fff;text-align: center;font-weight: 300;font-size: 12px;display:flex;align-items: center;justify-content: center;border-radius: 3px;transition:all .3s;}
-.nfavorites__delete i{background: url('./assets/images/trash.png') no-repeat center;width:16px;background-size: auto 20px;height: 20px;display:inline-block;vertical-align: middle;margin-right: 5px;}
+.nfavorites__delete i{background: url('/assets/images/trash.png') no-repeat center;width:16px;background-size: auto 20px;height: 20px;display:inline-block;vertical-align: middle;margin-right: 5px;}
 .nfavorites__delete:hover{opacity: .4;}
 
 .nfavorites .playList .playList__item .btns{width: 100px;margin-right: 30px;}
