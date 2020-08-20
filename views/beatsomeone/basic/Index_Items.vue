@@ -30,22 +30,7 @@
             <h3 class="playList__title">{{ item.cit_name }}</h3>
             <span class="playList__by">by {{ item.mem_nickname }}</span>
           </figcaption>
-
-
         </figure>
-
-        <div class="tags">
-          <div>
-            <button style="color: rgb(56, 115, 211);">FREE</button>
-            <button style="color: rgb(255, 218, 42);">Original</button>
-          </div>
-          <div>
-            <button style="color: rgb(255, 255, 255);">Copyright Registered</button>
-          </div>
-        </div>
-
-        <!-- 서브리스트 토글 버튼 -->
-        <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
 
         <div class="tags">
           <div>
@@ -56,6 +41,9 @@
             <button style="color:#fff;" v-if="item.cit_officially_registered === '1'">{{ $t('lang3') }}</button>
           </div>
         </div>
+        <!-- 서브리스트 토글 버튼 -->
+        <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
+
       </div>
 
       <div class="col genre">
