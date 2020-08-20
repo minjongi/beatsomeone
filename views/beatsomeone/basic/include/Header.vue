@@ -1,5 +1,8 @@
 <template>
     <header class="header">
+        <div class="smtm9-top">
+            <a href="/smtm9"><img src="/assets/images/event/smtm9/top.jpg"></a>
+        </div>
         <div class="wrap">
             <h1 class="header__logo">
                 <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
@@ -13,7 +16,7 @@
                 </div>
                 <nav class="header__nav">
                     <a href=""></a>
-                    <a href="/cmall/wishlist">{{ $t('favorite') }}</a>
+                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
                     <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
@@ -99,6 +102,16 @@
 
     .header .header__nav a {
         cursor: pointer !important;
+    }
+
+    .smtm9-top {
+        text-align:center;
+        background-color: #000000;
+        width: 100%;
+    }
+
+    .smtm9-top img {
+        max-width: 100%;
     }
 
 </style>

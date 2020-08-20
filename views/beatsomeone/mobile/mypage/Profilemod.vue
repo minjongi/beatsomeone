@@ -140,9 +140,9 @@
                         case '2':
                             return 'FREE';
                         case '3':
-                            return 'MARKETPLACE';
+                            return 'Platinum';
                         case '4':
-                            return 'PRO';
+                            return 'Master';
                         default:
                             return null;
                     }
