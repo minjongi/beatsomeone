@@ -155,7 +155,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped="scoped">
+<style lang="scss" >
 @import "@/assets/scss/App.scss";
 
 .nfavorites {padding-top: 170px;background: url('/assets/images/favorites-bg.png') no-repeat left top;background-size: 100% auto;;}
