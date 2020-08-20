@@ -2,6 +2,38 @@
   <div class="wrapper">
     <Header :is-login="isLogin" />
     <div class="container">
+
+      <div class="nfavorites">
+        <div class="nfavorites__header">
+          <div class="wrap">
+            <h2>FAVORITE</h2>
+          </div>
+        </div>
+        <section class="nfavorites__body">
+          <div class="wrap">
+            <div class="nfavorites__actions">
+              <div class="left">
+                <label for="c2" class="checkbox nfavorites__checkbox">
+                  <input type="checkbox" hidden id="c2">
+                  <span></span> &nbsp; Select All(5/5)
+                </label>
+              </div>
+              <div class="right">
+                <button class="nfavorites__delete">
+                  <i></i> Delete
+                </button>
+              </div>
+            </div>
+            <div class="playList">
+              <ul class="playList__list" id="playList__list"></ul>
+              <div class="playList__btnbox">
+                <a href="#//" class="playList__more">more</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
       <div class="row">
         <h2 class="section-title">FAVORITES</h2>
         <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
@@ -123,6 +155,38 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped="scoped">
 @import "@/assets/scss/App.scss";
+
+.nfavorites {padding-top: 170px;background: url('./assets/images/favorites-bg.png') no-repeat left top;background-size: 100% auto;;}
+.nfavorites__header{padding-left: 75px;margin-bottom: 130px;}
+.nfavorites__header h2{font-size: 40px;}
+
+.nfavorites__checkbox{justify-content: center;}
+.nfavorites__checkbox span{margin-right: 0;width: 20px; height: 20px;}
+.nfavorites__checkbox input:checked + span{border: none;background: url(./assets/images/checkbox-on.png) no-repeat center;background-size: 20px 20px;}
+
+.nfavorites__actions{display: flex;align-items: center;justify-content: space-between;margin-bottom: 20px;padding-left: 30px;}
+.nfavorites__delete{width: 100px;height: 40px;background:#ff5858;color:#fff;text-align: center;font-weight: 300;font-size: 12px;display:flex;align-items: center;justify-content: center;border-radius: 3px;transition:all .3s;}
+.nfavorites__delete i{background: url('./assets/images/trash.png') no-repeat center;width:16px;background-size: auto 20px;height: 20px;display:inline-block;vertical-align: middle;margin-right: 5px;}
+.nfavorites__delete:hover{opacity: .4;}
+
+.nfavorites .playList .playList__item .btns{width: 100px;margin-right: 30px;}
+.nfavorites .playList .playList__item .btns a{display: block;line-height: 40px;border-radius: 20px;color:#fff;background:#4890ff;font-size: 12px;text-align: center;width: 100%;}
+
+.nfavorites .playList .playList__item .price{width: 120px;text-align: center;}
+.nfavorites .playList .playList__item .price span{white-space: nowrap;font-weight: 600;}
+
+.nfavorites .playList .playList__item .name .toggle-subList.active{border: 1px solid #fff;}
+
+.nfavorites .playList .playList__item .name{width: 460px;}
+.nfavorites .playList .playList__item .name figure{flex: 1;}
+.nfavorites .playList .playList__item .name figure figcaption{flex: 1;}
+
+.nfavorites .playList .playList__item .license{width: 250px;align-items: flex-start;justify-content:center;flex-direction: column;}
+.nfavorites .playList .playList__item .license h3{font-size: 14px;font-weight: 600;white-space:nowrap;overflow: hidden;width:190px;text-overflow: ellipsis;}
+.nfavorites .playList .playList__item .license li{margin-top: 10px;}
+.nfavorites .playList .playList__item .license p{font-size: 12px;font-weight: 300;display: flex;align-items: center;}
+.nfavorites .playList .playList__item .license p i{width:20px;margin-right: 5px;}
+
 </style>
