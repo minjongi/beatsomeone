@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="accounts__btnbox">
-                    <button type="submit" class="btn btn--submit" @click="doNext">
+                    <button type="button" class="btn btn--submit" @click="doNext">
                         {{ $t('signup') }}
                     </button>
                 </div>

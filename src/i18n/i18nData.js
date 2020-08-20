@@ -489,7 +489,9 @@ export default {
         lang42: '구매자 1명에게만 단독 판매 됨 (소유권 양도)',
         lang43: '음악저작권 양도 포함',
         lang44: '비트를 "무료"로 제공하겠습니까?',
-        lang45: '주의사항 : 체크 시 임대·판매 가격은 모두 0원이 됩니다'
+        lang45: '주의사항 : 체크 시 임대·판매 가격은 모두 0원이 됩니다',
+        seller_platinum: '판매자(Platinum)',
+        seller_master: '판매자(Master)',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -980,6 +982,8 @@ export default {
         lang42: 'Sold exclusively to only one purchaser (transfer of ownership)',
         lang43: 'Copyright Transfer Include',
         lang44: 'Would you like to offer a bit for free?',
-        lang45: 'Notice : If checked, the rental and sales price will be 0'
+        lang45: 'Notice : If checked, the rental and sales price will be 0',
+        seller_platinum: 'Seller(Platinum)',
+        seller_master: 'Seller(Master)',
     } // en
 }

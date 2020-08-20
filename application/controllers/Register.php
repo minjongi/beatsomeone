@@ -671,6 +671,7 @@ class Register extends CB_Controller
              * 유효성 검사를 통과한 경우입니다.
              * 즉 데이터의 insert 나 update 의 process 처리가 필요한 상황입니다
              */
+            $this->load->model('Beatsomeone_model');
 
             // 이벤트가 존재하면 실행합니다
             $view['view']['event']['formruntrue'] = Events::trigger('formruntrue', $eventname);
@@ -834,9 +835,63 @@ class Register extends CB_Controller
                                 'mgm_datetime' => cdate('Y-m-d H:i:s'),
                             );
                             $this->Member_group_member_model->insert($gminsert);
-                        } elseif ($group_title == 'seller_platinum') {
+                        } elseif ($group_title == 'seller_platinum' || $group_title == 'seller_master') {
+                            $pg = $this->input->post('pg');
+                            $amount = $this->input->post('amount');
+                            $bill_term = $this->input->post('bill_term');
+                            if ($pg == 'paypal') {
+                                if ($bill_term == 'monthly') {
+                                    if ((float)$amount == (float)element('mgr_monthly_cost_d', $gval)) {
+                                        $gminsert = array(
+                                            'mgr_id' => $this->input->post('mgr_id'),
+                                            'mem_id' => $mem_id,
+                                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                                        );
+                                        $this->Member_group_member_model->insert($gminsert);
 
-                        } elseif ($group_title == 'seller_master') {
+                                        $termDays = '30';
+                                        $startDate = date('Y-m-d');
+                                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                                        $params = [
+                                            'mem_id' => $mem_id,
+                                            'bill_term' => $bill_term,
+                                            'plan_name' => $group_title,
+                                            'start_date' => $startDate,
+                                            'end_date' => $endDate,
+                                            'pay_method' => $pg,
+                                            'amount' => $amount
+                                        ];
+                                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                                    }
+                                } else {
+                                    if ((float)$amount == (float)element('mgr_year_cost_d', $gval)) {
+                                        $gminsert = array(
+                                            'mgr_id' => $this->input->post('mgr_id'),
+                                            'mem_id' => $mem_id,
+                                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                                        );
+                                        $this->Member_group_member_model->insert($gminsert);
+
+                                        $termDays = '365';
+                                        $startDate = date('Y-m-d');
+                                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                                        $params = [
+                                            'mem_id' => $mem_id,
+                                            'bill_term' => $bill_term,
+                                            'plan_name' => $group_title,
+                                            'start_date' => $startDate,
+                                            'end_date' => $endDate,
+                                            'pay_method' => $pg,
+                                            'amount' => $amount
+                                        ];
+                                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                                    }
+                                }
+                            } elseif ($pg == 'allat') {
+
+                            }
 
                         }
                     }

@@ -29,10 +29,12 @@
         created() {
             EventBus.$on('submit_join_form', d => {
                 Object.assign(this.info, d);
-                console.log(this.info);
+                localStorage.setItem('bs_user_info', JSON.stringify(this.info));
                 if (this.$router.currentRoute.path === '/5') {
                     if (this.info.group.mgr_title === 'buyer' || this.info.group.mgr_title === 'seller_free') {
                         this.registerBuyer();
+                    } else {
+                        this.$router.push({path: '/6'});
                     }
                 }
             });
@@ -43,9 +45,9 @@
         },
         mounted() {
             // 중간 리프레시 초기화
-            if (this.$router.currentRoute.path !== '/' && this.$router.currentRoute.path !== '/TermsOfService' && this.$router.currentRoute.path !== '/PrivacyPolicy') {
-                this.$router.push({path: '/'});
-            }
+            // if (this.$router.currentRoute.path !== '/' && this.$router.currentRoute.path !== '/TermsOfService' && this.$router.currentRoute.path !== '/PrivacyPolicy') {
+            //     this.$router.push({path: '/'});
+            // }
         },
         watch: {},
         methods: {
