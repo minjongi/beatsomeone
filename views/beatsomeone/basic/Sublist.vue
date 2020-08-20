@@ -222,8 +222,8 @@ export default {
     return {
       isLogin: false,
       listSort: window.sortItem,
-      listFilter: ["All Genre"].concat(window.genre).concat(["Free Beats"]),
-      listSubgenres: ["All"].concat(window.genre).concat(["Free Beats"]),
+      listFilter: ["All Genre"].concat(window.genre), // .concat(["Free Beats"])
+      listSubgenres: ["All"].concat(window.genre), // .concat(["Free Beats"])
       listMoods: ["All"].concat(window.moods),
       listTrackType: ["All types"].concat(window.trackType),
       list: [],

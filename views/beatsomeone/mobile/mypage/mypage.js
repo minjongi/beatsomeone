@@ -20,9 +20,12 @@ import Inquiryenroll from './Inquiryenroll.vue'
 import Inquirymod from './Inquirymod.vue'
 import Inquiryview from './Inquiryview.vue'
 import Faq from './Faq.vue'
+import Favorites from "./FavoritesOld.vue"
 
 Vue.use(VueRouter);
 
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(infiniteScroll);
 
 Vue.config.productionTip = false;
 Vue.prototype.$log = console.log.bind(console);
@@ -48,6 +51,7 @@ const router = new VueRouter({
         { path: '/inquirymod', component: Inquirymod},
         { path: '/inquiryview', component: Inquiryview},
         { path: '/faq', component: Faq},
+        { path: '/favorites', component: Favorites},
     ],
 });
 

@@ -9,6 +9,17 @@
             >
                 <button>{{ $t('favorite') }}</button>
             </div>
+
+      <div
+          class="col favorite"
+          v-if="showCheck"
+      >
+        <label for="c1" class="checkbox nfavorites__checkbox">
+          <input type="checkbox" hidden id="c1">
+          <span></span>
+        </label>
+      </div>
+
             <div class="col name">
                 <figure>
           <span class="playList__cover">
@@ -21,9 +32,6 @@
                     </figcaption>
                 </figure>
 
-                <!-- 서브리스트 토글 버튼 -->
-                <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
-
                 <div class="tags">
                     <div>
                         <button style="color:#3873d3;" v-if="item.cit_freebeat === '1'">{{ $t('lang1') }}</button>
@@ -34,6 +42,9 @@
                         </button>
                     </div>
                 </div>
+        <!-- 서브리스트 토글 버튼 -->
+        <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
+
             </div>
 
             <div class="col genre">
@@ -89,7 +100,7 @@
         components: {
             PurchaseTypeSelector,
         },
-        props: ["item", "hideFav"],
+  props: ["item", "hideFav", "showCheck"],
         data: function () {
             return {
                 isOpenSubmenu: false,
