@@ -19,7 +19,7 @@
                 </label>
               </div>
               <div class="right">
-                <button class="nfavorites__delete">
+                <button class="nfavorites__delete" disabled="disabled">
                   <i></i> Delete
                 </button>
               </div>
@@ -162,8 +162,8 @@ export default {
 
 .nfavorites__actions{display: flex;align-items: center;justify-content: space-between;margin-bottom: 20px;padding-left: 30px;}
 .nfavorites__delete{width: 100px;height: 40px;background:#ff5858;color:#fff;text-align: center;font-weight: 300;font-size: 12px;display:flex;align-items: center;justify-content: center;border-radius: 3px;transition:all .3s;}
+.nfavorites__delete:disabled{opacity: .4}
 .nfavorites__delete i{background: url('/assets/images/trash.png') no-repeat center;width:16px;background-size: auto 20px;height: 20px;display:inline-block;vertical-align: middle;margin-right: 5px;}
-.nfavorites__delete:hover{opacity: .4;}
 
 .nfavorites .playList .playList__item .btns{width: 100px;margin-right: 30px;}
 .nfavorites .playList .playList__item .btns a{display: block;line-height: 40px;border-radius: 20px;color:#fff;background:#4890ff;font-size: 12px;text-align: center;width: 100%;}
@@ -176,42 +176,4 @@ export default {
 .nfavorites .playList .playList__item .name{width: 460px;}
 .nfavorites .playList .playList__item .name figure{flex: 1;}
 .nfavorites .playList .playList__item .name figure figcaption{flex: 1;}
-
-.playList .playList__item .name .tags {
-  padding-right: 30px;
-  width: 160px;
-  -webkit-box-flex: 0;
-  -ms-flex: none;
-  flex: none;
-}
-.playList .playList__item .name .tags div {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-}
-.playList .playList__item .name .tags div:first-child {
-  margin-bottom: 5px;
-}
-.playList .playList__item .name .tags button {
-  height: 20px;
-  padding: 0 8px;
-  border: 1px solid #fff;
-  opacity: 0.3;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  font-size: 10px;
-  border-radius: 2em;
-}
-.playList .playList__item .name .tags button + button {
-  margin-left: 5px;
-}
-.playList .playList__item .name .tags button:hover {
-  opacity: 1;
-}
 </style>
