@@ -1,8 +1,31 @@
 <template>
-  <div>test</div>
+  <div class="wrapper">
+    <Header :is-login="isLogin" />
+    <div class="container">
+      <div class="row">
+        <h2 class="section-title">FAVORITES</h2>
+        <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
+          <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter"
+                            v-on:enter="enter" v-on:leave="leave">
+            <template v-for="item in list">
+              <KeepAliveGlobal :key="item.cit_key">
+                <Index_Items :item="item" :hideFav="true" :key="item.cit_key"></Index_Items>
+              </KeepAliveGlobal>
+            </template>
+          </transition-group>Œ
+          <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
+        </div>
+      </div>
+      <main-player></main-player>
+    </div>
+    <Footer />
+  </div>
 </template>
 
 <script>
+require("@/assets/js/function");
+import Header from "../include/Header";
+import Footer from "../include/Footer";
 import Index_Items from "../Index_Items";
 import Velocity from "velocity-animate";
 import Loader from "*/vue/common/Loader";
@@ -11,6 +34,8 @@ import KeepAliveGlobal from "vue-keep-alive-global";
 
 export default {
   components: {
+    Header,
+    Footer,
     Index_Items,
     Loader,
     MainPlayer,
@@ -97,3 +122,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import "@/assets/scss/App.scss";
+</style>
