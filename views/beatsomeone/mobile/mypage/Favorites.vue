@@ -145,6 +145,7 @@ export default {
 <style lang="scss">
 @import "@/assets_m/scss/App.scss";
 </style>
+
 <style lang="css" scoped="scoped">
 .nfavorites {padding-top: 100px;background: url('/assets_m/images/favorites-bg.png') no-repeat left top;background-size: 100% auto;;}
 .nfavorites__header{padding-left: 30px;margin-bottom: 50px;}
