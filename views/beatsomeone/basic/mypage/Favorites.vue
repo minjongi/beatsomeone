@@ -152,7 +152,7 @@ export default {
 
 <style lang="css" scoped="scoped">
 
-.nfavorites {padding-top: 170px;background: url('/assets/images/favorites-bg.png') no-repeat left top;background-size: 100% auto;;}
+.nfavorites {padding-top: 170px;background: url('/assets/images/favorites-bg.png') no-repeat left top;background-size: 100% auto;min-height: 700px;}
 .nfavorites__header{padding-left: 75px;margin-bottom: 130px;}
 .nfavorites__header h2{font-size: 40px;}
 

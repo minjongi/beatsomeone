@@ -96,7 +96,7 @@ export default {
   components: {
     PurchaseTypeSelector,
   },
-  props: ["item", "hideFav"],
+  props: ["item", "hideFav", "showCheck"],
   data: function () {
     return {
       isOpenSubmenu: false,
