@@ -27,7 +27,7 @@
                               v-on:enter="enter" v-on:leave="leave">
               <template v-for="item in list">
                 <KeepAliveGlobal :key="item.cit_key">
-                  <Index_Items :item="item" :hideFav="true" :key="item.cit_key"></Index_Items>
+                  <Index_Items :item="item" :hideFav="true" :showCheck="true" :key="item.cit_key"></Index_Items>
                 </KeepAliveGlobal>
               </template>
             </transition-group>
