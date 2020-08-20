@@ -13,7 +13,7 @@
             <div class="left">
               <label for="c2" class="checkbox nfavorites__checkbox">
                 <input type="checkbox" hidden id="c2">
-                <span></span> &nbsp; Select All(5/5)
+                <span style="margin-right: 5px;"></span> &nbsp; Select All(5/5)
               </label>
             </div>
             <div class="right">
@@ -27,7 +27,7 @@
                               v-on:enter="enter" v-on:leave="leave">
               <template v-for="item in list">
                 <KeepAliveGlobal :key="item.cit_key">
-                  <Index_Items :item="item" :hideFav="true" :showCheck="true" :key="item.cit_key"></Index_Items>
+                  <Index_Items :item="item" :hideFav="true" :showCheck="true" :cart="true" :key="item.cit_key"></Index_Items>
                 </KeepAliveGlobal>
               </template>
             </transition-group>

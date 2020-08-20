@@ -45,6 +45,12 @@
           <a href>action3</a>
         </span>
       </div>
+
+      <div class="col btns" v-if="cart">
+        <a href="">
+          cart
+        </a>
+      </div>
     </div>
   </li>
 </template>
@@ -55,7 +61,7 @@ import $ from "jquery";
 import WaveSurfer from "wavesurfer.js";
 
 export default {
-  props: ["item", "showCheck"],
+  props: ["item", "showCheck", "cart"],
   data: function () {
     return {
       isOpenSubmenu: false,
