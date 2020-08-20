@@ -2,13 +2,24 @@
   <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
     <div class="playList__item playList__item--title">
       <div
-        class="col favorite"
-        :class="{active : item.is_wish === '1' }"
-        @click="toggleWish"
-        v-if="!hideFav"
+          class="col favorite"
+          :class="{active : item.is_wish === '1' }"
+          @click="toggleWish"
+          v-if="!showCheck"
       >
         <button>{{ $t('favorite') }}</button>
       </div>
+
+      <div
+          class="col favorite"
+          v-if="showCheck"
+      >
+        <label for="c1" class="checkbox nfavorites__checkbox">
+          <input type="checkbox" hidden id="c1">
+          <span></span>
+        </label>
+      </div>
+
       <div class="col name">
         <figure>
           <span class="playList__cover">
