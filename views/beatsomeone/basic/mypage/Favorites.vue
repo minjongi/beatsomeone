@@ -24,29 +24,19 @@
                 </button>
               </div>
             </div>
-            <div class="playList">
-              <ul class="playList__list" id="playList__list"></ul>
-              <div class="playList__btnbox">
-                <a href="#//" class="playList__more">more</a>
-              </div>
+            <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
+              <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter"
+                                v-on:enter="enter" v-on:leave="leave">
+                <template v-for="item in list">
+                  <KeepAliveGlobal :key="item.cit_key">
+                    <Index_Items :item="item" :hideFav="true" :key="item.cit_key"></Index_Items>
+                  </KeepAliveGlobal>
+                </template>
+              </transition-group>Œ
+              <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
             </div>
           </div>
         </section>
-      </div>
-
-      <div class="row">
-        <h2 class="section-title">FAVORITES</h2>
-        <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
-          <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter"
-                            v-on:enter="enter" v-on:leave="leave">
-            <template v-for="item in list">
-              <KeepAliveGlobal :key="item.cit_key">
-                <Index_Items :item="item" :hideFav="true" :key="item.cit_key"></Index_Items>
-              </KeepAliveGlobal>
-            </template>
-          </transition-group>Œ
-          <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
-        </div>
       </div>
       <main-player></main-player>
     </div>
