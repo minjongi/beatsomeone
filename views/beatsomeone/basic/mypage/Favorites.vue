@@ -177,10 +177,41 @@ export default {
 .nfavorites .playList .playList__item .name figure{flex: 1;}
 .nfavorites .playList .playList__item .name figure figcaption{flex: 1;}
 
-.nfavorites .playList .playList__item .license{width: 250px;align-items: flex-start;justify-content:center;flex-direction: column;}
-.nfavorites .playList .playList__item .license h3{font-size: 14px;font-weight: 600;white-space:nowrap;overflow: hidden;width:190px;text-overflow: ellipsis;}
-.nfavorites .playList .playList__item .license li{margin-top: 10px;}
-.nfavorites .playList .playList__item .license p{font-size: 12px;font-weight: 300;display: flex;align-items: center;}
-.nfavorites .playList .playList__item .license p i{width:20px;margin-right: 5px;}
-
+.playList .playList__item .name .tags {
+  padding-right: 30px;
+  width: 160px;
+  -webkit-box-flex: 0;
+  -ms-flex: none;
+  flex: none;
+}
+.playList .playList__item .name .tags div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+.playList .playList__item .name .tags div:first-child {
+  margin-bottom: 5px;
+}
+.playList .playList__item .name .tags button {
+  height: 20px;
+  padding: 0 8px;
+  border: 1px solid #fff;
+  opacity: 0.3;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  font-size: 10px;
+  border-radius: 2em;
+}
+.playList .playList__item .name .tags button + button {
+  margin-left: 5px;
+}
+.playList .playList__item .name .tags button:hover {
+  opacity: 1;
+}
 </style>
