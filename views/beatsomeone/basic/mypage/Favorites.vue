@@ -13,12 +13,14 @@
           <div class="wrap">
             <div class="nfavorites__actions">
               <div class="left">
+                <!-- Fix: checked 상태관리 -->
                 <label for="c2" class="checkbox nfavorites__checkbox">
                   <input type="checkbox" hidden id="c2">
                   <span style="margin-right: 5px;"></span> Select All(5/5)
                 </label>
               </div>
               <div class="right">
+                <!-- Fix: disabled 상태관리 -->
                 <button class="nfavorites__delete" disabled="disabled">
                   <i></i> Delete
                 </button>
