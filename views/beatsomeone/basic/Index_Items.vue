@@ -2,13 +2,24 @@
   <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
     <div class="playList__item playList__item--title">
       <div
-        class="col favorite"
-        :class="{active : item.is_wish === '1' }"
-        @click="toggleWish"
-        v-if="!hideFav"
+          class="col favorite"
+          :class="{active : item.is_wish === '1' }"
+          @click="toggleWish"
+          v-if="!hideFav"
       >
         <button>{{ $t('favorite') }}</button>
       </div>
+
+      <div
+          class="col favorite"
+          v-if="showCheck"
+      >
+        <label for="c1" class="checkbox nfavorites__checkbox">
+          <input type="checkbox" hidden id="c1">
+          <span></span>
+        </label>
+      </div>
+
       <div class="col name">
         <figure>
           <span class="playList__cover">
@@ -21,9 +32,6 @@
           </figcaption>
         </figure>
 
-        <!-- 서브리스트 토글 버튼 -->
-        <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
-
         <div class="tags">
           <div>
             <button style="color:#3873d3;" v-if="item.cit_freebeat === '1'">{{ $t('lang1') }}</button>
@@ -33,6 +41,9 @@
             <button style="color:#fff;" v-if="item.cit_officially_registered === '1'">{{ $t('lang3') }}</button>
           </div>
         </div>
+        <!-- 서브리스트 토글 버튼 -->
+        <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
+
       </div>
 
       <div class="col genre">
@@ -85,7 +96,7 @@ export default {
   components: {
     PurchaseTypeSelector,
   },
-  props: ["item", "hideFav"],
+  props: ["item", "hideFav", "showCheck"],
   data: function () {
     return {
       isOpenSubmenu: false,
