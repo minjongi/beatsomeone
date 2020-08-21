@@ -235,23 +235,23 @@
         methods:{
             async ajaxUserInfo () {
                 try {
-                    this.isLoading = true;
-                    const { data } = await axios.get(
-                        '/beatsomeoneApi/get_user_info', {}
-                    );
-                    //console.log(data);
-                    this.mem_photo = data[0].mem_photo;
-                    this.mem_usertype = data[0].mem_usertype;
-                    this.mem_nickname = data[0].mem_nickname;
-                    this.mem_address1 = data[0].mem_address1;
-                    this.mem_type = data[0].mem_type;
-                    this.mem_lastname = data[0].mem_lastname;
-
-                    if(this.mem_usertype == 1){
-                        this.group_title = "CUSTOMER";
-                    }else{
-                        this.group_title = "SELLER";
-                    }
+                    // this.isLoading = true;
+                    // const {data} = await axios.get(
+                    //     '/beatsomeoneApi/get_user_info', {}
+                    // );
+                    // //console.log(data);
+                    // this.mem_photo = data[0].mem_photo;
+                    // this.mem_usertype = data[0].mem_usertype;
+                    // this.mem_nickname = data[0].mem_nickname;
+                    // this.mem_address1 = data[0].mem_address1;
+                    // this.mem_type = data[0].mem_type;
+                    // this.mem_lastname = data[0].mem_lastname;
+                    //
+                    // if (this.mem_usertype == 1) {
+                    //     this.group_title = "CUSTOMER";
+                    // } else {
+                    //     this.group_title = "SELLER";
+                    // }
                 } catch (err) {
                     console.log('ajaxUserInfo error');
                 } finally {

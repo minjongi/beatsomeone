@@ -94,6 +94,8 @@ class Board_post extends CB_Controller
 		$post = $this->Post_model->get_one($post_id);
 		$post['meta'] = $this->Post_meta_model->get_all_meta($post_id);
 		$post['extravars'] = $this->Post_extra_vars_model->get_all_meta($post_id);
+		$replies = $this->Post_model->get_reply_list($post);
+		$post['replies'] = $replies;
 		$view['view']['post'] = $post;
 
 		$mem_id = (int) $this->member->item('mem_id');
@@ -845,7 +847,7 @@ class Board_post extends CB_Controller
 		if ($print === false) {
 
 			// 이벤트가 존재하면 실행합니다
-			$view['view']['event']['before_post_layout'] = Events::trigger('before_post_layout', $eventname);
+//			$view['view']['event']['before_post_layout'] = Events::trigger('before_post_layout', $eventname);
 
 			$view['view']['short_url'] = $view['view']['canonical'] = post_url(element('brd_key', $board), $post_id);
 
@@ -889,9 +891,9 @@ class Board_post extends CB_Controller
 				'meta_author' => $meta_author,
 				'page_name' => $page_name,
 			);
-			$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
-			$this->data = $view;
-			$this->layout = element('layout_skin_file', element('layout', $view));
+//			$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+//			$this->data = $view;
+//			$this->layout = element('layout_skin_file', element('layout', $view));
 			if ($show_list_from_view) {
 				$list_skin_file = element('use_gallery_list', $board) ? 'gallerylist' : 'list';
 				$listskindir = ($this->cbconfig->get_device_view_type() === 'mobile')
@@ -902,17 +904,17 @@ class Board_post extends CB_Controller
 						? $this->cbconfig->item('mobile_skin_default')
 						: $this->cbconfig->item('skin_default');
 				}
-				$this->view = array(
-					element('view_skin_file', element('layout', $view)),
-					'board/' . $listskindir . '/' . $list_skin_file,
-				);
+//				$this->view = array(
+//					element('view_skin_file', element('layout', $view)),
+//					'board/' . $listskindir . '/' . $list_skin_file,
+//				);
 			} else {
-				$this->view = element('view_skin_file', element('layout', $view));
+//				$this->view = element('view_skin_file', element('layout', $view));
 			}
 		} else {
 
 			// 이벤트가 존재하면 실행합니다
-			$view['view']['event']['before_print_layout'] = Events::trigger('before_print_layout', $eventname);
+//			$view['view']['event']['before_print_layout'] = Events::trigger('before_print_layout', $eventname);
 
 			$layoutconfig = array(
 				'path' => 'helptool',
@@ -924,12 +926,22 @@ class Board_post extends CB_Controller
 				'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_helptool'),
 				'page_title' => $page_title,
 			);
-			$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
-			$this->data = $view;
-			$this->layout = element('layout_skin_file', element('layout', $view));
-			$this->view = element('view_skin_file', element('layout', $view));
+//			$view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+//			$this->data = $view;
+//			$this->layout = element('layout_skin_file', element('layout', $view));
+//			$this->view = element('view_skin_file', element('layout', $view));
 
 		}
+		$result = [
+		    'board' => $board,
+            'board_key' => element('brd_key', $board),
+            'file' => $file,
+            'post' => $post,
+
+        ];
+        $this->output
+            ->set_content_type('text/json')
+            ->set_output(json_encode($result, JSON_UNESCAPED_UNICODE));
 	}
 
 
@@ -1169,6 +1181,7 @@ class Board_post extends CB_Controller
 				$result['list'][$key]['meta'] = $meta
 					= $this->Post_meta_model
 					->get_all_meta(element('post_id', $val));
+                $result['list'][$key]['replies'] = $this->Post_model->get_reply_list($val);
 
 				if ($this->cbconfig->get_device_view_type() === 'mobile') {
 					$result['list'][$key]['title'] = element('mobile_subject_length', $board)

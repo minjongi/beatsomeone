@@ -418,7 +418,10 @@ class Comment_list extends CB_Controller
 		$skin = 'board/' . $skindir . '/comment_list';
 
 		$this->data = $view;
-		$this->view = $skin;
+//		$this->view = $skin;
+		$this->output
+            ->set_content_type('text/json')
+            ->set_output(json_encode($result, JSON_UNESCAPED_UNICODE));;
 	}
 
 

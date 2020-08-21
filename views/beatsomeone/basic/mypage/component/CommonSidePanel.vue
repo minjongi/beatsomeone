@@ -1,7 +1,7 @@
 <template>
     <div class="sublist__filter sticky">
 
-        <CommonProfile :info="userinfo"> </CommonProfile>
+        <CommonProfile :info="userinfo"></CommonProfile>
         <CommonMenu :current="current" :groupType="groupType"></CommonMenu>
     </div>
 </template>
@@ -9,12 +9,12 @@
 
 <script>
 
-    import { EventBus } from '*/src/eventbus';
+    import {EventBus} from '*/src/eventbus';
     import CommonProfile from "./CommonProfile";
     import CommonMenu from "./CommonMenu";
 
     export default {
-        props: ['userinfo','current'],
+        props: ['userinfo', 'current'],
         components: {CommonMenu, CommonProfile},
         data: function () {
             return {

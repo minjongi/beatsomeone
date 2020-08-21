@@ -43,6 +43,7 @@
     import {EventBus} from "*/src/eventbus";
 
     export default {
+        name: 'Mypage',
         components: {
             Dashboard_Header,
             CommonSidePanel,
@@ -53,7 +54,7 @@
             return {
                 isLogin: false,
                 isDisplayTop: true,
-                userInfo: null,
+                userInfo: {},
             };
         },
         watch: {
@@ -76,8 +77,8 @@
             },
             groupType: function () {
                 // return 'CUSTOMER';
-                if (this.userInfo) {
-                    return this.userInfo.mem_usertype === "1" ? "CUSTOMER" : "SELLER";
+                if (this.userInfo && this.userInfo.mem_group) {
+                    return this.userInfo.mem_group.mgr_title === "buyer" ? "CUSTOMER" : "SELLER";
                 } else {
                     return null;
                 }

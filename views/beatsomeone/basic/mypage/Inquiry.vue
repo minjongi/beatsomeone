@@ -34,8 +34,11 @@
                             <div class="date">
                                 {{ inquiry.post_datetime }}
                             </div>
-                            <div class="action active">
+                            <div class="action active" v-if="inquiry.replies.list.length === 0">
                                 Wait...
+                            </div>
+                            <div class="action" v-else>
+                                Answer Complete...
                             </div>
                         </div>
                     </li>

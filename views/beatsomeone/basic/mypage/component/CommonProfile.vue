@@ -10,7 +10,7 @@
             </div>
             <div class="info">
                 <div class="group">
-                    <div class="group_title" :class="groupType">{{$t(groupType)}}</div>
+                    <div class="group_title" v-if="info.mem_group" :class="groupType">{{$t(info.mem_group.mgr_title)}}</div>
                 </div>
                 <div class="username">
                     {{ info.mem_nickname }}
@@ -35,8 +35,6 @@
 
     import { EventBus } from '*/src/eventbus';
     import * as axios from 'axios';
-
-    const BASE_URL = 'http://192.168.0.182';
 
     const AVATAR_SAVING = 1, AVATAR_SUCCESS = 2, AVATAR_FAILED = 3;
 

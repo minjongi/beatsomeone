@@ -890,6 +890,7 @@ class Register extends CB_Controller
                                     }
                                 }
                             } elseif ($pg == 'allat') {
+                                // TODO: Transaction Check
                                 if ($bill_term == 'monthly') {
                                     if ((float)$amount == (float)element('mgr_monthly_cost_w', $gval)) {
                                         $gminsert = array(
