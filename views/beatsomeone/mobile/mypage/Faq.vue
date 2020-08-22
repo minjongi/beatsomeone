@@ -67,7 +67,9 @@
         },
         methods: {
             goPage: function (page) {
-                window.location.href = '/mypage/' + page;
+                this.$router.push({
+                    path: page
+                });
             },
             searchItems: function () {
                 if (this.skeyword.length < 2) {
