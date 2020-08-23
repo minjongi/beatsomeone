@@ -40,7 +40,7 @@ const router = new VueRouter({
         {path: '/profilemod', component: Profilemod},
         {path: '/list_item', component: ProductList},
         {path: '/mybilling', component: Mybilling},
-        {path: '/mybillingView', component: Mybillingview},
+        {path: '/mybilling/:cor_id', component: Mybillingview},
         {path: '/mycancelList', component: Mycancellist},
         {path: '/mycancelView', component: Mycancelview},
         {path: '/saleshistory', component: Saleshistory},

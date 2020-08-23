@@ -1,6 +1,12 @@
 <div class="box">
     <div class="box-table">
         <?php
+        $memUserType = [
+            1 => '일반회원',
+            2 => '판매회원(FREE)',
+            3 => '판매회원(Platinum)',
+            4 => '판매회원(Master)'
+        ];
         echo show_alert_message($this->session->flashdata('message'), '<div class="alert alert-auto-close alert-dismissible alert-info"><button type="button" class="close alertclose" >&times;</button>', '</div>');
         $attributes = array('class' => 'form-inline', 'name' => 'flist', 'id' => 'flist');
         echo form_open(current_full_url(), $attributes);
@@ -56,6 +62,7 @@
                     <th><a href="<?php echo element('mem_register_datetime', element('sort', $view)); ?>">가입일</a></th>
                     <th><a href="<?php echo element('mem_lastlogin_datetime', element('sort', $view)); ?>">최근로그인</a></th>
                     <th>회원그룹</th>
+                    <th>회원그룹(Old)</th>
                     <th><a href="<?php echo element('mem_level', element('sort', $view)); ?>">회원레벨</a></th>
                     <th>메일인증/공개/메일/쪽지/문자</th>
                     <th>승인</th>
@@ -111,6 +118,7 @@
                             <td><?php echo display_datetime(element('mem_register_datetime', $result), 'full'); ?></td>
                             <td><?php echo display_datetime(element('mem_lastlogin_datetime', $result), 'full'); ?></td>
                             <td><?php echo element('member_group', $result); ?></td>
+                            <td><?php echo $memUserType[element('mem_usertype', $result)]; ?></td>
                             <td class="text-right"><?php echo element('mem_level', $result); ?></td>
                             <td>
                                 <?php echo element('mem_email_cert', $result) ? '<i class="fa fa-check-square-o"></i>' : '<i class="fa fa-square-o"></i>';; ?>
