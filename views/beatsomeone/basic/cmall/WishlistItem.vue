@@ -1,50 +1,63 @@
 <template>
-    <li class="playList__itembox">
-        <div class="playList__item">
-            <div class="col check">
-                <label class="checkbox">
-                    <input type="checkbox" hidden="hidden" v-model="item.is_selected" @change="toggleFold"/>
-                    <span></span>
-                </label>
-            </div>
-            <div class="col name">
-                <figure>
-                    <span class="playList__cover">
-                        <img v-if="!item.cit_file_1" :src="'/assets/images/cover_default.png'" alt />
-                        <img v-else :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
-<!--                        <i v-show="checkToday(item.cct_datetime)" class="label new">N</i>-->
-                    </span>
-                    <figcaption class="pointer">
-                        <h3 class="playList__title">{{ formatCitName(item.cit_name) }}</h3>
-                        <span class="playList__by">by {{item.mem_nickname}}</span>
-                    </figcaption>
-                </figure>
-            </div>
-            <div class="col n-option">
-                <div class="option">
-                    <div class="n-box">
-                        <div class="playList__item--button">
-                            <span class="option_fold" @click="toggleFold" ><i class="fal fa-1d5x fa-chevron-circle-down"></i></span>
-                            <div class="price">$ 10.00</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col edit ml-auto">
-                <button class="btn btn--blue round" style="height:40px; padding:0 16px;">
-                    {{$t('buyNow')}}
-                </button>
+    <div class="playList__item playList__item--title">
+        <div class="col check">
+            <label class="checkbox">
+                <input type="checkbox" hidden="hidden"
+                       v-model="item.is_selected" @click="selected" />
+                <span></span>
+            </label>
+        </div>
+        <div class="col name">
+            <figure>
+                                                            <span class="playList__cover"><img
+                                                                    :src="'/uploads/cmallitem/' + item.cit_file_1" alt/><i
+                                                                    class="label new" ng-if="item.isNew">N</i></span>
+                <figcaption class="pointer" @click="selectItem(item)">
+                    <h3 class="playList__title">{{ item.cit_name }}</h3>
+                    <span class="playList__by">by {{ item.mem_nickname }}</span>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="col genre">
+            <!--                                                        <span v-for="(t,i) in hashtag" :key="i"><button @click="clickHash(t)" v-hover="'active'">{{ t }}</button></span>-->
+        </div>
+        <div class="col playbtn" v-if="item.detail.length > 0">
+            <button class="btn-play" @click="playAudio">재생</button>
+            <span class="timer"><span class="current">0:00 / </span><span
+                    class="duration">{{ item.detail[0].duration }}</span></span>
+        </div>
+        <div class="col spectrum">
+            <div class="wave">
+                <VueWaveSurfer ref="surfer" :detail="item.detail[0]" :options="options"></VueWaveSurfer>
             </div>
         </div>
-    </li>
+        <div class="col price">
+            <span>{{ $t('currencySymbol') }} {{ $i18n.locale === 'en' ? item.detail[0].cde_price_d : item.detail[0].cde_price }}</span>
+        </div>
+        <div class="col edit ml-auto">
+            <button class="btn btn--blue round"
+                    style="height:40px; padding:0 16px;">
+                {{$t('buyNow')}}
+            </button>
+        </div>
+    </div>
 </template>
 
 <script>
+    import VueWaveSurfer from '../component/VueWaveSurfer';
     export default {
         name: "WishlistItem",
+        components: {
+            VueWaveSurfer
+        },
         props: [
             "item"
         ],
+        data: function () {
+            return {
+
+            }
+        },
         methods: {
             formatCitName: function (data) {
                 var rst;
@@ -65,10 +78,19 @@
                 }
                 return rst;
             },
-            toggleFold: function (event) {
-                this.$emit('toggleSelected', this.item.is_selected);
+            playAudio: function () {
+                this.$refs.surfer.playPause();
+            },
+            selectItem(i) {
+                window.location.href = `/beatsomeone/detail/${i.cit_key}`;
+            },
+            selected: function (event) {
+                this.$emit('selected', {
+                    item: this.item,
+                    newSelection: !this.item.is_selected,
+                })
             }
-        }
+        },
     }
 </script>
 

@@ -1,31 +1,21 @@
 <template>
     <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
         <div class="playList__item playList__item--title">
-            <div
-                    class="col favorite"
-                    :class="{active : item.is_wish === '1' }"
-                    @click="toggleWish"
-                    v-if="!hideFav"
-            >
+            <div class="col favorite" :class="{active : item.is_wish === '1' }" @click="toggleWish" v-if="!hideFav">
                 <button>{{ $t('favorite') }}</button>
             </div>
 
-      <div
-          class="col favorite"
-          v-if="showCheck"
-      >
-        <label for="c1" class="checkbox nfavorites__checkbox">
-          <input type="checkbox" hidden id="c1">
-          <span></span>
-        </label>
-      </div>
+            <div class="col favorite" v-if="showCheck">
+                <label for="c1" class="checkbox nfavorites__checkbox">
+                    <input type="checkbox" hidden id="c1">
+                    <span></span>
+                </label>
+            </div>
 
             <div class="col name">
                 <figure>
-          <span class="playList__cover">
-            <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
-            <i class="label new" ng-if="item.isNew">N</i>
-          </span>
+                    <span class="playList__cover"><img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/><i
+                            class="label new" ng-if="item.isNew">N</i></span>
                     <figcaption class="pointer" @click="selectItem(item)">
                         <h3 class="playList__title">{{ item.cit_name }}</h3>
                         <span class="playList__by">by {{ item.mem_nickname }}</span>
@@ -42,15 +32,14 @@
                         </button>
                     </div>
                 </div>
-        <!-- 서브리스트 토글 버튼 -->
-        <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
+                <!-- 서브리스트 토글 버튼 -->
+                <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
 
             </div>
 
             <div class="col genre">
-        <span v-for="(t,i) in hashtag" :key="i">
-          <button @click="clickHash(t)" v-hover="'active'">{{ t }}</button>
-        </span>
+                <span v-for="(t,i) in hashtag" :key="i"><button @click="clickHash(t)"
+                                                                v-hover="'active'">{{ t }}</button></span>
             </div>
             <div class="col playbtn">
                 <button
@@ -59,10 +48,7 @@
                         :data-action="'playAction' + item.cit_id "
                 >재생
                 </button>
-                <span class="timer">
-          <span class="current">0:00 /</span>
-          <span class="duration">0:00</span>
-        </span>
+                <span class="timer"><span class="current">0:00 /</span><span class="duration">0:00</span></span>
             </div>
             <div class="col spectrum">
                 <div class="wave"></div>
@@ -76,16 +62,13 @@
             <div class="col more_shared">
                 <button>
                     {{ $t('share') }}
-                    <span class="tooltip">
-            <a @click="clickShare('twitter')">Twitter</a>
-            <a @click="clickShare('facebook')">Facebook</a>
-            <a @click="copyLinkToClipboard()">CopyLink</a>
-          </span>
+                    <span class="tooltip"><a @click="clickShare('twitter')">Twitter</a><a
+                            @click="clickShare('facebook')">Facebook</a><a
+                            @click="copyLinkToClipboard()">CopyLink</a></span>
                 </button>
             </div>
         </div>
-        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup"
-                              :item="item"></PurchaseTypeSelector>
+        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup" :item="item"/>
     </li>
 </template>
 
@@ -100,7 +83,7 @@
         components: {
             PurchaseTypeSelector,
         },
-  props: ["item", "hideFav", "showCheck"],
+        props: ["item", "hideFav", "showCheck"],
         data: function () {
             return {
                 isOpenSubmenu: false,
