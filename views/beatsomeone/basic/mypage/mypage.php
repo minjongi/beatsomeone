@@ -9,5 +9,4 @@ if (!empty(element('cit_id', $view))) {
 ?>
 
 <?php $this->managelayout->add_script('var __t1 = '.json_encode(element('userinfo', $view)).'; '); ?>
-<?php $this->managelayout->add_script('window.currentUser = __t1;'); ?>
 <?php $this->managelayout->add_script('window.vm.$children[0].$data.userInfo = __t1;'); ?>

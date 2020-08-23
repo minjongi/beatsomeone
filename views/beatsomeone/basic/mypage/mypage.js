@@ -6,7 +6,7 @@ import app from './Mypage.vue';
 import VueRouter from 'vue-router';
 import Dashboard from './Dashboard.vue';
 import Profilemod from './Profilemod.vue';
-import List_item from './List_item.vue';
+import ProductList from './ProductList.vue';
 import Mybilling from './Mybilling.vue';
 import Mybillingview from './Mybillingview.vue';
 import Mycancellist from './Mycancellist.vue';
@@ -38,7 +38,7 @@ const router = new VueRouter({
     routes: [
         {path: '/', component: Dashboard},
         {path: '/profilemod', component: Profilemod},
-        {path: '/list_item', component: List_item},
+        {path: '/list_item', component: ProductList},
         {path: '/mybilling', component: Mybilling},
         {path: '/mybillingView', component: Mybillingview},
         {path: '/mycancelList', component: Mycancellist},

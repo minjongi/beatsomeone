@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="display:flex; margin-bottom:30px;">
+        <div class="row count-sort">
             <div class="tabmenu">
                 <div
                         :class="{ 'active': search_tabmenu_idx === 1 }"
@@ -52,7 +52,7 @@
                 >{{$t('pending')}} ({{calcPendingCnt}})
                 </div>
             </div>
-            <div>
+            <div class="sort-keys">
                 <div class="sort">
                     <span>{{ $t('sortBy') }}</span>
                     <div
@@ -228,18 +228,20 @@
                         </div>
                     </div>
                 </div>
-                <VueHotelDatepicker
-                        class="search-date"
-                        format="YYYY-MM-DD"
-                        :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
-                        :startDate="start_date"
-                        :endDate="end_date"
-                        minDate="1970-01-01"
-                        :maxDate="currDate"
-                        :endingDateValue="currDate"
-                        @update="updateSearchDate"
-                        @reset="resetSearchDate"
-                />
+                <div class="sort">
+                    <VueHotelDatepicker
+                            class="search-date"
+                            format="YYYY-MM-DD"
+                            :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
+                            :startDate="start_date"
+                            :endDate="end_date"
+                            minDate="1970-01-01"
+                            :maxDate="currDate"
+                            :endingDateValue="currDate"
+                            @update="updateSearchDate"
+                            @reset="resetSearchDate"
+                    />
+                </div>
             </div>
         </div>
         <div class="row">
@@ -513,6 +515,7 @@
     import ParchaseComponent from "./component/Parchase";
 
     export default {
+        name: 'ProductList',
         components: {
             ParchaseComponent,
 
@@ -1059,7 +1062,7 @@
     };
 </script>
 
-<style scoped="scoped" lang="scss">
+<style lang="scss">
     @import "/assets/plugins/slick/slick.css";
     @import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
 
@@ -1105,6 +1108,53 @@
 
             span {
                 color: rgba(white, 0.3);
+            }
+        }
+    }
+
+    .sublist {
+        .row {
+            &.count-sort {
+                display: flex;
+                margin-bottom: 30px;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sort-keys {
+                display: flex;
+
+                .sort:not(:last-child) {
+                    margin-right: 10px;
+                }
+
+                .vhd-container {
+                    height: 100%;
+                    .vhd-input {
+                        line-height: 14px;
+                        font-size: 14px;
+                        height: 100%;
+                        border: solid 1px #414143;
+                        border-radius: 4px;
+                    }
+
+                    .vhd-picker {
+                        left: unset;
+                        right: 0;
+                        margin-top: 10px;
+                        background-color: #2b2c30;
+                    }
+
+                    .vhd-calendar {
+                        .calendar-month-title {
+                            color: white;
+                        }
+
+                        .calendar-date .week .day .in-date-range span {
+                            color: black;
+                        }
+                    }
+                }
             }
         }
     }

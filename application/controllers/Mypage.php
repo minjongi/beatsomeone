@@ -1280,6 +1280,39 @@ class Mypage extends CB_Controller
         $view = array();
         $view['view'] = array();
 
+        // 사용자 정보 추가
+        $userinfo = $this->Member_model->get_by_memid($mem_id);
+        $userinfo = array(
+            'mem_id' => $userinfo['mem_id'],
+            'mem_userid' => $userinfo['mem_userid'],
+            'mem_username' => $userinfo['mem_username'],
+            'mem_address1' => $userinfo['mem_address1'],
+            'mem_email' => $userinfo['mem_email'],
+            'mem_firstname' => $userinfo['mem_firstname'],
+            'mem_lastname' => $userinfo['mem_lastname'],
+            'mem_type' => $userinfo['mem_type'],
+            'mem_profile_content' => $userinfo['mem_profile_content'],
+            'mem_usertype' => $userinfo['mem_usertype'],
+            'mem_nickname' => $userinfo['mem_nickname'],
+            'mem_photo' => $userinfo['mem_photo'],
+            'mem_is_admin' => $userinfo['mem_is_admin'],
+        );
+        $member_group = $this->member->group();
+        if ($member_group && is_array($member_group)) {
+
+            $this->load->model('Member_group_model');
+
+            foreach ($member_group as $gkey => $gval) {
+                $item = $this->Member_group_model->item(element('mgr_id', $gval));
+                $userinfo['mem_group'] = $item;
+            }
+        }
+        $view['view']['userinfo'] = $userinfo;
+
+        if (strpos($userinfo['mem_group']['mgr_title'], 'buyer') !== false) {
+            redirect("/");
+        }
+
         /*
          * Business
         */
