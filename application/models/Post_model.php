@@ -92,6 +92,7 @@ class Post_model extends CB_Model
 		$this->db->select('post.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_icon, member.mem_photo, member.mem_point');
 		$this->db->from($this->_table);
 		$this->db->join('member', 'post.mem_id = member.mem_id', 'left');
+		$this->db->group_by('post.post_num');
 
 		if ($where) {
 			$this->db->where($where);
@@ -174,6 +175,11 @@ class Post_model extends CB_Model
 
 		return $result;
 	}
+	public function get_reply_list($post)
+    {
+        $reply_len = strlen(element('post_reply', $post)) + 1;
+        return $this->get_post_list('', '', ['post_num' => $post['post_num'], 'SUBSTRING(post_reply, ' . $reply_len . ', 1) <>' => '']);
+    }
 
 
 	public function get_notice_list($brd_id = 0, $except_all_notice = '', $sfield = '', $skeyword = '', $sop = 'OR')

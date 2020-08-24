@@ -4,20 +4,21 @@
     <div class="wrapper">
         <Header :is-login="isLogin"/>
         <div class="container sub">
-<!--            <div class="main mypage dashboard-wrap" style="overflow:initial;">-->
+            <!--            <div class="main mypage dashboard-wrap" style="overflow:initial;">-->
             <div class="mypage " :class="cssWrap">
                 <section class="main__section1" style="background:none;">
-                    <div class="BG" v-if="isDisplayTop" style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
+                    <div class="BG" v-if="isDisplayTop"
+                         style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <Dashboard_Header v-if="isDisplayTop" ></Dashboard_Header>
+                        <Dashboard_Header v-if="isDisplayTop"></Dashboard_Header>
                         <div class="main__media">
 
-                            <div class="sublist" >
+                            <div class="sublist">
                                 <div>
                                     <CommonTopPanel :userinfo="userInfo" :current="'dashboard'"></CommonTopPanel>
                                     <div class="sublist__content">
-                                        <router-view />
+                                        <router-view/>
                                     </div>
                                 </div>
                             </div>
@@ -38,10 +39,11 @@
 
 
     import Dashboard_Header from "./component/Dashboard_Header";
+
     require('@/assets_m/js/function')
     import Header from "../include/Header"
     import Footer from "../include/Footer"
-    import { EventBus } from '*/src/eventbus';
+    import {EventBus} from '*/src/eventbus';
     import CommonTopPanel from "./component/CommonTopPanel";
 
     export default {
@@ -50,7 +52,7 @@
             Dashboard_Header,
             Header, Footer
         },
-        data: function() {
+        data: function () {
             return {
                 isLogin: false,
                 isDisplayTop: true,
@@ -58,10 +60,10 @@
                 cssWrap: null,
             };
         },
-        watch:{
-            $route (to, from){
+        watch: {
+            $route(to, from) {
                 log.debug({
-                    'CHANGE ROUTE':this.$router.currentRoute.path,
+                    'CHANGE ROUTE': this.$router.currentRoute.path,
                 });
                 this.judgeDisplayTop();
             },
@@ -71,14 +73,14 @@
         },
         computed: {
             isCustomer: function () {
-                return this.groupType === 'CUSTOMER';
+                return this.userInfo.mem_group.mgr_title === 'buyer';
             },
             isSeller: function () {
-                return this.groupType === 'SELLER';
+                return this.userInfo.mem_group.mgr_title.includes('seller');
             },
-            groupType: function() {
+            groupType: function () {
                 // return 'CUSTOMER';
-                if(this.userInfo) {
+                if (this.userInfo) {
                     return this.userInfo.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
                 } else {
                     return null;
@@ -86,25 +88,25 @@
             },
 
         },
-        mounted(){
+        mounted() {
             this.judgeDisplayTop();
         },
         created() {
             this.judgeDisplayTop();
-            EventBus.$on('Profilemod_Updated',o => {
+            EventBus.$on('Profilemod_Updated', o => {
                 this.userInfo = o;
             })
         },
-        methods:{
-            judgeDisplayTop: function() {
+        methods: {
+            judgeDisplayTop: function () {
                 this.isDisplayTop = this.$router.currentRoute.path === '/' && this.isCustomer;
 
-                switch(this.$router.currentRoute.path) {
+                switch (this.$router.currentRoute.path) {
                     case '/':
-                        this.cssWrap =  'dashboard-wrap';
+                        this.cssWrap = 'dashboard-wrap';
                         break;
                     case '/profilemod':
-                        this.cssWrap =  'profilemod-wrap';
+                        this.cssWrap = 'profilemod-wrap';
                         break;
                 }
 

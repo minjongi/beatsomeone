@@ -1277,7 +1277,8 @@ class Cmallcfg extends CB_Controller
 				'use_payment_bank', 'use_payment_card', 'use_payment_realtime',
 				'use_payment_vbank', 'use_payment_phone', 'use_payment_easy', 'use_payment_pg', 'pg_kcp_mid',
 				'pg_kcp_key', 'pg_inicis_mid', 'pg_inicis_key', 'pg_inicis_websign', 'pg_lg_mid', 'pg_lg_key',
-				'use_pg_no_interest', 'use_pg_test', 'payment_bank_info'
+				'pg_paypal_live_id', 'pg_paypal_sandbox_id', 'pg_allat_crosskey', 'pg_allat_shop_id',
+				'use_pg_no_interest', 'use_pg_test', 'payment_bank_info',
 			);
 			foreach ($array as $value) {
 				$savedata[$value] = $this->input->post($value, null, '');

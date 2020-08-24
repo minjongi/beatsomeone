@@ -41,6 +41,7 @@ export default {
         findingMusicMsg: '원하는 비트 찾기 & 뮤지션과의 온라인 만남',
         firstName: '이름',
         free: 'FREE',
+        title: '제목',
         freeBeats: '무료 비트',
         generalInfo: '일반 정보',
         getStarted: '시작하기',
@@ -387,6 +388,7 @@ export default {
         notDownloaded: '다운로드 안함',
         recent: '최신순',
         past: '과거순',
+        content: '내용',
         orderNumber: '주문번호',
         date: '구매일시',
         cover: '커버 이미지',
@@ -489,7 +491,9 @@ export default {
         lang42: '구매자 1명에게만 단독 판매 됨 (소유권 양도)',
         lang43: '음악저작권 양도 포함',
         lang44: '비트를 "무료"로 제공하겠습니까?',
-        lang45: '주의사항 : 체크 시 임대·판매 가격은 모두 0원이 됩니다'
+        lang45: '주의사항 : 체크 시 임대·판매 가격은 모두 0원이 됩니다',
+        seller_platinum: '판매자(Platinum)',
+        seller_master: '판매자(Master)',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -561,6 +565,8 @@ export default {
         marketPlacePlan: 'Marketplace Plan',
         chat: 'Message Chat',
         moods: 'Moods',
+        title: 'Title',
+        content: 'Content',
         musicLover: 'Music Lover',
         musicProducer: 'Music Producer',
         musicWorldMsg1: 'NOW IT\'S TIME FOR YOUR BEATS AND',
@@ -805,7 +811,7 @@ export default {
         estimatedSettlementAmount: 'Estimated settlement amount',
         lastMonthSettlementAmount: 'Last month settlement amount',
         chart: 'Chart',
-        togetherWithBeatsomeone: 'Together with beatsomeone!',
+        togetherWithBeatsomeone: 'Together with <span>beatsomeone</span>!',
         makeRelationshipWithPeopleMsg: 'Let’s make a relationship with people you like. Make your profits by beats you made. These can be started in an easy way.',
         startSelling1: 'Start Selling',
         orderDetails: 'Order Details',
@@ -818,8 +824,8 @@ export default {
         unread: 'Unread',
         read: 'Read',
         supportCase: 'Support Case',
-        answerCompleted: 'completed',
-        answerWaiting: 'waiting',
+        answerCompleted: 'Completed',
+        answerWaiting: 'Waiting',
         username: 'Username',
         enterYourNewUsername: 'Enter your new username...',
         change1: 'Change',
@@ -980,6 +986,8 @@ export default {
         lang42: 'Sold exclusively to only one purchaser (transfer of ownership)',
         lang43: 'Copyright Transfer Include',
         lang44: 'Would you like to offer a bit for free?',
-        lang45: 'Notice : If checked, the rental and sales price will be 0'
+        lang45: 'Notice : If checked, the rental and sales price will be 0',
+        seller_platinum: 'Seller(Platinum)',
+        seller_master: 'Seller(Master)',
     } // en
 }

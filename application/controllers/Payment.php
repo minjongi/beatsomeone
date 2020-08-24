@@ -2173,4 +2173,14 @@ class Payment extends CB_Controller
 		echo 'LGD_OID = ' . $LGD_OID;
 		exit;
 	}
+
+	public function paypal_config() {
+	    $config = [
+	        'production' => $this->cbconfig->item('pg_paypal_live_id'),
+            'sandbox' => $this->cbconfig->item('pg_paypal_sandbox_id'),
+            'use_pg_test' => $this->cbconfig->item('use_pg_test')
+        ];
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($config));
+    }
 }

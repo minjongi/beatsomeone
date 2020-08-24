@@ -64,7 +64,7 @@ $config['user_agent_parser'] = 'phpuseragent';  // phpuseragent , browscap 둘 �
 
 
 /**
- * CiBoard 주 : smpt email 을 사용하시는 경우 세팅해주세요
+ * CiBoard 주 : SMTP email 을 사용하시는 경우 세팅해주세요
  */
 $config['email_protocal'] = 'smtp'; // mail/sendmail/smtp
 $config['email_smtp_host'] = 'smtp.daum.net';

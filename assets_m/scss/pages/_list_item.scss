@@ -14,9 +14,11 @@
     background-color: transparent;
     max-width: 295px;
     margin-bottom: 30px;
+
     &::after {
       content: none;
     }
+
     /* Reset PC Style END */
     .sticky {
     }
@@ -28,21 +30,26 @@
 
   .sublist {
     padding-top: 0;
+
     .sort {
       position: relative;
       height: auto;
       margin-bottom: 8px;
+
       .custom-select {
         width: 100%;
         border-radius: 4px;
       }
+
       .selected-option {
         border-radius: 4px;
       }
     }
+
     .row {
       margin-bottom: 16px;
     }
+
     .tab {
       height: 48px;
       display: flex;
@@ -53,6 +60,7 @@
       border-bottom: 1px solid rgba(white, 0.1);
       border-left: none;
       background-color: transparent;
+
       button {
         box-sizing: inherit;
         height: 48px;
@@ -62,9 +70,11 @@
         justify-content: center;
         padding: initial;
         flex: auto;
+
         &.active {
           border: none;
           position: relative;
+
           &::after {
             position: absolute;
             height: 2px;
@@ -74,6 +84,7 @@
             bottom: 0;
           }
         }
+
         .count {
           background-color: #ffda2a;
           font-size: inherit;
@@ -92,10 +103,12 @@
       display: flex;
       padding: 16px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
+
       button + button {
         margin-left: 16px;
       }
     }
+
     .custom-select {
       &.active {
         .select-genre {
@@ -113,10 +126,12 @@
           }
         }
       }
+
       .select-genre {
         position: absolute;
         width: 100%;
         background-color: #2b2c30;
+
         &.popup {
           margin-top: 0;
           transition: all 0.3s ease;
@@ -127,8 +142,10 @@
           pointer-event: none;
         }
       }
+
       .options {
         top: 100%;
+
         .option {
           display: block;
           white-space: nowrap;
@@ -140,6 +157,7 @@
         }
       }
     }
+
     .selected-option + .popup {
       margin-top: 0;
     }
@@ -160,8 +178,10 @@
       margin-bottom: 16px;
       padding-top: 20px;
     }
+
     .profile__footer {
       display: flex;
+
       > * {
         font-size: 12px;
         color: rgba(white, 0.7);
@@ -172,6 +192,7 @@
           margin-right: 4px;
         }
       }
+
       span,
       a {
         color: rgba(white, 0.7);
@@ -181,13 +202,16 @@
         text-overflow: ellipsis;
         overflow: hidden;
       }
+
       .location {
         margin-right: 20px;
+
         img {
           opacity: 0.7;
         }
       }
     }
+
     .portait {
       margin-right: 16px;
       width: 64px;
@@ -196,6 +220,7 @@
       overflow: hidden;
       box-shadow: 0 0 32px rgba(255, 255, 255, 0.5);
     }
+
     .group_title {
       &.SELLER {
         margin-top: 5px;
@@ -207,6 +232,7 @@
         text-align: center;
         background-color: #ff4848;
       }
+
       &.CUSTOMER {
         margin-top: 5px;
         display: inline-block;
@@ -218,6 +244,7 @@
         background-color: #4890FF;
       }
     }
+
     .username {
       font-size: 16px;
       font-weight: 600;
@@ -225,6 +252,7 @@
       line-height: 19px;
       height: 19px;
     }
+
     .bio {
       margin: 0;
       font-size: 12px;
@@ -252,9 +280,11 @@
         visibility: hidden;
       }
     }
+
     display: flex;
     align-items: center;
     white-space: nowrap;
+
     > li {
       padding: 0 12px;
       line-height: 46px;
@@ -264,9 +294,11 @@
       // font-weight: bold;
       font-weight: 600;
       color: rgba(white, 0.7);
+
       &.active {
         color: white;
         position: relative;
+
         &::after {
           content: '';
           height: 3px;
@@ -282,6 +314,7 @@
 
   .productList {
     margin: 0 -16px;
+
     ul {
       > li {
         &:nth-child(3n + 1) {
@@ -290,26 +323,32 @@
             // border: 1px solid green;
           }
         }
+
         &:nth-child(3n + 2) {
           .playList__item {
             background-color: #2b2c30;
             // border: 1px solid red;
           }
         }
+
         &:nth-child(3n + 3) {
           .playList__item {
             background-color: #252629;
             // border: 1px solid yellow;
           }
         }
+
         .playList__item {
           padding: 16px;
           height: auto;
           display: block;
+
           .row {
             display: flex;
+
             .col {
               flex: auto;
+
               &.index {
                 flex: none;
                 width: 48px;
@@ -318,10 +357,12 @@
                 font-weight: bold;
                 font-size: 12px;
               }
+
               &.code {
                 font-size: 12px;
                 color: rgba(white, 0.3);
               }
+
               &.playList__cover {
                 width: 48px;
                 height: 48px;
@@ -330,16 +371,19 @@
                 margin-right: 16px;
                 flex: none;
               }
+
               .playList__title {
                 font-size: 14px;
                 line-height: 16px;
                 margin-bottom: 12px;
               }
+
               &.edit {
                 flex: none;
               }
             }
           }
+
           .btn-edit {
             width: 32px;
             height: 32px;
@@ -348,15 +392,18 @@
             justify-content: center;
             align-items: center;
             background-color: #4890ff;
+
             > img {
               width: 14px;
               height: 14px;
             }
           }
+
           .feature {
             display: flex;
             align-items: center;
             font-size: 12px;
+
             .playbtn {
               button {
                 margin-right: 12px;
@@ -370,30 +417,37 @@
                 background-size: auto 100%;
                 opacity: 0.3;
                 transition: all 0.3s ease;
+
                 &.playing {
                   background-image: url(/assets/images/icon/pause.png);
                 }
+
                 &.paused {
                   background-image: url(/assets/images/icon/play.png);
                 }
               }
             }
+
             .amount {
               margin-left: 18px;
               display: inherit;
               align-items: inherit;
+
               > img {
                 margin-right: 12px;
               }
+
               span {
                 color: #ffda2a;
               }
             }
           }
+
           .genre {
             overflow: hidden;
             max-height: 52px;
             width: 100%;
+
             button {
               font-size: 12px;
               border: 1px solid rgba(white, 0.3);
@@ -407,35 +461,42 @@
         }
       }
     }
+
     .pagination {
       display: flex;
       padding-top: 24px;
       padding-bottom: 24px;
       justify-content: center;
       align-items: center;
+
       button {
         padding: 0 16px;
         color: rgba(white, 0.7);
         font-size: 16px;
       }
+
       .active {
         color: #ffda2a;
       }
     }
+
     .n-box {
-      
+
       .playList__item--button {
         display: flex;
         align-items: center;
         width: 100%;
+
         > div {
           flex: auto;
           text-align: left;
         }
+
         .option_fold {
           margin-right: 16px;
           flex: none;
         }
+
         .price {
           flex: none;
           color: #ffda2a;
@@ -443,33 +504,39 @@
           font-size: 12px;
           line-height: 14px;
         }
+
         .title {
           font-size: 16px;
           font-weight: bold;
           color: white;
         }
+
         p {
           font-size: 14px;
           text-align: left;
           color: rgba(white, 0.3);
         }
       }
+
       .option_fold {
         > img {
           opacity: 0.3;
           transition: 0.3s ease;
         }
       }
+
       .option_item {
         margin-top: 16px;
         visibility: hidden;
         height: 0;
         transition: height 0.3s ease;
+
         > div {
           line-height: 2em;
           font-size: 14px;
           padding-left: 28px;
           position: relative;
+
           .img-box {
             position: absolute;
             left: 0;
@@ -481,19 +548,24 @@
           }
         }
       }
+
       &.active {
         margin-bottom: 24px;
+
         .option_fold {
           > img {
             transform: rotate(180deg);
             opacity: 1;
           }
         }
+
         .option_item {
           visibility: visible;
+
           &.basic {
             height: 168px;
           }
+
           &.unlimited {
             height: 308px;
           }
@@ -506,6 +578,7 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
   }
+
   // 팝업 체크박스 스타일 (pc동일)
   .selected-option + .popup .filter__item {
     margin-bottom: 25px;
@@ -530,6 +603,7 @@
   .mypage .vhd-container {
     display: block;
     width: 100%;
+
     &.search-date {
       line-height: 22px;
       width: 100%;
@@ -538,10 +612,12 @@
       padding-right: 10px;
       border: 1px solid #414143;
     }
+
     .vhd-picker {
       width: 100% !important;
       margin-top: 8px;
     }
+
     .vhd-input {
       color: white;
       border: none;
@@ -550,8 +626,7 @@
       padding: 0 24px 0 0;
       line-height: 40px;
       min-width: inherit;
-      background: url(/assets/images/icon/calendar-white.png) no-repeat right
-        center;
+      background: url(/assets/images/icon/calendar-white.png) no-repeat right center;
     }
   }
 
@@ -560,14 +635,15 @@
     font-size: 14px;
     letter-spacing: 0.01em;
     cursor: pointer;
+
     input {
       &:checked + span {
         border: none;
-        background: url('/assets_m/images/icon/checkbox-on.png') no-repeat
-          center;
+        background: url('/assets_m/images/icon/checkbox-on.png') no-repeat center;
         background-size: 15px 15px;
       }
     }
+
     span {
       width: 15px;
       height: 15px;
@@ -582,9 +658,11 @@
     font-size: 14px;
     letter-spacing: 0.01em;
     cursor: pointer;
+
     input {
       &:checked + span {
         border: 1px solid #ffda2a;
+
         &:after {
           content: '';
           position: absolute;
@@ -598,6 +676,7 @@
         }
       }
     }
+
     span {
       width: 18px;
       height: 18px;
@@ -626,6 +705,7 @@
       margin-right: 10px;
     }
   }
+
   .checkbox {
     span {
       width: 20px;

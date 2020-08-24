@@ -17,7 +17,7 @@
             </div>
             <div class="info">
                 <div class="expire">
-                    <span>{{ timeago(item.expireTm).replace('ago','')}}</span> remaining
+                    <span>{{ timeago(item.expireTm).replace('in','')}}</span> remaining
                 </div>
             </div>
         </div>
@@ -56,7 +56,12 @@
 
 </script>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
+    .playList .playList__item {
+        display: flex;
 
-
+        .info .expire span {
+            color: #f14545;
+        }
+    }
 </style>

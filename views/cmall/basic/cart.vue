@@ -1,16 +1,10 @@
 <template>
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest
-    testtesttest    
+    <div>
+        testtesttest
+        testtesttest
+        testtesttest
+        testtesttest
+        testtesttest
+        testtesttest
+    </div>
 </template>

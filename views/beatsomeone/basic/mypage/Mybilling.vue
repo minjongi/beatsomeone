@@ -32,7 +32,7 @@
                 />
             </div>
         </div>
-        <div class="row" style="display:flex; margin-bottom:30px;">
+        <div class="d-flex align-items-center justify-content-between mb-30">
             <div class="tabmenu">
                 <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}} ({{calcTotalCnt}})</div>
                 <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{$t('wait')}} ({{calcWaitCnt}})</div>
@@ -235,23 +235,23 @@
         methods:{
             async ajaxUserInfo () {
                 try {
-                    this.isLoading = true;
-                    const { data } = await axios.get(
-                        '/beatsomeoneApi/get_user_info', {}
-                    );
-                    //console.log(data);
-                    this.mem_photo = data[0].mem_photo;
-                    this.mem_usertype = data[0].mem_usertype;
-                    this.mem_nickname = data[0].mem_nickname;
-                    this.mem_address1 = data[0].mem_address1;
-                    this.mem_type = data[0].mem_type;
-                    this.mem_lastname = data[0].mem_lastname;
-
-                    if(this.mem_usertype == 1){
-                        this.group_title = "CUSTOMER";
-                    }else{
-                        this.group_title = "SELLER";
-                    }
+                    // this.isLoading = true;
+                    // const {data} = await axios.get(
+                    //     '/beatsomeoneApi/get_user_info', {}
+                    // );
+                    // //console.log(data);
+                    // this.mem_photo = data[0].mem_photo;
+                    // this.mem_usertype = data[0].mem_usertype;
+                    // this.mem_nickname = data[0].mem_nickname;
+                    // this.mem_address1 = data[0].mem_address1;
+                    // this.mem_type = data[0].mem_type;
+                    // this.mem_lastname = data[0].mem_lastname;
+                    //
+                    // if (this.mem_usertype == 1) {
+                    //     this.group_title = "CUSTOMER";
+                    // } else {
+                    //     this.group_title = "SELLER";
+                    // }
                 } catch (err) {
                     console.log('ajaxUserInfo error');
                 } finally {

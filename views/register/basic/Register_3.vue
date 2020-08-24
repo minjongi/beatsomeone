@@ -121,19 +121,19 @@
                         <p class="form-title">{{ $t('userType') }}</p>
                         <div class="accounts__check">
                             <label for="type1" class="radio">
-                                <input type="radio" id="type1" hidden name="TYPE" @click="user.type = 'Music Lover'" />
+                                <input type="radio" id="type1" hidden name="TYPE" v-model="user.type" v-bind:value="'Music Lover'" />
                                 <span></span> {{ $t('musicLover') }}
                             </label>
                             <label for="type2" class="radio">
-                                <input type="radio" id="type2" hidden name="TYPE" @click="user.type = 'Recording Artist'" />
+                                <input type="radio" id="type2" hidden name="TYPE" v-model="user.type" v-bind:value="'Recording Artist'" />
                                 <span></span> {{ $t('recordingArtist') }}
                             </label>
                             <label for="type3" class="radio">
-                                <input type="radio" id="type3" hidden name="TYPE" @click="user.type = 'Music Producer'" />
+                                <input type="radio" id="type3" hidden name="TYPE" v-model="user.type" v-bind:value="'Music Producer'" />
                                 <span></span> {{ $t('musicProducer') }}
                             </label>
                             <label for="type4" class="radio">
-                                <input type="radio" id="type4" hidden name="TYPE" @click="user.type = 'Artist/Producer'" />
+                                <input type="radio" id="type4" hidden name="TYPE" v-model="user.type" v-bind:value="'Artist/Producer'" />
                                 <span></span> {{ $t('artist') }}/{{ $t('producer') }}
                             </label>
                         </div>
@@ -150,7 +150,7 @@
                     </label>
                 </div>
                 <div class="accounts__btnbox border-none">
-                    <button class="btn btn--submit" @click="doNext">
+                    <button class="btn btn--submit" @click="doNext" :disabled="!isCheckTos">
                         {{ $t('next') }}
                     </button>
                 </div>
@@ -168,9 +168,7 @@
 
         data: function() {
             return {
-                user: {
-
-                },
+                user: {},
                 errorValidUserId : null,
                 errorValidEmail : null,
                 isCheckTos: false,

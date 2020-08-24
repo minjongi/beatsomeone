@@ -111,6 +111,23 @@ class Social extends CB_Controller
 			alert_close('이름 정보를 확인할 수 없어 로그인할 수 없습니다');
 		}
 
+        try {
+            // Returns a `Facebook\FacebookResponse` object
+            $response = $fb->get(
+                "/me/picture?redirect=0&height=200&type=normal&width=200",
+                $accessToken->getValue()
+            );
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+
+		$graphNode = $response->getGraphNode();
+		$avatar = $graphNode->getField('url');
+
 		$socialdata = array(
 			'name' => $userinfo->getProperty('name'),
 			'first_name' => $userinfo->getProperty('first_name'),
@@ -119,6 +136,7 @@ class Social extends CB_Controller
 			'link' => $userinfo->getProperty('link'),
 			'gender' => $userinfo->getProperty('gender'),
 			'locale' => $userinfo->getProperty('locale'),
+			'picture' => $avatar,
 			'timezone' => $userinfo->getProperty('timezone'),
 			'update_datetime' => cdate('Y-m-d H:i:s'),
 			'ip_address' => $this->input->ip_address(),
@@ -212,12 +230,10 @@ class Social extends CB_Controller
 					'lang' => $userinfo->lang,
 					'description' => $userinfo->description,
 					'location' => $userinfo->location,
-					'url' => $userinfo->url,
 					'followers_count' => $userinfo->followers_count,
 					'friends_count' => $userinfo->friends_count,
 					'listed_count' => $userinfo->listed_count,
 					'created_at' => $userinfo->created_at,
-					'lang' => $userinfo->lang,
 					'following' => $userinfo->following,
 					'update_datetime' => cdate('Y-m-d H:i:s'),
 					'ip_address' => $this->input->ip_address(),
@@ -802,6 +818,7 @@ class Social extends CB_Controller
 
 				$nickname = '';
 				$user_id = '';
+				$avatar = '';
 				if ($social_type === 'facebook') {
 					$nickname = element('name', $socialinfo);
 					$nickname = preg_replace('/\s+/', '', $nickname);
@@ -811,6 +828,7 @@ class Social extends CB_Controller
 					} else {
 						$user_id = '-social_' . $social_id;
 					}
+                    $avatar = element('picture', $socialinfo);
 				} elseif ($social_type === 'twitter') {
 					$nickname = element('name', $socialinfo);
 					$nickname = preg_replace('/\s+/', '', $nickname);
@@ -823,6 +841,7 @@ class Social extends CB_Controller
 				} elseif ($social_type === 'google') {
 					$nickname = element('name', $socialinfo);
 					$nickname = preg_replace('/\s+/', '', $nickname);
+					$avatar = element('picture', $socialinfo);
 
 					if (element('email', $socialinfo)) {
 						$user_id = '-social_' . strtolower(substr(element('email', $socialinfo), 0, strpos(element('email', $socialinfo), '@')));
@@ -841,6 +860,7 @@ class Social extends CB_Controller
 				} elseif ($social_type === 'kakao') {
 					$nickname = element('nickname', $socialinfo);
 					$nickname = preg_replace('/\s+/', '', $nickname);
+                    $avatar = element('profile_image', $socialinfo);
 
 					$user_id = '-social_' . $social_id;
 				}
@@ -911,6 +931,7 @@ class Social extends CB_Controller
 				$insertdata['mem_userid'] = $user_id;
 				$insertdata['mem_nickname'] = $nickname;
 				$insertdata['mem_level'] = $mem_level;
+				$insertdata['mem_photo'] = $avatar;
 
 				$insertdata['mem_register_datetime'] = cdate('Y-m-d H:i:s');
 				$insertdata['mem_register_ip'] = $this->input->ip_address();

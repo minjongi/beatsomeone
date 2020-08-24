@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="accounts__btnbox">
-                    <button type="submit" class="btn btn--submit" @click="doNext">
+                    <button type="button" class="btn btn--submit" @click="doNext">
                         {{ $t('signup') }}
                     </button>
                 </div>
@@ -81,7 +81,7 @@
 
                 return true;
             },
-            doNext(type) {
+            doNext() {
                 if(this.doValidation()) {
                     /*
                     if(!this.isMusician || this.$parent.info.plan === 'free') {
@@ -90,10 +90,8 @@
                         EventBus.$emit('submit_join_form',this.user);
                         this.$router.push({path: '/6'});
                     }*/
-                    EventBus.$emit('finish_join_form',this.user);
+                    EventBus.$emit('submit_join_form',this.user);
 
-                }else{
-                    type.preventDefault();
                 }
             },
         },

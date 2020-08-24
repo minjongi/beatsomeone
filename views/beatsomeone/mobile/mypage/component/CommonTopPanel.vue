@@ -22,7 +22,7 @@
         },
         computed: {
             groupType() {
-                return this.userinfo ? (this.userinfo.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER') : null;
+                return this.userinfo ? (this.userinfo.mem_group.mgr_title === 'buyer' ? 'CUSTOMER' : 'SELLER') : null;
             },
         },
         created() {

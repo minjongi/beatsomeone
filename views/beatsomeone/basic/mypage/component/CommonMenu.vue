@@ -10,10 +10,10 @@
             <li :class="{'active':current === 'message'}" @click="goRoute('message')">{{$t('chat')}}</li>
             <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-if="false" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
             <li :class="{'active':current === 'sellerreg'}" @click="goRoute('sellerreg')" v-if="false" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
-            <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')" v-if="false">{{$t('support1')}}
+            <li :class="{'active':(current === 'inquiry' || current === 'faq')}" @click="openSubmenu($event)">{{$t('support1')}}
                 <ul class="menu">
-                    <li @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
-                    <li @click="goRoute('faq')">FAQ</li>
+                    <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
+                    <li :class="{'active':current === 'faq'}" @click="goRoute('faq')">FAQ</li>
                 </ul>
             </li>
         </ul>
@@ -41,7 +41,7 @@
                 window.location.href = '/mypage/' + page
             },
             goRoute: function (page) {
-                this.current = page
+                this.current = page;
 
                 let p = null;
                 switch (page) {
@@ -67,6 +67,13 @@
                 }
                 return p
             },
+            openSubmenu($event) {
+                let element = $event.currentTarget;
+                let path = this.parseRoute(this.$router.currentRoute.path);
+                if (path !== 'inquiry' && path !== 'faq') {
+                    this.goRoute('inquiry');
+                }
+            }
         },
     }
 </script>

@@ -18,7 +18,8 @@ module.exports = {
             regist_item: ['./views/beatsomeone/basic/mypage/regist_item.js'],
             mypage: ['./views/beatsomeone/basic/mypage/mypage.js'],
             sellerreg: ['./views/beatsomeone/basic/mypage/sellerreg.js'],
-            video: ['./views/beatsomeone/basic/mypage/video.js'],
+            // video: ['./views/beatsomeone/basic/mypage/video.js'],
+            video: ['./views/beatsomeone/basic/video.js'],
             cart: ['./views/beatsomeone/basic/cart/cart.js'],
             billing: ['./views/beatsomeone/basic/cart/billing.js'],
             complete: ['./views/beatsomeone/basic/cart/complete.js'],
@@ -26,6 +27,7 @@ module.exports = {
             register: ['./views/register/basic/register.js'],
             findaccount: ['./views/findaccount/basic/findaccount.js'],
             smtm9: ['./views/beatsomeone/basic/smtm9/smtm9.js'],
+            wishlist: ['./views/beatsomeone/basic/cmall/wishlist.js'],
             favorites: ['./views/beatsomeone/basic/mypage/favorites.js'],
 
             m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
