@@ -1,8 +1,5 @@
 <template>
     <div class="wrapper">
-        <div class="smtm9-top">
-            <a href="/smtm9"><img src="/assets/images/event/smtm9/top.jpg"></a>
-        </div>
         <div class="mypage-wrapper">
             <Header :is-login="isLogin"/>
             <div class="main mypage" style="overflow:initial;">
