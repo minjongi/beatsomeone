@@ -460,7 +460,7 @@
             width: calc(100% - 160px);
 
             figcaption {
-                width: calc(100% - 85px);
+                /*width: calc(100% - 85px);*/
             }
         }
 

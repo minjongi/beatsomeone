@@ -62,7 +62,7 @@
                     <th><a href="<?php echo element('mem_register_datetime', element('sort', $view)); ?>">가입일</a></th>
                     <th><a href="<?php echo element('mem_lastlogin_datetime', element('sort', $view)); ?>">최근로그인</a></th>
                     <th>회원그룹</th>
-                    <th>회원그룹(Old)</th>
+<!--                    <th>회원그룹(Old)</th>-->
                     <th><a href="<?php echo element('mem_level', element('sort', $view)); ?>">회원레벨</a></th>
                     <th>메일인증/공개/메일/쪽지/문자</th>
                     <th>승인</th>
@@ -118,7 +118,7 @@
                             <td><?php echo display_datetime(element('mem_register_datetime', $result), 'full'); ?></td>
                             <td><?php echo display_datetime(element('mem_lastlogin_datetime', $result), 'full'); ?></td>
                             <td><?php echo element('member_group', $result); ?></td>
-                            <td><?php echo $memUserType[element('mem_usertype', $result)]; ?></td>
+<!--                            <td>--><?php //echo $memUserType[element('mem_usertype', $result)]; ?><!--</td>-->
                             <td class="text-right"><?php echo element('mem_level', $result); ?></td>
                             <td>
                                 <?php echo element('mem_email_cert', $result) ? '<i class="fa fa-check-square-o"></i>' : '<i class="fa fa-square-o"></i>';; ?>
