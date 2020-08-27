@@ -34,7 +34,7 @@
         background-size: cover;
 
         .sub-title {
-            opacity: 0.3;
+            opacity: 0.7;
         }
     }
 </style>

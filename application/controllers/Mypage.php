@@ -3048,4 +3048,75 @@ class Mypage extends CB_Controller
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($userinfo));
     }
+
+    public function upgrade()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_upgrade';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $view = array();
+        $view['view'] = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        $view['view']['member_group_name'] = '';
+        $member_group = $this->member->group();
+        if ($member_group && is_array($member_group)) {
+
+            $this->load->model('Member_group_model');
+
+            foreach ($member_group as $gkey => $gval) {
+                $item = $this->Member_group_model->item(element('mgr_id', $gval));
+                if ($view['view']['member_group_name']) {
+                    $view['view']['member_group_name'] .= ', ';
+                }
+                $view['view']['member_group_name'] .= element('mgr_title', $item);
+            }
+        }
+
+        if ($view['view']['member_group_name'] != 'buyer') {
+            redirect("/mypage");
+        }
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = $this->cbconfig->item('site_meta_title_mypage');
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage');
+        $page_name = $this->cbconfig->item('site_page_name_mypage');
+
+        $layoutconfig = array(
+            'path' => 'mypage',
+            'layout' => 'layout_new',
+            'skin' => 'upgrade',
+            'layout_dir' => $this->cbconfig->item('layout_mypage'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_mypage'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_mypage'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_mypage'),
+            'skin_dir' => $this->cbconfig->item('skin_mypage'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_mypage'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
 }

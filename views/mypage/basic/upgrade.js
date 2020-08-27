@@ -1,15 +1,17 @@
 import Vue from "vue";
 import "bootstrap";
 import i18n from '*/src/i18n/i18n';
-import app from "./App.vue";
+import app from "./Upgrade.vue";
 import VueRouter from "vue-router";
 
-import Dashboard from "./pages/Dashboard";
+import SelectGroup from "./pages/SelectGroup.vue";
+import PayGroup from "./pages/PayGroup.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
-    {path: '/', component: Dashboard},
+    {path: '/', component: SelectGroup},
+    {path: '/pay', component: PayGroup},
 ];
 
 const router = new VueRouter({

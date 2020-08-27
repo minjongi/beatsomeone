@@ -1,19 +1,16 @@
 import Vue from "vue";
-import "bootstrap";
-import i18n from '*/src/i18n/i18n';
-import app from "./Main.vue";
 import VueRouter from "vue-router";
 
+import i18n from '*/src/i18n/i18n';
+import app from "./App.vue";
 import Dashboard from "./pages/Dashboard";
 
 Vue.use(VueRouter);
 
-const routes = [
-    {path: '/', component: Dashboard},
-];
-
 const router = new VueRouter({
-    routes: routes
+    routes: [
+        {path: '/', component: Dashboard},
+    ],
 });
 
 window.vm = new Vue({

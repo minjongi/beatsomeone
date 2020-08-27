@@ -2,7 +2,7 @@
     <div class="position-relative">
         <Header />
         <Banner v-if="member_group_name === 'buyer'" />
-        <div class="container pb-5" :class="member_group_name === 'buyer' ? 'mt--5' : ''">
+        <div class="container pb-5" :class="member_group_name === 'buyer' ? 'mt--5' : 'pt-85'">
             <div class="row">
                 <div class="col-3">
                     <Sidebar />
@@ -23,7 +23,6 @@
     import Sidebar from "./component/Sidebar.vue";
     import Music from "./component/Music";
     export default {
-        name: "App",
         components: {
             Music,
             Sidebar,
@@ -80,5 +79,9 @@
 
     .mt--5 {
         margin-top: -5rem;
+    }
+
+    .pt-85 {
+        padding-top: 85px;
     }
 </style>
