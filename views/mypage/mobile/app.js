@@ -1,14 +1,13 @@
 import Vue from "vue";
+import VueRouter from "vue-router";
 
 import i18n from '*/src/i18n/i18n';
-import app from "./Mypage.vue";
-import VueRouter from "vue-router";
-import Dashboard from "./Dashboard";
+import app from "./App.vue";
+import Dashboard from "./pages/Dashboard";
+
+Vue.use(VueRouter);
 
 const router = new VueRouter({
-    scrollBehavior() {
-        return {x: 0, y: 0};
-    },
     routes: [
         {path: '/', component: Dashboard},
         // {path: '/profilemod', component: Profilemod},

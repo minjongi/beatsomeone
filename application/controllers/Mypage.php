@@ -239,7 +239,7 @@ class Mypage extends CB_Controller
         /**
          * 레이아웃을 정의합니다
          */
-        $page_title = $mem_userid . $this->cbconfig->item('site_meta_title_mypage');
+        $page_title = $this->cbconfig->item('site_meta_title_mypage');
         $meta_description = $this->cbconfig->item('site_meta_description_mypage');
         $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage');
         $meta_author = $this->cbconfig->item('site_meta_author_mypage');

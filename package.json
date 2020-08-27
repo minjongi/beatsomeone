@@ -25,6 +25,7 @@
     "navigator": "^1.0.1",
     "paypal-checkout": "^4.0.315",
     "popper.js": "^1.16.1",
+    "swiper": "^6.1.2",
     "timeago.js": "^4.0.2",
     "v-click-outside": "^3.0.1",
     "vee-validate": "^3.2.5",

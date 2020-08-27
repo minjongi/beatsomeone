@@ -1,34 +1,20 @@
 <template>
     <header class="header" :class="scrolled">
-        <nav class="navbar navbar-expand-lg navbar-dark mx-5">
+        <nav class="navbar navbar-expand navbar-dark">
             <a href="/" class="navbar-brand">
                 <img src="/assets/images/logo.png" alt=""/>
             </a>
             <div class="navbar-collapse collapse">
-                <div class="header-search ml-auto">
-                    <div>
-                        <input type="text" v-model="searchText" @keyup.enter="search"/>
-                        <button @click="search"></button>
-                    </div>
-                </div>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/mypage/favorites">{{ $t('favorite') }}</a>
+                        <a class="btn btn-sm btn-icon" href="javascript:;">
+                            <i class="fa fa-search"></i>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/mypage">{{ $t('mypage') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login/logout" v-if="is_member">{{ $t('logout') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/cmall/cart" class="nav-link"><span class="fal fa-shopping-cart mr-1"></span>({{ $t('currencySymbol') + cartSum }})</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                        <a class="btn btn-sm btn-icon" href="javascript:;">
+                            <i class="fa fa-bars"></i>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -156,6 +142,10 @@
 
         .navbar {
             font-size: 13px;
+        }
+
+        .btn.btn-icon {
+            color: white;
         }
     }
 </style>

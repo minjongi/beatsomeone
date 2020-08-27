@@ -51,7 +51,7 @@
                     <router-link to="/seller" class="nav-link">{{$t('settlementHistory')}}</router-link>
                 </li>
                 <li class="nav-item" v-if="member_group_name === 'buyer'">
-                    <router-link to="/sellerreg" class="nav-link">{{$t('sellerRegister')}}</router-link>
+                    <a href="/mypage/upgrade" class="nav-link">{{$t('sellerRegister')}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" :class="($route.path === '/inquiry' || $route.path === '/faq') ? 'router-link-exact-active' : ''" href="javascript:;" data-toggle="collapse" data-target="#support">{{$t('support1')}}</a>

@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="position-relative">
         <Header />
         <Banner v-if="member_group_name === 'buyer'" />
-        <div class="container" :class="member_group_name === 'buyer' ? 'mt--5' : ''">
+        <div class="container pb-5" :class="member_group_name === 'buyer' ? 'mt--5' : ''">
             <div class="row">
                 <div class="col-3">
                     <Sidebar />
@@ -12,6 +12,7 @@
                 </div>
             </div>
         </div>
+        <Music />
     </div>
 </template>
 
@@ -20,9 +21,11 @@
     import Footer from "./component/Footer.vue";
     import Banner from "./component/Banner.vue";
     import Sidebar from "./component/Sidebar.vue";
+    import Music from "./component/Music";
     export default {
-        name: "Mypage",
+        name: "App",
         components: {
+            Music,
             Sidebar,
             Footer,
             Header,
@@ -43,8 +46,10 @@
     $theme-colors: (
             "primary": #4890ff,
             "danger": #ff4848,
+            "success": #2dad8e,
     );
     @import "~bootstrap/scss/bootstrap";
+    @import "~swiper/swiper";
 
     html, body {
         min-width: 1420px;
@@ -53,7 +58,7 @@
         color: #fff;
     }
 
-    .title {
+    .section-title {
         span {
             color: #ffda2a;
             text-decoration: underline;

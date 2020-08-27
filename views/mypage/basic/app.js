@@ -1,10 +1,10 @@
 import Vue from "vue";
 import "bootstrap";
 import i18n from '*/src/i18n/i18n';
-import app from "./Mypage.vue";
+import app from "./App.vue";
 import VueRouter from "vue-router";
 
-import Dashboard from "./Dashboard";
+import Dashboard from "./pages/Dashboard";
 
 Vue.use(VueRouter);
 
