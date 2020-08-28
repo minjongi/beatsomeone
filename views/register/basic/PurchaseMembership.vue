@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="row" style="display:none;" id="okpromo">
-                            <label for="">
+                            <label>
                                 <p class="form-title">
                                     {{ $t('promoCode') }}
                                 </p>

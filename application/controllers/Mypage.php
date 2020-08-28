@@ -3119,4 +3119,104 @@ class Mypage extends CB_Controller
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
     }
+
+    public function post_upgrade()
+    {
+        required_user_login();
+
+        $this->output->set_content_type('text/json');
+
+        $mgr_id = $this->input->post('mgr_id');
+        $this->load->model(array('Member_group_model', 'Member_group_member_model', 'Beatsomeone_model'));
+        $member_group = $this->Member_group_model->item($mgr_id);
+        $mem_id = $this->member->item('mem_id');
+        if ($member_group['mgr_title'] === 'seller_free') {
+            $current_group = $this->Member_group_member_model->get('', '', ['mem_id' => $mem_id]);
+            foreach ($current_group as $key => $val) {
+                $this->Member_group_member_model->delete($val['mgm_id']);
+            }
+            $mgm_id = $this->Member_group_member_model->insert([
+                'mgr_id' => $mgr_id,
+                'mem_id' => $mem_id,
+                'mgm_datetime' => cdate('Y-m-d H:i:s'),
+            ]);
+            if ($mgm_id === 0) {
+                $this->output->set_status_header(400);
+            }
+            $this->output->set_output(json_encode([
+                'message' => 'Success',
+            ]));
+        }
+        if ($member_group['mgr_title'] == 'seller_platinum' || $member_group['mgr_title'] == 'seller_master') {
+            $pg = $this->input->post('pg');
+            $amount = $this->input->post('amount');
+            $bill_term = $this->input->post('bill_term');
+            if ($pg == 'paypal') {
+                if ($bill_term == 'monthly') {
+                    if ((float)$amount == (float)element('mgr_monthly_cost_d', $member_group)) {
+                        $current_group = $this->Member_group_member_model->get('', '', ['mem_id' => $mem_id]);
+                        foreach ($current_group as $key => $val) {
+                            $this->Member_group_member_model->delete($val['mgm_id']);
+                        }
+                        $gminsert = array(
+                            'mgr_id' => $this->input->post('mgr_id'),
+                            'mem_id' => $mem_id,
+                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                        );
+                        $this->Member_group_member_model->insert($gminsert);
+
+                        $termDays = '30';
+                        $startDate = date('Y-m-d');
+                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                        $params = [
+                            'mem_id' => $mem_id,
+                            'bill_term' => $bill_term,
+                            'plan_name' => $member_group['mgr_title'],
+                            'start_date' => $startDate,
+                            'end_date' => $endDate,
+                            'pay_method' => $pg,
+                            'amount' => $amount
+                        ];
+                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                    } else {
+                        $this->output->set_status_header(400);
+                    }
+                } else {
+                    if ((float)$amount == (float)element('mgr_year_cost_d', $member_group)) {
+                        $current_group = $this->Member_group_member_model->get('', '', ['mem_id' => $mem_id]);
+                        foreach ($current_group as $key => $val) {
+                            $this->Member_group_member_model->delete($val['mgm_id']);
+                        }
+                        $gminsert = array(
+                            'mgr_id' => $this->input->post('mgr_id'),
+                            'mem_id' => $mem_id,
+                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                        );
+                        $this->Member_group_member_model->insert($gminsert);
+
+                        $termDays = '365';
+                        $startDate = date('Y-m-d');
+                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                        $params = [
+                            'mem_id' => $mem_id,
+                            'bill_term' => $bill_term,
+                            'plan_name' => $member_group['mgr_title'],
+                            'start_date' => $startDate,
+                            'end_date' => $endDate,
+                            'pay_method' => $pg,
+                            'amount' => $amount
+                        ];
+                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                    } else {
+                        $this->output->set_status_header(400);
+                    }
+                }
+                $this->output->set_output(json_encode([
+                    'message' => 'Success',
+                ]));
+            }
+        }
+    }
 }

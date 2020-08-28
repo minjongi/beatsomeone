@@ -492,6 +492,7 @@ export default {
         lang43: '음악저작권 양도 포함',
         lang44: '비트를 "무료"로 제공하겠습니까?',
         lang45: '주의사항 : 체크 시 임대·판매 가격은 모두 0원이 됩니다',
+        seller_free: '판매자(Free)',
         seller_platinum: '판매자(Platinum)',
         seller_master: '판매자(Master)',
     }, // ko
@@ -987,6 +988,7 @@ export default {
         lang43: 'Copyright Transfer Include',
         lang44: 'Would you like to offer a bit for free?',
         lang45: 'Notice : If checked, the rental and sales price will be 0',
+        seller_free: 'Seller(Free)',
         seller_platinum: 'Seller(Platinum)',
         seller_master: 'Seller(Master)',
     } // en

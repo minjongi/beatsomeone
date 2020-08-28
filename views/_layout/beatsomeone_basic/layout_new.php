@@ -47,6 +47,10 @@
         var cb_csrf_hash = "<?php echo $this->security->get_csrf_hash(); ?>";
         var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
     </script>
+    <script charset="euc-kr" src="https://tx.allatpay.com/common/NonAllatPayRE.js"></script>
+    <script>
+        window.allat_shop_receive_url = '<?= site_url('pg/allat/proc') ?>';
+    </script>
     <!--[if lt IE 9]>
 <script type="text/javascript" src="<?php echo base_url('assets/js/html5shiv.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/respond.min.js'); ?>"></script>

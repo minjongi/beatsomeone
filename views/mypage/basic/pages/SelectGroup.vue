@@ -116,15 +116,15 @@
                     <tr>
                         <td></td>
                         <td>
-                            <a href="#" class="btn btn-primary" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
+                            <button class="btn btn-primary" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</button>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-primary" @click="doNext(sellerPlatinumGroup)">{{ $t('getStarted')
-                                }}</a>
+                            <button class="btn btn-primary" @click="doNext(sellerPlatinumGroup)">{{ $t('getStarted')
+                                }}</button>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-primary" @click="doNext(sellerMasterGroup)">{{ $t('getStarted')
-                                }}</a>
+                            <button class="btn btn-primary" @click="doNext(sellerMasterGroup)">{{ $t('getStarted')
+                                }}</button>
                         </td>
                     </tr>
                     <!--                    </tfoot>-->
@@ -200,9 +200,24 @@
         },
         methods: {
             doNext(group) {
-                this.selectedGroup = group;
-                localStorage.setItem('bs_group_info', JSON.stringify(this.selectedGroup));
-                this.$router.push({path: '/pay'});
+                if (group.mgr_title === 'seller_free') {
+                    let formData = new FormData();
+                    formData.append('mgr_id', group.mgr_id);
+                    axios.post('/mypage/post_upgrade', formData)
+                        .then(res => res.data)
+                        .then(data => {
+                            alert(data.message);
+                            window.location.href = '/mypage';
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+                } else {
+                    this.selectedGroup = group;
+                    this.$set(this.selectedGroup, 'billTerm', this.billTerm);
+                    localStorage.setItem('bs_group_info', JSON.stringify(this.selectedGroup));
+                    this.$router.push({path: '/pay'});
+                }
             },
             fetchData() {
                 axios.get('/membergroup')
