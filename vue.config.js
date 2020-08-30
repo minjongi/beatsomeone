@@ -37,7 +37,7 @@ module.exports = {
             m_sublist: ['./views/beatsomeone/mobile/sublist.js'],
             m_regist_item: ['./views/beatsomeone/mobile/mypage/regist_item.js'],
             m_mypage: ['./views/beatsomeone/mobile/mypage/mypage.js'],
-            m_mypage_new: ['./views/mypage/mobile/app.js'],
+            m_mypage_new: ['./views/mypage/mobile/main.js'],
             m_cart: ['./views/beatsomeone/mobile/cart/cart.js'],
             m_billing: ['./views/beatsomeone/mobile/cart/billing.js'],
             m_complete: ['./views/beatsomeone/mobile/cart/complete.js'],

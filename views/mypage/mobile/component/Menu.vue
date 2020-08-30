@@ -4,7 +4,7 @@
             <router-link to="/" class="nav-link">{{$t('dashboard')}}</router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/profilemod" class="nav-link">{{$t('manageInformation')}}</router-link>
+            <router-link to="/membermodify" class="nav-link">{{$t('manageInformation')}}</router-link>
         </li>
         <li class="nav-item" v-if="member_group_name.includes('seller')">
             <router-link to="/list_item" class="nav-link">{{$t('productList')}}</router-link>

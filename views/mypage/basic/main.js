@@ -5,11 +5,16 @@ import app from "./Main.vue";
 import VueRouter from "vue-router";
 
 import Dashboard from "./pages/Dashboard";
+import MemberModify from "./pages/MemberModify";
 
 Vue.use(VueRouter);
 
 const routes = [
     {path: '/', component: Dashboard},
+    {
+        path: '/membermodify',
+        component: MemberModify
+    }
 ];
 
 const router = new VueRouter({

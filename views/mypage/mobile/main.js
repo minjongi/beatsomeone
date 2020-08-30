@@ -2,14 +2,19 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import i18n from '*/src/i18n/i18n';
-import app from "./App.vue";
+import app from "./Main.vue";
 import Dashboard from "./pages/Dashboard";
+import MemberModify from "./pages/MemberModify";
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
     routes: [
         {path: '/', component: Dashboard},
+        {
+            path: '/membermodify',
+            component: MemberModify
+        }
         // {path: '/profilemod', component: Profilemod},
         // {path: '/list_item', component: ProductList},
         // {path: '/mybilling', component: Mybilling},

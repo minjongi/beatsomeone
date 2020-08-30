@@ -2,7 +2,7 @@
     <div>
         <Header />
         <Banner v-if="member_group_name === 'buyer'" />
-        <div class="container-fluid" :class="member_group_name === 'buyer' ? 'mt--5' : ''">
+        <div class="container-fluid" :class="member_group_name === 'buyer' ? 'mt--5' : 'pt-85'">
             <Profile />
         </div>
         <Menu />
@@ -23,7 +23,6 @@
     import Menu from "./component/Menu";
 
     export default {
-        name: "App",
         components: {
             Header,
             Banner,
@@ -54,6 +53,7 @@
         background: #000000;
         color: #fff;
         font-size: 14px;
+        min-height: 100%;
     }
 
     .section-title {
@@ -78,5 +78,18 @@
 
     .mt--5 {
         margin-top: -5rem;
+    }
+
+    .pt-85 {
+        padding-top: 85px !important;
+    }
+
+    .btn-default {
+        background-color: #404040;
+        color: #fff;
+
+        &:hover {
+            color: #b1b1b1;
+        }
     }
 </style>

@@ -127,7 +127,7 @@
     import axios from 'axios';
 
     export default {
-        name: "PurchaseMembership",
+        name: "PayGroup",
         components: {
             PayPal
         },

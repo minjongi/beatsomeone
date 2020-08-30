@@ -315,7 +315,7 @@ export default {
         estimatedSettlementAmount: '예상 정산금액',
         lastMonthSettlementAmount: '전월 정산금액',
         chart: '그래프',
-        togetherWithBeatsomeone: '비트썸원과 함께 하세요!',
+        togetherWithBeatsomeone: '<span>비트썸원</span>과 함께 하세요!',
         makeRelationshipWithPeopleMsg: '비트를 좋아하는 사람들과 관계를 형성하고<br/> 직접 만든 비트로 수익을 창출해보세요.',
         startSelling1: '판매자 등록',
         orderDetails: '구매내역',

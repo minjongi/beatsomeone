@@ -7,10 +7,10 @@
 
 <script>
     import Header from "./component/Header";
-
     export default {
+        name: "Upgrade",
         components: {
-            Header
+            Header,
         }
     }
 </script>
@@ -24,10 +24,10 @@
     @import "~bootstrap/scss/bootstrap";
 
     html, body {
-        min-width: 1420px;
         font-family: "Raleway", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Noto Sans KR";
         background: #000000;
         color: #fff;
+        font-size: 14px;
+        min-height: 100vh;
     }
-
 </style>

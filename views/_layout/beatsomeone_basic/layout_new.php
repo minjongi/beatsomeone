@@ -46,6 +46,11 @@
         var cb_device_type = "<?php echo $this->cbconfig->get_device_type() === 'mobile' ? 'mobile' : 'desktop' ?>";
         var cb_csrf_hash = "<?php echo $this->security->get_csrf_hash(); ?>";
         var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
+        var use_sociallogin_facebook = +"<?php echo $this->cbconfig->item('use_sociallogin_facebook'); ?>";
+        var use_sociallogin_google = +"<?php echo $this->cbconfig->item('use_sociallogin_google'); ?>";
+        var use_sociallogin_twitter = +"<?php echo $this->cbconfig->item('use_sociallogin_twitter'); ?>";
+        var use_sociallogin_naver = +"<?php echo $this->cbconfig->item('use_sociallogin_naver'); ?>";
+        var use_sociallogin_kakao = +"<?php echo $this->cbconfig->item('use_sociallogin_kakao'); ?>";
     </script>
     <script charset="euc-kr" src="https://tx.allatpay.com/common/NonAllatPayRE.js"></script>
     <script>
