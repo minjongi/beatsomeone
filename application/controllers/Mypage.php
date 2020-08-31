@@ -246,9 +246,10 @@ class Mypage extends CB_Controller
         $page_name = $this->cbconfig->item('site_page_name_mypage');
 
         $layoutconfig = array(
-            'path' => 'mypage',
-            'layout' => 'layout_new',
-            'skin' => 'main',
+            'path' => 'beatsomeone',
+            'layout' => 'layout',
+//            'skin' => 'main',
+            'skin' => 'mypage/mypage',
             'layout_dir' => $this->cbconfig->item('layout_mypage'),
             'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_mypage'),
             'use_sidebar' => $this->cbconfig->item('sidebar_mypage'),
