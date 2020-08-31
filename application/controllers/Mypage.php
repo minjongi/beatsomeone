@@ -42,17 +42,170 @@ class Mypage extends CB_Controller
      */
     public function index($cit_id = '')
     {
+//        // 이벤트 라이브러리를 로딩합니다
+//        $eventname = 'event_mypage_index';
+//        $this->load->event($eventname);
+//        $this->load->helper(array('cmall'));
+//
+//        /**
+//         * 로그인이 필요한 페이지입니다
+//         */
+//        required_user_login();
+//
+//        $mem_id = (int)$this->member->item('mem_id');
+//
+//        $view = array();
+//        $view['view'] = array();
+//
+//        // 이벤트가 존재하면 실행합니다
+//        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+//
+//
+//        /*
+//         * Business
+//        */
+//        $view['view']['cit_id'] = $cit_id;
+//
+//        /**
+//         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+//         */
+////        $param =& $this->querystring;
+////        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+////
+////        $this->load->model('Member_login_log_model');
+////
+////        $findex = $this->Member_login_log_model->primary_key;
+////        $forder = 'desc';
+////
+////        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+////        $offset = ($page - 1) * $per_page;
+//
+//        /**
+//         * 게시판 목록에 필요한 정보를 가져옵니다.
+//         */
+////        $where = array(
+////            'mem_id' => $mem_id,
+////        );
+////        $result = $this->Member_login_log_model
+////            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+////        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+////        if (element('list', $result)) {
+////            foreach (element('list', $result) as $key => $val) {
+////                if (element('mll_useragent', $val)) {
+////                    $userAgent = get_useragent_info(element('mll_useragent', $val));
+////                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
+////                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
+////                    $result['list'][$key]['os'] = $userAgent['os'];
+////                    $result['list'][$key]['engine'] = $userAgent['engine'];
+////                }
+////                $result['list'][$key]['num'] = $list_num--;
+////            }
+////        }
+////
+////        $view['view']['data'] = $result;
+//
+//        // 사용자 정보 추가
+//        $userinfo = $this->Member_model->get_by_memid($mem_id);
+//        $userinfo = array(
+//            'mem_id' => $userinfo['mem_id'],
+//            'mem_userid' => $userinfo['mem_userid'],
+//            'mem_username' => $userinfo['mem_username'],
+//            'mem_address1' => $userinfo['mem_address1'],
+//            'mem_email' => $userinfo['mem_email'],
+//            'mem_firstname' => $userinfo['mem_firstname'],
+//            'mem_lastname' => $userinfo['mem_lastname'],
+//            'mem_type' => $userinfo['mem_type'],
+//            'mem_profile_content' => $userinfo['mem_profile_content'],
+//            'mem_usertype' => $userinfo['mem_usertype'],
+//            'mem_nickname' => $userinfo['mem_nickname'],
+//            'mem_photo' => $userinfo['mem_photo'],
+//            'mem_is_admin' => $userinfo['mem_is_admin'],
+//        );
+//        $member_group = $this->member->group();
+//        if ($member_group && is_array($member_group)) {
+//
+//            $this->load->model('Member_group_model');
+//
+//            foreach ($member_group as $gkey => $gval) {
+//                $item = $this->Member_group_model->item(element('mgr_id', $gval));
+//                $userinfo['mem_group'] = $item;
+//            }
+//        }
+//        $view['view']['userinfo'] = $userinfo;
+//
+////        /**
+////         * 페이지네이션을 생성합니다
+////         */
+////        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
+////        $config['total_rows'] = $result['total_rows'];
+////        $config['per_page'] = $per_page;
+////        $this->pagination->initialize($config);
+////        $view['view']['paging'] = $this->pagination->create_links();
+////        $view['view']['page'] = $page;
+//
+//
+//        // 이벤트가 존재하면 실행합니다
+//        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+//
+//        /**
+//         * 레이아웃을 정의합니다
+//         */
+//        $page_title = $this->cbconfig->item('site_meta_title_mypage');
+//        $meta_description = $this->cbconfig->item('site_meta_description_mypage');
+//        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage');
+//        $meta_author = $this->cbconfig->item('site_meta_author_mypage');
+//        $page_name = $this->cbconfig->item('site_page_name_mypage');
+//
+//        /*
+//        $layoutconfig = array(
+//            'path' => 'mypage',
+//            'layout' => 'layout',
+//            'skin' => 'main',
+//            'layout_dir' => $this->cbconfig->item('layout_mypage'),
+//            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_mypage'),
+//            'use_sidebar' => $this->cbconfig->item('sidebar_mypage'),
+//            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_mypage'),
+//            'skin_dir' => $this->cbconfig->item('skin_mypage'),
+//            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_mypage'),
+//            'page_title' => $page_title,
+//            'meta_description' => $meta_description,
+//            'meta_keywords' => $meta_keywords,
+//            'meta_author' => $meta_author,
+//            'page_name' => $page_name,
+//        );
+//        */
+//
+//        $layoutconfig = array(
+//            'path' => 'beatsomeone',
+//            'layout' => 'layout',
+////            'skin' => 'mypage/dashboard',
+//            'skin' => 'mypage/mypage',
+//            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
+//            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
+//            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+//            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+//            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+//            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+//            'page_title' => $page_title,
+//            'meta_description' => $meta_description,
+//            'meta_keywords' => $meta_keywords,
+//            'meta_author' => $meta_author,
+//            'page_name' => $page_name,
+//        );
+//
+//
+//        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+//        $this->data = $view;
+//        $this->layout = element('layout_skin_file', element('layout', $view));
+//        $this->view = element('view_skin_file', element('layout', $view));
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_mypage_index';
         $this->load->event($eventname);
-        $this->load->helper(array('cmall'));
 
         /**
          * 로그인이 필요한 페이지입니다
          */
         required_user_login();
-
-        $mem_id = (int)$this->member->item('mem_id');
 
         $view = array();
         $view['view'] = array();
@@ -60,67 +213,10 @@ class Mypage extends CB_Controller
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before'] = Events::trigger('before', $eventname);
 
+        $registerform = $this->cbconfig->item('registerform');
+        $view['view']['memberform'] = json_decode($registerform, true);
 
-        /*
-         * Business
-        */
-        $view['view']['cit_id'] = $cit_id;
-
-        /**
-         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
-         */
-//        $param =& $this->querystring;
-//        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
-//
-//        $this->load->model('Member_login_log_model');
-//
-//        $findex = $this->Member_login_log_model->primary_key;
-//        $forder = 'desc';
-//
-//        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
-//        $offset = ($page - 1) * $per_page;
-
-        /**
-         * 게시판 목록에 필요한 정보를 가져옵니다.
-         */
-//        $where = array(
-//            'mem_id' => $mem_id,
-//        );
-//        $result = $this->Member_login_log_model
-//            ->get_list($per_page, $offset, $where, '', $findex, $forder);
-//        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
-//        if (element('list', $result)) {
-//            foreach (element('list', $result) as $key => $val) {
-//                if (element('mll_useragent', $val)) {
-//                    $userAgent = get_useragent_info(element('mll_useragent', $val));
-//                    $result['list'][$key]['browsername'] = $userAgent['browsername'];
-//                    $result['list'][$key]['browserversion'] = $userAgent['browserversion'];
-//                    $result['list'][$key]['os'] = $userAgent['os'];
-//                    $result['list'][$key]['engine'] = $userAgent['engine'];
-//                }
-//                $result['list'][$key]['num'] = $list_num--;
-//            }
-//        }
-//
-//        $view['view']['data'] = $result;
-
-        // 사용자 정보 추가
-        $userinfo = $this->Member_model->get_by_memid($mem_id);
-        $userinfo = array(
-            'mem_id' => $userinfo['mem_id'],
-            'mem_userid' => $userinfo['mem_userid'],
-            'mem_username' => $userinfo['mem_username'],
-            'mem_address1' => $userinfo['mem_address1'],
-            'mem_email' => $userinfo['mem_email'],
-            'mem_firstname' => $userinfo['mem_firstname'],
-            'mem_lastname' => $userinfo['mem_lastname'],
-            'mem_type' => $userinfo['mem_type'],
-            'mem_profile_content' => $userinfo['mem_profile_content'],
-            'mem_usertype' => $userinfo['mem_usertype'],
-            'mem_nickname' => $userinfo['mem_nickname'],
-            'mem_photo' => $userinfo['mem_photo'],
-            'mem_is_admin' => $userinfo['mem_is_admin'],
-        );
+        $view['view']['member_group_name'] = '';
         $member_group = $this->member->group();
         if ($member_group && is_array($member_group)) {
 
@@ -128,24 +224,17 @@ class Mypage extends CB_Controller
 
             foreach ($member_group as $gkey => $gval) {
                 $item = $this->Member_group_model->item(element('mgr_id', $gval));
-                $userinfo['mem_group'] = $item;
+                if ($view['view']['member_group_name']) {
+                    $view['view']['member_group_name'] .= ', ';
+                }
+                $view['view']['member_group_name'] .= element('mgr_title', $item);
             }
         }
-        $view['view']['userinfo'] = $userinfo;
-
-//        /**
-//         * 페이지네이션을 생성합니다
-//         */
-//        $config['base_url'] = site_url('mypage/loginlog') . '?' . $param->replace('page');
-//        $config['total_rows'] = $result['total_rows'];
-//        $config['per_page'] = $per_page;
-//        $this->pagination->initialize($config);
-//        $view['view']['paging'] = $this->pagination->create_links();
-//        $view['view']['page'] = $page;
-
 
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+        $mem_userid = $this->member->item('mem_userid');
+
 
         /**
          * 레이아웃을 정의합니다
@@ -156,11 +245,11 @@ class Mypage extends CB_Controller
         $meta_author = $this->cbconfig->item('site_meta_author_mypage');
         $page_name = $this->cbconfig->item('site_page_name_mypage');
 
-        /*
         $layoutconfig = array(
-            'path' => 'mypage',
+            'path' => 'beatsomeone',
             'layout' => 'layout',
-            'skin' => 'main',
+//            'skin' => 'main',
+            'skin' => 'mypage/mypage',
             'layout_dir' => $this->cbconfig->item('layout_mypage'),
             'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_mypage'),
             'use_sidebar' => $this->cbconfig->item('sidebar_mypage'),
@@ -173,27 +262,6 @@ class Mypage extends CB_Controller
             'meta_author' => $meta_author,
             'page_name' => $page_name,
         );
-        */
-
-        $layoutconfig = array(
-            'path' => 'beatsomeone',
-            'layout' => 'layout',
-//            'skin' => 'mypage/dashboard',
-            'skin' => 'mypage/mypage',
-            'layout_dir' => $this->cbconfig->item('layout_beatsomeone'),
-            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_beatsomeone'),
-            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
-            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
-            'skin_dir' => $this->cbconfig->item('skin_cmall'),
-            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
-            'page_title' => $page_title,
-            'meta_description' => $meta_description,
-            'meta_keywords' => $meta_keywords,
-            'meta_author' => $meta_author,
-            'page_name' => $page_name,
-        );
-
-
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
@@ -2980,5 +3048,176 @@ class Mypage extends CB_Controller
         }
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($userinfo));
+    }
+
+    public function upgrade()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_mypage_upgrade';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $view = array();
+        $view['view'] = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        $view['view']['member_group_name'] = '';
+        $member_group = $this->member->group();
+        if ($member_group && is_array($member_group)) {
+
+            $this->load->model('Member_group_model');
+
+            foreach ($member_group as $gkey => $gval) {
+                $item = $this->Member_group_model->item(element('mgr_id', $gval));
+                if ($view['view']['member_group_name']) {
+                    $view['view']['member_group_name'] .= ', ';
+                }
+                $view['view']['member_group_name'] .= element('mgr_title', $item);
+            }
+        }
+
+        if ($view['view']['member_group_name'] != 'buyer') {
+            redirect("/mypage");
+        }
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = $this->cbconfig->item('site_meta_title_mypage');
+        $meta_description = $this->cbconfig->item('site_meta_description_mypage');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_mypage');
+        $meta_author = $this->cbconfig->item('site_meta_author_mypage');
+        $page_name = $this->cbconfig->item('site_page_name_mypage');
+
+        $layoutconfig = array(
+            'path' => 'mypage',
+            'layout' => 'layout_new',
+            'skin' => 'upgrade',
+            'layout_dir' => $this->cbconfig->item('layout_mypage'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_mypage'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_mypage'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_mypage'),
+            'skin_dir' => $this->cbconfig->item('skin_mypage'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_mypage'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+    public function post_upgrade()
+    {
+        required_user_login();
+
+        $this->output->set_content_type('text/json');
+
+        $mgr_id = $this->input->post('mgr_id');
+        $this->load->model(array('Member_group_model', 'Member_group_member_model', 'Beatsomeone_model'));
+        $member_group = $this->Member_group_model->item($mgr_id);
+        $mem_id = $this->member->item('mem_id');
+        if ($member_group['mgr_title'] === 'seller_free') {
+            $current_group = $this->Member_group_member_model->get('', '', ['mem_id' => $mem_id]);
+            foreach ($current_group as $key => $val) {
+                $this->Member_group_member_model->delete($val['mgm_id']);
+            }
+            $mgm_id = $this->Member_group_member_model->insert([
+                'mgr_id' => $mgr_id,
+                'mem_id' => $mem_id,
+                'mgm_datetime' => cdate('Y-m-d H:i:s'),
+            ]);
+            if ($mgm_id === 0) {
+                $this->output->set_status_header(400);
+            }
+            $this->output->set_output(json_encode([
+                'message' => 'Success',
+            ]));
+        }
+        if ($member_group['mgr_title'] == 'seller_platinum' || $member_group['mgr_title'] == 'seller_master') {
+            $pg = $this->input->post('pg');
+            $amount = $this->input->post('amount');
+            $bill_term = $this->input->post('bill_term');
+            if ($pg == 'paypal') {
+                if ($bill_term == 'monthly') {
+                    if ((float)$amount == (float)element('mgr_monthly_cost_d', $member_group)) {
+                        $current_group = $this->Member_group_member_model->get('', '', ['mem_id' => $mem_id]);
+                        foreach ($current_group as $key => $val) {
+                            $this->Member_group_member_model->delete($val['mgm_id']);
+                        }
+                        $gminsert = array(
+                            'mgr_id' => $this->input->post('mgr_id'),
+                            'mem_id' => $mem_id,
+                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                        );
+                        $this->Member_group_member_model->insert($gminsert);
+
+                        $termDays = '30';
+                        $startDate = date('Y-m-d');
+                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                        $params = [
+                            'mem_id' => $mem_id,
+                            'bill_term' => $bill_term,
+                            'plan_name' => $member_group['mgr_title'],
+                            'start_date' => $startDate,
+                            'end_date' => $endDate,
+                            'pay_method' => $pg,
+                            'amount' => $amount
+                        ];
+                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                    } else {
+                        $this->output->set_status_header(400);
+                    }
+                } else {
+                    if ((float)$amount == (float)element('mgr_year_cost_d', $member_group)) {
+                        $current_group = $this->Member_group_member_model->get('', '', ['mem_id' => $mem_id]);
+                        foreach ($current_group as $key => $val) {
+                            $this->Member_group_member_model->delete($val['mgm_id']);
+                        }
+                        $gminsert = array(
+                            'mgr_id' => $this->input->post('mgr_id'),
+                            'mem_id' => $mem_id,
+                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                        );
+                        $this->Member_group_member_model->insert($gminsert);
+
+                        $termDays = '365';
+                        $startDate = date('Y-m-d');
+                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                        $params = [
+                            'mem_id' => $mem_id,
+                            'bill_term' => $bill_term,
+                            'plan_name' => $member_group['mgr_title'],
+                            'start_date' => $startDate,
+                            'end_date' => $endDate,
+                            'pay_method' => $pg,
+                            'amount' => $amount
+                        ];
+                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                    } else {
+                        $this->output->set_status_header(400);
+                    }
+                }
+                $this->output->set_output(json_encode([
+                    'message' => 'Success',
+                ]));
+            }
+        }
     }
 }

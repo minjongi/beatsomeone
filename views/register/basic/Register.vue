@@ -89,6 +89,7 @@
             registerBuyer() {
                 let formData = new FormData();
                 formData.append('mem_userid', this.info.username);
+                formData.append('mem_nickname', this.info.username);
                 formData.append('mem_email', this.info.email);
                 formData.append('mem_password', this.info.password);
                 formData.append('mem_firstname', this.info.firstname || '');
@@ -105,6 +106,7 @@
                             alert(data.email_auth_message);
                         } else {
                             alert(data.message);
+                            window.location.href = '/';
                         }
                     })
                     .catch(error => {

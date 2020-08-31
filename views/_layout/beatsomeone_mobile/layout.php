@@ -69,7 +69,7 @@
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />
+<!--    <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />-->
     <script src="/dist/chunk-common.js?v=<?php echo time(); ?>"></script>
     <script src="/dist/chunk-vendors.js?v=<?php echo time(); ?>"></script>
     <script src="/src/common.js?v=<?php echo time(); ?>"></script>

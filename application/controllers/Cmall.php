@@ -1800,6 +1800,85 @@ class Cmall extends CB_Controller
 		$this->view = element('view_skin_file', element('layout', $view));
 	}
 
+    public function ajax_orderlist()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_orderlist';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        ajax_required_user_login();
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before', $eventname);
+
+        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Cmall_item_model'));
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+        $findex = $this->Cmall_order_model->primary_key;
+        $forder = 'desc';
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array();
+        $where['cmall_order.mem_id'] = $this->member->item('mem_id');
+
+        $data = $this->Cmall_order_model
+            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+        foreach ($data['list'] as $key0 => $order) {
+            $orderdetail = $this->Cmall_order_detail_model->get_by_item($order['cor_id']);
+            foreach ($orderdetail as $key1 => $value) {
+                $orderdetail[$key1]['item'] = $item
+                    = $this->Cmall_item_model->get_one(element('cit_id', $value));
+                $orderdetail[$key1]['itemdetail'] = $itemdetail
+                    = $this->Cmall_order_detail_model
+                    ->get_detail_by_item($order['cor_id'], element('cit_id', $value));
+
+                $orderdetail[$key1]['item']['possible_download'] = 1;
+                if (element('cod_download_days', element(0, $itemdetail)) && element('cor_approve_datetime', $order)) {
+                    $endtimestamp = strtotime(element('cor_approve_datetime', $order))
+                        + 86400 * element('cod_download_days', element(0, $itemdetail));
+                    $orderdetail[$key1]['item']['download_end_date'] = $enddate
+                        = cdate('Y-m-d', $endtimestamp);
+
+                    $orderdetail[$key1]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                }
+            }
+            $data['list'][$key0]['detail'] = $orderdetail;
+        }
+
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('cmall/orderlist') . '?' . $param->replace('page');
+        $config['total_rows'] = $data['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $paging = $this->pagination->create_links();
+
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before_layout', $eventname);
+
+        $result = [
+            'data' => $data,
+            'page' => $page,
+            'paging' => $paging,
+        ];
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
 
 	public function wishlist()
 	{

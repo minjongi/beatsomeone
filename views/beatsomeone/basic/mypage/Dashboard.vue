@@ -1,10 +1,10 @@
 <template>
     <div v-if="info" class="info">
-        <div class="row" v-if="false && isSeller">
+        <div class="row" v-if="isSeller">
             <Dashboard_SettlementOverview :data="info.SettlementOverview"></Dashboard_SettlementOverview>
         </div>
 
-        <div class="row" v-if="false && isSeller">
+        <div class="row" v-if="isSeller">
             <Dashboard_Chart :data="info.Chart"></Dashboard_Chart>
         </div>
 
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     import Dashboard_OrderDetails from "./component/Dashboard_OrderDetails";
     import Dashboard_ExpiredSoon from "./component/Dashboard_ExpiredSoon";
     import Dashboard_ProductDetails from "./component/Dashboard_ProductDetails";
@@ -52,15 +53,23 @@
             return {
                 isLogin: false,
                 info: null,
-
+                user: {}
             };
         },
         computed: {
             isCustomer: function () {
-                return this.groupType === 'CUSTOMER';
+                if (this.user.mem_group) {
+                    return this.user.mem_group.mgr_title === 'buyer';
+                } else {
+                    return false;
+                }
             },
             isSeller: function () {
-                return this.groupType === 'SELLER';
+                if (this.user.mem_group) {
+                    return this.user.mem_group.mgr_title.includes('seller');
+                } else {
+                    return false;
+                }
             },
             groupType: function() {
                 if(this.info && this.info.UserInfo) {
@@ -71,13 +80,19 @@
             },
         },
         mounted(){
-
-        },
-        created() {
+            axios.get('/mypage/current_user')
+                .then(res => res.data)
+                .then(data => {
+                    this.user = data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             this.fetchData();
         },
+        created() {
+        },
         methods:{
-
             fetchData: function() {
                 Http.post('/BeatsomeoneMypageApi/getDashboardInfo').then(r=> {
                     this.info = r;

@@ -1,0 +1,213 @@
+<template>
+    <div class="my-5">
+        <div class="mb-5">
+            <h5 class="mb-3 title">
+                {{$t('orderDetails')}}
+            </h5>
+            <div class="split-board row">
+                <div class="item col text-center">
+                    <h3 class="text-primary">{{ buyCnt }}</h3>
+                    <p>{{$t('buy')}}</p>
+                </div>
+                <div class="item col text-center">
+                    <h3 class="text-danger">{{ cancelCnt }}</h3>
+                    <p>{{$t('cancel')}}</p>
+                </div>
+                <div class="item col text-center">
+                    <h3 class="text-success">{{ refundCnt }}</h3>
+                    <p>{{$t('refund')}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h5 class="mb-3 title">
+                {{ $t('expiredSoon') }}
+                <a href="javascript:;" class="float-right mr-2">
+                    <span>more <i class="fal fa-chevron-right"></i></span>
+                </a>
+            </h5>
+            <div class="swiper-container" v-if="expiredSoonItems.length > 0">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div>
+                            Item 1
+                        </div>
+                        <div>
+                            Item 2
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div>
+                            Item 3
+                        </div>
+                        <div>
+                            Item 4
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div>
+                            Item 5
+                        </div>
+                        <div>
+                            Item 6
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination">
+                </div>
+            </div>
+            <div class="text-center empty-content" v-else>
+                <span>{{ $t('dashboard_ExpiredSoon_notexists') }}</span>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h5 class="title mb-3">
+                {{$t('recentlyListen')}}
+                <a href="javascript:;" class="float-right mr-2">
+                    <span>more <i class="fal fa-chevron-right"></i></span>
+                </a>
+            </h5>
+            <div v-if="recentlyViewedItems.length > 0">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="image-wrapper">
+
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="image-wrapper">
+
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="image-wrapper">
+
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="image-wrapper">
+
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="image-wrapper">
+
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="image-wrapper">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="empty-content" v-else>
+            <span>
+                {{ $t('dashboard_RecentlyListen_notexists') }}
+            </span>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h5 class="title mb-3">
+                {{$t('messageYouReceived')}}
+                <a href="javascript:;" @click="$router.push('/message')" class="float-right mr-2">
+                    <span class="">more <i class="fal fa-chevron-right"></i></span>
+                </a>
+            </h5>
+            <div v-if="messages.length > 0">
+            </div>
+            <div class="empty-content recent" v-else>
+                <span>No messages</span>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h5 class="title mb-3">
+                {{$t('supportCase')}}
+                <a class="float-right mr-2" href="javascript:;" @click="goPage('/inquiry')">
+                    <span class="">more <i class="fal fa-chevron-right"></i></span>
+                </a>
+            </h5>
+            <div v-if="inquiries.length > 0">
+            </div>
+            <div class="empty-content recent" v-else>
+                <span>No questions</span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import Swiper from "swiper";
+
+    export default {
+        name: "Dashboard",
+        data: function () {
+            return {
+                member_group_name: '',
+                buyCnt: 0,
+                cancelCnt: 0,
+                refundCnt: 0,
+                expiredSoonItems: [],
+                recentlyViewedItems: [],
+                messages: [],
+                inquiries: []
+            }
+        },
+        mounted() {
+            this.member_group_name = window.member_group_name;
+            var swiper = new Swiper('.swiper-container', {
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            });
+        },
+        methods: {
+            goPage(page) {
+                this.$router.push(page);
+            }
+        }
+    }
+</script>
+
+<style lang="scss" scoped>
+    .split-board {
+        > .item {
+            &:not(:last-child) {
+                border-right: solid 1px #4d4d4d;
+            }
+
+            h3 {
+                font-size: 4rem;
+            }
+        }
+    }
+
+    .empty-content {
+        height: 60px;
+        position: relative;
+
+        span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .image-wrapper {
+        padding-top: 100%;
+    }
+
+    .title {
+        a {
+            text-decoration: none;
+            color: white;
+            opacity: 0.7;
+            line-height: 13px;
+
+            span {
+                font-size: 13px;
+            }
+        }
+    }
+</style>

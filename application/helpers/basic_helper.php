@@ -393,6 +393,25 @@ if ( ! function_exists('required_user_login')) {
 	}
 }
 
+if ( ! function_exists('ajax_required_user_login')) {
+    function ajax_required_user_login($type = '')
+    {
+        $CI =& get_instance();
+        if ($CI->member->is_member() === false) {
+            if ($type === 'alert') {
+                alert_close('로그인 후 이용이 가능합니다');
+            } else {
+                $CI->session->set_flashdata(
+                    'message',
+                    '로그인 후 이용이 가능합니다'
+                );
+                redirect('login?url=' . urlencode(current_full_url()));
+            }
+        }
+        return true;
+    }
+}
+
 
 /**
  * ip 를 정한 형식에 따라 보여주기

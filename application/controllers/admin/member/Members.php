@@ -130,7 +130,7 @@ class Members extends CB_Controller
                         if ($result['list'][$key]['member_group']) {
                             $result['list'][$key]['member_group'] .= ', ';
                         }
-                        $result['list'][$key]['member_group'] .= element('mgr_title', $mv);
+                        $result['list'][$key]['member_group'] .= element('mgr_description', $mv);
                     }
                 }
                 $result['list'][$key]['display_name'] = display_username(
