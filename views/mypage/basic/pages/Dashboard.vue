@@ -146,6 +146,8 @@
 
 <script>
     import Swiper from "swiper/bundle";
+    import axios from "axios";
+
     export default {
         name: "Dashboard",
         data: function () {
@@ -167,6 +169,15 @@
                     el: '.swiper-pagination',
                 },
             });
+
+            axios.get('/mypage/ajax_info')
+                .then(res => res.data)
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
         methods: {
             goPage(page) {
