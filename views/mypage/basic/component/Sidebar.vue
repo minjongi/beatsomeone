@@ -3,7 +3,7 @@
         <div class="text-center">
             <div class="avatar mb-3">
                 <label for="avatar_file" class="avatar-file">
-                    <i class="fa fa-pencil"></i>
+                    <i class="fa fa-camera"></i>
                     <input type="file" class="d-none" id="avatar_file" accept="image/*" :name="uploadFieldName" :disabled="isAvatarSaving" v-on:change="avatarChange($event.target.name, $event.target.files)">
                 </label>
                 <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portait.png'">
@@ -142,7 +142,8 @@
         position: absolute;
         width: 30px;
         height: 30px;
-        right: 30px;
+        right: 65px;
+        top: 125px;
         background-color: #4890ff;
         border-radius: 50%;
         line-height: 30px;

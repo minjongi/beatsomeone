@@ -6,15 +6,15 @@
             </h5>
             <div class="split-board row">
                 <div class="item col text-center">
-                    <h3 class="text-primary">{{ buyCnt }}</h3>
+                    <h3 class="text-primary">{{ order_buy_count }}</h3>
                     <p>{{$t('buy')}}</p>
                 </div>
                 <div class="item col text-center">
-                    <h3 class="text-danger">{{ cancelCnt }}</h3>
+                    <h3 class="text-danger">{{ order_cancel_count }}</h3>
                     <p>{{$t('cancel')}}</p>
                 </div>
                 <div class="item col text-center">
-                    <h3 class="text-success">{{ refundCnt }}</h3>
+                    <h3 class="text-success">{{ order_refund_count }}</h3>
                     <p>{{$t('refund')}}</p>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <span>more <i class="fal fa-chevron-right"></i></span>
                 </a>
             </h5>
-            <div class="swiper-container" v-if="expiredSoonItems.length > 0">
+            <div id="expired-items" class="swiper-container" v-if="expired_soon_items.length > 0">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div>
@@ -63,44 +63,18 @@
         <div class="mb-5">
             <h5 class="title mb-3">
                 {{$t('recentlyListen')}}
-                <a href="javascript:;" class="float-right mr-2">
-                    <span>more <i class="fal fa-chevron-right"></i></span>
-                </a>
             </h5>
-            <div v-if="recentlyViewedItems.length > 0">
-                <div class="row">
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
+            <swiper :options="swiperOption" v-if="recentlyViewedItems.length > 0">
+                <swiper-slide v-for="citem in recentlyViewedItems" :key="citem.ish_id">
+                    <div class="item-wrapper" @click="goToItemPage(citem.cit_key)">
+                        <div class="image-wrapper mt-3 mb-3">
+                            <img :src="'/uploads/cmallitem/' + citem.cit_file_1" />
                         </div>
+                        <h6 class="cit-name">{{ citem.cit_name }}</h6>
+                        <p class="mem-name">{{ citem.mem_firstname + ' ' + citem.mem_lastname }}</p>
                     </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </swiper-slide>
+            </swiper>
             <div class="empty-content" v-else>
             <span>
                 {{ $t('dashboard_RecentlyListen_notexists') }}
@@ -137,33 +111,61 @@
 </template>
 
 <script>
-    import Swiper from "swiper";
+    import axios from "axios";
+    import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 
     export default {
         name: "Dashboard",
+        components: {
+            Swiper,
+            SwiperSlide
+        },
         data: function () {
             return {
                 member_group_name: '',
-                buyCnt: 0,
-                cancelCnt: 0,
+                order_buy_count: 0,
+                order_cancel_count: 0,
+                order_refund_count: 0,
                 refundCnt: 0,
-                expiredSoonItems: [],
+                expired_soon_items: [],
                 recentlyViewedItems: [],
                 messages: [],
-                inquiries: []
+                inquiries: [],
+                swiperOption: {
+                    slidesPerView: 2.5,
+                    spaceBetween: 20,
+                }
             }
         },
         mounted() {
             this.member_group_name = window.member_group_name;
-            var swiper = new Swiper('.swiper-container', {
-                pagination: {
-                    el: '.swiper-pagination',
-                },
-            });
+            // var swiper = new Swiper('#expired-items', {
+            //     pagination: {
+            //         el: '.swiper-pagination',
+            //     },
+            // });
+
+            axios.get('/mypage/ajax_info')
+                .then(res => res.data)
+                .then(data => {
+                    this.order_buy_count = data.order_buy_count;
+                    this.order_cancel_count = data.order_cancel_count;
+                    this.order_refund_count = data.order_refund_count;
+                    this.expired_soon_items = data.expired_soon_items;
+                    this.recentlyViewedItems = data.recently_listen_items;
+                    this.messages = data.messages;
+                    this.inquiries = data.inquiries;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
         methods: {
             goPage(page) {
                 this.$router.push(page);
+            },
+            goToItemPage(cit_key) {
+                window.location.href = `/beatsomeone/detail/${cit_key}`;
             }
         }
     }
@@ -208,6 +210,31 @@
             span {
                 font-size: 13px;
             }
+        }
+    }
+
+    .item-wrapper {
+        .mem-name {
+            opacity: 0.3;
+        }
+    }
+
+    .image-wrapper {
+        padding-top: 100%;
+        position: relative;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
         }
     }
 </style>

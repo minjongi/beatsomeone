@@ -47,6 +47,7 @@
             "success": #2dad8e,
     );
     @import "~bootstrap/scss/bootstrap";
+    @import '~swiper/swiper';
 
     html, body {
         font-family: "Raleway", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Noto Sans KR";

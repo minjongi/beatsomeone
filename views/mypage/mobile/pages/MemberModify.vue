@@ -83,7 +83,7 @@
                                 <span class="social-icon facebook">
                                     <i class="fab fa-facebook-f"></i>
                                 </span>
-                    Facebook
+                    Facebook <span class="text-secondary font-size-12" v-if="social['facebook_update_datetime']">{{ social['facebook_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['facebook_id'], 'btn-default':social['facebook_id']}" @click="toggleConnect('facebook')">
@@ -96,7 +96,7 @@
                                 <span class="social-icon twitter">
                                     <i class="fab fa-twitter"></i>
                                 </span>
-                    Twitter
+                    Twitter <span class="text-secondary font-size-12" v-if="social['twitter_update_datetime']">{{ social['twitter_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['twitter_id'], 'btn-default':social['twitter_id']}" @click="toggleConnect('twitter')">
@@ -109,7 +109,7 @@
                                 <span class="social-icon google">
                                     <i class="fab fa-google"></i>
                                 </span>
-                    Google
+                    Google <span class="text-secondary font-size-12" v-if="social['google_update_datetime']">{{ social['google_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['google_id'], 'btn-default':social['google_id']}" @click="toggleConnect('google')">
@@ -122,7 +122,7 @@
                                 <span class="social-icon naver">
                                     <i class="fab fa-naver"></i>
                                 </span>
-                    Naver
+                    Naver <span class="text-secondary font-size-12" v-if="social['naver_update_datetime']">{{ social['naver_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['naver_id'], 'btn-default':social['naver_id']}" @click="toggleConnect('naver')">
@@ -135,7 +135,7 @@
                                 <span class="social-icon kakao">
                                     <i class="fab fa-kakao"></i>
                                 </span>
-                    Kakao
+                    Kakao <span class="text-secondary font-size-12" v-if="social['kakao_update_datetime']">{{ social['kakao_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['kakao_id'], 'btn-default':social['kakao_id']}" @click="toggleConnect('kakao')">

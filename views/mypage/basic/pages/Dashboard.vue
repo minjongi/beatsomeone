@@ -66,42 +66,18 @@
             </div>
         </div>
         <div class="mb-5">
-            <h5 class="title">
+            <h5 class="title mb-4">
                 {{$t('recentlyListen')}}
-                <a href="javascript:;" class="float-right mr-2">
-                    <span>more <i class="fal fa-chevron-right"></i></span>
-                </a>
             </h5>
             <div v-if="recentlyViewedItems.length > 0">
                 <div class="row">
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="image-wrapper">
-
+                    <div class="col-2" v-for="citem in recentlyViewedItems" :key="citem.ish_id">
+                        <div class="item-wrapper" @click="goToItemPage(citem.cit_key)">
+                            <div class="image-wrapper mb-3">
+                                <img :src="'/uploads/cmallitem/' + citem.cit_file_1" />
+                            </div>
+                            <h6 class="cit-name">{{ citem.cit_name }}</h6>
+                            <p class="mem-name">{{ citem.mem_firstname + ' ' + citem.mem_lastname }}</p>
                         </div>
                     </div>
                 </div>
@@ -160,7 +136,7 @@
                 expired_soon_items: [],
                 recentlyViewedItems: [],
                 messages: [],
-                inquiries: []
+                inquiries: [],
             }
         },
         mounted() {
@@ -179,6 +155,9 @@
                     this.order_cancel_count = data.order_cancel_count;
                     this.order_refund_count = data.order_refund_count;
                     this.expired_soon_items = data.expired_soon_items;
+                    this.recentlyViewedItems = data.recently_listen_items;
+                    this.messages = data.messages;
+                    this.inquiries = data.inquiries;
                 })
                 .catch(error => {
                     console.error(error);
@@ -187,6 +166,9 @@
         methods: {
             goPage(page) {
                 this.$router.push(page);
+            },
+            goToItemPage(cit_key) {
+                window.location.href = `/beatsomeone/detail/${cit_key}`;
             }
         }
     }
@@ -234,7 +216,33 @@
         }
     }
 
+    .item-wrapper {
+        .mem-name {
+            opacity: 0.3;
+        }
+    }
+
     .image-wrapper {
         padding-top: 100%;
+        position: relative;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 0 #4c4c4c;
+
+            &:hover {
+                box-shadow: 0 0 20px 0 #4c4c4c;
+            }
+        }
     }
 </style>

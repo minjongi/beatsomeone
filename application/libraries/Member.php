@@ -25,7 +25,7 @@ class Member extends CI_Controller
 	function __construct()
 	{
 		$this->CI = & get_instance();
-		$this->CI->load->model( array('Member_model'));
+		$this->CI->load->model( array('Member_model', 'Social_model'));
 		$this->CI->load->helper( array('array'));
 	}
 
@@ -86,6 +86,13 @@ class Member extends CI_Controller
 					$member = array_merge($member, $metas);
 				}
 				$member['social'] = $this->get_all_social_meta(element('mem_id', $member));
+				foreach ($member['social'] as $key => $item) {
+				    if (!empty($item)) {
+				        $soc_type = substr($key, 0, -3);
+				        $result = $this->CI->Social_model->item($soc_type, $item, 'update_datetime');
+				        $member['social'][$soc_type . '_update_datetime'] = $result;
+                    }
+                }
 				$this->mb = $member;
 			}
 			return $this->mb;

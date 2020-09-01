@@ -3227,7 +3227,7 @@ class Mypage extends CB_Controller
 
         $mem_id = $this->member->item('mem_id');
 
-        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model'));
+        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Note_model', 'Post_model', 'Board_model', 'Cmall_item_show_history_model'));
 
         $order_buy_count = $this->Cmall_order_model->count_by([
             'mem_id' => $mem_id,
@@ -3244,6 +3244,24 @@ class Mypage extends CB_Controller
 
         $expired_soon_items = $this->Cmall_order_detail_model->get('', '', 'mem_id=' . $mem_id . ' and cod_download_days>0 and cod_download_days<=7', 3);
 
+        $where = [
+            'cmall_item_show_history.mem_id' => $mem_id
+        ];
+        $recently_listen_items = $this->Cmall_item_show_history_model->get_list(6, '', $where, '', 'show_dt', 'desc');
+
+        $where = array(
+            'recv_mem_id' => $mem_id,
+            'nte_type' => 1,
+        );
+
+        $recent_messages = $this->Note_model->get_recv_list(3, '', $where);
+
+        $support_board = $this->Board_model->get_one('', '', "brd_key='support'");
+        $where = [
+            'post.mem_id' => $mem_id,
+            'brd_id' => $support_board['brd_id']
+        ];
+        $inquiries = $this->Post_model->get_post_list(3, '', $where);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode([
@@ -3252,6 +3270,9 @@ class Mypage extends CB_Controller
             'order_cancel_count' => $order_cancel_count,
             'order_refund_count' => $order_refund_count,
             'expired_soon_items' => $expired_soon_items,
+            'recently_listen_items' => $recently_listen_items['list'],
+            'messages' => $recent_messages['list'],
+            'inquiries' => $inquiries['list']
         ]));
     }
 }
