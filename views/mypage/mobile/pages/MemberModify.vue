@@ -18,6 +18,15 @@
                 <span :class="member_group_name === 'buyer' ? 'text-primary' : ''">{{ $t(member_group_name) }}</span>
             </div>
         </div>
+        <div class="form-group" v-if="member_group_name.includes('seller')">
+            <label>{{ $t('sellerClass') }}</label>
+            <div>
+                <h5>
+                    <span class="badge" :class="{'badge-success': member_group_name === 'seller_free', 'badge-primary': member_group_name === 'seller_platinum', 'badge-warning': member_group_name === 'seller_master'}">{{ $t(member_group_name) }}</span>
+                    <a href="/mypage/upgrade" class="ml-3 btn btn-warning rounded" style="width: unset;">Upgrade Now</a>
+                </h5>
+            </div>
+        </div>
         <div class="form-group">
             <label>{{ $t('email') }}</label>
             <div class="input-group">
@@ -368,5 +377,9 @@
         &.kakao {
             background-color: #ffe812;
         }
+    }
+
+    .rounded {
+        border-radius: 30px !important;
     }
 </style>

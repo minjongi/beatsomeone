@@ -3082,9 +3082,9 @@ class Mypage extends CB_Controller
             }
         }
 
-        if ($view['view']['member_group_name'] != 'buyer') {
-            redirect("/mypage");
-        }
+//        if ($view['view']['member_group_name'] != 'buyer') {
+//            redirect("/mypage");
+//        }
 
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);

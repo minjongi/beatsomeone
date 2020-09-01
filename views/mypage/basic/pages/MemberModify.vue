@@ -23,6 +23,15 @@
                         <span :class="member_group_name === 'buyer' ? 'text-primary' : ''">{{ $t(member_group_name) }}</span>
                     </div>
                 </div>
+                <div class="form-group row" v-if="member_group_name.includes('seller')">
+                    <label class="col-form-label col-4">{{ $t('sellerClass') }}</label>
+                    <div class="col-8 align-self-center">
+                        <h5>
+                            <span class="badge" :class="{'badge-success': member_group_name === 'seller_free', 'badge-primary': member_group_name === 'seller_platinum', 'badge-warning': member_group_name === 'seller_master'}">{{ $t(member_group_name) }}</span>
+                            <a href="/mypage/upgrade" class="ml-3 btn btn-warning rounded" style="width: unset;">Upgrade Now</a>
+                        </h5>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label class="col-form-label col-4">{{ $t('email') }}</label>
                     <div class="col-8">
@@ -420,6 +429,10 @@
             &.kakao {
                 background-color: #ffe812;
             }
+        }
+
+        .rounded {
+            border-radius: 30px !important;
         }
     }
 </style>
