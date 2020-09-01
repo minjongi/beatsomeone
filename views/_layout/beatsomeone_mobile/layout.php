@@ -118,10 +118,10 @@
     <div class="noti-wrap"></div>
     <div class="noti-content">
         <div>
-            <img src="/assets_m/images/popup/0729/1.png">
+            <img src="/assets_m/images/popup/0901/1.png">
         </div>
         <div>
-            <img src="/assets_m/images/popup/0729/2.png" onclick="closePopup(true)" style="width:50%;"><img src="/assets_m/images/popup/0729/3.png" onclick="closePopup()" style="width:50%;">
+            <img src="/assets_m/images/popup/0901/2.png" onclick="closePopup(true)" style="width:50%;"><img src="/assets_m/images/popup/0901/3.png" onclick="closePopup()" style="width:50%;">
         </div>
     </div>
 </div>
