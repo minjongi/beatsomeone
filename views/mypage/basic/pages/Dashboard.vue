@@ -10,15 +10,15 @@
                 </h5>
                 <div class="split-board row">
                     <div class="item col text-center">
-                        <h3 class="text-primary">{{ buyCnt }}</h3>
+                        <h3 class="text-primary">{{ order_buy_count }}</h3>
                         <p>{{$t('buy')}}</p>
                     </div>
                     <div class="item col text-center">
-                        <h3 class="text-danger">{{ cancelCnt }}</h3>
+                        <h3 class="text-danger">{{ order_cancel_count }}</h3>
                         <p>{{$t('cancel')}}</p>
                     </div>
                     <div class="item col text-center">
-                        <h3 class="text-success">{{ refundCnt }}</h3>
+                        <h3 class="text-success">{{ order_refund_count }}</h3>
                         <p>{{$t('refund')}}</p>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                         <span>more <i class="fal fa-chevron-right"></i></span>
                     </a>
                 </h5>
-                <div class="swiper-container" v-if="expiredSoonItems.length > 0">
+                <div class="swiper-container" v-if="expired_soon_items.length > 0">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div>
@@ -153,10 +153,11 @@
         data: function () {
             return {
                 member_group_name: '',
-                buyCnt: 0,
-                cancelCnt: 0,
+                order_buy_count: 0,
+                order_cancel_count: 0,
+                order_refund_count: 0,
                 refundCnt: 0,
-                expiredSoonItems: [],
+                expired_soon_items: [],
                 recentlyViewedItems: [],
                 messages: [],
                 inquiries: []
@@ -174,6 +175,10 @@
                 .then(res => res.data)
                 .then(data => {
                     console.log(data);
+                    this.order_buy_count = data.order_buy_count;
+                    this.order_cancel_count = data.order_cancel_count;
+                    this.order_refund_count = data.order_refund_count;
+                    this.expired_soon_items = data.expired_soon_items;
                 })
                 .catch(error => {
                     console.error(error);
