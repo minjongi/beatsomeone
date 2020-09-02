@@ -1304,6 +1304,145 @@ class Cmall extends CB_Controller
 		$this->view = element('view_skin_file', element('layout', $view));
 	}
 
+    public function ajax_orderresult($cor_id = 0)
+    {
+        $this->output->set_content_type('text/json');
+
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_orderresult';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        ajax_required_user_login();
+
+        $this->load->library(array('paymentlib'));
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        if (empty($cor_id) OR $cor_id < 1) {
+            $this->output->set_status_header('404');
+            return false;
+        }
+
+        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+
+        $order = $this->Cmall_order_model->get_one($cor_id);
+        if ( ! element('cor_id', $order)) {
+            $this->output->set_status_header('404');
+            return false;
+        }
+        if ($this->member->is_admin() === false
+            && (int) element('mem_id', $order) !== $mem_id) {
+            $this->output->set_status_header('403');
+            return false;
+        }
+        $orderdetail = $this->Cmall_order_detail_model->get_by_item($cor_id);
+        if ($orderdetail) {
+            foreach ($orderdetail as $key => $value) {
+                $orderdetail[$key]['item'] = $item
+                    = $this->Cmall_item_model->get_one_with_author(element('cit_id', $value));
+                $orderdetail[$key]['itemdetail'] = $itemdetail
+                    = $this->Cmall_order_detail_model
+                    ->get_detail_by_item($cor_id, element('cit_id', $value));
+
+                $orderdetail[$key]['item']['possible_download'] = 1;
+                if (element('cod_download_days', element(0, $itemdetail)) && element('cor_approve_datetime', $order)) {
+                    $endtimestamp = strtotime(element('cor_approve_datetime', $order))
+                        + 86400 * element('cod_download_days', element(0, $itemdetail));
+                    $orderdetail[$key]['item']['download_end_date'] = $enddate
+                        = cdate('Y-m-d', $endtimestamp);
+
+                    $orderdetail[$key]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                }
+            }
+        }
+        if (element('cor_status', $order) === '1') {
+            $this->session->set_userdata(
+                'cmall_item_download_' . element('cor_id', $order),
+                '1'
+            );
+        }
+
+        //핸드폰의 영수증 정보
+        if( element('cor_pay_type', $order) === 'phone' ){
+            switch( element('cor_pg', $order) ){
+                case 'lg' :
+                    $init			= $this->paymentlib->lg_init();
+                    $LGD_MID		= element('LGD_MID', $init);
+                    $LGD_TID		= element('cor_tno', $order);
+                    $LGD_MERTKEY	= element('pg_lg_key', $init);
+                    $LGD_HASHDATA	= md5($LGD_MID.$LGD_TID.$LGD_MERTKEY);
+
+                    if ( element('is_test', $order) ) {
+                        $order['card_receipt_js'] = 'http://pgweb.uplus.co.kr:7085/WEB_SERVER/js/receipt_link.js';
+                    } else {
+                        $order['card_receipt_js'] = 'http://pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js';
+                    }
+                    $order['card_receipt_script'] = 'showReceiptByTID(\''.$LGD_MID.'\', \''.$LGD_TID.'\', \''.$LGD_HASHDATA.'\');';
+                    break;
+                case 'inicis' :
+                    $order['card_receipt_script'] = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid='.element('cor_tno', $order).'&noMethod=1\',\'receipt\',\'width=430,height=700\');';
+                    break;
+                case 'kcp' :
+                    if ( element('is_test', $order) ) {
+                        $receipturl = 'https://testadmin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
+                    } else {
+                        $receipturl = 'https://admin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
+                    }
+                    $order['card_receipt_script'] = 'window.open(\''.$receipturl.'mcash_bill&tno='.element('cor_tno', $order).'&order_no='.element('cor_id', $order).'&trade_mony='.element('cor_cash', $order).'\', \'winreceipt\', \'width=470,height=815,scrollbars=yes,resizable=yes\');';
+                    break;
+            }
+        }
+
+        //카드의 영수증 정보
+        if( element('cor_pay_type', $order) === 'card' ){
+            switch( element('cor_pg', $order) ){
+                case 'lg' :
+                    $init = $this->paymentlib->lg_init();
+                    $LGD_MID		= element('LGD_MID', $init);
+                    $LGD_TID		= element('cor_tno', $order);
+                    $LGD_MERTKEY	= element('pg_lg_key', $init);
+                    $LGD_HASHDATA	= md5($LGD_MID.$LGD_TID.$LGD_MERTKEY);
+
+                    if ( element('is_test', $order) ) {
+                        $order['card_receipt_js'] = 'http://pgweb.uplus.co.kr:7085/WEB_SERVER/js/receipt_link.js';
+                    } else {
+                        $order['card_receipt_js'] = 'http://pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js';
+                    }
+                    $order['card_receipt_script'] = 'showReceiptByTID(\''.$LGD_MID.'\', \''.$LGD_TID.'\', \''.$LGD_HASHDATA.'\');';
+                    break;
+                case 'inicis' :
+                    $order['card_receipt_script'] = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid='.element('cor_tno', $order).'&noMethod=1\',\'receipt\',\'width=430,height=700\');';
+                    break;
+                case 'kcp' :
+                    if ( element('is_test', $order) ) {
+                        $receipturl = 'https://testadmin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
+                    } else {
+                        $receipturl = 'https://admin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
+                    }
+                    $order['card_receipt_script'] = 'window.open(\''.$receipturl.'card_bill&tno='.element('cor_tno', $order).'&order_no='.element('cor_id', $order).'&trade_mony='.element('cor_cash', $order).'\', \'winreceipt\', \'width=470,height=815,scrollbars=yes,resizable=yes\');';
+                    break;
+            }
+        }
+
+        $result = [
+            'data' => $order,
+            'orderdetail' => $orderdetail
+        ];
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        $this->output->set_output(json_encode($result));
+
+    }
 
 	public function inicisweb(){
 		// 이벤트 라이브러리를 로딩합니다

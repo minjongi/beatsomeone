@@ -50,7 +50,7 @@
                     <ul class="list-group">
                         <li class="list-group-item" v-for="(order, index) in myOrderList" :key="index" @click="$router.push('/orders/' + order.cor_id)">
                             <div>
-                                <div class="d-flex text-secondary">
+                                <div class="d-flex text-secondary mb-2">
                                     <div>{{ order.cor_id }}</div>
                                     <div class="ml-auto">{{ order.cor_datetime }}</div>
                                 </div>
@@ -271,7 +271,7 @@
         }
 
         .list-group-item {
-            background-color: unset;
+            background-color: #1b1b1e;
 
             .title {
                 color: #bababb;
