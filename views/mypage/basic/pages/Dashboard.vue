@@ -4,7 +4,7 @@
             <div class="col-6">
                 <h5 class="mb-3 title">
                     {{$t('orderDetails')}}
-                    <a href="javascript:;" class="float-right mr-2" @click="$router.push('/mybilling')">
+                    <a href="javascript:;" class="float-right mr-2" @click="$router.push('/orders')">
                         <span>more <i class="fal fa-chevron-right"></i></span>
                     </a>
                 </h5>

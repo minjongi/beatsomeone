@@ -1,5 +1,5 @@
 <template>
-    <div class="my-5">
+    <div class="container-fluid my-5">
         <div class="mb-5">
             <h5 class="mb-3 title">
                 {{$t('orderDetails')}}

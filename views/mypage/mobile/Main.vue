@@ -6,13 +6,7 @@
             <Profile />
         </div>
         <Menu />
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <router-view />
-                </div>
-            </div>
-        </div>
+        <router-view />
     </div>
 </template>
 
@@ -91,6 +85,60 @@
 
         &:hover {
             color: #b1b1b1;
+        }
+    }
+
+    .order-history {
+        .vhd-container {
+            height: 100%;
+            width: 100%;
+
+            .vhd-input {
+                line-height: 14px;
+                font-size: 14px;
+                height: 100%;
+                width: 100%;
+                border: solid 1px #414143;
+                border-radius: 4px;
+                background-color: transparent;
+            }
+
+            .vhd-picker {
+                left: unset;
+                right: 0;
+                margin-top: 10px;
+                background-color: #2b2c30;
+            }
+
+            .vhd-calendar {
+                .calendar-month-title {
+                    color: white;
+                }
+
+                .calendar-date .week .day .in-date-range span {
+                    color: black;
+                }
+            }
+        }
+
+        .pagination {
+            justify-content: center;
+
+            li {
+                width: 50px;
+                height: 50px;
+                text-align: center;
+
+                a {
+                    color: white;
+                }
+
+                &.active {
+                    a {
+                        color: #ffda2a;
+                    }
+                }
+            }
         }
     }
 </style>

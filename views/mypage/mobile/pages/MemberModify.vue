@@ -1,5 +1,5 @@
 <template>
-    <div class="my-4">
+    <div class="container-fluid my-4">
         <div class="form-group">
             <label>{{$t('username')}}</label>
             <div class="input-group">

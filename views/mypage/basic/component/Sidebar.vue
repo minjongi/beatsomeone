@@ -39,7 +39,7 @@
                     <router-link to="/register_item" class="nav-link">{{$t('registrationOfBeat')}}</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/mybilling" class="nav-link">{{$t('orderHistory')}}</router-link>
+                    <router-link to="/orders" class="nav-link">{{$t('orderHistory')}}</router-link>
                 </li>
                 <li class="nav-item" v-if="member_group_name.includes('seller')">
                     <router-link to="/saleshistory" class="nav-link">{{$t('salesHistory')}}</router-link>

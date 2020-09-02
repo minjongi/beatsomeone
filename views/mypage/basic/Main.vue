@@ -2,7 +2,7 @@
     <div class="position-relative">
         <Header />
         <Banner v-if="member_group_name === 'buyer'" />
-        <div class="container pb-5" :class="member_group_name === 'buyer' ? 'mt--5' : 'pt-85'">
+        <div class="container pb-5" :class="member_group_name === 'buyer' ? 'mt--5' : 'pt-140'">
             <div class="row">
                 <div class="col-3">
                     <Sidebar />
@@ -81,8 +81,8 @@
         margin-top: -5rem;
     }
 
-    .pt-85 {
-        padding-top: 85px;
+    .pt-140 {
+        padding-top: 140px;
     }
 
     .form-group {
@@ -128,6 +128,56 @@
 
         &:hover {
             color: #b1b1b1;
+        }
+    }
+
+    .order-history {
+        .vhd-container {
+            height: 100%;
+
+            .vhd-input {
+                line-height: 14px;
+                font-size: 14px;
+                height: 100%;
+                border: solid 1px #414143;
+                border-radius: 4px;
+                background-color: transparent;
+            }
+
+            .vhd-picker {
+                left: unset;
+                right: 0;
+                margin-top: 10px;
+                background-color: #2b2c30;
+            }
+
+            .vhd-calendar {
+                .calendar-month-title {
+                    color: white;
+                }
+
+                .calendar-date .week .day .in-date-range span {
+                    color: black;
+                }
+            }
+        }
+
+        .pagination {
+            justify-content: center;
+
+            li {
+                width: 50px;
+                height: 50px;
+                a {
+                    color: white;
+                }
+
+                &.active {
+                    a {
+                        color: #ffda2a;
+                    }
+                }
+            }
         }
     }
 </style>

@@ -1,10 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import "bootstrap";
 
 import i18n from '*/src/i18n/i18n';
 import app from "./Main.vue";
 import Dashboard from "./pages/Dashboard";
 import MemberModify from "./pages/MemberModify";
+import OrderList from "./pages/OrderList";
 
 Vue.use(VueRouter);
 
@@ -14,6 +16,10 @@ const router = new VueRouter({
         {
             path: '/membermodify',
             component: MemberModify
+        },
+        {
+            path: '/orders',
+            component: OrderList
         }
         // {path: '/profilemod', component: Profilemod},
         // {path: '/list_item', component: ProductList},
