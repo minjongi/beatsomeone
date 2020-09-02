@@ -64,12 +64,14 @@ if (config_item('uri_segment_admin') !== 'admin') {
 }
 
 $route[config_item('uri_segment_board') . '/([a-zA-Z0-9_-]+)'] = "board_post/lists/$1";
+$route[config_item('uri_segment_board') . '/ajax/([a-zA-Z0-9_-]+)'] = "board_post/ajax_lists/$1";
 if (strtoupper(config_item('uri_segment_post_type')) === 'B') {
 	$route['([a-zA-Z0-9_-]+)/' . config_item('uri_segment_post') . '/([0-9]+)'] = "board_post/post/$2";
 } else if (strtoupper(config_item('uri_segment_post_type')) === 'C') {
 	$route[config_item('uri_segment_post') . '/([a-zA-Z0-9_-]+)/([0-9]+)'] = "board_post/post/$2";
 } else {
 	$route[config_item('uri_segment_post') . '/([0-9]+)'] = "board_post/post/$1";
+    $route[config_item('uri_segment_post') . '/ajax/([0-9]+)'] = "board_post/ajax_post/$1";
 }
 $route[config_item('uri_segment_write') . '/([a-zA-Z0-9_-]+)'] = "board_write/write/$1";
 $route[config_item('uri_segment_reply') . '/([0-9]+)'] = "board_write/reply/$1";

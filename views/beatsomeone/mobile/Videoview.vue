@@ -6,25 +6,21 @@
                 <div class="filter"></div>
                 <div class="wrap videolist">
                     <div class="videoview">
-                        <div class="title">[비트썸바디] 비트메이커 KKOMA 인터뷰</div>
-                        <div class="desc">
-                            Beat someone에서 만난 비트메이커 KKOMA!<br/>
-                            그의 비트에 대한 철학과 아끼는 비트 BEST 3를 만나보세요.
+                        <div class="title">{{ post.post_title}}</div>
+                        <div class="desc" v-html="post.post_content">
                         </div>
                     </div>
                     <div class="block">
                         <div>
-                            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/e5VmOD1Sn04" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            <!-- <div class="play">
-                                <img src="/assets/images/icon/hover_play.png">
-                            </div> -->
+                            <iframe class="video" v-for="link in links" :key="link.post_id" :src="link.pln_url">
+                            </iframe>
                         </div>
                     </div>
                     <div class="sns-box">
                         <div class="iconbtnbox">
                             <button><img src="/assets/images/icon/share.png"/></button>
-                            <button><img src="/assets/images/icon/fb.png"/></button>
-                            <button><img src="/assets/images/icon/tw.png"/></button>
+                            <button @click="sendSnsVue('facebook')"><img src="/assets/images/icon/fb.png"/></button>
+                            <button @click="sendSnsVue('twitter')"><img src="/assets/images/icon/tw.png"/></button>
                         </div>
                         <div class="iconbtnbox">
                             <button><img src="/assets/images/icon/list.png"/></button>
@@ -39,15 +35,17 @@
 
 
 <script>
+    import axios from "axios";
+
     require('@/assets_m/js/function')
-    import Header from "../include/Header"
-    import Footer from "../include/Footer"
+    import Header from "./include/Header"
+    import Footer from "./include/Footer"
 
     import $ from "jquery";
     import { EventBus } from '*/src/eventbus';
     import Velocity from "velocity-animate";
     //import MainPlayer from "@/vue/common/MainPlayer";
-    import WaveSurfer from 'wavesurfer.js';
+    import WaveSurfer from '../../../node_modules/wavesurfer.js/dist/wavesurfer';
 
     export default {
         components: {
@@ -63,6 +61,8 @@
                 isPlay: false,
                 isReady: false,
                 wavesurfer: null,
+                post: {},
+                links: [],
             };
         },
         mounted(){
@@ -79,6 +79,22 @@
                     .find(".options")
                     .toggle();
             });
+
+            const post_id = this.$route.params.id;
+            axios.get(`/post/ajax/${post_id}`)
+                .then(res => res.data)
+                .then(data => {
+                    this.links = data.links;
+                    this.links.forEach(link => {
+                        if (link.pln_url.includes('youtu.be')) {
+                            link.pln_url = link.pln_url.replace('youtu.be', 'www.youtube.com/embed');
+                        }
+                    });
+                    this.post = data.post;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
         created() {
                 Http.get('/beatsomeoneApi/get_user_regist_item_list').then(r => {
@@ -120,6 +136,10 @@
             start(){
                 this.wavesurfer.play();
             },
+            sendSnsVue(sns) {
+                let currentUrl = window.location.pathname;
+                window.sendSns(sns, currentUrl, this.post.post_title);
+            }
         }
     }
 </script>
@@ -130,8 +150,8 @@
 </style>
 
 <style scoped="scoped" lang="scss">
-    @import '/assets/plugins/slick/slick.css';
-    @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
+    @import '../../../assets/plugins/slick/slick.css';
+    @import '../../../assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
     .main .filter {
         height: 64px;
     }

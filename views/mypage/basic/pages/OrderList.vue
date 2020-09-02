@@ -279,56 +279,16 @@
 
         table {
             thead {
-                background-color: #1c1d23;
-                margin-bottom: 3px;
-
                 tr {
                     th {
-                        color: white;
-                        border-bottom: solid 1px #333640;
-                        border-top: solid 1px #333640;
-
                         &:first-child {
-                            border-left: solid 1px #333640;
                             width: 110px;
                         }
 
                         &:last-child {
-                            border-right: solid 1px #333640;
                             width: 115px;
                         }
                     }
-                }
-            }
-
-            tbody {
-                tr {
-                    td {
-                        vertical-align: middle;
-                        background-color: #1b1b1e;
-                        color: #a3a3a5;
-                        border-top: solid 1px black;
-
-                        &:first-child {
-                            word-break: break-all;
-                        }
-                    }
-
-                    &:hover {
-                        background-color: #2b2c30;
-                        cursor: pointer;
-
-                        td {
-                            background-color: transparent;
-                        }
-                    }
-                }
-
-                &:before {
-                    content: "-";
-                    display: block;
-                    line-height: 5px;
-                    color: transparent;
                 }
             }
         }

@@ -27,6 +27,9 @@
         <li class="nav-item" v-if="member_group_name === 'buyer'">
             <a href="/mypage/upgrade" class="nav-link">{{$t('sellerRegister')}}</a>
         </li>
+        <li class="nav-item">
+            <router-link to="/inquiry" class="nav-link">{{$t('support1')}}</router-link>
+        </li>
     </ul>
 </template>
 

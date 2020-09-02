@@ -371,12 +371,6 @@
 
 <style lang="scss" scoped>
     .member-modify {
-        .card {
-            border: 1px solid #131315;
-            border-radius: 10px;
-            background-color: #131315;
-        }
-
         .btn:not(.btn-block) {
             width: 96px;
         }

@@ -7,6 +7,7 @@ import app from "./Main.vue";
 import Dashboard from "./pages/Dashboard";
 import MemberModify from "./pages/MemberModify";
 import OrderList from "./pages/OrderList";
+import InquiryList from './pages/InquiryList';
 
 Vue.use(VueRouter);
 
@@ -20,7 +21,11 @@ const router = new VueRouter({
         {
             path: '/orders',
             component: OrderList
-        }
+        },
+        {
+            path: '/inquiry',
+            component: InquiryList
+        },
         // {path: '/profilemod', component: Profilemod},
         // {path: '/list_item', component: ProductList},
         // {path: '/mybilling', component: Mybilling},
@@ -31,13 +36,10 @@ const router = new VueRouter({
         // {path: '/seller', component: Seller},
         // {path: '/sellerbill', component: Sellerbill},
         // {path: '/message', component: Message},
-        // {path: '/inquiry', component: Inquiry},
         // {path: '/inquiryenroll', component: Inquiryenroll},
         // {path: '/inquirymod', component: Inquirymod},
         // {path: '/inquiry/:post_id', component: Inquiryview},
         // {path: '/inquiry/:post_id/edit', component: Inquiryenroll},
-        // {path: '/faq', component: Faq},
-        // {path: '/favorites', component: Favorites},
     ],
 });
 

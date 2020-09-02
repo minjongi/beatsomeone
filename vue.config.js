@@ -41,7 +41,7 @@ module.exports = {
             m_cart: ['./views/beatsomeone/mobile/cart/cart.js'],
             m_billing: ['./views/beatsomeone/mobile/cart/billing.js'],
             m_complete: ['./views/beatsomeone/mobile/cart/complete.js'],
-            m_video: ['./views/beatsomeone/mobile/mypage/video.js'],
+            m_video: ['./views/beatsomeone/mobile/video.js'],
             m_status_item: ['./views/mypage/mobile/status_item.js'],
             m_sellerreg: ['./views/beatsomeone/mobile/mypage/sellerreg.js'],
             m_login: ['./views/login/mobile/login.js'],

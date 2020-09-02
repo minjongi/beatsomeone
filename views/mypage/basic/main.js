@@ -9,6 +9,10 @@ import Dashboard from "./pages/Dashboard";
 import MemberModify from "./pages/MemberModify";
 import OrderList from "./pages/OrderList";
 import OrderView from "./pages/OrderView";
+import InquiryList from "./pages/InquiryList";
+import InquiryEnroll from "./pages/InquiryEnroll";
+import Faq from "./pages/Faq";
+import InquiryView from "./pages/InquiryView";
 
 Vue.use(VueRouter);
 Vue.component('v-select', vSelect);
@@ -26,6 +30,26 @@ const routes = [
     {
         path: '/orders/:cor_id',
         component: OrderView,
+    },
+    {
+        path: '/inquiry',
+        component: InquiryList
+    },
+    {
+        path: '/inquiry/:post_id',
+        component: InquiryView
+    },
+    {
+        path: '/inquiry/:post_id/edit',
+        component: InquiryEnroll
+    },
+    {
+        path: '/inquiryenroll',
+        component: InquiryEnroll
+    },
+    {
+        path: '/faq',
+        component: Faq
     }
 ];
 

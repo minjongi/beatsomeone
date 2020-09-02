@@ -33,7 +33,7 @@
         },
         mounted() {
             const post_id = this.$route.params.id;
-            axios.get(`/post/${post_id}`)
+            axios.get(`/post/ajax/${post_id}`)
                 .then(res => res.data)
                 .then(data => {
                     this.links = data.links;

@@ -4,10 +4,10 @@ import VueRouter  from 'vue-router';
 
 // i18n
 import i18n from '*/src/i18n/i18n'
-import app from '../Video.vue';
+import app from './Video.vue';
 
-import Videolist from "../Videolist";
-import Videoview from "../Videoview";
+import Videolist from "./Videolist";
+import Videoview from "./Videoview";
 Vue.use(VueRouter);
 
 Vue.config.productionTip = false;
@@ -16,7 +16,7 @@ Vue.prototype.$log = console.log.bind(console);
 const router = new VueRouter({
   routes: [
     { path: '/', component: Videolist},
-    { path: '/videoview', component: Videoview},
+    { path: '/:id', component: Videoview},
   ],
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
