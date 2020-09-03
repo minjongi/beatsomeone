@@ -88,6 +88,29 @@
         }
     }
 
+    .form-control {
+        background: hsla(0,0%,100%,.1);
+        color: #fff;
+        border: solid 1px rgba(255, 255, 255, 0.1);
+
+        &:focus {
+            color: #fff;
+            background-color: #2b2b2d;
+            border: solid 1px rgba(255, 255, 255, 0.1);
+        }
+
+        &:hover {
+            color: #fff;
+            background: hsla(0,0%,100%,.3);
+            border: solid 1px rgba(255, 255, 255, 0.1);
+        }
+
+        &:disabled, &[readonly] {
+            background: hsla(0,0%,100%,.1);
+            border: solid 1px rgba(255, 255, 255, 0.1);
+        }
+    }
+
     .order-history {
         .vhd-container {
             height: 100%;

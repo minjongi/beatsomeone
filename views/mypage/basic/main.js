@@ -1,6 +1,7 @@
 import Vue from "vue";
 import vSelect from 'vue-select';
 import "bootstrap";
+import $ from "jquery";
 import i18n from '*/src/i18n/i18n';
 import app from "./Main.vue";
 import VueRouter from "vue-router";
@@ -27,10 +28,10 @@ const routes = [
         path: '/orders',
         component: OrderList
     },
-    {
-        path: '/orders/:cor_id',
-        component: OrderView,
-    },
+    // {
+    //     path: '/orders/:cor_id',
+    //     component: OrderView,
+    // },
     {
         path: '/inquiry',
         component: InquiryList
@@ -62,3 +63,7 @@ window.vm = new Vue({
     router,
     render: (h) => h(app),
 }).$mount('#app');
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

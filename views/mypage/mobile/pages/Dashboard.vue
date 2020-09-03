@@ -1,6 +1,6 @@
 <template>
-    <div class="container-fluid my-5">
-        <div class="mb-5">
+    <div class="my-5">
+        <div class="container-fluid mb-5">
             <h5 class="mb-3 title">
                 {{$t('orderDetails')}}
             </h5>
@@ -20,48 +20,35 @@
             </div>
         </div>
         <div class="mb-5">
-            <h5 class="mb-3 title">
+            <h5 class="m-3 title">
                 {{ $t('expiredSoon') }}
                 <a href="javascript:;" class="float-right mr-2">
                     <span>more <i class="fal fa-chevron-right"></i></span>
                 </a>
             </h5>
-            <div id="expired-items" class="swiper-container" v-if="expired_soon_items.length > 0">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div>
-                            Item 1
+            <swiper v-if="expired_soon_items.length > 0">
+                <swiper-slide v-for="cod_item in expired_soon_items" :key="cod_item.cod_id">
+                    <div class="d-flex py-3 align-items-center list-item" @click="goToItemPage(cod_item.cit_key)">
+                        <div class="col d-flex align-items-center">
+                            <div class="expired-wrapper mr-2">
+                                <div class="image-wrapper">
+                                    <img :src="'/uploads/cmallitem/' + cod_item.coverImg" />
+                                </div>
+                            </div>
+                            <h6 class="cit-name">{{ cod_item.cit_name }}</h6>
                         </div>
-                        <div>
-                            Item 2
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div>
-                            Item 3
-                        </div>
-                        <div>
-                            Item 4
+                        <div class="col-auto text-right text-secondary">
+                            <span class="text-danger">{{ timeago(cod_item.expireTm).replace('in','')}}</span> remaining
                         </div>
                     </div>
-                    <div class="swiper-slide">
-                        <div>
-                            Item 5
-                        </div>
-                        <div>
-                            Item 6
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-pagination">
-                </div>
-            </div>
+                </swiper-slide>
+            </swiper>
             <div class="text-center empty-content" v-else>
                 <span>{{ $t('dashboard_ExpiredSoon_notexists') }}</span>
             </div>
         </div>
-        <div class="mb-5">
-            <h5 class="title mb-3">
+        <div class="container-fluid mb-5">
+            <h5 class="title m-3">
                 {{$t('recentlyListen')}}
             </h5>
             <swiper :options="swiperOption" v-if="recentlyViewedItems.length > 0">
@@ -82,26 +69,60 @@
             </div>
         </div>
         <div class="mb-5">
-            <h5 class="title mb-3">
+            <h5 class="title m-3">
                 {{$t('messageYouReceived')}}
                 <a href="javascript:;" @click="$router.push('/message')" class="float-right mr-2">
                     <span class="">more <i class="fal fa-chevron-right"></i></span>
                 </a>
             </h5>
             <div v-if="messages.length > 0">
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="(message, index) in messages" v-bind:key="index">
+                        <div class="row align-items-center">
+                            <div class="col-2 pr-0">
+                                <div class="mem-photo">
+                                    <img :src="message.mem_photo" v-if="message.mem_photo">
+                                    <img src="/assets/images/portait.png" v-else>
+                                </div>
+                            </div>
+                            <div class="col-7">
+                                <div>{{ message.mem_nickname }}</div>
+                                <div class="text-secondary">{{ message.nte_datetime }}</div>
+                            </div>
+                            <div class="col-3">
+                                <span class="text-secondary" v-if="message.nte_read_datetime">Read</span>
+                                <span class="text-warning" v-else>Unread</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
             <div class="empty-content recent" v-else>
                 <span>No messages</span>
             </div>
         </div>
         <div class="mb-5">
-            <h5 class="title mb-3">
+            <h5 class="title m-3">
                 {{$t('supportCase')}}
                 <a class="float-right mr-2" href="javascript:;" @click="goPage('/inquiry')">
                     <span class="">more <i class="fal fa-chevron-right"></i></span>
                 </a>
             </h5>
             <div v-if="inquiries.length > 0">
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="(inquiry, index) in inquiries" v-bind:key="index">
+                        <div class="row align-items-center" @click="$router.push('/inquiry/' + inquiry.post_id)">
+                            <div class="col-9">
+                                <div>{{ inquiry.post_title }}</div>
+                                <div class="text-secondary">{{ inquiry.post_updated_datetime }}</div>
+                            </div>
+                            <div class="col-3">
+                                <span class="text-warning" v-if="inquiry.replies.list.length === 0">Wait...</span>
+                                <span class="text-secondary" v-else>Answer Complete...</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
             <div class="empty-content recent" v-else>
                 <span>No questions</span>
@@ -113,6 +134,7 @@
 <script>
     import axios from "axios";
     import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+    import * as timeago from "timeago.js";
 
     export default {
         name: "Dashboard",
@@ -166,7 +188,10 @@
             },
             goToItemPage(cit_key) {
                 window.location.href = `/beatsomeone/detail/${cit_key}`;
-            }
+            },
+            timeago(date) {
+                return timeago.format(date);
+            },
         }
     }
 </script>
@@ -235,6 +260,42 @@
             width: 100%;
             height: 100%;
             border-radius: 10px;
+        }
+    }
+
+    .list-group-item, .list-item {
+        background-color: #1b1b1e;
+        margin-bottom: 1px;
+    }
+
+    .mem-photo {
+        img {
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+
+    .expired-wrapper {
+        width: 90px;
+
+        .image-wrapper {
+            padding-top: 100%;
+            position: relative;
+
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                box-shadow: unset;
+
+                &:hover {
+                    box-shadow: unset;
+                }
+            }
         }
     }
 </style>

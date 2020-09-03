@@ -152,7 +152,7 @@ class Member extends CI_Controller
 				'mem_id' => $this->item('mem_id'),
 			);
 			$this->CI->load->model('Member_group_member_model');
-			$this->member_group = $this->CI->Member_group_member_model->get('', '', $where, '', 0, 'mgm_id', 'ASC');
+			$this->member_group = $this->CI->Member_group_member_model->get_with_group($this->item('mem_id'));
 		}
 		return $this->member_group;
 	}
