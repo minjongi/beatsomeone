@@ -3333,6 +3333,27 @@ class Mypage extends CB_Controller
             $result['total_product_count'] = $total_product_count;
             $result['selling_product_count'] = $selling_product_count;
             $result['pending_product_count'] = $pending_product_count;
+
+            $saleData = $this->Cmall_order_detail_model->get_sale_data($mem_id);
+            $chartData = array();
+            for ($i = 0; $i < count($saleData) - 1; $i++) {
+                $begin = new DateTime($saleData[$i]['cor_date']);
+                $end = new DateTime($saleData[$i + 1]['cor_date']);
+                $chartData[$saleData[$i]['cor_date']] = intval($saleData[$i]['total']);
+                for ($j = $begin->modify('+1 day'); $j <= $end; $j->modify('+1 day')) {
+                    $date = $j->format('Y-m-d');
+                    $chartData[$date] = 0;
+                }
+            }
+
+
+            $result['saleData'] = array(
+                // 이번달 정보
+                array(
+                    'category' => 'Estimated settlement',
+                    'data' => $chartData
+                ),
+            );
         }
 
         $this->output->set_content_type('text/json');

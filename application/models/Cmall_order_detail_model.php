@@ -134,4 +134,14 @@ class Cmall_order_detail_model extends CB_Model
         $result = $qry->row_array();
         return $result;
     }
+
+    public function get_sale_data($mem_id)
+    {
+        $start_date = date('Y-m-d', mktime(0, 0, 0, date('m') , date('d')-28, date('Y')));
+	    $sql = "SELECT sum(cod.cod_count * cid.cde_price) as total, sum(cod.cod_count * cid.cde_price_d) as total_d, CAST(co.cor_datetime AS DATE ) AS cor_date FROM cb_cmall_order_detail as cod LEFT JOIN cb_cmall_item_detail cid on cod.cde_id = cid.cde_id LEFT JOIN cb_cmall_order co on cod.cor_id = co.cor_id WHERE cid.mem_id = ? AND co.cor_datetime >= ? GROUP BY cor_date;";
+//        $sql = "SELECT sum(cod.cod_count * cid.cde_price) as total, sum(cod.cod_count * cid.cde_price_d) as total_d, CAST(co.cor_datetime AS DATE ) AS cor_date FROM cb_cmall_order_detail as cod LEFT JOIN cb_cmall_item_detail cid on cod.cde_id = cid.cde_id LEFT JOIN cb_cmall_order co on cod.cor_id = co.cor_id WHERE cid.mem_id = ? GROUP BY cor_date";
+        $result = $this->db->query($sql, [$mem_id, $start_date])->result_array();
+//        $result = $this->db->query($sql, [$mem_id])->result_array();
+	    return $result;
+    }
 }

@@ -32,11 +32,11 @@
                 </div>
             </div>
         </div>
-        <div class="row" v-if="isSeller">
+        <div class="row mb-5" v-if="isSeller">
             <div class="col-12">
                 <h5>{{$t('chart')}}</h5>
                 <div class="chart">
-                    <LineChart :chartdata="chartdata" :options="options" :styles="{'height':'320px'}" :height="150" />
+                    <SaleChart :data="saleData" v-if="saleData" />
                 </div>
             </div>
         </div>
@@ -204,10 +204,12 @@
     import axios from "axios";
     import * as timeago from "timeago.js";
     import LineChart from "../component/LineChart";
+    import SaleChart from "../component/SaleChart";
 
     export default {
         name: "Dashboard",
         components: {
+            SaleChart,
             LineChart,
             Swiper,
             SwiperSlide
@@ -236,96 +238,7 @@
                 total_product_count: 0,
                 selling_product_count: 0,
                 pending_product_count: 0,
-                chartdata: {
-                    datasets: [
-                        {
-                            borderColor: '#4890FF',
-                            borderWidth: 2,
-                            pointBorderColor: '#4890FF',
-                            pointBackgroundColor: '#4890FF',
-                            lineTension: 0.1,
-                            fill: false,
-                            showLine: true,
-                        },
-                        {
-                            borderColor: '#FF4848',
-                            borderWidth: 2,
-                            pointBorderColor: '#FF4848',
-                            pointBackgroundColor: '#FF4848',
-                            lineTension: 0.1,
-                            fill: false,
-                            showLine: true,
-                        }
-                    ]
-                },
-                options: {
-                    tooltips: {
-                        position : 'custom',
-                        backgroundColor: 'rgba(60, 60, 60, 1)',
-                        titleAlign: 'center',
-                        bodyAlign: 'center',
-                        footerAlign: 'center',
-
-                        callbacks: {
-                            label: function(tooltipItem, data) {
-                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-                                if (label) {
-                                    label += ': ';
-                                }
-                                label += '￦ '+tooltipItem.yLabel.toLocaleString();
-                                // var label = '￦ '+tooltipItem.yLabel.toLocaleString();
-                                return label;
-                            },
-                            // afterLabel: function(tooltipItem, data) {
-                            //     var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                            //     return label + ' Amount';
-                            // }
-                        }
-                    },
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: { display: false },
-                    scales: {
-                        xAxes: [{
-                            type: 'category',
-                            gridLines: {
-                                zeroLineColor: 'rgba(255, 255, 255, 0.8)',
-                                drawBorder: true,
-                                drawTicks: false,
-                                tickMarkLength: 10,
-                            },
-                            ticks: {
-                                fontColor: 'rgba(255, 255, 255, 0.8)',
-                                padding: 10,
-                            }
-                        }],
-                        yAxes: [{
-
-                            gridLines: {
-
-                                display: true,
-                                color: 'rgba(255, 255, 255, 0.3)',
-                                //color: ['rgba(255, 255, 255, 0.8)','rgba(255, 255, 255, 0.3)','rgba(255, 255, 255, 0.3)','rgba(255, 255, 255, 0.3)'],
-                                zeroLineColor: 'rgba(255, 255, 255, 0.8)',
-                                borderDash: [2, 2],
-                                drawOnChartArea: true,
-                                //drawBorder: true,
-                                drawTicks: false,
-                                tickMarkLength: 10,
-                                offsetGridLines: false,
-                            },
-                            ticks: {
-                                fontColor: 'rgba(255, 255, 255, 0.8)',
-                                padding: 20,
-
-                                callback: function(value, index, values) {
-                                    return value.toLocaleString();
-                                }
-                            }
-                        }]
-                    }
-                },
+                saleData: null,
             }
         },
         mounted() {
@@ -354,12 +267,12 @@
                     this.total_product_count = data.total_product_count;
                     this.selling_product_count = data.selling_product_count;
                     this.pending_product_count = data.pending_product_count;
+                    this.saleData = data.saleData;
+                    console.log(this.saleData);
                 })
                 .catch(error => {
                     console.error(error);
                 })
-
-            this.fillData();
         },
         computed: {
             isSeller() {
@@ -379,25 +292,6 @@
             timeago(date) {
                 return timeago.format(date);
             },
-            fillData() {
-                this.datacollection = {
-                    labels: [this.getRandomInt(), this.getRandomInt()],
-                    datasets: [
-                        {
-                            label: 'Data One',
-                            backgroundColor: '#f87979',
-                            data: [this.getRandomInt(), this.getRandomInt()]
-                        }, {
-                            label: 'Data One',
-                            backgroundColor: '#f87979',
-                            data: [this.getRandomInt(), this.getRandomInt()]
-                        }
-                    ]
-                }
-            },
-            getRandomInt () {
-                return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-            }
         }
     }
 </script>
