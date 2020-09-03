@@ -333,7 +333,7 @@ export default {
         }
       });
 
-      var url = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+      var url = window.location.origin + '/beatsomeone/detail/' + this.item.cit_key;
       var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
 
       var o;
@@ -410,7 +410,7 @@ export default {
     copyLinkToClipboard() {
       var t = document.createElement("textarea");
       document.body.appendChild(t);
-      t.value = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+      t.value = window.location.origin + '/beatsomeone/detail/' + this.item.cit_key;
       t.select();
       document.execCommand("copy");
       document.body.removeChild(t);
