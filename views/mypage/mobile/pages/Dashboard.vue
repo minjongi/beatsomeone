@@ -1,5 +1,37 @@
 <template>
     <div class="my-5">
+        <div class="container-fluid mb-5" v-if="isSeller">
+            <h5>{{$t('settlementOverview')}}</h5>
+            <div class="row settle-overview">
+                <div class="col-12 text-center text-primary">
+                    <h3>{{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? total_sale_funds : total_sale_funds_d }}</h3>
+                    <p class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (total_sale_funds - total_last_sale_funds) : (total_sale_funds_d - total_last_sale_funds_d) }})</p>
+                    <p class="text-secondary">
+                        {{$t('estimatedSalesAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day."></span>
+                    </p>
+                </div>
+                <div class="col-12 text-center text-primary">
+                    <h3>{{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? total_settle_funds : total_settle_funds_d }}</h3>
+                    <p class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (total_settle_funds - total_last_settle_funds) : (total_settle_funds_d - total_last_settle_funds_d) }})</p>
+                    <p class="text-secondary">
+                        {{$t('estimatedSettlementAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month."></span>
+                    </p>
+                </div>
+                <div class="col-12 text-center text-danger">
+                    <h3>{{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? total_last_settle_funds : total_last_settle_funds_d }}</h3>
+                    <p class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (total_last_settle_funds - total_lastlast_settle_funds) : (total_lastlast_settle_funds - total_lastlast_settle_funds_d) }})</p>
+                    <p class="text-secondary">
+                        {{$t('lastMonthSettlementAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Displays the amount settled last month."></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-5" v-if="isSeller">
+            <h5>{{$t('chart')}}</h5>
+            <div class="chart">
+                <SaleChart :data="saleData" v-if="saleData" />
+            </div>
+        </div>
         <div class="container-fluid mb-5">
             <h5 class="mb-3 title">
                 {{$t('orderDetails')}}
@@ -19,7 +51,29 @@
                 </div>
             </div>
         </div>
-        <div class="mb-5">
+        <div class="container-fluid mb-5" v-if="isSeller">
+            <h5 class="mb-3 title">
+                Product details
+                <a href="javascript:;" @click="$router.push('/list_item')" class="float-right mr-2">
+                    <span>more <i class="fal fa-chevron-right"></i></span>
+                </a>
+            </h5>
+            <div class="split-board row">
+                <div class="item col text-center">
+                    <h3 class="text-primary">{{ total_product_count }}</h3>
+                    <p>Total</p>
+                </div>
+                <div class="item col text-center">
+                    <h3 class="text-danger">{{ selling_product_count }}</h3>
+                    <p>Selling</p>
+                </div>
+                <div class="item col text-center">
+                    <h3 class="text-success">{{ pending_product_count }}</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+        </div>
+        <div class="mb-5" v-if="isBuyer">
             <h5 class="m-3 title">
                 {{ $t('expiredSoon') }}
                 <a href="javascript:;" class="float-right mr-2">
@@ -135,12 +189,14 @@
     import axios from "axios";
     import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
     import * as timeago from "timeago.js";
+    import SaleChart from "../component/SaleChart";
 
     export default {
         name: "Dashboard",
         components: {
             Swiper,
-            SwiperSlide
+            SwiperSlide,
+            SaleChart
         },
         data: function () {
             return {
@@ -156,17 +212,25 @@
                 swiperOption: {
                     slidesPerView: 2.5,
                     spaceBetween: 20,
-                }
+                },
+                total_sale_funds: 0,
+                total_sale_funds_d: 0,
+                total_settle_funds: 0,
+                total_settle_funds_d: 0,
+                total_last_sale_funds: 0,
+                total_last_sale_funds_d: 0,
+                total_last_settle_funds: 0,
+                total_last_settle_funds_d: 0,
+                total_lastlast_settle_funds: 0,
+                total_lastlast_settle_funds_d: 0,
+                total_product_count: 0,
+                selling_product_count: 0,
+                pending_product_count: 0,
+                saleData: null,
             }
         },
         mounted() {
             this.member_group_name = window.member_group_name;
-            // var swiper = new Swiper('#expired-items', {
-            //     pagination: {
-            //         el: '.swiper-pagination',
-            //     },
-            // });
-
             axios.get('/mypage/ajax_info')
                 .then(res => res.data)
                 .then(data => {
@@ -177,10 +241,34 @@
                     this.recentlyViewedItems = data.recently_listen_items;
                     this.messages = data.messages;
                     this.inquiries = data.inquiries;
+                    if (this.isSeller) {
+                        this.total_sale_funds = data.total_sale_funds;
+                        this.total_sale_funds_d = data.total_sale_funds_d;
+                        this.total_settle_funds = data.total_settle_funds;
+                        this.total_settle_funds_d = data.total_settle_funds_d;
+                        this.total_last_sale_funds = data.total_last_sale_funds;
+                        this.total_last_sale_funds_d = data.total_last_sale_funds_d;
+                        this.total_last_settle_funds = data.total_last_settle_funds;
+                        this.total_last_settle_funds_d = data.total_last_settle_funds_d;
+                        this.total_lastlast_settle_funds = data.total_lastlast_settle_funds;
+                        this.total_lastlast_settle_funds_d = data.total_lastlast_settle_funds_d;
+                        this.total_product_count = data.total_product_count;
+                        this.selling_product_count = data.selling_product_count;
+                        this.pending_product_count = data.pending_product_count;
+                        this.saleData = data.saleData;
+                    }
                 })
                 .catch(error => {
                     console.error(error);
                 })
+        },
+        computed: {
+            isSeller() {
+                return this.member_group_name.includes('seller');
+            },
+            isBuyer() {
+                return this.member_group_name === 'buyer';
+            }
         },
         methods: {
             goPage(page) {
@@ -197,6 +285,12 @@
 </script>
 
 <style lang="scss" scoped>
+    .settle-overview {
+        h3 {
+            font-size: 4rem;
+        }
+    }
+
     .split-board {
         > .item {
             &:not(:last-child) {

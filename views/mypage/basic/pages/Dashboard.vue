@@ -254,21 +254,22 @@
                     this.recentlyViewedItems = data.recently_listen_items;
                     this.messages = data.messages;
                     this.inquiries = data.inquiries;
-                    this.total_sale_funds = data.total_sale_funds;
-                    this.total_sale_funds_d = data.total_sale_funds_d;
-                    this.total_settle_funds = data.total_settle_funds;
-                    this.total_settle_funds_d = data.total_settle_funds_d;
-                    this.total_last_sale_funds = data.total_last_sale_funds;
-                    this.total_last_sale_funds_d = data.total_last_sale_funds_d;
-                    this.total_last_settle_funds = data.total_last_settle_funds;
-                    this.total_last_settle_funds_d = data.total_last_settle_funds_d;
-                    this.total_lastlast_settle_funds = data.total_lastlast_settle_funds;
-                    this.total_lastlast_settle_funds_d = data.total_lastlast_settle_funds_d;
-                    this.total_product_count = data.total_product_count;
-                    this.selling_product_count = data.selling_product_count;
-                    this.pending_product_count = data.pending_product_count;
-                    this.saleData = data.saleData;
-                    console.log(this.saleData);
+                    if (this.isSeller) {
+                        this.total_sale_funds = data.total_sale_funds;
+                        this.total_sale_funds_d = data.total_sale_funds_d;
+                        this.total_settle_funds = data.total_settle_funds;
+                        this.total_settle_funds_d = data.total_settle_funds_d;
+                        this.total_last_sale_funds = data.total_last_sale_funds;
+                        this.total_last_sale_funds_d = data.total_last_sale_funds_d;
+                        this.total_last_settle_funds = data.total_last_settle_funds;
+                        this.total_last_settle_funds_d = data.total_last_settle_funds_d;
+                        this.total_lastlast_settle_funds = data.total_lastlast_settle_funds;
+                        this.total_lastlast_settle_funds_d = data.total_lastlast_settle_funds_d;
+                        this.total_product_count = data.total_product_count;
+                        this.selling_product_count = data.selling_product_count;
+                        this.pending_product_count = data.pending_product_count;
+                        this.saleData = data.saleData;
+                    }
                 })
                 .catch(error => {
                     console.error(error);
