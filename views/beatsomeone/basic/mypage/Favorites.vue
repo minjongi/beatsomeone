@@ -26,7 +26,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
+                        <div class="playList pc-fav-list-alskdcalskdlc" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
                             <transition-group name="staggered-fade" tag="ul" v-bind:css="false"
                                               v-on:before-enter="beforeEnter"
                                               v-on:enter="enter" v-on:leave="leave">
@@ -86,6 +86,7 @@
             this.updateAllList();
         },
         mounted() {
+
         },
         computed: {},
         methods: {

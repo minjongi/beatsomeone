@@ -48,12 +48,13 @@
                                             </figcaption>
                                         </figure>
                                     </div>
-                                    <div class="col btns">
+                                    <div class="col btns"  @click="togglePopup(item)">
                                         <button>
                                             cart
                                         </button>
                                     </div>
                                 </div>
+                                <SelectorModal :togglePopup.sync="item.toggle_popup" :item="item"/>
                             </li>
                         </ul>
                     </div>
@@ -74,11 +75,15 @@
     import MainPlayer from "@/vue/common/MobileMainPlayer";
     import $ from "jquery";
 
+    // import SelectorModal from "./component/SelectorModal";
+    import SelectorModal from "./component/SelectorModal";
+
     export default {
         components: {
             Header,
             Footer,
             MainPlayer,
+            SelectorModal
         },
         data: function () {
             return {
@@ -133,7 +138,6 @@
                     $oldTappedItem.addClass("btn_pause").removeClass("btn-play");
                     this.start(this.playItem, this.playIndex);
                 }
-
 
                 // if (this._uid != r._uid) {
                 //     this.music.pause();
@@ -309,7 +313,27 @@
                 this.playIndex = index;
                 this.playItem = item;
 
-            }
+            },
+            addCart(item) {
+                console.log('Fav add cart item data : ', item.cde_id, item.cit_id);
+                console.log('item:', item)
+                return
+                // let detail_qty = {};
+                // detail_qty[item.cde_id] = 1;
+                // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:item.cit_id,chk_detail:[item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                //     if(!r) {
+                //         log.debug('장바구니 담기 실패');
+                //     } else {
+                //         EventBus.$emit('add_cart');
+                //         log.debug('장바구니 담기 성공');
+                //
+                //     }
+                // });
+            },
+            togglePopup: function (item) {
+                console.log('toggle popup for cart item')
+                this.$set(item, 'toggle_popup', true);
+            },
         },
     };
 </script>
