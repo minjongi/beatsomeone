@@ -1,36 +1,38 @@
 <template>
     <header class="header" :class="scrolled">
         <nav class="navbar navbar-expand-lg navbar-dark mx-5">
-            <a href="/" class="navbar-brand">
-                <img src="/assets/images/logo.png" alt=""/>
-            </a>
-            <div class="navbar-collapse collapse">
-                <div class="header-search ml-auto">
-                    <div>
-                        <input type="text" v-model="searchText" @keyup.enter="search"/>
-                        <button @click="search"></button>
+            <div class="container">
+                <a href="/" class="navbar-brand">
+                    <img src="/assets/images/logo.png" alt=""/>
+                </a>
+                <div class="navbar-collapse collapse">
+                    <div class="header-search ml-auto">
+                        <div>
+                            <input type="text" v-model="searchText" @keyup.enter="search"/>
+                            <button @click="search"></button>
+                        </div>
                     </div>
+                    <ul class="navbar-nav ml-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/mypage/favorites">{{ $t('favorite') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/mypage">{{ $t('mypage') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login/logout" v-if="is_member">{{ $t('logout') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/cmall/cart" class="nav-link"><span class="fal fa-shopping-cart mr-1"></span>({{ $t('currencySymbol') + cartSum }})</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/mypage/favorites">{{ $t('favorite') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/mypage">{{ $t('mypage') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login/logout" v-if="is_member">{{ $t('logout') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/cmall/cart" class="nav-link"><span class="fal fa-shopping-cart mr-1"></span>({{ $t('currencySymbol') + cartSum }})</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
-                    </li>
-                </ul>
             </div>
         </nav>
     </header>
@@ -156,6 +158,25 @@
 
         .navbar {
             font-size: 13px;
+        }
+
+        .nav-item {
+            &:not(:first-child) {
+                .nav-link {
+                    border-left: solid 1px #404040;
+                }
+            }
+
+            &:not(:last-child) {
+                .nav-link {
+                    border-right: solid 1px #404040;
+                }
+            }
+        }
+
+        .nav-link {
+            margin-left: -1px;
+            padding: 0 14px !important;
         }
     }
 </style>

@@ -14,6 +14,7 @@ import InquiryList from "./pages/InquiryList";
 import InquiryEnroll from "./pages/InquiryEnroll";
 import Faq from "./pages/Faq";
 import InquiryView from "./pages/InquiryView";
+import SettlementHistory from "./pages/SettlementHistory";
 
 Vue.use(VueRouter);
 Vue.component('v-select', vSelect);
@@ -28,10 +29,14 @@ const routes = [
         path: '/orders',
         component: OrderList
     },
-    // {
-    //     path: '/orders/:cor_id',
-    //     component: OrderView,
-    // },
+    {
+        path: '/orders/:cor_id',
+        component: OrderView,
+    },
+    {
+        path: '/settlement',
+        component: SettlementHistory
+    },
     {
         path: '/inquiry',
         component: InquiryList

@@ -48,7 +48,7 @@
                     <router-link to="/message" class="nav-link">{{$t('chat')}}</router-link>
                 </li>
                 <li class="nav-item" v-if="member_group_name.includes('seller')">
-                    <router-link to="/seller" class="nav-link">{{$t('settlementHistory')}}</router-link>
+                    <router-link to="/settlement" class="nav-link">{{$t('settlementHistory')}}</router-link>
                 </li>
                 <li class="nav-item" v-if="member_group_name === 'buyer'">
                     <a href="/mypage/upgrade" class="nav-link">{{$t('sellerRegister')}}</a>

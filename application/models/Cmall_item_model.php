@@ -295,7 +295,7 @@ Cmall_item_model extends CB_Model
 
     public function get_one_with_author($primary_value = '')
     {
-        $this->db->select('cmall_item.*', 'member.mem_firstname', 'member.mem_lastname');
+        $this->db->select('cmall_item.*, member.mem_firstname, member.mem_lastname');
         $this->db->from($this->_table);
         if ($primary_value) {
             $this->db->where($this->primary_key, $primary_value);

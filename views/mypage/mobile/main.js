@@ -11,6 +11,7 @@ import InquiryList from './pages/InquiryList';
 import InquiryView from "./pages/InquiryView";
 import InquiryEnroll from "./pages/InquiryEnroll";
 import Faq from "./pages/Faq";
+import SettlementHistory from "./pages/SettlementHistory";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,10 @@ const router = new VueRouter({
         {
             path: '/orders',
             component: OrderList
+        },
+        {
+            path: '/settlement',
+            component: SettlementHistory
         },
         {
             path: '/inquiry',

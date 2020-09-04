@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <Music />
+<!--        <Music />-->
     </div>
 </template>
 
@@ -47,6 +47,14 @@
             "danger": #ff4848,
             "success": #2dad8e,
             "secondary": #4d4d4d,
+    );
+
+    $container-max-widths: (
+            xs: 1420px,
+            sm: 1420px,
+            md: 1420px,
+            lg: 1420px,
+            xl: 1420px
     );
 
     @import "~bootstrap/scss/bootstrap";
@@ -262,5 +270,13 @@
                 border-bottom-color: #2b2c30;
             }
         }
+    }
+
+    .btn-circle {
+        border-radius: 100px;
+    }
+
+    hr {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 </style>
