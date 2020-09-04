@@ -184,4 +184,28 @@ class Cmall_order_detail_model extends CB_Model
 
         return $result;
     }
+
+    public function get_settlement_complete_data($mem_id, $start_date, $end_date, $offset = '', $limit = 0)
+    {
+        $result = array();
+        if (empty($start_date) && empty($end_date)) {
+            $sql = "SELECT co.cor_id, cor_datetime, cit_file_1, cit_name, cde_price_d, cde_price, cod_count, cod_status, csh_datetime, IF(csh_settle_money IS NULL, 0, csh_settle_money) as csh_settle_money, IF(csh_settle_money_d IS NULL, 0, csh_settle_money_d) as csh_settle_money_d, IF(csh_status IS NULL, 0, csh_status) as csh_status FROM cb_cmall_order_detail as cod LEFT JOIN cb_cmall_item_detail cid on cod.cde_id = cid.cde_id LEFT JOIN cb_cmall_order co on cod.cor_id = co.cor_id LEFT JOIN cb_cmall_item ci on ci.cit_id = cid.cit_id LEFT JOIN cb_cmall_settlement_history csh on cod.cod_id = csh.cod_id WHERE cid.mem_id = ? AND csh_status = 1 ORDER BY cor_datetime DESC LIMIT ?, ?";
+            $result['list'] = $this->db->query($sql, [$mem_id, $offset, $limit])->result_array();
+        } else {
+            $sql = "SELECT co.cor_id, cor_datetime, cit_file_1, cit_name, cde_price_d, cde_price, cod_count, cod_status, csh_datetime, IF(csh_settle_money IS NULL, 0, csh_settle_money) as csh_settle_money, IF(csh_settle_money_d IS NULL, 0, csh_settle_money_d) as csh_settle_money_d, IF(csh_status IS NULL, 0, csh_status) as csh_status FROM cb_cmall_order_detail as cod LEFT JOIN cb_cmall_item_detail cid on cod.cde_id = cid.cde_id LEFT JOIN cb_cmall_order co on cod.cor_id = co.cor_id LEFT JOIN cb_cmall_item ci on ci.cit_id = cid.cit_id LEFT JOIN cb_cmall_settlement_history csh on cod.cod_id = csh.cod_id WHERE cid.mem_id = ? csh_status = 1 AND cor_datetime >= ? AND cor_datetime <= ? ORDER BY cor_datetime DESC LIMIT ?,?";
+            $result['list'] = $this->db->query($sql, [$mem_id, $start_date, $end_date, $offset, $limit])->result_array();
+        }
+
+        if (empty($start_date) && empty($end_date)) {
+            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order_detail as cod LEFT JOIN cb_cmall_item_detail cid on cod.cde_id = cid.cde_id LEFT JOIN cb_cmall_order co on cod.cor_id = co.cor_id LEFT JOIN cb_cmall_item ci on ci.cit_id = cid.cit_id LEFT JOIN cb_cmall_settlement_history csh on cod.cod_id = csh.cod_id WHERE cid.mem_id = ? AND csh_status = 1 ORDER BY cor_datetime DESC";
+            $rows = $this->db->query($sql, [$mem_id])->row_array();
+            $result['total_rows'] = $rows['rownum'];
+        } else {
+            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order_detail as cod LEFT JOIN cb_cmall_item_detail cid on cod.cde_id = cid.cde_id LEFT JOIN cb_cmall_order co on cod.cor_id = co.cor_id LEFT JOIN cb_cmall_item ci on ci.cit_id = cid.cit_id LEFT JOIN cb_cmall_settlement_history csh on cod.cod_id = csh.cod_id WHERE cid.mem_id = ? AND cor_datetime >= ? AND cor_datetime <= ? AND csh_status = 1 ORDER BY cor_datetime DESC";
+            $rows = $this->db->query($sql, [$mem_id, $start_date, $end_date])->row_array();
+            $result['total_rows'] = $rows['rownum'];
+        }
+
+        return $result;
+    }
 }

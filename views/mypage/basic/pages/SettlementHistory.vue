@@ -147,7 +147,110 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="complete-pane">
-                Refund
+                <div class="d-flex mb-3">
+                    <div class="btn-group btn-group-sm btn-group-toggle">
+                        <label class="btn" :class="period === -1 ? 'active' : ''">
+                            <input type="radio" autocomplete="off" v-model="period" :value="-1"> {{$t('all')}}
+                        </label>
+                        <label class="btn" :class="period === 3 ? 'active' : ''">
+                            <input type="radio" autocomplete="off" v-model="period" :value="3"> {{$t('months3')}}
+                        </label>
+                        <label class="btn" :class="period === 6 ? 'active' : ''">
+                            <input type="radio" autocomplete="off" v-model="period" :value="6"> {{$t('months6')}}
+                        </label>
+                        <label class="btn" :class="period === 12 ? 'active' : ''">
+                            <input type="radio" autocomplete="off" v-model="period" :value="12"> {{$t('year1')}}
+                        </label>
+                    </div>
+                    <div class="ml-auto">
+                        <VueHotelDatepicker
+                                class="search-date"
+                                format="YYYY-MM-DD"
+                                :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
+                                :startDate="start_date"
+                                :endDate="end_date"
+                                minDate="1970-01-01"
+                                :maxDate="currDate"
+                                :endingDateValue="currDate"
+                                @update="updateSearchDate"
+                                @reset="resetSearchDate"
+                        />
+                    </div>
+                </div>
+                <div class="mb-3 d-flex">
+                    <div class="ml-auto">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#account-setting"><i class="fa fa-university"></i>Account Setting</button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>{{$t('date')}}</th>
+                            <th>{{$t('totalPrice')}}</th>
+                            <th>{{ $t('settlement') }}</th>
+                            <th>Fee</th>
+                            <th>{{ $t('totalSettlement') }}</th>
+                            <th v-html="$t('settlementStatus')"></th>
+                            <th>Detail</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(item, index) in complete_items" v-bind:key="index">
+                            <td>{{ item.cor_id }}</td>
+                            <td>{{ item.cor_datetime }}</td>
+                            <td>{{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? item.cde_price * item.cod_count : item.cde_price_d * item.cod_count }}</td>
+                            <td>{{ item.csh_settle_money }}</td>
+                            <td>-{{ $t('currencySymbol') }} 0</td>
+                            <td>{{ item.csh_settle_money }}</td>
+                            <td>{{ item.csh_status == 0 ? $t('settleStay') : $t('settleComplete') }}</td>
+                            <td><button class="btn btn-primary btn-rounded">View</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="paging mb-5" v-html="complete_pagination">
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="account-setting">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body p-4">
+                        <h5 class="text-uppercase">Account Setting</h5>
+                        <div class="form-group row">
+                            <label class="col-form-label col-3">Bank Name</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" v-model="bank_name" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-3">Account Number</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" v-model="account_number" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-3">Receipent</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" v-model="receipent" />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-5">
+                            <label class="col-form-label col-3">Copy of Account</label>
+                            <div class="col-9">
+                                <label class="btn btn-primary">
+                                    <input type="file" class="d-none" v-on:change="fileAttached($event.target.files)" /> File Attach
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button data-dismiss="modal" class="btn btn-default px-5 mr-3">Cancel</button>
+                            <button @click="submitAccount" class="btn btn-warning px-5">Save</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -192,6 +295,12 @@
                 total_sale_amount: 0,
                 total_money: 0,
                 total_money_d: 0,
+                complete_items: [],
+                complete_pagination: null,
+                bank_name: '',
+                account_number: '',
+                receipent: '',
+                file_attach: null,
             }
         },
         mounted() {
@@ -237,6 +346,17 @@
                     .catch(error => {
                         console.error(error);
                     })
+
+                axios.get(`/settlement/complete_list?start_date=${this.start_date}&end_date=${this.end_date}&page=${this.page}`)
+                    .then(res => res.data)
+                    .then(data => {
+                        this.complete_items = data.list;
+                        this.total_complete_rows = data.total_rows;
+                        this.complete_pagination = data.paging;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
             },
             pageClicked: function (event) {
                 event.preventDefault();
@@ -244,6 +364,37 @@
                 this.page = page;
                 this.getData();
             },
+            fileAttached: function (fileList) {
+                this.file_attach = fileList[0]
+            },
+            submitAccount: function () {
+                let formData = new FormData();
+                if (!this.bank_name) {
+                    return false;
+                }
+                if (!this.account_number) {
+                    return false;
+                }
+                if (!this.receipent) {
+                    return false;
+                }
+                if (!this.file_attach) {
+                    return false;
+                }
+                formData.append('bank_name', this.bank_name);
+                formData.append('account_number', this.account_number);
+                formData.append('receipent', this.receipent);
+                formData.append('file', this.file_attach, this.file_attach.name);
+
+                axios.post('/settlement/save_account')
+                    .then(res => res.data)
+                    .then(data => {
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         },
         watch: {
             period: function (val) {
@@ -277,6 +428,10 @@
                 background-color: unset;
                 color: #ffda2a;
             }
+        }
+
+        .btn.btn-rounded {
+            border-radius: 20px;
         }
 
         .btn-group {
