@@ -67,11 +67,11 @@
 
 <script>
     import axios from "axios";
-
+    import { EventBus } from "*/src/eventbus";
     require("@/assets_m/js/function");
     import Header from "../include/Header";
     import Footer from "../include/Footer";
-    import MainPlayer from "@/vue/common/MainPlayer";
+    import MainPlayer from "@/vue/common/MobileMainPlayer";
     import $ from "jquery";
 
     export default {
@@ -90,6 +90,8 @@
                 disableDelete: true,
                 busy: false,
                 playIndex:null,
+                playItem:  null,
+                isPlay: false,
 
             };
         },
@@ -119,6 +121,39 @@
                 .catch(error => {
                     console.error(error);
                 })
+
+            EventBus.$on("main_player_play", (r) => {
+                log.debug({
+                    "DETAIL : main_player_play": r,
+                });
+
+                // this.playToggle(this.playItem, this.playIndex);
+                if(this.playIndex === r._uid){
+                    const $oldTappedItem =$("#btn-play"+this.playIndex);
+                    $oldTappedItem.addClass("btn_pause").removeClass("btn-play");
+                    this.start(this.playItem, this.playIndex);
+                }
+
+
+                // if (this._uid != r._uid) {
+                //     this.music.pause();
+                // }
+            });
+            EventBus.$on("main_player_stop", (r) => {
+                log.debug({
+                    "DETAIL : main_player_stop": r,
+                });
+
+                if(this.playIndex === r._uid){
+                    const $oldTappedItem =$("#btn-play"+this.playIndex);
+                    $oldTappedItem.removeClass("btn_pause").addClass("btn-play");
+                    this.stop(this.playItem, this.playIndex);
+                }
+
+                // if (this._uid != r._uid) {
+                //     this.music.pause();
+                // }
+            });
         },
         computed: {},
         methods: {
@@ -178,38 +213,82 @@
                     }
                 });
             },
+            stop(item, index){
+                const audio = document.getElementById("audio"+index + '_0');
+                try{
+                    audio.pause();
+
+                }catch (e) {
+                    console.log(e)
+                }
+
+                this.isPlay = false;
+
+            },
+            start(item, index){
+                const audio = document.getElementById("audio"+index + '_0');
+                audio.play();
+                this.isPlay = true;
+
+            },
             playToggle: function (item, index) {
                 console.log(item, index)
 
                 const $newTappedItem = $("#btn-play"+index);
                 const $oldTappedItem =$("#btn-play"+this.playIndex);
 
-                if(this.playIndex == index){
-                    // pause current play
+                if(this.playIndex === index ){
 
-                    $newTappedItem.removeClass("btn_pause");
-                    $newTappedItem.addClass("btn-play");
-                    const audio = document.getElementById("audio"+index + '_0');
-                    try{
-                        audio.pause();
-
-                    }catch (e) {
-                        console.log(e)
+                    if(this.isPlay === true){
+                        // pause current play
+                        $newTappedItem.removeClass("btn_pause").addClass("btn-play");
+                        this.stop(item, index);
+                        EventBus.$emit("player_request_stop", {
+                            _uid: index,
+                            item: item,
+                            ws: null,
+                        });
+                    }else{
+                        // resume current play
+                        $newTappedItem.addClass("btn_pause").removeClass("btn-play");
+                        this.start(item, index);
+                        EventBus.$emit("player_request_start", {
+                            _uid: index,
+                            item: item,
+                            ws: null,
+                        });
                     }
-                    this.playIndex = null;
+
                 }else{
+                    $oldTappedItem.removeClass("btn_pause").addClass("btn-play");
 
-                    // play with new tapped item
-                    if(this.playIndex != null){
-                        $oldTappedItem.removeClass("btn_pause");
-                        $oldTappedItem.addClass("btn-play");
+                    if(this.isPlay){
+                        // pause old and play new
+                        this.stop(this.playItem, this.playIndex)
+                        EventBus.$emit("player_request_stop", {
+                            _uid: this.playIndex,
+                            item: item,
+                            ws: null,
+                        });
+
+                        this.start(item, index)
+
+                    }else{
+                        // play new
+                        this.start(item, index)
+
                     }
-                    $newTappedItem.addClass("btn_pause");
-                    $newTappedItem.removeClass("btn-play");
-                    const audio = document.getElementById("audio"+index + '_0');
-                    audio.play();
-                    this.playIndex = index;
+                    $newTappedItem.addClass("btn_pause").removeClass("btn-play");
+                    EventBus.$emit("player_request_start", {
+                        _uid: index,
+                        item: item,
+                        ws: null,
+                    });
                 }
+
+                this.playIndex = index;
+                this.playItem = item;
+
             }
         },
     };

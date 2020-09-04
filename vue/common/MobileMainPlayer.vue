@@ -1,3 +1,4 @@
+
 <template>
     <div class="player" v-show="listPlayer.length > 0">
         <div class="wrap">
@@ -33,15 +34,53 @@
                     </div>
                 </div>
                 <div id="central-controls" class="player__controller">
-                    <div class="play-prev" id="previous" @click="prev"></div>
-                    <div class="play-play-pause" id="main-play-pause" @click="togglePlay"></div>
-                    <div class="play-next" id="next" @click="next"></div>
+                    <div
+                        style="cursor: pointer;
+                        width: 25px;
+                        height: 25px;
+                        background: url('/assets_m/images/icon/prev.png') no-repeat center;
+                        background-size: 100% 100%;
+                        opacity: 0.3;"
+                        class="play-prev" id="previous" @click="prev"></div>
+
+                    <div v-if="isPlay"
+                         style="cursor: pointer;
+                           border: 1px white solid;
+                           border-radius: 50%;
+                           width: 35px;
+                           height: 35px;
+                           background: url('/assets_m/images/icon/pause.png') no-repeat center;
+                           background-size: 100% 100%;
+                           opacity: 1;
+                           margin: 0 5px;"
+                           class="play-play-pause" id="main-play-pause1" @click="togglePlay"></div>
+                    <div v-if="!isPlay"
+                         style="
+                            border-radius: 50%;
+                            border: 1px white solid;
+                            width: 35px;
+                            height: 35px;
+                            margin: 0 5px;
+                            background: url('/assets_m/images/icon/play.png') no-repeat center; background-size: 100% 100%;"
+                         class="play-play-pause"
+                         id="main-play-pause2" @click="togglePlay"></div>
+
+
+                    <div
+                    style=" cursor: pointer;
+                    width: 25px;
+                    height: 25px;
+                    background: url('/assets_m/images/icon/next.png') no-repeat center;
+                    background-size: 100% 100%;
+                    opacity: 0.3;"
+                            class="play-next" id="next" @click="next"></div>
                 </div>
 
             </div>
         </div>
     </div>
 </template>
+
 
 
 <script>
@@ -60,6 +99,7 @@
                 currentIndex: -1,
                 currentSeekTime: 0,
                 prevWs: null,
+
             };
         },
         created() {
@@ -68,7 +108,9 @@
                 log.debug({
                     'ON MAIN : player_request_start':r
                 });
+
                 if(!r.item) return;
+
 
                 const i = {
                     _uid: r._uid,
@@ -81,24 +123,28 @@
                     ws: r.ws,
                 };
                 // 기존 재생 목록에 없으면 추가
-                if(!_.find(this.listPlayer,{id:r.item.cit_id})) {
-                    this.currentIndex = this.currentIndex + 1;
-                    this.listPlayer.push(i);
-                    this.initMinimap(r.ws);
+                try{
+                    if(!_.find(this.listPlayer,{id:r.item.cit_id})) {
+                        this.currentIndex = this.currentIndex + 1;
+                        this.listPlayer.push(i);
+                        this.initMinimap(r.ws);
+                    }
+                        // // 기존 재생하던 곡이면
+                        // else if(i.id === this.currentMusic.id) {
+                        //
+                        //     //this.start();
+                        // }
+                    // 기존 재생 목록에 있으면
+                    else {
+                        log.debug('MAIN : RESTART ON LIST');
+                        this.currentIndex = _.findIndex(this.listPlayer,{id:r.item.cit_id});
+                        this.initMinimap(r.ws);
+                    }
+                }catch(e){
+                    console.log('Exception in 144line at MobileMainPlayer at vue/common/MobileMainPlayer.vue', e)
                 }
-                    // // 기존 재생하던 곡이면
-                    // else if(i.id === this.currentMusic.id) {
-                    //
-                    //     //this.start();
-                    // }
-                // 기존 재생 목록에 있으면
-                else {
-                    log.debug('MAIN : RESTART ON LIST');
-                    this.currentIndex = _.findIndex(this.listPlayer,{id:r.item.cit_id});
-                    this.initMinimap(r.ws);
-                }
-                this.start();
 
+                this.start();
             });
 
             EventBus.$on('player_request_stop',r=> {
@@ -182,12 +228,8 @@
                 // 재생
                 else {
                     log.debug('MAIN: play');
-
                     this.start();
-
                 }
-
-
             },
             // 다운로드 증가
             // increaseMusicCount(item) {
@@ -205,11 +247,9 @@
 
 </script>
 
-<style scoped="scoped" lang="scss">
+<style scoped lang="scss">
 
     .spectrum {
-
-        //width: 300px !important;
         z-index: 999999;
 
         wave {
