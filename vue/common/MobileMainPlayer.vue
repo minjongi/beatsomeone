@@ -181,18 +181,31 @@
 
             },
             prev() {
-                if(this.currentIndex > 0) {
-                    this.currentIndex = this.currentIndex - 1;
-                    this.start();
-                    this.initMinimap(this.currentMusic.ws);
+
+                try{
+                    if(this.currentIndex > 0) {
+                        this.currentIndex = this.currentIndex - 1;
+                        this.start();
+                        this.initMinimap(this.currentMusic.ws);
+                    }
+                }catch (e) {
+                    console.log(e)
                 }
+
+                EventBus.$emit('main_player_prev', {'_uid':this.currentMusic._uid,'item':this.currentMusic});
             },
             next() {
-                if(this.currentIndex + 1 < this.listPlayer.length) {
-                    this.currentIndex = this.currentIndex + 1;
-                    this.start();
-                    this.initMinimap(this.currentMusic.ws);
+
+                try{
+                    if(this.currentIndex + 1 < this.listPlayer.length) {
+                        this.currentIndex = this.currentIndex + 1;
+                        this.start();
+                        this.initMinimap(this.currentMusic.ws);
+                    }
+                }catch (e) {
+                    console.log(e)
                 }
+                EventBus.$emit('main_player_next', {'_uid':this.currentMusic._uid,'item':this.currentMusic});
             },
             stop() {
                 this.isPlay = false;

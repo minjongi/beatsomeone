@@ -154,6 +154,26 @@
                 //     this.music.pause();
                 // }
             });
+
+            EventBus.$on("main_player_prev", (r)=>{
+
+                let newIndex = this.playIndex - 1;
+
+                console.log('main_player_prev line 162 at Favorites.vue: ', newIndex)
+
+                if(newIndex >= 0){
+                    this.playToggle(this.listItems[newIndex], newIndex);
+                }
+
+            })
+            EventBus.$on("main_player_next", (r)=>{
+                // let curIndex = r._uid;
+                let newIndex = this.playIndex + 1;
+                if(newIndex < this.listItems.length){
+                    this.playToggle(this.listItems[newIndex], newIndex);
+                }
+
+            })
         },
         computed: {},
         methods: {
