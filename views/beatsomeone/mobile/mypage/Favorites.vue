@@ -38,7 +38,7 @@
                                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
                                                 <i class="label new">N</i>
                                             </span>
-                                            <button class="btn-play">재생</button>
+                                            <button class="btn-play" :id="'btn-play'+index" @click="playToggle(item, index)">재생</button>
                                             <div class="wave"></div>
                                             <figcaption>
                                                 <h3 class="playList__title">{{ item.cit_name }}</h3>
@@ -89,6 +89,8 @@
                 checkedAll: false,
                 disableDelete: true,
                 busy: false,
+                playIndex:null,
+
             };
         },
         created() {
@@ -108,7 +110,9 @@
                             au.src = musicUrl;
                             au.setAttribute('data-cit_idx', index);
                             au.setAttribute('data-cde_idx', i);
-                            au.addEventListener('loadedmetadata', this.getDuration)
+                            au.setAttribute('id', "audio"+index + '_' + i);
+                            au.addEventListener('loadedmetadata', this.getDuration);
+                            document.body.appendChild(au);
                         }
                     });
                 })
@@ -173,6 +177,39 @@
                         this.cntSelectedItems++;
                     }
                 });
+            },
+            playToggle: function (item, index) {
+                console.log(item, index)
+
+                const $newTappedItem = $("#btn-play"+index);
+                const $oldTappedItem =$("#btn-play"+this.playIndex);
+
+                if(this.playIndex == index){
+                    // pause current play
+
+                    $newTappedItem.removeClass("btn_pause");
+                    $newTappedItem.addClass("btn-play");
+                    const audio = document.getElementById("audio"+index + '_0');
+                    try{
+                        audio.pause();
+
+                    }catch (e) {
+                        console.log(e)
+                    }
+                    this.playIndex = null;
+                }else{
+
+                    // play with new tapped item
+                    if(this.playIndex != null){
+                        $oldTappedItem.removeClass("btn_pause");
+                        $oldTappedItem.addClass("btn-play");
+                    }
+                    $newTappedItem.addClass("btn_pause");
+                    $newTappedItem.removeClass("btn-play");
+                    const audio = document.getElementById("audio"+index + '_0');
+                    audio.play();
+                    this.playIndex = index;
+                }
             }
         },
     };
@@ -261,6 +298,23 @@
         vertical-align: middle;
         margin-right: 5px;
     }
+    .btn_pause {
+        background: url('/assets_m/images/icon/pause.png') no-repeat center;
+        text-indent: -9999px;
+        overflow: hidden;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        width: 25px;
+        height: 25px;
+        background-size: auto 100%;
+        opacity: 0.3;
+        margin-right: 15px;
+        -webkit-box-flex: 0;
+        -ms-flex: none;
+        flex: none;
+
+    }
+
 
     .nfavorites .playList .playList__item {
         display: flex;
