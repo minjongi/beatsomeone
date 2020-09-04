@@ -36,7 +36,7 @@
                     <router-link to="/list_item" class="nav-link">{{$t('productList')}}</router-link>
                 </li>
                 <li class="nav-item" v-if="member_group_name.includes('seller')">
-                    <router-link to="/register_item" class="nav-link">{{$t('registrationOfBeat')}}</router-link>
+                    <a href="/mypage/regist_item" class="nav-link">{{$t('registrationOfBeat')}}</a>
                 </li>
                 <li class="nav-item">
                     <router-link to="/orders" class="nav-link">{{$t('orderHistory')}}</router-link>

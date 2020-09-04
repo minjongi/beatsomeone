@@ -306,4 +306,36 @@ Cmall_item_model extends CB_Model
 
         return $result->row_array();
     }
+
+    public function count_total_items($mem_id)
+    {
+	    $this->db->select('COUNT(*) as cnt');
+	    $this->db->from($this->_table);
+	    $this->db->where('mem_id', $mem_id);
+	    $result = $this->db->get();
+	    $re = $result->row_array();
+	    return $re['cnt'];
+    }
+
+    public function count_selling_items($mem_id)
+    {
+        $this->db->select('COUNT(*) as cnt');
+        $this->db->from($this->_table);
+        $this->db->where('mem_id', $mem_id);
+        $this->db->where('cit_status', 1);
+        $result = $this->db->get();
+        $re = $result->row_array();
+        return $re['cnt'];
+    }
+
+    public function count_pending_items($mem_id)
+    {
+        $this->db->select('COUNT(*) as cnt');
+        $this->db->from($this->_table);
+        $this->db->where('mem_id', $mem_id);
+        $this->db->where('cit_status', 0);
+        $result = $this->db->get();
+        $re = $result->row_array();
+        return $re['cnt'];
+    }
 }

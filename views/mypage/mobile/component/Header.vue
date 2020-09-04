@@ -7,16 +7,34 @@
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
+                        <a href="#" class="btn btn-sm btn-icon" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="btn btn-sm btn-icon" href="javascript:;">
                             <i class="fa fa-search"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-sm btn-icon" href="javascript:;">
+                        <a class="btn btn-sm btn-icon" @click="toggleSidebar" href="javascript:;">
                             <i class="fa fa-bars"></i>
                         </a>
                     </li>
                 </ul>
+            </div>
+        </nav>
+        <div class="gnb" v-if="showSidebar">
+            <div class="gnb__bg" ></div>
+        </div>
+        <nav class="gnb" v-if="showSidebar" >
+            <div class="gnb__content">
+                <a class="gnb__close" href="javascript:;" @click="toggleSidebar"></a>
+                <div class="gnb__links">
+                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
+                    <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                    <a href="/mypage">{{ $t('mypage') }}</a>
+                    <a href="/login/logout?/">{{ $t('logout') }}</a>
+                    <a href="/cmall/cart" class="header__cart">({{ $t('currencySymbol') + cartSum }})</a>
+                </div>
             </div>
         </nav>
     </header>
@@ -34,6 +52,7 @@
                 is_member: 0,
                 cartSum: 0,
                 scrolled: '',
+                showSidebar: false,
             }
         },
         created() {
@@ -76,6 +95,9 @@
                 } else {
                     this.scrolled = '';
                 }
+            },
+            toggleSidebar: function () {
+                this.showSidebar = !this.showSidebar;
             }
         }
     }
@@ -146,6 +168,64 @@
 
         .btn.btn-icon {
             color: white;
+        }
+    }
+
+    .gnb {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+
+        .gnb__bg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+        .gnb__content {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100%;
+            background:#1c1d23;
+            z-index: 2;
+            padding: 25px;
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+        }
+        .gnb__close {
+            width: 40px;
+            height: 40px;
+            display: block;
+            background: url('/assets_m/images/icon/x.png') no-repeat center;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-size: auto 15px;
+        }
+        .gnb__links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            a {
+                font-size: 20px;
+                color:#fff;
+                font-weight: 500;
+                line-height: 60px;
+                width: 100%;
+                text-align: center;
+            }
+        }
+        .gnb__banner {
+            margin-top: auto;
         }
     }
 </style>

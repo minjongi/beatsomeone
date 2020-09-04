@@ -8,6 +8,9 @@ import Dashboard from "./pages/Dashboard";
 import MemberModify from "./pages/MemberModify";
 import OrderList from "./pages/OrderList";
 import InquiryList from './pages/InquiryList';
+import InquiryView from "./pages/InquiryView";
+import InquiryEnroll from "./pages/InquiryEnroll";
+import Faq from "./pages/Faq";
 
 Vue.use(VueRouter);
 
@@ -26,6 +29,22 @@ const router = new VueRouter({
             path: '/inquiry',
             component: InquiryList
         },
+        {
+            path: '/inquiry/:post_id',
+            component: InquiryView
+        },
+        {
+            path: '/inquiry/:post_id/edit',
+            component: InquiryEnroll
+        },
+        {
+            path: '/inquiryenroll',
+            component: InquiryEnroll
+        },
+        {
+            path: '/faq',
+            component: Faq
+        },
         // {path: '/profilemod', component: Profilemod},
         // {path: '/list_item', component: ProductList},
         // {path: '/mybilling', component: Mybilling},
@@ -36,10 +55,6 @@ const router = new VueRouter({
         // {path: '/seller', component: Seller},
         // {path: '/sellerbill', component: Sellerbill},
         // {path: '/message', component: Message},
-        // {path: '/inquiryenroll', component: Inquiryenroll},
-        // {path: '/inquirymod', component: Inquirymod},
-        // {path: '/inquiry/:post_id', component: Inquiryview},
-        // {path: '/inquiry/:post_id/edit', component: Inquiryenroll},
     ],
 });
 

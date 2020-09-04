@@ -48,6 +48,7 @@
             "success": #2dad8e,
             "secondary": #4d4d4d,
     );
+
     @import "~bootstrap/scss/bootstrap";
     @import "~swiper/swiper";
 
@@ -238,6 +239,27 @@
                 display: block;
                 line-height: 5px;
                 color: transparent;
+            }
+        }
+    }
+
+    .tooltip {
+        margin-top: 10px;
+
+        &.show {
+            opacity: 1;
+        }
+
+        .tooltip-inner {
+            background-color: #2b2c30;
+            color: #8f9097;
+        }
+    }
+    .bs-tooltip-bottom {
+        .arrow {
+
+            &::before {
+                border-bottom-color: #2b2c30;
             }
         }
     }

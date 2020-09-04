@@ -3227,7 +3227,7 @@ class Mypage extends CB_Controller
 
         $mem_id = $this->member->item('mem_id');
 
-        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Note_model', 'Post_model', 'Board_model', 'Cmall_item_show_history_model'));
+        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Note_model', 'Post_model', 'Board_model', 'Cmall_item_show_history_model', 'Cmall_item_model'));
 
         $order_buy_count = $this->Cmall_order_model->count_by([
             'mem_id' => $mem_id,
@@ -3242,7 +3242,7 @@ class Mypage extends CB_Controller
             'status' => 'refund'
         ]);
 
-        $expired_soon_items = $this->Cmall_order_detail_model->get('', '', 'mem_id=' . $mem_id . ' and cod_download_days>0 and cod_download_days<=7', 3);
+        $expired_soon_items = $this->Cmall_order_detail_model->get_expired_items($mem_id);
 
         $where = [
             'cmall_item_show_history.mem_id' => $mem_id
@@ -3262,9 +3262,32 @@ class Mypage extends CB_Controller
             'brd_id' => $support_board['brd_id']
         ];
         $inquiries = $this->Post_model->get_post_list(3, '', $where);
+        if (element('list', $inquiries)) {
+            foreach (element('list', $inquiries) as $key => $val) {
+                $inquiries['list'][$key]['replies'] = $this->Post_model->get_reply_list($val);
+            }
+        }
 
-        $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode([
+        $member_group = $this->member->group();
+        $member_group_name = null;
+        $mgr_commission = null;
+        if ($member_group && is_array($member_group)) {
+
+            $this->load->model('Member_group_model');
+
+            foreach ($member_group as $gkey => $gval) {
+                $item = $this->Member_group_model->item(element('mgr_id', $gval));
+                if ($member_group_name) {
+                    $member_group_name .= ', ';
+                    $mgr_commission .= ', ';
+                }
+                $member_group_name .= element('mgr_title', $item);
+                $mgr_commission .= element('mgr_commission', $item);
+            }
+        }
+        $mgr_commission = floatval($mgr_commission);
+
+        $result = [
             'message' => 'Success',
             'order_buy_count' => $order_buy_count,
             'order_cancel_count' => $order_cancel_count,
@@ -3273,6 +3296,67 @@ class Mypage extends CB_Controller
             'recently_listen_items' => $recently_listen_items['list'],
             'messages' => $recent_messages['list'],
             'inquiries' => $inquiries['list']
-        ]));
+        ];
+
+        if (strpos($member_group_name, 'seller') !== false) {
+            $total_sales = $this->Cmall_order_detail_model->totalSaleFundsCurrentMonth($mem_id);
+            $sale_funds = $total_sales['total'] ? floatval($total_sales['total']) : 0;
+            $sale_funds_d = $total_sales['total_d'] ? floatval($total_sales['total_d']) : 0;
+
+            $result['total_sale_funds'] = $sale_funds;
+            $result['total_sale_funds_d'] = $sale_funds_d;
+
+            $result['total_settle_funds'] = $sale_funds * (1 - $mgr_commission / 100);
+            $result['total_settle_funds_d'] = $sale_funds_d * (1 - $mgr_commission / 100);
+
+            $total_sales_last = $this->Cmall_order_detail_model->totalSaleFundsLastMonth($mem_id);
+
+            $last_sale_funds = $total_sales_last['total'] ? floatval($total_sales_last['total']) : 0;
+            $last_sale_funds_d = $total_sales_last['total_d'] ? floatval($total_sales_last['total_d']) : 0;
+
+            $result['total_last_sale_funds'] = $last_sale_funds;
+            $result['total_last_sale_funds_d'] = $last_sale_funds_d;
+
+            $result['total_last_settle_funds'] = $last_sale_funds * (1 - $mgr_commission / 100);
+            $result['total_last_settle_funds_d'] = $last_sale_funds * (1 - $mgr_commission / 100);
+
+            $total_sales_lastlast = $this->Cmall_order_detail_model->totalSaleFundsLastLastMonth($mem_id);
+            $lastlast_sale_funds = $total_sales_lastlast['total'] ? floatval($total_sales_lastlast['total']) : 0;
+            $lastlast_sale_funds_d = $total_sales_lastlast['total_d'] ? floatval($total_sales_lastlast['total_d']) : 0;
+
+            $result['total_lastlast_settle_funds'] = $lastlast_sale_funds * (1 - $mgr_commission / 100);
+            $result['total_lastlast_settle_funds_d'] = $lastlast_sale_funds_d * (1 - $mgr_commission / 100);
+
+            $total_product_count = $this->Cmall_item_model->count_total_items($mem_id);
+            $selling_product_count = $this->Cmall_item_model->count_selling_items($mem_id);
+            $pending_product_count = $this->Cmall_item_model->count_pending_items($mem_id);
+            $result['total_product_count'] = $total_product_count;
+            $result['selling_product_count'] = $selling_product_count;
+            $result['pending_product_count'] = $pending_product_count;
+
+            $saleData = $this->Cmall_order_detail_model->get_sale_data($mem_id);
+            $chartData = array();
+            for ($i = 0; $i < count($saleData) - 1; $i++) {
+                $begin = new DateTime($saleData[$i]['cor_date']);
+                $end = new DateTime($saleData[$i + 1]['cor_date']);
+                $chartData[$saleData[$i]['cor_date']] = intval($saleData[$i]['total']);
+                for ($j = $begin->modify('+1 day'); $j <= $end; $j->modify('+1 day')) {
+                    $date = $j->format('Y-m-d');
+                    $chartData[$date] = 0;
+                }
+            }
+
+
+            $result['saleData'] = array(
+                // 이번달 정보
+                array(
+                    'category' => 'Estimated settlement',
+                    'data' => $chartData
+                ),
+            );
+        }
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
     }
 }
