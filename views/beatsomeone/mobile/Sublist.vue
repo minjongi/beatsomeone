@@ -169,6 +169,7 @@
             </div>
         </div>
         <main-player></main-player>
+
         <Footer/>
     </div>
 </template>
