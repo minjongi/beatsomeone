@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="text-center">
+    <div class="sidebar">
+        <div class="d-flex justify-content-center">
             <div class="avatar mb-3">
                 <label for="avatar_file" class="avatar-file">
                     <i class="fa fa-camera"></i>
@@ -8,21 +8,22 @@
                 </label>
                 <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portait.png'">
             </div>
-            <div class="info">
-                <div class="badge" :class="member_group_name.includes('buyer') ? 'badge-primary' : 'badge-danger'">
-                    {{$t(member_group_name)}}
-                </div>
-                <h4 class="nickname font-weight-bold">
-                    {{ member.mem_nickname }}
-                </h4>
-                <h5 class="mb-3 font-weight-normal">
-                    {{ member.mem_type}}, {{ member.mem_lastname }} {{ member.mem_firstname }}
-                </h5>
-                <p>
-                    <span class="far fa-map-marker-alt mr-1"></span>{{ member.mem_address1 }} <br>
-                    <span class="fas fa-store-alt mr-1"></span><a class="text-light" href="#">{{ $t('goToBrandshop') }} ></a>
-                </p>
+
+        </div>
+        <div class="info text-center">
+            <div class="badge" :class="member_group_name.includes('buyer') ? 'badge-primary' : 'badge-danger'">
+                {{$t(member_group_name)}}
             </div>
+            <h4 class="nickname font-weight-bold">
+                {{ member.mem_nickname }}
+            </h4>
+            <h5 class="mb-3 font-weight-normal">
+                {{ member.mem_type}}, {{ member.mem_lastname }} {{ member.mem_firstname }}
+            </h5>
+            <p>
+                <span class="far fa-map-marker-alt mr-1"></span>{{ member.mem_address1 }} <br>
+                <span class="fas fa-store-alt mr-1"></span><a class="text-light" href="#">{{ $t('goToBrandshop') }} ></a>
+            </p>
         </div>
         <div class="side-menu">
             <ul class="nav flex-column">
@@ -131,27 +132,37 @@
 
 <style lang="scss" scoped>
     .avatar {
+        position: relative;
+        width: 160px;
+        padding-top: 160px;
+
         img {
-            width: 160px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
             border-radius: 160px;
             box-shadow: 0 0 32px hsla(0,0%,100%,.5);
         }
-    }
 
-    .avatar-file {
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        right: 65px;
-        top: 125px;
-        background-color: #4890ff;
-        border-radius: 50%;
-        line-height: 30px;
-        text-align: center;
-        font-size: 15px;
+        .avatar-file {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            right: 0;
+            top: 125px;
+            background-color: #4890ff;
+            border-radius: 50%;
+            line-height: 30px;
+            text-align: center;
+            font-size: 15px;
+            z-index: 2;
 
-        input[type=file] {
-            display: none;
+            input[type=file] {
+                display: none;
+            }
         }
     }
 

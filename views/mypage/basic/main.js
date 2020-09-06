@@ -15,12 +15,16 @@ import InquiryEnroll from "./pages/InquiryEnroll";
 import Faq from "./pages/Faq";
 import InquiryView from "./pages/InquiryView";
 import SettlementHistory from "./pages/SettlementHistory";
+import Chat from "./pages/Chat";
 
 Vue.use(VueRouter);
 Vue.component('v-select', vSelect);
 
 const routes = [
-    {path: '/', component: Dashboard},
+    {
+        path: '/',
+        component: Dashboard
+    },
     {
         path: '/membermodify',
         component: MemberModify
@@ -36,6 +40,10 @@ const routes = [
     {
         path: '/settlement',
         component: SettlementHistory
+    },
+    {
+        path: '/message',
+        component: Chat
     },
     {
         path: '/inquiry',

@@ -31,10 +31,8 @@
 </template>
 
 <script>
+    import Header from "./component/Header";
     import Dashboard_Header from "./component/Dashboard_Header";
-
-    require("@/assets/js/function");
-    import Header from "../include/Header";
     import Footer from "../include/Footer";
     import CommonSidePanel from "./component/CommonSidePanel";
     import {EventBus} from "*/src/eventbus";
@@ -100,6 +98,24 @@
 </script>
 
 <style lang="scss">
+    $theme-colors: (
+            "primary": #4890ff,
+            "danger": #ff4848,
+            "success": #2dad8e,
+            "secondary": #4d4d4d,
+    );
+
+    $container-max-widths: (
+            sm: 540px,
+            md: 720px,
+            lg: 960px,
+            xl: 1140px,
+            xxl: 1420px,
+    );
+
+    $grid-gutter-width: 16px;
+
+    @import "~bootstrap/scss/bootstrap";
     @import "@/assets/scss/App.scss";
 </style>
 

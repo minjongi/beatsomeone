@@ -66,4 +66,16 @@ class Note_model extends CB_Model
 
 		return $result;
 	}
+
+	public function get_all_list($mem_id, $per_page, $offset)
+    {
+        $result = array();
+        $sql = "SELECT * FROM cb_note WHERE send_mem_id = ? OR recv_mem_id = ? ORDER BY nte_datetime DESC LIMIT ?, ?";
+        $result['list'] = $this->db->query($sql, [$mem_id, $mem_id, $offset, $per_page])->result_array();
+
+        $sql = "SELECT count(*) as rownum FROM cb_note WHERE send_mem_id = ? OR recv_mem_id = ? ORDER BY nte_datetime DESC LIMIT ?, ?";
+        $result['total_rows'] = ($this->db->query($sql, [$mem_id, $mem_id, $offset, $per_page])->row_array())['rownum'];
+
+        return $result;
+    }
 }

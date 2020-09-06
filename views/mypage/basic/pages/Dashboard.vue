@@ -89,22 +89,23 @@
                 <h5 class="mb-3 title">
                     {{ $t('expiredSoon') }}
                 </h5>
-                <swiper v-if="expired_soon_items.length > 0">
+                <swiper v-if="expired_soon_items.length > 0" :options="swiperOption1">
                     <swiper-slide v-for="cod_item in expired_soon_items" :key="cod_item.cod_id">
-                        <div class="d-flex py-3 align-items-center list-item" @click="goToItemPage(cod_item.cit_key)">
-                            <div class="col d-flex align-items-center">
-                                <div class="expired-wrapper mr-2">
+                        <div class="row py-3 align-items-center list-item" @click="goToItemPage(cod_item.cit_key)">
+                            <div class="col pl-4 d-flex align-items-center">
+                                <div class="expired-wrapper mr-3">
                                     <div class="image-wrapper">
                                         <img :src="'/uploads/cmallitem/' + cod_item.coverImg" />
                                     </div>
                                 </div>
                                 <h6 class="cit-name">{{ cod_item.cit_name }}</h6>
                             </div>
-                            <div class="col-auto text-right text-secondary">
+                            <div class="col-auto text-right text-secondary pr-3">
                                 <span class="text-danger">{{ timeago(cod_item.expireTm).replace('in','')}}</span> remaining
                             </div>
                         </div>
                     </swiper-slide>
+                    <div class="swiper-pagination" slot="pagination"></div>
                 </swiper>
                 <div class="text-center empty-content" v-else>
                     <span>{{ $t('dashboard_ExpiredSoon_notexists') }}</span>
@@ -239,6 +240,11 @@
                 selling_product_count: 0,
                 pending_product_count: 0,
                 saleData: null,
+                swiperOption1: {
+                    pagination: {
+                        el: '.swiper-pagination'
+                    }
+                }
             }
         },
         mounted() {
@@ -375,6 +381,29 @@
 
         &:hover {
             cursor: pointer;
+
+            &:after {
+                opacity: 1;
+            }
+
+            img {
+                box-shadow: 0 0 20px 0 #4c4c4c;
+            }
+        }
+
+        &:after {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            width: 50px;
+            height: 50px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            background: url("/assets/images/icon/hover_play.png") no-repeat 50%;
+            background-size: 50px 50px;
+            transition: all .5s;
         }
 
         img {
@@ -386,10 +415,6 @@
             height: 100%;
             border-radius: 10px;
             box-shadow: 0 0 10px 0 #4c4c4c;
-
-            &:hover {
-                box-shadow: 0 0 20px 0 #4c4c4c;
-            }
         }
     }
 

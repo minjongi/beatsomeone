@@ -3,11 +3,9 @@
         <Header />
         <Banner v-if="member_group_name === 'buyer'" />
         <div class="container pb-5" :class="member_group_name === 'buyer' ? 'mt--5' : 'pt-140'">
-            <div class="row">
-                <div class="col-3">
-                    <Sidebar />
-                </div>
-                <div class="col-9">
+            <div class="main">
+                <Sidebar />
+                <div class="main-content">
                     <router-view />
                 </div>
             </div>
@@ -50,15 +48,18 @@
     );
 
     $container-max-widths: (
-            xs: 1420px,
-            sm: 1420px,
-            md: 1420px,
-            lg: 1420px,
-            xl: 1420px
+            sm: 540px,
+            md: 720px,
+            lg: 960px,
+            xl: 1140px,
+            xxl: 1420px,
     );
+
+    $grid-gutter-width: 16px;
 
     @import "~bootstrap/scss/bootstrap";
     @import "~swiper/swiper";
+    @import "~vue-select/src/scss/vue-select";
 
     html, body {
         min-width: 1420px;
@@ -278,5 +279,46 @@
 
     hr {
         border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .v-select {
+        .vs__dropdown-toggle {
+            border: solid 1px #414143;
+        }
+
+        .vs__dropdown-menu {
+            top: calc(100% + 5px);
+            background: #2b2c30;
+
+            .vs__dropdown-option {
+                color: #9ea1a8;
+            }
+        }
+
+        .vs__selected {
+            color: white;
+            margin: 6px;
+        }
+
+        .vs__search, .vs__search:focus {
+            margin: 6px;
+        }
+
+        .vs__actions {
+            padding: 6px;
+        }
+    }
+
+    .main {
+        position: relative;
+
+        .sidebar {
+            position: absolute;
+            width: 250px;
+        }
+
+        .main-content {
+            padding-left: 320px;
+        }
     }
 </style>
