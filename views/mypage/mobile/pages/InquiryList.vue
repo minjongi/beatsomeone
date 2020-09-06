@@ -31,7 +31,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-4">
-                        <select class="custom-select mr-2" v-html="search_select_html" v-model="search_field">
+                        <select class="bs-select mr-2" v-html="search_select_html" v-model="search_field">
                         </select>
                     </div>
                     <div class="col-8">
@@ -81,7 +81,7 @@
             };
         },
         mounted() {
-            $('.custom-select .options').on('click', '.option', this.optionClicked);
+            $('.bs-select .options').on('click', '.option', this.optionClicked);
             $('.paging').on('click', 'a', this.pageClicked);
         },
         created() {

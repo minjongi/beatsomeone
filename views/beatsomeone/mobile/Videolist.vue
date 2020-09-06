@@ -85,10 +85,10 @@
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".bs-select").on("click", function() {
 
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

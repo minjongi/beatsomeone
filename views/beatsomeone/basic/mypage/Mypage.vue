@@ -1,38 +1,32 @@
 <template>
     <div class="wrapper">
-        <div class="mypage-wrapper">
-            <Header :is-login="isLogin"/>
-            <div class="main mypage" style="overflow:initial;">
-                <section class="main__section1" style="background:none;">
-                    <div
-                            class="BG"
-                            v-if="isDisplayTop"
-                            style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"
-                    ></div>
-                    <div class="filter"></div>
-                    <div class="wrap">
-                        <Dashboard_Header v-if="isDisplayTop"></Dashboard_Header>
-                        <div class="main__media">
-                            <div class="sublist">
-                                <div class="wrap" :class="{'addPaddingTop':!isDisplayTop}">
-                                    <CommonSidePanel :userinfo="userInfo" :current="'dashboard'"></CommonSidePanel>
-                                    <div class="sublist__content">
-                                        <router-view/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <Header />
+        <div class="main mypage">
+            <section class="main__section1" style="background:none;">
+                <div
+                        class="BG"
+                        v-if="isDisplayTop"
+                        style="background-image:url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80')"
+                ></div>
+                <div class="filter"></div>
+            </section>
+            <Banner v-if="member_group_name === 'buyer' && $route.path === '/'"></Banner>
+            <div class="container pt-6">
+                <div class="position-relative">
+                    <CommonSidePanel :userinfo="userInfo" :current="'dashboard'"></CommonSidePanel>
+                    <div class="main-content">
+                        <router-view/>
                     </div>
-                </section>
+                </div>
             </div>
-            <Footer/>
         </div>
+        <Footer/>
     </div>
 </template>
 
 <script>
     import Header from "./component/Header";
-    import Dashboard_Header from "./component/Dashboard_Header";
+    import Banner from "./component/Banner";
     import Footer from "../include/Footer";
     import CommonSidePanel from "./component/CommonSidePanel";
     import {EventBus} from "*/src/eventbus";
@@ -40,7 +34,7 @@
     export default {
         name: 'Mypage',
         components: {
-            Dashboard_Header,
+            Banner,
             CommonSidePanel,
             Header,
             Footer,
@@ -50,6 +44,7 @@
                 isLogin: false,
                 isDisplayTop: true,
                 userInfo: {},
+                member_group_name: '',
             };
         },
         watch: {
@@ -81,6 +76,7 @@
         },
         mounted() {
             this.judgeDisplayTop();
+            this.member_group_name = window.member_group_name;
         },
         created() {
             this.judgeDisplayTop();
@@ -117,14 +113,27 @@
 
     @import "~bootstrap/scss/bootstrap";
     @import "@/assets/scss/App.scss";
+
+    .text-decoration-underline {
+        text-decoration: underline;
+    }
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     .addPaddingTop {
         padding-top: 100px;
     }
 
     .info {
         width: 1090px;
+    }
+
+    .main-content {
+        padding-left: 300px;
+        min-height: 950px;
+    }
+
+    .pt-6 {
+        padding-top: 6rem;
     }
 </style>

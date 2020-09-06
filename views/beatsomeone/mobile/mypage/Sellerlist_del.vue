@@ -105,7 +105,7 @@
 
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="sort">
-                                <div class="custom-select" style="flex: 3;">
+                                <div class="bs-select" style="flex: 3;">
                                     <button class="selected-option"> All </button>
                                     <div class="options">
                                         <button data-value="" class="option" @click="funcDownType('All')"> All </button>
@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
 
-                                <div class="custom-select" style="flex: 2;">
+                                <div class="bs-select" style="flex: 2;">
                                     <button class="selected-option"> Recent </button>
                                     <div class="options">
                                         <button data-value="" class="option" @click="funcOrderType('Recent')"> Recent </button>
@@ -447,10 +447,10 @@
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".bs-select").on("click", function() {
 
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

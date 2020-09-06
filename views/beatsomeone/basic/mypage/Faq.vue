@@ -1,6 +1,6 @@
 <template>
     <div class="sublist__content" style="margin-bottom:100px;">
-        <div class="row" style="margin-bottom:30px;">
+        <div style="margin-bottom:30px;">
             <div class="title-content">
                 <div class="title">
                     <div>FAQ</div>
@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-bottom:30px;">
+        <div style="margin-bottom:30px;">
             <div class="playList board fold faq">
                 <ul>
                     <FaqItem v-for="listItem in list" v-bind:key="listItem.faq_id" v-bind:faq="listItem"/>
@@ -48,9 +48,9 @@
         },
         mounted() {
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function () {
+            $(".bs-select").on("click", function () {
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
@@ -63,7 +63,6 @@
             axios.get('/faq/faq')
                 .then(res => res.data)
                 .then(data => {
-                    console.log(data);
                     this.total_rows = +data.total_rows;
                     this.list = data.list;
                 })

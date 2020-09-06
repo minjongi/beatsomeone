@@ -74,7 +74,6 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
         var member = <?php echo json_encode($this->member->get_member()); ?>;
         var is_member = "<?php echo $this->member->is_member() ? '1' : ''; ?>";
         var is_admin = "<?php echo $this->member->is_admin(); ?>";
-        var cb_admin_url = <?php echo $this->member->is_admin() === 'super' ? 'cb_url + "/' . config_item('uri_segment_admin') . '"' : '""'; ?>;
         var cb_board = "<?php echo isset($view) ? element('board_key', $view) : ''; ?>";
         var cb_board_url = <?php echo ( isset($view) && element('board_key', $view)) ? 'cb_url + "/' . config_item('uri_segment_board') . '/' . element('board_key', $view) . '"' : '""'; ?>;
         var cb_device_type = "<?php echo $this->cbconfig->get_device_type() === 'mobile' ? 'mobile' : 'desktop' ?>";

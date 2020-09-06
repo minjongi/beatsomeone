@@ -61,7 +61,7 @@
   .filter {
     height: 100px;
     @include flex($justify: center);
-    .custom-select {
+    .bs-select {
       margin: 0 30px;
       &:last-child {
         margin-right: 0;

@@ -31,7 +31,7 @@
                                         <input type="checkbox" hidden id="voice" v-model="param.voice"/>
                                         <span></span>
                                     </label>
-                                    <div class="custom-select ">
+                                    <div class="bs-select ">
                                         <button class="selected-option">
                                             {{ listSortParamName }}
                                         </button>
@@ -41,7 +41,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="custom-select ">
+                                    <div class="bs-select ">
                                         <button class="selected-option">
                                             {{ param.bpm.t }}
                                         </button>
@@ -260,9 +260,9 @@
             })
 
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function () {
+            $(".bs-select").on("click", function () {
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide()

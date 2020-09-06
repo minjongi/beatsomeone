@@ -53,7 +53,7 @@
 
         <div class="row">
             <div class="n-flex search-wrap">
-                <div class="custom-select">
+                <div class="bs-select">
                     <button class="selected-option" :data-value="search_field">
                         {{ selected_option_html }}
                     </button>
@@ -107,7 +107,7 @@
             //         .find(".options")
             //         .toggle();
             // });
-            $('.custom-select .options').on('click', '.option', this.optionClicked);
+            $('.bs-select .options').on('click', '.option', this.optionClicked);
             $('.paging').on('click', 'a', this.pageClicked);
         },
         created() {
@@ -339,7 +339,7 @@
     .search-wrap {
         margin-top: 20px;
 
-        .custom-select {
+        .bs-select {
             flex: 1;
             margin-right: 10px;
             min-width: 100px;

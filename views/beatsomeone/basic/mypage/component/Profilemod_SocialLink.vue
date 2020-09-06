@@ -1,8 +1,8 @@
 <template>
     <div class="row">
 
-        <div class="type"><span>{{$t('linkedAccount')}}</span></div>
-        <div class="data">
+        <div class="col-4 type"><span>{{$t('linkedAccount')}}</span></div>
+        <div class="col-6 data">
             <div class="sns" v-if="info">
                 <div>
                     <div><img src="/assets/images/icon/icon_kakao.png"/> Kakao <span class="linkDt" v-if="info.kakao">{{ info.kakao }} 연결 완료</span></div>

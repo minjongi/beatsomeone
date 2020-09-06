@@ -45,12 +45,6 @@
 
     export default {
         name: 'Header',
-        props: {
-            isLogin : {
-                type: Boolean,
-                default: false,
-            }
-        },
         data: function () {
             return {
                 userInfo: null,

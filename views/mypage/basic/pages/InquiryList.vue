@@ -40,7 +40,7 @@
         <div class="paging" v-html="paging_html" v-show="paging_html">
         </div>
         <div class="form-inline justify-content-center">
-            <select class="custom-select mr-2" v-html="search_select_html" v-model="search_field">
+            <select class="bs-select mr-2" v-html="search_select_html" v-model="search_field">
             </select>
             <div class="input-group">
                 <input class="form-control" type="text" v-model="search_keyword" :placeholder="$t('enterYourSearchword')">
@@ -85,9 +85,9 @@
         },
         mounted() {
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function () {
+            $(".bs-select").on("click", function () {
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
@@ -97,7 +97,7 @@
                     .toggle();
             });
 
-            $('.custom-select .options').on('click', '.option', this.optionClicked);
+            $('.bs-select .options').on('click', '.option', this.optionClicked);
             $('.paging').on('click', 'a', this.pageClicked);
         },
         created() {
@@ -165,7 +165,7 @@
         flex-flow: row nowrap;
     }
 
-    .custom-select select {
+    .bs-select select {
         display: none;
     }
 

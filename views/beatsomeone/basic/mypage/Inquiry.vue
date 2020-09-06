@@ -1,6 +1,6 @@
 <template>
     <div class="sublist__content" style="margin-bottom:100px;">
-        <div class="row" style="margin-bottom:30px;">
+        <div style="margin-bottom:30px;">
             <div class="title-content">
                 <div class="title">
                     <div>{{$t('support1')}}</div>
@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-bottom:20px;">
+        <div style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab nowrap">
                     <div class="index">No</div>
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-bottom:30px;">
+        <div style="margin-bottom:30px;">
             <div class="playList board inquirylist">
 
                 <ul>
@@ -50,21 +50,19 @@
         <div class="row paging" style="margin-bottom:30px;" v-html="paging_html" v-show="paging_html">
         </div>
 
-        <div class="row">
-            <div class="sort" style="">
-                <div class="custom-select">
-                    <button class="selected-option" :data-value="search_field">
-                        {{ selected_option_html }}
-                    </button>
-                    <div class="options" v-html="custom_options_html">
-                    </div>
-                    <select v-html="search_select_html" v-model="search_field">
-                    </select>
+        <div class="sort" style="">
+            <div class="bs-select">
+                <div class="selected-option" :data-value="search_field">
+                    {{ selected_option_html }}
                 </div>
-                <div class="input_wrap line" style="margin-left:20px; width:100%;">
-                    <input type="text" v-model="search_keyword" :placeholder="$t('enterYourSearchword')">
-                    <button v-on:click="searchClicked"><img src="/assets/images/icon/searchicon.png"/></button>
+                <div class="options" v-html="custom_options_html">
                 </div>
+                <select class="d-none" v-html="search_select_html" v-model="search_field">
+                </select>
+            </div>
+            <div class="input_wrap line" style="margin-left:20px; width:100%;">
+                <input type="text" v-model="search_keyword" :placeholder="$t('enterYourSearchword')">
+                <button v-on:click="searchClicked"><img src="/assets/images/icon/searchicon.png"/></button>
             </div>
         </div>
 
@@ -73,7 +71,8 @@
 
 
 <script>
-    import $ from "jquery"
+    import $ from "jquery";
+    import axios from 'axios';
 
     export default {
         components: {},
@@ -100,9 +99,9 @@
         },
         mounted() {
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function () {
+            $(".bs-select").on("click", function () {
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
@@ -112,7 +111,7 @@
                     .toggle();
             });
 
-            $('.custom-select .options').on('click', '.option', this.optionClicked);
+            $('.bs-select .options').on('click', '.option', this.optionClicked);
             $('.paging').on('click', 'a', this.pageClicked);
         },
         created() {
@@ -129,7 +128,7 @@
                 this.$router.push({path: '/inquiryenroll'});
             },
             fetchData(q) {
-                Http.get('/board/support?' + q)
+                Http.get('/board/ajax/support?' + q)
                     .then(r => r.data)
                     .then(resBody => {
                         this.total_rows = resBody.data.total_rows;
@@ -183,7 +182,7 @@
         flex-flow: row nowrap;
     }
 
-    .custom-select select {
+    .bs-select select {
         display: none;
     }
 

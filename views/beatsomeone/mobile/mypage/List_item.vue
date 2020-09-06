@@ -23,7 +23,7 @@
       </div>-->
       <div>
         <div class="sort">
-          <div class="custom-select" :class="GMT == 1 ? 'active' : ''">
+          <div class="bs-select" :class="GMT == 1 ? 'active' : ''">
             <button
               class="selected-option"
               @click.self="toggleGMT"
@@ -176,7 +176,7 @@
           </div>
         </div>
         <div class="sort">
-          <div class="custom-select custom-select-dropdown">
+          <div class="bs-select custom-select-dropdown">
             <button class="selected-option">{{ dateType }}</button>
             <div class="options">
               <button

@@ -1,75 +1,77 @@
 <template>
     <div>
-        <div class="row">
-            <div class="row" style="margin-bottom:30px;">
-                <div class="title-content">
-                    <div class="title">
-                        <div>{{$t('support1')}}</div>
-                        <button class="btn btn--gray" v-on:click="goPage('inquiry')">{{$t('back')}}</button>
+        <div style="margin-bottom:30px;">
+            <div class="title-content">
+                <div class="title">
+                    <div>{{$t('support1')}}</div>
+                    <button class="btn btn--gray" v-on:click="goPage('inquiry')">{{$t('back')}}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="box" style="padding-bottom:50px;">
+            <div class="row">
+                <div class="col-4 type"><span>{{ $t('title') }}</span></div>
+                <div class="col-6 data">
+                    <div class="input_wrap">
+                        <input v-model="post_title" class="inputbox" type="text"
+                               placeholder="Please enter your title about problem..."/>
                     </div>
                 </div>
             </div>
 
-            <div class="box" style="padding-bottom:50px;">
-                <div class="row">
-                    <div class="type"><span>{{ $t('title') }}</span></div>
-                    <div class="data">
-                        <div class="input_wrap col">
-                            <input v-model="post_title" class="inputbox" type="text"
-                                   placeholder="Please enter your title about problem..."/>
-                        </div>
-                    </div>
-                </div>
+<!--            <div class="row" v-show="group_title == 'SELLER'">-->
+<!--                <div class="type"><span>Writer</span></div>-->
+<!--                <div class="data">-->
+<!--                    <div class="group_title" :class="group_title">{{$t(group_title)}}</div>-->
+<!--                    <div class="seller_class" :class="seller_class">{{seller_class}}</div>-->
+<!--                    <div class="username">KKOMA</div>-->
+<!--                </div>-->
+<!--            </div>-->
 
-                <!--                <div class="row" v-show="group_title == 'SELLER'">-->
-                <!--                    <div class="type"><span>Writer</span></div>-->
-                <!--                    <div class="data">-->
-                <!--                        <div class="group_title" :class="group_title">{{$t(group_title)}}</div>-->
-                <!--                        <div class="seller_class" :class="seller_class">{{seller_class}}</div>-->
-                <!--                        <div class="username">KKOMA</div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-
-                <div class="row">
-                    <div class="type"><span>{{ $t('content') }}</span></div>
-                    <div class="data">
+            <div class="row">
+                <div class="col-4 type"><span>{{ $t('content') }}</span></div>
+                <div class="col-6 data">
                         <textarea v-model="post_content" class="firstname" rows="10"
                                   placeholder="Please decribe your problem detaily..."></textarea>
-                    </div>
-                </div>
-
-                <div class="row" v-show="board_info.use_upload_file === '1'">
-                    <div class="type"><span>Attachment</span></div>
-                    <div class="data">
-                        <div>
-                            <div class="flie_list">
-                                <div v-show="attached_files.length === 0">
-                                    <span>No attached file.</span>
-                                </div>
-                                <div v-for="file in attached_files" :key="file.name">
-                                    <img src="/assets/images/icon/file.png"/>
-                                    <span>{{ file.name }}</span>
-                                </div>
-                            </div>
-                            <div class="caution">
-                                <div>
-                                    <img class="caution" src="/assets/images/icon/caution.png"/>
-                                    <img class="warning" src="/assets/images/icon/warning.png"/>
-                                </div>
-                                <span>
-                                    You can upload only jpg, png, gif, doc, and pdf files within {{ board_info.upload_file_max_size }}MB
-                                </span>
-                            </div>
-                        </div>
-                        <label class="btn btn--blue" for="attachbtn">
-                            <input type="file" id="attachbtn" style="display:none;" multiple v-on:change="changeFiles">
-                            <div>Attach</div>
-                        </label>
-                    </div>
                 </div>
             </div>
-            <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
+
+            <div class="row" v-show="board_info.use_upload_file === '1'">
+                <div class="col-4 type"><span>Attachment</span></div>
+                <div class="col-6 data">
+                    <div>
+                        <div class="flie_list">
+                            <div v-show="attached_files.length === 0">
+                                <span>No attached file.</span>
+                            </div>
+                            <div v-for="file in attached_files" :key="file.name">
+                                <img src="/assets/images/icon/file.png"/>
+                                <span>{{ file.name }}</span>
+                            </div>
+                        </div>
+                        <div class="caution">
+                            <div>
+                                <img class="caution" src="/assets/images/icon/caution.png"/>
+                                <img class="warning" src="/assets/images/icon/warning.png"/>
+                            </div>
+                            <span>
+                                    You can upload only jpg, png, gif, doc, and pdf files within {{ board_info.upload_file_max_size }}MB
+                                </span>
+                        </div>
+                    </div>
+                    <label class="btn btn--blue" for="attachbtn">
+                        <input type="file" id="attachbtn" style="display:none;" multiple v-on:change="changeFiles">
+                        <div>Attach</div>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="btnbox row justify-content-center" style="margin:30px auto 100px;">
+            <div class="col-3">
                 <button class="btn btn--gray" @click="goPage('inquiry')">Cancel</button>
+            </div>
+            <div class="col-3">
                 <button type="submit" class="btn btn--submit" v-on:click="submitInquiry">Submit</button>
             </div>
         </div>
@@ -102,7 +104,7 @@
         mounted() {
             this.post_id = this.$route.params.post_id;
             if (this.post_id) {
-                axios.get(`/post/${this.post_id}`)
+                axios.get(`/post/ajax/${this.post_id}`)
                     .then(res => res.data)
                     .then(data => {
                         this.post_title = data.post.post_title;
