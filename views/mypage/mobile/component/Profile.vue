@@ -1,6 +1,6 @@
 <template>
     <div class="mx-3">
-        <div class="row mb-3">
+        <div class="row mb-3 align-items-center">
             <div class="col-auto">
                 <div class="avatar">
                     <label for="avatar_file" class="avatar-file">
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="badge" :class="member_group_name.includes('buyer') ? 'badge-primary' : 'badge-danger'">
+                <div class="badge mb-2" :class="member_group_name.includes('buyer') ? 'badge-primary' : 'badge-danger'">
                     {{$t(member_group_name)}}
                 </div>
                 <h5 class="nickname mb-0 font-weight-bold">

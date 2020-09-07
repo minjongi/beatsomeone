@@ -61,7 +61,7 @@
                 <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">{{$t('refundComplete')}} ({{calcRefundCnt}})</div>
             </div>
             <div class="sort" style="text-align:right">
-                <div class="custom-select">
+                <div class="bs-select">
                     <button class="selected-option">
                         {{ downType }}
                     </button>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
 
-                <div class="custom-select" style="min-width:max-content;">
+                <div class="bs-select" style="min-width:max-content;">
                     <button class="selected-option">
                         {{ orderType }}
                     </button>
@@ -259,10 +259,10 @@
         },
         mounted(){
              // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".bs-select").on("click", function() {
 
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

@@ -56,7 +56,7 @@
                 <div class="sort">
                     <span>{{ $t('sortBy') }}</span>
                     <div
-                            class="custom-select"
+                            class="bs-select"
                             :class="GMT == 1 ? 'active' : ''"
                             style="width:initial; border-radius:8px;"
                     >
@@ -209,7 +209,7 @@
                     </div>
                 </div>
                 <div class="sort">
-                    <div class="custom-select custom-select-dropdown">
+                    <div class="bs-select custom-select-dropdown">
                         <button class="selected-option">{{ dateType }}</button>
                         <div class="options">
                             <button

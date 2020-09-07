@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row" style="margin-bottom:20px;">
+        <div style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:64px;">
                     <div class="active">{{$t('orderHistory')}} ({{ total_rows }})</div>
@@ -8,7 +8,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="display:flex; margin-bottom:10px;">
+        <div class="d-flex" style="margin-bottom:10px;">
             <div class="search condition">
                 <div class="filter">
                     <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }"
@@ -52,8 +52,8 @@
                     ({{calcCompleteCnt}})
                 </div>
             </div>
-            <div class="sort" style="text-align:right">
-                <div class="custom-select" style="flex: 3;">
+            <div class="d-flex" style="text-align:right">
+                <div class="bs-select" style="flex: 3;">
                     <button class="selected-option">
                         {{ downType }}
                     </button>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
 
-                <div class="custom-select" style="min-width:max-content;">
+                <div class="bs-select" style="min-width:max-content;">
                     <button class="selected-option">
                         {{ orderType }}
                     </button>
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-bottom:10px;">
+        <div style="margin-bottom:10px;">
             <div class="main__media board mybillinglist">
                 <div class="tab nowrap">
                     <div class="index">{{$t('orderNumber')}}</div>
@@ -91,7 +91,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-bottom:30px;">
+        <div style="margin-bottom:30px;">
             <div class="playList board mybillinglist">
                 <ul>
                     <li v-for="(order, idx) in myOrderList" v-bind:key="idx" class="playList__itembox" @click="goOrderDetail(order.cor_id)">
@@ -127,7 +127,7 @@
 
             </div>
         </div>
-        <div class="row paging" style="margin-bottom:30px;" v-html="pagination">
+        <div class="paging" style="margin-bottom:30px;" v-html="pagination">
         </div>
     </div>
 </template>
@@ -174,10 +174,10 @@
         },
         mounted() {
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function () {
+            $(".bs-select").on("click", function () {
 
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
@@ -187,7 +187,7 @@
                     .toggle();
             });
             $('.paging').on('click', 'a', this.pageClicked);
-            this.fetchData();
+            this.fetchData('');
         },
         created() {
             // this.ajaxOrderList().then(()=>{
@@ -614,7 +614,7 @@
         }
     }
 
-    .row {
+    .d-flex {
         .vhd-container {
             height: 100%;
 

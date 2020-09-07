@@ -398,15 +398,8 @@ if ( ! function_exists('ajax_required_user_login')) {
     {
         $CI =& get_instance();
         if ($CI->member->is_member() === false) {
-            if ($type === 'alert') {
-                alert_close('로그인 후 이용이 가능합니다');
-            } else {
-                $CI->session->set_flashdata(
-                    'message',
-                    '로그인 후 이용이 가능합니다'
-                );
-                redirect('login?url=' . urlencode(current_full_url()));
-            }
+            $this->output->set_status_header('401');
+            return false;
         }
         return true;
     }

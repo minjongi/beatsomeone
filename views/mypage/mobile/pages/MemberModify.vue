@@ -1,5 +1,5 @@
 <template>
-    <div class="my-4">
+    <div class="container-fluid my-4">
         <div class="form-group">
             <label>{{$t('username')}}</label>
             <div class="input-group">
@@ -16,6 +16,15 @@
             <label>{{ $t('userGroup') }}</label>
             <div>
                 <span :class="member_group_name === 'buyer' ? 'text-primary' : ''">{{ $t(member_group_name) }}</span>
+            </div>
+        </div>
+        <div class="form-group" v-if="member_group_name.includes('seller')">
+            <label>{{ $t('sellerClass') }}</label>
+            <div>
+                <h5>
+                    <span class="badge" :class="{'badge-success': member_group_name === 'seller_free', 'badge-primary': member_group_name === 'seller_platinum', 'badge-warning': member_group_name === 'seller_master'}">{{ $t(member_group_name) }}</span>
+                    <a href="/mypage/upgrade" class="ml-3 btn btn-warning rounded" style="width: unset;">Upgrade Now</a>
+                </h5>
             </div>
         </div>
         <div class="form-group">
@@ -83,7 +92,7 @@
                                 <span class="social-icon facebook">
                                     <i class="fab fa-facebook-f"></i>
                                 </span>
-                    Facebook
+                    Facebook <span class="text-secondary font-size-12" v-if="social['facebook_update_datetime']">{{ social['facebook_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['facebook_id'], 'btn-default':social['facebook_id']}" @click="toggleConnect('facebook')">
@@ -96,7 +105,7 @@
                                 <span class="social-icon twitter">
                                     <i class="fab fa-twitter"></i>
                                 </span>
-                    Twitter
+                    Twitter <span class="text-secondary font-size-12" v-if="social['twitter_update_datetime']">{{ social['twitter_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['twitter_id'], 'btn-default':social['twitter_id']}" @click="toggleConnect('twitter')">
@@ -109,7 +118,7 @@
                                 <span class="social-icon google">
                                     <i class="fab fa-google"></i>
                                 </span>
-                    Google
+                    Google <span class="text-secondary font-size-12" v-if="social['google_update_datetime']">{{ social['google_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['google_id'], 'btn-default':social['google_id']}" @click="toggleConnect('google')">
@@ -122,7 +131,7 @@
                                 <span class="social-icon naver">
                                     <i class="fab fa-naver"></i>
                                 </span>
-                    Naver
+                    Naver <span class="text-secondary font-size-12" v-if="social['naver_update_datetime']">{{ social['naver_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['naver_id'], 'btn-default':social['naver_id']}" @click="toggleConnect('naver')">
@@ -135,7 +144,7 @@
                                 <span class="social-icon kakao">
                                     <i class="fab fa-kakao"></i>
                                 </span>
-                    Kakao
+                    Kakao <span class="text-secondary font-size-12" v-if="social['kakao_update_datetime']">{{ social['kakao_update_datetime'] }}</span>
                 </div>
                 <div>
                     <button class="btn" :class="{'btn-warning':!social['kakao_id'], 'btn-default':social['kakao_id']}" @click="toggleConnect('kakao')">
@@ -368,5 +377,9 @@
         &.kakao {
             background-color: #ffe812;
         }
+    }
+
+    .rounded {
+        border-radius: 30px !important;
     }
 </style>

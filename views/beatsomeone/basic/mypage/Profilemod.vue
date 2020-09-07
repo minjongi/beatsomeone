@@ -1,5 +1,5 @@
 <template>
-    <div class="row" v-if="info">
+    <div v-if="info">
         <div class="title-content">
             <div class="title">
                 <div>{{$t('manageInformation')}}</div>
@@ -8,29 +8,29 @@
         <div class="box" style="padding-bottom:50px;" >
             <Profilemod_UserName :username="info.mem_userid" @updatedUserName="updateUserName"></Profilemod_UserName>
             <div class="row">
-                <div class="type"><span>{{$t('userGroup')}}</span></div>
-                <div class="data">
+                <div class="col-4 type"><span>{{$t('userGroup')}}</span></div>
+                <div class="col-6 data">
                    <div class="group_title" :class="groupType">{{ $t(groupType) }}</div>
                 </div>
             </div>
-            <div class="row" v-if="isSeller">
-                <div class="type"><span>{{$t('sellerClass')}}</span></div>
-                <div class="data">
-                    <div class="seller_class" :class="sellerClass">{{ sellerClass }}</div>
+            <div class="row align-items-center" v-if="isSeller">
+                <div class="col-4 type"><span>{{$t('sellerClass')}}</span></div>
+                <div class="col-6">
+                    <span class="badge" :class="{'badge-success': member_group_name === 'seller_free', 'badge-primary': member_group_name === 'seller_platinum', 'badge-warning': member_group_name === 'seller_master'}">{{ $t(member_group_name) }}</span>
                 </div>
-                <div class="active">
-                    <button class="btn btn--yellow round">
+                <div class="col-2 active">
+                    <a class="btn btn-warning round" href="/mypage/upgrade">
                         Upgrade Now
-                    </button>
+                    </a>
                 </div>
             </div>
 
             <Profilemod_Email :email="info.mem_email" @updatedEmail="updateEmail"></Profilemod_Email>
-            <Profilemod_Password></Profilemod_Password>
+            <Profilemod_Password />
 
             <div class="row">
-                <div class="type"><span>{{$t('yourType')}}</span></div>
-                <div class="data">
+                <div class="col-4 type"><span>{{$t('yourType')}}</span></div>
+                <div class="col-8 data">
                     <label for="type1" class="checkbox">
                         <input type="radio" name="type" hidden="hidden" id="type1" value="Music Lover" v-model="info.mem_type">
                         <span></span><div> Music Lover</div>
@@ -51,8 +51,8 @@
             </div>
 
             <div class="row">
-                <div class="type"><span>{{$t('realName')}}</span></div>
-                <div class="data">
+                <div class="col-4 type"><span>{{$t('realName')}}</span></div>
+                <div class="col-6 data">
                     <input class="inputbox firstname" type="text" v-model="info.mem_firstname" :placeholder="$t('enterYourFirstname1')" >
                     <input class="inputbox lastname" type="text" v-model="info.mem_lastname" :placeholder="$t('enterYourLastname1')" >
                 </div>
@@ -60,16 +60,16 @@
             </div>
 
             <div class="row">
-                <div class="type"><span>City of Residence, State</span></div>
-                <div class="data">
+                <div class="col-4 type"><span>City of Residence, State</span></div>
+                <div class="col-6 data">
                     <input class="inputbox" type="text" v-model="info.mem_address1" :placeholder="$t('enterYourLocation')">
                 </div>
                 <div></div>
             </div>
 
             <div class="row">
-                <div class="type"><span>{{$t('bio')}}</span></div>
-                <div class="data">
+                <div class="col-4 type"><span>{{$t('bio')}}</span></div>
+                <div class="col-6 data">
                     <textarea class="firstname" type="text" v-model="info.mem_profile_content" :placeholder="$t('enterYourBio')" />
                 </div>
                 <div></div>
@@ -106,23 +106,18 @@
                 isLogin: false,
                 info: null,
                 csrfHash: null,
-
+                member_group_name: ''
             };
         },
         computed: {
             isCustomer: function () {
-                return this.groupType === 'CUSTOMER';
+                return this.member_group_name === 'buyer';
             },
             isSeller: function () {
-                return this.groupType === 'SELLER';
+                return this.member_group_name.includes('seller');
             },
             groupType: function() {
-                // return 'CUSTOMER';
-                if(this.info) {
-                    return this.info.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
-                } else {
-                    return null;
-                }
+                return this.member_group_name === 'buyer' ? 'customer' : 'seller';
             },
             sellerClass: function() {
                 if(this.info) {
@@ -142,17 +137,12 @@
             }
         },
         mounted(){
-
+            this.info = window.member;
+            this.member_group_name = window.member_group_name;
         },
         created() {
-            this.fetchInfo();
         },
         methods:{
-            fetchInfo: function () {
-                Http.post('/BeatsomeoneMypageApi/getUserInfo').then(r => {
-                    this.info = r;
-                });
-            },
             updateUserName: function(d) {
                 log.debug('UPDATE USER NAME');
                 this.info.mem_userid = d;
@@ -167,7 +157,8 @@
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
                     // alert('변경내용이 저장 되었습니다');
                     alert(this.$t('dashboard_profilemod_save_ok'));
-                    EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
+                    window.location.reload();
+                    // EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
                 });
             },
             moveDashboard() {
@@ -181,6 +172,8 @@
 
 
 <style lang="scss">
-
+    .row {
+        margin-bottom: 30px;
+    }
 </style>
 

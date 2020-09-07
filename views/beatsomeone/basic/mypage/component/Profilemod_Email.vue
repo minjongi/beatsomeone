@@ -1,7 +1,7 @@
 <template>
     <div class="row">
-        <div class="type"><span>{{$t('email')}}</span></div>
-        <div class="data">
+        <div class="col-4 type"><span>{{$t('email')}}</span></div>
+        <div class="col-6 data">
             <div class="input_wrap col">
                 <input class="inputbox" ref="Email" maxlength="50" :disabled="!isEmailEditing" @keydown.enter="doSubmit" type="email" v-model="tempEmail" :placeholder="$t('enterYourNewEmail')" >
                 <CommonCaution v-if="!isEmailAreDuplicated && !isEmailFormError">{{$t('noteChangeEmailMsg')}}</CommonCaution>
@@ -15,7 +15,7 @@
                 {{$t('save')}}
             </button>
         </div>
-        <div class="active">
+        <div class="col-2 active">
             <button class="btn btn--gray" v-if="isEmailEditing"  @click="setEmailEdit(false)">
                 {{$t('cancel1')}}
             </button>

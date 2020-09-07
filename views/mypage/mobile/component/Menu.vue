@@ -10,10 +10,10 @@
             <router-link to="/list_item" class="nav-link">{{$t('productList')}}</router-link>
         </li>
         <li class="nav-item" v-if="member_group_name.includes('seller')">
-            <router-link to="/register_item" class="nav-link">{{$t('registrationOfBeat')}}</router-link>
+            <a href="/mypage/regist_item" class="nav-link">{{$t('registrationOfBeat')}}</a>
         </li>
         <li class="nav-item">
-            <router-link to="/mybilling" class="nav-link">{{$t('orderHistory')}}</router-link>
+            <router-link to="/orders" class="nav-link">{{$t('orderHistory')}}</router-link>
         </li>
         <li class="nav-item" v-if="member_group_name.includes('seller')">
             <router-link to="/saleshistory" class="nav-link">{{$t('salesHistory')}}</router-link>
@@ -22,10 +22,13 @@
             <router-link to="/message" class="nav-link">{{$t('chat')}}</router-link>
         </li>
         <li class="nav-item" v-if="member_group_name.includes('seller')">
-            <router-link to="/seller" class="nav-link">{{$t('settlementHistory')}}</router-link>
+            <router-link to="/settlement" class="nav-link">{{$t('settlementHistory')}}</router-link>
         </li>
         <li class="nav-item" v-if="member_group_name === 'buyer'">
             <a href="/mypage/upgrade" class="nav-link">{{$t('sellerRegister')}}</a>
+        </li>
+        <li class="nav-item">
+            <router-link to="/inquiry" class="nav-link">{{$t('support1')}}</router-link>
         </li>
     </ul>
 </template>

@@ -2,7 +2,7 @@
     <div class="member-modify">
         <h5 class="mb-4">{{$t('manageInformation')}}</h5>
         <div class="card mb-4">
-            <div class="card-body">
+            <div class="card-body p-5">
                 <div class="form-group row">
                     <label class="col-form-label col-4">{{$t('username')}}</label>
                     <div class="col-8">
@@ -23,16 +23,26 @@
                         <span :class="member_group_name === 'buyer' ? 'text-primary' : ''">{{ $t(member_group_name) }}</span>
                     </div>
                 </div>
+                <div class="form-group row" v-if="member_group_name.includes('seller')">
+                    <label class="col-form-label col-4">{{ $t('sellerClass') }}</label>
+                    <div class="col-8 align-self-center">
+                        <h5>
+                            <span class="badge" :class="{'badge-success': member_group_name === 'seller_free', 'badge-primary': member_group_name === 'seller_platinum', 'badge-warning': member_group_name === 'seller_master'}">{{ $t(member_group_name) }}</span>
+                            <a href="/mypage/upgrade" class="ml-3 btn btn-warning rounded" style="width: unset;">Upgrade Now</a>
+                        </h5>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label class="col-form-label col-4">{{ $t('email') }}</label>
                     <div class="col-8">
                         <div class="input-group">
-                            <input class="form-control" v-model="mem_email" type="email" :readonly="isEmailReadonly">
+                            <input class="form-control" :class="mem_email_invalid ? 'is-invalid' : ''" v-model="mem_email" type="email" :readonly="isEmailReadonly">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" v-if="isEmailReadonly" @click="isEmailReadonly = false">{{$t('change1')}}</button>
-                                <button class="btn btn-primary" v-if="!isEmailReadonly">{{$t('save')}}</button>
+                                <button class="btn btn-primary" v-if="!isEmailReadonly" @click="isEmailReadonly = true">{{$t('save')}}</button>
                                 <button class="btn btn-primary ml-2" v-if="!isEmailReadonly" @click="isEmailReadonly = true">{{$t('cancel2')}}</button>
                             </div>
+                            <small class="invalid-feedback" v-if="mem_email_invalid">{{ mem_email_invalid_feedback }}</small>
                         </div>
                         <small class="form-text"><i class="fa fa-exclamation-triangle"></i> {{$t('noteChangeEmailMsg')}}</small>
                     </div>
@@ -99,7 +109,7 @@
                                 <span class="social-icon facebook">
                                     <i class="fab fa-facebook-f"></i>
                                 </span>
-                                Facebook
+                                Facebook <span class="text-secondary font-size-12" v-if="social['facebook_update_datetime']">{{ social['facebook_update_datetime'] }}</span>
                             </div>
                             <div>
                                 <button class="btn" :class="{'btn-warning':!social['facebook_id'], 'btn-default':social['facebook_id']}" @click="toggleConnect('facebook')">
@@ -112,7 +122,7 @@
                                 <span class="social-icon twitter">
                                     <i class="fab fa-twitter"></i>
                                 </span>
-                                Twitter
+                                Twitter <span class="text-secondary font-size-12" v-if="social['twitter_update_datetime']">{{ social['twitter_update_datetime'] }}</span>
                             </div>
                             <div>
                                 <button class="btn" :class="{'btn-warning':!social['twitter_id'], 'btn-default':social['twitter_id']}" @click="toggleConnect('twitter')">
@@ -125,7 +135,7 @@
                                 <span class="social-icon google">
                                     <i class="fab fa-google"></i>
                                 </span>
-                                Google
+                                Google <span class="text-secondary font-size-12" v-if="social['google_update_datetime']">{{ social['google_update_datetime'] }}</span>
                             </div>
                             <div>
                                 <button class="btn" :class="{'btn-warning':!social['google_id'], 'btn-default':social['google_id']}" @click="toggleConnect('google')">
@@ -138,7 +148,7 @@
                                 <span class="social-icon naver">
                                     <i class="fab fa-naver"></i>
                                 </span>
-                                Naver
+                                Naver <span class="text-secondary font-size-12" v-if="social['naver_update_datetime']">{{ social['naver_update_datetime'] }}</span>
                             </div>
                             <div>
                                 <button class="btn" :class="{'btn-warning':!social['naver_id'], 'btn-default':social['naver_id']}" @click="toggleConnect('naver')">
@@ -151,7 +161,7 @@
                                 <span class="social-icon kakao">
                                     <i class="fab fa-kakao"></i>
                                 </span>
-                                Kakao
+                                Kakao <span class="text-secondary font-size-12" v-if="social['kakao_update_datetime']">{{ social['kakao_update_datetime'] }}</span>
                             </div>
                             <div>
                                 <button class="btn" :class="{'btn-warning':!social['kakao_id'], 'btn-default':social['kakao_id']}" @click="toggleConnect('kakao')">
@@ -217,6 +227,8 @@
                 isUsernameReadonly: true,
                 member_group_name: '',
                 mem_email: '',
+                mem_email_invalid: false,
+                mem_email_invalid_feedback: '',
                 isEmailReadonly: true,
                 mem_type: '',
                 mem_firstname: '',
@@ -344,7 +356,13 @@
                         window.location.reload();
                     })
                     .catch(error => {
-                        console.error(error.response.data);
+                        let error_data = error.response.data;
+                        if (error_data.mem_email) {
+                            this.mem_email_invalid = true;
+                            this.mem_email_invalid_feedback = error_data.mem_email;
+                        } else {
+                            this.mem_email_invalid = false;
+                        }
                     })
             }
         }
@@ -353,15 +371,6 @@
 
 <style lang="scss" scoped>
     .member-modify {
-        .card {
-            border: 1px solid #131315;
-            border-radius: 5px;
-
-            > .card-body {
-                background-color: #131315;
-            }
-        }
-
         .btn:not(.btn-block) {
             width: 96px;
         }
@@ -411,6 +420,10 @@
             &.kakao {
                 background-color: #ffe812;
             }
+        }
+
+        .rounded {
+            border-radius: 30px !important;
         }
     }
 </style>

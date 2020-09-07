@@ -292,4 +292,50 @@ Cmall_item_model extends CB_Model
 
         return $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
     }
+
+    public function get_one_with_author($primary_value = '')
+    {
+        $this->db->select('cmall_item.*, member.mem_firstname, member.mem_lastname');
+        $this->db->from($this->_table);
+        if ($primary_value) {
+            $this->db->where($this->primary_key, $primary_value);
+        }
+        $this->db->join('member', 'member.mem_id = cmall_item.mem_id', 'left');
+        $this->db->limit(1, 0);
+        $result = $this->db->get();
+
+        return $result->row_array();
+    }
+
+    public function count_total_items($mem_id)
+    {
+	    $this->db->select('COUNT(*) as cnt');
+	    $this->db->from($this->_table);
+	    $this->db->where('mem_id', $mem_id);
+	    $result = $this->db->get();
+	    $re = $result->row_array();
+	    return $re['cnt'];
+    }
+
+    public function count_selling_items($mem_id)
+    {
+        $this->db->select('COUNT(*) as cnt');
+        $this->db->from($this->_table);
+        $this->db->where('mem_id', $mem_id);
+        $this->db->where('cit_status', 1);
+        $result = $this->db->get();
+        $re = $result->row_array();
+        return $re['cnt'];
+    }
+
+    public function count_pending_items($mem_id)
+    {
+        $this->db->select('COUNT(*) as cnt');
+        $this->db->from($this->_table);
+        $this->db->where('mem_id', $mem_id);
+        $this->db->where('cit_status', 0);
+        $result = $this->db->get();
+        $re = $result->row_array();
+        return $re['cnt'];
+    }
 }

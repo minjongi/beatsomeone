@@ -34,7 +34,7 @@
 
                     </div>
                     <div class="accounts__btnbox">
-                        <button type="submit" class="btn btn--submit">
+                        <button type="submit" class="btn btn--submit" style="height: 54px">
                             {{ $t('login') }}
                         </button>
                     </div>

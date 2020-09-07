@@ -127,6 +127,8 @@
         },
         mounted() {
 
+
+
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).id;
@@ -282,17 +284,21 @@
             // 카트 추가
             addCart() {
 
-                let detail_qty = {};
-                detail_qty[this.item.cde_id] = 1;
-                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
-                    if(!r) {
-                        log.debug('장바구니 담기 실패');
-                    } else {
-                        EventBus.$emit('add_cart');
-                        log.debug('장바구니 담기 성공');
 
-                    }
-                });
+                console.log('Detail page add cart item data : ', this.item.cde_id, this.item.cit_id);
+                return;
+
+                // let detail_qty = {};
+                // detail_qty[this.item.cde_id] = 1;
+                // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                //     if(!r) {
+                //         log.debug('장바구니 담기 실패');
+                //     } else {
+                //         EventBus.$emit('add_cart');
+                //         log.debug('장바구니 담기 성공');
+                //
+                //     }
+                // });
             },
             // 다운로드 증가
             increaseMusicCount() {

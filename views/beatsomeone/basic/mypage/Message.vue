@@ -1,31 +1,35 @@
 <template>
     <div>
-        <div class="row" style="margin-bottom:30px;">
+        <div style="margin-bottom:30px;">
             <div class="title-content">
                 <div class="title">
                     <div>{{$t('chat')}}</div>
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-bottom:30px;">
+        <div style="margin-bottom:30px;">
             <div class="message">
                 <div>
-                    <div class="sort">
-                        <div class="custom-select custom-select-dropdown">
-                            <button class="selected-option">
-                                {{ dateType }}
-                            </button>
-                            <div class="options" >
-                            <button v-show="dateType != 'All'" class="option" @click="funcDateType('All')"> {{$t('all')}} </button>
-                            <button v-show="dateType != 'Read'" class="option" @click="funcDateType('Read')"> {{$t('read')}} </button>
-                            <button v-show="dateType != 'Unread'" data-value="" class="option" @click="funcDateType('Unread')"> {{$t('unread')}} </button>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="bs-select custom-select-dropdown">
+                                <button class="selected-option">
+                                    {{ dateType }}
+                                </button>
+                                <div class="options" >
+                                    <button v-show="dateType != 'All'" class="option" @click="funcDateType('All')"> {{$t('all')}} </button>
+                                    <button v-show="dateType != 'Read'" class="option" @click="funcDateType('Read')"> {{$t('read')}} </button>
+                                    <button v-show="dateType != 'Unread'" data-value="" class="option" @click="funcDateType('Unread')"> {{$t('unread')}} </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="input_wrap line" >
-                            <input type="text" :placeholder="$t('enterYourSearchword')" :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
-                            <button @click="goSearchUser">
-                                <img src="/assets/images/icon/searchicon.png">
-                            </button>
+                        <div class="col-8">
+                            <div class="input_wrap line" >
+                                <input type="text" :placeholder="$t('enterYourSearchword')" :value="searchUser" @input="searchUser=$event.target.value" @keypress.enter="goSearchUser">
+                                <button @click="goSearchUser">
+                                    <img src="/assets/images/icon/searchicon.png">
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -193,10 +197,10 @@
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".bs-select").on("click", function() {
 
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

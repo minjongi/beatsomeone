@@ -1,10 +1,17 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import "bootstrap";
 
 import i18n from '*/src/i18n/i18n';
 import app from "./Main.vue";
 import Dashboard from "./pages/Dashboard";
 import MemberModify from "./pages/MemberModify";
+import OrderList from "./pages/OrderList";
+import InquiryList from './pages/InquiryList';
+import InquiryView from "./pages/InquiryView";
+import InquiryEnroll from "./pages/InquiryEnroll";
+import Faq from "./pages/Faq";
+import SettlementHistory from "./pages/SettlementHistory";
 
 Vue.use(VueRouter);
 
@@ -14,7 +21,35 @@ const router = new VueRouter({
         {
             path: '/membermodify',
             component: MemberModify
-        }
+        },
+        {
+            path: '/orders',
+            component: OrderList
+        },
+        {
+            path: '/settlement',
+            component: SettlementHistory
+        },
+        {
+            path: '/inquiry',
+            component: InquiryList
+        },
+        {
+            path: '/inquiry/:post_id',
+            component: InquiryView
+        },
+        {
+            path: '/inquiry/:post_id/edit',
+            component: InquiryEnroll
+        },
+        {
+            path: '/inquiryenroll',
+            component: InquiryEnroll
+        },
+        {
+            path: '/faq',
+            component: Faq
+        },
         // {path: '/profilemod', component: Profilemod},
         // {path: '/list_item', component: ProductList},
         // {path: '/mybilling', component: Mybilling},
@@ -25,13 +60,6 @@ const router = new VueRouter({
         // {path: '/seller', component: Seller},
         // {path: '/sellerbill', component: Sellerbill},
         // {path: '/message', component: Message},
-        // {path: '/inquiry', component: Inquiry},
-        // {path: '/inquiryenroll', component: Inquiryenroll},
-        // {path: '/inquirymod', component: Inquirymod},
-        // {path: '/inquiry/:post_id', component: Inquiryview},
-        // {path: '/inquiry/:post_id/edit', component: Inquiryenroll},
-        // {path: '/faq', component: Faq},
-        // {path: '/favorites', component: Favorites},
     ],
 });
 

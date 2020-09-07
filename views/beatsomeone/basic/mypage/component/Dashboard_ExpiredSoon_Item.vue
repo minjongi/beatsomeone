@@ -11,7 +11,7 @@
                     </span>
                     <figcaption class="pointer" @click="selectItem">
                         <h3 class="playList__title">{{ item.cit_name}}</h3>
-                        <span class="playList__by">{{ item.musician }}</span>
+                        <span class="playList__by">{{ item.mem_firstname + ' ' + item.mem_lastname }}</span>
                     </figcaption>
                 </figure>
             </div>

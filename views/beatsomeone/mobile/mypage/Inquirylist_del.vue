@@ -133,7 +133,7 @@
 
             <div class="row">
               <div class="n-flex search-wrap">
-                <div class="custom-select">
+                <div class="bs-select">
                   <button class="selected-option">Total</button>
                   <div class="options">
                     <button data-value="" class="option">Title</button>
@@ -191,10 +191,10 @@ export default {
   },
   mounted () {
     // 커스텀 셀렉트 옵션
-    $(".custom-select").on("click", function () {
+    $(".bs-select").on("click", function () {
 
       $(this)
-        .siblings(".custom-select")
+        .siblings(".bs-select")
         .removeClass("active")
         .find(".options")
         .hide();
@@ -385,7 +385,7 @@ export default {
 
 .search-wrap {
   margin-top: 20px;
-  .custom-select {
+  .bs-select {
     flex: 1;
     margin-right: 10px;
     min-width: 100px;

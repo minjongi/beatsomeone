@@ -38,7 +38,7 @@
                                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
                                                 <i class="label new">N</i>
                                             </span>
-                                            <button class="btn-play">재생</button>
+                                            <button class="btn-play" :id="'btn-play'+index" @click="playToggle(item, index)">재생</button>
                                             <div class="wave"></div>
                                             <figcaption>
                                                 <h3 class="playList__title">{{ item.cit_name }}</h3>
@@ -48,12 +48,13 @@
                                             </figcaption>
                                         </figure>
                                     </div>
-                                    <div class="col btns">
+                                    <div class="col btns"  @click="togglePopup(item)">
                                         <button>
                                             cart
                                         </button>
                                     </div>
                                 </div>
+                                <SelectorModal :togglePopup.sync="item.toggle_popup" :item="item"/>
                             </li>
                         </ul>
                     </div>
@@ -67,18 +68,22 @@
 
 <script>
     import axios from "axios";
-
+    import { EventBus } from "*/src/eventbus";
     require("@/assets_m/js/function");
     import Header from "../include/Header";
     import Footer from "../include/Footer";
-    import MainPlayer from "@/vue/common/MainPlayer";
+    import MainPlayer from "@/vue/common/MobileMainPlayer";
     import $ from "jquery";
+
+    // import SelectorModal from "./component/SelectorModal";
+    import SelectorModal from "./component/SelectorModal";
 
     export default {
         components: {
             Header,
             Footer,
             MainPlayer,
+            SelectorModal
         },
         data: function () {
             return {
@@ -89,6 +94,10 @@
                 checkedAll: false,
                 disableDelete: true,
                 busy: false,
+                playIndex:null,
+                playItem:  null,
+                isPlay: false,
+
             };
         },
         created() {
@@ -108,13 +117,67 @@
                             au.src = musicUrl;
                             au.setAttribute('data-cit_idx', index);
                             au.setAttribute('data-cde_idx', i);
-                            au.addEventListener('loadedmetadata', this.getDuration)
+                            au.setAttribute('id', "audio"+index + '_' + i);
+                            au.addEventListener('loadedmetadata', this.getDuration);
+                            document.body.appendChild(au);
                         }
                     });
                 })
                 .catch(error => {
                     console.error(error);
                 })
+
+            EventBus.$on("main_player_play", (r) => {
+                log.debug({
+                    "DETAIL : main_player_play": r,
+                });
+
+                // this.playToggle(this.playItem, this.playIndex);
+                if(this.playIndex === r._uid){
+                    const $oldTappedItem =$("#btn-play"+this.playIndex);
+                    $oldTappedItem.addClass("btn_pause").removeClass("btn-play");
+                    this.start(this.playItem, this.playIndex);
+                }
+
+                // if (this._uid != r._uid) {
+                //     this.music.pause();
+                // }
+            });
+            EventBus.$on("main_player_stop", (r) => {
+                log.debug({
+                    "DETAIL : main_player_stop": r,
+                });
+
+                if(this.playIndex === r._uid){
+                    const $oldTappedItem =$("#btn-play"+this.playIndex);
+                    $oldTappedItem.removeClass("btn_pause").addClass("btn-play");
+                    this.stop(this.playItem, this.playIndex);
+                }
+
+                // if (this._uid != r._uid) {
+                //     this.music.pause();
+                // }
+            });
+
+            EventBus.$on("main_player_prev", (r)=>{
+
+                let newIndex = this.playIndex - 1;
+
+                console.log('main_player_prev line 162 at Favorites.vue: ', newIndex)
+
+                if(newIndex >= 0){
+                    this.playToggle(this.listItems[newIndex], newIndex);
+                }
+
+            })
+            EventBus.$on("main_player_next", (r)=>{
+                // let curIndex = r._uid;
+                let newIndex = this.playIndex + 1;
+                if(newIndex < this.listItems.length){
+                    this.playToggle(this.listItems[newIndex], newIndex);
+                }
+
+            })
         },
         computed: {},
         methods: {
@@ -173,7 +236,104 @@
                         this.cntSelectedItems++;
                     }
                 });
-            }
+            },
+            stop(item, index){
+                const audio = document.getElementById("audio"+index + '_0');
+                try{
+                    audio.pause();
+
+                }catch (e) {
+                    console.log(e)
+                }
+
+                this.isPlay = false;
+
+            },
+            start(item, index){
+                const audio = document.getElementById("audio"+index + '_0');
+                audio.play();
+                this.isPlay = true;
+
+            },
+            playToggle: function (item, index) {
+                console.log(item, index)
+
+                const $newTappedItem = $("#btn-play"+index);
+                const $oldTappedItem =$("#btn-play"+this.playIndex);
+
+                if(this.playIndex === index ){
+
+                    if(this.isPlay === true){
+                        // pause current play
+                        $newTappedItem.removeClass("btn_pause").addClass("btn-play");
+                        this.stop(item, index);
+                        EventBus.$emit("player_request_stop", {
+                            _uid: index,
+                            item: item,
+                            ws: null,
+                        });
+                    }else{
+                        // resume current play
+                        $newTappedItem.addClass("btn_pause").removeClass("btn-play");
+                        this.start(item, index);
+                        EventBus.$emit("player_request_start", {
+                            _uid: index,
+                            item: item,
+                            ws: null,
+                        });
+                    }
+
+                }else{
+                    $oldTappedItem.removeClass("btn_pause").addClass("btn-play");
+
+                    if(this.isPlay){
+                        // pause old and play new
+                        this.stop(this.playItem, this.playIndex)
+                        EventBus.$emit("player_request_stop", {
+                            _uid: this.playIndex,
+                            item: item,
+                            ws: null,
+                        });
+
+                        this.start(item, index)
+
+                    }else{
+                        // play new
+                        this.start(item, index)
+
+                    }
+                    $newTappedItem.addClass("btn_pause").removeClass("btn-play");
+                    EventBus.$emit("player_request_start", {
+                        _uid: index,
+                        item: item,
+                        ws: null,
+                    });
+                }
+
+                this.playIndex = index;
+                this.playItem = item;
+
+            },
+            addCart(item) {
+                console.log('Fav add cart item data : ', item.cde_id, item.cit_id);
+                console.log('item:', item)
+                return
+                // let detail_qty = {};
+                // detail_qty[item.cde_id] = 1;
+                // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:item.cit_id,chk_detail:[item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                //     if(!r) {
+                //         log.debug('장바구니 담기 실패');
+                //     } else {
+                //         EventBus.$emit('add_cart');
+                //         log.debug('장바구니 담기 성공');
+                //
+                //     }
+                // });
+            },
+            togglePopup: function (item) {
+                console.log('toggle popup for cart item')
+                this.$set(item, 'toggle_popup', true);
+            },
         },
     };
 </script>
@@ -261,6 +421,23 @@
         vertical-align: middle;
         margin-right: 5px;
     }
+    .btn_pause {
+        background: url('/assets_m/images/icon/pause.png') no-repeat center;
+        text-indent: -9999px;
+        overflow: hidden;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        width: 25px;
+        height: 25px;
+        background-size: auto 100%;
+        opacity: 0.3;
+        margin-right: 15px;
+        -webkit-box-flex: 0;
+        -ms-flex: none;
+        flex: none;
+
+    }
+
 
     .nfavorites .playList .playList__item {
         display: flex;

@@ -6,13 +6,7 @@
             <Profile />
         </div>
         <Menu />
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <router-view />
-                </div>
-            </div>
-        </div>
+        <router-view />
     </div>
 </template>
 
@@ -47,6 +41,7 @@
             "success": #2dad8e,
     );
     @import "~bootstrap/scss/bootstrap";
+    @import '~swiper/swiper';
 
     html, body {
         font-family: "Raleway", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Noto Sans KR";
@@ -91,5 +86,86 @@
         &:hover {
             color: #b1b1b1;
         }
+    }
+
+    .form-control {
+        background: hsla(0,0%,100%,.1);
+        color: #fff;
+        border: solid 1px rgba(255, 255, 255, 0.1);
+
+        &:focus {
+            color: #fff;
+            background-color: #2b2b2d;
+            border: solid 1px rgba(255, 255, 255, 0.1);
+        }
+
+        &:hover {
+            color: #fff;
+            background: hsla(0,0%,100%,.3);
+            border: solid 1px rgba(255, 255, 255, 0.1);
+        }
+
+        &:disabled, &[readonly] {
+            background: hsla(0,0%,100%,.1);
+            border: solid 1px rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    .order-history {
+        .vhd-container {
+            height: 100%;
+            width: 100%;
+
+            .vhd-input {
+                line-height: 14px;
+                font-size: 14px;
+                height: 100%;
+                width: 100%;
+                border: solid 1px #414143;
+                border-radius: 4px;
+                background-color: transparent;
+            }
+
+            .vhd-picker {
+                left: unset;
+                right: 0;
+                margin-top: 10px;
+                background-color: #2b2c30;
+            }
+
+            .vhd-calendar {
+                .calendar-month-title {
+                    color: white;
+                }
+
+                .calendar-date .week .day .in-date-range span {
+                    color: black;
+                }
+            }
+        }
+
+        .pagination {
+            justify-content: center;
+
+            li {
+                width: 50px;
+                height: 50px;
+                text-align: center;
+
+                a {
+                    color: white;
+                }
+
+                &.active {
+                    a {
+                        color: #ffda2a;
+                    }
+                }
+            }
+        }
+    }
+
+    hr {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 </style>

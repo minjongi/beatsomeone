@@ -5,7 +5,6 @@
     background: url('/assets/images/main-section1-visual.png') no-repeat center
       top;
     background-size: 100% auto;
-    min-height: 100vh;
 
     #videoBG {
       position: absolute;
@@ -69,7 +68,7 @@
   .filter {
     height: 100px;
     @include flex($justify: center);
-    .custom-select {
+    .bs-select {
       margin: 0 30px;
       &:last-child {
         margin-right: 0;
@@ -562,7 +561,7 @@ section[class*='section'] {
   }
 }
 
-.custom-select {
+.bs-select {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
@@ -615,7 +614,7 @@ section[class*='section'] {
       display: inline-block !important;
     }
 
-    .custom-select,
+    .bs-select,
     .selected-option {
       font-size: 12px;
     }
@@ -1244,7 +1243,7 @@ section[class*='section'] {
   }
 }
 
-.custom-select.active {
+.bs-select.active {
   .selected-option + .popup {
     background: #2b2c30;
     pointer-events: initial;
@@ -1319,31 +1318,6 @@ section[class*='section'] {
     ol ul ul li {
       font-size: 16px;
     }
-  }
-}
-
-.banner {
-  text-align: center;
-
-  h3 {
-    font-size: 30px;
-
-    span {
-      font-size: inherit;
-      color: #ffda2a;
-      text-decoration: underline;
-    }
-  }
-
-  p {
-    width: 50%;
-    margin: auto;
-    margin-top: 50px;
-    font-size: 20px;
-  }
-
-  button {
-    margin-top: 50px;
   }
 }
 
@@ -1505,31 +1479,9 @@ ul.menu li {
 }
 
 .box {
-  display: flex;
-  flex-direction: column;
   background: #1b1b1e;
   border-radius: 8px;
   padding: 30px;
-
-  .row {
-    width: 100%;
-    min-height: 40px;
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-
-    & ~ .row {
-      margin-top: 20px;
-    }
-
-    > * {
-      width: 100%;
-    }
-
-    .file_list {
-      height: 20px;
-    }
-  }
 
   .type {
     max-width: 300px;
@@ -1677,15 +1629,6 @@ ul.menu li {
 
   .btn {
     font-size: 14px;
-    min-width: 96px;
-    max-width: 96px;
-    height: 40px;
-    min-width: max-content;
-
-    &.round {
-      margin-left: -20px;
-      padding: 0 20px;
-    }
   }
 }
 
@@ -1991,7 +1934,7 @@ textarea {
   }
 }
 
-.custom-select {
+.bs-select {
   position: relative;
 
   .selected-option {
@@ -2237,7 +2180,7 @@ textarea {
   }
 }
 
-.custom-select + .custom-select {
+.bs-select + .bs-select {
   margin-left: 10px;
 }
 
@@ -3471,16 +3414,6 @@ textarea {
       height: 60px;
       font-size: 16px;
     }
-  }
-}
-
-.col {
-  .type {
-    margin-bottom: 10px;
-  }
-
-  & ~ .col:not(.btnbox) {
-    margin-top: 20px;
   }
 }
 

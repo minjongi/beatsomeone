@@ -638,7 +638,7 @@
                         </div>
                         <div class="data">
                             <div class="sort" style="display:flex; margin-left:0; flex-flow:row nowrap">
-                                <div class="custom-select">
+                                <div class="bs-select">
                                     <button class="selected-option" style="min-width: 224px;">Select your reason
                                     </button>
                                     <div class="options">
@@ -725,9 +725,9 @@
         },
         mounted() {
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function () {
+            $(".bs-select").on("click", function () {
                 $(this)
-                    .siblings(".custom-select")
+                    .siblings(".bs-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

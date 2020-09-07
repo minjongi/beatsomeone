@@ -65,7 +65,7 @@
             }
         },
         mounted() {
-            axios.get('/board/video')
+            axios.get('/board/ajax/video')
                 .then(res => res.data)
                 .then(data => {
                     this.posts = data.data.list;

@@ -1,7 +1,7 @@
 <template>
-    <div class="sublist__filter sticky">
+    <div class="sidebar">
 
-        <CommonProfile :info="userinfo"></CommonProfile>
+        <CommonProfile />
         <CommonMenu :current="current" :groupType="groupType"></CommonMenu>
     </div>
 </template>
@@ -44,6 +44,9 @@
 
 </script>
 
-<style scoped="scoped" lang="sass">
-
+<style scoped="scoped" lang="scss">
+    .sidebar {
+        width: 250px;
+        position: absolute;
+    }
 </style>
