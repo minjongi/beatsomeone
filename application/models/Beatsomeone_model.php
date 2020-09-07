@@ -814,10 +814,10 @@ class Beatsomeone_model extends CB_Model
     {
 
         $sql = "select distinct a.cor_id ";
-        $sql .= "from beatsomeone.cb_cmall_order_detail a ";
+        $sql .= "from cb_cmall_order_detail a ";
         $sql .= "join ( ";
         $sql .= " select x.cit_id ";
-        $sql .= " FROM beatsomeone.cb_cmall_item x ";
+        $sql .= " FROM cb_cmall_item x ";
         $sql .= "    join beatsomeone.cb_cmall_item_meta_v y ";
         $sql .= " where x.mem_id = ? ";
         $sql .= " and x.cit_id = y.cit_id ";
@@ -835,7 +835,7 @@ class Beatsomeone_model extends CB_Model
     {
 
         $sql = "select cor_memo, cor_total_money ";
-        $sql .= "from beatsomeone.cb_cmall_order ";
+        $sql .= "from cb_cmall_order ";
         $sql .= "where cor_id = ? ";
         
         $rst = $this->db->query($sql, array($p['cor_id']));
@@ -847,8 +847,8 @@ class Beatsomeone_model extends CB_Model
     // 구매자 구매 목록 조회
     public function get_order_history($p)
     {
-        $sql = "SELECT distinct cor_id ";
-        $sql .= "FROM beatsomeone.cb_cmall_order_detail ";
+        $sql = "SELECT cor_id ";
+        $sql .= "FROM cb_cmall_order ";
         $sql .= "where mem_id = ? ";
                 
         $rst = $this->db->query($sql, array($p['mem_id']));
@@ -932,7 +932,7 @@ class Beatsomeone_model extends CB_Model
 
     public function get_order_info($cor_id){
         $sql = "SELECT distinct a.*, b.cit_id ";
-        $sql .= "FROM beatsomeone.cb_cmall_order a ";
+        $sql .= "FROM cb_cmall_order a ";
         $sql .= "    , beatsomeone.cb_cmall_order_detail b ";
         $sql .= "    where a.cor_id = ? ";
         $sql .= "    and a.cor_id = b.cor_id ";
@@ -948,7 +948,7 @@ class Beatsomeone_model extends CB_Model
         $sql = " SELECT a.nte_id, a.recv_mem_id mem_id, a.related_note_id ";
         $sql .= "   , a.nte_content, a.nte_datetime, a.nte_read_datetime, a.nte_filename ";
         $sql .= "   , b.mem_nickname, b.mem_phone, b.mem_type, b.mem_profile_content ";
-        $sql .= "FROM beatsomeone.cb_note a, beatsomeone.cb_member b ";
+        $sql .= "FROM cb_note a, beatsomeone.cb_member b ";
         $sql .= "where a.send_mem_id = ? ";
         $sql .= "and a.nte_type = 1 ";
         $sql .= "and a.recv_mem_id = b.mem_id ";
@@ -956,7 +956,7 @@ class Beatsomeone_model extends CB_Model
         $sql .= "SELECT a.nte_id, a.send_mem_id mem_id, a.related_note_id ";
         $sql .= "   , a.nte_content, a.nte_datetime, a.nte_read_datetime, a.nte_filename ";
         $sql .= "   , b.mem_nickname, b.mem_phone, b.mem_type, b.mem_profile_content ";
-        $sql .= "FROM beatsomeone.cb_note a, beatsomeone.cb_member b ";
+        $sql .= "FROM cb_note a, beatsomeone.cb_member b ";
         $sql .= "where recv_mem_id = ? ";
         $sql .= "and nte_type = 2 ";
         $sql .= "and a.send_mem_id = b.mem_id ";
