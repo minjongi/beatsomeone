@@ -89,10 +89,10 @@
 
         <div class="row btnbox justify-content-center" style="margin:30px auto 100px;">
             <div class="col-2">
-                <button class="btn btn--gray" @click="goInquiryList">Cancel</button>
+                <button class="btn-block btn btn--gray" @click="goInquiryList">Cancel</button>
             </div>
             <div class="col-2">
-                <button type="submit" class="btn btn--submit" @click="goInquirymod">Edit</button>
+                <button type="submit" class="btn-block btn btn--submit" @click="goInquirymod">Edit</button>
             </div>
         </div>
     </div>
@@ -137,7 +137,7 @@
                     this.files = data.file;
                     this.replies = data.post.replies.list;
 
-                    axios.get(`/comment_list/lists/${this.post.post_id}`)
+                    axios.get(`/comment_list/ajax_lists/${this.post.post_id}`)
                         .then(res => res.data)
                         .then(data => {
                             this.comments = data.list;

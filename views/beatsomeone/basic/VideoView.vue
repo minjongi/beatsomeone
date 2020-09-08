@@ -12,7 +12,7 @@
                 <button class="btn" @click="sendSnsVue('twitter')"><i class="fab fa-twitter"></i></button>
             </div>
             <div class="btn-group">
-                <button class="btn btn-blue">
+                <button class="btn btn-blue" @click="goToList">
                     <i class="fa fa-bars"></i>
                 </button>
             </div>
@@ -52,6 +52,9 @@
             sendSnsVue(sns) {
                 let currentUrl = window.location.pathname;
                 window.sendSns(sns, currentUrl, this.post.post_title);
+            },
+            goToList() {
+                this.$router.push('/');
             }
         }
     }
