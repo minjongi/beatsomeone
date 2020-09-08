@@ -61,7 +61,7 @@
                 </select>
             </div>
             <div class="input_wrap line" style="margin-left:20px; width:100%;">
-                <input type="text" v-model="search_keyword" :placeholder="$t('enterYourSearchword')">
+                <input type="text" v-model="search_keyword">
                 <button v-on:click="searchClicked"><img src="/assets/images/icon/searchicon.png"/></button>
             </div>
         </div>

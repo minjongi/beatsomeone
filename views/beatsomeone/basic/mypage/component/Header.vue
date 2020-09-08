@@ -139,19 +139,20 @@
     }
 
     .header {
-        position: absolute;
+        position: fixed;
         top: 0;
         width: 100%;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         z-index: 1000;
+        transition: all .3s;
 
         &.scrolled {
-            position: fixed;
             background: black;
         }
 
         .navbar {
             font-size: 13px;
+            height: 55px;
         }
 
         .nav-item {

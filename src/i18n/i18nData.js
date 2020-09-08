@@ -517,7 +517,8 @@ export default {
         feeHelp: '<span class="font-weight-bold">수수료:</span> 정산 금액을 기준으로 일정부분의 수수료를 차감합니다.',
         totalSettlementHelp: '<span class="font-weight-bold">최종 정산 금액:</span> 정산 금액에서 수수료를 뺀 금액입니다.',
         settleStay: '정산대기',
-        settleComplete: '정산완료'
+        settleComplete: '정산완료',
+        dashboard_ExpiredSoon_noexists: '만료 예정인 비트가 없습니다.'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1036,6 +1037,7 @@ export default {
         feeHelp: '<span class="font-weight-bold">Fee:</span> A portion of the fee is deduced based on the settlement amount',
         totalSettlementHelp: '<span class="font-weight-bold">Total Settlement:</span> The amount of the settlement amount minus the fee.',
         settleStay: 'Stay',
-        settleComplete: 'Complete'
+        settleComplete: 'Complete',
+        dashboard_ExpiredSoon_noexists: 'No expired items exists.',
     } // en
 }

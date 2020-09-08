@@ -1,8 +1,8 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>{{$t('expriedSoon')}} </div>
-            <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
+            <div>{{$t('expiredSoon')}} </div>
+            <button @click="goToOrderPage" class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
 
         <h3 v-if="data.length === 0">
@@ -62,7 +62,9 @@
 
         },
         methods: {
-
+            goToOrderPage() {
+                this.$router.push('/mybilling');
+            }
         },
 
     }

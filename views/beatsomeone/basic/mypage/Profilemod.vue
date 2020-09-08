@@ -79,9 +79,13 @@
 
         </div>
 
-        <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-            <button class="btn btn--gray" @click="moveDashboard">{{$t('cancel1')}}</button>
-            <button type="submit" class="btn btn--submit" @click="updateUserInfo">{{$t('save')}}</button>
+        <div class="btnbox row justify-content-center" style="margin:30px auto 100px;">
+            <div class="col-2">
+                <button class="btn-block btn btn--gray" @click="moveDashboard">{{$t('cancel1')}}</button>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn-block btn btn--submit" @click="updateUserInfo">{{$t('save')}}</button>
+            </div>
         </div>
     </div>
 </template>

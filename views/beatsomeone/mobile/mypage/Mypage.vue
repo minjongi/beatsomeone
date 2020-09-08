@@ -58,6 +58,7 @@
                 isDisplayTop: true,
                 userInfo: null,
                 cssWrap: null,
+                member_group_name: '',
             };
         },
         watch: {
@@ -73,26 +74,14 @@
         },
         computed: {
             isCustomer: function () {
-                if (this.userInfo) {
-                    return this.userInfo.mem_group.mgr_title === 'buyer';
-                } else {
-                    return '';
-                }
+                return this.member_group_name === 'buyer';
             },
             isSeller: function () {
-                return this.userInfo.mem_group.mgr_title.includes('seller');
+                return this.member_group_name.includes('seller');
             },
-            groupType: function () {
-                // return 'CUSTOMER';
-                if (this.userInfo) {
-                    return this.userInfo.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
-                } else {
-                    return null;
-                }
-            },
-
         },
         mounted() {
+            this.member_group_name = window.member_group_name;
             this.judgeDisplayTop();
         },
         created() {
@@ -128,10 +117,11 @@
 </style>
 
 <style lang="scss">
+    @import "~bootstrap/scss/bootstrap";
     @import '@/assets_m/scss/App.scss';
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     .addPaddingTop {
         padding-top: 100px;
     }

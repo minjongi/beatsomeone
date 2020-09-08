@@ -4,7 +4,7 @@
             <div class="col-8 text-center">
                 <h3 class="font-weight-bold" v-html="$t('togetherWithBeatsomeone')"></h3>
                 <p v-html="$t('makeRelationshipWithPeopleMsg')"></p>
-                <button class="btn btn-warning round">{{$t('startSelling1')}}</button>
+                <button @click="goToUpgrade" class="btn btn-warning round">{{$t('startSelling1')}}</button>
             </div>
         </div>
     </section>
@@ -27,7 +27,9 @@
 
         },
         methods: {
-
+            goToUpgrade() {
+                window.location.href = '/mypage/upgrade';
+            }
         },
     }
 </script>
