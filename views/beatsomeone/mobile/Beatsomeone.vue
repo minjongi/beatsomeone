@@ -17,7 +17,7 @@
             </video>
             <header class="main__section1-title">
               <div class="wrap">
-                <h1>{{ $t('holidayGiveaway') }}</h1>
+                <h1>{{ $t('MainTitleMsg') }}</h1>
                 <p>
                   {{ $t('findingMusicMsg') }}
                   {{ $t('mainMsg2') }}

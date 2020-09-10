@@ -2,8 +2,8 @@
   <div class="modal" id="purchase" v-if="purchaseTypeSelectorPopup" @click.self="close">
     <div class="modal__content">
       <header class="modal__header">
-        <h2 class="modal__title">PLEASE SELECT A PURCHASE TYPE</h2>
-        <button class="modal__close" @click="close">닫기</button>
+        <h2 class="modal__title">{{ $t('selectPurchaseType') }}</h2>
+        <button class="modal__close" @click="close">{{ $t('cancel2') }}</button>
       </header>
       <div class="modal__body">
         <div class="album">

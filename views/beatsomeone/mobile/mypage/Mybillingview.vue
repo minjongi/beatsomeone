@@ -349,7 +349,7 @@
                           <img src="/assets/images/icon/togglefold.png" />
                         </button>
                         <div>
-                          <div class="title">BASIC LEASE</div>
+                          <div class="title">{{$t('lang23')}}</div>
                           <div class="detail">{{$t('lang24')}}</div>
                         </div>
                       </div>
@@ -411,7 +411,7 @@
                           <img src="/assets/images/icon/togglefold.png" />
                         </button>
                         <div>
-                          <div class="title">BASIC LEASE</div>
+                          <div class="title">{{$t('lang23')}}</div>
                           <div class="detail">{{$t('lang24')}}</div>
                         </div>
                       </div>
@@ -473,7 +473,7 @@
                           <img src="/assets/images/icon/togglefold.png" />
                         </button>
                         <div>
-                          <div class="title">BASIC LEASE</div>
+                          <div class="title">{{$t('lang23')}}</div>
                           <div class="detail">{{$t('lang24')}}</div>
                         </div>
                       </div>
@@ -535,7 +535,7 @@
                           <img src="/assets/images/icon/togglefold.png" />
                         </button>
                         <div>
-                          <div class="title">BASIC LEASE</div>
+                          <div class="title">{{$t('lang23')}}</div>
                           <div class="detail">{{$t('lang24')}}</div>
                         </div>
                       </div>

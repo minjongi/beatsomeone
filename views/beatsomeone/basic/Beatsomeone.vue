@@ -12,7 +12,7 @@
                     <div class="filter"></div>
                     <div class="wrap">
                         <header class="main__section1-title">
-                            <h1>{{ $t('holidayGiveaway') }}</h1>
+                            <h1>{{ $t('MainTitleMsg') }}</h1>
                             <p>
                                 {{ $t('findingMusicMsg') }}<br/>
                                 {{ $t('mainMsg2') }}

@@ -59,7 +59,7 @@
                     <p>
                         {{ $t('free') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> {{ '0' | money($i18n.locale) }}<em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ '0' | money($i18n.locale) }}<em>/{{ $t('lang46') }}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
@@ -122,7 +122,7 @@
                     <p>
                         {{ $t('free') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> {{ '0' | money($i18n.locale) }}<em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ '0' | money($i18n.locale) }}<em>/{{ $t('lang46') }}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
@@ -179,7 +179,7 @@
                     <p>
                         {{ $t('platinum') }}<br />
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ (billTerm === 'monthly' ? marketplacePlanMonthlyPrice : marketplacePlanYearlyPrice) | money($i18n.locale) }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ (billTerm === 'monthly' ? marketplacePlanMonthlyPrice : marketplacePlanYearlyPrice) | money($i18n.locale) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(2)">{{ $t('getStarted') }}</a>
@@ -236,7 +236,7 @@
                     <p>
                         {{ $t('master') }}<br />
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ (billTerm === 'monthly' ? proPlanMonthlyPrice : proPlanYearlyPrice) | money($i18n.locale) }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ (billTerm === 'monthly' ? proPlanMonthlyPrice : proPlanYearlyPrice) | money($i18n.locale) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47') }}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(3)">{{ $t('getStarted') }}</a>

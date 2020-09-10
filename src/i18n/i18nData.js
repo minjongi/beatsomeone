@@ -45,7 +45,7 @@ export default {
         generalInfo: '일반 정보',
         getStarted: '시작하기',
         makeImageMsg: '포토샵 이미지 편집이 가능하신가요?',
-        holidayGiveaway: 'HOLIDAY GIVEAWAY',
+        MainTitleMsg: 'Listen to special Beat right now!',
         havePromoCode: '프로모션 쿠폰 사용',
         agreeToTermMsg: '기본 동의하는 약관의 종류',
         lendOrSellMyBeat: '내 비트를 임대 또는 판매 하고 싶나요?',
@@ -489,7 +489,9 @@ export default {
         lang42: '구매자 1명에게만 단독 판매 됨 (소유권 양도)',
         lang43: '음악저작권 양도 포함',
         lang44: '비트를 "무료"로 제공하겠습니까?',
-        lang45: '주의사항 : 체크 시 임대·판매 가격은 모두 0원이 됩니다'
+        lang45: '주의사항 : 체크 시 임대·판매 가격은 모두 0원이 됩니다',
+        lang46: '월',
+        lang47: '년'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -536,7 +538,7 @@ export default {
         generalInfo: 'General Information',
         getStarted: 'Get Started',
         makeImageMsg: 'Got Photoshop? Make your own using our free template.',
-        holidayGiveaway: 'HOLIDAY GIVEAWAY',
+        MainTitleMsg: 'Listen to special Beat right now!',
         havePromoCode: 'I have a promo code',
         agreeToTermMsg: 'I have read and agree to the',
         lendOrSellMyBeat: 'I want to lend or sell my beat',
@@ -980,6 +982,8 @@ export default {
         lang42: 'Sold exclusively to only one purchaser (transfer of ownership)',
         lang43: 'Copyright Transfer Include',
         lang44: 'Would you like to offer a bit for free?',
-        lang45: 'Notice : If checked, the rental and sales price will be 0'
+        lang45: 'Notice : If checked, the rental and sales price will be 0',
+        lang46: 'mo',
+        lang47: 'yr'
     } // en
 }
