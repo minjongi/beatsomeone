@@ -1,8 +1,8 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>{{$t('expiredSoon')}} </div>
-            <button @click="goToOrderPage" class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
+            <div>{{$t('expriedSoon')}} </div>
+            <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
 
         <h3 v-if="data.length === 0">
@@ -37,6 +37,22 @@
             </div>
         </div>
 
+<!--        <div class="playList" v-if="data.length === 0">-->
+<!--            <ul class="itemContainer">-->
+<!--                <li class="playList__itembox" >-->
+<!--                    <div class="playList__item playList__item&#45;&#45;title active">-->
+<!--                        <div class="col name">-->
+<!--                            <figure>-->
+<!--                                <figcaption>-->
+<!--                                    <h3 class="playList__title">Not Exists</h3>-->
+<!--                                </figcaption>-->
+<!--                            </figure>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
     </div>
 </template>
 
@@ -62,9 +78,7 @@
 
         },
         methods: {
-            goToOrderPage() {
-                this.$router.push('/mybilling');
-            }
+
         },
 
     }

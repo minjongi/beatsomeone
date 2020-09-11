@@ -50,7 +50,7 @@
     <div class="row" style="display:flex; margin-bottom:30px;">
       <div class="tabmenu"></div>
       <div class="sort" style="text-align:right">
-        <div class="bs-select" style="min-width:max-content;">
+        <div class="custom-select" style="min-width:max-content;">
           <button class="selected-option">Recent</button>
           <div class="options">
             <button data-value class="option">Past</button>
@@ -226,9 +226,9 @@ export default {
   },
   mounted() {
     // 커스텀 셀렉트 옵션
-    $(".bs-select").on("click", function () {
+    $(".custom-select").on("click", function () {
       $(this)
-        .siblings(".bs-select")
+        .siblings(".custom-select")
         .removeClass("active")
         .find(".options")
         .hide();

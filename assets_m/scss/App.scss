@@ -5,25 +5,20 @@
 .n-flex {
   display: flex;
   width: 100%;
-
   &.between {
     justify-content: space-between;
   }
-
   &.h-center {
     align-items: center;
   }
-
   &.w-center {
     justify-content: center;
   }
-
   &.none {
     > * {
       flex: initial !important;
     }
   }
-
   &.column {
     flex-direction: column;
   }
@@ -35,13 +30,11 @@
   padding-bottom: 24px;
   justify-content: center;
   align-items: center;
-
   button {
     padding: 0 16px;
     color: rgba(white, 0.7);
     font-size: 16px;
   }
-
   .active {
     color: #ffda2a;
   }
@@ -60,60 +53,50 @@
 
 /* mycancellist style */
 .cancellist-wrap .sublist .row {
-  margin-bottom: 0;
-}
-
-.cancellist-wrap .sublist .tab {
-  align-items: center;
-  background-color: #2b2c30;
-  border-bottom: none;
-
-  > div {
-    flex: 1;
-    text-align: center;
-    font-size: 12px;
-    line-height: 14px;
-    color: rgb(white, 0.7);
-    padding: 0 20px;
-
-    &.active {
-      color: #ffda2a;
-    }
+    margin-bottom: 0;
   }
-}
-
-.cancellist-wrap .playList .playList__item .index {
-  color: rgba(white, 0.7);
-}
-
-.sublist .sort {
-  > div {
-    + div {
-      margin-left: 10px;
-    }
-  }
-}
-
-.playList .playList__item {
-  display: block;
-}
-
-.cancellist-wrap .playList .playList__item {
-  .status {
-    font-weight: 600;
-  }
-
-  .download {
+  .cancellist-wrap .sublist .tab {
+    align-items: center;
+    background-color: #2b2c30;
+    border-bottom: none;
     > div {
+      flex: 1;
+      text-align: center;
       font-size: 12px;
+      line-height: 14px;
+      color: rgb(white, 0.7);
+      padding: 0 20px;
+      &.active {
+        color: #ffda2a;
+      }
     }
   }
-}
-
-.cancellist-wrap .search.condition {
-  width: 100%;
-
-  .filter {
-    display: flex;
+  .cancellist-wrap .playList .playList__item .index {
+    color: rgba(white, 0.7);
   }
-}
+  .sublist .sort {
+    > div {
+      + div {
+        margin-left: 10px;
+      }
+    }
+  }
+  .playList .playList__item {
+    display: block;
+  }
+  .cancellist-wrap .playList .playList__item {
+    .status {
+      font-weight: 600;
+    }
+    .download {
+      > div {
+        font-size: 12px;
+      }
+    }
+  }
+  .cancellist-wrap .search.condition {
+    width: 100%;
+    .filter {
+      display: flex;
+    }
+  }

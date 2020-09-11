@@ -34,9 +34,7 @@ export default {
   created() {
     this.updateAllList();
   },
-  mounted() {
-
-  },
+  mounted() {},
   computed: {},
   methods: {
     loading() {

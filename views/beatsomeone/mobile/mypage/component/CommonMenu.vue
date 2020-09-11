@@ -10,7 +10,12 @@
             <li :class="{'active':current === 'message'}" @click="goRoute('message')">{{$t('chat')}}</li>
             <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
             <li :class="{'active':current === 'sellerregister'}" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
-            <li :class="{'active':(current === 'inquiry' || current === 'faq') }" @click="goRoute('inquiry')">{{$t('support1')}}</li>
+            <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('support1')}}
+                <ul class="menu">
+                    <li @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
+                    <li @click="goRoute('faq')">FAQ</li>
+                </ul>
+            </li>
         </ul>
     </div>
 

@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import "bootstrap";
+import Vue from 'vue'
 
 // i18n
 import i18n from '*/src/i18n/i18n'
@@ -48,9 +47,9 @@ const router = new VueRouter({
         { path: '/sellerbill', component: Sellerbill},
         { path: '/message', component: Message},
         { path: '/inquiry', component: Inquiry},
-        { path: '/inquiry/:post_id', component: Inquiryview},
-        { path: '/inquiry/:post_id/edit', component: Inquiryenroll},
         { path: '/inquiryenroll', component: Inquiryenroll},
+        { path: '/inquirymod', component: Inquirymod},
+        { path: '/inquiryview', component: Inquiryview},
         { path: '/faq', component: Faq},
         { path: '/favorites', component: Favorites},
     ],

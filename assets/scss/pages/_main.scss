@@ -5,6 +5,7 @@
     background: url('/assets/images/main-section1-visual.png') no-repeat center
       top;
     background-size: 100% auto;
+    min-height: 100vh;
 
     #videoBG {
       position: absolute;
@@ -68,7 +69,7 @@
   .filter {
     height: 100px;
     @include flex($justify: center);
-    .bs-select {
+    .custom-select {
       margin: 0 30px;
       &:last-child {
         margin-right: 0;
@@ -216,9 +217,8 @@
     height: 540px !important;
   }
   .main__section1-title {
-    padding-top: 125px !important;
+    padding-top: 100px !important;
     margin-bottom: 60px !important;
-    width: 100%;
   }
 }
 
@@ -561,7 +561,7 @@ section[class*='section'] {
   }
 }
 
-.bs-select {
+.custom-select {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
@@ -614,7 +614,7 @@ section[class*='section'] {
       display: inline-block !important;
     }
 
-    .bs-select,
+    .custom-select,
     .selected-option {
       font-size: 12px;
     }
@@ -1243,7 +1243,7 @@ section[class*='section'] {
   }
 }
 
-.bs-select.active {
+.custom-select.active {
   .selected-option + .popup {
     background: #2b2c30;
     pointer-events: initial;
@@ -1318,6 +1318,31 @@ section[class*='section'] {
     ol ul ul li {
       font-size: 16px;
     }
+  }
+}
+
+.banner {
+  text-align: center;
+
+  h3 {
+    font-size: 30px;
+
+    span {
+      font-size: inherit;
+      color: #ffda2a;
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    width: 50%;
+    margin: auto;
+    margin-top: 50px;
+    font-size: 20px;
+  }
+
+  button {
+    margin-top: 50px;
   }
 }
 
@@ -1479,9 +1504,31 @@ ul.menu li {
 }
 
 .box {
+  display: flex;
+  flex-direction: column;
   background: #1b1b1e;
   border-radius: 8px;
   padding: 30px;
+
+  .row {
+    width: 100%;
+    min-height: 40px;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+
+    & ~ .row {
+      margin-top: 20px;
+    }
+
+    > * {
+      width: 100%;
+    }
+
+    .file_list {
+      height: 20px;
+    }
+  }
 
   .type {
     max-width: 300px;
@@ -1629,6 +1676,15 @@ ul.menu li {
 
   .btn {
     font-size: 14px;
+    min-width: 96px;
+    max-width: 96px;
+    height: 40px;
+    min-width: max-content;
+
+    &.round {
+      margin-left: -20px;
+      padding: 0 20px;
+    }
   }
 }
 
@@ -1906,18 +1962,11 @@ textarea {
     }
   }
 
-  button, li {
+  button {
     color: rgba(255, 255, 255, 0.3);
     width: 48px;
     height: 48px;
     transition: 0.3s ease;
-
-    a {
-      color: rgba(255, 255, 255, 0.3);
-      &:hover {
-        color: rgba(255, 255, 255, 1);
-      }
-    }
 
     &:hover {
       color: rgba(255, 255, 255, 1);
@@ -1926,15 +1975,11 @@ textarea {
     &.active {
       font-weight: bolder;
       color: #ffda2a;
-
-      a {
-        color: #ffda2a;
-      }
     }
   }
 }
 
-.bs-select {
+.custom-select {
   position: relative;
 
   .selected-option {
@@ -2180,7 +2225,7 @@ textarea {
   }
 }
 
-.bs-select + .bs-select {
+.custom-select + .custom-select {
   margin-left: 10px;
 }
 
@@ -3414,6 +3459,16 @@ textarea {
       height: 60px;
       font-size: 16px;
     }
+  }
+}
+
+.col {
+  .type {
+    margin-bottom: 10px;
+  }
+
+  & ~ .col:not(.btnbox) {
+    margin-top: 20px;
   }
 }
 

@@ -69,7 +69,7 @@
       margin-right: 10px;
     }
     @include position($right: 0, $top: 0);
-    .bs-select {
+    .custom-select {
       width: 160px;
       .selected-option {
         height: 40px;

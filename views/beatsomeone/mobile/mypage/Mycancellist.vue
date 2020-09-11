@@ -38,7 +38,7 @@
 
         <div class="row" style="margin-bottom:30px;">
             <div class="sort">
-                <div class="bs-select">
+                <div class="custom-select">
                     <button class="selected-option">
                         Recent
                     </button>
@@ -226,10 +226,10 @@
         },
         mounted(){
             // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function() {
+            $(".custom-select").on("click", function() {
 
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

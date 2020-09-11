@@ -127,8 +127,6 @@
         },
         mounted() {
 
-
-
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).id;
@@ -284,21 +282,17 @@
             // 카트 추가
             addCart() {
 
+                let detail_qty = {};
+                detail_qty[this.item.cde_id] = 1;
+                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
+                    if(!r) {
+                        log.debug('장바구니 담기 실패');
+                    } else {
+                        EventBus.$emit('add_cart');
+                        log.debug('장바구니 담기 성공');
 
-                console.log('Detail page add cart item data : ', this.item.cde_id, this.item.cit_id);
-                return;
-
-                // let detail_qty = {};
-                // detail_qty[this.item.cde_id] = 1;
-                // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
-                //     if(!r) {
-                //         log.debug('장바구니 담기 실패');
-                //     } else {
-                //         EventBus.$emit('add_cart');
-                //         log.debug('장바구니 담기 성공');
-                //
-                //     }
-                // });
+                    }
+                });
             },
             // 다운로드 증가
             increaseMusicCount() {
@@ -320,7 +314,7 @@
                     }
                 });
 
-                var url = window.location.origin + '/beatsomeone/detail/' + this.item.cit_key;
+                var url = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
                 var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
 
                 var o;
@@ -390,7 +384,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = window.location.origin + '/beatsomeone/detail/' + this.item.cit_key;
+                t.value = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
                 t.select();
                 document.execCommand('copy');
                 document.body.removeChild(t);

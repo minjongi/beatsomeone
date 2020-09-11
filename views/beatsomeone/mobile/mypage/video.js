@@ -4,10 +4,10 @@ import VueRouter  from 'vue-router';
 
 // i18n
 import i18n from '*/src/i18n/i18n'
-import app from '../Video.vue';
+import app from './Video.vue';
 
-import Videolist from "../Videolist";
-import Videoview from "../Videoview";
+import Videolist from "./Videolist";
+import Videoview from "./Videoview";
 Vue.use(VueRouter);
 
 Vue.config.productionTip = false;

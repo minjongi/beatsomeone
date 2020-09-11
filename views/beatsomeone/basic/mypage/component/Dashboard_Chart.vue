@@ -134,42 +134,26 @@
         },
         methods: {
             parseData() {
-                // // Parse Labels
-                // const labels = _.sortBy(_.union(Object.keys(this.data[0].data),Object.keys(this.data[1].data)));
-                // this.chartdata.labels = labels;
-                //
-                // // Estimated settlement
-                // const l1 = _.map(labels,r => { return this.data[0].data[r] | 0});
-                // this.chartdata.datasets[0].label = this.data[0].category;
-                // this.chartdata.datasets[0].data = l1;
-                //
-                // // Last Month settlement
-                // const l2 = _.map(labels,r => { return this.data[1].data[r] | 0});
-                //
-                // this.chartdata.datasets[1].label = this.data[1].category;
-                // this.chartdata.datasets[1].data = l2;
-                //
-                // // log
-                // log.debug({
-                //     'LABLES': labels,
-                //     'L1': l1,
-                //     'L2': l2,
-                // });
-
                 // Parse Labels
-                const labels = _.sortBy(_.union(Object.keys(this.data[0].data)));
+                const labels = _.sortBy(_.union(Object.keys(this.data[0].data),Object.keys(this.data[1].data)));
                 this.chartdata.labels = labels;
 
                 // Estimated settlement
                 const l1 = _.map(labels,r => { return this.data[0].data[r] | 0});
                 this.chartdata.datasets[0].label = this.data[0].category;
                 this.chartdata.datasets[0].data = l1;
-                console.log(l1);
+
+                // Last Month settlement
+                const l2 = _.map(labels,r => { return this.data[1].data[r] | 0});
+
+                this.chartdata.datasets[1].label = this.data[1].category;
+                this.chartdata.datasets[1].data = l2;
 
                 // log
                 log.debug({
                     'LABLES': labels,
                     'L1': l1,
+                    'L2': l2,
                 });
 
                 // reload

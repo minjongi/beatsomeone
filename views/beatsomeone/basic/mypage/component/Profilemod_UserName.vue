@@ -1,7 +1,7 @@
 <template>
     <div class="row">
-        <div class="col-4 type"><span>{{$t('username')}}</span></div>
-        <div class="col-6 data">
+        <div class="type"><span>{{$t('username')}}</span></div>
+        <div class="data">
             <div class="input_wrap col">
                 <input class="inputbox" minlength="3" maxlength="30" ref="username" :disabled="!isUserNameEditing" @keydown.enter="checkDuplicateUsername" type="text" v-model="tempUserName" :placeholder="$t('enterYourNewUsername')" >
                 <CommonCaution v-if="!isNicknameAreDuplicated && !isNicknameAreInvalid">{{$t('noteIDChangeMsg')}}</CommonCaution>
@@ -15,7 +15,7 @@
                 {{$t('save')}}
             </button>
         </div>
-        <div class="col-2 active">
+        <div class="active">
             <button class="btn btn--gray" v-if="isUserNameEditing"  @click="setUsernameEdit(false)">
                 {{$t('cancel1')}}
             </button>

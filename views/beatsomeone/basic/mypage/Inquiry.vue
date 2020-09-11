@@ -1,18 +1,18 @@
 <template>
     <div class="sublist__content" style="margin-bottom:100px;">
-        <div style="margin-bottom:30px;">
+        <div class="row" style="margin-bottom:30px;">
             <div class="title-content">
                 <div class="title">
                     <div>{{$t('support1')}}</div>
                     <button class="btn btn--submit" @click="goInquiryenroll">To ask question</button>
                 </div>
                 <p>
-                    Total <span>{{ total_rows }}</span> cases.
+                    Total <span>100</span> cases.
                 </p>
             </div>
         </div>
 
-        <div style="margin-bottom:20px;">
+        <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab nowrap">
                     <div class="index">No</div>
@@ -23,22 +23,127 @@
             </div>
         </div>
 
-        <div style="margin-bottom:30px;">
+        <div class="row" style="margin-bottom:30px;">
             <div class="playList board inquirylist">
 
                 <ul>
-                    <li class="playList__itembox" v-for="inquiry in inquiry_list" :key="inquiry.post_id" @click="goInquiryview(inquiry)">
+                    <li class="playList__itembox" @click="goInquiryview">
                         <div class="playList__item playList__item--title nowrap active">
-                            <div class="index">{{ inquiry.post_id }}</div>
-                            <div class="subject">{{ inquiry.post_title }}</div>
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
                             <div class="date">
-                                {{ inquiry.post_datetime }}
+                                0000-00-00 00:00:00
                             </div>
-                            <div class="action active" v-if="inquiry.replies.list.length === 0">
+                            <div class="action active">
                                 Wait...
                             </div>
-                            <div class="action" v-else>
-                                Answer Complete...
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action active">
+                                Wait...
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action">
+                                Answer Complete
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action">
+                                Answer Complete
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action">
+                                Answer Complete
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action active">
+                                Wait...
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action active">
+                                Wait...
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action active">
+                                Wait...
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action active">
+                                Wait...
+                            </div>
+                        </div>
+                    </li>
+                    <li class="playList__itembox" @click="goInquiryview">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="index">000</div>
+                            <div class="subject">I have some question about using service.</div>
+                            <div class="date">
+                                0000-00-00 00:00:00
+                            </div>
+                            <div class="action active">
+                                Wait...
                             </div>
                         </div>
                     </li>
@@ -47,22 +152,40 @@
             </div>
         </div>
 
-        <div class="row paging" style="margin-bottom:30px;" v-html="paging_html" v-show="paging_html">
+        <div class="row" style="margin-bottom:30px;">
+            <div class="pagination">
+                <div>
+                    <button class="prev active"><img src="/assets/images/icon/chevron_prev.png"/></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>4</button>
+                    <button>5</button>
+                    <button>6</button>
+                    <button>7</button>
+                    <button>8</button>
+                    <button>9</button>
+                    <button>10</button>
+                    <button class="next active"><img src="/assets/images/icon/chevron_next.png"/></button>
+                </div>
+            </div>
         </div>
 
-        <div class="sort" style="">
-            <div class="bs-select">
-                <div class="selected-option" :data-value="search_field">
-                    {{ selected_option_html }}
+        <div class="row">
+            <div class="sort" style="display:flex; width:50%; margin:auto; flex-flow:row nowrap">
+                <div class="custom-select">
+                    <button class="selected-option">
+                        Total
+                    </button>
+                    <div class="options">
+                        <button data-value="" class="option"> Title </button>
+                        <button data-value="" class="option"> Content </button>
+                    </div>
                 </div>
-                <div class="options" v-html="custom_options_html">
+                <div class="input_wrap line" style="margin-left:20px; width:100%;">
+                    <input type="text" :placeholder="$t('enterYourSearchword')">
+                    <button><img src="/assets/images/icon/searchicon.png"/></button>
                 </div>
-                <select class="d-none" v-html="search_select_html" v-model="search_field">
-                </select>
-            </div>
-            <div class="input_wrap line" style="margin-left:20px; width:100%;">
-                <input type="text" v-model="search_keyword">
-                <button v-on:click="searchClicked"><img src="/assets/images/icon/searchicon.png"/></button>
             </div>
         </div>
 
@@ -71,37 +194,29 @@
 
 
 <script>
-    import $ from "jquery";
-    import axios from 'axios';
+    import $ from "jquery"
 
     export default {
-        components: {},
-        data: function () {
+        components: {
+        },
+        data: function() {
             return {
                 isLogin: false,
                 group_title: 'SELLER',
                 product_status: 'PENDING',
-                inquiry_list: [],
-                total_rows: 0,
-                popup_filter: 0,
+                myProduct_list: [],
+                popup_filter:0,
                 ws: null,
                 isPlay: false,
                 isReady: false,
                 wavesurfer: null,
-                search_field: 'post_title',
-                search_keyword: '',
-                search_select_html: '',
-                custom_options_html: '',
-                selected_option_html: '',
-                paging_html: '',
-                query_string: '',
             };
         },
-        mounted() {
+        mounted(){
             // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function () {
+            $(".custom-select").on("click", function() {
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
@@ -110,16 +225,12 @@
                     .find(".options")
                     .toggle();
             });
-
-            $('.bs-select .options').on('click', '.option', this.optionClicked);
-            $('.paging').on('click', 'a', this.pageClicked);
         },
         created() {
-            this.fetchData('');
         },
-        methods: {
-            goInquiryview(inquiry) {
-                this.$router.push({path: '/inquiry/' + inquiry.post_id });
+        methods:{
+            goInquiryview() {
+                this.$router.push({path: '/inquiryview'});
             },
             goInquirymod() {
                 this.$router.push({path: '/inquirymod'});
@@ -127,46 +238,6 @@
             goInquiryenroll() {
                 this.$router.push({path: '/inquiryenroll'});
             },
-            fetchData(q) {
-                Http.get('/board/ajax/support?' + q)
-                    .then(r => r.data)
-                    .then(resBody => {
-                        this.total_rows = resBody.data.total_rows;
-                        this.inquiry_list = resBody.data.list;
-                        this.search_select_html = resBody.search_option;
-                        let optionsHtml = $(this.search_select_html);
-                        let customOptionsHtml = '';
-                        let selected_option_html = '';
-                        optionsHtml.each(function(index) {
-                            if (index === 0) {
-                                selected_option_html = $(this).html();
-                            }
-                            $(this).attr('selected') ? selected_option_html = $(this).html() : '';
-                            customOptionsHtml += '<button data-value="' + $(this).attr('value') + '" class="option ' + ($(this).attr('selected') ? 'selected' : '') + '">' + $(this).html() + '</button>';
-                        });
-                        this.custom_options_html = customOptionsHtml;
-                        this.selected_option_html = selected_option_html;
-                        this.paging_html = resBody.paging;
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            },
-            optionClicked(event) {
-                this.search_field = $(event.target).data('value');
-                this.selected_option_html = $(event.target).html();
-            },
-            pageClicked(event) {
-                event.preventDefault();
-                let page = $(event.target).data('ci-pagination-page');
-                this.query_string = `sfield=${this.search_field}&skeyword=${this.search_keyword}&page=${page}`;
-                this.fetchData(this.query_string);
-                // 'sfield=post_title&skeyword=10';
-            },
-            searchClicked(event) {
-                this.query_string = `sfield=${this.search_field}&skeyword=${this.search_keyword}`;
-                this.fetchData(this.query_string);
-            }
         },
     }
 </script>
@@ -174,16 +245,4 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-
-    .sort {
-        display: flex;
-        width: 50%;
-        margin: auto;
-        flex-flow: row nowrap;
-    }
-
-    .bs-select select {
-        display: none;
-    }
-
 </style>

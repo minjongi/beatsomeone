@@ -70,7 +70,7 @@
                             <div>
                                 <div class="sort">
                                     <span>{{ $t('sortBy') }}</span>
-                                    <div class="bs-select " style="width:initial;">
+                                    <div class="custom-select " style="width:initial;">
                                         <button class="selected-option">
                                             Genre / Mood / Track Type
                                         </button>
@@ -240,7 +240,7 @@
                                     </div>
                                 </div>
                                 <div class="sort">
-                                    <div class="bs-select active">
+                                    <div class="custom-select active">
                                         <button class="selected-option">
                                             Register Date
                                         </button>
@@ -1041,10 +1041,10 @@
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function() {
+            $(".custom-select").on("click", function() {
 
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
