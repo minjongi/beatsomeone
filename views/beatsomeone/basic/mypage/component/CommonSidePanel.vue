@@ -1,7 +1,7 @@
 <template>
     <div class="sublist__filter sticky">
 
-        <CommonProfile :info="userinfo"> </CommonProfile>
+        <CommonProfile />
         <CommonMenu :current="current" :groupType="groupType"></CommonMenu>
     </div>
 </template>

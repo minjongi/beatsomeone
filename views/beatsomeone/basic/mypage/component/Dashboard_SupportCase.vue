@@ -5,7 +5,7 @@
             <button class="btn btn--glass" onclick='location.href = "/mypage#/inquiry"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div>
-            <div class="playList" >
+            <div class="playList" v-if="data.length > 0">
                 <ul>
                     <li class="playList__itembox" v-for="o in data" :key="o.sp_id">
                         <div class="playList__item playList__item--title active">
@@ -24,6 +24,9 @@
                     </li>
 
                 </ul>
+            </div>
+            <div v-else>
+                <h3 style="text-align: center">No questions</h3>
             </div>
         </div>
 

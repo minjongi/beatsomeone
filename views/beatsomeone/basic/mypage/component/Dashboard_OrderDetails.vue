@@ -5,9 +5,9 @@
             <button class="btn btn--glass" onclick='location.href = "/mypage#/mybilling"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div class="splitboard">
-            <div class="blue">{{ buyCnt }}<span>{{$t('buy')}}</span></div>
-            <div class="red">{{ cancelCnt }}<span>{{$t('cancel1')}}</span></div>
-            <div class="green">{{ refundCnt }}<span>{{$t('refund')}}</span></div>
+            <div class="blue">{{ data.order_buy_count }}<span>{{$t('buy')}}</span></div>
+            <div class="red">{{ data.order_cancel_count }}<span>{{$t('cancel')}}</span></div>
+            <div class="green">{{ data.order_refund_count }}<span>{{$t('refund')}}</span></div>
         </div>
     </div>
 </template>

@@ -10,7 +10,7 @@
                     <div class="sublist__filter sticky">
                         <div class="row center">
                             <div class="profile">
-                                <div class="portait">
+                                <div class="portrait">
                                     <img src="/assets/images/portait.png"/>
                                 </div>
                                 <div class="info">

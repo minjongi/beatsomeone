@@ -106,7 +106,7 @@
                 isLogin: false,
                 info: null,
                 csrfHash: null,
-
+                member_group_name: ''
             };
         },
         computed: {
@@ -117,12 +117,13 @@
                 return this.groupType === 'SELLER';
             },
             groupType: function() {
-                // return 'CUSTOMER';
-                if(this.info) {
-                    return this.info.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
-                } else {
-                    return null;
+                if (this.member_group_name === 'buyer') {
+                    return 'customer';
                 }
+                if (this.member_group_name.includes('seller')) {
+                    return 'seller';
+                }
+                return null;
             },
             sellerClass: function() {
                 if(this.info) {
@@ -142,10 +143,11 @@
             }
         },
         mounted(){
-
+            this.info = window.member;
+            this.member_group_name = window.member_group_name;
         },
         created() {
-            this.fetchInfo();
+            // this.fetchInfo();
         },
         methods:{
             fetchInfo: function () {

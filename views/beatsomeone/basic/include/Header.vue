@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <div class="smtm9-top">
+        <div class="smtm9-top" v-if="false">
             <a href="/smtm9"><img src="/assets/images/event/smtm9/top.jpg"></a>
         </div>
         <div class="wrap">
@@ -23,7 +23,7 @@
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>
-                    <a href="#" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                    <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </nav>
             </div>
         </div>

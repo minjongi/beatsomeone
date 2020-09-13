@@ -275,7 +275,7 @@ section[class*='section'] {
   text-align: center;
 }
 
-.portait {
+.portrait {
   margin: auto;
   margin-bottom: 20px;
   width: 160px;
@@ -294,11 +294,11 @@ section[class*='section'] {
   font-weight: 600;
   border-radius: 4px;
 
-  &.CUSTOMER {
+  &.customer {
     background: #4890ff;
   }
 
-  &.SELLER {
+  &.seller {
     background: #ff4848;
   }
 }
@@ -1341,8 +1341,13 @@ section[class*='section'] {
     font-size: 20px;
   }
 
-  button {
+  button, .btn {
     margin-top: 50px;
+  }
+
+  .btn {
+    display: inline-block;
+    line-height: 25px;
   }
 }
 
@@ -1581,10 +1586,8 @@ ul.menu li {
     .group_title,
     .seller_class {
       width: auto;
-      padding: 0;
       margin: auto 0;
       margin-right: 16px;
-      background: none;
       font-size: 12px;
       font-weight: 600;
     }
@@ -2950,7 +2953,7 @@ textarea {
     }
   }
 
-  .portait {
+  .portrait {
     max-width: 58px;
     height: 58px;
     border-radius: 58px;
@@ -3499,12 +3502,12 @@ textarea {
   }
 
   .albumItem ~ .albumItem {
-    margin-left: 32px !important;
+    //margin-left: 32px !important;
   }
 
   .albumItem__cover {
-    width: 100% !important;
-    height: auto !important;
+    //width: 100% !important;
+    //height: auto !important;
   }
 }
 

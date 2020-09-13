@@ -1,31 +1,33 @@
 <template>
-    <div v-if="info">
-        <div class="row" v-if="false && isSeller">
-            <Dashboard_SettlementOverview :data="info.SettlementOverview"></Dashboard_SettlementOverview>
+    <div>
+        <div class="row" v-if="isSeller">
+            <Dashboard_SettlementOverview :data="settlement_summary"></Dashboard_SettlementOverview>
         </div>
 
-        <div class="row" v-if="false && isSeller">
-            <Dashboard_Chart :data="info.Chart"></Dashboard_Chart>
+        <div class="row" v-if="isSeller">
+            <Dashboard_Chart :data="chart_data"></Dashboard_Chart>
         </div>
 
         <div class="row double">
-            <Dashboard_OrderDetails :data="info.OrderDetails"></Dashboard_OrderDetails>
-            <Dashboard_ExpiredSoon :data="info.ExpiredSoon" v-if="isCustomer && false"></Dashboard_ExpiredSoon>
-            <Dashboard_ProductDetails :data="info.ProductDetails" v-if="isSeller && false"></Dashboard_ProductDetails>
+            <Dashboard_OrderDetails :data="order_summary"></Dashboard_OrderDetails>
+            <Dashboard_ExpiredSoon :data="expired_soon_items" v-if="isCustomer"></Dashboard_ExpiredSoon>
+            <Dashboard_ProductDetails :data="product_summary" v-if="isSeller"></Dashboard_ProductDetails>
         </div>
 
         <div class="row">
-            <Dashboard_RecentlyListen :data="info.RecentlyListen"></Dashboard_RecentlyListen>
+            <Dashboard_RecentlyListen :data="recently_listen_items"></Dashboard_RecentlyListen>
         </div>
 
-        <div class="row double" style="margin-bottom:100px;" v-if="false">
-            <Dashboard_Message :data="info.Message"></Dashboard_Message>
-            <Dashboard_SupportCase :data="info.SupportCase"></Dashboard_SupportCase>
+        <div class="row double" style="margin-bottom:100px;">
+            <Dashboard_Message :data="messages"></Dashboard_Message>
+            <Dashboard_SupportCase :data="inquiries"></Dashboard_SupportCase>
         </div>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
+
     import Dashboard_OrderDetails from "./component/Dashboard_OrderDetails";
     import Dashboard_ExpiredSoon from "./component/Dashboard_ExpiredSoon";
     import Dashboard_ProductDetails from "./component/Dashboard_ProductDetails";
@@ -51,30 +53,63 @@
         data: function() {
             return {
                 isLogin: false,
-                info: null,
-
+                member: {},
+                member_group_name: '',
+                settlement_summary: {},
+                chart_data: null,
+                expired_soon_items: [],
+                order_summary: {},
+                product_summary: {},
+                recently_listen_items: [],
+                messages: [],
+                inquiries: []
             };
         },
         computed: {
             isCustomer: function () {
-                return this.groupType === 'CUSTOMER';
+                return this.member_group_name === 'buyer';
             },
             isSeller: function () {
-                return this.groupType === 'SELLER';
-            },
-            groupType: function() {
-                if(this.info && this.info.UserInfo) {
-                    return this.info.UserInfo.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
-                } else {
-                    return null;
-                }
+                return this.member_group_name.includes('seller');
             },
         },
         mounted(){
+            this.member = window.member;
+            this.member_group_name = window.member_group_name;
 
+            axios.get('/mypage/ajax_info')
+                .then(res => res.data)
+                .then(data => {
+                    this.$set(this.order_summary, 'order_buy_count', data.order_buy_count);
+                    this.$set(this.order_summary, 'order_cancel_count', data.order_cancel_count);
+                    this.$set(this.order_summary, 'order_refund_count', data.order_refund_count);
+                    this.expired_soon_items = data.expired_soon_items;
+                    this.recently_listen_items = data.recently_listen_items;
+                    this.messages = data.messages;
+                    this.inquiries = data.inquiries;
+                    if (this.isSeller) {
+                        this.$set(this.settlement_summary, 'total_sale_funds', data.total_sale_funds);
+                        this.$set(this.settlement_summary, 'total_sale_funds_d', data.total_sale_funds_d);
+                        this.$set(this.settlement_summary, 'total_last_sale_funds', data.total_last_sale_funds);
+                        this.$set(this.settlement_summary, 'total_last_sale_funds_d', data.total_last_sale_funds_d);
+                        this.$set(this.settlement_summary, 'total_settle_funds', data.total_settle_funds);
+                        this.$set(this.settlement_summary, 'total_settle_funds_d', data.total_settle_funds_d);
+                        this.$set(this.settlement_summary, 'total_last_settle_funds', data.total_last_settle_funds);
+                        this.$set(this.settlement_summary, 'total_last_settle_funds_d', data.total_last_settle_funds_d);
+                        this.$set(this.settlement_summary, 'total_lastlast_settle_funds', data.total_lastlast_settle_funds);
+                        this.$set(this.settlement_summary, 'total_lastlast_settle_funds_d', data.total_lastlast_settle_funds_d);
+                        this.$set(this.product_summary, 'total_product_count', data.total_product_count);
+                        this.$set(this.product_summary, 'selling_product_count', data.selling_product_count);
+                        this.$set(this.product_summary, 'pending_product_count', data.pending_product_count);
+                        this.chart_data = data.saleData;
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
         created() {
-            this.fetchData();
+            // this.fetchData();
         },
         methods:{
 

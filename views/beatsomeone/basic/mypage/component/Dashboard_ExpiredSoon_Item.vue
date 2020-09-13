@@ -56,7 +56,9 @@
 
 </script>
 
-<style scoped="scoped" lang="css">
-
-
+<style scoped="scoped" lang="scss">
+    .playList .playList__item .name figure .playList__cover {
+        margin-right: 15px;
+        margin-left: 15px;
+    }
 </style>

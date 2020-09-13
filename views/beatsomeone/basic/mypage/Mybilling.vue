@@ -11,10 +11,18 @@
         <div class="row" style="display:flex; margin-bottom:10px;">
             <div class="search condition">
                 <div class="filter">
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">{{$t('all')}}</div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">{{$t('months3')}}</div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">{{$t('months6')}}</div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }" @click="setSearchCondition(4)">{{$t('year1')}}</div>
+                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }"
+                         @click="setSearchCondition(1)">{{$t('all')}}
+                    </div>
+                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }"
+                         @click="setSearchCondition(2)">{{$t('months3')}}
+                    </div>
+                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }"
+                         @click="setSearchCondition(3)">{{$t('months6')}}
+                    </div>
+                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }"
+                         @click="setSearchCondition(4)">{{$t('year1')}}
+                    </div>
                 </div>
             </div>
             <div style="margin-left:auto; ">
@@ -34,9 +42,15 @@
         </div>
         <div class="row" style="display:flex; margin-bottom:30px;">
             <div class="tabmenu">
-                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}} ({{calcTotalCnt}})</div>
-                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{$t('wait')}} ({{calcWaitCnt}})</div>
-                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">{{$t('payComplete1')}} ({{calcCompleteCnt}})</div>
+                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}}
+                    ({{calcTotalCnt}})
+                </div>
+                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{$t('wait')}}
+                    ({{calcWaitCnt}})
+                </div>
+                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">{{$t('payComplete1')}}
+                    ({{calcCompleteCnt}})
+                </div>
             </div>
             <div class="sort" style="text-align:right">
                 <div class="custom-select" style="flex: 3;">
@@ -44,9 +58,13 @@
                         {{ downType }}
                     </button>
                     <div class="options">
-                        <button data-value="" class="option" @click="funcDownType('All')"> {{$t('total1')}} </button>
-                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> {{$t('downloadComplete')}} </button>
-                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> {{$t('notDownloaded')}} </button>
+                        <button data-value="" class="option" @click="funcDownType('All')"> {{$t('total1')}}</button>
+                        <button data-value="" class="option" @click="funcDownType('Download Complete')">
+                            {{$t('downloadComplete')}}
+                        </button>
+                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')">
+                            {{$t('notDownloaded')}}
+                        </button>
                     </div>
                 </div>
 
@@ -55,8 +73,8 @@
                         {{ orderType }}
                     </button>
                     <div class="options">
-                        <button data-value="" class="option" @click="funcOrderType('Recent')"> {{$t('recent')}} </button>
-                        <button data-value="" class="option" @click="funcOrderType('Past')"> {{$t('past')}} </button>
+                        <button data-value="" class="option" @click="funcOrderType('Recent')"> {{$t('recent')}}</button>
+                        <button data-value="" class="option" @click="funcOrderType('Past')"> {{$t('past')}}</button>
                     </div>
                 </div>
             </div>
@@ -76,17 +94,23 @@
         <div class="row" style="margin-bottom:30px;">
             <div class="playList board mybillinglist">
                 <ul>
-                    <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox" :id="'slist'+ item['id']" @click="goOrderDetail(item['id'], myOrderList.length - ((currPage - 1) * perPage) - i )" >
+                    <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox"
+                        :id="'slist'+ item['id']"
+                        @click="goOrderDetail(item['id'], myOrderList.length - ((currPage - 1) * perPage) - i )">
                         <div class="playList__item playList__item--title nowrap pointer active">
-                            <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }} </div>
+                            <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }}</div>
                             <div class="date">
                                 {{ item['items'][0].cor_datetime }}
                             </div>
-                            <div class="subject" v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])">
+                            <div class="subject"
+                                 v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])">
                             </div>
-                            <div class="totalprice" v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
+                            <div class="totalprice"
+                                 v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
                             <div class="status">
-                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }"> {{ $t(funcStatus(item['items'][0].cor_status)) }} </div>
+                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }">
+                                    {{ $t(funcStatus(item['items'][0].cor_status)) }}
+                                </div>
                             </div>
                             <div class="download">
                                 <div v-if="0 < funcDownStatus('Possible', item['items'])" class="download">
@@ -161,9 +185,13 @@
         <div class="row" style="margin-bottom:30px;">
             <div class="pagination">
                 <div>
-                    <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/></button>
-                    <button v-for="n in makePageList(this.totalpage)" v-bind:key="n" :class="{ 'active': currPage === n }" @click="currPage = n">{{n}}</button>
-                    <button class="next active" @click="nextPage"><img src="/assets/images/icon/chevron_next.png"/></button>
+                    <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/>
+                    </button>
+                    <button v-for="n in makePageList(this.totalpage)" v-bind:key="n"
+                            :class="{ 'active': currPage === n }" @click="currPage = n">{{n}}
+                    </button>
+                    <button class="next active" @click="nextPage"><img src="/assets/images/icon/chevron_next.png"/>
+                    </button>
                 </div>
             </div>
         </div>
@@ -180,7 +208,7 @@
         components: {
             VueHotelDatepicker
         },
-        data: function() {
+        data: function () {
             return {
                 isLogin: false,
                 mem_photo: '',
@@ -198,7 +226,7 @@
                 downType: 'All',
                 calcTotalCnt: 0,
                 calcWaitCnt: 0,
-                calcCompleteCnt:0,
+                calcCompleteCnt: 0,
                 calcRefundCnt: 0,
                 start_date: '',
                 end_date: '',
@@ -208,9 +236,9 @@
                 currDate: new Date().toISOString().substring(0, 10),
             };
         },
-        mounted(){
+        mounted() {
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".custom-select").on("click", function () {
 
                 $(this)
                     .siblings(".custom-select")
@@ -224,7 +252,7 @@
             });
         },
         created() {
-            this.ajaxOrderList().then(()=>{
+            this.ajaxOrderList().then(() => {
                 this.calcTotalCnt = this.calcFuncTotalCnt();
                 this.calcWaitCnt = this.calcFuncWaitCnt();
                 this.calcCompleteCnt = this.calcFuncCompleteCnt();
@@ -232,11 +260,11 @@
             });
             this.ajaxUserInfo();
         },
-        methods:{
-            async ajaxUserInfo () {
+        methods: {
+            async ajaxUserInfo() {
                 try {
                     this.isLoading = true;
-                    const { data } = await axios.get(
+                    const {data} = await axios.get(
                         '/beatsomeoneApi/get_user_info', {}
                     );
                     //console.log(data);
@@ -247,9 +275,9 @@
                     this.mem_type = data[0].mem_type;
                     this.mem_lastname = data[0].mem_lastname;
 
-                    if(this.mem_usertype == 1){
+                    if (this.mem_usertype == 1) {
                         this.group_title = "CUSTOMER";
-                    }else{
+                    } else {
                         this.group_title = "SELLER";
                     }
                 } catch (err) {
@@ -261,13 +289,13 @@
             async ajaxOrderList() {
                 try {
                     this.isLoading = true;
-                    const { data } = await axios.get(
+                    const {data} = await axios.get(
                         '/beatsomeoneApi/user_order_history', {}
                     );
                     this.myOrderList = data.sp_list.reverse();
-                    if(this.myOrderList.length == 0){
+                    if (this.myOrderList.length == 0) {
                         this.totalpage = 1;
-                    }else{
+                    } else {
                         this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);
                     }
                     console.log(this.myOrderList);
@@ -277,63 +305,63 @@
                     this.isLoading = false;
                 }
             },
-            formatPr: function(m, price){
-                if(this.isEmpty(m)){
+            formatPr: function (m, price) {
+                if (this.isEmpty(m)) {
                     m = '';
                 }
-                if(m == '$'){
+                if (m == '$') {
                     return m + this.formatNumberEn(price);
-                }else{
+                } else {
                     return m + this.formatNumber(price);
                 }
             },
-            formatNumber(n){
+            formatNumber(n) {
                 //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
                 return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
             },
-            formatNumberEn(n){
+            formatNumberEn(n) {
                 //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
                 return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
             },
-            formatCitName: function(data, limitLth){
+            formatCitName: function (data, limitLth) {
                 let rst;
-                if(limitLth < data.length && data.length <= limitLth*2){
-                    rst = data.substring(0,limitLth) + '<br/>' + data.substring(limitLth,limitLth*2);
-                }else if(limitLth < data.length && limitLth*2 < data.length){
-                    rst = data.substring(0,limitLth) + '<br/>' + data.substring(limitLth,limitLth*2) + '...';
-                }else{
+                if (limitLth < data.length && data.length <= limitLth * 2) {
+                    rst = data.substring(0, limitLth) + '<br/>' + data.substring(limitLth, limitLth * 2);
+                } else if (limitLth < data.length && limitLth * 2 < data.length) {
+                    rst = data.substring(0, limitLth) + '<br/>' + data.substring(limitLth, limitLth * 2) + '...';
+                } else {
                     rst = data
                 }
                 return rst;
             },
-            formatSub: function(data, size){
-                if(1 < size){
-                    return data + " 외 " + (size-1) + "건";
+            formatSub: function (data, size) {
+                if (1 < size) {
+                    return data + " 외 " + (size - 1) + "건";
                 }
                 return data;
             },
-            calcFuncTotalCnt(){
+            calcFuncTotalCnt() {
                 return this.myOrderList.length;
             },
-            calcFuncWaitCnt(){
+            calcFuncWaitCnt() {
                 let list = [];
-                Object.assign(list,this.myOrderList);
+                Object.assign(list, this.myOrderList);
                 let rst = list.filter(item => item['items'][0].cor_status === '0');
                 return rst.length;
             },
-            calcFuncCompleteCnt(){
+            calcFuncCompleteCnt() {
                 let list = [];
-                Object.assign(list,this.myOrderList);
+                Object.assign(list, this.myOrderList);
                 let rst = list.filter(item => item['items'][0].cor_status === '1');
                 return rst.length;
             },
-            calcFuncRefundCnt(){
+            calcFuncRefundCnt() {
                 let list = [];
-                Object.assign(list,this.myOrderList);
+                Object.assign(list, this.myOrderList);
                 let rst = list.filter(item => item['items'][0].cor_status === '2');
                 return rst.length;
             },
-            caclLeftDay: function(orderDate){
+            caclLeftDay: function (orderDate) {
                 var tDate = new Date(orderDate);
                 var nDate = new Date();
                 tDate.setDate(tDate.getDate() + 60);
@@ -341,193 +369,187 @@
                 diff = Math.ceil(diff / (1000 * 3600 * 24));
                 return diff;
             },
-            caclTargetDay: function(orderDate){
+            caclTargetDay: function (orderDate) {
                 var tDate = new Date(orderDate);
                 tDate.setDate(tDate.getDate() + 60);
                 return moment(tDate).format('YYYY-MM-DD HH:mm:ss');
             },
-            isEmpty: function(str){
-                if(typeof str == "undefined" || str == null || str == "")
+            isEmpty: function (str) {
+                if (typeof str == "undefined" || str == null || str == "")
                     return true;
                 else
-                    return false ;
+                    return false;
             },
-            updateSearchDate(date){
-                if(this.isEmpty(date.start) || this.isEmpty(date.end)){
+            updateSearchDate(date) {
+                if (this.isEmpty(date.start) || this.isEmpty(date.end)) {
                     this.goSearchDate();
-                }else{
+                } else {
                     this.start_date = date.start
                     this.end_date = date.end
                     this.goSearchDate();
                 }
             },
-            resetSearchDate(date){
+            resetSearchDate(date) {
                 this.start_date = ''
                 this.end_date = ''
                 this.goSearchDate();
             },
-            goPage: function(page){
-                window.location.href = '/mypage/'+page;
+            goPage: function (page) {
+                window.location.href = '/mypage/' + page;
             },
-            goSearch: function(){
-                this.ajaxOrderList().then(()=>{
+            goSearch: function () {
+                this.ajaxOrderList().then(() => {
                     let list = [];
-                    Object.assign(list,this.myOrderList);
-                    if(this.search_condition_active_idx == 1){
+                    Object.assign(list, this.myOrderList);
+                    if (this.search_condition_active_idx == 1) {
                         //all
-                    }
-                    else if(this.search_condition_active_idx == 2){
+                    } else if (this.search_condition_active_idx == 2) {
                         let m3 = moment(new Date().getTime()).add("-3", "M");
                         let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m3));
                         this.myOrderList = rst;
-                    }
-                    else if(this.search_condition_active_idx == 3){
+                    } else if (this.search_condition_active_idx == 3) {
                         let m6 = moment(new Date().getTime()).add("-6", "M");
                         let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m6));
                         this.myOrderList = rst;
-                    }
-                    else if(this.search_condition_active_idx == 4){
+                    } else if (this.search_condition_active_idx == 4) {
                         let m12 = moment(new Date().getTime()).add("-1", "y");
                         let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m12));
                         this.myOrderList = rst;
                     }
                 });
             },
-            goTabMenu: function(menu){
-                this.ajaxOrderList().then(()=>{
+            goTabMenu: function (menu) {
+                this.ajaxOrderList().then(() => {
                     let list = [];
-                    Object.assign(list,this.myOrderList);
-                    if(menu == 1){
+                    Object.assign(list, this.myOrderList);
+                    if (menu == 1) {
                         this.myOrderList = list;
                         this.search_tabmenu_idx = 1;
-                    }
-                    else if(menu == 2){
+                    } else if (menu == 2) {
                         let rst = list.filter(item => item['items'][0].cor_status === '0');
                         this.myOrderList = rst;
                         this.search_tabmenu_idx = 2;
-                    }
-                    else if(menu == 3){
+                    } else if (menu == 3) {
                         let rst = list.filter(item => item['items'][0].cor_status === '1');
                         this.myOrderList = rst;
                         this.search_tabmenu_idx = 3;
-                    }
-                    else if(menu == 4){
+                    } else if (menu == 4) {
                         let rst = list.filter(item => item['items'][0].cor_status === '2');
                         this.mySalesList = rst;
                         this.search_tabmenu_idx = 4;
                     }
                 });
             },
-            goStartDate: function(e){
+            goStartDate: function (e) {
                 console.log(e.target.value);
                 this.start_date = e.target.value;
-                if(this.start_date == '' || this.end_date == ''){
-                    return ;
-                }else{
+                if (this.start_date == '' || this.end_date == '') {
+                    return;
+                } else {
                     this.goSearchDate();
                 }
             },
-            goEndDate: function(e){
+            goEndDate: function (e) {
                 console.log(e.target.value);
                 this.end_date = e.target.value;
-                if(this.start_date == '' || this.end_date == ''){
-                    return ;
-                }else{
+                if (this.start_date == '' || this.end_date == '') {
+                    return;
+                } else {
                     this.goSearchDate();
                 }
             },
-            goSearchDate: function(){
-                this.ajaxOrderList().then(()=>{
+            goSearchDate: function () {
+                this.ajaxOrderList().then(() => {
                     let list = [];
-                    Object.assign(list,this.myOrderList);
-                    if(this.isEmpty(this.start_date) || this.isEmpty(this.end_date)){
+                    Object.assign(list, this.myOrderList);
+                    if (this.isEmpty(this.start_date) || this.isEmpty(this.end_date)) {
                         this.myOrderList = list;
-                    }else{
-                        let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0,10)
-                            && item['items'][0].cor_datetime.substr(0,10) <= this.end_date);
+                    } else {
+                        let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0, 10)
+                            && item['items'][0].cor_datetime.substr(0, 10) <= this.end_date);
                         this.myOrderList = rst;
                     }
                 });
             },
-            goOrderDetail: function(cid, n){
-                window.location.href = '/mypage#/mybillingView?cid='+cid+'&n='+n;
+            goOrderDetail: function (cid, n) {
+                window.location.href = '/mypage#/mybillingView?cid=' + cid + '&n=' + n;
             },
-            prevPage: function(){
-                if(this.currPage == 1) return
+            prevPage: function () {
+                if (this.currPage == 1) return
                 this.currPage -= 1;
             },
-            nextPage: function(){
-                if(this.currPage == this.totalpage) return
+            nextPage: function () {
+                if (this.currPage == this.totalpage) return
                 this.currPage += 1;
             },
-            setSearchCondition: function(idx){
+            setSearchCondition: function (idx) {
                 this.search_condition_active_idx = idx;
                 this.goSearch();
             },
-            makePageList(n){
-                return [...Array(n).keys()].map(x => x=x+1);
+            makePageList(n) {
+                return [...Array(n).keys()].map(x => x = x + 1);
             },
             paging() {
                 let list = [];
-                Object.assign(list,this.myOrderList);
-                if(this.myOrderList.length == 0){
+                Object.assign(list, this.myOrderList);
+                if (this.myOrderList.length == 0) {
                     this.totalpage = 1;
-                }else{
+                } else {
                     this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);
                 }
-                return list.slice((this.currPage - 1) * this.perPage , this.currPage * this.perPage);
+                return list.slice((this.currPage - 1) * this.perPage, this.currPage * this.perPage);
             },
-            funcStatus(s){
-                if(s == '0'){
+            funcStatus(s) {
+                if (s == '0') {
                     return "depositWaiting";
-                }else if(s == '1'){
+                } else if (s == '1') {
                     return "orderComplete";
-                }else{
+                } else {
                     return "refundComplete";
                 }
             },
-            funcOrderType(od){
-                if(this.orderType == od){
+            funcOrderType(od) {
+                if (this.orderType == od) {
                     return;
-                }else{
+                } else {
                     this.orderType = od;
                     this.myOrderList.reverse();
                 }
             },
-            checkDownType(dt,i) {
-                if(dt == "Download Complete"){
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity <= i.cde_download){
+            checkDownType(dt, i) {
+                if (dt == "Download Complete") {
+                    if (i.cit_lease_license_use == "1"
+                        && i.cde_quantity <= i.cde_download) {
                         return true;
                     }
-                }else if(dt == "Not Download"){
-                    if(i.cit_lease_license_use == "1"
-                        && i.cde_quantity > i.cde_download){
+                } else if (dt == "Not Download") {
+                    if (i.cit_lease_license_use == "1"
+                        && i.cde_quantity > i.cde_download) {
                         return true;
                     }
-                    if(i.cit_lease_license_use == "1"
+                    if (i.cit_lease_license_use == "1"
                         && i.cit_mastering_license_use == "1"
-                        && i.cde_quantity > i.cde_download){
+                        && i.cde_quantity > i.cde_download) {
                         return false;
                     }
-                    if(i.cit_mastering_license_use == "1"){
+                    if (i.cit_mastering_license_use == "1") {
                         return true;
                     }
                 }
             },
-            funcDownType(dt){
-                if(this.downType == dt){
+            funcDownType(dt) {
+                if (this.downType == dt) {
                     return;
-                }else{
-                    this.ajaxOrderList().then(()=>{
+                } else {
+                    this.ajaxOrderList().then(() => {
                         let list = [];
                         let rst = [];
-                        Object.assign(list,this.myOrderList);
-                        if(dt == "Download Complete"){
-                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
-                        }else if(dt == "Not Download"){
-                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]) );
-                        }else{
+                        Object.assign(list, this.myOrderList);
+                        if (dt == "Download Complete") {
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
+                        } else if (dt == "Not Download") {
+                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
+                        } else {
                             rst = list;
                         }
                         this.downType = dt;
@@ -538,43 +560,43 @@
             gocancellist() {
                 this.$router.push({path: '/mycancelList'})
             },
-            funcDownStatus: function(status, items){
-                if(status === 'Possible'){
+            funcDownStatus: function (status, items) {
+                if (status === 'Possible') {
                     let possCnt = 0;
-                    for(let i in items){
-                        if(items[i].cor_status === '1'){
-                            if(items[i].cit_lease_license_use === '1'
-                                && 0 < this.caclLeftDay(items[i].cor_datetime)){
+                    for (let i in items) {
+                        if (items[i].cor_status === '1') {
+                            if (items[i].cit_lease_license_use === '1'
+                                && 0 < this.caclLeftDay(items[i].cor_datetime)) {
                                 possCnt += 1;
-                            }else if(items[i].cit_lease_license_use === '1'
+                            } else if (items[i].cit_lease_license_use === '1'
                                 && items[i].cit_mastering_license_use === '1'
-                                && 0 < this.caclLeftDay(items[i].cor_datetime)){
+                                && 0 < this.caclLeftDay(items[i].cor_datetime)) {
                                 possCnt += 1;
-                            }else if(items[i].cit_lease_license_use === '0'
-                                && items[i].cit_mastering_license_use === '1'){
+                            } else if (items[i].cit_lease_license_use === '0'
+                                && items[i].cit_mastering_license_use === '1') {
                                 possCnt += 1;
                             }
                         }
                     }
                     return possCnt;
-                }else if(status === 'Impossible'){
+                } else if (status === 'Impossible') {
                     let possCnt = 0;
-                    for(let i in items){
-                        if(items[i].cor_status != '1'){
+                    for (let i in items) {
+                        if (items[i].cor_status != '1') {
                             possCnt += 1;
                         }
                     }
                     return possCnt;
-                }else if(status === 'Expired'){
+                } else if (status === 'Expired') {
                     let possCnt = 0;
-                    for(let i in items){
-                        if(items[i].cor_status === '1'){
-                            if(items[i].cit_lease_license_use === '1'
-                                && this.caclLeftDay(items[i].cor_datetime) <= 0){
+                    for (let i in items) {
+                        if (items[i].cor_status === '1') {
+                            if (items[i].cit_lease_license_use === '1'
+                                && this.caclLeftDay(items[i].cor_datetime) <= 0) {
                                 possCnt += 1;
-                            }else if(items[i].cit_lease_license_use === '1'
+                            } else if (items[i].cit_lease_license_use === '1'
                                 && items[i].cit_mastering_license_use === '1'
-                                && this.caclLeftDay(items[i].cor_datetime) <= 0){
+                                && this.caclLeftDay(items[i].cor_datetime) <= 0) {
                                 possCnt += 1;
                                 //
                             }
@@ -604,29 +626,34 @@
             }
         }
     }
+
     .playList__item--button {
         display: flex;
         flex-direction: row;
         color: white;
         text-align: left;
     }
+
     .mypage.sublist .search-date {
         min-width: 256px;
     }
+
     .mybillinglist .playList__item {
         > * {
             height: auto;
         }
+
         // 한줄표기
-        >.genre {
+        > .genre {
             height: 26px;
             white-space: nowrap;
             display: inline-block;
             text-overflow: ellipsis;
             overflow: hidden;
-            color: rgba(white,.3);
+            color: rgba(white, .3);
+
             span {
-                color: rgba(white,.3);
+                color: rgba(white, .3);
             }
         }
     }

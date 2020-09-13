@@ -159,6 +159,7 @@
       // justify-content: center;
       margin-bottom: 16px;
       padding-top: 20px;
+      position: relative;
     }
     .profile__footer {
       display: flex;
@@ -188,7 +189,7 @@
         }
       }
     }
-    .portait {
+    .portrait {
       margin-right: 16px;
       width: 64px;
       height: 64px;
