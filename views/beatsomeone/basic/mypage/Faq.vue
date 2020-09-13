@@ -7,7 +7,7 @@
                 </div>
                 <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
                     <input type="text" placeholder="enter your word..." style="font-size:16px;">
-                    <img src="/assets/images/icon/searchicon.png" style="margin:10px;"/>
+                    <img src="/assets/images/icon/searchicon.png" style="margin:10px;" @click="searchItems"/>
                 </div>
             </div>
         </div>
@@ -15,102 +15,7 @@
         <div class="row" style="margin-bottom:30px;">
             <div class="playList board fold faq">
                 <ul>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap ">
-                            <div>
-                                <div class="subject">What information do I need to sell music?</div>
-                                <div class="answer fold">
-                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                     <br/>
-                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                    From this point on, you can sell the beats you have made.<br/>
-                                </div>
-                            </div>
-                            <div class="btn--fold"><div></div><div></div></div>
-                        </div>
-                    </li>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap ">
-                            <div>
-                                <div class="subject">What information do I need to sell music?</div>
-                                <div class="answer fold">
-                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                     <br/>
-                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                    From this point on, you can sell the beats you have made.<br/>
-                                </div>
-                            </div>
-                            <div class="btn--fold"><div></div><div></div></div>
-                        </div>
-                    </li>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap active">
-                            <div>
-                                <div class="subject">What information do I need to sell music?</div>
-                                <div class="answer fold">
-                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                     <br/>
-                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                    From this point on, you can sell the beats you have made.<br/>
-                                </div>
-                            </div>
-                            <div class="btn--fold"><div></div><div></div></div>
-                        </div>
-                    </li>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap ">
-                            <div>
-                                <div class="subject">What information do I need to sell music?</div>
-                                <div class="answer fold">
-                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                     <br/>
-                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                    From this point on, you can sell the beats you have made.<br/>
-                                </div>
-                            </div>
-                            <div class="btn--fold"><div></div><div></div></div>
-                        </div>
-                    </li>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap ">
-                            <div>
-                                <div class="subject">What information do I need to sell music?</div>
-                                <div class="answer fold">
-                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                     <br/>
-                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                    From this point on, you can sell the beats you have made.<br/>
-                                </div>
-                            </div>
-                            <div class="btn--fold"><div></div><div></div></div>
-                        </div>
-                    </li>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap ">
-                            <div>
-                                <div class="subject">What information do I need to sell music?</div>
-                                <div class="answer fold">
-                                    When selling a sound source (beat), it is necessary to change the authority to the seller first.<br/>
-                                    If you are a current general member, please go through <span>My Page > Seller Registration</span> to change the permission first.<br/>
-                                     BitSumOne will review the seller member's information and proceed to change the seller member authority.<br/>
-                                     <br/>
-                                    After the changes have been made, the rights for sale will be opened.<br/>
-                                    From this point on, you can sell the beats you have made.<br/>
-                                </div>
-                            </div>
-                            <div class="btn--fold"><div></div><div></div></div>
-                        </div>
-                    </li>
+                    <FaqItem v-for="listItem in list" v-bind:key="listItem.faq_id" v-bind:faq="listItem"/>
                 </ul>
             </div>
         </div>
@@ -119,25 +24,23 @@
 
 <script>
     import $ from "jquery";
+    import axios from 'axios';
+    import FaqItem from "./FaqItem";
 
     export default {
         components: {
+            FaqItem
         },
-        data: function() {
+        data: function () {
             return {
-                isLogin: false,
-                group_title: 'SELLER',
-                product_status: 'PENDING',
-                popup_filter:0,
-                ws: null,
-                isPlay: false,
-                isReady: false,
-                wavesurfer: null,
+                total_rows: 0,
+                list: [],
+                skeyword: '',
             };
         },
-        mounted(){
+        mounted() {
             // 커스텀 셀렉트 옵션
-            $(".custom-select").on("click", function() {
+            $(".custom-select").on("click", function () {
                 $(this)
                     .siblings(".custom-select")
                     .removeClass("active")
@@ -148,10 +51,36 @@
                     .find(".options")
                     .toggle();
             });
+
+            axios.get('/faq/faq')
+                .then(res => res.data)
+                .then(data => {
+                    this.total_rows = +data.total_rows;
+                    this.list = data.list;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         },
         created() {
         },
-        methods:{
+        methods: {
+            searchItems: function () {
+                if (this.skeyword.length < 2) {
+                    alert('2글자 이상으로 검색해 주세요');
+                    return;
+                }
+                axios.get(`/faq/faq?skeyword=${this.skeyword}`)
+                    .then(res => res.data)
+                    .then(data => {
+                        console.log(data);
+                        this.total_rows = +data.total_rows;
+                        this.list = data.list;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         }
     }
 </script>

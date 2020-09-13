@@ -11,13 +11,13 @@
                     </span>
                     <figcaption class="pointer" @click="selectItem">
                         <h3 class="playList__title">{{ item.cit_name}}</h3>
-                        <span class="playList__by">{{ item.musician }}</span>
+                        <span class="playList__by">{{ item.mem_nickname }}</span>
                     </figcaption>
                 </figure>
             </div>
             <div class="info">
                 <div class="expire">
-                    <span>{{ timeago(item.expireTm).replace('ago','')}}</span> remaining
+                    <span>{{ timeago(item.download_end_date).replace('ago','')}}</span> remaining
                 </div>
             </div>
         </div>

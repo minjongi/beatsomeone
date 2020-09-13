@@ -4,24 +4,24 @@
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:64px;">
                     <div class="active">{{$t('orderHistory')}} ({{calcTotalCnt}})</div>
-                    <div @click="gocancellist">Cancellation / Refund History(0)</div>
+                    <div @click="gocancellist">Cancellation / Refund History({{ total_cancel_rows }})</div>
                 </div>
             </div>
         </div>
         <div class="row" style="display:flex; margin-bottom:10px;">
             <div class="search condition">
                 <div class="filter">
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 1 }"
-                         @click="setSearchCondition(1)">{{$t('all')}}
+                    <div class="condition" :class="{ 'active': period === -1 }"
+                         @click="period = -1">{{$t('all')}}
                     </div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }"
-                         @click="setSearchCondition(2)">{{$t('months3')}}
+                    <div class="condition" :class="{ 'active': period === 3 }"
+                         @click="period = 3">{{$t('months3')}}
                     </div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }"
-                         @click="setSearchCondition(3)">{{$t('months6')}}
+                    <div class="condition" :class="{ 'active': period === 6 }"
+                         @click="period = 6">{{$t('months6')}}
                     </div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 4 }"
-                         @click="setSearchCondition(4)">{{$t('year1')}}
+                    <div class="condition" :class="{ 'active': period === 12 }"
+                         @click="period = 12">{{$t('year1')}}
                     </div>
                 </div>
             </div>
@@ -42,27 +42,27 @@
         </div>
         <div class="row" style="display:flex; margin-bottom:30px;">
             <div class="tabmenu">
-                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{$t('total1')}}
+                <div :class="{ 'active': status === '' }" @click="status = ''">{{$t('total1')}}
                     ({{calcTotalCnt}})
                 </div>
-                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{$t('wait')}}
+                <div :class="{ 'active': status === 'deposit' }" @click="status = 'deposit'">{{$t('wait')}}
                     ({{calcWaitCnt}})
                 </div>
-                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">{{$t('payComplete1')}}
+                <div :class="{ 'active': status === 'order' }" @click="status = 'order'">{{$t('payComplete1')}}
                     ({{calcCompleteCnt}})
                 </div>
             </div>
             <div class="sort" style="text-align:right">
                 <div class="custom-select" style="flex: 3;">
                     <button class="selected-option">
-                        {{ downType }}
+                        {{ $t(downType) }}
                     </button>
                     <div class="options">
-                        <button data-value="" class="option" @click="funcDownType('All')"> {{$t('total1')}}</button>
-                        <button data-value="" class="option" @click="funcDownType('Download Complete')">
+                        <button class="option" @click="downType = 'total1'"> {{$t('total1')}}</button>
+                        <button class="option" @click="downType = 'downloadComplete'">
                             {{$t('downloadComplete')}}
                         </button>
-                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')">
+                        <button class="option" @click="downType = 'notDownloaded'">
                             {{$t('notDownloaded')}}
                         </button>
                     </div>
@@ -70,11 +70,11 @@
 
                 <div class="custom-select" style="min-width:max-content;">
                     <button class="selected-option">
-                        {{ orderType }}
+                        {{ $t(orderType) }}
                     </button>
                     <div class="options">
-                        <button data-value="" class="option" @click="funcOrderType('Recent')"> {{$t('recent')}}</button>
-                        <button data-value="" class="option" @click="funcOrderType('Past')"> {{$t('past')}}</button>
+                        <button class="option" @click="funcOrderType('recent', 'desc')"> {{$t('recent')}}</button>
+                        <button class="option" @click="funcOrderType('past', 'asc')"> {{$t('past')}}</button>
                     </div>
                 </div>
             </div>
@@ -94,105 +94,51 @@
         <div class="row" style="margin-bottom:30px;">
             <div class="playList board mybillinglist">
                 <ul>
-                    <li v-for="(item, i) in paging()" v-bind:key="item['id']" class="playList__itembox"
-                        :id="'slist'+ item['id']"
-                        @click="goOrderDetail(item['id'], myOrderList.length - ((currPage - 1) * perPage) - i )">
+                    <li v-for="(order, idx) in orders" v-bind:key="idx" class="playList__itembox"
+                        @click="goOrderDetail(order['cor_id'])">
                         <div class="playList__item playList__item--title nowrap pointer active">
-                            <div class="index">{{ myOrderList.length - ((currPage - 1) * perPage) - i }}</div>
+                            <div class="index">{{ order.cor_id }}</div>
                             <div class="date">
-                                {{ item['items'][0].cor_datetime }}
+                                {{ order.cor_datetime }}
                             </div>
                             <div class="subject"
-                                 v-html="formatSub(formatCitName(item['items'][0].cit_name,50), item['size'])">
+                                 v-html="formatSub(order.detail)">
                             </div>
                             <div class="totalprice"
-                                 v-html="formatPr(item['items'][0].cor_memo,item['items'][0].cor_total_money)"></div>
+                                 v-html="formatPr(order.cor_memo, order.cor_total_money)"></div>
                             <div class="status">
-                                <div :class="{ 'green': item['items'][0].cor_status === '0', 'blue': item['items'][0].cor_status === '1', 'red': item['items'][0].cor_status === '2' }">
-                                    {{ $t(funcStatus(item['items'][0].cor_status)) }}
+                                <div :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }">
+                                    {{ $t(order.status) }}
                                 </div>
                             </div>
                             <div class="download">
-                                <div v-if="0 < funcDownStatus('Possible', item['items'])" class="download">
-                                    <span class="green">{{$t('possible')}} {{ funcDownStatus('Possible', item['items'])}} </span>
+                                <div v-if="0 < funcDownStatus('Possible', order['detail'])" class="download">
+                                    <span class="green">{{$t('possible')}} {{ funcDownStatus('Possible', order['detail'])}} </span>
                                 </div>
-                                <div v-if="0 < funcDownStatus('Impossible', item['items'])" class="download">
-                                    <span class="red">{{$t('impossible')}} {{ funcDownStatus('Impossible', item['items'])}} </span>
+                                <div v-if="0 < funcDownStatus('Impossible', order['detail'])" class="download">
+                                    <span class="red">{{$t('impossible')}} {{ funcDownStatus('Impossible', order['detail'])}} </span>
                                 </div>
-                                <div v-if="0 < funcDownStatus('Expired', item['items'])" class="download">
-                                    <span class="gray">{{$t('expired')}} {{ funcDownStatus('Expired', item['items'])}} </span>
+                                <div v-if="0 < funcDownStatus('Expired', order['detail'])" class="download">
+                                    <span class="gray">{{$t('expired')}} {{ funcDownStatus('Expired', order['detail'])}} </span>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <!--
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap active">
-                            <div class="index">Order_009</div>
-                            <div class="date">
-                                0000-00-00 00:00:00
-                            </div>
-                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                            <div class="totalprice">$ 10.00</div>
-                            <div class="status">
-                                <div class="blue">Order Complete</div>
-                            </div>
-                            <div class="download">
-                                <span class="green">Possible 2</span>
-                                <span class="gray">Expired 2</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap active">
-                            <div class="index">Order_008</div>
-                            <div class="date">
-                                0000-00-00 00:00:00
-                            </div>
-                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                            <div class="totalprice">$ 10.00</div>
-                            <div class="status">
-                                <div class="green">Deposit Waiting</div>
-                            </div>
-                            <div class="download">
-                                <span class="red">Impossible 2</span>
-                                <span class="gray">Expired 2</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap active">
-                            <div class="index">Order_007</div>
-                            <div class="date">
-                                0000-00-00 00:00:00
-                            </div>
-                            <div class="subject">The Flow Buy 1 Get 3 Free and 2 more</div>
-                            <div class="totalprice">$ 10.00</div>
-                            <div class="status">
-                                <div class="blue">Order Complete</div>
-                            </div>
-                            <div class="download">
-                                <span class="green">Possible 2</span>
-                                <span class="red">Impossible 2</span>
-                            </div>
-                        </div>
-                    </li>
-                    -->
                 </ul>
 
             </div>
         </div>
         <div class="row" style="margin-bottom:30px;">
-            <div class="pagination">
-                <div>
-                    <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/>
-                    </button>
-                    <button v-for="n in makePageList(this.totalpage)" v-bind:key="n"
-                            :class="{ 'active': currPage === n }" @click="currPage = n">{{n}}
-                    </button>
-                    <button class="next active" @click="nextPage"><img src="/assets/images/icon/chevron_next.png"/>
-                    </button>
-                </div>
+            <div class="pagination" v-html="pagination">
+<!--                <div>-->
+<!--                    <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/>-->
+<!--                    </button>-->
+<!--                    <button v-for="n in makePageList(this.totalpage)" v-bind:key="n"-->
+<!--                            :class="{ 'active': currPage === n }" @click="currPage = n">{{n}}-->
+<!--                    </button>-->
+<!--                    <button class="next active" @click="nextPage"><img src="/assets/images/icon/chevron_next.png"/>-->
+<!--                    </button>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -203,6 +149,13 @@
     import moment from "moment";
     import $ from "jquery";
     import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
+
+    Date.prototype.yyyymmdd = function () {
+        let mm = this.getMonth() + 1;
+        let dd = this.getDate();
+
+        return [this.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
+    }
 
     export default {
         components: {
@@ -219,21 +172,26 @@
                 mem_lastname: '',
                 group_title: 'SELLER',
                 product_status: 'PENDING',
-                myOrderList: [],
+                orders: [],
                 search_condition_active_idx: 1,
                 search_tabmenu_idx: 1,
-                orderType: 'Recent',
-                downType: 'All',
+                orderType: 'recent',
+                downType: 'total1',
                 calcTotalCnt: 0,
                 calcWaitCnt: 0,
                 calcCompleteCnt: 0,
                 calcRefundCnt: 0,
+                total_cancel_rows: 0,
                 start_date: '',
                 end_date: '',
                 totalpage: 0,
                 currPage: 1,
                 perPage: 10,
                 currDate: new Date().toISOString().substring(0, 10),
+                pagination: '',
+                period: -1,
+                status: '',
+                forder: 'desc'
             };
         },
         mounted() {
@@ -250,60 +208,26 @@
                     .find(".options")
                     .toggle();
             });
+
+            this.fetchData();
         },
         created() {
-            this.ajaxOrderList().then(() => {
-                this.calcTotalCnt = this.calcFuncTotalCnt();
-                this.calcWaitCnt = this.calcFuncWaitCnt();
-                this.calcCompleteCnt = this.calcFuncCompleteCnt();
-                this.calcRefundCnt = this.calcFuncRefundCnt();
-            });
-            this.ajaxUserInfo();
         },
         methods: {
-            async ajaxUserInfo() {
-                try {
-                    this.isLoading = true;
-                    const {data} = await axios.get(
-                        '/beatsomeoneApi/get_user_info', {}
-                    );
-                    //console.log(data);
-                    this.mem_photo = data[0].mem_photo;
-                    this.mem_usertype = data[0].mem_usertype;
-                    this.mem_nickname = data[0].mem_nickname;
-                    this.mem_address1 = data[0].mem_address1;
-                    this.mem_type = data[0].mem_type;
-                    this.mem_lastname = data[0].mem_lastname;
-
-                    if (this.mem_usertype == 1) {
-                        this.group_title = "CUSTOMER";
-                    } else {
-                        this.group_title = "SELLER";
-                    }
-                } catch (err) {
-                    console.log('ajaxUserInfo error');
-                } finally {
-                    this.isLoading = false;
-                }
-            },
-            async ajaxOrderList() {
-                try {
-                    this.isLoading = true;
-                    const {data} = await axios.get(
-                        '/beatsomeoneApi/user_order_history', {}
-                    );
-                    this.myOrderList = data.sp_list.reverse();
-                    if (this.myOrderList.length == 0) {
-                        this.totalpage = 1;
-                    } else {
-                        this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);
-                    }
-                    console.log(this.myOrderList);
-                } catch (err) {
-                    console.log('ajaxOrderList error');
-                } finally {
-                    this.isLoading = false;
-                }
+            fetchData: function () {
+                axios.get(`/cmall/ajax_orderlist?start_date=${this.start_date}&end_date=${this.end_date}&status=${this.status}&forder=${this.forder}`)
+                    .then(res => res.data)
+                    .then(data => {
+                        this.orders = data.data.list;
+                        this.calcTotalCnt = (+data.data.total_rows);
+                        this.calcWaitCnt = (+data.data.total_deposit_rows);
+                        this.calcCompleteCnt = (+data.data.total_order_rows);
+                        this.total_cancel_rows = (+data.data.total_cancel_rows);
+                        this.pagination = data.paging;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             },
             formatPr: function (m, price) {
                 if (this.isEmpty(m)) {
@@ -334,30 +258,37 @@
                 }
                 return rst;
             },
-            formatSub: function (data, size) {
-                if (1 < size) {
-                    return data + " 외 " + (size - 1) + "건";
+            formatSub: function (detail) {
+                let size = detail.length;
+                let title = '';
+                if (size > 0) {
+                    if (detail[0].item) {
+                        title = detail[0].item.cit_name;
+                    }
                 }
-                return data;
+                if (1 < size) {
+                    return title + " 외 " + (size - 1) + "건";
+                }
+                return title;
             },
             calcFuncTotalCnt() {
-                return this.myOrderList.length;
+                return this.orders.length;
             },
             calcFuncWaitCnt() {
                 let list = [];
-                Object.assign(list, this.myOrderList);
+                Object.assign(list, this.orders);
                 let rst = list.filter(item => item['items'][0].cor_status === '0');
                 return rst.length;
             },
             calcFuncCompleteCnt() {
                 let list = [];
-                Object.assign(list, this.myOrderList);
+                Object.assign(list, this.orders);
                 let rst = list.filter(item => item['items'][0].cor_status === '1');
                 return rst.length;
             },
             calcFuncRefundCnt() {
                 let list = [];
-                Object.assign(list, this.myOrderList);
+                Object.assign(list, this.orders);
                 let rst = list.filter(item => item['items'][0].cor_status === '2');
                 return rst.length;
             },
@@ -382,56 +313,35 @@
             },
             updateSearchDate(date) {
                 if (this.isEmpty(date.start) || this.isEmpty(date.end)) {
-                    this.goSearchDate();
+                    this.fetchData();
                 } else {
                     this.start_date = date.start
                     this.end_date = date.end
-                    this.goSearchDate();
+                    this.fetchData();
                 }
             },
             resetSearchDate(date) {
                 this.start_date = ''
                 this.end_date = ''
-                this.goSearchDate();
+                this.fetchData();
             },
             goPage: function (page) {
                 window.location.href = '/mypage/' + page;
             },
-            goSearch: function () {
-                this.ajaxOrderList().then(() => {
-                    let list = [];
-                    Object.assign(list, this.myOrderList);
-                    if (this.search_condition_active_idx == 1) {
-                        //all
-                    } else if (this.search_condition_active_idx == 2) {
-                        let m3 = moment(new Date().getTime()).add("-3", "M");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m3));
-                        this.myOrderList = rst;
-                    } else if (this.search_condition_active_idx == 3) {
-                        let m6 = moment(new Date().getTime()).add("-6", "M");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m6));
-                        this.myOrderList = rst;
-                    } else if (this.search_condition_active_idx == 4) {
-                        let m12 = moment(new Date().getTime()).add("-1", "y");
-                        let rst = list.filter(item => moment(item['items'][0].cor_datetime).isAfter(m12));
-                        this.myOrderList = rst;
-                    }
-                });
-            },
             goTabMenu: function (menu) {
                 this.ajaxOrderList().then(() => {
                     let list = [];
-                    Object.assign(list, this.myOrderList);
+                    Object.assign(list, this.orders);
                     if (menu == 1) {
-                        this.myOrderList = list;
+                        this.orders = list;
                         this.search_tabmenu_idx = 1;
                     } else if (menu == 2) {
                         let rst = list.filter(item => item['items'][0].cor_status === '0');
-                        this.myOrderList = rst;
+                        this.orders = rst;
                         this.search_tabmenu_idx = 2;
                     } else if (menu == 3) {
                         let rst = list.filter(item => item['items'][0].cor_status === '1');
-                        this.myOrderList = rst;
+                        this.orders = rst;
                         this.search_tabmenu_idx = 3;
                     } else if (menu == 4) {
                         let rst = list.filter(item => item['items'][0].cor_status === '2');
@@ -440,39 +350,8 @@
                     }
                 });
             },
-            goStartDate: function (e) {
-                console.log(e.target.value);
-                this.start_date = e.target.value;
-                if (this.start_date == '' || this.end_date == '') {
-                    return;
-                } else {
-                    this.goSearchDate();
-                }
-            },
-            goEndDate: function (e) {
-                console.log(e.target.value);
-                this.end_date = e.target.value;
-                if (this.start_date == '' || this.end_date == '') {
-                    return;
-                } else {
-                    this.goSearchDate();
-                }
-            },
-            goSearchDate: function () {
-                this.ajaxOrderList().then(() => {
-                    let list = [];
-                    Object.assign(list, this.myOrderList);
-                    if (this.isEmpty(this.start_date) || this.isEmpty(this.end_date)) {
-                        this.myOrderList = list;
-                    } else {
-                        let rst = list.filter(item => this.start_date <= item['items'][0].cor_datetime.substr(0, 10)
-                            && item['items'][0].cor_datetime.substr(0, 10) <= this.end_date);
-                        this.myOrderList = rst;
-                    }
-                });
-            },
-            goOrderDetail: function (cid, n) {
-                window.location.href = '/mypage#/mybillingView?cid=' + cid + '&n=' + n;
+            goOrderDetail: function (cor_id) {
+                this.$router.push('/mybilling/' + cor_id);
             },
             prevPage: function () {
                 if (this.currPage == 1) return
@@ -491,11 +370,11 @@
             },
             paging() {
                 let list = [];
-                Object.assign(list, this.myOrderList);
-                if (this.myOrderList.length == 0) {
+                Object.assign(list, this.orders);
+                if (this.orders.length == 0) {
                     this.totalpage = 1;
                 } else {
-                    this.totalpage = Math.ceil(this.myOrderList.length / this.perPage);
+                    this.totalpage = Math.ceil(this.orders.length / this.perPage);
                 }
                 return list.slice((this.currPage - 1) * this.perPage, this.currPage * this.perPage);
             },
@@ -508,12 +387,13 @@
                     return "refundComplete";
                 }
             },
-            funcOrderType(od) {
-                if (this.orderType == od) {
+            funcOrderType(od, forder) {
+                if (this.orderType === od) {
                     return;
                 } else {
                     this.orderType = od;
-                    this.myOrderList.reverse();
+                    this.forder = forder;
+                    this.fetchData();
                 }
             },
             checkDownType(dt, i) {
@@ -541,20 +421,20 @@
                 if (this.downType == dt) {
                     return;
                 } else {
-                    this.ajaxOrderList().then(() => {
-                        let list = [];
-                        let rst = [];
-                        Object.assign(list, this.myOrderList);
-                        if (dt == "Download Complete") {
-                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
-                        } else if (dt == "Not Download") {
-                            rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
-                        } else {
-                            rst = list;
-                        }
-                        this.downType = dt;
-                        this.myOrderList = rst;
-                    });
+                    // this.ajaxOrderList().then(() => {
+                    //     let list = [];
+                    //     let rst = [];
+                    //     Object.assign(list, this.myOrderList);
+                    //     if (dt == "Download Complete") {
+                    //         rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
+                    //     } else if (dt == "Not Download") {
+                    //         rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
+                    //     } else {
+                    //         rst = list;
+                    //     }
+                    //     this.downType = dt;
+                    //     this.myOrderList = rst;
+                    // });
                 }
             },
             gocancellist() {
@@ -563,48 +443,58 @@
             funcDownStatus: function (status, items) {
                 if (status === 'Possible') {
                     let possCnt = 0;
-                    for (let i in items) {
-                        if (items[i].cor_status === '1') {
-                            if (items[i].cit_lease_license_use === '1'
-                                && 0 < this.caclLeftDay(items[i].cor_datetime)) {
-                                possCnt += 1;
-                            } else if (items[i].cit_lease_license_use === '1'
-                                && items[i].cit_mastering_license_use === '1'
-                                && 0 < this.caclLeftDay(items[i].cor_datetime)) {
-                                possCnt += 1;
-                            } else if (items[i].cit_lease_license_use === '0'
-                                && items[i].cit_mastering_license_use === '1') {
-                                possCnt += 1;
+                    items.forEach(item => {
+                        if (item.itemdetail) {
+                            if (item.itemdetail[0].cod_status === 'order') {
+                                if (item.item.possible_download === 1) {
+                                    possCnt++;
+                                }
                             }
                         }
-                    }
+                    })
                     return possCnt;
                 } else if (status === 'Impossible') {
                     let possCnt = 0;
-                    for (let i in items) {
-                        if (items[i].cor_status != '1') {
-                            possCnt += 1;
+                    items.forEach(item => {
+                        if (!item.itemdetail) {
+                            possCnt++;
+                        } else {
+                            if (item.itemdetail[0].cod_status === 'deposit') {
+                                possCnt++;
+                            }
                         }
-                    }
+                    });
                     return possCnt;
                 } else if (status === 'Expired') {
                     let possCnt = 0;
-                    for (let i in items) {
-                        if (items[i].cor_status === '1') {
-                            if (items[i].cit_lease_license_use === '1'
-                                && this.caclLeftDay(items[i].cor_datetime) <= 0) {
-                                possCnt += 1;
-                            } else if (items[i].cit_lease_license_use === '1'
-                                && items[i].cit_mastering_license_use === '1'
-                                && this.caclLeftDay(items[i].cor_datetime) <= 0) {
-                                possCnt += 1;
-                                //
+                    items.forEach(item => {
+                        if (item.itemdetail) {
+                            if (item.itemdetail[0].cod_status === 'order') {
+                                if (item.item.possible_download === 0) {
+                                    possCnt++;
+                                }
                             }
                         }
-                    }
+                    });
                     return possCnt;
                 }
             },
+        },
+        watch: {
+            period: function (val) {
+                let currentDate = new Date();
+                if (val === -1) {
+                    this.start_date = '2020-01-01';
+                } else {
+                    let priorDate = new Date(new Date().setMonth(currentDate.getMonth() - val));
+                    this.start_date = priorDate.yyyymmdd();
+                }
+                this.end_date = currentDate.yyyymmdd();
+                this.fetchData();
+            },
+            status: function (val) {
+                this.fetchData();
+            }
         }
     }
 </script>
