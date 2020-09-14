@@ -59,7 +59,7 @@
                     <p>
                         {{ $t('free') }}
                     </p>
-                    <h2><span>$</span> 0.00<em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ '0' | money($i18n.locale) }}<em>/mo</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
@@ -122,7 +122,7 @@
                     <p>
                         {{ $t('free') }}
                     </p>
-                    <h2><span>$</span> 0.00<em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ '0' | money($i18n.locale) }}<em>/mo</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
@@ -179,7 +179,7 @@
                     <p>
                         {{ $t('platinum') }}<br />
                     </p>
-                    <h2><span>$</span>{{ (billTerm === 'monthly' ? marketplacePlan.monthly_d : marketplacePlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ (billTerm === 'monthly' ? marketplacePlanMonthlyPrice : marketplacePlanYearlyPrice) | money($i18n.locale) }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(2)">{{ $t('getStarted') }}</a>
@@ -236,7 +236,7 @@
                     <p>
                         {{ $t('master') }}<br />
                     </p>
-                    <h2><span>$</span>{{ (billTerm === 'monthly' ? proPlan.monthly_d : proPlan.yearly_d) | money }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ (billTerm === 'monthly' ? proPlanMonthlyPrice : proPlanYearlyPrice) | money($i18n.locale) }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(3)">{{ $t('getStarted') }}</a>
@@ -292,7 +292,6 @@
 
 <script>
     import { EventBus } from '*/src/eventbus';
-    import $ from 'jquery'
 
     export default {
         data: function() {
@@ -307,10 +306,10 @@
             }
         },
         filters: {
-            money (value) {
+            money (value, locale) {
                 if (!value) return '';
                 value = parseFloat(value.toString());
-                return value.toFixed(2);
+                return value.toFixed(locale === 'en' ? 2 : 0);
             }
         },
         computed: {
@@ -322,6 +321,18 @@
             },
             proPlan: function () {
                 return this.listPlan ? _.find(this.listPlan,{'plan':'PRO PAGE'}) : null;
+            },
+            marketplacePlanMonthlyPrice: function () {
+              return this.$i18n.locale === 'en' ? this.marketplacePlan.monthly_d : this.marketplacePlan.monthly
+            },
+            marketplacePlanYearlyPrice: function () {
+              return this.$i18n.locale === 'en' ? this.marketplacePlan.yearly_d : this.marketplacePlan.yearly
+            },
+            proPlanMonthlyPrice: function () {
+              return this.$i18n.locale === 'en' ? this.proPlan.monthly_d : this.proPlan.monthly
+            },
+            proPlanYearlyPrice: function () {
+              return this.$i18n.locale === 'en' ? this.proPlan.yearly_d : this.proPlan.yearly
             },
         },
 

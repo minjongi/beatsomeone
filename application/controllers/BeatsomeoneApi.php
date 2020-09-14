@@ -1313,6 +1313,9 @@ class BeatsomeoneApi extends CB_Controller
         $sp_list = array();
         foreach( $cor_id_list as $val ){
             $sp_info = $this->Beatsomeone_model->get_sales_product_info($val);
+            if (empty($sp_info)) {
+                continue;
+            }
             $temp = new stdClass();
             $temp->id = $val['cor_id'];
             $temp->size = count($sp_info);

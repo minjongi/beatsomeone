@@ -1,5 +1,8 @@
 <template>
     <header class="header">
+        <div class="smtm9-top" v-if="false">
+            <a href="/smtm9"><img src="/assets/images/event/smtm9/top.jpg"></a>
+        </div>
         <div class="wrap">
             <h1 class="header__logo">
                 <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
@@ -13,14 +16,14 @@
                 </div>
                 <nav class="header__nav">
                     <a href=""></a>
-                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
+                    <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
                     <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>
-                    <a href="#" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                    <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </nav>
             </div>
         </div>

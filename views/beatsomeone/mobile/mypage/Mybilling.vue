@@ -38,7 +38,7 @@
 
         <div class="row" style="margin-bottom: 10px;">
             <div class="sort">
-                <div class="bs-select" style="flex: 3;">
+                <div class="custom-select" style="flex: 3;">
                     <button class="selected-option">
                         {{ downType }}
                     </button>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="bs-select" style="flex: 2;">
+                <div class="custom-select" style="flex: 2;">
                     <button class="selected-option">
                         {{ orderType }}
                     </button>
@@ -231,10 +231,10 @@
         },
         mounted(){
             // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function() {
+            $(".custom-select").on("click", function() {
 
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

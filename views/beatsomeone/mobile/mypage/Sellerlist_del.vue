@@ -8,7 +8,7 @@
                     <div class="sublist__filter sticky">
                         <div class="row center">
                             <div class="profile">
-                                <div class="portait">
+                                <div class="portrait">
                                     <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
                                     <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
@@ -105,7 +105,7 @@
 
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="sort">
-                                <div class="bs-select" style="flex: 3;">
+                                <div class="custom-select" style="flex: 3;">
                                     <button class="selected-option"> All </button>
                                     <div class="options">
                                         <button data-value="" class="option" @click="funcDownType('All')"> All </button>
@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
 
-                                <div class="bs-select" style="flex: 2;">
+                                <div class="custom-select" style="flex: 2;">
                                     <button class="selected-option"> Recent </button>
                                     <div class="options">
                                         <button data-value="" class="option" @click="funcOrderType('Recent')"> Recent </button>
@@ -447,10 +447,10 @@
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function() {
+            $(".custom-select").on("click", function() {
 
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

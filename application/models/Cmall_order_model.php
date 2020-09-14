@@ -191,4 +191,48 @@ class Cmall_order_model extends CB_Model
 
         return $return;
     }
+
+    public function get_order_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
+    {
+        $where .= " and (cmall_order.status = 'order' or cmall_order.status = 'deposit')";
+        $result = $this->get_list($limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
+
+        $this->db->select('count(*) as rownum');
+        $where1 = $where." and cmall_order.status = 'deposit'";
+        $this->db->where($where1);
+        $qry = $this->db->get($this->_table);
+        $rows = $qry->row_array();
+        $result['total_deposit_rows'] = $rows['rownum'];
+
+        $this->db->select('count(*) as rownum');
+        $where2 = $where." and cmall_order.status = 'order'";
+        $this->db->where($where2);
+        $qry = $this->db->get($this->_table);
+        $rows = $qry->row_array();
+        $result['total_order_rows'] = $rows['rownum'];
+
+        $this->db->select('count(*) as rownum');
+        $where3 = "cmall_order.mem_id = ". $this->member->item('mem_id'). " and (cmall_order.status = 'cancel' or cmall_order.status = 'refund')";
+        $this->db->where($where3);
+        $qry = $this->db->get($this->_table);
+        $rows = $qry->row_array();
+        $result['total_cancel_rows'] = $rows['rownum'];
+
+        return $result;
+    }
+
+    public function get_cancel_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
+    {
+        $where .= " and (cmall_order.status = 'cancel' or cmall_order.status = 'refund')";
+        $result = $this->get_list($limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
+
+        $this->db->select('count(*) as rownum');
+        $where3 = "cmall_order.mem_id = ". $this->member->item('mem_id'). " and (cmall_order.status = 'order' or cmall_order.status = 'deposit')";
+        $this->db->where($where3);
+        $qry = $this->db->get($this->_table);
+        $rows = $qry->row_array();
+        $result['total_order_rows'] = $rows['rownum'];
+
+        return $result;
+    }
 }

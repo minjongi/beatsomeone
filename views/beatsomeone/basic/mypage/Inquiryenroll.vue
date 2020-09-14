@@ -1,55 +1,53 @@
 <template>
     <div>
-        <div style="margin-bottom:30px;">
-            <div class="title-content">
-                <div class="title">
-                    <div>{{$t('support1')}}</div>
-                    <button class="btn btn--gray" v-on:click="goPage('inquiry')">{{$t('back')}}</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="box" style="padding-bottom:50px;">
-            <div class="row">
-                <div class="col-4 type"><span>{{ $t('title') }}</span></div>
-                <div class="col-6 data">
-                    <div class="input_wrap">
-                        <input v-model="post_title" class="inputbox" type="text"
-                               placeholder="Please enter your title about problem..."/>
+        <div class="row">
+            <div class="row" style="margin-bottom:30px;">
+                <div class="title-content">
+                    <div class="title">
+                        <div>{{$t('support1')}}</div>
+                        <button class="btn btn--gray" @click="goPage('inquiry')">{{$t('back')}}</button>
                     </div>
                 </div>
             </div>
 
-<!--            <div class="row" v-show="group_title == 'SELLER'">-->
-<!--                <div class="type"><span>Writer</span></div>-->
-<!--                <div class="data">-->
-<!--                    <div class="group_title" :class="group_title">{{$t(group_title)}}</div>-->
-<!--                    <div class="seller_class" :class="seller_class">{{seller_class}}</div>-->
-<!--                    <div class="username">KKOMA</div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-            <div class="row">
-                <div class="col-4 type"><span>{{ $t('content') }}</span></div>
-                <div class="col-6 data">
-                        <textarea v-model="post_content" class="firstname" rows="10"
-                                  placeholder="Please decribe your problem detaily..."></textarea>
+            <div class="box" style="padding-bottom:50px;">
+                <div class="row">
+                    <div class="type"><span>Title</span></div>
+                    <div class="data">
+                        <div class="input_wrap col">
+                            <input class="inputbox" type="text" v-model="post_title"
+                                   placeholder="Please enter your title about problem..."/>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row" v-show="board_info.use_upload_file === '1'">
-                <div class="col-4 type"><span>Attachment</span></div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col">
-                            <div class="flie_list">
-                                <div v-show="attached_files.length === 0">
-                                    <span>No attached file.</span>
-                                </div>
-                                <div v-for="file in attached_files" :key="file.name">
-                                    <img src="/assets/images/icon/file.png"/>
-                                    <span>{{ file.pfi_originname }}</span>
-                                </div>
+                <div class="row" v-show="group_title == 'SELLER'">
+                    <div class="type"><span>Writer</span></div>
+                    <div class="data">
+                        <div class="group_title" :class="group_title">{{$t(group_title)}}</div>
+                        <div class="seller_class" :class="seller_class">{{seller_class}}</div>
+                        <div class="username">KKOMA</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="type"><span>Bio</span></div>
+                    <div class="data">
+                        <textarea class="firstname" v-model="post_content" type="text"
+                                  placeholder="Please decribe your problem detaily..." style="height:360px"/>
+                    </div>
+                </div>
+
+                <div class="row" v-show="group_title == 'SELLER'">
+                    <div class="type"><span>Attachment</span></div>
+                    <div class="data">
+                        <div>
+                            <div v-show="attached_files.length === 0">
+                                <span>No attached file.</span>
+                            </div>
+                            <div v-for="file in attached_files" :key="file.name">
+                                <img src="/assets/images/icon/file.png"/>
+                                <span>{{ file.name }}</span>
                             </div>
                             <div class="caution">
                                 <div>
@@ -57,32 +55,27 @@
                                     <img class="warning" src="/assets/images/icon/warning.png"/>
                                 </div>
                                 <span>
-                                    You can upload only jpg, png, gif, doc, and pdf files within {{ board_info.upload_file_max_size }}MB
+                                    {{$t('noteChangeEmailMsg')}}
                                 </span>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            <label class="btn btn-primary" for="attachbtn">
-                                <input type="file" id="attachbtn" style="display:none;" multiple v-on:change="changeFiles">
-                                <div>Attach</div>
-                            </label>
-                        </div>
+                        <label class="btn btn--blue" for="attachbtn">
+                            <input type="file" multiple id="attachbtn" style="display:none;" @change="changeFiles">
+                            <div>Attach</div>
+                        </label>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="btnbox row justify-content-center" style="margin:30px auto 100px;">
-            <div class="col-3">
-                <button class="btn-block btn btn--gray" @click="goPage('inquiry')">Cancel</button>
-            </div>
-            <div class="col-3">
-                <button type="submit" class="btn-block btn btn--submit" v-on:click="submitInquiry">Submit</button>
+            <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
+                <button class="btn btn--gray" @click="goPage('inquiry')">Cancel</button>
+                <button type="submit" class="btn btn--submit" @click="submitInquiry">Submit</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import $ from "jquery";
     import axios from 'axios';
 
     export default {
@@ -114,6 +107,9 @@
                         this.post_title = data.post.post_title;
                         if (data.file) {
                             this.attached_files = data.file;
+                            this.attached_files.forEach(attached_file => {
+                                attached_file.name = attached_file.pfi_originname
+                            })
                         }
                         this.post_content = data.post.post_content;
                     })
@@ -140,19 +136,7 @@
                 this.$router.push({path: '/inquirymod'});
             },
             goPage(page) {
-                this.current = page;
-
-                let p = null;
-                switch (page) {
-                    case 'dashboard':
-                    case '':
-                        p = '/'
-                        break
-                    default:
-                        p = '/' + page
-                        break
-                }
-                this.$router.push({path: p})
+                this.$router.push('/' + page);
             },
             changeFiles(event) {
                 if (event.target.files.length > +(this.board_info.upload_file_num)) {
@@ -205,8 +189,4 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-
-    .data .firstname {
-        height: 360px;
-    }
 </style>

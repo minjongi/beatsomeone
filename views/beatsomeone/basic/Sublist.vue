@@ -125,7 +125,7 @@
                 <span class="number" v-if="!param.search">5</span>
                 <div class="sort">
                   <span>{{ $t('sortBy') }}</span>
-                  <div class="bs-select">
+                  <div class="custom-select">
                     <button class="selected-option">{{ listSortParamName }}</button>
                     <div class="options">
                       <button
@@ -303,9 +303,9 @@ export default {
     }
 
     // 커스텀 셀렉트 옵션
-    $(".bs-select").on("click", function () {
+    $(".custom-select").on("click", function () {
       $(this)
-        .siblings(".bs-select")
+        .siblings(".custom-select")
         .removeClass("active")
         .find(".options")
         .hide();

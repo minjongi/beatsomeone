@@ -62,6 +62,6 @@ class Board_info extends CB_Controller
             return in_array($key, $keys);
         }, ARRAY_FILTER_USE_KEY);
 
-        $this->output->set_output(json_encode($board, ));
+        $this->output->set_output(json_encode($board));
     }
 }

@@ -2,7 +2,7 @@
     <li class="playList__itembox">
         <div class="playList__item playList__item--title nowrap" :class="isOpen ? 'active' : ''">
             <div>
-                <div class="subject">{{ faq.faq_title }}</div>
+                <div class="subject" @click="toggleOpen" v-html="faq.faq_title"></div>
                 <div class="answer fold" v-html="faq.faq_content">
                 </div>
             </div>

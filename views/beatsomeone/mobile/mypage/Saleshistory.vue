@@ -57,7 +57,7 @@
                         <div class="row" style="margin-top: 30px; margin-bottom: 10px;">
                             
                             <div class="n-flex sort">
-                                <div class="bs-select" style="flex: 3; margin-right: 10px;">
+                                <div class="custom-select" style="flex: 3; margin-right: 10px;">
                                     <button class="selected-option">
                                         {{ downType }}
                                     </button>
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
 
-                                <div class="bs-select" style="flex: 2; min-width:max-content;">
+                                <div class="custom-select" style="flex: 2; min-width:max-content;">
                                     <button class="selected-option">
                                         {{ orderType }}
                                     </button>

@@ -1,18 +1,18 @@
 <template>
     <div class="sublist__content" style="margin-bottom:100px;">
-        <div style="margin-bottom:30px;">
+        <div class="row" style="margin-bottom:30px;">
             <div class="title-content">
                 <div class="title">
                     <div>FAQ</div>
                 </div>
                 <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
-                    <input type="text" v-model="skeyword" placeholder="enter your word..." style="font-size:16px;">
+                    <input type="text" placeholder="enter your word..." style="font-size:16px;">
                     <img src="/assets/images/icon/searchicon.png" style="margin:10px;" @click="searchItems"/>
                 </div>
             </div>
         </div>
 
-        <div style="margin-bottom:30px;">
+        <div class="row" style="margin-bottom:30px;">
             <div class="playList board fold faq">
                 <ul>
                     <FaqItem v-for="listItem in list" v-bind:key="listItem.faq_id" v-bind:faq="listItem"/>
@@ -25,7 +25,7 @@
 <script>
     import $ from "jquery";
     import axios from 'axios';
-    import FaqItem from "./FaqItem.vue";
+    import FaqItem from "./FaqItem";
 
     export default {
         components: {
@@ -33,14 +33,6 @@
         },
         data: function () {
             return {
-                isLogin: false,
-                group_title: 'SELLER',
-                product_status: 'PENDING',
-                popup_filter: 0,
-                ws: null,
-                isPlay: false,
-                isReady: false,
-                wavesurfer: null,
                 total_rows: 0,
                 list: [],
                 skeyword: '',
@@ -48,9 +40,9 @@
         },
         mounted() {
             // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function () {
+            $(".custom-select").on("click", function () {
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

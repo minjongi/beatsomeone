@@ -1,85 +1,59 @@
 <template>
+
     <div>
         <header class="header">
             <div class="wrap">
                 <h1 class="header__logo">
-                    <a href="/"><img src="@/assets_m/images/logo.png" alt=""/></a>
+                    <a href="/"><img src="@/assets_m//images/logo.png" alt=""/></a>
                 </h1>
                 <div class="header__btnbox">
-                    <a href="#"
-                       v-if="!isShowSearchBox"
-                       class="header__locale"
-                       @click="toggleLocale()">
-                        {{ toggleLocaleMenuTit }}
-                    </a>
-                    <!--                    <a href="#" class="header__search"></a>-->
-
-                    <input type="text"
-
-                           v-if="isShowSearchBox"
-                           v-model="searchText"
-                           @keyup.enter="enterClicked()"
-                           class="mo-header-input"
-                           style="width: 175px;
-                                position:absolute;
-                                top: 8px;
-                                right:40px;
-                                height: 25px;
-                                color: #fff;
-                                background: rgba(255, 255, 255, 0.2);
-                                border-radius: 2em;
-                                font-size: 12px;
-                                padding: 0 35px 0 10px;
-                                -webkit-transition: all 0.3s;
-                                transition: all 0.3s;"/>
-
-                    <div class="header__search" @click="clickSearchButton" style="z-index: 10000">
-                        <div>
-
-                            <button></button>
-                        </div>
-                    </div>
+                    <a href="#" class="header__locale" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                    <a href="#" class="header__search"></a>
                     <a class="header__nav" @click="toggleOpenMenu"></a>
                 </div>
             </div>
         </header>
+
         <div class="gnb" v-if="isOpen">
-            <div class="gnb__bg"></div>
+            <div class="gnb__bg" ></div>
         </div>
-        <transition name="slide-fade">
-            <nav class="gnb" v-if="isOpen">
-                <div class="gnb__content">
-                    <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
-                    <div class="gnb__links">
-                        <a href="/mypage/favorites">{{ $t('favorite') }}</a>
-                        <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
-                        <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
-                        <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
-                        <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
-                        <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
-                        <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum
-                            }})</a>
-                    </div>
-                    <a href="" class="gnb__banner">
-                        <img src="@/assets_m/images/gnb-banner.png" alt="">
-                    </a>
+
+<!--        <transition name="slide-fade">-->
+        <nav class="gnb" v-if="isOpen" >
+
+            <div class="gnb__content">
+                <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
+                <div class="gnb__links">
+                    <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
+                    <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                    <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
+                    <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
+                    <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
+                    <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
+                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>
                 </div>
-            </nav>
-        </transition>
+
+                <a href="" class="gnb__banner">
+                    <img src="@/assets_m/images/gnb-banner.png" alt="">
+                </a>
+            </div>
+
+        </nav>
+<!--        </transition>-->
     </div>
+
 
 </template>
 
 <script>
 
-    import {EventBus} from '*/src/eventbus';
+    import { EventBus } from '*/src/eventbus';
     import Vuecookies from 'vue-cookies'
-
 
     export default {
         name: 'Header',
         props: {
-            isLogin: {
+            isLogin : {
                 type: Boolean,
                 default: false,
             }
@@ -90,67 +64,50 @@
                 searchText: null,
                 cartSum: 0,
                 isOpen: false,
-                isShowSearchBox: false,
             };
         },
-
         watch: {
-            isLogin: function (n) {
+          isLogin: function (n) {
 
-            },
+          },
         },
-
         created() {
             this.fetchUserInfo();
-            EventBus.$on('add_cart', () => {
+            EventBus.$on('add_cart',() => {
                 this.updateCartSum();
             });
         },
-
         mounted() {
             this.updateCartSum();
-
         },
-
         computed: {
-            toggleLocaleMenuTit: function () {
+            toggleLocaleMenuTit: function() {
                 return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
             },
         },
-
         methods: {
             fetchUserInfo() {
-                Http.post('/beatsomeoneApi/get_user_info').then(r => {
-                    this.userInfo = r[0];
-                });
+              Http.post('/beatsomeoneApi/get_user_info').then(r=> {
+                  this.userInfo = r[0];
+              });
             },
             toggleOpenMenu() {
-                this.isOpen = !this.isOpen;
+              this.isOpen = !this.isOpen;
 
             },
             updateCartSum() {
-                Http.post(`/beatsomeoneApi/getCartSum`).then(r => {
-                    if (r >= 0) {
+                Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
+                    if(r >= 0) {
                         this.cartSum = r;
                     }
                 });
             },
-            clickSearchButton() {
-                this.isShowSearchBox = !this.isShowSearchBox;
-                if(this.isShowSearchBox === false){
-                    this.search();
-                }
-            },
             search() {
-                if (!this.searchText) {
+                if(!this.searchText) {
                     return;
                 }
-                // const path = `/beatsomeone/search?q=${this.searchText}`;
-                const path = `/beatsomeone/sublist?genre=All%20Genre&search=${this.searchText}`;
+                const path = `/beatsomeone/search?q=${this.searchText}`;
                 window.location.href = path;
-            },
-            enterClicked(){
-                this.search();
             },
             toggleLocale() {
                 let locale = this.$i18n.locale === 'en' ? 'ko' : 'en'
@@ -160,8 +117,8 @@
             moveAction(o) {
                 let url = null;
                 // 로그인시
-                if (this.userInfo) {
-                    switch (o) {
+                if(this.userInfo) {
+                    switch(o) {
                         case 'freeBeats': {
                             url = this.userInfo.mem_usertype == 1 ? '무료비트URL수정필요' : '음원등록URL수정필요';
                             break;
@@ -181,50 +138,17 @@
 
 </script>
 
-<style scoped="scoped">
+<style scoped="scoped" type="css">
     .slide-fade-enter-active {
         transition: all .3s ease;
     }
-
     .slide-fade-leave-active {
         transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
-
     .slide-fade-enter, .slide-fade-leave-to
-        /* .slide-fade-leave-active below version 2.1.8 */
-    {
+        /* .slide-fade-leave-active below version 2.1.8 */ {
         transform: translateX(100px);
         opacity: 0;
     }
-
-    .expand-transition {
-        transition: all .3s ease;
-        height: 30px;
-        padding: 10px;
-        background-color: #eee;
-        overflow: hidden;
-    }
-
-    /* .expand-enter defines the starting state for entering */
-    /* .expand-leave defines the ending state for leaving */
-    .expand-enter, .expand-leave {
-        height: 0;
-        padding: 0 10px;
-        opacity: 0;
-    }
-
-
-    .mo-header-input {
-        width: 175px;
-        height: 25px;
-        color: #fff;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 2em;
-        font-size: 12px;
-        padding: 0 35px 0 10px;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-    }
-
 
 </style>

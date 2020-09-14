@@ -60,8 +60,6 @@
 
 </script>
 
-<style scoped="scoped" lang="scss">
-.playList .playList__item {
-    display: flex;
-}
+<style scoped="scoped" lang="sass">
+
 </style>

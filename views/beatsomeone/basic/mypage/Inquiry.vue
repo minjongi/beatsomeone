@@ -1,6 +1,6 @@
 <template>
     <div class="sublist__content" style="margin-bottom:100px;">
-        <div style="margin-bottom:30px;">
+        <div class="row" style="margin-bottom:30px;">
             <div class="title-content">
                 <div class="title">
                     <div>{{$t('support1')}}</div>
@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div style="margin-bottom:20px;">
+        <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab nowrap">
                     <div class="index">No</div>
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div style="margin-bottom:30px;">
+        <div class="row" style="margin-bottom:30px;">
             <div class="playList board inquirylist">
 
                 <ul>
@@ -50,19 +50,21 @@
         <div class="row paging" style="margin-bottom:30px;" v-html="paging_html" v-show="paging_html">
         </div>
 
-        <div class="sort" style="">
-            <div class="bs-select">
-                <div class="selected-option" :data-value="search_field">
-                    {{ selected_option_html }}
+        <div class="row">
+            <div class="sort" style="display:flex; width:50%; margin:auto; flex-flow:row nowrap">
+                <div class="custom-select">
+                    <button class="selected-option">
+                        {{ $t(search_field) }}
+                    </button>
+                    <div class="options">
+                        <button class="option" @click="search_field = 'post_title'"> {{$t('post_title')}}</button>
+                        <button class="option" @click="search_field = 'post_content'"> {{$t('post_content')}}</button>
+                    </div>
                 </div>
-                <div class="options" v-html="custom_options_html">
+                <div class="input_wrap line" style="margin-left:20px; width:100%;">
+                    <input type="text" :placeholder="$t('enterYourSearchword')">
+                    <button><img src="/assets/images/icon/searchicon.png"/></button>
                 </div>
-                <select class="d-none" v-html="search_select_html" v-model="search_field">
-                </select>
-            </div>
-            <div class="input_wrap line" style="margin-left:20px; width:100%;">
-                <input type="text" v-model="search_keyword">
-                <button v-on:click="searchClicked"><img src="/assets/images/icon/searchicon.png"/></button>
             </div>
         </div>
 
@@ -71,19 +73,18 @@
 
 
 <script>
-    import $ from "jquery";
-    import axios from 'axios';
+    import $ from "jquery"
 
     export default {
-        components: {},
-        data: function () {
+        components: {
+        },
+        data: function() {
             return {
                 isLogin: false,
                 group_title: 'SELLER',
                 product_status: 'PENDING',
                 inquiry_list: [],
-                total_rows: 0,
-                popup_filter: 0,
+                popup_filter:0,
                 ws: null,
                 isPlay: false,
                 isReady: false,
@@ -95,13 +96,14 @@
                 selected_option_html: '',
                 paging_html: '',
                 query_string: '',
-            };
+                total_rows: 0,
+            }
         },
-        mounted() {
+        mounted(){
             // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function () {
+            $(".custom-select").on("click", function() {
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
@@ -110,14 +112,12 @@
                     .find(".options")
                     .toggle();
             });
-
-            $('.bs-select .options').on('click', '.option', this.optionClicked);
             $('.paging').on('click', 'a', this.pageClicked);
         },
         created() {
             this.fetchData('');
         },
-        methods: {
+        methods:{
             goInquiryview(inquiry) {
                 this.$router.push({path: '/inquiry/' + inquiry.post_id });
             },
@@ -174,16 +174,4 @@
 <style scoped="scoped" lang="css">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-
-    .sort {
-        display: flex;
-        width: 50%;
-        margin: auto;
-        flex-flow: row nowrap;
-    }
-
-    .bs-select select {
-        display: none;
-    }
-
 </style>

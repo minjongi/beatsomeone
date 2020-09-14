@@ -1,54 +1,64 @@
 <template>
-    <div class="profile">
-        <div class="d-flex justify-content-center mb-3">
-            <div class="avatar">
-                <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portait.png'" alt="">
-                <label for="avatar_file" class="avatar-wrapper">
-                    <i class="fa fa-camera"></i>
-                    <input type="file" id="avatar_file" accept="image/*" :name="uploadFieldName" :disabled="isAvatarSaving" v-on:change="avatarChange($event.target.name, $event.target.files)">
-                </label>
-            </div>
-        </div>
-        <div class="info text-center">
-            <div class="group mb-2">
-                <div class="badge" :class="member_group_name.includes('buyer') ? 'badge-primary' : 'badge-danger'">
-                    {{$t(member_group_name)}}
+    <div class="row center" v-if="member">
+        <div class="profile">
+            <label for="avatar_file" class="file-wrapper">
+                <i class="fa fa-camera"></i>
+                <input type="file" id="avatar_file" accept="image/*" :name="uploadFieldName" :disabled="isAvatarSaving" v-on:change="avatarChange($event.target.name, $event.target.files)">
+            </label>
+            <div class="portrait">
+                <div class="avatar">
+                    <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portrait.png'" />
                 </div>
             </div>
-            <div class="username">
-                {{ member.mem_nickname }}
-            </div>
-            <div class="bio">
-                {{ member.mem_type}}, {{ member.mem_lastname }} {{ member.mem_firstname }}
-            </div>
-            <div class="location" v-if="member.mem_address1">
-                <img class="site" src="/assets/images/icon/position.png"/><div>{{ member.mem_address1 }}</div>
-            </div>
-            <div class="brandshop">
-                <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
+            <div class="info">
+                <div class="group">
+                    <div class="group_title" :class="groupType">{{$t(groupType)}}</div>
+                </div>
+                <div class="username">
+                    {{ member.mem_nickname }}
+                </div>
+                <div class="bio">
+                    {{ member.mem_type}}, {{ member.mem_lastname }} {{ member.mem_firstname }}
+                </div>
+                <div class="location" v-if="member.mem_address1">
+                    <img class="site" src="/assets/images/icon/position.png"/>
+                    <div>{{ member.mem_address1 }}</div>
+                </div>
+                <div class="brandshop">
+                    <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
+                </div>
             </div>
         </div>
     </div>
+
 </template>
 
 
 <script>
 
     import axios from 'axios';
+    import {EventBus} from '*/src/eventbus';
 
     const AVATAR_SAVING = 1, AVATAR_SUCCESS = 2, AVATAR_FAILED = 3;
 
     export default {
         data: function () {
             return {
+                member: {},
+                member_group_name: '',
                 avatarStatus: null,
                 uploadFieldName: 'mem_photo',
                 avatarUrl: null,
-                member: {},
-                member_group_name: '',
             }
         },
         computed: {
+            groupType() {
+                if (this.member_group_name === 'buyer') {
+                    return 'CUSTOMER';
+                } else {
+                    return 'SELLER';
+                }
+            },
             isAvatarSaving() {
                 return this.avatarStatus === AVATAR_SAVING;
             }
@@ -96,9 +106,9 @@
 
 <style scoped="scoped" lang="scss">
     .avatar {
+        width: 100%;
+        padding-top: 100%;
         position: relative;
-        width: 160px;
-        padding-top: 160px;
 
         img {
             position: absolute;
@@ -107,21 +117,19 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            border-radius: 160px;
-            box-shadow: 0 0 32px rgba(255, 255, 255, 0.5);
         }
     }
-    .avatar-wrapper {
+
+    .file-wrapper {
         position: absolute;
+        z-index: 2;
+        top: 120px;
+        right: 50px;
         width: 30px;
         height: 30px;
-        right: 10px;
-        bottom: 10px;
-        background-color: #4890ff;
         border-radius: 50%;
+        background-color: #4890ff;
         line-height: 30px;
-        text-align: center;
-        font-size: 15px;
 
         input[type=file] {
             display: none;

@@ -10,17 +10,17 @@
                 <div class="tab" style="height:48px; justify-content:flex-start;">
                     <div>
                         <div class="title">{{$t('orderNumber')}}</div>
-                        <div>{{ no }}</div>
+                        <div>{{ order.cor_id }}</div>
                     </div>
                     <div>
                         <div class="title">{{$t('date')}}</div>
-                        <div>{{ cor_datetime }}</div>
+                        <div>{{ order.cor_datetime }}</div>
                     </div>
                     <div>
                         <div class="title">{{$t('status')}}</div>
                         <div
-                                :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"
-                        >{{ $t(funcStatus(cor_status)) }}
+                                :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }"
+                        >{{ $t(order.status) }}
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
             <div class="title-content">
                 <div class="title">
                     <div>
-                        <span class="yellow">{{ myOrderList.length }}</span>
+                        <span class="yellow">{{ orderItems.length }}</span>
                         {{$t('orderedItems')}}
                     </div>
                 </div>
@@ -40,38 +40,37 @@
             <div class="playList productList orderlist" style="margin-top:10px;">
                 <ul>
                     <li
-                            v-for="(item, i) in myOrderList"
-                            v-bind:key="item.order.cor_id + item.order.cit_id"
+                            v-for="(item, idx) in orderItems"
+                            v-bind:key="idx"
                             class="playList__itembox"
-                            :id="'playList__item'+ item.order.cor_id + item.order.cit_id"
                     >
                         <div class="playList__item playList__item--title other">
                             <div class="col name">
                                 <figure>
                   <span class="playList__cover">
                     <img
-                            v-if="!item.order.Item.cit_file_1"
+                            v-if="!item.item.cit_file_1"
                             :src="'/assets/images/cover_default.png'"
                             alt
                     />
-                    <img v-else :src="'/uploads/cmallitem/' + item.order.Item.cit_file_1" alt/>
-                    <i v-show="checkToday(item.order.cor_datetime)" class="label new">N</i>
+                    <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt/>
+                    <i v-show="checkToday(order.cor_datetime)" class="label new">N</i>
                   </span>
                                     <figcaption class="pointer">
                                         <div class="info">
-                                            <div class="code">{{ item.order.Item.cit_key }}</div>
+                                            <div class="code">{{ item.item.cit_key }}</div>
                                         </div>
                                         <h3 class="playList__title"
-                                            v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
-                                        <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
+                                            v-html="formatCitName(item.item.cit_name,50)"></h3>
+                                        <span class="playList__by">{{ item.item.mem_nickname }}</span>
                                         <span
-                                                v-if="item.order.Item.bpm > 0"
+                                                v-if="item.item.bpm > 0"
                                                 class="playList__bpm"
-                                        >{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span>
+                                        >{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
                                         <span
                                                 v-else
                                                 class="playList__bpm"
-                                        >{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }}</span>
+                                        >{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
                                     </figcaption>
                                 </figure>
                             </div>
@@ -81,8 +80,8 @@
                                         <div class="playbtn">
                                             <button
                                                     class="btn-play"
-                                                    @click="playAudio(item.order.Item, $event)"
-                                                    :data-action="'playAction' + item.order.Item.cit_id "
+                                                    @click="playAudio(item.item, $event)"
+                                                    :data-action="'playAction' + item.item.cit_id "
                                             >재생
                                             </button>
                                             <span class="timer">
@@ -103,7 +102,7 @@
                                     <!-- UNLIMITED STEMS LICENSE -->
                                     <div
                                             class="n-box"
-                                            v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' "
+                                            v-if="item.item.cit_lease_license_use === '1' && item.item.cit_mastering_license_use === '1' "
                                     >
                                         <div>
                                             <button class="playList__item--button">
@@ -120,8 +119,8 @@
                                         </div>
                                         <div
                                                 class="price yellow"
-                                        >{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d,
-                                            item.order.cor_memo) }}
+                                        >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
+                                            order.cor_memo) }}
                                         </div>
                                     </div>
                                     <!-- BASIC LEASE LICENSE -->
@@ -148,7 +147,7 @@
                                     <!-- BASIC LEASE LICENSE -->
                                     <div
                                             class="n-box"
-                                            v-else-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0'"
+                                            v-else-if="item.item.cit_lease_license_use === '1' && item.item.cit_mastering_license_use === '0'"
                                     >
                                         <div>
                                             <button class="playList__item--button">
@@ -164,15 +163,15 @@
                                         </div>
                                         <div
                                                 class="price yellow"
-                                        >{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d,
-                                            item.order.cor_memo) }}
+                                        >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
+                                            order.cor_memo) }}
                                         </div>
                                     </div>
 
                                     <!-- UNLIMITED STEMS LICENSE -->
                                     <div
                                             class="n-box"
-                                            v-else-if="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0'"
+                                            v-else-if="item.item.cit_mastering_license_use === '1' && item.item.cit_lease_license_use === '0'"
                                     >
                                         <div>
                                             <button class="playList__item--button">
@@ -192,75 +191,37 @@
                                         </div>
                                         <div
                                                 class="price yellow"
-                                        >{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2,
-                                            item.order.cor_memo) }}
+                                        >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
+                                            order.cor_memo) }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col edit">
-                                <button
-                                        v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0"
-                                        @click="downloadWithAxios(item.order.Item.cde_filename, cor_status, item.order.Item)"
-                                        class="btn-edit"
-                                >
-                                    <img src="/assets/images/icon/down.png"/>
-                                </button>
-                                <button
-                                        v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                                        class="btn-edit unable"
-                                >
-                                    <img src="/assets/images/icon/down.png"/>
-                                </button>
-                                <button
-                                        v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                                        @click="downloadWithAxios(item.order.Item.cde_filename_2, cor_status, item.order.Item)"
-                                        class="btn-edit"
-                                >
-                                    <img src="/assets/images/icon/down.png"/>
+                                <button v-if="item.item.possible_download === 1" @click="downloadWithAxios(item.itemdetail[0])" class="btn-edit">
+                                  <img src="/assets/images/icon/down.png"/>
                                 </button>
                                 <button v-else class="btn-edit unable">
-                                    <img src="/assets/images/icon/down.png"/>
+                                  <img src="/assets/images/icon/down.png"/>
                                 </button>
-
                                 <div
                                         class="download_status"
-                                        :class="getDownStatusColor(cor_status, item.order.Item)"
-                                >{{ $t(funcDownStatus(cor_status, item.order.Item)) }}
+                                        :class="getDownStatusColor(item.item)"
+                                >{{ $t(funcDownStatus(item.item)) }}
                                 </div>
 
                                 <div
-                                        v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0"
+                                        v-if="item.item.download_end_date"
                                         class="download_period"
                                 >
                   <span>
-                    {{ caclLeftDay(item.order.cor_approve_datetime) }} {{$t('daysLeft')}}
+                    {{ caclLeftDay(item.item.download_end_date) }} {{$t('daysLeft')}}
                     <br/>
-                    (~ {{ caclTargetDay(item.order.cor_approve_datetime) }})
+                    (~ {{ item.item.download_end_date }})
                   </span>
                                 </div>
-                                <div
-                                        v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                                        class="download_period"
-                                >
-                                    <span class="gray">(~ {{ caclTargetDay(item.order.cor_approve_datetime) }})</span>
-                                </div>
-                                <div
-                                        v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                                        class="download_period"
-                                >
-                                    <span></span>
-                                </div>
-                                <div v-else-if="cor_status === '0' " class="download_period">
-                                    <span></span>
-                                </div>
-                                <div v-else class="download_period">
-                                    <span class="gray">(~ {{ caclTargetDay(item.order.cor_approve_datetime) }})</span>
-                                </div>
-
-                                <!-- <div class="download_period">40 {{$t('daysLeft')}}<br/>(~2020.06.24 12:30:34)</div> -->
                             </div>
-                            <div class="col genre" v-html="calcTag(item.order.Item.hashTag)"></div>
+                            <div class="col genre" v-html="calcTag(item.item.hashTag)"></div>
                         </div>
                     </li>
                 </ul>
@@ -282,15 +243,15 @@
                 <div class="tab">
                     <div>
                         <div class="title">{{$t('payMethod1')}}</div>
-                        <div>{{ payType }}</div>
+                        <div>{{ order.cor_pay_type }}</div>
                     </div>
                     <div>
                         <div class="title">{{$t('payMethodDetail')}}</div>
-                        <div>{{ cor_pg }}</div>
+                        <div>{{ order.cor_pg }}</div>
                     </div>
                     <div>
                         <div class="title">{{$t('paySubtotal')}}</div>
-                        <div>{{ totalPrice }}</div>
+                        <div>{{ order.cor_total_money }}</div>
                     </div>
                     <div>
                         <div class="title">{{$t('usePoints')}}</div>
@@ -298,7 +259,7 @@
                     </div>
                     <div class="total">
                         <div>{{$t('payTotal')}}</div>
-                        <div>{{ totalPrice }}</div>
+                        <div>{{ order.cor_memo }}{{ order.cor_total_money }}</div>
                     </div>
                 </div>
             </div>
@@ -310,24 +271,24 @@
 
         <div class="btnbox col" style="width:50%; margin:0 auto 100px;">
             <button class="btn btn--gray" @click="goPage('mybilling')">{{$t('backToList')}}</button>
-            <button v-if="cor_status==='1'" type="submit" class="btn btn--submit">{{$t('requestRefund')}}</button>
+            <button v-if="order.status ==='order'" @click="openRequestModal" type="submit" class="btn btn--submit">{{$t('requestRefund')}}</button>
         </div>
-        <div class="panel" :class="{ 'active': reqref === 1 }">
-            <div class="popup" style="width:1110px; display:none;">
+        <div class="panel" :class="{ 'active': reqref > 0 }" v-if="order.status === 'order'">
+            <div class="popup" style="width:1110px;" :class="{ 'active': reqref === 1 }">
                 <div class="box" style="padding-bottom:50px;">
-                    <div class="title">CHANGE PASSWORD</div>
+                    <div class="title">Request Refund</div>
                     <div class="tab">
                         <div>
-                            <div class="title">{{$t('no')}}</div>
-                            <div>Order_099</div>
+                            <div class="title">{{$t('orderNumber')}}</div>
+                            <div>{{ order.cor_id }}</div>
                         </div>
                         <div>
                             <div class="title">{{$t('date')}}</div>
-                            <div>0000-00-00 00:00:00</div>
+                            <div>{{ order.cor_datetime }}</div>
                         </div>
                         <div>
                             <div class="title">{{$t('status')}}</div>
-                            <div class="blue">{{$t('orderComplete')}}</div>
+                            <div :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }">{{$t(order.status)}}</div>
                         </div>
                     </div>
                     <div class="col">
@@ -342,7 +303,8 @@
                                             @change="setCheckAll"
                                     />
                                     <span></span>
-                                    <div style="font-weight:600">{{$t('selectAll')}} (0/4)</div>
+                                    <div style="font-weight:600">{{$t('selectAll')}} ({{ selectedCount }} /{{
+                                      orderItems.length }})</div>
                                 </label>
                             </div>
                         </div>
@@ -350,23 +312,24 @@
                     <div class="col">
                         <div class="playList productList cart">
                             <ul>
-                                <li class="playList__itembox">
+                                <li class="playList__itembox" v-for="(item, idx) in orderItems" :key="idx">
                                     <div class="playList__item playList__item--title">
                                         <div class="col check">
-                                            <label for="item1" class="checkbox">
-                                                <input type="checkbox" hidden="hidden" id="item1"/>
+                                            <label class="checkbox">
+                                                <input type="checkbox" hidden="hidden" v-model="item.is_selected"/>
                                                 <span></span>
                                             </label>
                                         </div>
                                         <div class="col name" style="margin-top:0">
                                             <figure>
-                        <span class="playList__cover">
-                          <img src="/assets/images/cover_default.png" alt/>
-                          <i ng-if="item.isNew" class="label new">N</i>
-                        </span>
+                                                <span class="playList__cover">
+                                                    <img v-if="!item.item.cit_file_1" :src="'/assets/images/cover_default.png'" alt/>
+                                                    <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt/>
+                                                    <i v-show="checkToday(order.cor_datetime)" class="label new">N</i>
+                                                </span>
                                                 <figcaption class="pointer">
-                                                    <h3 class="playList__title">Mickey (Buy 1 Get 3 Free)</h3>
-                                                    <span class="playList__by">( Bpm )</span>
+                                                    <h3 class="playList__title" v-html="formatCitName(item.item.cit_name,50)"></h3>
+                                                    <span v-if="item.item.bpm > 0" class="playList__by">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
                                                 </figcaption>
                                             </figure>
                                         </div>
@@ -400,169 +363,7 @@
                                             </div>
                                         </div>
                                         <div class="col feature">
-                                            <div class="price">$ 10.00</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="playList__itembox">
-                                    <div class="playList__item playList__item--title">
-                                        <div class="col check">
-                                            <label for="item1" class="checkbox">
-                                                <input type="checkbox" hidden="hidden" id="item1"/>
-                                                <span></span>
-                                            </label>
-                                        </div>
-                                        <div class="col name" style="margin-top:0">
-                                            <figure>
-                        <span class="playList__cover">
-                          <img src="/assets/images/cover_default.png" alt/>
-                          <i ng-if="item.isNew" class="label new">N</i>
-                        </span>
-                                                <figcaption class="pointer">
-                                                    <h3 class="playList__title">Mickey (Buy 1 Get 3 Free)</h3>
-                                                    <span class="playList__by">( Bpm )</span>
-                                                </figcaption>
-                                            </figure>
-                                        </div>
-                                        <div class="col option">
-                                            <div>
-                                                <button class="option_fold">
-                                                    <img src="/assets/images/icon/togglefold.png"/>
-                                                </button>
-                                                <div>
-                                                    <div class="title">BASIC LEASE</div>
-                                                    <div class="detail">{{$t('lang24')}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="option_item">
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info1.png"/>
-                                                    <span>{{$t('available60Days')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info2.png"/>
-                                                    <span>{{$t('unableToEditArbitrarily')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info3.png"/>
-                                                    <span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info5.png"/>
-                                                    <span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col feature">
-                                            <div class="price">$ 10.00</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="playList__itembox">
-                                    <div class="playList__item playList__item--title">
-                                        <div class="col check">
-                                            <label for="item1" class="checkbox">
-                                                <input type="checkbox" hidden="hidden" id="item1"/>
-                                                <span></span>
-                                            </label>
-                                        </div>
-                                        <div class="col name" style="margin-top:0">
-                                            <figure>
-                        <span class="playList__cover">
-                          <img src="/assets/images/cover_default.png" alt/>
-                          <i ng-if="item.isNew" class="label new">N</i>
-                        </span>
-                                                <figcaption class="pointer">
-                                                    <h3 class="playList__title">Mickey (Buy 1 Get 3 Free)</h3>
-                                                    <span class="playList__by">( Bpm )</span>
-                                                </figcaption>
-                                            </figure>
-                                        </div>
-                                        <div class="col option">
-                                            <div>
-                                                <button class="option_fold">
-                                                    <img src="/assets/images/icon/togglefold.png"/>
-                                                </button>
-                                                <div>
-                                                    <div class="title">BASIC LEASE</div>
-                                                    <div class="detail">{{$t('lang24')}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="option_item">
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info1.png"/>
-                                                    <span>{{$t('available60Days')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info2.png"/>
-                                                    <span>{{$t('unableToEditArbitrarily')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info3.png"/>
-                                                    <span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info5.png"/>
-                                                    <span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col feature">
-                                            <div class="price">$ 10.00</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="playList__itembox">
-                                    <div class="playList__item playList__item--title">
-                                        <div class="col check">
-                                            <label for="item1" class="checkbox">
-                                                <input type="checkbox" hidden="hidden" id="item1"/>
-                                                <span></span>
-                                            </label>
-                                        </div>
-                                        <div class="col name" style="margin-top:0">
-                                            <figure>
-                        <span class="playList__cover">
-                          <img src="/assets/images/cover_default.png" alt/>
-                          <i ng-if="item.isNew" class="label new">N</i>
-                        </span>
-                                                <figcaption class="pointer">
-                                                    <h3 class="playList__title">Mickey (Buy 1 Get 3 Free)</h3>
-                                                    <span class="playList__by">( Bpm )</span>
-                                                </figcaption>
-                                            </figure>
-                                        </div>
-                                        <div class="col option">
-                                            <div>
-                                                <button class="option_fold">
-                                                    <img src="/assets/images/icon/togglefold.png"/>
-                                                </button>
-                                                <div>
-                                                    <div class="title">BASIC LEASE</div>
-                                                    <div class="detail">{{$t('lang24')}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="option_item">
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info1.png"/>
-                                                    <span>{{$t('available60Days')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info2.png"/>
-                                                    <span>{{$t('unableToEditArbitrarily')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info3.png"/>
-                                                    <span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span>
-                                                </div>
-                                                <div>
-                                                    <img src="/assets/images/icon/parchase-info5.png"/>
-                                                    <span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col feature">
-                                            <div class="price">$ 10.00</div>
+                                            <div class="price">{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d, order.cor_memo) }}</div>
                                         </div>
                                     </div>
                                 </li>
@@ -573,15 +374,15 @@
                     <div class="tab" style="margin-top:30px; margin-bottom:10px;">
                         <div>
                             <div class="title">Total Refund</div>
-                            <div class="yellow" style="font-weight:600">$ 20.00</div>
+                            <div class="yellow" style="font-weight:600">{{ order.cor_memo }} {{ total_refunds }}</div>
                         </div>
                         <div>
                             <div class="title">Points to be Refunded</div>
                             <div>
-                                <div class="yellow" style="font-weight:600; margin-right:10px;">1500 P</div>
+                                <div class="yellow" style="font-weight:600; margin-right:10px;">0 P</div>
                                 <div class="gray">
                                     (Used Point
-                                    <span class="yellow">3,000P</span>)
+                                    <span class="yellow">0 P</span>)
                                 </div>
                             </div>
                         </div>
@@ -601,17 +402,17 @@
 
                     <div class="btnbox" style="text-align:center;">
                         <button
-                                type="submit"
+                                type="button"
                                 class="btn btn--yellow"
                                 style="width:208px"
-                                onclick="reqref = 1"
+                                @click="submitRefund"
                         >Request Fund
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="popup" :class="{ 'active': reqref === 1 }" style="width:1110px;">
+            <div class="popup" :class="{ 'active': reqref === 2 }" style="width:1110px;">
                 <div class="box" style="padding-bottom:50px;">
                     <div class="title" style="margin-bottom:30px;">{{$t('requestRefund')}}</div>
                     <div class="row" style="margin-bottom:30px;">
@@ -638,12 +439,12 @@
                         </div>
                         <div class="data">
                             <div class="sort" style="display:flex; margin-left:0; flex-flow:row nowrap">
-                                <div class="bs-select">
+                                <div class="custom-select modal-select">
                                     <button class="selected-option" style="min-width: 224px;">Select your reason
                                     </button>
                                     <div class="options">
-                                        <button data-value class="option">Selecting the wrong beat</button>
-                                        <button data-value class="option">No intention to purchase</button>
+                                        <button class="option">Selecting the wrong beat</button>
+                                        <button class="option">No intention to purchase</button>
                                     </div>
                                 </div>
                             </div>
@@ -658,7 +459,7 @@
               <textarea
                       class="firstname"
                       type="text"
-                      placeholder="Write your description for refund requesting..."
+                      placeholder="Write your description for refund requesting..." v-model="description"
               ></textarea>
                         </div>
                         <div></div>
@@ -666,10 +467,10 @@
 
                     <div class="btnbox" style="text-align:center;">
                         <button
-                                type="submit"
+                                type="button"
                                 class="btn btn--yellow"
                                 style="width:208px"
-                                @click="reqref = 0"
+                                @click="submitReason"
                         >Request Complete
                         </button>
                     </div>
@@ -713,32 +514,49 @@
                 group_title: "SELLER",
                 product_status: "PENDING",
                 myOrderList: [],
-                checkedAll: [],
+                checkedAll: false,
                 reqref: 0,
                 isPlay: false,
                 currentPlayId: null,
                 wavesurfer: null,
                 payType: "",
                 totalPrice: "",
+                order: {},
                 descNoti: "",
+                orderItems: [],
+                total_refunds: 0,
+                selectedCount: 0,
+              description: ''
             };
         },
         mounted() {
             // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function () {
+            $(".custom-select").on("click", function () {
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
                 $(this).toggleClass("active");
                 $(this).find(".options").toggle();
             });
+
+            this.cor_id = this.$route.params.cor_id;
+            axios.get(`/cmall/ajax_orderresult/${this.cor_id}`)
+                .then(res => res.data)
+                .then(data => {
+                    this.order = data.data;
+                    this.orderItems = data.orderdetail;
+                    this.orderItems.forEach(item => {
+                        this.$set(item, 'is_selected', false);
+                    })
+                    this.funcDesc();
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
         created() {
-            this.getParam();
-            this.ajaxOrderList().then(() => {
-            });
         },
         methods: {
             async ajaxOrderList() {
@@ -764,11 +582,10 @@
                         this.formPayType(this.myOrderList[0].order.cor_pay_type)
                     );
                     this.totalPrice = this.formatTotalPrice(
-                        this.myOrderList[0].order.cor_total_money,
-                        this.myOrderList[0].order.cor_memo
+                        this.order.cor_total_money,
+                        this.order.cor_memo
                     );
                     this.cor_pg = this.myOrderList[0].order.cor_pg;
-                    this.funcDesc();
                 } catch (err) {
                     console.log("ajaxOrderList error");
                 } finally {
@@ -793,7 +610,7 @@
                 }
             },
             goPage: function (page) {
-                window.location.href = "/mypage/" + page;
+                this.$router.push('/' + page);
             },
             calcSeq: function (size, i) {
                 return parseInt(size) - parseInt(i);
@@ -825,8 +642,6 @@
                 } else {
                     return "refundComplete";
                 }
-            },
-            setCheckAll: function () {
             },
             checkToday: function (date) {
                 const input = new Date(date);
@@ -958,7 +773,6 @@
             caclLeftDay: function (orderDate) {
                 var tDate = new Date(orderDate);
                 var nDate = new Date();
-                tDate.setDate(tDate.getDate() + 60);
                 var diff = tDate.getTime() - nDate.getTime();
                 diff = Math.ceil(diff / (1000 * 3600 * 24));
                 return diff;
@@ -995,83 +809,39 @@
                 }
                 return rst;
             },
-            funcDownStatus: function (status, i) {
-                if (status === "0") {
+            funcDownStatus: function (item) {
+                if (item.possible_download === 0) {
                     return "unavailable1";
-                } else if (
-                    status === "1" &&
-                    this.caclLeftDay(this.cor_approve_datetime) > 0
-                ) {
-                    if (i.cit_lease_license_use == "1") {
-                        return "downloadAvailable";
-                    }
-                    if (
-                        i.cit_mastering_license_use == "0" &&
-                        i.cit_mastering_license_use == "1"
-                    ) {
-                        return "downloadAvailable";
-                    }
-                } else if (
-                    status === "1" &&
-                    i.cit_lease_license_use === "1" &&
-                    i.cit_mastering_license_use === "1"
-                ) {
-                    return "expried";
-                } else if (status === "1" && i.cit_mastering_license_use === "1") {
-                    return "downloadAvailable";
                 } else {
-                    return "expried";
+                    return "downloadAvailable";
                 }
             },
-            getDownStatusColor: function (status, i) {
-                if (status === "0") {
+            getDownStatusColor: function (item) {
+                if (item.possible_download === 0) {
                     return "red";
-                } else if (
-                    status === "1" &&
-                    this.caclLeftDay(this.cor_approve_datetime) > 0
-                ) {
-                    if (i.cit_lease_license_use == "1") {
+                } else {
+                    if (item.cit_lease_license_use == "1") {
                         return "blue";
                     }
-                    if (i.cit_lease_license_use == "1") {
+                    if (item.cit_lease_license_use == "1") {
                         return "green";
                     }
-                    if (i.cit_mastering_license_use == "1") {
+                    if (item.cit_mastering_license_use == "1") {
                         return "green";
                     }
-                } else if (
-                    status === "1" &&
-                    i.cit_lease_license_use === "1" &&
-                    i.cit_mastering_license_use === "1"
-                ) {
-                    return "gray";
-                } else if (status === "1" && i.cit_mastering_license_use === "1") {
-                    return "blue";
-                } else {
-                    return "gray";
                 }
             },
             funcDesc: function () {
-                if (this.cor_status === "0") {
+                if (this.order.status === 'deposit') {
                     this.descNoti =
                         this.$t("depositWaitingStateSupportCaseMenuMsg") +
                         " " +
                         '<a href="/mypage#/inquiry/">' +
                         this.$t("shortcut") +
                         "</a>";
-                } else if (
-                    this.cor_status === "1" &&
-                    this.caclLeftDay(this.cor_approve_datetime) < 0
-                ) {
+                } else if (this.order.status === "order") {
                     this.descNoti =
                         "If the download period has , the purchased bit cannot be downloaded";
-                } else {
-                    this.descNoti =
-                        this.$t("depositWaitingStateSupportCaseMenuMsg") +
-                        " " +
-                        '<a href="/mypage#/inquiry/">' +
-                        this.$t("shortcut") +
-                        "</a>";
                 }
             },
             forceFileDownload(r, oriname) {
@@ -1082,50 +852,96 @@
                 link.click();
                 URL.revokeObjectURL(link.href);
             },
-            downloadWithAxios: function (cde_filename, status, i) {
-                console.log("downloadWithAxios");
-                if (
-                    !(
-                        this.getDownStatusColor(status, i) == "green" ||
-                        this.getDownStatusColor(status, i) == "blue"
-                    )
-                ) {
-                    return;
-                }
-
-                let filename = "";
-                let oriname = "";
-                if (
-                    i.cit_lease_license_use == "1" &&
-                    i.cit_mastering_license_use == "1"
-                ) {
-                    filename = i.cde_filename;
-                    oriname = i.cde_originname;
-                } else if (
-                    i.cit_lease_license_use == "1" &&
-                    i.cit_mastering_license_use == "0"
-                ) {
-                    filename = i.cde_filename;
-                    oriname = i.cde_originname;
-                } else {
-                    filename = i.cde_filename_2;
-                    oriname = i.cde_originname_2;
-                }
-                console.log(filename);
-                console.log(oriname);
-
+            downloadWithAxios: function (item) {
                 axios({
                     method: "get",
                     //url: '/cmallact/download_sample/'+cde_id,
-                    url: "/uploads/cmallitemdetail/" + filename,
+                    url: "/uploads/cmallitemdetail/" + item.cde_filename,
                     responseType: "arraybuffer",
                 })
                     .then((r) => {
-                        this.forceFileDownload(r, oriname);
+                        this.forceFileDownload(r, item.cde_originame);
                     })
-                    .catch(() => console.log("error occured"));
+                    .catch(() => console.log("error occurred"));
             },
+            openRequestModal: function () {
+                this.reqref = 1;
+            },
+            toggleSelected: function (idx) {
+                if (this.orderItems[idx].is_selected === true) {
+                    this.orderItems[idx].is_selected = false;
+                } else {
+                  this.orderItems[idx].is_selected = true;
+                }
+            },
+            setCheckAll: function () {
+                if (this.checkedAll === true) {
+                    this.orderItems.forEach(item => {
+                      item.is_selected = true;
+                    })
+                } else {
+                    this.orderItems.forEach(item => {
+                      item.is_selected = false;
+                    })
+                }
+            },
+            submitRefund: function () {
+                let formData = new FormData();
+                formData.append('cor_id', this.order.cor_id);
+                this.orderItems.forEach(item => {
+                  if (item.is_selected === true) {
+                    formData.append('cod_id[]', item.itemdetail[0].cod_id);
+                    formData.append('cde_id[]', item.itemdetail[0].cde_id);
+                  }
+                });
+                if (this.total_refunds > 0) {
+                  axios.post('/cmall/ajax_cancel', formData)
+                          .then(res => res.data)
+                          .then(data => {
+                            this.reqref = 2;
+                          })
+                          .catch(error => {
+                            console.error(error);
+                          })
+                }
+            },
+            submitReason: function () {
+              let formData = new FormData();
+              formData.append('description', this.description);
+              formData.append('cor_id', this.order.cor_id);
+              if (this.description !== null && this.description !== '') {
+                axios.post('/cmall/ajax_refund_complete', formData)
+                        .then(res => res.data)
+                        .then(data=> {
+                          this.reqref = 0;
+                          this.$router.push('/mybilling');
+                        })
+                        .catch(error => {
+                          console.error(error);
+                        })
+              }
+            }
         },
+        watch: {
+            orderItems: {
+                deep: true,
+                handler(val) {
+                    this.selectedCount = 0;
+                    this.total_refunds = 0;
+                    this.orderItems.forEach(item => {
+                        if (item.is_selected === true) {
+                            this.selectedCount++;
+                            if (this.order.cor_memo === '$') {
+                                this.total_refunds += (+item.itemdetail[0].cde_price_d);
+                            } else if (this.order.cor_memo === '₩') {
+                                this.total_refunds += (+item.itemdetail[0].cde_price);
+                            }
+                        }
+                    })
+                    this.checkedAll = this.selectedCount === this.orderItems.length;
+                }
+            }
+        }
     };
 </script>
 
@@ -1177,4 +993,25 @@
     .parchase-description p {
         margin-bottom: 5px !important;
     }
+
+  .payment_box .tab {
+    display: block;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      max-width: unset;
+
+      div:not(.title) {
+        text-align: right;
+        margin-right: unset;
+      }
+    }
+  }
+
+  .custom-select.modal-select {
+    .options {
+      z-index: 1002;
+    }
+  }
 </style>

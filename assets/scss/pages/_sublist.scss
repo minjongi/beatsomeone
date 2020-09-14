@@ -65,8 +65,8 @@
       opacity: 0.5;
       margin-right: 10px;
     }
-    //@include position($right: 0, $top: 0);
-    .bs-select {
+    @include position($right: 0, $top: 0);
+    .custom-select {
       width: 160px;
       .selected-option {
         height: 40px;

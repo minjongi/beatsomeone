@@ -173,7 +173,7 @@
 
         <div class="row">
             <div class="sort" style="display:flex; width:50%; margin:auto; flex-flow:row nowrap">
-                <div class="bs-select">
+                <div class="custom-select">
                     <button class="selected-option">
                         Total
                     </button>
@@ -212,9 +212,9 @@
         },
         mounted(){
             // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function() {
+            $(".custom-select").on("click", function() {
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

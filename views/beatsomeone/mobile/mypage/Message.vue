@@ -6,7 +6,7 @@
             <div class="message">
                 <div>
                     <div class="sort" style="margin-bottom: 20px;">
-                        <div class="bs-select custom-select-dropdown">
+                        <div class="custom-select custom-select-dropdown">
                             <button class="selected-option">
                                 {{ dateType }}
                             </button>
@@ -28,7 +28,7 @@
                             <ul>
                                 <li v-for="(m, i) in messageList" v-bind:key="i" class="playList__itembox" :class="mid == m.mem_id ? 'active' : ''" @click="goMChat($event, m)">
                                     <div class="playList__item playList__item--title nowrap">
-                                        <div class="portait">
+                                        <div class="portrait">
                                             <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portait.png"/>
                                             <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
                                         </div>
@@ -56,7 +56,7 @@
                 <!-- 챗팅창 -->
                 <div class="messageChat" :style="'display: '+mchat">
                     <div class="head" style="position: relative;">
-                        <div class="portait">
+                        <div class="portrait">
                             <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
                             <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
                         </div>
@@ -168,10 +168,10 @@
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function() {
+            $(".custom-select").on("click", function() {
 
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();
@@ -559,7 +559,7 @@
         }
     }
 
-.sub .mypage .portait {
+.sub .mypage .portrait {
     width: 48px;
     height: 48px;
 }
@@ -570,7 +570,7 @@
         line-height: 19px;
         color: white;
     }
-    .portait {
+    .portrait {
         flex: none;
     }
     >div {

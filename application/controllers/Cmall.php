@@ -1959,8 +1959,8 @@ class Cmall extends CB_Controller
          */
         $param =& $this->querystring;
         $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
-        $findex = $this->Cmall_order_model->primary_key;
-        $forder = 'desc';
+        $findex = 'cor_datetime';
+        $forder = $this->input->get('forder');
 
         $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
         $offset = ($page - 1) * $per_page;
@@ -1968,28 +1968,128 @@ class Cmall extends CB_Controller
         /**
          * 게시판 목록에 필요한 정보를 가져옵니다.
          */
-        $where = array();
-        $where['cmall_order.mem_id'] = $this->member->item('mem_id');
+
+        $where = "cmall_order.mem_id=".$this->member->item('mem_id');
+        if ($this->input->get('start_date')) {
+            $where .= " and cmall_order.cor_datetime >=".$this->input->get('start_date');
+        }
+        if ($this->input->get('end_date')) {
+            $where .= " and cmall_order.cor_datetime <=".$this->input->get('end_date');
+        }
+        if ($this->input->get('status')) {
+            $where .= " and cmall_order.status ='".$this->input->get('status')."'";
+        }
 
         $data = $this->Cmall_order_model
-            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+            ->get_order_list($per_page, $offset, $where, '', $findex, $forder);
         foreach ($data['list'] as $key0 => $order) {
             $orderdetail = $this->Cmall_order_detail_model->get_by_item($order['cor_id']);
             foreach ($orderdetail as $key1 => $value) {
-                $orderdetail[$key1]['item'] = $item
-                    = $this->Cmall_item_model->get_one(element('cit_id', $value));
-                $orderdetail[$key1]['itemdetail'] = $itemdetail
-                    = $this->Cmall_order_detail_model
-                    ->get_detail_by_item($order['cor_id'], element('cit_id', $value));
+                $item = $this->Cmall_item_model->get_one(element('cit_id', $value));
+                if ($item) {
+                    $orderdetail[$key1]['item'] = $item;
+                    $orderdetail[$key1]['itemdetail'] = $itemdetail
+                        = $this->Cmall_order_detail_model
+                        ->get_detail_by_item($order['cor_id'], element('cit_id', $value));
+                    $orderdetail[$key1]['item']['possible_download'] = 1;
+                    if (element('cod_download_days', element(0, $itemdetail))) {
+                        $endtimestamp = strtotime(element('cor_approve_datetime', $order))
+                            + 86400 * element('cod_download_days', element(0, $itemdetail));
+                        $orderdetail[$key1]['item']['download_end_date'] = $enddate = cdate('Y-m-d', $endtimestamp);
 
-                $orderdetail[$key1]['item']['possible_download'] = 1;
-                if (element('cod_download_days', element(0, $itemdetail)) && element('cor_approve_datetime', $order)) {
-                    $endtimestamp = strtotime(element('cor_approve_datetime', $order))
-                        + 86400 * element('cod_download_days', element(0, $itemdetail));
-                    $orderdetail[$key1]['item']['download_end_date'] = $enddate
-                        = cdate('Y-m-d', $endtimestamp);
+                        $orderdetail[$key1]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                    }
+                } else {
+                    $orderdetail[$key1]['item'] = null;
+                    $orderdetail[$key1]['itemdetail'] = null;
+                }
+            }
+            $data['list'][$key0]['detail'] = $orderdetail;
+        }
 
-                    $orderdetail[$key1]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('cmall/orderlist') . '?' . $param->replace('page');
+        $config['total_rows'] = $data['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $paging = $this->pagination->create_links();
+
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before_layout', $eventname);
+
+        $result = [
+            'data' => $data,
+            'page' => $page,
+            'paging' => $paging,
+        ];
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+    public function ajax_cancellist()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_orderlist';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        ajax_required_user_login();
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before', $eventname);
+
+        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Cmall_item_model'));
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+        $findex = 'cor_datetime';
+        $forder = $this->input->get('forder');
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+
+        $where = "cmall_order.mem_id=".$this->member->item('mem_id');
+        if ($this->input->get('start_date')) {
+            $where .= " and cmall_order.cor_datetime >=".$this->input->get('start_date');
+        }
+        if ($this->input->get('end_date')) {
+            $where .= " and cmall_order.cor_datetime <=".$this->input->get('end_date');
+        }
+
+        $data = $this->Cmall_order_model
+            ->get_cancel_list($per_page, $offset, $where, '', $findex, $forder);
+        foreach ($data['list'] as $key0 => $order) {
+            $orderdetail = $this->Cmall_order_detail_model->get_by_item($order['cor_id']);
+            foreach ($orderdetail as $key1 => $value) {
+                $item = $this->Cmall_item_model->get_one(element('cit_id', $value));
+                if ($item) {
+                    $orderdetail[$key1]['item'] = $item;
+                    $orderdetail[$key1]['itemdetail'] = $itemdetail
+                        = $this->Cmall_order_detail_model
+                        ->get_detail_by_item($order['cor_id'], element('cit_id', $value));
+                    $orderdetail[$key1]['item']['possible_download'] = 1;
+                    if (element('cod_download_days', element(0, $itemdetail))) {
+                        $endtimestamp = strtotime(element('cor_approve_datetime', $order))
+                            + 86400 * element('cod_download_days', element(0, $itemdetail));
+                        $orderdetail[$key1]['item']['download_end_date'] = $enddate = cdate('Y-m-d', $endtimestamp);
+
+                        $orderdetail[$key1]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                    }
+                } else {
+                    $orderdetail[$key1]['item'] = null;
+                    $orderdetail[$key1]['itemdetail'] = null;
                 }
             }
             $data['list'][$key0]['detail'] = $orderdetail;
@@ -2821,4 +2921,65 @@ class Cmall extends CB_Controller
 			}
 		}
 	}
+
+    public function ajax_cancel()
+    {
+        ajax_required_user_login();
+
+        $cor_id = $this->input->post('cor_id');
+        $cod_ids = $this->input->post('cod_id');
+        $cde_ids = $this->input->post('cde_id');
+
+        $this->load->model(array('Cmall_order_model', 'Cmall_item_detail_model', 'Cmall_order_detail_model'));
+
+        $order = $this->Cmall_order_model->get_one($cor_id);
+
+        $total_refunds = 0;
+        foreach ($cod_ids as $cod_id) {
+            $orderdetail = $this->Cmall_order_detail_model->get_one($cod_id);
+            if ($orderdetail) {
+                $itemdetail = $this->Cmall_item_detail_model->get_one($orderdetail['cde_id']);
+                if ($order['cor_memo'] == '$') {
+                    $total_refunds += floatval($itemdetail['cde_price_d']);
+                } else {
+                    $total_refunds += floatval($itemdetail['cde_price']);
+                }
+                $this->Cmall_order_model->update($cod_id, [
+                    'cod_status' => 'cancel'
+                ]);
+            }
+        }
+
+        if ($order) {
+            $this->Cmall_order_model->update($cor_id, [
+                'status' => 'cancel',
+                'cor_refund_price' => $total_refunds,
+            ]);
+        }
+
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode([
+            'message' => 'Success'
+        ]));
+    }
+
+    public function ajax_refund_complete()
+    {
+        ajax_required_user_login();
+
+        $this->load->model('Cmall_refund_detail_model');
+        $mem_id = $this->member->item('mem_id');
+        $description = $this->input->post('description');
+        $cor_id = $this->input->post('cor_id');
+        $this->Cmall_refund_detail_model->insert([
+            'cor_id' => $cor_id,
+            'description' => $description,
+            'mem_id' => $mem_id,
+        ]);
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode([
+            'message' => 'Success'
+        ]));
+    }
 }

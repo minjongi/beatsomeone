@@ -1,7 +1,7 @@
 .main {
   overflow: hidden;
   .tab {
-    //margin-bottom: 10px;
+    margin-bottom: 10px;
   }
   .main__section1 {
     background: url('/assets_m/images/main-section1-visual.png') no-repeat
@@ -61,7 +61,7 @@
   .filter {
     height: 100px;
     @include flex($justify: center);
-    .bs-select {
+    .custom-select {
       margin: 0 30px;
       &:last-child {
         margin-right: 0;

@@ -8,7 +8,7 @@
                     <div class="sublist__filter sticky">
                         <div class="row center">
                             <div class="profile">
-                                <div class="portait">
+                                <div class="portrait">
                                     <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
                                     <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
@@ -620,10 +620,10 @@
         },
         mounted(){
                         // 커스텀 셀렉트 옵션
-            $(".bs-select").on("click", function() {
+            $(".custom-select").on("click", function() {
 
                 $(this)
-                    .siblings(".bs-select")
+                    .siblings(".custom-select")
                     .removeClass("active")
                     .find(".options")
                     .hide();

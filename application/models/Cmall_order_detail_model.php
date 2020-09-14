@@ -56,7 +56,7 @@ class Cmall_order_detail_model extends CB_Model
 			return;
 		}
 
-		$this->db->select('cmall_item_detail.*, cmall_order_detail.cod_count, cmall_order_detail.cod_download_days, cmall_order_detail.cod_status');
+		$this->db->select('cmall_item_detail.*, cmall_order_detail.cod_id, cmall_order_detail.cod_count, cmall_order_detail.cod_download_days, cmall_order_detail.cod_status');
 		$this->db->from('cmall_order_detail');
 		$this->db->join('cmall_item_detail', 'cmall_order_detail.cde_id = cmall_item_detail.cde_id', 'inner');
 		$this->db->where('cmall_order_detail.cor_id', $cor_id);
@@ -69,20 +69,8 @@ class Cmall_order_detail_model extends CB_Model
 
 	public function get_expired_items($mem_id)
     {
-        $where = array(
-            'd.mem_id' => $mem_id,
-        );
-
-        $this->db
-            ->select('d.mem_id, d.cit_id, i.cit_key, i.cit_name, p.musician, i.cit_file_1 as coverImg, DATE_ADD(NOW(), INTERVAL 4 HOUR) as expireTm')
-            ->join('cb_cmall_item as i','i.cit_id = d.cit_id','inner')
-            ->join('cb_cmall_item_meta_v as p','p.cit_id = d.cit_id','left')
-            ->where($where)
-            ->limit(3);
-
-        $qry = $this->db->get('cmall_order_detail as cb_d');
-
-        $result = $qry->result_array();
+        $sql = "SELECT * FROM (SELECT `cb_d`.`mem_id`, `cb_d`.`cit_id`, `i`.`cit_key`, `i`.`cit_name`, `p`.`mem_nickname`, `i`.`cit_file_1` as `coverImg`, `cb_d`.`cod_download_days`, DATE_ADD(o.cor_approve_datetime, INTERVAL cb_d.cod_download_days DAY) as download_end_date FROM `cb_cmall_order_detail` as `cb_d` INNER JOIN `cb_cmall_item` as `i` ON `i`.`cit_id` = `cb_d`.`cit_id` LEFT JOIN `cb_member` as `p` ON `p`.`mem_id` = `i`.`mem_id` LEFT JOIN `cb_cmall_order` as `o` ON `o`.`cor_id` = `cb_d`.`cor_id` WHERE `cb_d`.`mem_id` = '125' AND `cb_d`.`cod_download_days` > 0 LIMIT 3) as cdipo WHERE `download_end_date` <= DATE_ADD(NOW(), INTERVAL 7 DAY)";
+        $result = $this->db->query($sql)->result_array();
         return $result;
     }
 
