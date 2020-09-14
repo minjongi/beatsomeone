@@ -111,10 +111,10 @@
         },
         computed: {
             isCustomer: function () {
-                return this.groupType === 'CUSTOMER';
+                return this.member_group_name === 'buyer';
             },
             isSeller: function () {
-                return this.groupType === 'SELLER';
+                return this.member_group_name.includes('seller');
             },
             groupType: function() {
                 if (this.member_group_name === 'buyer') {
@@ -126,20 +126,16 @@
                 return null;
             },
             sellerClass: function() {
-                if(this.info) {
-                    switch (this.info.mem_usertype) {
-                        case '2':
-                            return 'FREE';
-                        case '3':
-                            return 'Platinum';
-                        case '4':
-                            return 'Master';
-                        default:
-                            return null;
+                if (this.member_group_name.includes('seller')) {
+                    if (this.member_group_name.includes('free')) {
+                        return 'FREE';
+                    } else if (this.member_group_name.includes('platinum')) {
+                        return 'Platinum';
+                    } else if (this.member_group_name.includes('master')) {
+                        return 'Master';
                     }
-                } else {
-                    return null;
                 }
+                return '';
             }
         },
         mounted(){
@@ -168,7 +164,7 @@
             updateUserInfo() {
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
                     // alert('변경내용이 저장 되었습니다');
-                    alert(this.$t('dashboard_profilemod_save_ok'));
+                    // alert(this.$t('dashboard_profilemod_save_ok'));
                     EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
                 });
             },

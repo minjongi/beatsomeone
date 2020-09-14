@@ -3,10 +3,10 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:48px;">
-                    <div class="active" @click="goPage('inquiry')">
+                    <div class="active" @click="goPage('/inquiry')">
                         {{$t('supportCase')}}
                     </div>
-                    <div @click="goPage('faq')">FAQ</div>
+                    <div @click="goPage('/faq')">FAQ</div>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
         },
         methods: {
             goPage: function (page) {
-                window.location.href = '/mypage/' + page;
+                this.$router.push(page);
             },
             goInquiryview () {
                 this.$router.push({ path: '/inquiryview' });

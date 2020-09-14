@@ -115,7 +115,7 @@
                 isLogin: false,
                 info: null,
                 csrfHash: null,
-
+                member_group_name: ''
             };
         },
         computed: {
@@ -152,10 +152,11 @@
             }
         },
         mounted(){
-
+            this.info = window.member;
+            this.member_group_name = window.member_group_name;
         },
         created() {
-            this.fetchInfo();
+            // this.fetchInfo();
         },
         methods:{
             fetchInfo: function () {
@@ -175,7 +176,7 @@
             },
             updateUserInfo() {
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
-                    alert(this.$t('dashboard_profilemod_save_ok'));
+                    // alert(this.$t('dashboard_profilemod_save_ok'));
                     EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
                 });
             },
