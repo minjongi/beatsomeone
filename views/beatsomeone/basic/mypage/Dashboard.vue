@@ -5,7 +5,7 @@
         </div>
 
         <div class="row" v-if="isSeller">
-            <Dashboard_Chart :data="chart_data"></Dashboard_Chart>
+            <Dashboard_Chart v-if="chart_data" :data="chart_data"></Dashboard_Chart>
         </div>
 
         <div class="row double">

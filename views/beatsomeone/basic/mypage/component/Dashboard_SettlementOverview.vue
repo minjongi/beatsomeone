@@ -10,8 +10,8 @@
         <div>
             <div class="splitboard" v-if="data">
                 <div class="blue">
-                    ₩ {{ data.EstimatedSales.toLocaleString() }}
-                    <div class="change">({{$t('change')}} {{ data.EstimatedSales_C.toLocaleString() }}{{ data.EstimatedSales_C > 0 ? '▲' : '▼' }})</div>
+                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'en' ? Number(data.total_sale_funds).toLocaleString() : Number(data.total_sale_funds_d).toLocaleString() }}
+                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? Number(data.total_sale_funds - data.total_last_sale_funds).toLocaleString() : Number(data.total_sale_funds_d - data.total_last_sale_funds_d).toLocaleString() }}{{ (data.total_sale_funds_d - data.total_last_sale_funds_d) > 0 ? '▲' : '▼' }})</div>
                     <span>{{$t('estimatedSalesAmount')}}
                         <button class="button">
                             <img src="/assets/images/icon/tip.png"/>
@@ -24,8 +24,8 @@
                     </span>
                 </div>
                 <div class="blue">
-                    ₩ {{ data.EstimatedSettlement.toLocaleString() }}
-                    <div class="change">(Change {{ data.EstimatedSettlement_C.toLocaleString() }}{{ data.EstimatedSettlement_C > 0 ? '▲' : '▼' }})</div>
+                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? Number(data.total_settle_funds).toLocaleString() : Number(data.total_settle_funds_d).toLocaleString() }}
+                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (data.total_settle_funds - data.total_last_settle_funds) : (data.total_settle_funds_d - data.total_last_settle_funds_d)}}{{ (data.total_settle_funds - data.total_last_settle_funds) > 0 ? '▲' : '▼' }})</div>
                     <span>{{$t('estimatedSettlementAmount')}}
                         <button class="button">
                             <img src="/assets/images/icon/tip.png"/>
@@ -38,8 +38,8 @@
                     </span>
                 </div>
                 <div class="red">
-                    ₩ {{ data.LastMonthSettlement.toLocaleString() }}
-                    <div class="change">(Change {{ data.LastMonthSettlement_C.toLocaleString() }}{{ data.LastMonthSettlement_C > 0 ? '▲' : '▼' }})</div>
+                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? data.total_last_settle_funds : data.total_last_settle_funds_d }}
+                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (data.total_last_settle_funds - data.total_lastlast_settle_funds) : (data.total_lastlast_settle_funds - data.total_lastlast_settle_funds_d) }}{{ (data.total_lastlast_settle_funds - data.total_lastlast_settle_funds_d) > 0 ? '▲' : '▼' }})</div>
                     <span>{{$t('lastMonthSettlementAmount')}}
                         <button class="button">
                             <img src="/assets/images/icon/tip.png"/>
