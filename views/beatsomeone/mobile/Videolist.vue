@@ -1,13 +1,9 @@
 <template>
     <div class="wrapper">
-        <Header :is-login="isLogin"></Header>
         <div class="container">
             <div class="main">
                 <section class="main__section1">
-                    <div class="BG" style="background-image:url('https://images.unsplash.com/photo-1559060680-36abfac01944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')"></div>
-                    <div class="filter"></div>
                     <div class="wrap">
-                        <!-- <header class="main__section1-title"></header> -->
                         <div class="videolist">
                             <div class="head">
                                 <div class="block" v-if="posts.length > 0">
@@ -45,7 +41,6 @@
                             </div>
                         </div>
                     </div>
-                    <Footer></Footer>
                 </section>
             </div>
         </div>
@@ -160,8 +155,17 @@
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
+    .main {
+        .main__section1 {
+            min-height: 60vh;
+            background: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0.25) 75%), url("/assets/images/bg2.jpg") no-repeat;
+            background-size: contain;
+            padding-top: 40px;
+        }
+    }
+
     .main .filter {
-        height: 64px;
+        height: 300px;
     }
 
     .block {

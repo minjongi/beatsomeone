@@ -51,6 +51,7 @@
         methods: {
             sendSnsVue(sns) {
                 let currentUrl = window.location.pathname;
+                console.log(currentUrl);
                 window.sendSns(sns, currentUrl, this.post.post_title);
             },
             goToList() {

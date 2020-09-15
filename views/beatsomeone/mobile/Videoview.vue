@@ -23,7 +23,7 @@
                             <button @click="sendSnsVue('twitter')"><img src="/assets/images/icon/tw.png"/></button>
                         </div>
                         <div class="iconbtnbox">
-                            <button><img src="/assets/images/icon/list.png"/></button>
+                            <button @click="goPage('/')"><img src="/assets/images/icon/list.png"/></button>
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
         },
         methods:{
             goPage: function(page){
-                window.location.href = '/mypage/'+page;
+                this.$router.push(page);
             },
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
@@ -137,7 +137,8 @@
                 this.wavesurfer.play();
             },
             sendSnsVue(sns) {
-                let currentUrl = window.location.pathname;
+                let currentUrl = window.location.href;
+                console.log(currentUrl);
                 window.sendSns(sns, currentUrl, this.post.post_title);
             }
         }
