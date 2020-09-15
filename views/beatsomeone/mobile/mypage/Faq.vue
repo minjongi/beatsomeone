@@ -25,63 +25,7 @@
             <div class="playList board fold faq">
 
                 <ul>
-                    <li class="n-itembox">
-                        <div class="n-item">
-                            <div class="title">
-                                <h4>What information do I need to sell music?</h4>
-                                <div class="btn--fold"><span></span><span></span></div>
-                            </div>
-                            <p class="answer fold" height="407px">
-                                When selling a sound source (beat), it is necessary to change the authority to the
-                                seller first.<br/>
-                                If you are a current general member, please go through <span>My Page > Seller Registration</span>
-                                to change the permission first.<br/>
-                                BitSumOne will review the seller member's information and proceed to change the seller
-                                member authority.<br/>
-                                <br/>
-                                After the changes have been made, the rights for sale will be opened.<br/>
-                                From this point on, you can sell the beats you have made.<br/>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="n-itembox">
-                        <div class="n-item">
-                            <div class="title">
-                                <h4>What information do I need to sell music?</h4>
-                                <div class="btn--fold"><span></span><span></span></div>
-                            </div>
-                            <p class="answer fold" height="407px">
-                                When selling a sound source (beat), it is necessary to change the authority to the
-                                seller first.<br/>
-                                If you are a current general member, please go through <span>My Page > Seller Registration</span>
-                                to change the permission first.<br/>
-                                BitSumOne will review the seller member's information and proceed to change the seller
-                                member authority.<br/>
-                                <br/>
-                                After the changes have been made, the rights for sale will be opened.<br/>
-                                From this point on, you can sell the beats you have made.<br/>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="n-itembox active">
-                        <div class="n-item">
-                            <div class="title">
-                                <h4>What information do I need to sell music?</h4>
-                                <div class="btn--fold"><span></span><span></span></div>
-                            </div>
-                            <p class="answer" height="407px">
-                                When selling a sound source (beat), it is necessary to change the authority to the
-                                seller first.<br/>
-                                If you are a current general member, please go through <span>My Page > Seller Registration</span>
-                                to change the permission first.<br/>
-                                BitSumOne will review the seller member's information and proceed to change the seller
-                                member authority.<br/>
-                                <br/>
-                                After the changes have been made, the rights for sale will be opened.<br/>
-                                From this point on, you can sell the beats you have made.<br/>
-                            </p>
-                        </div>
-                    </li>
+                    <FaqItem v-for="listItem in list" v-bind:key="listItem.faq_id" v-bind:faq="listItem"/>
                 </ul>
 
             </div>
@@ -93,16 +37,31 @@
 <script>
     import $ from "jquery";
     import WaveSurfer from 'wavesurfer.js';
+    import axios from 'axios';
+    import FaqItem from "./FaqItem";
 
     export default {
-        components: {},
+        components: {
+            FaqItem
+        },
         data: function () {
             return {
                 isLogin: false,
-                popup_filter: 0,
+                total_rows: 0,
+                list: [],
+                skeyword: '',
             };
         },
         mounted() {
+            axios.get('/faq/faq')
+                .then(res => res.data)
+                .then(data => {
+                    this.total_rows = +data.total_rows;
+                    this.list = data.list;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         },
         created() {
         },
@@ -110,6 +69,22 @@
             goPage: function (page) {
                 this.$router.push(page);
             },
+            searchItems: function () {
+                if (this.skeyword.length < 2) {
+                    alert('2글자 이상으로 검색해 주세요');
+                    return;
+                }
+                axios.get(`/faq/faq?skeyword=${this.skeyword}`)
+                    .then(res => res.data)
+                    .then(data => {
+                        console.log(data);
+                        this.total_rows = +data.total_rows;
+                        this.list = data.list;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         }
     }
 </script>
