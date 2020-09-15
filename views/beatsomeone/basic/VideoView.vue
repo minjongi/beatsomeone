@@ -7,7 +7,7 @@
         </iframe>
         <div class="sns-buttons">
             <div class="btn-group mr-4">
-                <button class="btn copy_post_url" data-clipboard-text="Welcome"><i class="far fa-share-alt"></i></button>
+                <button class="btn" @click="copyUrl"><i class="far fa-share-alt"></i></button>
                 <button class="btn" @click="sendSnsVue('facebook')"><i class="fab fa-facebook-f"></i></button>
                 <button class="btn" @click="sendSnsVue('twitter')"><i class="fab fa-twitter"></i></button>
             </div>
@@ -50,12 +50,19 @@
         },
         methods: {
             sendSnsVue(sns) {
-                let currentUrl = window.location.pathname;
-                console.log(currentUrl);
+                let currentUrl = window.location.href;
                 window.sendSns(sns, currentUrl, this.post.post_title);
             },
             goToList() {
                 this.$router.push('/');
+            },
+            copyUrl() {
+                let currentUrl = window.location.href;
+                this.$copyText(currentUrl).then(function (e) {
+                    alert('Copied');
+                }, function (e) {
+                    alert('Can not copy');
+                })
             }
         }
     }
