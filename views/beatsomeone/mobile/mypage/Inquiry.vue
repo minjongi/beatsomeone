@@ -3,69 +3,51 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:48px;">
-                    <div class="active" @click="goPage('inquiry')">
+                    <div class="active" @click="goPage('/inquiry')">
                         {{$t('supportCase')}}
                     </div>
-                    <div @click="goPage('faq')">FAQ</div>
+                    <div @click="goPage('/faq')">FAQ</div>
                 </div>
             </div>
         </div>
 
         <div class="row" style="margin-bottom:20px;">
-            <button class="btn btn--submit">To ask question</button>
+            <button class="btn btn--submit" @click="goInquiryEnroll">To ask question</button>
         </div>
 
         <div class="row">
             <div class="board">
                 <ul>
-                    <li class="n-box">
+                    <li class="n-box" v-for="inquiry in inquiry_list" :key="inquiry.post_id" @click="goInquiryview(inquiry)">
                         <div class="n-flex setween">
-      <span class="subject"
-      >I have some question about using service.</span
-      >
-                            <span class="action yellow"> Wait... </span>
-                        </div>
-                    </li>
-                    <li class="n-box">
-                        <div class="n-flex setween">
-      <span class="subject"
-      >I have some question about using service.</span
-      >
-                            <span class="action"> nswer complete </span>
+                            <span class="subject">{{ inquiry.post_title }}</span>
+                            <span class="action yellow" v-if="inquiry.replies.list.length === 0">
+                                Wait...
+                            </span>
+                            <div class="action" v-else>
+                                Answer Complete...
+                            </div>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <div class="row">
-            <div class="pagination">
-                <div>
-                    <button class="prev active">
-                        <img src="/assets/images/icon/chevron_prev.png" />
-                    </button>
-                    <button class="active">1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button class="next active">
-                        <img src="/assets/images/icon/chevron_next.png" />
-                    </button>
-                </div>
-            </div>
+        <div class="row paging" style="margin-bottom:30px;" v-html="paging_html" v-show="paging_html">
         </div>
 
         <div class="row">
             <div class="n-flex search-wrap">
                 <div class="custom-select">
-                    <button class="selected-option">Total</button>
+                    <button class="selected-option">{{ $t(search_field) }}</button>
                     <div class="options">
-                        <button data-value="" class="option">Title</button>
-                        <button data-value="" class="option">Content</button>
+                        <button class="option" @click="search_field = 'post_title'"> {{$t('post_title')}}</button>
+                        <button class="option" @click="search_field = 'post_content'"> {{$t('post_content')}}</button>
                     </div>
                 </div>
                 <div class="input_wrap line">
-                    <input type="text" :placeholder="$t('enterYourSearchword')" />
-                    <button>
+                    <input type="text" />
+                    <button @click="searchClicked">
                         <img src="/assets/images/icon/searchicon.png" />
                     </button>
                 </div>
@@ -84,6 +66,19 @@
             return {
                 isLogin: false,
                 popup_filter: 0,
+                inquiry_list: [],
+                ws: null,
+                isPlay: false,
+                isReady: false,
+                wavesurfer: null,
+                search_field: 'post_title',
+                search_keyword: '',
+                search_select_html: '',
+                custom_options_html: '',
+                selected_option_html: '',
+                paging_html: '',
+                query_string: '',
+                total_rows: 0,
             };
         },
         mounted () {
@@ -100,20 +95,60 @@
                     .find(".options")
                     .toggle();
             });
+            this.fetchData('');
         },
         created () {
         },
         methods: {
             goPage: function (page) {
-                window.location.href = '/mypage/' + page;
+                this.$router.push(page);
             },
-            goInquiryview () {
-                this.$router.push({ path: '/inquiryview' });
+            goInquiryview (inquiry) {
+                this.$router.push('/inquiry/' + inquiry.post_id );
             },
-            goInquirymod () {
-                this.$router.push({ path: '/inquirymod' });
+            goInquiryEnroll () {
+                this.$router.push({ path: '/inquiryenroll' });
             },
-
+            fetchData(q) {
+                Http.get('/board/ajax/support?' + q)
+                    .then(r => r.data)
+                    .then(resBody => {
+                        this.total_rows = resBody.data.total_rows;
+                        this.inquiry_list = resBody.data.list;
+                        this.search_select_html = resBody.search_option;
+                        let optionsHtml = $(this.search_select_html);
+                        let customOptionsHtml = '';
+                        let selected_option_html = '';
+                        optionsHtml.each(function(index) {
+                            if (index === 0) {
+                                selected_option_html = $(this).html();
+                            }
+                            $(this).attr('selected') ? selected_option_html = $(this).html() : '';
+                            customOptionsHtml += '<button data-value="' + $(this).attr('value') + '" class="option ' + ($(this).attr('selected') ? 'selected' : '') + '">' + $(this).html() + '</button>';
+                        });
+                        this.custom_options_html = customOptionsHtml;
+                        this.selected_option_html = selected_option_html;
+                        this.paging_html = resBody.paging;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+            optionClicked(event) {
+                this.search_field = $(event.target).data('value');
+                this.selected_option_html = $(event.target).html();
+            },
+            pageClicked(event) {
+                event.preventDefault();
+                let page = $(event.target).data('ci-pagination-page');
+                this.query_string = `sfield=${this.search_field}&skeyword=${this.search_keyword}&page=${page}`;
+                this.fetchData(this.query_string);
+                // 'sfield=post_title&skeyword=10';
+            },
+            searchClicked(event) {
+                this.query_string = `sfield=${this.search_field}&skeyword=${this.search_keyword}`;
+                this.fetchData(this.query_string);
+            }
         },
     }
 </script>

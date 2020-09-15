@@ -5,25 +5,27 @@
             <a class="more" href="/mypage#/inquiry">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
         <div>
-            <div class="playList" >
+            <div class="playList" v-if="data.length > 0">
                 <ul>
-                    <li class="playList__itembox" v-for="o in data" :key="o.sp_id">
+                    <li class="playList__itembox" v-for="(inquiry, index) in data" :key="index">
                         <div class="playList__item playList__item--title active">
                             <div class="col name">
                                 <figure>
-                                    <figcaption class="pointer" @click="onClick(o)">
-                                        <h3 class="playList__title" style="height:18px">{{ truncate(o.title,50 )}}</h3>
-                                        <span class="playList__by">{{ o.regDt.date }}</span>
+                                    <figcaption class="pointer" @click="$router.push('/inquiry/' + inquiry.post_id)">
+                                        <h3 class="playList__title" style="height:18px">{{ truncate(inquiry.post_title,50 )}}</h3>
+                                        <span class="playList__by">{{ inquiry.post_updated_datetime }}</span>
                                     </figcaption>
                                 </figure>
                             </div>
-                            <div class="action" :class="{'active': o.status === 'answerCompleted'}">
-                                {{ $t(o.status) }}
-                            </div>
+                            <div class="action active" v-if="inquiry.replies.list.length === 0">Wait...</div>
+                            <div class="action" v-else>Answer Complete...</div>
                         </div>
                     </li>
 
                 </ul>
+            </div>
+            <div v-else>
+                <h3 style="text-align: center">No questions</h3>
             </div>
         </div>
 

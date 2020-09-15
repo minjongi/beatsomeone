@@ -17,7 +17,6 @@ import Sellerbill from './Sellerbill.vue'
 import Message from './Message.vue'
 import Inquiry from './Inquiry.vue'
 import Inquiryenroll from './Inquiryenroll.vue'
-import Inquirymod from './Inquirymod.vue'
 import Inquiryview from './Inquiryview.vue'
 import Faq from './Faq.vue'
 import Favorites from "./FavoritesOld.vue"
@@ -39,17 +38,17 @@ const router = new VueRouter({
         { path: '/profilemod', component: Profilemod},
         { path: '/list_item', component: List_item},
         { path: '/mybilling', component: Mybilling},
-        { path: '/mybillingView', component: Mybillingview},
+        { path: '/mybilling/:cor_id', component: Mybillingview },
         { path: '/mycancelList', component: Mycancellist},
-        { path: '/mycancelView', component: Mycancelview},
+        { path: '/mycancelList/:cor_id', component: Mycancelview },
         { path: '/saleshistory', component: Saleshistory},
         { path: '/seller', component: Seller},
         { path: '/sellerbill', component: Sellerbill},
         { path: '/message', component: Message},
         { path: '/inquiry', component: Inquiry},
         { path: '/inquiryenroll', component: Inquiryenroll},
-        { path: '/inquirymod', component: Inquirymod},
-        { path: '/inquiryview', component: Inquiryview},
+        { path: '/inquiry/:post_id', component: Inquiryview},
+        { path: '/inquiry/:post_id/edit', component: Inquiryenroll},
         { path: '/faq', component: Faq},
         { path: '/favorites', component: Favorites},
     ],

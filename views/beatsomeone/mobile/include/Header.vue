@@ -4,11 +4,29 @@
         <header class="header">
             <div class="wrap">
                 <h1 class="header__logo">
-                    <a href="/"><img src="@/assets_m//images/logo.png" alt=""/></a>
+                    <a href="/"><img src="@/assets_m/images/logo.png" alt=""/></a>
                 </h1>
                 <div class="header__btnbox">
-                    <a href="#" class="header__locale" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
-                    <a href="#" class="header__search"></a>
+                    <a href="javascript:;" class="header__locale" v-if="!isShowSearchBox" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                    <input type="text"
+
+                           v-if="isShowSearchBox"
+                           v-model="searchText"
+                           @keyup.enter="enterClicked()"
+                           class="mo-header-input"
+                           style="width: 175px;
+                                position:absolute;
+                                top: 8px;
+                                right:40px;
+                                height: 25px;
+                                color: #fff;
+                                background: rgba(255, 255, 255, 0.2);
+                                border-radius: 2em;
+                                font-size: 12px;
+                                padding: 0 35px 0 10px;
+                                -webkit-transition: all 0.3s;
+                                transition: all 0.3s;"/>
+                    <a href="javascript:;" class="header__search" @click="clickSearchButton" style="z-index: 10000"></a>
                     <a class="header__nav" @click="toggleOpenMenu"></a>
                 </div>
             </div>
@@ -64,6 +82,7 @@
                 searchText: null,
                 cartSum: 0,
                 isOpen: false,
+                isShowSearchBox: false,
             };
         },
         watch: {
@@ -102,12 +121,22 @@
                     }
                 });
             },
+            clickSearchButton() {
+                this.isShowSearchBox = !this.isShowSearchBox;
+                if(this.isShowSearchBox === false){
+                    this.search();
+                }
+            },
             search() {
-                if(!this.searchText) {
+                if (!this.searchText) {
                     return;
                 }
-                const path = `/beatsomeone/search?q=${this.searchText}`;
+                // const path = `/beatsomeone/search?q=${this.searchText}`;
+                const path = `/beatsomeone/sublist?genre=All%20Genre&search=${this.searchText}`;
                 window.location.href = path;
+            },
+            enterClicked(){
+                this.search();
             },
             toggleLocale() {
                 let locale = this.$i18n.locale === 'en' ? 'ko' : 'en'

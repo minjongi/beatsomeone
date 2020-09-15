@@ -79,7 +79,7 @@
             </div>
 
             <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-                <button class="btn btn--gray" @clikc="goInquiryList">Cancel</button>
+                <button class="btn btn--gray" @click="goInquiryList">Cancel</button>
                 <button class="btn btn--submit" @click="goInquirymod">Edit</button>
             </div>
         </div>

@@ -1971,10 +1971,10 @@ class Cmall extends CB_Controller
 
         $where = "cmall_order.mem_id=".$this->member->item('mem_id');
         if ($this->input->get('start_date')) {
-            $where .= " and cmall_order.cor_datetime >=".$this->input->get('start_date');
+            $where .= " and cmall_order.cor_datetime >= '".$this->input->get('start_date')."'";
         }
         if ($this->input->get('end_date')) {
-            $where .= " and cmall_order.cor_datetime <=".$this->input->get('end_date');
+            $where .= " and cmall_order.cor_datetime <='".$this->input->get('end_date')."'";
         }
         if ($this->input->get('status')) {
             $where .= " and cmall_order.status ='".$this->input->get('status')."'";
