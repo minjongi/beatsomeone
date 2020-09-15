@@ -418,4 +418,8 @@
     .player__progress wave {
         background: none !important;
     }
+
+    .container.detail {
+        margin-top: 75px;
+    }
 </style>

@@ -1,6 +1,8 @@
 <template>
     <div class="container accounts accounts--start">
-        <p>mobile terms</p>
+        <div style="padding: 0 15px;">
+            <h2 class="title">Terms of Service</h2>
+        </div>
         <div class="main__media">
             <div class="tab">
                 <button :class="tab == 0 ? 'active' : ''" @click="tab = 0">이용약관</button>
@@ -40,12 +42,20 @@
             axios.get('/document/provision')
                 .then(res => res.data)
                 .then(data => {
-                    this.provisionTerms = data.doc_mobile_content;
+                    if (data.doc_mobile_content) {
+                        this.provisionTerms = data.doc_mobile_content;
+                    } else {
+                        this.provisionTerms = data.doc_content;
+                    }
                 });
             axios.get('/document/premium')
                 .then(res => res.data)
                 .then(data => {
-                    this.premiumTerms = data.doc_mobile_content;
+                    if (data.doc_mobile_content) {
+                        this.premiumTerms = data.doc_mobile_content;
+                    } else {
+                        this.premiumTerms = data.doc_content;
+                    }
                 })
         },
         watch: {},
@@ -59,24 +69,31 @@
 </script>
 <style lang="scss">
 </style>
-<style lang="css">
+<style lang="scss">
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 40px;
+    }
+
     .tab_container > .tab_content {
-        position: absolute;
         height: calc(100% - 60px);
         line-height: 2em !important;
-        opacity: 0;
+        display: none;
         -webkit-transition: 0.3s ease;
         transition: 0.3s ease;
         pointer-events: none;
-        padding-top: 15px;
         left: 15px;
         right: 15px;
         overflow: auto;
-    }
 
-    .tab_container > .tab_content.active {
-        opacity: 1;
-        pointer-events: initial;
+        > div {
+            padding: 15px;
+        }
+
+        &.active {
+            pointer-events: initial;
+            display: block;
+        }
     }
 
     ul.tabs {

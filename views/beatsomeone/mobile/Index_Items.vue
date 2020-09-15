@@ -5,8 +5,8 @@
         <button>{{ $t('favorite') }}</button>
       </div>
       <div class="col favorite" v-if="showCheck">
-        <label for="c1" class="checkbox nfavorites__checkbox">
-          <input type="checkbox" hidden id="c1">
+        <label class="checkbox nfavorites__checkbox">
+          <input type="checkbox" hidden v-model="checkVal">
           <span></span>
         </label>
       </div>
@@ -61,7 +61,7 @@ import $ from "jquery";
 import WaveSurfer from "wavesurfer.js";
 
 export default {
-  props: ["item", "showCheck", "cart"],
+  props: ["item", "showCheck", "cart", "value"],
   data: function () {
     return {
       isOpenSubmenu: false,
@@ -74,6 +74,14 @@ export default {
     hashtag() {
       return this.item.hashTag ? this.item.hashTag.split(",") : "";
     },
+    checkVal: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val);
+      }
+    }
   },
   // beforeDestroy() {
   //     this.ws.destroy();

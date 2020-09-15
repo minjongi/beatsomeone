@@ -255,17 +255,16 @@ section[class*='section'] {
   padding: 30px;
 
   > .tab_content {
-    position: absolute;
     height: calc(100% - 60px);
     overflow-y: scroll;
     line-height: 2em !important;
-    opacity: 0;
+    display: none;
     transition: 0.3s ease;
     padding-right: 15px;
     pointer-events: none;
 
     &.active {
-      opacity: 1;
+      display: block;
       pointer-events: initial;
     }
   }

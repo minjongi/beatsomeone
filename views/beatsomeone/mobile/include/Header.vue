@@ -42,7 +42,7 @@
             <div class="gnb__content">
                 <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
-                    <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
+                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
                     <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>

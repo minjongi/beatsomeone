@@ -519,7 +519,9 @@ export default {
         totalSettlementHelp: '<span class="font-weight-bold">최종 정산 금액:</span> 정산 금액에서 수수료를 뺀 금액입니다.',
         settleStay: '정산대기',
         settleComplete: '정산완료',
-        dashboard_ExpiredSoon_noexists: '만료 예정인 비트가 없습니다.'
+        dashboard_ExpiredSoon_noexists: '만료 예정인 비트가 없습니다.',
+        post_content: '내용',
+        post_title: '제목',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1041,5 +1043,7 @@ export default {
         settleStay: 'Stay',
         settleComplete: 'Complete',
         dashboard_ExpiredSoon_noexists: 'No expired items exists.',
+        post_title: 'Title',
+        post_content: 'Content'
     } // en
 }

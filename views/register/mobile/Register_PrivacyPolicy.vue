@@ -24,7 +24,11 @@
             axios.get('/document/privacy')
                 .then(res => res.data)
                 .then(data => {
-                    this.privacyContent = data.doc_mobile_content;
+                    if (data.doc_mobile_content) {
+                        this.privacyContent = data.doc_mobile_content;
+                    } else {
+                        this.privacyContent = data.doc_content;
+                    }
                 })
         },
         watch: {},
