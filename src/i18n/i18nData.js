@@ -317,7 +317,7 @@ export default {
         chart: '그래프',
         togetherWithBeatsomeone: '<span class="text-warning text-decoration-underline">비트썸원</span>과 함께 하세요!',
         makeRelationshipWithPeopleMsg: '비트를 좋아하는 사람들과 관계를 형성하고<br/> 직접 만든 비트로 수익을 창출해보세요.',
-        startSelling1: '판매자 등록',
+        startSelling1: '판매시작',
         orderDetails: '구매내역',
         buy: '결제완료',
         cancel: '구매취소',

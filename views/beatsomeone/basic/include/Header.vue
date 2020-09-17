@@ -16,13 +16,14 @@
                 </div>
                 <nav class="header__nav">
                     <a href=""></a>
-                    <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
-                    <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
+                    <a v-if="isCustomer" href="">{{ $t('freeBeats') }}</a>
+                    <a v-if="isSeller" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
-                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>
+                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
                     <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </nav>
             </div>
@@ -36,23 +37,14 @@
 
     export default {
         name: 'Header',
-        props: {
-            isLogin : {
-                type: Boolean,
-                default: false,
-            }
-        },
         data: function () {
             return {
                 userInfo: null,
                 searchText: null,
                 cartSum: 0,
+                member_group_name: '',
+                member: false
             };
-        },
-        watch: {
-          isLogin: function (n) {
-
-          },
         },
         created() {
             this.fetchUserInfo();
@@ -62,11 +54,28 @@
         },
         mounted() {
             this.updateCartSum();
+            this.member_group_name = window.member_group_name;
+            this.member = window.member;
         },
         computed: {
             toggleLocaleMenuTit: function() {
                 return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
             },
+            getCartSum() {
+                return this.$store.getters.getCartSum;
+            },
+            getCartSumD() {
+                return this.$store.getters.getCartSumD;
+            },
+            isSeller() {
+                return this.member_group_name.includes('seller')
+            },
+            isCustomer() {
+                return this.member_group_name === 'buyer';
+            },
+            isLogin () {
+                return this.member !== false;
+            }
         },
         methods: {
             fetchUserInfo() {
@@ -78,6 +87,10 @@
                 Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
                     if(r >= 0) {
                         this.cartSum = r;
+                        this.$store.dispatch('addMoney', {
+                            money: r,
+                            money_d: r,
+                        })
                     }
                 });
             },

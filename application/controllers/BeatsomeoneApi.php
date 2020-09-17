@@ -102,13 +102,13 @@ class BeatsomeoneApi extends CB_Controller
     public function main_trending_list()
     {
 
-        $this->load->model('Beatsomeone_model');
+        $this->load->model('Cmall_item_model');
 
-        // DB Querying (Trending)
         $config = array(
+            'cit_type2' => '1',
             'limit' => '10',
         );
-        $result = $this->Beatsomeone_model->get_main_trending_list($config);
+        $result = $this->Cmall_item_model->get_latest($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -118,13 +118,13 @@ class BeatsomeoneApi extends CB_Controller
     public function main_testimonials_list()
     {
 
-        $this->load->model('Beatsomeone_model');
+        $this->load->model('Post_model');
 
         // DB Querying (Trending)
         $config = array(
             'limit' => '3',
         );
-        $result = $this->Beatsomeone_model->get_main_trending_list($config);
+        $result = $this->Post_model->get_testimonial_list($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -351,10 +351,10 @@ class BeatsomeoneApi extends CB_Controller
         $this->load->model('Beatsomeone_model');
 
         // 비로그인 사용자 거부
-        if(!$this->member->item('mem_id')) {
-            $this->output->set_status_header('412');
-            return;
-        }
+//        if(!$this->member->item('mem_id')) {
+//            $this->output->set_status_header('412');
+//            return;
+//        }
 
 
         $updatedata = array(

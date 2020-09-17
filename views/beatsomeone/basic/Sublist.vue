@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Header :is-login="isLogin" />
+    <Header />
 
     <div class="container sub">
       <div class="sublist">
