@@ -334,7 +334,7 @@
                     }
                 });
 
-                var url = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                var url = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
                 var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
 
                 var o;
