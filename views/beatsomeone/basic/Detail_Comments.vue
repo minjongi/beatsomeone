@@ -4,7 +4,7 @@
             <div class="comment" v-for="c in listComments" :key="c.cqa_id">
                 <div class="comment__author-img" v-if="c">
                     <img v-if="!c.mem_photo" src="https://via.placeholder.com/50x50" alt="">
-                    <img v-if="c.mem_photo" :src="'/uploads/member_photo/' + c.mem_photo" alt="">
+                    <img v-if="c.mem_photo" :src="c.mem_photo" alt="">
                 </div>
                 <div class="comment__content">
                     <div class="comment__info">
@@ -14,7 +14,10 @@
                         </div>
 
 <!--                        <span class="comment__created-at">8 day ago</span>-->
-                        <span class="comment__created-at">{{ timeago(c.cqa_datetime) }}</span>
+                        <div>
+                            <span class="comment__created-at">{{ timeago(c.cqa_datetime) }}</span><br>
+                            <button @click="deleteComment(c)" v-if="member.mem_nickname === c.mem_nickname" class="red" style="margin-top: 5px">{{ $t('delete') }}</button>
+                        </div>
                     </div>
                     <div class="comment__description">
                         <p>
@@ -36,6 +39,7 @@
 
 <script>
 
+    import axios from 'axios';
     import { EventBus } from '*/src/eventbus';
     import * as timeago from 'timeago.js';
 
@@ -43,8 +47,8 @@
         props: ['item'],
         data: function () {
             return {
-
-                listComments: null,
+                listComments: [],
+                member: false,
             }
         },
         watch: {
@@ -53,6 +57,7 @@
             },
         },
         created() {
+            this.member = window.member;
             EventBus.$on('add_comment',() => {
                 this.getList();
             });
@@ -70,6 +75,18 @@
             timeago(date) {
                 return timeago.format(date);
             },
+            deleteComment(comment) {
+                console.log(comment);
+                let formData = new FormData();
+                formData.append('cqa_id', comment.cqa_id);
+                axios.post('/cmallact/delete_qna', formData)
+                    .then(res => res.data)
+                    .then(data => {
+                        let idx = this.listComments.findIndex(x => x.cqa_id === comment.cqa_id);
+                        this.listComments.splice(idx, 1);
+                    })
+                    .catch(error => console.error(error))
+            }
 
         },
 

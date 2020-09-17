@@ -522,6 +522,7 @@ export default {
         dashboard_ExpiredSoon_noexists: '만료 예정인 비트가 없습니다.',
         post_content: '내용',
         post_title: '제목',
+        loginAlert: '댓글은 로그인 후 작성이 가능합니다, 로그인 하시겠습니까?'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1044,6 +1045,7 @@ export default {
         settleComplete: 'Complete',
         dashboard_ExpiredSoon_noexists: 'No expired items exists.',
         post_title: 'Title',
-        post_content: 'Content'
+        post_content: 'Content',
+        loginAlert: 'You can write comments after logging in, do you want to log in?'
     } // en
 }

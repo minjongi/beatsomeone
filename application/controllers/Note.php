@@ -559,6 +559,68 @@ class Note extends CB_Controller
 		$this->view = element('view_skin_file', element('layout', $view));
 	}
 
+    public function ajax_write_empty()
+    {
+        $this->output->set_content_type('text/json');
+
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_note_write';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        if ( ! $this->cbconfig->item('use_note')) {
+            alert_close('쪽지 기능을 사용하지 않는 사이트입니다');
+            return false;
+        } elseif ( ! $this->member->item('mem_use_note') && $this->member->is_admin() !== 'super') {
+            alert_close('회원님은 쪽지 기능을 사용하지 않는 중이십니다');
+            return false;
+        }
+
+        $view = array();
+
+        $recv_list = explode(',', $this->input->post('userid'));
+        $send_result = null;
+
+        if ($recv_list && is_array($recv_list)) {
+            foreach ($recv_list as $key => $value) {
+                $value = trim($value);
+                if ($value) {
+                    $mem = $this->Member_model->get_by_memid($value, 'mem_id');
+
+                    if (element('mem_id', $mem)) {
+
+                        $send_result = $this->notelib->send_note(
+                            $this->member->item('mem_id'),
+                            element('mem_id', $mem),
+                            ' ',
+                            ' '
+                        );
+
+                        $jsonresult = json_decode($send_result, true);
+
+                        if (isset($jsonresult['error']) && $jsonresult['error']) {
+                            $this->output->set_status_header('400');
+                            $this->output->set_output(json_encode([
+                                'message' => $jsonresult['error']
+                            ]));
+                        }
+
+                    } else {
+                        $this->output->set_status_header('400');
+                        $this->output->set_output(json_encode([
+                            'message' => $value . '는 존재하지 않는 회원입니다.'
+                        ]));
+                    }
+                }
+            }
+        }
+
+    }
+
 
 	/**
 	 * 쪽지 다운로드 기능입니다

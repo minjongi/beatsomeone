@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <Header :is-login="isLogin"/>
+        <Header/>
         <div class="container detail">
             <div class="detail__header">
                 <div class="wrap">
@@ -118,13 +118,13 @@
         components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
         data: function () {
             return {
-                isLogin: false,
                 item: null,
                 comment: null,
                 music: null,
                 currentTab: 1,
                 purchaseTypeSelectorPopup: false,
                 isIncreaseMusicCount: false,
+                member: false,
             };
         },
         computed: {
@@ -146,9 +146,13 @@
                     {path: "/infomation", id: 3, title: this.$t("information")},
                 ];
             },
+            isLogin () {
+                return this.member !== false;
+            }
         },
 
         mounted() {
+            this.member = window.member;
             EventBus.$on("player_request_start", (r) => {
                 log.debug({
                     "DETAIL : player_request_start": r,
@@ -227,6 +231,15 @@
             // 코멘트 입력
             sendComment() {
                 if (!this.comment) return;
+
+                if (!this.isLogin) {
+                    let yn = confirm(this.$t('loginAlert'));
+                    if (yn === true) {
+                        window.location.href = '/login?url=' + window.location.href;
+                    } else {
+                        return;
+                    }
+                }
 
                 const p = {
                     cit_id: this.item.cit_id,
