@@ -20,9 +20,10 @@
                       v-model.trim="item.cit_name"
                       :placeholder="$t('newTrack')"
                       required
+                      maxlength="100"
                     />
                   </div>
-                  <span class="form-info">{{ $t('allowedCharLength') }}</span>
+                  <span class="form-info">{{ $t('allowedCharLength100') }}</span>
                 </label>
 
                 <label class="form-item">
@@ -223,8 +224,8 @@
               <div class="form-item">
                 <p class="form-title">{{ $t('urlOfYourTrack') }}</p>
                 <div class="input">
-                  <input type="text" placeholder readonly v-model="item.url" />
-                  <button class="form-copy" type="button">{{ $t('copy') }}</button>
+                  <input id="url" type="text" placeholder readonly v-model="item.url" />
+                  <button class="form-copy" type="button" @click="copyUrl">{{ $t('copy') }}</button>
                 </div>
               </div>
             </div>
@@ -305,6 +306,8 @@
                         <input
                           type="number"
                           placeholder="USD 5.00"
+                          min="0"
+                          step="0.01"
                           v-model.number="item.licenseLeasePriceUSD"
                           ref="licenseLeasePriceUSD"
                           @input="onlyNumber($event, 'licenseLeasePriceUSD')"
@@ -371,6 +374,8 @@
                         <input
                           type="number"
                           placeholder="USD 280.00"
+                          min="0"
+                          step="0.01"
                           v-model.number="item.licenseStemPriceUSD"
                           ref="licenseStemPriceUSD"
                           @input="onlyNumber($event, 'licenseStemPriceUSD')"
@@ -380,7 +385,7 @@
                   </div>
                   <div class="row row--inner">
                     <span class="col">
-                      <p class="possible-sell">{{ $t('availableQuantityForSale') }}</p>
+                      <p class="possible-sell" v-html="$t('availableQuantityForSale')"></p>
                     </span>
                     <span class="col">
                       <div class="input">
@@ -388,6 +393,7 @@
                           type="number"
                           placeholder="1"
                           readonly
+                          min="0"
                           class="disabled"
                           v-model.number="item.licenseStemQuantity"
                           ref="licenseStemQuantity"
@@ -422,36 +428,18 @@
               <div class="col">
                 <label class="form-item">
                   <p class="form-title required">{{ $t('primaryGenre') }}</p>
-                  <select v-model="item.genre" class="custom-select-basic">
-                    <option value>{{ $t('select') }}</option>
-                    <option
-                      v-for="(item, index) in listGenre"
-                      :key="'genre' + index"
-                      :value="item"
-                    >{{ listGenreName[index] }}</option>
-                  </select>
+                  <v-select v-model="item.genre" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listGenre">
+                  </v-select>
                 </label>
                 <label class="form-item">
                   <p class="form-title">{{ $t('subGenre') }}</p>
-                  <select v-model="item.subgenre" class="custom-select-basic">
-                    <option value>{{ $t('select') }}</option>
-                    <option
-                      v-for="(item, index) in listGenre"
-                      :key="'subgenre' + index"
-                      :value="item"
-                    >{{ listGenreName[index] }}</option>
-                  </select>
+                  <v-select v-model="item.subgenre" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listGenre">
+                  </v-select>
                 </label>
                 <label class="form-item">
                   <p class="form-title required">{{ $t('primaryMood') }}</p>
-                  <select v-model="item.moods" class="custom-select-basic">
-                    <option value>{{ $t('select') }}</option>
-                    <option
-                      v-for="(item, index) in listMoods"
-                      :key="'moods' + index"
-                      :value="item"
-                    >{{ listMoodsName[index] }}</option>
-                  </select>
+                  <v-select v-model="item.moods" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listMoods">
+                  </v-select>
                 </label>
               </div>
               <div class="col">
@@ -730,6 +718,12 @@ export default {
         }
       });
     },
+    copyUrl() {
+      let copyText = document.getElementById('url')
+      copyText.select();
+      document.execCommand('copy');
+      alert('Copied');
+    },
     // 저장
     doSubmit() {
       if (this.processStatus) {
@@ -740,6 +734,10 @@ export default {
 
       if (!this.item.cit_name) {
         alert(this.$t("enterSubject"));
+        return false;
+      }
+      if (this.item.cit_name > 100) {
+        alert(this.$t("allowedCharLength100"));
         return false;
       }
       if (!this.item.trackType) {
@@ -875,9 +873,43 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/App.scss";
+
+$vs-state-active-bg: #45464c;
+$vs-controls-color: white;
+@import "~vue-select/src/scss/vue-select.scss";
+
+  .v-select {
+    background: #303136;
+  }
+
+  .vs__dropdown-toggle {
+    height: 55px;
+  }
+
+  .vs--single.vs--open .vs__selected {
+    height: 45px;
+  }
+
+  .vs__selected {
+    color: white;
+  }
+
+  .vs__dropdown-menu {
+    margin-top: 3px;
+    background: #303136;
+  }
+
+  .vs__dropdown-option {
+    color: white;
+    padding: 10px 20px;
+  }
+
+  .vs__search {
+    color: white;
+  }
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
 @import "/assets/plugins/slick/slick.css";
 @import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
 .col ~ .col:not(.btnbox) {
