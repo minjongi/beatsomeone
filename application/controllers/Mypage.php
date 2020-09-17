@@ -3206,7 +3206,7 @@ class Mypage extends CB_Controller
 
         $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Note_model', 'Post_model', 'Board_model', 'Cmall_item_show_history_model', 'Cmall_item_model'));
 
-        $order_buy_count = $this->Cmall_order_model->count_by([
+        $order_order_count = $this->Cmall_order_model->count_by([
             'mem_id' => $mem_id,
             'status' => 'order'
         ]);
@@ -3214,9 +3214,9 @@ class Mypage extends CB_Controller
             'mem_id' => $mem_id,
             'status' => 'cancel'
         ]);
-        $order_refund_count = $this->Cmall_order_model->count_by([
+        $order_deposit_count = $this->Cmall_order_model->count_by([
             'mem_id' => $mem_id,
-            'status' => 'refund'
+            'status' => 'deposit'
         ]);
 
         $expired_soon_items = $this->Cmall_order_detail_model->get_expired_items($mem_id);
@@ -3266,9 +3266,9 @@ class Mypage extends CB_Controller
 
         $result = [
             'message' => 'Success',
-            'order_buy_count' => $order_buy_count,
+            'order_order_count' => $order_order_count,
             'order_cancel_count' => $order_cancel_count,
-            'order_refund_count' => $order_refund_count,
+            'order_deposit_count' => $order_deposit_count,
             'expired_soon_items' => $expired_soon_items,
             'recently_listen_items' => $recently_listen_items['list'],
             'messages' => $recent_messages['list'],
