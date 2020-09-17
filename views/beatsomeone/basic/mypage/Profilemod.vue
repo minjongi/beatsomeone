@@ -28,7 +28,7 @@
             <Profilemod_Email :email="info.mem_email" @updatedEmail="updateEmail"></Profilemod_Email>
             <Profilemod_Password></Profilemod_Password>
 
-            <div class="row">
+            <div class="row" style="align-items: center">
                 <div class="type"><span>{{$t('yourType')}}</span></div>
                 <div class="data">
                     <label for="type1" class="checkbox">
@@ -163,8 +163,7 @@
             },
             updateUserInfo() {
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
-                    // alert('변경내용이 저장 되었습니다');
-                    // alert(this.$t('dashboard_profilemod_save_ok'));
+                    alert(this.$t('dashboard_profilemod_save_ok'));
                     EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
                 });
             },
@@ -178,7 +177,9 @@
 </script>
 
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+    .data .checkbox {
+        width: 160px;
+    }
 </style>
 
