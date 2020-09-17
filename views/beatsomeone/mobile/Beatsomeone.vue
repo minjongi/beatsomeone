@@ -77,14 +77,14 @@
                                             class="trending__slide-item albumItem"
                                             v-for="(i,index) in listTrending"
                                             :key="index"
-                                            :onclick="`window.vm.$children[0].selectItem('${i.cit_key}')`"
+                                            @click="goToDetail(i.cit_key)"
                                     >
                                         <button class="albumItem__cover">
                                             <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
                                         </button>
-                                        <a href="#//" class="albumItem__link">
+                                        <a href="javascript:;" class="albumItem__link">
                                             <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                                            <p class="albumItem__singer">{{ i.musician }}</p>
+                                            <p class="albumItem__singer">{{ i.mem_nickname }}</p>
                                         </a>
                                     </div>
                                 </div>
@@ -102,41 +102,19 @@
                                         <p>{{ $t('bestTeamMember') }}</p>
                                     </article>
                                     <article class="testimonials__lists">
-                                        <figure class="card card--testimonials">
-                                            <a href="https://youtu.be/0gGCw6CNQ6U" target="_blank">
+                                        <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
+                                            <a :href="post.pln_url" target="_blank">
                                                 <div class="img">
-                                                    <img src="@/assets_m/images/testimonials/testimonials_004.png" alt/>
+                                                    <img
+                                                            :src="'/uploads/post/' + post.pfi_filename"
+                                                            alt=""
+                                                    />
                                                 </div>
                                                 <figcaption>
-                                                    <h3>작사·작곡·편곡·보컬, 만능 뮤지션</h3>
-                                                    <p>by CHORDA</p>
+                                                    <h3>{{ post.post_title }}</h3>
+                                                    <p>by {{ post.post_nickname }}</p>
                                                 </figcaption>
                                             </a>
-                                            <button class="play">재생</button>
-                                        </figure>
-                                        <figure class="card card--testimonials">
-                                            <a href="https://youtu.be/pCzTJXycusQ" target="_blank">
-                                                <div class="img">
-                                                    <img src="@/assets_m/images/testimonials/testimonials_005.png" alt/>
-                                                </div>
-                                                <figcaption>
-                                                    <h3>재즈힙합, 새로움이 끝이 없다</h3>
-                                                    <p>by SEORILLA</p>
-                                                </figcaption>
-                                            </a>
-                                            <button class="play">재생</button>
-                                        </figure>
-                                        <figure class="card card--testimonials">
-                                            <a href="https://youtu.be/iB9A5UJo3L8" target="_blank">
-                                                <div class="img">
-                                                    <img src="@/assets_m/images/testimonials/testimonials_006.png" alt/>
-                                                </div>
-                                                <figcaption>
-                                                    <h3>실력파 프로듀서의 첫 앨범</h3>
-                                                    <p>by 김달란</p>
-                                                </figcaption>
-                                            </a>
-                                            <button class="play">재생</button>
                                         </figure>
                                     </article>
                                     <div class="testimonials__btnbox">
@@ -189,11 +167,13 @@
                 isLogin: false,
                 init: {},
                 list: null,
-                listTrending: null,
-                listTestimonials: null,
+                listTrending: [],
+                listTestimonials: [],
                 currentGenre: "All Genre",
                 listGenre: ["All Genre"].concat(window.genre), // .concat(["Free Beats"])
                 videoBGPath: "",
+                member: false,
+                member_group_name: ''
             };
         },
         created() {
@@ -204,7 +184,7 @@
             this.getTrendingList();
 
             // Testimonials List
-            // this.getTestimonialsList();
+            this.getTestimonialsList();
         },
         mounted() {
             // 메인페이지: 서브 앨범 슬라이드 이벤트
@@ -242,6 +222,9 @@
             });
 
             this.endVideoBG();
+
+            this.member = window.member;
+            this.member_group_name = window.member_group_name;
         },
         watch: {
             // 장르가 변경될 때
@@ -342,19 +325,12 @@
                 if (this.userInfo) {
                     switch (o) {
                         case "startSelling": {
-                            switch (this.userInfo.mem_usertype) {
-                                case "1":
-                                    url = "/mypage/sellerreg";
-                                    break;
-                                case "2":
-                                    url = "/mypage/regist_item";
-                                    break;
-                                case "3":
-                                    url = "/mypage/regist_item";
-                                    break;
-                                case "4":
-                                    url = "/mypage/regist_item";
-                                    break;
+                            if (this.member_group_name === 'buyer') {
+                                url = '/mypage/upgrade';
+                            } else if (this.member_group_name.includes('seller')) {
+                                url = '/mypage/regist_item';
+                            } else {
+                                url = '/mypage/upgrade';
                             }
                             break;
                         }
@@ -368,6 +344,9 @@
                 // 이동
                 window.location.href = url;
             },
+            goToDetail(cit_key) {
+                window.location.href = '/beatsomeone/detail/' + cit_key;
+            }
         },
     };
 </script>

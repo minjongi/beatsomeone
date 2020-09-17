@@ -1735,4 +1735,13 @@ class BeatsomeoneApi extends CB_Controller
         $this->load->model('Beatsomeone_model');
         $resut = $this->Beatsomeone_model->chk_membership_purchase_promotion($this->member->item('mem_id'));
     }
+
+    public function get_banner()
+    {
+        $result = banner('mobile');
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode([
+            'content' => $result
+        ]));
+    }
 }

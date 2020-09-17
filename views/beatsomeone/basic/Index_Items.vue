@@ -411,7 +411,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                t.value = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
                 t.select();
                 document.execCommand("copy");
                 document.body.removeChild(t);

@@ -107,7 +107,8 @@ Cmall_item_model extends CB_Model
 		}
 		$limit = element('limit', $config) ? element('limit', $config) : 4;
 
-		$this->db->select('cmall_item.*');
+		$this->db->select('cmall_item.*, member.mem_nickname');
+        $this->db->join('member', 'cmall_item.mem_id = member.mem_id', 'left');
 		$this->db->where($where);
 		$this->db->limit($limit);
 		$this->db->order_by('RAND()');
