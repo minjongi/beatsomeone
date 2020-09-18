@@ -60,7 +60,7 @@
 </script>
 <style lang="scss">
 </style>
-<style lang="css">
+<style lang="scss">
     ul.tabs {
         display: flex;
         margin-top: 5em;
@@ -81,5 +81,12 @@
     .tabs li.active {
         background-color: #045FB4;
         color: #fff;
+    }
+
+    .tab_content {
+        p {
+            margin-left: 32px;
+            line-height: 2em;
+        }
     }
 </style>

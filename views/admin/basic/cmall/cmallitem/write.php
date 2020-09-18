@@ -205,7 +205,7 @@
                                             <?php } ?>
                                         </td>
                                         <td><input type="number" class="form-control" name="cde_price_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_price', $detail); ?>"/>원</td>
-                                        <td>$<input type="number" class="form-control" name="cde_price_d_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_price_d', $detail); ?>"/></td>
+                                        <td>$<input type="number" step="0.01" class="form-control" name="cde_price_d_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (float)element('cde_price_d', $detail); ?>"/></td>
                                         <td><input type="number" class="form-control" name="cde_quantity_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_quantity', $detail); ?>"/>개</td>
                                         <td><input type="checkbox" name="cde_status_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="1" <?php echo (element('cde_status', $detail)) ? ' checked="checked" ' : ''; ?> /></td>
                                     </tr>

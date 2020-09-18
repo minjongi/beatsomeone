@@ -20,7 +20,7 @@ class Cmall_item_show_history_model extends CB_Model
 
     public function get_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
     {
-        $select = 'cmall_item_show_history.*, cmall_item.mem_id as item_mem_id, cmall_item.cit_datetime, cmall_item.cit_hit, cmall_item.cit_name, cmall_item.cit_key, cmall_item.cit_file_1, member.mem_firstname, member.mem_lastname';
+        $select = 'cmall_item_show_history.*, cmall_item.mem_id as item_mem_id, cmall_item.cit_datetime, cmall_item.cit_hit, cmall_item.cit_name, cmall_item.cit_key, cmall_item.cit_file_1, member.mem_nickname, member.mem_firstname, member.mem_lastname';
         $join[] = array('table' => 'cmall_item', 'on' => 'cmall_item_show_history.cit_id = cmall_item.cit_id', 'type' => 'inner');
         $join = [
             [

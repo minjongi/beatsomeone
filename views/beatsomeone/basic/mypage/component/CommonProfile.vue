@@ -18,7 +18,7 @@
                     {{ member.mem_nickname }}
                 </div>
                 <div class="bio">
-                    {{ member.mem_type}}, {{ member.mem_lastname }} {{ member.mem_firstname }}
+                    {{ memBio }}
                 </div>
                 <div class="location" v-if="member.mem_address1">
                     <img class="site" src="/assets/images/icon/position.png"/>
@@ -61,6 +61,14 @@
             },
             isAvatarSaving() {
                 return this.avatarStatus === AVATAR_SAVING;
+            },
+            memBio() {
+                if (this.$i18n.locale === 'en') {
+                    return this.member.mem_type + ', ' + this.member.mem_firstname + ' ' + this.member.mem_lastname;
+                } else if (this.$i18n.locale === 'ko') {
+                    return this.member.mem_type + ', ' + this.member.mem_lastname + ' ' + this.member.mem_firstname;
+                }
+                return '';
             }
         },
         created() {

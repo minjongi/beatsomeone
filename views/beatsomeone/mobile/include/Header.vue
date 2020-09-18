@@ -42,18 +42,22 @@
             <div class="gnb__content">
                 <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
-                    <a href="/mypage#/favorites">{{ $t('favorite') }}</a>
-                    <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
+                    <a v-if="isCustomer" href="">{{ $t('freeBeats') }}</a>
+                    <a v-if="isSeller" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>
                 </div>
+                <div v-html="banner_content" class="gnb__banner">
 
-                <a href="" class="gnb__banner">
-                    <img src="@/assets_m/images/gnb-banner.png" alt="">
-                </a>
+                </div>
+
+<!--                <a href="" class="gnb__banner">-->
+<!--                    <img src="@/assets_m/images/gnb-banner.png" alt="">-->
+<!--                </a>-->
             </div>
 
         </nav>
@@ -66,43 +70,55 @@
 <script>
 
     import { EventBus } from '*/src/eventbus';
-    import Vuecookies from 'vue-cookies'
+    import Vuecookies from 'vue-cookies';
+    import axios from 'axios';
 
     export default {
         name: 'Header',
-        props: {
-            isLogin : {
-                type: Boolean,
-                default: false,
-            }
-        },
         data: function () {
             return {
-                userInfo: null,
+                userInfo: false,
                 searchText: null,
                 cartSum: 0,
                 isOpen: false,
                 isShowSearchBox: false,
+                member_group_name: '',
+                banner_content: ''
             };
         },
-        watch: {
-          isLogin: function (n) {
-
-          },
-        },
         created() {
-            this.fetchUserInfo();
+            // this.fetchUserInfo();
+            this.userInfo = window.member;
+            this.member_group_name = window.member_group_name;
             EventBus.$on('add_cart',() => {
                 this.updateCartSum();
             });
         },
         mounted() {
             this.updateCartSum();
+
+            axios.get('/beatsomeoneApi/get_banner')
+                .then(res => res.data)
+                .then(data=> {
+                    this.banner_content = data.content;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
         computed: {
             toggleLocaleMenuTit: function() {
                 return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
             },
+            isSeller() {
+                return this.member_group_name.includes('seller')
+            },
+            isCustomer() {
+                return this.member_group_name === 'buyer';
+            },
+            isLogin () {
+                return this.userInfo !== false;
+            }
         },
         methods: {
             fetchUserInfo() {

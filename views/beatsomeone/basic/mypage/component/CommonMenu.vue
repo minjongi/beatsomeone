@@ -9,7 +9,7 @@
             <li :class="{'active':current === 'saleshistory'}" @click="goRoute('saleshistory')" v-show="groupType == 'SELLER'">{{$t('salesHistory')}}</li>
             <li :class="{'active':current === 'message'}" @click="goRoute('message')">{{$t('chat')}}</li>
             <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
-            <li :class="{'active':current === 'sellerreg'}" @click="goRoute('sellerreg')" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
+            <li @click="goUpgrade()" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
             <li :class="{'active':(current === 'inquiry' || current === 'faq')}" @click="openSubmenu($event)">{{$t('support1')}}
                 <ul class="menu">
                     <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
@@ -54,6 +54,9 @@
                         break
                 }
                 this.$router.push({path: p})
+            },
+            goUpgrade() {
+                window.location.href = '/mypage/upgrade'
             },
             parseRoute(r) {
                 let p = null;

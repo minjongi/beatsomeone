@@ -2118,8 +2118,112 @@ class Cmall extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    public function wishlist()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_wishlist';
+        $this->load->event($eventname);
 
-	public function wishlist()
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $view = array();
+        $view['view'] = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        $this->load->model(array('Cmall_wishlist_model'));
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $page = (((int) $this->input->get('page')) > 0) ? ((int) $this->input->get('page')) : 1;
+        $findex = $this->Cmall_wishlist_model->primary_key;
+        $forder = 'desc';
+
+        $per_page = $this->cbconfig->item('list_count') ? (int) $this->cbconfig->item('list_count') : 20;
+        $offset = ($page - 1) * $per_page;
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array();
+        $where['cmall_wishlist.mem_id'] = $this->member->item('mem_id');
+        $where['cit_status'] = 1;
+        $result = $this->Cmall_wishlist_model
+            ->get_list($per_page, $offset, $where, '', $findex, $forder);
+        $list_num = $result['total_rows'] - ($page - 1) * $per_page;
+        if (element('list', $result)) {
+            foreach (element('list', $result) as $key => $val) {
+                $result['list'][$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+                $result['list'][$key]['delete_url'] = site_url('cmallact/wishlist_delete/' . element('cwi_id', $val) . '?' . $param->output());
+                $result['list'][$key]['num'] = $list_num--;
+            }
+        }
+        $view['view']['data'] = $result;
+
+        /**
+         * 페이지네이션을 생성합니다
+         */
+        $config['base_url'] = site_url('cmall/wishlist') . '?' . $param->replace('page');
+        $config['total_rows'] = $result['total_rows'];
+        $config['per_page'] = $per_page;
+        $this->pagination->initialize($config);
+        $view['view']['paging'] = $this->pagination->create_links();
+        $view['view']['page'] = $page;
+
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        /**
+         * 레이아웃을 정의합니다
+         */
+        $page_title = $this->cbconfig->item('site_meta_title_cmall_wishlist');
+        $meta_description = $this->cbconfig->item('site_meta_description_cmall_wishlist');
+        $meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall_wishlist');
+        $meta_author = $this->cbconfig->item('site_meta_author_cmall_wishlist');
+        $page_name = $this->cbconfig->item('site_page_name_cmall_wishlist');
+
+        $searchconfig = array(
+            '{컨텐츠몰명}',
+        );
+        $replaceconfig = array(
+            $this->cbconfig->item('cmall_name'),
+        );
+
+        $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
+        $meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
+        $meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
+        $meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
+        $page_name = str_replace($searchconfig, $replaceconfig, $page_name);
+
+        $layoutconfig = array(
+            'path' => 'cmall',
+            'layout' => 'layout',
+            'skin' => 'wishlist',
+            'layout_dir' => $this->cbconfig->item('layout_cmall'),
+            'mobile_layout_dir' => $this->cbconfig->item('mobile_layout_cmall'),
+            'use_sidebar' => $this->cbconfig->item('sidebar_cmall'),
+            'use_mobile_sidebar' => $this->cbconfig->item('mobile_sidebar_cmall'),
+            'skin_dir' => $this->cbconfig->item('skin_cmall'),
+            'mobile_skin_dir' => $this->cbconfig->item('mobile_skin_cmall'),
+            'page_title' => $page_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords,
+            'meta_author' => $meta_author,
+            'page_name' => $page_name,
+        );
+        $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
+        $this->data = $view;
+        $this->layout = element('layout_skin_file', element('layout', $view));
+        $this->view = element('view_skin_file', element('layout', $view));
+    }
+
+	public function ajax_wishlist()
 	{
 		// 이벤트 라이브러리를 로딩합니다
 		$eventname = 'event_cmall_wishlist';
@@ -2164,7 +2268,12 @@ class Cmall extends CB_Controller
 				$result['list'][$key]['delete_url'] = site_url('cmallact/wishlist_delete/' . element('cwi_id', $val) . '?' . $param->output());
 				$result['list'][$key]['num'] = $list_num--;
                 $result['list'][$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
-                $result['list'][$key]['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+                $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+                foreach ($itemdetails as $itemdetail) {
+                    $result['list'][$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+                }
+
+//                $result['list'][$key]['detail'] = $itemdetails;
 			}
 		}
 

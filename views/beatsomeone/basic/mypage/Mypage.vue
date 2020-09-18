@@ -85,7 +85,7 @@
         },
         methods: {
             judgeDisplayTop: function () {
-                this.isDisplayTop = this.$route.path === "/" && this.isCustomer;
+                this.isDisplayTop = this.$route.path === "/";
             },
         },
     };

@@ -19,9 +19,10 @@
                       v-model.trim="item.cit_name"
                       :placeholder="$t('newTrack')"
                       required
+                      maxlength="100"
                     />
                   </div>
-                  <span class="form-info">{{ $t('allowedCharLength') }}</span>
+                  <span class="form-info">{{ $t('allowedCharLength100') }}</span>
                 </label>
 
                 <label class="form-item">
@@ -222,8 +223,8 @@
               <div class="form-item">
                 <p class="form-title">{{ $t('urlOfYourTrack') }}</p>
                 <div class="input">
-                  <input type="text" class="artworkDoemin" placeholder readonly v-model="item.url" />
-                  <button class="form-copy" type="button">{{ $t('copy') }}</button>
+                  <input type="text" id="url" class="artworkDoemin" placeholder readonly v-model="item.url" />
+                  <button class="form-copy" type="button" @click="copyUrl">{{ $t('copy') }}</button>
                 </div>
               </div>
             </div>
@@ -372,8 +373,8 @@
                   <div class="row row--inner">
                     <span class="col">
                       <p
-                        style="display:flex;align-items:center;height: 55px;line-height:1.25em"
-                      >{{ $t('availableQuantityForSale') }}</p>
+                        style="display:flex;align-items:center;height: 55px;line-height:1.25em" v-html="$t('availableQuantityForSale')"
+                      ></p>
                     </span>
                     <span class="col">
                       <div class="input">
@@ -464,7 +465,7 @@
         </div>
       </section>
       <div class="registered__btnbox">
-        <a href="/beatsomeone/sublist" class="btn btn--list waves-effect">{{ $t('list') }}</a>
+        <a href="/mypage/#/list_item" class="btn btn--list waves-effect">{{ $t('list') }}</a>
         <button type="submit" class="btn btn--save waves-effect" @click="doSubmit">{{ $t('save') }}</button>
       </div>
     </div>
@@ -650,7 +651,7 @@ export default {
       }
 
       this.item.artwork = data;
-      this.$refs["artworkImg"].src = "/" + this.item.artwork.filename;
+      this.$refs["artworkImg"].src = "/uploads/cmallitem/" + this.item.artwork.filename;
     },
     chkHashTag() {
       let hashTag = this.item.hashTag.split(",");
@@ -818,6 +819,12 @@ export default {
             log.debug("ERROR", e);
           }
         );
+    },
+    copyUrl() {
+      let copyText = document.getElementById('url')
+      copyText.select();
+      document.execCommand('copy');
+      alert('Copied');
     },
   },
 };

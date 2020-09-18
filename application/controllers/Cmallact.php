@@ -342,6 +342,64 @@ class Cmallact extends CB_Controller
 		redirect('cmall/wishlist?' . $param->output());
 	}
 
+    public function ajax_wishlist_delete()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmallact_wishlist_delete';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        ajax_required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $cwi_ids = (array) $this->input->post('cwi_ids');
+
+        $this->output->set_content_type('text/json');
+
+        foreach ($cwi_ids as $cwi_id) {
+            Events::trigger('before', $eventname);
+
+            $cwi_id = (int) $cwi_id;
+            if (empty($cwi_id) OR $cwi_id < 1) {
+                return_404();
+            }
+
+            $this->load->model(array('Cmall_item_model', 'Cmall_wishlist_model'));
+            $wishlist = $this->Cmall_wishlist_model->get_one($cwi_id);
+
+            if ( ! element('cwi_id', $wishlist)) {
+                return_404();
+            }
+
+            if ((int) element('mem_id', $wishlist) !== $mem_id) {
+                return_404();
+            }
+
+            $this->Cmall_wishlist_model->delete($cwi_id);
+
+            $where = array(
+                'cit_id' => element('cit_id', $wishlist),
+            );
+            $count = $this->Cmall_wishlist_model->count_by($where);
+
+            $updatedata = array(
+                'cit_wish_count' => $count,
+            );
+            $this->Cmall_item_model->update(element('cit_id', $wishlist), $updatedata);
+
+            // 이벤트가 존재하면 실행합니다
+            Events::trigger('after', $eventname);
+        }
+
+        $this->output->set_output(json_encode([
+            'message' => 'Success'
+        ]));
+
+    }
+
     /**
      * 찜한목록삭제 입니다
      */

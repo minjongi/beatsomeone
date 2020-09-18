@@ -18,12 +18,12 @@
                     </div>
                     <div class="sns-box">
                         <div class="iconbtnbox">
-                            <button><img src="/assets/images/icon/share.png"/></button>
+                            <button @click="copyUrl"><img src="/assets/images/icon/share.png"/></button>
                             <button @click="sendSnsVue('facebook')"><img src="/assets/images/icon/fb.png"/></button>
                             <button @click="sendSnsVue('twitter')"><img src="/assets/images/icon/tw.png"/></button>
                         </div>
                         <div class="iconbtnbox">
-                            <button><img src="/assets/images/icon/list.png"/></button>
+                            <button @click="goPage('/')"><img src="/assets/images/icon/list.png"/></button>
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
         },
         methods:{
             goPage: function(page){
-                window.location.href = '/mypage/'+page;
+                this.$router.push(page);
             },
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
@@ -137,8 +137,16 @@
                 this.wavesurfer.play();
             },
             sendSnsVue(sns) {
-                let currentUrl = window.location.pathname;
+                let currentUrl = window.location.href;
                 window.sendSns(sns, currentUrl, this.post.post_title);
+            },
+            copyUrl() {
+                let currentUrl = window.location.href;
+                this.$copyText(currentUrl).then(function (e) {
+                    alert('Copied');
+                }, function (e) {
+                    alert('Can not copy');
+                })
             }
         }
     }
@@ -187,5 +195,9 @@
         padding: 2px;
         width: 32px;
         height: 32px;
+    }
+
+    .block .video {
+        width: 100%;
     }
 </style>

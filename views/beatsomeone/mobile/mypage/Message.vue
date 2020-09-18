@@ -29,7 +29,7 @@
                                 <li v-for="(m, i) in messageList" v-bind:key="i" class="playList__itembox" :class="mid == m.mem_id ? 'active' : ''" @click="goMChat($event, m)">
                                     <div class="playList__item playList__item--title nowrap">
                                         <div class="portrait">
-                                            <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portait.png"/>
+                                            <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portrait.png"/>
                                             <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
                                         </div>
                                         <div style="max-width: calc(100% - 64px);">
@@ -57,7 +57,7 @@
                 <div class="messageChat" :style="'display: '+mchat">
                     <div class="head" style="position: relative;">
                         <div class="portrait">
-                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
+                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portrait.png"/>
                             <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
                         </div>
                         <div>

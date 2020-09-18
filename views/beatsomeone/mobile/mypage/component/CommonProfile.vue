@@ -13,7 +13,7 @@
                     {{ info.mem_nickname }}
                 </div>
                 <div class="bio">
-                    {{ info.mem_type}}, {{ info.mem_lastname }} {{ info.mem_firstname }}
+                    {{ memBio }}
                 </div>
             </div>
         </div>
@@ -45,6 +45,14 @@
             groupType() {
                 return this.info ? (this.info.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER') : null;
             },
+            memBio() {
+                if (this.$i18n.locale === 'en') {
+                    return this.info.mem_type + ', ' + this.info.mem_firstname + ' ' + this.info.mem_lastname;
+                } else if (this.$i18n.locale === 'ko') {
+                    return this.info.mem_type + ', ' + this.info.mem_lastname + ' ' + this.info.mem_firstname;
+                }
+                return '';
+            }
         },
         created() {
 

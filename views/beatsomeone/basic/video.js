@@ -5,8 +5,11 @@ import i18n from '*/src/i18n/i18n';
 import app from './Video.vue';
 import VideoList from "./VideoList.vue";
 import VideoView from './VideoView.vue';
+import VueClipboard from "vue-clipboard2";
 
+VueClipboard.config.autoSetContainer = true;
 Vue.use(VueRouter);
+Vue.use(VueClipboard);
 
 Vue.config.productionTip = false;
 Vue.prototype.$log = console.log.bind(console);

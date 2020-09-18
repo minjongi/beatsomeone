@@ -6,6 +6,7 @@ export default {
         month: '개월',
         year: '년',
         allowedCharLength: '최대 30자까지 가능',
+        allowedCharLength100: '최대 100자까지 가능',
         all: '전체',
         allGenre: '모든 장르',
         refundPolicyMsg: '구매 후에는 환불이 어려울 수 있으니, 이용약관의 환불정책을 참고 하시고 신중한 결정을 하시기 바랍니다.',
@@ -285,7 +286,7 @@ export default {
         trackTypeSongs: '노래',
         savepercent: '%의 할인 적용',
         registrationSources: '비트등록',
-        availableQuantityForSale: '판매 가능 수량 (수정불가)',
+        availableQuantityForSale: '판매 가능 수량 <br/>(수정불가)',
         selectSalesType: '판매형태를 선택해 주세요',
         enterRentalPrice: '임대가격을 입력해 주세요',
         enterNumberRentalsAvailable: '임대 가능수량을 입력해 주세요',
@@ -317,7 +318,7 @@ export default {
         chart: '그래프',
         togetherWithBeatsomeone: '<span class="text-warning text-decoration-underline">비트썸원</span>과 함께 하세요!',
         makeRelationshipWithPeopleMsg: '비트를 좋아하는 사람들과 관계를 형성하고<br/> 직접 만든 비트로 수익을 창출해보세요.',
-        startSelling1: '판매자 등록',
+        startSelling1: '판매시작',
         orderDetails: '구매내역',
         buy: '결제완료',
         cancel: '구매취소',
@@ -519,7 +520,12 @@ export default {
         totalSettlementHelp: '<span class="font-weight-bold">최종 정산 금액:</span> 정산 금액에서 수수료를 뺀 금액입니다.',
         settleStay: '정산대기',
         settleComplete: '정산완료',
-        dashboard_ExpiredSoon_noexists: '만료 예정인 비트가 없습니다.'
+        dashboard_ExpiredSoon_noexists: '만료 예정인 비트가 없습니다.',
+        post_content: '내용',
+        post_title: '제목',
+        loginAlert: '댓글은 로그인 후 작성이 가능합니다, 로그인 하시겠습니까?',
+        dashboard_profilemod_save_ok: '변경내용이 저장 되었습니다',
+        dashboard_ExpiredSoon_notexists: '기간만료 예정 내역이 없습니다'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -527,6 +533,7 @@ export default {
         month: 'month',
         year: 'year',
         allowedCharLength: '9 out of 60 Maximum characters allowed',
+        allowedCharLength100: 'You can enter up to 200 characters',
         all: 'All',
         allGenre: 'All Genre',
         refundPolicyMsg: 'All sales are final and non-refundable. Please make sure to fully read the BeatSomeone Refund Policy. before you proceed.',
@@ -807,7 +814,7 @@ export default {
         trackTypeSongs: 'Songs',
         savepercent: '% Discount applied',
         registrationSources: 'Registration Sources',
-        availableQuantityForSale: 'Available quantity for sale (Cannot be modified)',
+        availableQuantityForSale: 'Available quantity for sale<br /> (Cannot be modified)',
         selectSalesType: 'Please select a sales type',
         enterRentalPrice: 'Please enter the rental price',
         enterNumberRentalsAvailable: 'Please enter the number of rentals available',
@@ -1041,5 +1048,10 @@ export default {
         settleStay: 'Stay',
         settleComplete: 'Complete',
         dashboard_ExpiredSoon_noexists: 'No expired items exists.',
+        post_title: 'Title',
+        post_content: 'Content',
+        loginAlert: 'You can write comments after logging in, do you want to log in?',
+        dashboard_profilemod_save_ok: 'Personal information has been modified.',
+        dashboard_ExpiredSoon_notexists: 'No products are expected to expire'
     } // en
 }

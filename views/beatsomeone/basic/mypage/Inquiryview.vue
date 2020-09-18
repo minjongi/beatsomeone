@@ -15,7 +15,7 @@
                     <div>
                         <div>
                             <div class="category">Title</div>
-                            <div class="body">{{ post.post_title }}</div>
+                            <div class="body" style="word-break: break-all;">{{ post.post_title }}</div>
                         </div>
                     </div>
 

@@ -167,7 +167,7 @@
         },
         watch: {
             item: function (n) {
-                // console.log(n);
+                console.log(n);
             },
         },
         computed: {
@@ -188,8 +188,6 @@
             addCart(item_detail) {
                 let detail_qty = {};
                 detail_qty[item_detail.cde_id] = 1;
-                console.log(item_detail);
-                console.log(item_detail.cde_id);
                 Http.post(`/beatsomeoneApi/itemAction`, {
                   stype: "cart",
                   cit_id: this.item.cit_id,

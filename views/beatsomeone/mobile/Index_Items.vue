@@ -5,8 +5,8 @@
         <button>{{ $t('favorite') }}</button>
       </div>
       <div class="col favorite" v-if="showCheck">
-        <label for="c1" class="checkbox nfavorites__checkbox">
-          <input type="checkbox" hidden id="c1">
+        <label class="checkbox nfavorites__checkbox">
+          <input type="checkbox" hidden v-model="checkVal">
           <span></span>
         </label>
       </div>
@@ -14,7 +14,7 @@
         <figure>
           <span class="playList__cover" @click="selectItem(item)">
             <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt />
-            <i class="label new" ng-if="item.isNew">N</i>
+            <i class="label new" v-if="item.is_new">N</i>
           </span>
 
           <button
@@ -24,9 +24,9 @@
           >재생</button>
           <div class="wave"></div>
           <figcaption @click="selectItem(item)">
-            <h3 class="playList__title">{{ item.cit_name }}</h3>
+            <h3 class="playList__title">{{ subName }}</h3>
             <div class="playList__bottom-info">
-              <span class="playList__by">{{ item.musician }} ( {{ item.bpm }}Bpm )</span>
+              <span class="playList__by">{{ item.mem_nickname }} ( {{ item.bpm }}Bpm )</span>
 
               <div class="tags">
                 <button style="color:#3873d3;" v-if="item.cit_freebeat === '1'">{{ $t('lang1') }}</button>
@@ -37,21 +37,20 @@
           </figcaption>
         </figure>
       </div>
-      <div class="col more" v-if="false">
+      <div class="col buybtn">
+        <button @click="addCart">
+          <i class="fa fa-shopping-cart" style="color: white; opacity: 0.3"></i>
+        </button>
+      </div>
+      <div class="col more">
         <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">{{ $t('more') }}</button>
         <span class="tooltip">
-          <a href>action1</a>
-          <a href>action2</a>
-          <a href>action3</a>
+          <a @click="clickShare('twitter')">Twitter</a><a @click="clickShare('facebook')">Facebook</a><a @click="copyLinkToClipboard()">CopyLink</a>
         </span>
       </div>
-
-      <div class="col btns" v-if="cart">
-        <a href="">
-          cart
-        </a>
-      </div>
     </div>
+    <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup"
+                          :item="item"></PurchaseTypeSelector>
   </li>
 </template>
 
@@ -59,21 +58,41 @@
 import { EventBus } from "*/src/eventbus";
 import $ from "jquery";
 import WaveSurfer from "wavesurfer.js";
+import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
 export default {
-  props: ["item", "showCheck", "cart"],
+  props: ["item", "showCheck", "cart", "value"],
+  components: {
+    PurchaseTypeSelector,
+  },
   data: function () {
     return {
       isOpenSubmenu: false,
       ws: null,
       isPlay: false,
       isReady: false,
+      purchaseTypeSelectorPopup: false,
     };
   },
   computed: {
     hashtag() {
       return this.item.hashTag ? this.item.hashTag.split(",") : "";
     },
+    checkVal: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val);
+      }
+    },
+    subName() {
+      if (this.item.cit_name.length < 20) {
+        return this.item.cit_name;
+      } else {
+        return this.item.cit_name.substr(0, 20) + '...';
+      }
+    }
   },
   // beforeDestroy() {
   //     this.ws.destroy();
@@ -119,6 +138,15 @@ export default {
         this.stop();
       }
     });
+
+    if (this.item.cit_type3 === '0') {
+      this.$set(this.item, 'is_new', false);
+      let now = new Date();
+      let startDateTime = new Date(this.item.cit_start_datetime);
+      if ((now - startDateTime) < 1000 * 3600 * 24 * 7) this.$set(this.item, 'is_new', true);
+    } else if (this.item.cit_type3 === '1') {
+      this.$set(this.item, 'is_new', true);
+    }
 
     // this.setAudioInstance(this.item);
   },
@@ -168,21 +196,20 @@ export default {
       );
     },
     addCart() {
-      let detail_qty = {};
-      detail_qty[this.item["cde_id"]] = 1;
-      Http.post(`/beatsomeoneApi/itemAction`, {
-        stype: "cart",
-        cit_id: this.item.cit_id,
-        chk_detail: [this.item.cde_id],
-        detail_qty: detail_qty,
-      }).then((r) => {
-        if (!r) {
-          log.debug("장바구니 담기 실패");
-        } else {
-          EventBus.$emit("add_cart");
-          log.debug("장바구니 담기 성공");
-        }
-      });
+      // this.item.detail = {
+      //   LEASE: {
+      //     cde_id: this.item.cde_id || null,
+      //     cde_price: this.item.cde_price || null,
+      //     cde_price_d: this.item.cde_price_d || null,
+      //   },
+      //   STEM: {
+      //     cde_id: this.item.cde_id_2 || null,
+      //     cde_price: this.item.cde_price_2 || null,
+      //     cde_price_d: this.item.cde_price_d_2 || null,
+      //   },
+      // };
+      // console.log(this.item.detail);
+      this.purchaseTypeSelectorPopup = true;
     },
     selectItem(i) {
       const path = `/beatsomeone/detail/${i.cit_key}`;
@@ -296,6 +323,101 @@ export default {
       const path = `/beatsomeone/sublist?search=${h}`;
       window.location.href = path;
     },
+    clickShare(sns) {
+      Http.post(`/beatsomeoneApi/increase_item_share_count`, {
+        cit_id: this.item.cit_id,
+      }).then((r) => {
+        if (!r) {
+          log.debug("공유 카운트 증가 실패");
+        } else {
+          log.debug("공유 카운트 증가 성공");
+        }
+      });
+
+      var url = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+      var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
+
+      var o;
+      var _url = encodeURIComponent(url);
+      var _txt = encodeURIComponent(txt);
+      var _br = encodeURIComponent("\r\n");
+
+      switch (sns) {
+        case "facebook":
+          o = {
+            method: "popup",
+            url: "http://www.facebook.com/sharer/sharer.php?u=" + _url,
+          };
+          break;
+
+        case "twitter":
+          o = {
+            method: "popup",
+            url:
+                    "http://twitter.com/intent/tweet?text=" + _txt + "&url=" + _url,
+          };
+          break;
+
+        case "kakaostory":
+          o = {
+            method: "popup",
+            url: "https://story.kakao.com/share?url=" + _url,
+          };
+          break;
+
+        case "band":
+          o = {
+            method: "popup",
+            url: "http://www.band.us/plugin/share?body=" + _txt + _br + _url,
+          };
+          break;
+
+        default:
+          alert("지원하지 않는 SNS입니다.");
+          return false;
+      }
+
+      switch (o.method) {
+        case "popup":
+          window.open(
+                  o.url,
+                  "snspopup",
+                  "width=500, height=400, menubar=no, status=no, toolbar=no"
+          );
+          break;
+
+        case "web2app":
+          if (navigator.userAgent.match(/android/i)) {
+            // Android
+            setTimeout(function () {
+              location.href =
+                      "intent://" + o.param + "#Intent;" + o.g_proto + ";end";
+            }, 100);
+          } else if (navigator.userAgent.match(/(iphone)|(ipod)|(ipad)/i)) {
+            // Apple
+            setTimeout(function () {
+              location.href = o.a_store;
+            }, 200);
+            setTimeout(function () {
+              location.href = o.a_proto + o.param;
+            }, 100);
+          } else {
+            alert("이 기능은 모바일에서만 사용할 수 있습니다.");
+          }
+          break;
+      }
+    },
+    // 링크 복사
+    copyLinkToClipboard() {
+      var t = document.createElement("textarea");
+      document.body.appendChild(t);
+      t.value = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+      t.select();
+      document.execCommand("copy");
+      document.body.removeChild(t);
+      alert(`복사되었습니다\nCtrl + V 를 눌러 확인해보세요`);
+      this.isOpenSubmenu = false;
+    },
   },
 };
 </script>
@@ -312,6 +434,12 @@ export default {
 }
 .playList .playList__itembox {
   height: 70px !important;
+
+  .buybtn {
+    button {
+      background: url(/assets/images/icon/cart.png) no-repeat 12px center;
+    }
+  }
 }
 .playList .playList__item .name figure {
   margin-right: 0 !important;

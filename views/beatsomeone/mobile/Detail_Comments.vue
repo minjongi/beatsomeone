@@ -5,7 +5,7 @@
             <div class="comment" v-for="c in listComments" :key="c.cqa_id" v-if="listComments">
                 <div class="comment__author-img">
                     <img v-if="!c.mem_photo" src="https://via.placeholder.com/35x35" alt="">
-                    <img v-if="c.mem_photo" :src="'/uploads/member_photo/' + c.mem_photo" alt="">
+                    <img v-if="c.mem_photo" :src="c.mem_photo" alt="">
                 </div>
                 <div class="comment__content">
                     <div class="comment__info">
@@ -15,7 +15,10 @@
                         </div>
 
 <!--                        <span class="comment__created-at">8 day ago</span>-->
-                        <span class="comment__created-at">{{ timeago(c.cqa_datetime) }}</span>
+                        <div>
+                            <span class="comment__created-at">{{ timeago(c.cqa_datetime) }}</span><br>
+                            <button @click="deleteComment(c)" v-if="member.mem_nickname === c.mem_nickname" class="red" style="margin-top: 5px">{{ $t('delete') }}</button>
+                        </div>
                     </div>
                     <div class="comment__description">
                         <p>
@@ -26,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="no-comment"  v-if="!listComments" >
+            <div class="no-comment"  v-if="listComments.length === 0" >
                 <p>{{ $t('detailCommentsNotexists') }}</p>
             </div>
         </div>
@@ -38,13 +41,14 @@
 
     import { EventBus } from '*/src/eventbus';
     import * as timeago from 'timeago.js';
+    import axios from 'axios';
 
     export default {
         props: ['item'],
         data: function () {
             return {
-
-                listComments: null,
+                member: false,
+                listComments: [],
             }
         },
         watch: {
@@ -53,6 +57,7 @@
             },
         },
         created() {
+            this.member = window.member;
             EventBus.$on('add_comment',() => {
                 this.getList();
             });
@@ -64,13 +69,24 @@
             getList() {
                 if(!this.item) return;
                 Http.get(`/beatsomeoneApi/list_comment/${this.item.cit_id}`).then(r=> {
-                    this.listComments = !r.data.length ? null : r.data;
+                    this.listComments = !r.data.length ? [] : r.data;
                 });
             },
             timeago(date) {
                 return timeago.format(date);
             },
-
+            deleteComment(comment) {
+                console.log(comment);
+                let formData = new FormData();
+                formData.append('cqa_id', comment.cqa_id);
+                axios.post('/cmallact/delete_qna', formData)
+                    .then(res => res.data)
+                    .then(data => {
+                        let idx = this.listComments.findIndex(x => x.cqa_id === comment.cqa_id);
+                        this.listComments.splice(idx, 1);
+                    })
+                    .catch(error => console.error(error))
+            }
 
 
         },

@@ -1,8 +1,8 @@
 <template>
-    <div class="wrapper">
-        <Header :is-login="isLogin"></Header>
+    <div>
+        <Header :is-login="isLogin" />
         <router-view />
-        <Footer></Footer>
+        <Footer />
     </div>
 </template>
 

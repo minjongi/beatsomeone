@@ -11,37 +11,40 @@
                             </button>
                         </div>
                         <div class="detail__music-info">
-                            <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
-                            <p class="singer" v-if="item">{{ item.musician }}</p>
+                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ item.cit_name }}</h2>
+                            <p class="singer" v-if="item.member">{{ item.member.mem_nickname }}</p>
                             <div class="state" v-if="item">
                                 <span class="song">{{ item.cde_download }}</span>
-<!--                                <span class="song">120</span>-->
+                                <!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
-                                <!-- <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
-                                <span class="share pointer" @click="clickShare('facebook')">Facebook</span>
-                                <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
-                                <a class="twitter-share-button"
-                                   href="https://twitter.com/intent/tweet?text=Hello%20world">
-                                    Tweet</a> -->
+                            </div>
+                            <div style="font-size: 12px; margin-top: 10px">
+                                <span class="fa fa-share-alt"></span>
+                                <span class="share pointer" @click="clickShare('twitter')">Twitter</span> /
+                                <span class="pointer" @click="clickShare('facebook')">Facebook</span> /
+                                <span class="pointer" @click="copyLinkToClipboard">CopyLink</span>
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="#" class="buy"  @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
+                                    <a href="#" class="buy"
+                                       @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
 
                                 </div>
                             </div>
                         </div>
                     </div>
-<!--                    <div class="wave">-->
-<!--                    </div>-->
+                    <!--                    <div class="wave">-->
+                    <!--                    </div>-->
                     <div class="player player--static">
                         <div class="wrap">
                             <div class="player__top">
                                 <div class="player__progress">
                                     <div id="progress-container">
                                         <input type="range" class="amplitude-song-slider" step=".1"/>
-                                        <progress id="song-played-progress" class="amplitude-song-played-progress" data-amplitude-song-index="0"></progress>
-                                        <progress id="song-buffered-progress" class="amplitude-buffered-progress" data-amplitude-song-index="0"></progress>
+                                        <progress id="song-played-progress" class="amplitude-song-played-progress"
+                                                  data-amplitude-song-index="0"></progress>
+                                        <progress id="song-buffered-progress" class="amplitude-buffered-progress"
+                                                  data-amplitude-song-index="0"></progress>
                                     </div>
                                 </div>
                             </div>
@@ -71,20 +74,24 @@
             <div class="detail__body">
                 <div class="tab">
                     <div class="tab__scroll-none">
-                        <button v-for="t in tabs" :key="t.title" :class="{active: t.id === currentTab }" @click="selectTab(t)">{{ t.title }}</button>
+                        <button v-for="t in tabs" :key="t.title" :class="{active: t.id === currentTab }"
+                                @click="selectTab(t)">{{ t.title }}
+                        </button>
                     </div>
                 </div>
                 <div class="detail__content">
-<!--                    <transition name="fade" mode="out-in">-->
-                        <keep-alive>
-                            <router-view :item="item"/>
-                        </keep-alive>
-<!--                    </transition>-->
+                    <!--                    <transition name="fade" mode="out-in">-->
+                    <keep-alive>
+                        <router-view :item="item"/>
+                    </keep-alive>
+                    <!--                    </transition>-->
                 </div>
             </div>
         </div>
         <main-player></main-player>
         <Footer/>
+        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup"
+                              :item="item"></PurchaseTypeSelector>
     </div>
 </template>
 
@@ -93,26 +100,28 @@
     require('@/assets_m/js/function');
     import Header from "./include/Header";
     import Footer from "./include/Footer";
-    import { EventBus } from '*/src/eventbus';
+    import {EventBus} from '*/src/eventbus';
     import MainPlayer from "@/vue/common/MobileMainPlayer";
+    import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
     export default {
-        components: {Header,Footer,MainPlayer},
-        data: function() {
+        components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
+        data: function () {
             return {
-                isLogin : false,
-                item: null,
+                item: {},
                 comment: null,
                 music: null,
                 currentTab: 1,
                 playlist: null,
                 player: null,
-                isIncreaseMusicCount: false
+                isIncreaseMusicCount: false,
+                purchaseTypeSelectorPopup: false,
+                member: false,
             }
         },
         computed: {
-            releaseDt: function() {
-                if(!this.item) return null;
+            releaseDt: function () {
+                if (!this.item) return null;
                 const t = new Date(Date.parse(this.item.cit_start_datetime));
 
                 return `${t.getFullYear()}.${('0' + t.getMonth()).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
@@ -123,21 +132,24 @@
                     {path: "/comments", id: 2, title: this.$t("comments")},
                     {path: "/infomation", id: 3, title: this.$t("information")}
                 ]
+            },
+            isLogin () {
+                return this.member !== false;
             }
         },
         mounted() {
-
+            this.member = window.member;
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).id;
 
-            EventBus.$on('player_request_start',r=> {
+            EventBus.$on('player_request_start', r => {
 
                 log.debug({
-                    'DETAIL : player_request_start':r,
+                    'DETAIL : player_request_start': r,
                 })
 
-                if(this._uid != r._uid) {
+                if (this._uid != r._uid) {
                     Amplitude.pause();
                     var bg = document.querySelector(".btn-play");
                     bg.classList.remove("amplitude-playing");
@@ -146,13 +158,13 @@
 
             });
 
-            EventBus.$on('main_player_play',r=> {
+            EventBus.$on('main_player_play', r => {
 
                 log.debug({
-                    'DETAIL : main_player_play':r,
+                    'DETAIL : main_player_play': r,
                 })
 
-                if(this._uid != r._uid) {
+                if (this._uid != r._uid) {
                     Amplitude.pause();
                     var bg = document.querySelector(".btn-play");
                     bg.classList.remove("amplitude-playing");
@@ -183,17 +195,15 @@
             // });
 
 
-
-
         },
         watch: {
-            item : function(n){
-                if(n) {
+            item: function (n) {
+                if (n) {
                     log.debug({
-                        'watch detail' : n,
+                        'watch detail': n,
                     })
                     //this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
-                    this.$nextTick(function() {
+                    this.$nextTick(function () {
                         this.player = Amplitude.init({
                             "songs": [{
                                 "name": n.cit_name,
@@ -208,7 +218,7 @@
                                     }
                                     // console.log("MAIN played")
                                     //EventBus.$emit('index_items_stop_all_played', {'_uid':this._uid,'item':this.item});
-                                    EventBus.$emit('stop_main_player',{'_uid':this._uid,'item':this.item});
+                                    EventBus.$emit('stop_main_player', {'_uid': this._uid, 'item': this.item});
                                 },
                                 initialized: () => {
                                     //this.increaseMusicCount();
@@ -250,22 +260,31 @@
             // 탭 선택
             selectTab(t) {
                 this.currentTab = t.id;
-                this.$router.push({ path: t.path, params: { item: this.item} });
+                this.$router.push({path: t.path, params: {item: this.item}});
             },
             // 코멘트 입력
             sendComment() {
 
-                if(!this.comment) return;
+                if (!this.comment) return;
+
+                if (!this.isLogin) {
+                    let yn = confirm(this.$t('loginAlert'));
+                    if (yn === true) {
+                        window.location.href = '/login?url=' + window.location.href;
+                    } else {
+                        return;
+                    }
+                }
 
                 // 코멘트 저장
                 const p = {
-                    cit_id : this.item.cit_id,
-                    cqa_title : null,
-                    cqa_content : this.comment,
+                    cit_id: this.item.cit_id,
+                    cqa_title: null,
+                    cqa_content: this.comment,
                 }
                 // 코멘트 저장
-                Http.post( `/beatsomeoneApi/add_comment`,p).then(r=> {
-                    if(!r) {
+                Http.post(`/beatsomeoneApi/add_comment`, p).then(r => {
+                    if (!r) {
                         log.debug('Comment 저장 실패');
                     } else {
                         EventBus.$emit('add_comment');
@@ -281,23 +300,24 @@
             },
             // 카트 추가
             addCart() {
-
-                let detail_qty = {};
-                detail_qty[this.item.cde_id] = 1;
-                Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
-                    if(!r) {
-                        log.debug('장바구니 담기 실패');
-                    } else {
-                        EventBus.$emit('add_cart');
-                        log.debug('장바구니 담기 성공');
-
-                    }
-                });
+                this.item.detail = {
+                    LEASE: {
+                        cde_id: this.item.cde_id || null,
+                        cde_price: this.item.cde_price || null,
+                        cde_price_d: this.item.cde_price_d || null,
+                    },
+                    STEM: {
+                        cde_id: this.item.cde_id_2 || null,
+                        cde_price: this.item.cde_price_2 || null,
+                        cde_price_d: this.item.cde_price_d_2 || null,
+                    },
+                };
+                this.purchaseTypeSelectorPopup = true;
             },
             // 다운로드 증가
             increaseMusicCount() {
-                Http.post( `/beatsomeoneApi/increase_music_count`,{cde_id:this.item.cde_id}).then(r=> {
-                    if(!r) {
+                Http.post(`/beatsomeoneApi/increase_music_count`, {cde_id: this.item.cde_id}).then(r => {
+                    if (!r) {
                         log.debug('카운트 증가 실패');
                     } else {
                         log.debug('카운트 증가 성공');
@@ -306,48 +326,48 @@
             },
             // 공유 클릭
             clickShare(sns) {
-                Http.post( `/beatsomeoneApi/increase_item_share_count`,{cit_id:this.item.cit_id}).then(r=> {
-                    if(!r) {
+                Http.post(`/beatsomeoneApi/increase_item_share_count`, {cit_id: this.item.cit_id}).then(r => {
+                    if (!r) {
                         log.debug('공유 카운트 증가 실패');
                     } else {
                         log.debug('공유 카운트 증가 성공');
                     }
                 });
 
-                var url = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
-                var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
+                var url = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                var txt = `${this.item.cit_name} / ${this.item.member.mem_nickname} / ${this.item.genre}`;
 
                 var o;
                 var _url = encodeURIComponent(url);
                 var _txt = encodeURIComponent(txt);
                 var _br = encodeURIComponent('\r\n');
 
-                switch(sns) {
+                switch (sns) {
                     case 'facebook':
                         o = {
-                            method:'web2app',
-                            url:'http://www.facebook.com/sharer/sharer.php?u=' + _url
+                            method: 'web2app',
+                            url: 'http://www.facebook.com/sharer/sharer.php?u=' + _url
                         };
                         break;
 
                     case 'twitter':
                         o = {
-                            method:'web2app',
-                            url:'http://twitter.com/intent/tweet?text=' + _txt + '&url=' + _url
+                            method: 'web2app',
+                            url: 'http://twitter.com/intent/tweet?text=' + _txt + '&url=' + _url
                         };
                         break;
 
                     case 'kakaostory':
                         o = {
-                            method:'web2app',
-                            url:'https://story.kakao.com/share?url=' + _url
+                            method: 'web2app',
+                            url: 'https://story.kakao.com/share?url=' + _url
                         };
                         break;
 
                     case 'band':
                         o = {
-                            method:'web2app',
-                            url:'http://www.band.us/plugin/share?body=' + _txt + _br + _url
+                            method: 'web2app',
+                            url: 'http://www.band.us/plugin/share?body=' + _txt + _br + _url
                         };
                         break;
 
@@ -356,25 +376,26 @@
                         return false;
                 }
 
-                switch(o.method) {
+                switch (o.method) {
                     case 'popup':
-                        window.open(o.url,'snspopup','width=500, height=400, menubar=no, status=no, toolbar=no');
+                        window.open(o.url, 'snspopup', 'width=500, height=400, menubar=no, status=no, toolbar=no');
                         break;
 
                     case 'web2app':
-                        if (navigator.userAgent.match(/android/i))
-                        {
+                        if (navigator.userAgent.match(/android/i)) {
                             // Android
-                            setTimeout(function(){ location.href = 'intent://' + o.param + '#Intent;' + o.g_proto + ';end'}, 100);
-                        }
-                        else if (navigator.userAgent.match(/(iphone)|(ipod)|(ipad)/i))
-                        {
+                            setTimeout(function () {
+                                location.href = 'intent://' + o.param + '#Intent;' + o.g_proto + ';end'
+                            }, 100);
+                        } else if (navigator.userAgent.match(/(iphone)|(ipod)|(ipad)/i)) {
                             // Apple
-                            setTimeout(function(){ location.href = o.a_store; }, 200);
-                            setTimeout(function(){ location.href = o.a_proto + o.param }, 100);
-                        }
-                        else
-                        {
+                            setTimeout(function () {
+                                location.href = o.a_store;
+                            }, 200);
+                            setTimeout(function () {
+                                location.href = o.a_proto + o.param
+                            }, 100);
+                        } else {
                             alert('이 기능은 모바일에서만 사용할 수 있습니다.');
                         }
                         break;
@@ -399,10 +420,13 @@
 
 <style lang="scss">
     @import '@/assets_m/scss/App.scss';
+
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+    {
         opacity: 0;
     }
 
@@ -417,5 +441,9 @@
 
     .player__progress wave {
         background: none !important;
+    }
+
+    .container.detail {
+        margin-top: 75px;
     }
 </style>

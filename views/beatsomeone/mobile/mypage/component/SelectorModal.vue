@@ -16,11 +16,11 @@
                 <div class="purchase-list">
                     <ul>
                         <li class="parchase-item" v-for="(detailItem, index) in item.detail" :key="index">
-                            <div class="parchase-info">
-                                <div class="parchase-headern">
+                            <div class="purchase-info">
+                                <div class="purchase-headern">
                                     <div>
-                                        <h4 class="parchase-title">{{ detailItem.cde_title }}</h4>
-                                        <p class="parchase-desc">
+                                        <h4 class="purchase-title">{{ detailItem.cde_title }}</h4>
+                                        <p class="purchase-desc">
                                             {{ detailItem.cde_type }}
                                         </p>
                                     </div>

@@ -6,7 +6,7 @@
         </div>
 
         <div class="row" v-if="isSeller">
-            <Dashboard_Chart :data="chart_data"></Dashboard_Chart>
+            <Dashboard_Chart v-if="chart_data" :data="chart_data"></Dashboard_Chart>
         </div>
 
         <div class="row double">
@@ -85,9 +85,9 @@
             axios.get('/mypage/ajax_info')
                 .then(res => res.data)
                 .then(data => {
-                    this.$set(this.order_summary, 'order_buy_count', data.order_buy_count);
+                    this.$set(this.order_summary, 'order_order_count', data.order_order_count);
                     this.$set(this.order_summary, 'order_cancel_count', data.order_cancel_count);
-                    this.$set(this.order_summary, 'order_refund_count', data.order_refund_count);
+                    this.$set(this.order_summary, 'order_deposit_count', data.order_deposit_count);
                     this.expired_soon_items = data.expired_soon_items;
                     this.recently_listen_items = data.recently_listen_items;
                     this.messages = data.messages;
