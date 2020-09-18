@@ -19,7 +19,7 @@
                     <div class="seller_class" :class="sellerClass">{{ sellerClass }}</div>
                 </div>
                 <div class="active">
-                    <button class="btn btn--yellow round">
+                    <button @click="goToUpgrade" class="btn btn--yellow round">
                         Upgrade Now
                     </button>
                 </div>
@@ -170,6 +170,9 @@
             moveDashboard() {
               window.location.href = '/mypage';
             },
+            goToUpgrade() {
+                window.location.href = '/mypage/upgrade'
+            }
 
 
         }

@@ -26,7 +26,7 @@
                             <a class="nav-link" href="/login/logout" v-if="is_member">{{ $t('logout') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/cmall/cart" class="nav-link"><span class="fal fa-shopping-cart mr-1"></span>({{ $t('currencySymbol') + cartSum }})</a>
+                            <a href="/cmall/cart" class="nav-link"><span class="fal fa-shopping-cart mr-1"></span>({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
@@ -41,6 +41,7 @@
 <script>
     import Vuecookies from "vue-cookies";
     import $ from "jquery";
+    import axios from "axios";
 
     export default {
         name: "Header",
@@ -54,6 +55,7 @@
         },
         created() {
             window.addEventListener('scroll', this.handleScroll);
+            this.updateCartSum();
         },
         destroyed() {
             window.removeEventListener('scroll', this.handleScroll);
@@ -64,6 +66,12 @@
         computed: {
             toggleLocaleMenuTit: function() {
                 return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
+            },
+            getCartSum() {
+                return this.$store.getters.getCartSum;
+            },
+            getCartSumD() {
+                return this.$store.getters.getCartSumD;
             },
         },
         methods: {
@@ -92,7 +100,22 @@
                 } else {
                     this.scrolled = '';
                 }
-            }
+            },
+            updateCartSum() {
+                axios.get('/beatsomeoneApi/getCartSum')
+                    .then(res => res.data)
+                    .then(data => {
+                        this.cartSum = data.s;
+                        this.cartSumD = data.s_d;
+                        this.$store.dispatch('addMoney', {
+                            money: data.s,
+                            money_d: data.s_d,
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            },
         }
     }
 </script>
@@ -145,7 +168,7 @@
     }
 
     .header {
-        position: absolute;
+        position: fixed;
         top: 0;
         width: 100%;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);

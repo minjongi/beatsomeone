@@ -33,7 +33,7 @@
                     <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
                     <a href="/mypage">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/">{{ $t('logout') }}</a>
-                    <a href="/cmall/cart" class="header__cart">({{ $t('currencySymbol') + cartSum }})</a>
+                    <a href="/cmall/cart" class="header__cart">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
                 </div>
             </div>
         </nav>
@@ -43,6 +43,7 @@
 <script>
     import Vuecookies from "vue-cookies";
     import $ from "jquery";
+    import axios from "axios";
 
     export default {
         name: "Header",
@@ -57,6 +58,7 @@
         },
         created() {
             window.addEventListener('scroll', this.handleScroll);
+            this.updateCartSum();
         },
         destroyed() {
             window.removeEventListener('scroll', this.handleScroll);
@@ -67,6 +69,12 @@
         computed: {
             toggleLocaleMenuTit: function() {
                 return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
+            },
+            getCartSum() {
+                return this.$store.getters.getCartSum;
+            },
+            getCartSumD() {
+                return this.$store.getters.getCartSumD;
             },
         },
         methods: {
@@ -98,7 +106,22 @@
             },
             toggleSidebar: function () {
                 this.showSidebar = !this.showSidebar;
-            }
+            },
+            updateCartSum() {
+                axios.get('/beatsomeoneApi/getCartSum')
+                    .then(res => res.data)
+                    .then(data => {
+                        this.cartSum = data.s;
+                        this.cartSumD = data.s_d;
+                        this.$store.dispatch('addMoney', {
+                            money: data.s,
+                            money_d: data.s_d,
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            },
         }
     }
 </script>

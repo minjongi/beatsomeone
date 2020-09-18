@@ -49,7 +49,7 @@
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
-                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>
+                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
                 </div>
                 <div v-html="banner_content" class="gnb__banner">
 
@@ -118,7 +118,13 @@
             },
             isLogin () {
                 return this.userInfo !== false;
-            }
+            },
+            getCartSum() {
+                return this.$store.getters.getCartSum;
+            },
+            getCartSumD() {
+                return this.$store.getters.getCartSumD;
+            },
         },
         methods: {
             fetchUserInfo() {
@@ -131,11 +137,19 @@
 
             },
             updateCartSum() {
-                Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
-                    if(r >= 0) {
-                        this.cartSum = r;
-                    }
-                });
+                axios.get('/beatsomeoneApi/getCartSum')
+                    .then(res => res.data)
+                    .then(data => {
+                        this.cartSum = data.s;
+                        this.cartSumD = data.s_d;
+                        this.$store.dispatch('addMoney', {
+                            money: data.s,
+                            money_d: data.s_d,
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
             },
             clickSearchButton() {
                 this.isShowSearchBox = !this.isShowSearchBox;

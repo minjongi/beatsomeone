@@ -33,7 +33,8 @@
 
 <script>
     import { EventBus } from '*/src/eventbus';
-    import Vuecookies from 'vue-cookies'
+    import Vuecookies from 'vue-cookies';
+    import axios from 'axios';
 
     export default {
         name: 'Header',
@@ -84,15 +85,19 @@
                 });
             },
             updateCartSum() {
-                Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
-                    if(r >= 0) {
-                        this.cartSum = r;
+                axios.get('/beatsomeoneApi/getCartSum')
+                    .then(res => res.data)
+                    .then(data => {
+                        this.cartSum = data.s;
+                        this.cartSumD = data.s_d;
                         this.$store.dispatch('addMoney', {
-                            money: r,
-                            money_d: r,
+                            money: data.s,
+                            money_d: data.s_d,
                         })
-                    }
-                });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
             },
             search() {
                 // if(!this.searchText) {
