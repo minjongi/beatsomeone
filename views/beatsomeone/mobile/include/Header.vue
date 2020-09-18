@@ -97,7 +97,7 @@
         mounted() {
             this.updateCartSum();
 
-            axios.get('beatsomeoneApi/get_banner')
+            axios.get('/beatsomeoneApi/get_banner')
                 .then(res => res.data)
                 .then(data=> {
                     this.banner_content = data.content;

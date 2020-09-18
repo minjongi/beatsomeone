@@ -131,7 +131,7 @@
                                     </button>
                                     <a class="albumItem__link">
                                         <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                                        <p class="albumItem__singer">{{ i.musician }}</p>
+                                        <p class="albumItem__singer">{{ i.mem_nickname }}</p>
                                     </a>
                                 </div>
                             </div>

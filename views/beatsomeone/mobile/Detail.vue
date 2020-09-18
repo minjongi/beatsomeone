@@ -11,18 +11,18 @@
                             </button>
                         </div>
                         <div class="detail__music-info">
-                            <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
-                            <p class="singer" v-if="item">{{ item.musician }}</p>
+                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ item.cit_name }}</h2>
+                            <p class="singer" v-if="item.member">{{ item.member.mem_nickname }}</p>
                             <div class="state" v-if="item">
                                 <span class="song">{{ item.cde_download }}</span>
                                 <!--                                <span class="song">120</span>-->
                                 <span class="registed">{{ releaseDt }}</span>
-                                <!-- <span class="share pointer" @click="clickShare('twitter')">Twitter</span>
-                                <span class="share pointer" @click="clickShare('facebook')">Facebook</span>
-                                <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
-                                <a class="twitter-share-button"
-                                   href="https://twitter.com/intent/tweet?text=Hello%20world">
-                                    Tweet</a> -->
+                            </div>
+                            <div style="font-size: 12px; margin-top: 10px">
+                                <span class="fa fa-share-alt"></span>
+                                <span class="share pointer" @click="clickShare('twitter')">Twitter</span> /
+                                <span class="pointer" @click="clickShare('facebook')">Facebook</span> /
+                                <span class="pointer" @click="copyLinkToClipboard">CopyLink</span>
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
@@ -90,6 +90,8 @@
         </div>
         <main-player></main-player>
         <Footer/>
+        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup"
+                              :item="item"></PurchaseTypeSelector>
     </div>
 </template>
 
@@ -100,19 +102,21 @@
     import Footer from "./include/Footer";
     import {EventBus} from '*/src/eventbus';
     import MainPlayer from "@/vue/common/MobileMainPlayer";
+    import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
     export default {
-        components: {Header, Footer, MainPlayer},
+        components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
         data: function () {
             return {
-                isLogin: false,
-                item: null,
+                item: {},
                 comment: null,
                 music: null,
                 currentTab: 1,
                 playlist: null,
                 player: null,
-                isIncreaseMusicCount: false
+                isIncreaseMusicCount: false,
+                purchaseTypeSelectorPopup: false,
+                member: false,
             }
         },
         computed: {
@@ -128,10 +132,13 @@
                     {path: "/comments", id: 2, title: this.$t("comments")},
                     {path: "/infomation", id: 3, title: this.$t("information")}
                 ]
+            },
+            isLogin () {
+                return this.member !== false;
             }
         },
         mounted() {
-
+            this.member = window.member;
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).id;
@@ -260,6 +267,15 @@
 
                 if (!this.comment) return;
 
+                if (!this.isLogin) {
+                    let yn = confirm(this.$t('loginAlert'));
+                    if (yn === true) {
+                        window.location.href = '/login?url=' + window.location.href;
+                    } else {
+                        return;
+                    }
+                }
+
                 // 코멘트 저장
                 const p = {
                     cit_id: this.item.cit_id,
@@ -284,23 +300,19 @@
             },
             // 카트 추가
             addCart() {
-
-                let detail_qty = {};
-                detail_qty[this.item.cde_id] = 1;
-                Http.post(`/beatsomeoneApi/itemAction`, {
-                    stype: 'cart',
-                    cit_id: this.item.cit_id,
-                    chk_detail: [this.item.cde_id],
-                    detail_qty: detail_qty,
-                }).then(r => {
-                    if (!r) {
-                        log.debug('장바구니 담기 실패');
-                    } else {
-                        EventBus.$emit('add_cart');
-                        log.debug('장바구니 담기 성공');
-
-                    }
-                });
+                this.item.detail = {
+                    LEASE: {
+                        cde_id: this.item.cde_id || null,
+                        cde_price: this.item.cde_price || null,
+                        cde_price_d: this.item.cde_price_d || null,
+                    },
+                    STEM: {
+                        cde_id: this.item.cde_id_2 || null,
+                        cde_price: this.item.cde_price_2 || null,
+                        cde_price_d: this.item.cde_price_d_2 || null,
+                    },
+                };
+                this.purchaseTypeSelectorPopup = true;
             },
             // 다운로드 증가
             increaseMusicCount() {
@@ -322,8 +334,8 @@
                     }
                 });
 
-                var url = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
-                var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
+                var url = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                var txt = `${this.item.cit_name} / ${this.item.member.mem_nickname} / ${this.item.genre}`;
 
                 var o;
                 var _url = encodeURIComponent(url);

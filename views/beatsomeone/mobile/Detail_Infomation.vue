@@ -9,7 +9,7 @@
                 <h2 class="information__username">{{ info.mem_username }}</h2>
                 <p class="information__description" v-html="info.cit_content"></p>
 
-                <a href="" class="information__message">{{ $t('chat') }}</a>
+                <a href="javascript:;" @click="sendMessage" class="information__message">{{ $t('chat') }}</a>
             </div>
         </div>
     </div>
@@ -18,11 +18,14 @@
 
 <script>
 
+    import axios from 'axios';
+
     export default {
         props: ['item'],
         data: function () {
             return {
                 info: null,
+                member: false
             }
         },
         watch: {
@@ -31,6 +34,7 @@
             },
         },
         mounted() {
+            this.member = window.member;
             this.getList();
         },
         methods: {
@@ -40,6 +44,22 @@
                     this.info = r;
                 });
             },
+            sendMessage() {
+                console.log(this.info.mem_id);
+                if (this.member === false)
+                    return false;
+                let formData = new FormData();
+                formData.append('userid', this.info.mem_id);
+                axios.post('/note/ajax_write_empty', formData)
+                    .then(res => res.data)
+                    .then(data => {
+                        console.log(data);
+                        // window.location.href = '/mypage/#/message';
+                    })
+                    .catch(error => {
+                        alert(error.response.data.message);
+                    })
+            }
         },
 
     }
