@@ -77,7 +77,9 @@
                 listTop5: null,
                 offset: 0,
                 last_offset: 0,
+                total_rows: 0,
                 busy: false,
+                page: 1,
                 checkedCount: 0,
                 checkedAll: false
             };
@@ -91,7 +93,7 @@
         methods: {
             loading() {
                 if (this.busy) return;
-                if (this.last_offset === this.offset) return;
+                if (this.total_rows === this.offset) return;
                 this.busy = true;
                 this.getListMore();
             },
@@ -99,33 +101,37 @@
                 this.getList();
             }, 100),
             getList() {
-                const p = {
-                    limit: 10,
-                    offset: 0,
-                };
-                Http.post(`/BeatsomeoneMypageApi/get_favorites_list`, p).then((r) => {
-                    r.forEach(x => {
-                        x.is_selected = false;
+                axios.get('/cmall/ajax_wishlist?page=1')
+                    .then(res => res.data)
+                    .then(data => {
+                        data.list.forEach(x => {
+                            x.is_selected = false;
+                        })
+                        this.list = data.list;
+                        this.page++;
+                        this.offset = data.list.length;
+                        this.total_rows = (+data.total_rows);
                     })
-                    this.list = r;
-                    this.offset = this.list.length;
-                });
+                    .catch(error => {
+                        console.error(error);
+                    })
             },
             getListMore: _.debounce(function () {
                 this.busy = true;
-                const p = {
-                    limit: 10,
-                    offset: this.offset,
-                };
-                Http.post(`/BeatsomeoneMypageApi/get_favorites_list`, p).then((r) => {
-                    r.forEach(x => {
-                        x.is_selected = false;
+                axios.get(`/cmall/ajax_wishlist?page=${this.page}`)
+                    .then(res => res.data)
+                    .then(data => {
+                        data.list.forEach(x => {
+                            x.is_selected = false;
+                        })
+                        this.list = this.list.concat(data.list);
+                        this.page++;
+                        this.busy = false;
+                        this.offset += data.list.length;
                     })
-                    this.list = this.list.concat(r);
-                    this.last_offset = this.offset;
-                    this.offset = this.list.length;
-                    this.busy = false;
-                });
+                    .catch(error => {
+                        console.error(error);
+                    });
             }, 1000),
             beforeEnter: function (el) {
                 el.style.opacity = 0;

@@ -2268,7 +2268,12 @@ class Cmall extends CB_Controller
 				$result['list'][$key]['delete_url'] = site_url('cmallact/wishlist_delete/' . element('cwi_id', $val) . '?' . $param->output());
 				$result['list'][$key]['num'] = $list_num--;
                 $result['list'][$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
-                $result['list'][$key]['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+                $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+                foreach ($itemdetails as $itemdetail) {
+                    $result['list'][$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+                }
+
+//                $result['list'][$key]['detail'] = $itemdetails;
 			}
 		}
 

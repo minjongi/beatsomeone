@@ -17,18 +17,22 @@
         props: ['item'],
         data: function () {
             return {
-
+                member_group_name: ''
             }
         },
         created() {
 
         },
         mounted() {
-
+            this.member_group_name = window.member_group_name;
         },
         methods: {
             goSellerReg() {
-                window.location.href = '/mypage/sellerreg';
+                if (this.member_group_name === 'buyer') {
+                    window.location.href = '/mypage/upgrade';
+                } else if (this.member_group_name.includes('seller')) {
+                    window.location.href = '/mypage/regist_item';
+                }
             }
         },
 

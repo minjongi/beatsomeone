@@ -87,7 +87,7 @@
         },
         methods: {
             judgeDisplayTop: function () {
-                this.isDisplayTop = this.$router.currentRoute.path === '/' && this.isCustomer;
+                this.isDisplayTop = this.$router.currentRoute.path === '/';
 
                 switch (this.$router.currentRoute.path) {
                     case '/':

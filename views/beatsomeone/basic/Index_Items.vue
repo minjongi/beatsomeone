@@ -205,18 +205,18 @@
                 );
             },
             addCart() {
-                this.item.detail = {
-                    LEASE: {
-                        cde_id: this.item.cde_id || null,
-                        cde_price: this.item.cde_price || null,
-                        cde_price_d: this.item.cde_price_d || null,
-                    },
-                    STEM: {
-                        cde_id: this.item.cde_id_2 || null,
-                        cde_price: this.item.cde_price_2 || null,
-                        cde_price_d: this.item.cde_price_d_2 || null,
-                    },
-                };
+                // this.item.detail = {
+                //     LEASE: {
+                //         cde_id: this.item.cde_id || null,
+                //         cde_price: this.item.cde_price || null,
+                //         cde_price_d: this.item.cde_price_d || null,
+                //     },
+                //     STEM: {
+                //         cde_id: this.item.cde_id_2 || null,
+                //         cde_price: this.item.cde_price_2 || null,
+                //         cde_price_d: this.item.cde_price_d_2 || null,
+                //     },
+                // };
                 this.purchaseTypeSelectorPopup = true;
             },
             selectItem(i) {

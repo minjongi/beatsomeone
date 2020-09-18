@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="input_wrap line" style="margin-left:20px; width:100%;">
-                    <input type="text" :placeholder="$t('enterYourSearchword')">
+                    <input type="text">
                     <button><img src="/assets/images/icon/searchicon.png"/></button>
                 </div>
             </div>

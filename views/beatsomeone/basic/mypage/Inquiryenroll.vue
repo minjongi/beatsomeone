@@ -21,12 +21,12 @@
                     </div>
                 </div>
 
-                <div class="row" v-show="group_title == 'SELLER'">
+                <div class="row">
                     <div class="type"><span>Writer</span></div>
                     <div class="data">
                         <div class="group_title" :class="group_title">{{$t(group_title)}}</div>
-                        <div class="seller_class" :class="seller_class">{{seller_class}}</div>
-                        <div class="username">KKOMA</div>
+                        <div v-if="group_title === 'SELLER'" class="seller_class" :class="seller_class">{{$t(seller_class)}}</div>
+                        <div class="username">{{ member.mem_nickname }}</div>
                     </div>
                 </div>
 
@@ -83,8 +83,7 @@
         data: function () {
             return {
                 isLogin: false,
-                group_title: 'SELLER',
-                seller_class: 'MARKET PLACE',
+                member_group_name: '',
                 product_status: 'PENDING',
                 popup_filter: 0,
                 ws: null,
@@ -96,6 +95,8 @@
                 post_content: '',
                 board_info: {},
                 post_id: null,
+                member: {},
+                is_submit: false,
             };
         },
         mounted() {
@@ -116,6 +117,26 @@
                     .catch(error => {
                         console.error(error);
                     });
+            }
+            this.member_group_name = window.member_group_name;
+            this.member = window.member;
+        },
+        computed: {
+            group_title() {
+                if (this.member_group_name === 'buyer') {
+                    return 'CUSTOMER';
+                } else if (this.member_group_name.includes('seller')) {
+                    return 'SELLER';
+                } else {
+                    return 'CUSTOMER';
+                }
+            },
+            seller_class() {
+                if (this.member_group_name.includes('seller')) {
+                    return this.member_group_name.split('_')[1];
+                } else {
+                    return ''
+                }
             }
         },
         created() {
@@ -147,39 +168,47 @@
             },
             submitInquiry() {
                 const formData = new FormData();
+                if (!this.post_title || !this.post_content) {
+                    return false;
+                }
                 formData.append('post_title', this.post_title);
                 formData.append('post_content', this.post_content);
                 for( let i = 0; i < this.attached_files.length; i++ ){
                     let file = this.attached_files[i];
                     formData.append('post_file[' + i + ']', file);
                 }
-                if (this.post_id) {
-                    formData.append('post_id', this.post_id);
-                    axios.post(`/modify/${this.post_id}`, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                        .then(res => res.data)
-                        .then(data => {
-                            this.$router.push({path: '/inquiry'})
+                if (this.is_submit === false) {
+                    this.is_submit = true;
+                    if (this.post_id) {
+                        formData.append('post_id', this.post_id);
+                        axios.post(`/modify/${this.post_id}`, formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
                         })
-                        .catch(error => {
-                            console.log(error);
-                        });
-                } else {
-                    axios.post('/write/support', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                        .then(res => res.data)
-                        .then(data => {
-                            this.$router.push({path: '/inquiry'})
+                            .then(res => res.data)
+                            .then(data => {
+                                this.is_submit = false;
+                                this.$router.push({path: '/inquiry'})
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    } else {
+                        axios.post('/write/support', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
                         })
-                        .catch(error => {
-                            console.log(error);
-                        });
+                            .then(res => res.data)
+                            .then(data => {
+                                this.is_submit = false;
+                                this.$router.push({path: '/inquiry'})
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    }
                 }
             }
         }
