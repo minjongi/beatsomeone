@@ -19,7 +19,7 @@
               <div class="wrap">
                 <h1>{{ $t('MainTitleMsg') }}</h1>
                 <p>
-                  {{ $t('findingMusicMsg') }}
+                  {{ $t('findingMusicMsg') }}<br/>
                   {{ $t('mainMsg2') }}
                 </p>
               </div>
