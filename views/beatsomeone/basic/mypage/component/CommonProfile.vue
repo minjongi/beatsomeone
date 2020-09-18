@@ -64,9 +64,9 @@
             },
             memBio() {
                 if (this.$i18n.locale === 'en') {
-                    return this.member.mem_type + ', ' + this.member.mem_firstname + ' ' + this.member.mem_lastname;
+                    return (this.member.mem_type ? this.member.mem_type + ', ' : '') + (this.member.mem_firstname ?? '') + ' ' + (this.member.mem_lastname ?? '');
                 } else if (this.$i18n.locale === 'ko') {
-                    return this.member.mem_type + ', ' + this.member.mem_lastname + ' ' + this.member.mem_firstname;
+                    return (this.member.mem_type ? this.member.mem_type + ', ' : '') + ', ' + (this.member.mem_lastname ?? '') + ' ' + this.member.mem_firstname ?? '';
                 }
                 return '';
             }

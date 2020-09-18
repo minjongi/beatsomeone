@@ -42,7 +42,7 @@ class BeatsomeoneApi extends CB_Controller
     public function main_list($genre = '')
     {
 
-        $this->load->model('Beatsomeone_model');
+        $this->load->model(array('Beatsomeone_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
 
         // DB Querying (장르별 Top 5)
         $config = array(
@@ -54,6 +54,14 @@ class BeatsomeoneApi extends CB_Controller
             'voice' => $this->input->get('voice'),
         );
         $result = $this->Beatsomeone_model->get_main_list($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+            $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
+            $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+            foreach ($itemdetails as $itemdetail) {
+                $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+            }
+        }
         $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
@@ -133,7 +141,7 @@ class BeatsomeoneApi extends CB_Controller
     // sublist 목록 조회
     public function sublist_list()
     {
-        $this->load->model('Beatsomeone_model');
+        $this->load->model(array('Beatsomeone_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
 
         $config = array(
             'limit' =>  $this->input->post('limit') ,
@@ -150,6 +158,14 @@ class BeatsomeoneApi extends CB_Controller
         );
 
         $result = $this->Beatsomeone_model->get_sublist_list($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+            $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
+            $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+            foreach ($itemdetails as $itemdetail) {
+                $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+            }
+        }
         $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
@@ -695,16 +711,21 @@ class BeatsomeoneApi extends CB_Controller
 //
 //        $vs = $this->cmalllib->get_my_cart(1000);
         $s = 0;
+        $s_d = 0;
         foreach($result as $v) {
 //            log_message('debug','ITEM : '. print_r($v,true));
             $s += element('cit_price', $v);
 
             foreach (element('detail', $v) as $d) {
                 $s += element('cde_price', $d);
+                $s_d += element('cde_price_d', $d);
 //                log_message('debug','DETAIL : '. print_r($d,true));
             }
         }
-        echo json_encode($s);
+        echo json_encode([
+            's' => $s,
+            's_d' => $s_d
+        ]);
         return false;
     }
     
@@ -1606,12 +1627,26 @@ class BeatsomeoneApi extends CB_Controller
         }
 
         $result = $this->chk_product_reg_limit_proc($memId);
-        if ($result === true) {
+//        if ($result === true) {
             $result = ['status' => 'possible', 'msg' => 'possible', 'msgCode' => ''];
-        } else {
-            $msgCode = 'registrationLimitExceededMsg' . (($result === false) ? '' : $result['limitCnt']);
-            $result = ['status' => 'limited', 'msg' => 'limited', 'msgCode' => $msgCode];
-        }
+//        } else {
+//            $msgCode = 'registrationLimitExceededMsg' . (($result === false) ? '' : $result['limitCnt']);
+//            $result = ['status' => 'limited', 'msg' => 'limited', 'msgCode' => $msgCode];
+//        }
+//        $member = $this->member->get_member();
+//
+//        if ($member) {
+//            $member_group = $this->member->group();
+//            if ($member_group && is_array($member_group)) {
+//
+//                $this->load->model('Member_group_model');
+//
+//                foreach ($member_group as $gkey => $gval) {
+//                    $item = $this->Member_group_model->item(element('mgr_id', $gval));
+//                }
+//            }
+//        }
+        // TODO: Seller Free limit
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));

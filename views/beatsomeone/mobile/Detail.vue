@@ -27,7 +27,9 @@
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a href="#" class="buy"
-                                       @click="addCart"><span>{{ item.cde_price }}&#8361;</span></a>
+                                       @click="addCart">
+                                        <span>{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</span>
+                                    </a>
 
                                 </div>
                             </div>
@@ -300,18 +302,6 @@
             },
             // 카트 추가
             addCart() {
-                this.item.detail = {
-                    LEASE: {
-                        cde_id: this.item.cde_id || null,
-                        cde_price: this.item.cde_price || null,
-                        cde_price_d: this.item.cde_price_d || null,
-                    },
-                    STEM: {
-                        cde_id: this.item.cde_id_2 || null,
-                        cde_price: this.item.cde_price_2 || null,
-                        cde_price_d: this.item.cde_price_d_2 || null,
-                    },
-                };
                 this.purchaseTypeSelectorPopup = true;
             },
             // 다운로드 증가
@@ -410,6 +400,26 @@
                 document.execCommand('copy');
                 document.body.removeChild(t);
                 alert(`복사되었습니다\nCtrl + V 를 눌러 확인해보세요`);
+            },
+            formatPrice: function (kr, en, simbol) {
+                if (!simbol) {
+                    if (this.$i18n.locale === "en") {
+                        return en;
+                    } else {
+                        return kr;
+                    }
+                }
+                if (this.$i18n.locale === "en") {
+                    return (
+                        "$ " +
+                        Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    );
+                } else {
+                    return (
+                        "₩ " +
+                        Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                    );
+                }
             },
         },
 

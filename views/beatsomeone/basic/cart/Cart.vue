@@ -440,6 +440,19 @@ export default {
         alert("주문할 대상을 선택해주세요");
         return;
       } else {
+        // let formData = new FormData();
+        // this.checkedItem.forEach(x => {
+        //   formData.append('chk[]', x);
+        // });
+        // axios.post('/cmall/ajax_cart', formData)
+        //         .then(res => res.data)
+        //         .then(data => {
+        //           window.location.href = '/cmall/billing';
+        //         })
+        //         .catch(error => {
+        //           console.error(error.response);
+        //         })
+
         this.ajaxCartToOrder(this.checkedItem).then(() => {
           window.location.href = "/cmall/billing";
         });

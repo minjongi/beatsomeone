@@ -754,6 +754,193 @@ class Cmall extends CB_Controller
 		$this->view = element('view_skin_file', element('layout', $view));
 	}
 
+	public function ajax_cart()
+    {
+        $this->output->set_content_type('text/json');
+
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_cart';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        ajax_required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view['view'] = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        $this->load->model(array('Cmall_cart_model'));
+
+        if ($this->input->post('chk')) {
+            $cit_id = $this->input->post('chk');
+            $return = $this->cmalllib->cart_to_order(
+                $mem_id,
+                $cit_id
+            );
+            if ($return) {
+                $this->output->set_status_header('200');
+                $this->output->set_output(json_encode([
+                    'message' => 'Success'
+                ]));
+            } else {
+                $this->output->set_status_header('400');
+                $this->output->set_output(json_encode([
+                    'message' => 'Error'
+                ]));
+            }
+        } else {
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => 'Error'
+            ]));
+        }
+    }
+
+    /**
+     * AJAX 주문하기 입니다
+     */
+    public function ajax_order()
+    {
+        $this->output->set_content_type('text/json');
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_order';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        ajax_required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $view = array();
+        $view = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['event']['before'] = Events::trigger('before', $eventname);
+
+        $alertmessage = $this->member->is_member()
+            ? '회원님은 상품을 구매할 수 있는 권한이 없습니다'
+            : '비회원은 상품을 구매할 수 있는 권한이 없습니다.\\n\\n회원이시라면 로그인 후 이용해 보십시오';
+        $access_buy = $this->cbconfig->item('access_cmall_buy');
+        $access_buy_level = $this->cbconfig->item('access_cmall_buy_level');
+        $access_buy_group = $this->cbconfig->item('access_cmall_buy_group');
+        $this->accesslevel->check(
+            $access_buy,
+            $access_buy_level,
+            $access_buy_group,
+            $alertmessage,
+            ''
+        );
+
+        $this->load->model(array('Cmall_cart_model'));
+
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $findex = 'cmall_item.cit_id';
+        $forder = 'desc';
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array();
+        $where['cmall_cart.mem_id'] = $mem_id;
+        $result = $this->Cmall_cart_model->get_order_list($where, $findex, $forder);
+        $good_name = '';
+        $good_count = -1;
+        $session_cct_id = array();
+        if ($result) {
+            foreach ($result as $key => $val) {
+                $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+                $result[$key]['detail'] = $this->Cmall_cart_model
+                    ->get_order_detail($mem_id, element('cit_id', $val));
+                if (empty($good_name)) {
+                    $good_name = element('cit_name', $val);
+                }
+                $good_count ++;
+                $session_cct_id[] = element('cct_id', $val);
+            }
+        }
+        $view['data'] = $result;
+
+        $this->load->model('Unique_id_model');
+        $unique_id = $this->Unique_id_model->get_id($this->input->ip_address());
+        $view['unique_id'] = $unique_id;
+        $view['good_name'] = $good_name;
+        if ($good_count > 0) {
+            $view['good_name'] .= ' 외 ' . $good_count . '건';
+        }
+        $this->session->set_userdata(
+            'unique_id',
+            $unique_id
+        );
+        $this->session->set_userdata(
+            'order_cct_id',
+            implode('-', $session_cct_id)
+        );
+
+//        $view['view']['use_pg'] = $use_pg = false;
+//        if ($this->cbconfig->item('use_payment_card')
+//            OR $this->cbconfig->item('use_payment_realtime')
+//            OR $this->cbconfig->item('use_payment_vbank')
+//            OR $this->cbconfig->item('use_payment_phone')
+//            OR $this->cbconfig->item('use_payment_easy')) {
+//            $view['view']['use_pg'] = $use_pg = true;
+//        }
+//
+//
+//        if ($this->cbconfig->item('use_payment_pg') === 'kcp' && $use_pg) {
+//            $this->load->library('paymentlib');
+//            $view['view']['pg'] = $this->paymentlib->kcp_init();
+//            /*	 //삭제예정
+//            if ($this->cbconfig->get_device_type() !== 'mobile') {
+//                $view['view']['body_script'] = 'onLoad="CheckPayplusInstall();"';
+//            }
+//            */
+//        }
+//
+//        if ($this->cbconfig->item('use_payment_pg') === 'lg' && $use_pg) {
+//            $this->load->library('paymentlib');
+//            $view['view']['pg'] = $this->paymentlib->lg_init();
+//            /*	 //삭제예정
+//            if ($this->cbconfig->get_device_type() !== 'mobile') {
+//                $view['view']['body_script'] = 'onload="isActiveXOK();"';
+//            }
+//            */
+//        }
+//
+//        if ($this->cbconfig->item('use_payment_pg') === 'inicis' && $use_pg) {
+//            $this->load->library('paymentlib');
+//            $view['view']['pg'] = $this->paymentlib->inicis_init();
+//            /* //삭제예정
+//            if ($this->cbconfig->get_device_type() !== 'mobile') {
+//                $view['view']['body_script'] = 'onload="enable_click();"';
+//            }
+//            */
+//        }
+
+        $view['ptype'] = 'cmall';
+
+        $view['form1name'] = ($this->cbconfig->get_device_type() === 'mobile') ? 'mform_1' : 'form_1';
+        $view['form2name'] = ($this->cbconfig->get_device_type() === 'mobile') ? 'mform_2' : 'form_2';
+        $view['form3name'] = ($this->cbconfig->get_device_type() === 'mobile') ? 'mform_3' : 'form_3';
+        $view['form4name'] = ($this->cbconfig->get_device_type() === 'mobile') ? 'mform_4' : 'form_4';
+
+        // 이벤트가 존재하면 실행합니다
+        $view['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        $this->output->set_output(json_encode($view));
+
+    }
+
 	public function billing()
 	{
 		// 이벤트 라이브러리를 로딩합니다
@@ -1839,6 +2026,349 @@ class Cmall extends CB_Controller
 
 		redirect('cmall/orderresult/' . $cor_id);
 	}
+
+    /**
+     * 주문 AJAX 업데이트 함수입니다
+     */
+    public function ajax_orderupdate($agent_type='')
+    {
+//        if( 'mobile' == $agent_type && $this->cbconfig->item('use_payment_pg') === 'inicis' && ($unique_id = $this->session->userdata('unique_id')) && $exist_order = get_cmall_order_data($unique_id) ){	//상품주문
+//            exists_inicis_cmall_order($unique_id, array(), $exist_order['cor_datetime']);
+//            exit;
+//        }
+
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_orderupdate';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        required_user_login();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before', $eventname);
+
+        if ('bank' != $this->input->post('pay_type') && $this->cbconfig->item('use_payment_pg') === 'lg'
+            && ! $this->input->post('LGD_PAYKEY')) {
+            alert('결제등록 요청 후 주문해 주십시오');
+        }
+
+        if ( ! $this->session->userdata('unique_id') OR ! $this->input->post('unique_id') OR $this->session->userdata('unique_id') !== $this->input->post('unique_id')) {
+            alert('잘못된 접근입니다');
+        }
+        if ( ! $this->session->userdata('order_cct_id')) {
+            alert('잘못된 접근입니다');
+        }
+
+        $this->load->model('Cmall_cart_model');
+        $where = array();
+        $where['cmall_cart.mem_id'] = $mem_id;
+        $findex = 'cmall_item.cit_id';
+        $forder = 'desc';
+        $session_cct_id = array();
+
+        $good_mny = $this->input->post('good_mny', null, 0);	//request 값으로 받은 값
+        $item_cct_price = 0;		//주문한 상품의 총 금액의 초기화
+
+        $orderlist = $this->Cmall_cart_model->get_order_list($where, $findex, $forder);
+        if ($orderlist) {
+            foreach ($orderlist as $key => $val) {
+                $details = $this->Cmall_cart_model->get_order_detail($mem_id, element('cit_id', $val));
+
+                if( !empty($details) ){
+                    foreach((array) $details as $detail ){
+                        if( empty($detail) ) continue;
+
+                        $item_cct_price += ((int) element('cit_price', $val) + (int) element('cde_price', $detail)) * element('cct_count', $detail);
+                    }
+                }
+
+                $session_cct_id[] = element('cct_id', $val);
+            }
+        }
+
+        if ( $item_cct_price != $good_mny ){
+        }
+
+        if ($this->session->userdata('order_cct_id') !== implode('-', $session_cct_id)) {
+            alert('결제 내역이 상이합니다, 관리자에게 문의하여주세요');
+        }
+
+        if ( ! is_numeric($this->input->post('order_deposit'))) {
+            alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 숫자만 와야 합니다');
+        }
+        if ( ! is_numeric($this->input->post('total_price_sum'))) {
+            alert('총 결제금액의 값은 숫자만 와야 합니다');
+        }
+        $order_deposit = (int) $this->input->post('order_deposit');
+        $total_price_sum = (int) $this->input->post('total_price_sum');
+        if ($order_deposit) {
+            if ($order_deposit < 0) {
+                alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 0 보다 작을 수 없습니다 ', site_url('cmall/order'));
+            }
+            if ($order_deposit > $total_price_sum) {
+                alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 총 결제금액보다 클 수 없습니다', site_url('cmall/order'));
+            }
+            if ($order_deposit > (int) $this->member->item('total_deposit')) {
+                alert(html_escape($this->cbconfig->item('deposit_name')) . ' 값이 회원님이 보유하고 계신 값보다 큰 값이 입력되어서 진행할 수 없습니다', site_url('cmall/order'));
+            }
+        }
+
+
+        $this->load->library('paymentlib');
+
+        $insertdata = array();
+        $result = '';
+        $od_status = 'order'; //주문상태
+
+        if ($this->input->post('pay_type') === 'bank') {		//무통장입금
+            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+            $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+            $insertdata['cor_total_money'] = $total_price_sum;
+            $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
+            $insertdata['cor_deposit'] = $order_deposit;
+            $insertdata['cor_cash'] = 0;
+
+            /*	 //request 요청값으로 체크하면 안됨
+            if ($this->input->post('good_mny')) {
+            }
+            */
+
+            if ( ((int) $item_cct_price - (int) $order_deposit ) != 0 ) {
+                $insertdata['cor_status'] = 0;
+                $insertdata['cor_approve_datetime'] = null;
+            } else {
+                $insertdata['cor_status'] = 1;
+                $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
+                $od_status = 'deposit'; //주문상태
+            }
+
+        } elseif ($this->input->post('pay_type') === 'realtime') {
+            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
+                $result = $this->paymentlib->kcp_pp_ax_hub();
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
+                $result = $this->paymentlib->xpay_result();
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
+                $result = $this->paymentlib->inipay_result($agent_type);
+            }
+
+            $insertdata['cor_tno'] = element('tno', $result);
+            $insertdata['cor_app_no'] = element('app_no', $result) ? element('app_no', $result) : '';
+            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+            $insertdata['cor_approve_datetime'] = preg_replace(
+                "/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/",
+                "\\1-\\2-\\3 \\4:\\5:\\6",
+                element('app_time', $result)
+            );
+            $insertdata['cor_total_money'] = $total_price_sum;
+            $insertdata['cor_cash_request'] = element('amount', $result);
+            $insertdata['cor_deposit'] = $order_deposit;
+            $insertdata['cor_cash'] = $cor_cash = element('amount', $result);
+            $insertdata['cor_status'] = 1;
+            $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+            $insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
+
+            if ( ((int) $item_cct_price - (int) $order_deposit - $cor_cash) == 0 ) {
+                $od_status = 'deposit'; //주문상태
+            }
+
+        } elseif ($this->input->post('pay_type') === 'vbank') {
+            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
+                $result = $this->paymentlib->kcp_pp_ax_hub();
+
+                $result['bankname'] = iconv("cp949", "utf-8", $result['bankname']);
+                $result['depositor'] = iconv("cp949", "utf-8", $result['depositor']);
+
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
+                $result = $this->paymentlib->xpay_result();
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
+                $result = $this->paymentlib->inipay_result($agent_type);
+            }
+
+            $insertdata['cor_tno'] = element('tno', $result);
+            $insertdata['cor_app_no'] = element('app_no', $result);
+            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+            $insertdata['cor_total_money'] = $total_price_sum;
+            $insertdata['cor_cash_request'] = element('amount', $result);
+            $insertdata['cor_deposit'] = $order_deposit;
+            $insertdata['cor_cash'] = 0;
+            $insertdata['cor_status'] = 0;
+            $insertdata['mem_realname'] = element('depositor', $result);
+            $insertdata['cor_vbank_expire'] = element('cor_vbank_expire', $result) ? date("Y-m-d", strtotime(element('cor_vbank_expire', $result))) : '1000-01-01 00:00:00';
+            $insertdata['cor_bank_info'] = element('bankname', $result) . ' ' . element('account', $result);
+            $insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
+        } elseif ($this->input->post('pay_type') === 'phone') {
+            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
+                $result = $this->paymentlib->kcp_pp_ax_hub();
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
+                $result = $this->paymentlib->xpay_result();
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
+                $result = $this->paymentlib->inipay_result($agent_type);
+            }
+
+            $insertdata['cor_tno'] = element('tno', $result);
+            $insertdata['cor_app_no'] = element('commid', $result) . ' ' . element('mobile_no', $result);
+            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+            $insertdata['cor_approve_datetime'] = preg_replace(
+                "/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/",
+                "\\1-\\2-\\3 \\4:\\5:\\6",
+                element('app_time', $result)
+            );
+            $insertdata['cor_total_money'] = $total_price_sum;
+            $insertdata['cor_cash_request'] = element('amount', $result);
+            $insertdata['cor_deposit'] = $order_deposit;
+            $insertdata['cor_cash'] = $cor_cash = element('amount', $result);
+            $insertdata['cor_status'] = 1;
+            $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+            $insertdata['cor_bank_info'] = element('mobile_no', $result);
+            $insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
+
+            if ( ((int) $item_cct_price - (int) $order_deposit - $cor_cash) == 0 ) {
+                $od_status = 'deposit'; //주문상태
+            }
+
+        } elseif ($this->input->post('pay_type') === 'card') {
+            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
+                $result = $this->paymentlib->kcp_pp_ax_hub();
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
+                $result = $this->paymentlib->xpay_result();
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
+                $result = $this->paymentlib->inipay_result($agent_type);
+            }
+
+            $insertdata['cor_tno'] = element('tno', $result);
+            $insertdata['cor_app_no'] = element('app_no', $result);
+            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+            $insertdata['cor_approve_datetime'] = preg_replace(
+                "/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/",
+                "\\1-\\2-\\3 \\4:\\5:\\6",
+                element('app_time', $result)
+            );
+            $insertdata['cor_total_money'] = $total_price_sum;
+            $insertdata['cor_cash_request'] = element('amount', $result);
+            $insertdata['cor_deposit'] = $order_deposit;
+            $insertdata['cor_cash'] = $cor_cash = element('amount', $result);
+            $insertdata['cor_bank_info'] = element('card_name', $result);
+            $insertdata['cor_status'] = 1;
+            $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+            $insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
+
+            if ( ((int) $item_cct_price - (int) $order_deposit - $cor_cash) == 0 ) {
+                $od_status = 'deposit'; //주문상태
+            }
+
+        } else {
+            alert('결제 수단이 잘못 입력되었습니다');
+        }
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('step1', $eventname);
+
+        //실제로 결제된 금액
+        $real_total_price = $total_price_sum - $order_deposit;
+
+        // 주문금액과 결제금액이 일치하는지 체크
+        if (element('tno', $result) && (int) element('amount', $result) !== $real_total_price) {
+            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
+                $this->paymentlib->kcp_pp_ax_hub_cancel($result);
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
+                $this->paymentlib->xpay_cancel($result);
+            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
+                $this->paymentlib->inipay_cancel($result, $agent_type);
+            }
+            alert('결제가 완료되지 않았습니다. 다시 시도해주십시오', site_url('cmall/order'));
+        }
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('step2', $eventname);
+
+        // 정보 입력
+        $cor_id = $this->session->userdata('unique_id');
+        $insertdata['cor_id'] = $cor_id;
+        $insertdata['mem_id'] = $mem_id;
+        $insertdata['mem_nickname'] = $this->member->item('mem_nickname');
+        $insertdata['mem_email'] = $this->input->post('mem_email', null, '');
+        $insertdata['mem_phone'] = $this->input->post('mem_phone', null, '');
+        $insertdata['cor_pay_type'] = $this->input->post('pay_type', null, '');
+        $insertdata['cor_content'] = $this->input->post('cor_content', null, '');
+        $insertdata['cor_ip'] = $this->input->ip_address();
+        $insertdata['cor_useragent'] = $this->agent->agent_string();
+        $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
+        $insertdata['status'] = $od_status;
+
+        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+        $res = $this->Cmall_order_model->insert($insertdata);
+        if ($res) {
+            $cwhere = array(
+                'mem_id' => $mem_id,
+                'cct_order' => 1,
+            );
+            $cartorder = $this->Cmall_cart_model->get('', '', $cwhere);
+            if ($cartorder) {
+                foreach ($cartorder as $key => $val) {
+                    $item = $this->Cmall_item_model
+                        ->get_one(element('cit_id', $val), 'cit_download_days');
+                    $insertdetail = array(
+                        'cor_id' => $cor_id,
+                        'mem_id' => $mem_id,
+                        'cit_id' => element('cit_id', $val),
+                        'cde_id' => element('cde_id', $val),
+                        'cod_download_days' => element('cit_download_days', $item),
+                        'cod_count' => element('cct_count', $val),
+                        'cod_status' => $od_status,
+                    );
+                    $this->Cmall_order_detail_model->insert($insertdetail);
+                    $deletewhere = array(
+                        'mem_id' => $mem_id,
+                        'cit_id' => element('cit_id', $val),
+                        'cde_id' => element('cde_id', $val),
+                    );
+                    $this->Cmall_cart_model->delete_where($deletewhere);
+                }
+            }
+            if ($order_deposit) {
+                $this->load->library('depositlib');
+                $this->depositlib->do_deposit_to_contents(
+                    $mem_id,
+                    $order_deposit,
+                    $pay_type = '',
+                    $content = '상품구매 주문번호 : ' . $cor_id,
+                    $admin_memo = ''
+                );
+            }
+        }
+
+        if (empty($res)) {
+            if ($this->input->post('pay_type') !== 'bank') {
+                if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
+                    $this->paymentlib->kcp_pp_ax_hub_cancel($result);
+                } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
+                    $this->paymentlib->xpay_cancel($result);
+                } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
+                    $this->paymentlib->inipay_cancel($result, $agent_type);
+                }
+            }
+            alert('결제가 완료되지 않았습니다. 다시 시도해주십시오', site_url('cmall/order'));
+        }
+
+
+        if ($this->input->post('pay_type') === 'bank') {
+            $this->cmalllib->orderalarm('bank_to_contents', $cor_id);
+        } else {
+            $this->cmalllib->orderalarm('cash_to_contents', $cor_id);
+        }
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('after', $eventname);
+
+        $this->session->set_userdata('unique_id', '');
+        $this->session->set_userdata('order_cct_id', '');
+
+        redirect('cmall/orderresult/' . $cor_id);
+    }
 
 
 	public function orderlist()
