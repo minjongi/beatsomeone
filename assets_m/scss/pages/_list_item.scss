@@ -7,7 +7,18 @@
       content: none;
     }
     /* Reset PC Style END */
-    .sticky {
+    &.sticky {
+      display: block;
+      margin: 0 auto;
+      padding: 0;
+      position: relative;
+      top: auto;
+      left: auto;
+      z-index: auto;
+      border-bottom: none;
+      background-color: transparent;
+      max-width: 295px;
+      margin-bottom: 30px;
     }
   }
 

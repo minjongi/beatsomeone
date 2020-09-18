@@ -77,7 +77,7 @@
         name: 'Header',
         data: function () {
             return {
-                userInfo: null,
+                userInfo: false,
                 searchText: null,
                 cartSum: 0,
                 isOpen: false,
@@ -117,7 +117,7 @@
                 return this.member_group_name === 'buyer';
             },
             isLogin () {
-                return this.member !== false;
+                return this.userInfo !== false;
             }
         },
         methods: {

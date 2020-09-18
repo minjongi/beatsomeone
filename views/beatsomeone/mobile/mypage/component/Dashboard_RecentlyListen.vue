@@ -17,7 +17,7 @@
                 </a>
                 <a :href="'/beatsomeone/detail/'+citem.cit_key" class="albumItem__link">
                     <h4 class="albumItem__title">{{ citem.cit_name }}</h4>
-                    <p class="albumItem__singer">{{ citem.musician }}</p>
+                    <p class="albumItem__singer">{{ citem.mem_nickname }}</p>
                 </a>
             </div>
         </div>

@@ -8,6 +8,7 @@
                                 :src="'/uploads/cmallitem/' + item.coverImg"
                                 alt=""
                         />
+                        <i class="label new" v-if="item.is_new">N</i>
                     </span>
                     <figcaption class="pointer" @click="selectItem">
                         <h3 class="playList__title">{{ item.cit_name}}</h3>
@@ -40,7 +41,18 @@
 
         },
         mounted() {
-
+            if (this.item) {
+                if (this.item.cit_type3 === '0') {
+                    this.$set(this.item, 'is_new', false);
+                    let now = new Date();
+                    let startDateTime = new Date(this.item.cit_start_datetime);
+                    if ((now - startDateTime) < 1000 * 3600 * 24 * 7) this.$set(this.item, 'is_new', true);
+                } else if (this.item.cit_type3 === '1') {
+                    this.$set(this.item, 'is_new', true);
+                }
+            } else {
+                return false;
+            }
         },
         methods: {
             selectItem() {
