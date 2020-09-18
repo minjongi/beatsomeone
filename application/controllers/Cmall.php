@@ -2036,6 +2036,7 @@ class Cmall extends CB_Controller
 //            exists_inicis_cmall_order($unique_id, array(), $exist_order['cor_datetime']);
 //            exit;
 //        }
+        $this->output->set_content_type('text/json');
 
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_cmall_orderupdate';
@@ -2051,16 +2052,25 @@ class Cmall extends CB_Controller
         // 이벤트가 존재하면 실행합니다
         Events::trigger('before', $eventname);
 
-        if ('bank' != $this->input->post('pay_type') && $this->cbconfig->item('use_payment_pg') === 'lg'
-            && ! $this->input->post('LGD_PAYKEY')) {
-            alert('결제등록 요청 후 주문해 주십시오');
-        }
+//        if ('bank' != $this->input->post('pay_type') && $this->cbconfig->item('use_payment_pg') === 'lg'
+//            && ! $this->input->post('LGD_PAYKEY')) {
+//            alert('결제등록 요청 후 주문해 주십시오');
+//        }
+
 
         if ( ! $this->session->userdata('unique_id') OR ! $this->input->post('unique_id') OR $this->session->userdata('unique_id') !== $this->input->post('unique_id')) {
-            alert('잘못된 접근입니다');
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '잘못된 접근입니다.'
+            ], JSON_UNESCAPED_UNICODE));
+            return false;
         }
         if ( ! $this->session->userdata('order_cct_id')) {
-            alert('잘못된 접근입니다');
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '잘못된 접근입니다.'
+            ], JSON_UNESCAPED_UNICODE));
+            return false;
         }
 
         $this->load->model('Cmall_cart_model');

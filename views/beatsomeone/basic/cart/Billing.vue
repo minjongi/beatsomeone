@@ -87,7 +87,6 @@
                                                                 </div>
                                                                 <div
                                                                         class="price 11221122"
-                                                                        v-if="item.detail[0].cit_lease_license_use === '1'"
                                                                 >{{ formatPrice(item.detail[0].cde_price,
                                                                     item.detail[0].cde_price_d, true) }}
                                                                 </div>
@@ -120,8 +119,8 @@
                                                                 <div
                                                                         class="price"
                                                                         v-if="item.detail[0].cit_mastering_license_use === '1'"
-                                                                >{{ formatPrice(item.detail[0].cde_price_2,
-                                                                    item.detail[0].cde_price_d_2, true) }}
+                                                                >{{ formatPrice(item.detail[0].cde_price,
+                                                                    item.detail[0].cde_price_d, true) }}
                                                                 </div>
                                                             </button>
                                                             <ParchaseComponent :item="item"
@@ -397,20 +396,20 @@
                 this.payMethod = 3;
             }
             this.mem_point = (+window.member.mem_point);
-            this.ajaxOrderList().then(() => {
-                this.calcTotalPrice();
-                this.point = this.myMember[0].mem_point;
-                this.remPoint = this.myMember[0].mem_point;
-            });
-            // axios.get('/cmall/ajax_order')
-            //     .then(res => res.data)
-            //     .then(data => {
-            //         console.log(data);
-            //         this.myOrder_list = data.data;
-            //     })
-            //     .catch(error => {
-            //         console.error(error);
-            //     })
+            axios.get('/cmall/ajax_order')
+                .then(res => res.data)
+                .then(data => {
+                    console.log(data);
+                    this.myOrder_list = data.data;
+                    this.totalPriceEn = 0;
+                    this.myOrder_list.forEach(item => {
+                        this.totalPriceEn += (+item.detail[0].cde_price_d);
+                        this.totalPriceKr += (+item.detail[0].cde_price);
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
         computed: {
             orderNo() {
@@ -433,24 +432,20 @@
             },
             paypalCompleted: function (data) {
                 this.paypalData = JSON.stringify(data);
-                // console.log(data);
-                // let formData = new FormData();
-                // formData.append('pay_type', 'paypal');
-                // axios.post('/cmall/ajax_orderupdate', formData)
-                //     .then(res => res.data)
-                //     .then(data => {
-                //
-                //     })
-                //     .catch(error => {
-                //
-                //     })
-                this.ajaxUpdateOrder().then(() => {
-                    if (!this.cor_id) {
-                        alert("결제가 실패하였습니다.");
-                    } else {
+                console.log(data);
+                let formData = new FormData();
+                formData.append('pay_type', 'paypal');
+                formData.append('data', this.paypalData);
+                formData.append('state', data.state);
+                formData.append('good_mny', data.transactions[0].amount.total);
+                axios.post('/cmall/ajax_orderupdate', formData)
+                    .then(res => res.data)
+                    .then(data => {
                         window.location.href = "/cmall/complete?cor_id=" + this.cor_id;
-                    }
-                });
+                    })
+                    .catch(error => {
+                        alert("결제가 실패하였습니다.");
+                    });
             },
             paypalCancelled: function (data) {
                 alert("결제를 취소하셨습니다");
@@ -573,8 +568,8 @@
 
                 for (let i in this.myOrder_list) {
                     if (this.myOrder_list[i].cde_title === "STEM") {
-                        tpkr += Number(this.myOrder_list[i].detail[0].cde_price_2);
-                        tpen += Number(this.myOrder_list[i].detail[0].cde_price_d_2);
+                        tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
+                        tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
                     } else {
                         tpkr += Number(this.myOrder_list[i].detail[0].cde_price);
                         tpen += Number(this.myOrder_list[i].detail[0].cde_price_d);
