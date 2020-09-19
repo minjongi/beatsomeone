@@ -18,7 +18,7 @@ class Register extends CB_Controller
 	/**
 	 * 모델을 로딩합니다
 	 */
-	protected $models = array('Member_nickname', 'Member_meta', 'Member_auth_email', 'Member_userid', 'Promo');
+	protected $models = array('Member_nickname', 'Member_meta', 'Member_auth_email', 'Member_userid', 'Promo', 'Member');
 
 	/**
 	 * 헬퍼를 로딩합니다
@@ -1488,11 +1488,11 @@ class Register extends CB_Controller
 
         $mem_id = $this->Member_model->insert($insertdata);
 
-        $useridinsertdata = array(
-            'mem_id' => $mem_id,
-            'mem_userid' => $this->input->post('mem_userid'),
-        );
-        $this->Member_userid_model->insert($useridinsertdata);
+//        $useridinsertdata = array(
+//            'mem_id' => $mem_id,
+//            'mem_userid' => $this->input->post('mem_userid'),
+//        );
+//        $this->Member_userid_model->insert($useridinsertdata);
 
         $this->Member_meta_model->save($mem_id, $metadata);
 
@@ -2310,11 +2310,11 @@ class Register extends CB_Controller
 
 			$mem_id = $this->Member_model->insert($insertdata);
 
-			$useridinsertdata = array(
-				'mem_id' => $mem_id,
-				'mem_userid' => $this->input->post('mem_userid'),
-			);
-			$this->Member_userid_model->insert($useridinsertdata);
+//			$useridinsertdata = array(
+//				'mem_id' => $mem_id,
+//				'mem_userid' => $this->input->post('mem_userid'),
+//			);
+//			$this->Member_userid_model->insert($useridinsertdata);
 
 			if ($selfcert_meta) {
 				foreach ($selfcert_meta as $certkey => $certvalue) {
@@ -3467,11 +3467,11 @@ class Register extends CB_Controller
 
             $mem_id = $this->Member_model->insert($insertdata);
 
-            $useridinsertdata = array(
-                'mem_id' => $mem_id,
-                'mem_userid' => $this->input->post('mem_userid'),
-            );
-            $this->Member_userid_model->insert($useridinsertdata);
+//            $useridinsertdata = array(
+//                'mem_id' => $mem_id,
+//                'mem_userid' => $this->input->post('mem_userid'),
+//            );
+//            $this->Member_userid_model->insert($useridinsertdata);
 
             if ($selfcert_meta) {
                 foreach ($selfcert_meta as $certkey => $certvalue) {
@@ -4048,7 +4048,7 @@ class Register extends CB_Controller
 		$where = array(
 			'mem_userid' => $userid,
 		);
-		$count = $this->Member_userid_model->count_by($where);
+		$count = $this->Member_model->count_by($where);
 		if ($count > 0) {
 			$result = array(
 				'result' => 'no',

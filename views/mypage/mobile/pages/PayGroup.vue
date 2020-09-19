@@ -84,7 +84,7 @@
             }
         },
         created() {
-            axios.get('/payment/paypal_config')
+            axios.get('/payment/pg_config')
                 .then(res => res.data)
                 .then(data => {
                     this.use_pg_test = +data.use_pg_test;

@@ -101,7 +101,7 @@ export default {
         send: '입력',
         setUsername: '사용할 닉네임을 입력 하세요',
         signup: '회원가입',
-        signupWithEmail: '일반 회원가입',
+        signupWithEmail: '이메일로 가입',
         similarTrack: '유사한 트랙',
         skipping: '건너뛰기',
         snsLogin: 'SNS 로그인',

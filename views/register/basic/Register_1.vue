@@ -1,48 +1,48 @@
 <template>
     <div class="container accounts accounts--start">
         <div class="accounts__title">
-            <h1>{{ $t('doYouCreateBeats') }}<br />{{ $t('thenJoin') }}</h1>
+            <h1>{{ $t('doYouCreateBeats') }}<br/>{{ $t('thenJoin') }}</h1>
         </div>
         <div class="login accounts__defaultLayout">
-                <div class="accounts__case">
-                    <label for="listen " class="case case--listen">
-                        <input type="radio" name="case" id="listen " hidden  @click="currentUserType = 'user'" />
-                        <div>
-                            <span class="icon"></span>
-                            <p>{{ $t ('listenAndBuyMusic1') }}<br />{{ $t ('listenAndBuyMusic2') }}</p>
-                        </div>
-                    </label>
+            <div class="accounts__case">
+                <label for="listen " class="case case--listen">
+                    <input type="radio" name="case" id="listen " hidden @click="currentUserType = 'buyer'"/>
+                    <div>
+                        <span class="icon"></span>
+                        <p>{{ $t ('listenAndBuyMusic1') }}<br/>{{ $t ('listenAndBuyMusic2') }}</p>
+                    </div>
+                </label>
 
-                    <label for="monetize" class="case case--monetize">
-                        <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'musician'"/>
-                        <div>
-                            <span class="icon"></span>
-                            <p>{{ $t('monetizeMyMusic1') }}<br />{{ $t('monetizeMyMusic2') }}</p>
-                        </div>
-                    </label>
-                </div>
+                <label for="monetize" class="case case--monetize">
+                    <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'seller'"/>
+                    <div>
+                        <span class="icon"></span>
+                        <p>{{ $t('monetizeMyMusic1') }}<br/>{{ $t('monetizeMyMusic2') }}</p>
+                    </div>
+                </label>
+            </div>
 
-                <div class="accounts__switch" v-if="isMusician">
-                    <span class="accounts__switch-bg"></span>
-                    <label for="monthly" @click="billTerm = 'monthly'">
-                        <input type="radio" id="monthly" hidden name="bill" checked />
-                        <span>{{ $t('billMonthly') }}</span>
-                    </label>
-                    <label for="yearly" @click="billTerm = 'yearly'">
-                        <input type="radio" id="yearly" hidden name="bill" />
-                        <span>
+            <div class="accounts__switch" v-if="currentUserType === 'musician'">
+                <span class="accounts__switch-bg"></span>
+                <label for="monthly" @click="billTerm = 'monthly'">
+                    <input type="radio" id="monthly" hidden name="bill" checked/>
+                    <span>{{ $t('billMonthly') }}</span>
+                </label>
+                <label for="yearly" @click="billTerm = 'yearly'">
+                    <input type="radio" id="yearly" hidden name="bill"/>
+                    <span>
                             {{ $t('billYearly') }}
                             <em>{{ disBill }}{{ $t('savepercent') }}</em>
                         </span>
-                    </label>
-                </div>
+                </label>
+            </div>
         </div>
 
         <div class="accounts__plan-case" v-if="!isMusician">
             <table>
                 <colgroup>
-                    <col width="300" />
-                    <col  />
+                    <col width="300"/>
+                    <col/>
                 </colgroup>
                 <thead>
                 <tr>
@@ -51,8 +51,8 @@
                         <p>
                             {{ $t('free') }}
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ '0' | money($i18n.locale) }}</h2>
-                        <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ buyerGroup.mgr_monthly_cost_d }}</h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </th>
                 </tr>
                 </thead>
@@ -93,20 +93,20 @@
                 <tr>
                     <td></td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext(1)">{{ $t('getStarted') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
                 <!--                    </tfoot>-->
                 </tbody>
             </table>
         </div>
-        <div class="accounts__plan-case" v-if="isMusician && listPlan" >
+        <div class="accounts__plan-case" v-if="isMusician">
             <table>
                 <colgroup>
-                    <col width="300" />
-                    <col width="200" />
-                    <col width="200" />
-                    <col width="200" />
+                    <col width="300"/>
+                    <col width="200"/>
+                    <col width="200"/>
+                    <col width="200"/>
                 </colgroup>
                 <thead>
                 <tr>
@@ -115,22 +115,23 @@
                         <p>
                             {{ $t('free') }}
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ '0' | money($i18n.locale) }}</h2>
-                        <a href="#" class="btn btn--start" @click="doNext('free')">{{ $t('getStarted') }}</a>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? sellerFreeGroup.mgr_monthly_cost_d : sellerFreeGroup.mgr_monthly_cost_w }}</h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
-                            {{ $t('platinum') }}<br />
+                            {{ $t('platinum') }}<br/>
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ (billTerm === 'monthly' ? marketplacePlanMonthlyPrice : marketplacePlanYearlyPrice) | money($i18n.locale) }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
-                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">{{ $t('getStarted') }}</a>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ? sellerPlatinumGroup.mgr_monthly_cost_d : sellerPlatinumGroup.mgr_monthly_cost_w) :
+                            ($i18n.locale === 'en' ? sellerPlatinumGroup.mgr_year_cost_d : sellerPlatinumGroup.mgr_year_cost_w) }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
-                            {{ $t('master') }}<br />
+                            {{ $t('master') }}<br/>
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ (billTerm === 'monthly' ? proPlanMonthlyPrice : proPlanYearlyPrice) | money($i18n.locale) }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
-                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">{{ $t('getStarted') }}</a>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ? sellerMasterGroup.mgr_monthly_cost_d : sellerMasterGroup.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? sellerMasterGroup.mgr_year_cost_d : sellerMasterGroup.mgr_year_cost_w) }}<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerMasterGroup)">{{ $t('getStarted') }}</a>
                     </th>
                 </tr>
                 </thead>
@@ -156,13 +157,13 @@
                 <tr>
                     <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
                     <td>
-                        30%
+                        {{ sellerFreeGroup.mgr_commission }}%
                     </td>
                     <td>
-                        10%
+                        {{ sellerPlatinumGroup.mgr_commission }}%
                     </td>
                     <td>
-                        O%<br>({{ $t('revenueToSeller100') }})
+                        {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
                     </td>
                 </tr>
                 <tr>
@@ -193,13 +194,13 @@
                 <tr>
                     <td></td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('free')">{{ $t('getStarted') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('Marketplace')">{{ $t('getStarted') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('getStarted') }}</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn--start" @click="doNext('Pro Page')">{{ $t('getStarted') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerMasterGroup)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
                 <!--                    </tfoot>-->
@@ -211,48 +212,36 @@
 
 <script>
 
-    import { EventBus } from '*/src/eventbus';
+    import {EventBus} from '*/src/eventbus';
+
+    import axios from 'axios';
 
     export default {
-        data: function() {
+        data: function () {
             return {
-                userType : ['user','musician'],
+                userType: ['buyer', 'seller'],
                 currentUserType: null,
-                billTerm : 'monthly',
-                listPlan : null,
+                billTerm: 'monthly',
+                listPlan: null,
                 planName: 'free',
-                disBill: 0,
-
+                disBill: 10,
+                buyerGroup: {},
+                sellerFreeGroup: {},
+                sellerPlatinumGroup: {},
+                sellerMasterGroup: {},
+                selectedGroup: {}
             }
         },
         filters: {
-            money (value, locale) {
+            money(value) {
                 if (!value) return '';
                 value = parseFloat(value.toString());
-                return value.toFixed(locale === 'en' ? 2 : 0);
+                return value.toFixed(2);
             }
         },
         computed: {
-            isMusician: function() {
+            isMusician: function () {
                 return this.currentUserType === this.userType[1];
-            },
-            marketplacePlan: function () {
-                return this.listPlan ? _.find(this.listPlan,{'plan':'MARKETPLACE'}) : null;
-            },
-            proPlan: function () {
-                return this.listPlan ? _.find(this.listPlan,{'plan':'PRO PAGE'}) : null;
-            },
-            marketplacePlanMonthlyPrice: function () {
-              return this.$i18n.locale === 'en' ? this.marketplacePlan.monthly_d : this.marketplacePlan.monthly
-            },
-            marketplacePlanYearlyPrice: function () {
-              return this.$i18n.locale === 'en' ? this.marketplacePlan.yearly_d : this.marketplacePlan.yearly
-            },
-            proPlanMonthlyPrice: function () {
-              return this.$i18n.locale === 'en' ? this.proPlan.monthly_d : this.proPlan.monthly
-            },
-            proPlanYearlyPrice: function () {
-              return this.$i18n.locale === 'en' ? this.proPlan.yearly_d : this.proPlan.yearly
             },
         },
         created() {
@@ -262,13 +251,13 @@
         mounted() {
             var bg = document.querySelector(".accounts__switch-bg");
             // 월간
-            document.getElementById("monthly").addEventListener("change", function() {
+            document.getElementById("monthly").addEventListener("change", function () {
                 if (this.checked === true) {
                     bg.classList.remove("right");
                 }
             });
             // 연간
-            document.getElementById("yearly").addEventListener("change", function() {
+            document.getElementById("yearly").addEventListener("change", function () {
                 if (this.checked === true) {
                     bg.classList.add("right");
                 }
@@ -277,9 +266,9 @@
         watch: {
             currentUserType(n) {
                 this.plan = 'free';
-                if(n === 'musician') {
+                if (n === 'seller') {
                     this.billTerm = 'monthly';
-                    this.$nextTick(function() {
+                    this.$nextTick(function () {
                         var bg = document.querySelector(".accounts__switch-bg");
                         // 월간
                         document.getElementById("monthly").addEventListener("change", function () {
@@ -298,32 +287,48 @@
             }
         },
         methods: {
-            doNext(plan) {
+            doNext(group) {
                 var islogin = this.$parent.isLogin;
-                if(plan === "Marketplace"){
-                    this.planName = this.$t('Platinum');
-                }else if(plan === "Pro Page"){
-                    this.planName = this.$t('Master');
-                }
-                EventBus.$emit('submit_join_form',{ userType: this.currentUserType, plan: plan, planName: this.planName, billTerm: this.billTerm  });
+                this.selectedGroup = group;
+                EventBus.$emit('submit_join_form', {
+                    group: this.selectedGroup,
+                    billTerm: this.billTerm
+                });
 
-                if(islogin){
+                if (islogin) {
                     this.$router.push({path: '/6'});
-                }else{
+                } else {
                     this.$router.push({path: '/2'});
                 }
             },
             fetchData() {
-                Http.post( `/beatsomeoneApi/get_register_plan_cost`).then(r=> {
-                    this.listPlan = r;
-                    this.disBill = this.listPlan[0].yearly_discount_pc;
-                });
+                axios.get('/membergroup')
+                    .then(res => res.data)
+                    .then(data => {
+                        let list = Object.values(data);
+                        list.forEach(item => {
+                            if (item.mgr_title === 'buyer') {
+                                this.buyerGroup = item;
+                            } else if (item.mgr_title === 'seller_free') {
+                                this.sellerFreeGroup = item;
+                            } else if (item.mgr_title === 'seller_platinum') {
+                                this.sellerPlatinumGroup = item;
+                            } else if (item.mgr_title === 'seller_master') {
+                                this.sellerMasterGroup = item;
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+                // Http.post(`/beatsomeoneApi/get_register_plan_cost`).then(r => {
+                //     this.listPlan = r;
+                //     // this.disBill = this.listPlan[0].yearly_discount_pc;
+                // });
             },
         },
 
     }
-
-
 
 
 </script>
@@ -331,12 +336,11 @@
 <style lang="scss">
 
 
-
 </style>
 
 <style lang="css">
-.wrapper {
-    background: url("/assets/images/signup01-bg.png") no-repeat center -50px;
-    background-size: 100% auto;
-}
+    .wrapper {
+        background: url("/assets/images/signup01-bg.png") no-repeat center -50px;
+        background-size: 100% auto;
+    }
 </style>
