@@ -16,6 +16,7 @@ if ($this->member->is_member()) {
 <script language=Javascript>
     // 결과값 반환( receive 페이지에서 호출 )
     function result_submit(result_cd, result_msg, enc_data) {
-        vm.$children[0].$children[1].procCompletePay(result_cd, result_msg, enc_data);
+        var index = vm.$children[0].$children.findIndex(x => x.$vnode.tag.includes('PurchaseMembership'));
+        vm.$children[0].$children[index].procCompletePay(result_cd, result_msg, enc_data);
     }
 </script>

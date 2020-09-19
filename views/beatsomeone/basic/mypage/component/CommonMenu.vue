@@ -8,7 +8,7 @@
             <li :class="{'active':current === 'mybilling'}" @click="goRoute('mybilling')">{{$t('orderHistory')}}</li>
             <li :class="{'active':current === 'saleshistory'}" @click="goRoute('saleshistory')" v-show="groupType == 'SELLER'">{{$t('salesHistory')}}</li>
             <li :class="{'active':current === 'message'}" @click="goRoute('message')">{{$t('chat')}}</li>
-            <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
+            <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-show="groupType == 'SELLER' && false">{{$t('settlementHistory')}}</li>
             <li @click="goUpgrade()" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
             <li :class="{'active':(current === 'inquiry' || current === 'faq')}" @click="openSubmenu($event)">{{$t('support1')}}
                 <ul class="menu">

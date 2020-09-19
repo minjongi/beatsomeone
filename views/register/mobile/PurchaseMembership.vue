@@ -325,6 +325,6 @@
 
 <style scoped>
     .accounts__switch-bg {
-        width: 450px !important;
+        width: calc(100% - 10px) !important;
     }
 </style>

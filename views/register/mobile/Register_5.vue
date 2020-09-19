@@ -91,7 +91,7 @@
                         EventBus.$emit('submit_join_form',this.user);
                         this.$router.push({path: '/6'});
                     }*/
-                    EventBus.$emit('finish_join_form',this.user);
+                    EventBus.$emit('submit_join_form',this.user);
                 }
             },
         },

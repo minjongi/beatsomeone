@@ -18,22 +18,22 @@
 
             <div class="accounts__social" v-if="false">
                 <h2>{{ $t('snsLogin') }}</h2>
-                <a href="#" @click="social_connect_on('facebook')"><img
+                <a href="javascript:;" @click="social_connect_on('facebook')"><img
                         src="@/assets/images/accounts-facebook.png"
                         :alt="$t('loginFacebook')"
                 /></a>
-                <a href="#"  @click="social_connect_on('twitter')"
+                <a href="javascript:;"  @click="social_connect_on('twitter')"
                 ><img
                         src="@/assets/images/accounts-twitter.png"
                         :alt="$t('loginTwitter')"
                 /></a>
-                <a href="#"  @click="social_connect_on('google')"
+                <a href="javascript:;"  @click="social_connect_on('google')"
                 ><img src="@/assets/images/accounts-google.png" :alt="$t('loginGoogle')"
                 /></a>
-                <a href="#"  @click="social_connect_on('naver')"
+                <a href="javascript:;"  @click="social_connect_on('naver')"
                 ><img src="@/assets/images/accounts-naver.png" :alt="$t('loginNaver')"
                 /></a>
-                <a href="#"  @click="social_connect_on('kakao')"
+                <a href="javascript:;"  @click="social_connect_on('kakao')"
                 ><img src="@/assets/images/accounts-kakao.png" :alt="$t('loginKakao')"
                 /></a>
             </div>
