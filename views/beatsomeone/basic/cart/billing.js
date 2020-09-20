@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 // i18n
 import i18n from '*/src/i18n/i18n'
-import app from './Billing.vue';
+import app from './BillingNew.vue';
 
 
 Vue.config.productionTip = false;

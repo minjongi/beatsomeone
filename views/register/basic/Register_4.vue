@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="accounts__btnbox half">
-                    <button type="reset" class="btn btn--gray" @click="doSkip">
+                    <button type="reset" class="btn btn--gray" v-if="isCustomer" @click="doSkip">
                         {{ $t('skipping') }}
                     </button>
 
@@ -74,14 +74,19 @@
                     lastname: '',
                     location: '',
                 },
+                info: {}
             }
         },
         created() {
 
         },
         mounted() {
-
-
+            this.info = JSON.parse(localStorage.getItem('bs_user_info'));
+        },
+        computed: {
+            isCustomer: function () {
+                return this.info.group && this.info.group.mgr_title === 'buyer';
+            }
         },
         watch: {
 

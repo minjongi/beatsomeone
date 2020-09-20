@@ -4079,62 +4079,62 @@ class Register extends CB_Controller
 
 	public function ajax_email_check()
 	{
-		// 이벤트 라이브러리를 로딩합니다
-		$eventname = 'event_register_ajax_email_check';
-		$this->load->event($eventname);
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_register_ajax_email_check';
+        $this->load->event($eventname);
 
-		$result = array();
-		$this->output->set_content_type('application/json');
+        $result = array();
+        $this->output->set_content_type('application/json');
 
-		// 이벤트가 존재하면 실행합니다
-		Events::trigger('before', $eventname);
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before', $eventname);
 
-		$email = trim($this->input->post('email'));
-		if (empty($email)) {
-			$result = array(
-				'result' => 'no',
-				'reason' => '이메일값이 넘어오지 않았습니다',
-			);
-			exit(json_encode($result));
-		}
+        $email = trim($this->input->post('email'));
+        if (empty($email)) {
+            $result = array(
+                'result' => 'no',
+                'reason' => '이메일값이 넘어오지 않았습니다',
+            );
+            exit(json_encode($result));
+        }
 
-		if ($this->member->item('mem_email')
-			&& $this->member->item('mem_email') === $email) {
-			$result = array(
-				'result' => 'available',
-				'reason' => '사용 가능한 이메일입니다',
-			);
-			exit(json_encode($result));
-		}
+        if ($this->member->item('mem_email')
+            && $this->member->item('mem_email') === $email) {
+            $result = array(
+                'result' => 'available',
+                'reason' => '사용 가능한 이메일입니다',
+            );
+            exit(json_encode($result));
+        }
 
-		$where = array(
-			'mem_email' => $email,
-		);
-		$count = $this->Member_model->count_by($where);
-		if ($count > 0) {
-			$result = array(
-				'result' => 'no',
-				'reason' => lang('emailAlreadyUse'),
-			);
-			exit(json_encode($result));
-		}
+        $where = array(
+            'mem_email' => $email,
+        );
+        $count = $this->Member_model->count_by($where);
+        if ($count > 0) {
+            $result = array(
+                'result' => 'no',
+                'reason' => '이미 사용중인 이메일입니다',
+            );
+            exit(json_encode($result));
+        }
 
-		if ($this->_mem_email_check($email) === false) {
-			$result = array(
-				'result' => 'no',
-				'reason' => lang('emailAlreadyUse'),
-			);
-			exit(json_encode($result));
-		}
+        if ($this->_mem_email_check($email) === false) {
+            $result = array(
+                'result' => 'no',
+                'reason' => $email . '은(는) 예약어로 사용하실 수 없는 이메일입니다',
+            );
+            exit(json_encode($result));
+        }
 
-		// 이벤트가 존재하면 실행합니다
-		Events::trigger('before', $eventname);
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before', $eventname);
 
-		$result = array(
-			'result' => 'available',
-			'reason' => '사용 가능한 이메일입니다',
-		);
-		exit(json_encode($result));
+        $result = array(
+            'result' => 'available',
+            'reason' => '사용 가능한 이메일입니다',
+        );
+        exit(json_encode($result));
 	}
 
 
