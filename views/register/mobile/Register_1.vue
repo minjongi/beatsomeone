@@ -329,6 +329,7 @@
             this.fetchData();
         },
         mounted() {
+            localStorage.clear();
         },
         watch: {
             currentUserType(n) {

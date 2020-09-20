@@ -53,11 +53,12 @@
         data: function() {
             return {
                 user: {},
+                info: {}
             }
         },
         computed: {
             beandshop: function() {
-                return 'https://beatsomeone.com/' + this.$parent.info.username;
+                return 'https://beatsomeone.com/' + this.info.username;
             },
             isMusician: function() {
                 return this.$parent.info.userType === 'musician';
@@ -67,7 +68,7 @@
 
         },
         mounted() {
-
+            this.info = JSON.parse(localStorage.getItem('bs_user_info'));
         },
         watch: {
 

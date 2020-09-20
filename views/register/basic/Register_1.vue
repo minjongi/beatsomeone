@@ -22,7 +22,7 @@
                 </label>
             </div>
 
-            <div class="accounts__switch" v-if="currentUserType === 'musician'">
+            <div class="accounts__switch" v-if="isMusician">
                 <span class="accounts__switch-bg"></span>
                 <label for="monthly" @click="billTerm = 'monthly'">
                     <input type="radio" id="monthly" hidden name="bill" checked/>
@@ -262,6 +262,7 @@
                     bg.classList.add("right");
                 }
             });
+            localStorage.clear();
         },
         watch: {
             currentUserType(n) {
