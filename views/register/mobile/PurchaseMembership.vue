@@ -62,7 +62,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row" style="display:none;" id="okpromo">
+                        <div class="row" style="display:none;" v-if="false" id="okpromo">
                             <label>
                                 <p class="form-title">
                                     {{ $t('promoCode') }}
@@ -81,32 +81,44 @@
                         <button type="button" class="btn btn--submit" @click="payAllat">
                             {{ $t('checkout') }}
                         </button>
-                        <form name="fm" style="background-color: white; display: none;">
-                            <input type="text" name="allat_shop_id" v-model="allat_shop_id" size="19" maxlength=20>
-                            <br>
-                            <input type=text name="allat_order_no" v-model="allat_order_no" size="19" maxlength=70>
-                            <br>
-                            <input type=text name="allat_amt" v-model="allat_amt" size="19" maxlength=10>
-                            <br>
-                            <input type=text name="allat_pmember_id" v-model="allat_pmember_id" size="19" maxlength=20>
-                            <br>
-                            <input type=text name="allat_product_cd" v-model="allat_product_cd" size="19" maxlength=1000>
-                            <br>
-                            <input type=text name="allat_product_nm" v-model="allat_product_nm" size="19" maxlength=1000>
-                            <br>
-                            <input type=text name="allat_buyer_nm" v-model="allat_buyer_nm" size="19" maxlength=20>
-                            <br>
-                            <input type=text name="allat_recp_nm" v-model="allat_recp_nm" size="19" maxlength=20>
-                            <br>
-                            <input type=text name="allat_recp_addr" v-model="allat_recp_addr" size="19" maxlength=120>
-                            <br>
-                            <input type=text name="shop_receive_url" v-model="shop_receive_url" size="19">
-                            <br>
-                            <input type="hidden" name="allat_enc_data" v-model="allat_enc_data">
-                            <br>
-                            <input type=text name="allat_card_yn" v-model="allat_card_yn" size="19" maxlength=1>
-                            <br>
-                            <input type=text name="allat_bank_yn" v-model="allat_bank_yn" size="19" maxlength=1>
+                        <form name="fm1" method="POST" action="/pg/allat/proc">
+                            <input type="text" name="allat_shop_id" v-model="allatForm.shop_id" maxlength="20"/>
+                            <!--주문번호-->
+                            <input type="text" name="allat_order_no" v-model="allatForm.order_no" maxlength="70"/>
+                            <!--승인금액-->
+                            <input type="hidden" name="allat_amt" v-model="allatForm.amt" maxlength="10"/>
+                            <!--회원ID-->
+                            <input type="hidden" name="allat_pmember_id" v-model="allatForm.pmember_id" maxlength="20"/>
+                            <!--상품코드-->
+                            <input
+                                    type="hidden"
+                                    name="allat_product_cd"
+                                    v-model="allatForm.product_cd"
+                                    maxlength="1000"
+                            />
+                            <!--상품명-->
+                            <input
+                                    type="hidden"
+                                    name="allat_product_nm"
+                                    v-model="allatForm.product_nm"
+                                    maxlength="1000"
+                            />
+                            <!--결제자성명-->
+                            <input type="hidden" name="allat_buyer_nm" v-model="allatForm.buyer_nm" maxlength="20"/>
+                            <!--수취인성명-->
+                            <input type="hidden" name="allat_recp_nm" v-model="allatForm.recp_nm" maxlength="20"/>
+                            <!--수취인주소-->
+                            <input type="hidden" name="allat_recp_addr" v-model="allatForm.recp_addr" maxlength="120"/>
+                            <!--인증정보수신URL-->
+                            <input type="hidden" name="shop_receive_url" v-model="allatForm.shop_receive_url" size="19"/>
+                            <!--주문정보암호화필드-->
+                            <input type="hidden" name="allat_enc_data" value/>
+                            <!--테스트 여부-->
+                            <input type="hidden" name="allat_test_yn" v-model="allatForm.test_yn" maxlength="1"/>
+                            <input type="hidden" name="allat_card_yn" v-model="allatForm.card_yn" maxlength="1"/>
+                            <input type="hidden" name="allat_bank_yn" v-model="allatForm.bank_yn" maxlength="1"/>
+                            <input type="hidden" name="allat_vbank_yn" v-model="allatForm.vbank_yn" maxlength="1"/>
+                            <input type="hidden" name="allat_encode_type" value="U"/>
                         </form>
                         <p>
                             {{ $t('refundPolicyMsg') }}
@@ -148,22 +160,29 @@
                 payMethod: 1,
                 promoValue: null,
                 isPromotionApplied: false,
-                allat_shop_id: 'dumdum',
-                allat_order_no: '',
-                allat_amt: '',
-                allat_pmember_id: '',
-                allat_product_cd: '',
-                allat_product_nm: '',
-                allat_buyer_nm: '',
-                allat_recp_nm: '',
-                allat_recp_addr: '',
-                shop_receive_url: window.allat_shop_receive_url,
-                allat_card_yn: 'N',
-                allat_bank_yn: 'N',
-                allat_enc_data: '',
+                allatForm: {
+                    shop_id: "",
+                    order_no: "",
+                    amt: "",
+                    pmember_id: "",
+                    product_cd: "",
+                    product_nm: "",
+                    buyer_nm: "",
+                    recp_nm: "",
+                    recp_addr: "",
+                    shop_receive_url: 'https://qa.beatsomeone.com/pg/allat/proc',
+                    test_yn: "N",
+                    card_yn: "Y",
+                    bank_yn: "N",
+                    vbank_yn: "N",
+                    encode_type: "U",
+                    enc_data: "",
+                },
             }
         },
         created() {
+        },
+        mounted() {
             axios.get('/payment/pg_config')
                 .then(res => res.data)
                 .then(data => {
@@ -172,35 +191,29 @@
                     this.paypal.production = data.production;
                     if (this.use_pg_test === 1) {
                         this.pg_paypal_env = 'sandbox';
+                        this.$set(this.allatForm, 'test_yn', 'Y');
                     } else {
                         this.pg_paypal_env = 'production';
+                        this.$set(this.allatForm, 'test_yn', 'N');
                     }
+                    this.$set(this.allatForm, 'shop_id', data.allat_shop_id);
                     this.isEmptyPaypal = Object.keys(this.paypal).length === 0;
                 })
                 .catch(error => {
                     console.log(error);
                 });
-        },
-        mounted() {
             this.info = JSON.parse(localStorage.getItem('bs_user_info'));
             this.amount = this.info.billTerm === 'monthly' ? (this.info.group.mgr_monthly_cost_d) : (this.info.group.mgr_year_cost_d);
             this.amount_w = this.info.billTerm === 'monthly' ? (this.info.group.mgr_monthly_cost_w) : (this.info.group.mgr_year_cost_w);
             let now  = Date.now();
-            this.allat_order_no = now.toString();
-            this.allat_amt = this.amount_w;
-            this.allat_pmember_id = this.info.username;
-            this.allat_product_cd = this.info.group.mgr_title;
-            this.allat_product_nm = this.info.group.mgr_description;
-            this.allat_buyer_nm = (!!this.info.firstname && !!this.info.lastname) ? this.info.firstname + ' ' + this.info.lastname : this.info.username;
-            this.allat_recp_nm = this.allat_buyer_nm;
-            this.allat_recp_addr = this.info.location || this.info.email;
-            if (this.payMethod === 1) {
-                this.allat_card_yn = 'Y';
-                this.allat_bank_yn = 'N';
-            } else if (this.payMethod === 2) {
-                this.allat_card_yn = 'N';
-                this.allat_bank_yn = 'Y';
-            }
+            this.$set(this.allatForm, 'product_cd', this.info.group.mgr_title);
+            this.$set(this.allatForm, 'product_nm', this.info.group.mgr_description);
+            this.$set(this.allatForm, 'pmember_id', this.info.username);
+            this.$set(this.allatForm, 'buyer_nm', this.info.username);
+            this.$set(this.allatForm, 'recp_nm', this.info.username);
+            this.$set(this.allatForm, 'recp_addr', this.info.location);
+            this.$set(this.allatForm, 'order_no', now.toString());
+            this.$set(this.allatForm, 'amt', (+this.amount_w));
         },
         methods: {
             isEmptyObject: function (data) {
@@ -262,22 +275,19 @@
                 });
             },
             payAllat: function (e) {
-                window.AllatPay_Approval(document.fm);
+                window.AllatPay_Approval(document.fm1);
                 window.AllatPay_Closechk_Start();
             },
             procCompletePay: function (result_cd, result_msg, enc_data) {
                 window.AllatPay_Closechk_End();
 
-                if (result_cd !== "0000") {
-                    setTimeout(function () {
-                        alert(result_cd + " : " + result_msg);
-                    }, 500);
+                if( result_cd !== "0000" && result_cd !== "0001" ){
+                    window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
                 } else {
-                    this.allat_enc_data = enc_data;
-                    this.info.allat = this.allat_enc_data;
-                    this.info.pg = 'allat';
+                    this.$set(this.allatForm, 'enc_data', enc_data);
+                    document.fm1.allat_enc_data.value = enc_data;
 
-                    let formData = new FormData();
+                    let formData = new FormData(document.fm1);
                     formData.append('mem_userid', this.info.username);
                     formData.append('mem_email', this.info.email);
                     formData.append('mem_password', this.info.password);
@@ -287,10 +297,8 @@
                     formData.append('mem_profile_content', this.info.introduce);
                     formData.append('mem_type', this.info.type);
                     formData.append('mgr_id', this.info.group.mgr_id);
-                    formData.append('pg', this.info.pg);
-                    formData.append('amount', this.amount_w);
+                    formData.append('pg', 'allat');
                     formData.append('bill_term', this.info.billTerm);
-
                     this.registerSeller(formData);
                 }
             },
@@ -311,12 +319,12 @@
         },
         watch: {
             payMethod: function (val) {
-                if (val === 1) {
-                    this.allat_card_yn = 'Y';
-                    this.allat_bank_yn = 'N';
-                } else if (val === 2) {
-                    this.allat_card_yn = 'N';
-                    this.allat_bank_yn = 'Y';
+                if (val === 1) { // 신용카드
+                    this.$set(this.allatForm, 'card_yn', 'Y');
+                    this.$set(this.allatForm, 'bank_yn', 'N');
+                } else if (val === 2) { // 실시간 계좌이체
+                    this.$set(this.allatForm, 'card_yn', 'N');
+                    this.$set(this.allatForm, 'bank_yn', 'Y');
                 }
             }
         }

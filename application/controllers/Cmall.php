@@ -2032,10 +2032,6 @@ class Cmall extends CB_Controller
      */
     public function ajax_orderupdate($agent_type='')
     {
-//        if( 'mobile' == $agent_type && $this->cbconfig->item('use_payment_pg') === 'inicis' && ($unique_id = $this->session->userdata('unique_id')) && $exist_order = get_cmall_order_data($unique_id) ){	//상품주문
-//            exists_inicis_cmall_order($unique_id, array(), $exist_order['cor_datetime']);
-//            exit;
-//        }
         $this->output->set_content_type('text/json');
 
         // 이벤트 라이브러리를 로딩합니다
@@ -2051,11 +2047,6 @@ class Cmall extends CB_Controller
 
         // 이벤트가 존재하면 실행합니다
         Events::trigger('before', $eventname);
-
-//        if ('bank' != $this->input->post('pay_type') && $this->cbconfig->item('use_payment_pg') === 'lg'
-//            && ! $this->input->post('LGD_PAYKEY')) {
-//            alert('결제등록 요청 후 주문해 주십시오');
-//        }
 
 
         if ( ! $this->session->userdata('unique_id') OR ! $this->input->post('unique_id') OR $this->session->userdata('unique_id') !== $this->input->post('unique_id')) {
@@ -2101,31 +2092,16 @@ class Cmall extends CB_Controller
         }
 
         if ( $item_cct_price != $good_mny ){
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '결제 금액이 상이합니다'
+            ], JSON_UNESCAPED_UNICODE));
+            return false;
         }
 
-        if ($this->session->userdata('order_cct_id') !== implode('-', $session_cct_id)) {
-            alert('결제 내역이 상이합니다, 관리자에게 문의하여주세요');
-        }
-
-        if ( ! is_numeric($this->input->post('order_deposit'))) {
-            alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 숫자만 와야 합니다');
-        }
-        if ( ! is_numeric($this->input->post('total_price_sum'))) {
-            alert('총 결제금액의 값은 숫자만 와야 합니다');
-        }
-        $order_deposit = (int) $this->input->post('order_deposit');
-        $total_price_sum = (int) $this->input->post('total_price_sum');
-        if ($order_deposit) {
-            if ($order_deposit < 0) {
-                alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 0 보다 작을 수 없습니다 ', site_url('cmall/order'));
-            }
-            if ($order_deposit > $total_price_sum) {
-                alert(html_escape($this->cbconfig->item('deposit_name')) . ' 의 값은 총 결제금액보다 클 수 없습니다', site_url('cmall/order'));
-            }
-            if ($order_deposit > (int) $this->member->item('total_deposit')) {
-                alert(html_escape($this->cbconfig->item('deposit_name')) . ' 값이 회원님이 보유하고 계신 값보다 큰 값이 입력되어서 진행할 수 없습니다', site_url('cmall/order'));
-            }
-        }
+//        if ($this->session->userdata('order_cct_id') !== implode('-', $session_cct_id)) {
+//            alert('결제 내역이 상이합니다, 관리자에게 문의하여주세요');
+//        }
 
 
         $this->load->library('paymentlib');
@@ -2134,163 +2110,142 @@ class Cmall extends CB_Controller
         $result = '';
         $od_status = 'order'; //주문상태
 
-        if ($this->input->post('pay_type') === 'bank') {		//무통장입금
+        if ($this->input->post('pay_type') === 'allat') {		//올앳
+            include(FCPATH . 'plugin/pg/allat/allatutil.php');
+            $at_cross_key = $this->cbconfig->item('pg_allat_crosskey');    //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+            $at_shop_id = $this->cbconfig->item('pg_allat_shop_id');        //설정필요
+            $at_amt = $item_cct_price;                        //결제 금액을 다시 계산해서 만들어야 함(해킹방지), ( session, DB 사용 )
+
+            // 요청 데이터 설정
+            //----------------------
+            $at_data = "allat_shop_id=" . $at_shop_id .
+                "&allat_amt=" . $at_amt .
+                "&allat_enc_data=" . $_POST["allat_enc_data"] .
+                "&allat_cross_key=" . $at_cross_key;
+            // 올앳 결제 서버와 통신 : ApprovalReq->통신함수, $at_txt->결과값
+            //----------------------------------------------------------------
+            // PHP5 이상만 SSL 사용가능
+            $at_txt = ApprovalReq($at_data, "SSL");
+            // $at_txt = ApprovalReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
+            // 이 부분에서 로그를 남기는 것이 좋습니다.
+            // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
+            log_message('info', 'Allat: ' . $at_txt);
+
+            // 결제 결과 값 확인
+            //------------------
+            $REPLYCD = getValue("reply_cd", $at_txt);        //결과코드
+            $REPLYMSG = getValue("reply_msg", $at_txt);       //결과 메세지
+
+            // 결과값 처리
+            //--------------------------------------------------------------------------
+            // 결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
+            // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
+            // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
+            //--------------------------------------------------------------------------
+            if (!strcmp($REPLYCD, "0000") && !strcmp($REPLYCD, "0001")) {
+                // reply_cd "0000" 일때만 성공
+                $ORDER_NO = getValue("order_no", $at_txt);
+                $AMT = getValue("amt", $at_txt);
+                $PAY_TYPE = getValue("pay_type", $at_txt);
+                $APPROVAL_YMDHMS = getValue("approval_ymdhms", $at_txt);
+                $SEQ_NO = getValue("seq_no", $at_txt);
+                $APPROVAL_NO = getValue("approval_no", $at_txt);
+                $CARD_ID = getValue("card_id", $at_txt);
+                $CARD_NM = getValue("card_nm", $at_txt);
+                $SELL_MM = getValue("sell_mm", $at_txt);
+                $ZEROFEE_YN = getValue("zerofee_yn", $at_txt);
+                $CERT_YN = getValue("cert_yn", $at_txt);
+                $CONTRACT_YN = getValue("contract_yn", $at_txt);
+                $SAVE_AMT = getValue("save_amt", $at_txt);
+                $CARD_POINTDC_AMT = getValue("card_pointdc_amt", $at_txt);
+                $BANK_ID = getValue("bank_id", $at_txt);
+                $BANK_NM = getValue("bank_nm", $at_txt);
+                $CASH_BILL_NO = getValue("cash_bill_no", $at_txt);
+                $ESCROW_YN = getValue("escrow_yn", $at_txt);
+                $ACCOUNT_NO = getValue("account_no", $at_txt);
+                $ACCOUNT_NM = getValue("account_nm", $at_txt);
+                $INCOME_ACC_NM = getValue("income_account_nm", $at_txt);
+                $INCOME_LIMIT_YMD = getValue("income_limit_ymd", $at_txt);
+                $INCOME_EXPECT_YMD = getValue("income_expect_ymd", $at_txt);
+                $CASH_YN = getValue("cash_yn", $at_txt);
+                $HP_ID = getValue("hp_id", $at_txt);
+                $TICKET_ID = getValue("ticket_id", $at_txt);
+                $TICKET_PAY_TYPE = getValue("ticket_pay_type", $at_txt);
+                $TICKET_NAME = getValue("ticket_nm", $at_txt);
+                $PARTCANCEL_YN = getValue("partcancel_yn", $at_txt);
+
+                $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+                $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+                $insertdata['cor_total_money'] = $item_cct_price;
+                $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
+                $insertdata['cor_deposit'] = $AMT;
+                $insertdata['cor_cash'] = 0;
+
+                /*	 //request 요청값으로 체크하면 안됨
+                if ($this->input->post('good_mny')) {
+                }
+                */
+
+                $insertdata['cor_status'] = 1;
+                $insertdata['cor_approve_datetime'] = $APPROVAL_YMDHMS;
+                $insertdata['cor_pg'] = 'allat';
+
+//                echo "결과코드              : " . $REPLYCD . "<br>";
+//                echo "결과메세지            : " . $REPLYMSG . "<br>";
+//                echo "주문번호              : " . $ORDER_NO . "<br>";
+//                echo "승인금액              : " . $AMT . "<br>";
+//                echo "지불수단              : " . $PAY_TYPE . "<br>";
+//                echo "승인일시              : " . $APPROVAL_YMDHMS . "<br>";
+//                echo "거래일련번호          : " . $SEQ_NO . "<br>";
+//                echo "에스크로 적용 여부    : " . $ESCROW_YN . "<br>";
+//                echo "=============== 신용 카드 ===============================<br>";
+//                echo "승인번호              : " . $APPROVAL_NO . "<br>";
+//                echo "카드ID                : " . $CARD_ID . "<br>";
+//                echo "카드명                : " . $CARD_NM . "<br>";
+//                echo "할부개월              : " . $SELL_MM . "<br>";
+//                echo "무이자여부            : " . $ZEROFEE_YN . "<br>";   //무이자(Y),일시불(N)
+//                echo "인증여부              : " . $CERT_YN . "<br>";      //인증(Y),미인증(N)
+//                echo "직가맹여부            : " . $CONTRACT_YN . "<br>";  //3자가맹점(Y),대표가맹점(N)
+//                echo "세이브 결제 금액      : " . $SAVE_AMT . "<br>";
+//                echo "포인트할인 결제 금액  : " . $CARD_POINTDC_AMT . "<br>";
+//                echo "=============== 계좌 이체 / 가상계좌 ====================<br>";
+//                echo "은행ID                : " . $BANK_ID . "<br>";
+//                echo "은행명                : " . $BANK_NM . "<br>";
+//                echo "현금영수증 일련 번호  : " . $CASH_BILL_NO . "<br>";
+//
+//                echo "부분취소가능여부 : " . $PARTCANCEL_YN . "<br>";
+
+            } else {
+                $this->output->set_status_header('400');
+                $this->output->set_output(json_encode([
+                    'reply_cd' => $REPLYCD,
+                    'reply_msg' => $REPLYMSG
+                ], JSON_UNESCAPED_UNICODE));
+                return false;
+            }
+
+        } elseif ($this->input->post('pay_type') === 'paypal') {
             $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
             $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
-            $insertdata['cor_total_money'] = $total_price_sum;
+            $insertdata['cor_total_money'] = $item_cct_price;
             $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
-            $insertdata['cor_deposit'] = $order_deposit;
+            $insertdata['cor_deposit'] = $good_mny;
             $insertdata['cor_cash'] = 0;
+            $insertdata['cor_pg'] = 'paypal';
 
             /*	 //request 요청값으로 체크하면 안됨
             if ($this->input->post('good_mny')) {
             }
             */
 
-            if ( ((int) $item_cct_price - (int) $order_deposit ) != 0 ) {
-                $insertdata['cor_status'] = 0;
-                $insertdata['cor_approve_datetime'] = null;
-            } else {
-                $insertdata['cor_status'] = 1;
-                $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
-                $od_status = 'deposit'; //주문상태
-            }
-
-        } elseif ($this->input->post('pay_type') === 'realtime') {
-            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
-                $result = $this->paymentlib->kcp_pp_ax_hub();
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
-                $result = $this->paymentlib->xpay_result();
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
-                $result = $this->paymentlib->inipay_result($agent_type);
-            }
-
-            $insertdata['cor_tno'] = element('tno', $result);
-            $insertdata['cor_app_no'] = element('app_no', $result) ? element('app_no', $result) : '';
-            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
-            $insertdata['cor_approve_datetime'] = preg_replace(
-                "/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/",
-                "\\1-\\2-\\3 \\4:\\5:\\6",
-                element('app_time', $result)
-            );
-            $insertdata['cor_total_money'] = $total_price_sum;
-            $insertdata['cor_cash_request'] = element('amount', $result);
-            $insertdata['cor_deposit'] = $order_deposit;
-            $insertdata['cor_cash'] = $cor_cash = element('amount', $result);
             $insertdata['cor_status'] = 1;
-            $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
-            $insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
-
-            if ( ((int) $item_cct_price - (int) $order_deposit - $cor_cash) == 0 ) {
-                $od_status = 'deposit'; //주문상태
-            }
-
-        } elseif ($this->input->post('pay_type') === 'vbank') {
-            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
-                $result = $this->paymentlib->kcp_pp_ax_hub();
-
-                $result['bankname'] = iconv("cp949", "utf-8", $result['bankname']);
-                $result['depositor'] = iconv("cp949", "utf-8", $result['depositor']);
-
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
-                $result = $this->paymentlib->xpay_result();
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
-                $result = $this->paymentlib->inipay_result($agent_type);
-            }
-
-            $insertdata['cor_tno'] = element('tno', $result);
-            $insertdata['cor_app_no'] = element('app_no', $result);
-            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
-            $insertdata['cor_total_money'] = $total_price_sum;
-            $insertdata['cor_cash_request'] = element('amount', $result);
-            $insertdata['cor_deposit'] = $order_deposit;
-            $insertdata['cor_cash'] = 0;
-            $insertdata['cor_status'] = 0;
-            $insertdata['mem_realname'] = element('depositor', $result);
-            $insertdata['cor_vbank_expire'] = element('cor_vbank_expire', $result) ? date("Y-m-d", strtotime(element('cor_vbank_expire', $result))) : '1000-01-01 00:00:00';
-            $insertdata['cor_bank_info'] = element('bankname', $result) . ' ' . element('account', $result);
-            $insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
-        } elseif ($this->input->post('pay_type') === 'phone') {
-            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
-                $result = $this->paymentlib->kcp_pp_ax_hub();
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
-                $result = $this->paymentlib->xpay_result();
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
-                $result = $this->paymentlib->inipay_result($agent_type);
-            }
-
-            $insertdata['cor_tno'] = element('tno', $result);
-            $insertdata['cor_app_no'] = element('commid', $result) . ' ' . element('mobile_no', $result);
-            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
-            $insertdata['cor_approve_datetime'] = preg_replace(
-                "/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/",
-                "\\1-\\2-\\3 \\4:\\5:\\6",
-                element('app_time', $result)
-            );
-            $insertdata['cor_total_money'] = $total_price_sum;
-            $insertdata['cor_cash_request'] = element('amount', $result);
-            $insertdata['cor_deposit'] = $order_deposit;
-            $insertdata['cor_cash'] = $cor_cash = element('amount', $result);
-            $insertdata['cor_status'] = 1;
-            $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
-            $insertdata['cor_bank_info'] = element('mobile_no', $result);
-            $insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
-
-            if ( ((int) $item_cct_price - (int) $order_deposit - $cor_cash) == 0 ) {
-                $od_status = 'deposit'; //주문상태
-            }
-
-        } elseif ($this->input->post('pay_type') === 'card') {
-            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
-                $result = $this->paymentlib->kcp_pp_ax_hub();
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
-                $result = $this->paymentlib->xpay_result();
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
-                $result = $this->paymentlib->inipay_result($agent_type);
-            }
-
-            $insertdata['cor_tno'] = element('tno', $result);
-            $insertdata['cor_app_no'] = element('app_no', $result);
-            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
-            $insertdata['cor_approve_datetime'] = preg_replace(
-                "/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})/",
-                "\\1-\\2-\\3 \\4:\\5:\\6",
-                element('app_time', $result)
-            );
-            $insertdata['cor_total_money'] = $total_price_sum;
-            $insertdata['cor_cash_request'] = element('amount', $result);
-            $insertdata['cor_deposit'] = $order_deposit;
-            $insertdata['cor_cash'] = $cor_cash = element('amount', $result);
-            $insertdata['cor_bank_info'] = element('card_name', $result);
-            $insertdata['cor_status'] = 1;
-            $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
-            $insertdata['cor_pg'] = $this->cbconfig->item('use_payment_pg');
-
-            if ( ((int) $item_cct_price - (int) $order_deposit - $cor_cash) == 0 ) {
-                $od_status = 'deposit'; //주문상태
-            }
-
+            $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
         } else {
             alert('결제 수단이 잘못 입력되었습니다');
         }
 
         // 이벤트가 존재하면 실행합니다
         Events::trigger('step1', $eventname);
-
-        //실제로 결제된 금액
-        $real_total_price = $total_price_sum - $order_deposit;
-
-        // 주문금액과 결제금액이 일치하는지 체크
-        if (element('tno', $result) && (int) element('amount', $result) !== $real_total_price) {
-            if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
-                $this->paymentlib->kcp_pp_ax_hub_cancel($result);
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
-                $this->paymentlib->xpay_cancel($result);
-            } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
-                $this->paymentlib->inipay_cancel($result, $agent_type);
-            }
-            alert('결제가 완료되지 않았습니다. 다시 시도해주십시오', site_url('cmall/order'));
-        }
 
         // 이벤트가 존재하면 실행합니다
         Events::trigger('step2', $eventname);
@@ -2300,8 +2255,8 @@ class Cmall extends CB_Controller
         $insertdata['cor_id'] = $cor_id;
         $insertdata['mem_id'] = $mem_id;
         $insertdata['mem_nickname'] = $this->member->item('mem_nickname');
-        $insertdata['mem_email'] = $this->input->post('mem_email', null, '');
-        $insertdata['mem_phone'] = $this->input->post('mem_phone', null, '');
+        $insertdata['mem_email'] = $this->member->item('mem_email');
+        $insertdata['mem_phone'] = $this->member->item('mem_phone');
         $insertdata['cor_pay_type'] = $this->input->post('pay_type', null, '');
         $insertdata['cor_content'] = $this->input->post('cor_content', null, '');
         $insertdata['cor_ip'] = $this->input->ip_address();
@@ -2339,33 +2294,10 @@ class Cmall extends CB_Controller
                     $this->Cmall_cart_model->delete_where($deletewhere);
                 }
             }
-            if ($order_deposit) {
-                $this->load->library('depositlib');
-                $this->depositlib->do_deposit_to_contents(
-                    $mem_id,
-                    $order_deposit,
-                    $pay_type = '',
-                    $content = '상품구매 주문번호 : ' . $cor_id,
-                    $admin_memo = ''
-                );
-            }
-        }
-
-        if (empty($res)) {
-            if ($this->input->post('pay_type') !== 'bank') {
-                if ($this->cbconfig->item('use_payment_pg') === 'kcp') {
-                    $this->paymentlib->kcp_pp_ax_hub_cancel($result);
-                } elseif ($this->cbconfig->item('use_payment_pg') === 'lg') {
-                    $this->paymentlib->xpay_cancel($result);
-                } elseif ($this->cbconfig->item('use_payment_pg') === 'inicis') {
-                    $this->paymentlib->inipay_cancel($result, $agent_type);
-                }
-            }
-            alert('결제가 완료되지 않았습니다. 다시 시도해주십시오', site_url('cmall/order'));
         }
 
 
-        if ($this->input->post('pay_type') === 'bank') {
+        if ($this->input->post('pay_type') === 'allat') {
             $this->cmalllib->orderalarm('bank_to_contents', $cor_id);
         } else {
             $this->cmalllib->orderalarm('cash_to_contents', $cor_id);
@@ -2377,7 +2309,10 @@ class Cmall extends CB_Controller
         $this->session->set_userdata('unique_id', '');
         $this->session->set_userdata('order_cct_id', '');
 
-        redirect('cmall/orderresult/' . $cor_id);
+        $this->output->set_output(json_encode([
+            'message' => 'Success'
+        ]));
+        return true;
     }
 
 
