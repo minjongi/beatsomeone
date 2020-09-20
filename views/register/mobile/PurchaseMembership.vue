@@ -287,34 +287,19 @@
                     this.$set(this.allatForm, 'enc_data', enc_data);
                     document.fm1.allat_enc_data.value = enc_data;
 
-                    document.fm1.action = "/pg/allat/proc";
-                    document.fm1.method = "post";
-                    document.fm1.target = "_self";
-                    let formData1 = new FormData(document.fm1);
-                    axios.post('/pg/allat/proc', formData1)
-                        .then(res => res.data)
-                        .then(data => {
-                            console.log(data);
-                            this.info.pg = 'allat';
-                            let formData = new FormData();
-                            formData.append('mem_userid', this.info.username);
-                            formData.append('mem_email', this.info.email);
-                            formData.append('mem_password', this.info.password);
-                            formData.append('mem_firstname', this.info.firstname || '');
-                            formData.append('mem_lastname', this.info.lastname || '');
-                            formData.append('mem_address1', this.info.location || '');
-                            formData.append('mem_profile_content', this.info.introduce);
-                            formData.append('mem_type', this.info.type);
-                            formData.append('mgr_id', this.info.group.mgr_id);
-                            formData.append('pg', this.info.pg);
-                            formData.append('amount', this.amount_w);
-                            formData.append('bill_term', this.info.billTerm);
-
-                            this.registerSeller(formData);
-                        })
-                        .catch(error => {
-                            console.error(error);
-                        });
+                    let formData = new FormData(document.fm1);
+                    formData.append('mem_userid', this.info.username);
+                    formData.append('mem_email', this.info.email);
+                    formData.append('mem_password', this.info.password);
+                    formData.append('mem_firstname', this.info.firstname || '');
+                    formData.append('mem_lastname', this.info.lastname || '');
+                    formData.append('mem_address1', this.info.location || '');
+                    formData.append('mem_profile_content', this.info.introduce);
+                    formData.append('mem_type', this.info.type);
+                    formData.append('mgr_id', this.info.group.mgr_id);
+                    formData.append('pg', 'allat');
+                    formData.append('bill_term', this.info.billTerm);
+                    this.registerSeller(formData);
                 }
             },
             registerSeller: function (formData) {

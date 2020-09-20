@@ -286,10 +286,20 @@
                 } else {
                     this.$set(this.allatForm, 'enc_data', enc_data);
                     document.fm1.allat_enc_data.value = enc_data;
-                    document.fm1.pg = 'allat';
 
-                    let formData1 = new FormData(document.fm1);
-                    this.registerSeller(formData1);
+                    let formData = new FormData(document.fm1);
+                    formData.append('mem_userid', this.info.username);
+                    formData.append('mem_email', this.info.email);
+                    formData.append('mem_password', this.info.password);
+                    formData.append('mem_firstname', this.info.firstname || '');
+                    formData.append('mem_lastname', this.info.lastname || '');
+                    formData.append('mem_address1', this.info.location || '');
+                    formData.append('mem_profile_content', this.info.introduce);
+                    formData.append('mem_type', this.info.type);
+                    formData.append('mgr_id', this.info.group.mgr_id);
+                    formData.append('pg', 'allat');
+                    formData.append('bill_term', this.info.billTerm);
+                    this.registerSeller(formData);
                 }
             },
             registerSeller: function (formData) {

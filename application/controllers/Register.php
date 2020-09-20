@@ -359,12 +359,12 @@ class Register extends CB_Controller
                 'rules' => 'trim|min_length[2]|max_length[20]',
             );
         }
-//        $configbasic['mem_nickname'] = array(
-//            'field' => 'mem_nickname',
-//            'label' => '닉네임',
-//            'rules' => 'trim|required|min_length[2]|max_length[20]|callback__mem_nickname_check',
-//            'description' => '공백없이 한글, 영문, 숫자만 입력 가능 2글자 이상' . $nickname_description,
-//        );
+        $configbasic['mem_nickname'] = array(
+            'field' => 'mem_nickname',
+            'label' => '닉네임',
+            'rules' => 'trim|required|min_length[2]|max_length[20]|callback__mem_nickname_check',
+            'description' => '공백없이 한글, 영문, 숫자만 입력 가능 2글자 이상' . $nickname_description,
+        );
         $configbasic['mem_email'] = array(
             'field' => 'mem_email',
             'label' => '이메일',
