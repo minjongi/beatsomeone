@@ -220,6 +220,8 @@ class Cmallact extends CB_Controller
             show_404();
         }
 
+        $this->load->model(array('Cmall_item_detail_model'));
+
         $file = $this->Cmall_item_detail_model->get_one($cde_id);
 
         if ( ! element('cde_id', $file)) {
