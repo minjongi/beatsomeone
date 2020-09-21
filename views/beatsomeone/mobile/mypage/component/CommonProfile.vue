@@ -1,16 +1,16 @@
 <template>
     <div class="sublist__filter sticky">
-    <div class="row center" v-if="info">
+    <div class="row center" v-if="member">
         <div class="profile">
             <div class="portrait">
-                <img :src="info.mem_photo ? info.mem_photo : '/assets/images/portait.png'">
+                <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portait.png'">
             </div>
             <div class="info">
                 <div class="group">
                     <div class="group_title" :class="groupType">{{groupType}}</div>
                 </div>
                 <div class="username">
-                    {{ info.mem_nickname }}
+                    {{ member.mem_nickname }}
                 </div>
                 <div class="bio">
                     {{ memBio }}
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="profile__footer">
-            <div class="location" v-if="info.mem_address1">
+            <div class="location" v-if="member.mem_address1">
                 <img class="site" src="/assets/images/icon/position.png"/><div>{{ info.mem_address1 }}</div>
             </div>
             <div class="brandshop">
@@ -33,35 +33,75 @@
 <script>
 
     import { EventBus } from '*/src/eventbus';
+    import axios from "axios";
+
+    const AVATAR_SAVING = 1, AVATAR_SUCCESS = 2, AVATAR_FAILED = 3;
 
     export default {
-        props: ['info'],
         data: function () {
             return {
-
+                member: {},
+                member_group_name: '',
+                avatarStatus: null,
+                uploadFieldName: 'mem_photo',
+                avatarUrl: null,
             }
         },
         computed: {
             groupType() {
-                return this.info ? (this.info.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER') : null;
+                if (this.member_group_name === 'buyer') {
+                    return 'CUSTOMER';
+                } else {
+                    return 'SELLER';
+                }
             },
             memBio() {
                 if (this.$i18n.locale === 'en') {
-                    return this.info.mem_type + ', ' + this.info.mem_firstname + ' ' + this.info.mem_lastname;
+                    return (this.member.mem_type ? this.member.mem_type + ', ' : '') + (this.member.mem_firstname ?? '') + ' ' + (this.member.mem_lastname ?? '');
                 } else if (this.$i18n.locale === 'ko') {
-                    return this.info.mem_type + ', ' + this.info.mem_lastname + ' ' + this.info.mem_firstname;
+                    return (this.member.mem_type ? this.member.mem_type + ', ' : '') + (this.member.mem_lastname ?? '') + ' ' + (this.member.mem_firstname ?? '');
                 }
                 return '';
-            }
+            },
+            isAvatarSaving() {
+                return this.avatarStatus === AVATAR_SAVING;
+            },
         },
         created() {
 
         },
         mounted() {
-
+            this.member = window.member;
+            this.member_group_name = window.member_group_name;
         },
         methods: {
+            uploadAvatar(formData) {
+                const url = `/BeatsomeoneMypageApi/updateAvatar`;
+                return axios.post(url, formData)
+                    .then(x => x.data)
+                    .then(x => x.avatar);
+            },
+            saveAvatar(formData) {
+                this.avatarStatus = AVATAR_SAVING;
+                this.uploadAvatar(formData)
+                    .then(x => {
+                        this.member.mem_photo = x;
+                        this.avatarStatus = AVATAR_SUCCESS;
+                    })
+                    .catch(err => {
+                        this.avatarStatus = AVATAR_FAILED;
+                    });
 
+            },
+            avatarChange(fieldName, fileList) {
+                const formData = new FormData();
+
+                if (!fileList.length) return;
+
+                formData.append(fieldName, fileList[0], fileList[0].name);
+
+                this.saveAvatar(formData);
+            }
         },
 
     }
