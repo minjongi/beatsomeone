@@ -1,5 +1,10 @@
 import Vue from 'vue'
+import Vuex from "vuex";
+Vue.use(Vuex);
+
 import VueRouter  from 'vue-router';
+Vue.use(VueRouter);
+
 import app from './Register.vue';
 // i18n
 import i18n from '*/src/i18n/i18n'
@@ -11,8 +16,6 @@ import Register_4 from "./Register_4";
 import Register_5 from "./Register_5";
 // import Register_6 from "./Register_6";
 import PurchaseMembership from "./PurchaseMembership";
-Vue.use(VueRouter);
-
 
 Vue.config.productionTip = false;
 Vue.prototype.$log = console.log.bind(console);
@@ -32,9 +35,36 @@ const router = new VueRouter({
   }
 });
 
+const store = new Vuex.Store({
+  state: {
+    cartSum: 0,
+    cartSumD: 0,
+  },
+  mutations: {
+    ADD_MONEY(state, payload) {
+      state.cartSum = state.cartSum + payload.money;
+      state.cartSumD = state.cartSumD + payload.money_d;
+    }
+  },
+  getters: {
+    getCartSum(state) {
+      return state.cartSum;
+    },
+    getCartSumD(state) {
+      return state.cartSumD;
+    }
+  },
+  actions: {
+    // moneyObject: {money: 0, money_d: 0}
+    addMoney(context, moneyObject) {
+      context.commit('ADD_MONEY', moneyObject);
+    }
+  }
+});
 
 window.vm = new Vue({
   i18n,
   router,
+  store,
   render: h => h(app),
 }).$mount('#app')

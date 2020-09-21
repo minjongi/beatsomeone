@@ -44,7 +44,7 @@
                         <button @click="doNext(sellerFreeGroup)" class="btn btn-primary">{{ $t('getStarted') }}</button>
                     </div>
                 </div>
-                <table>
+                <table class="w-100">
                     <colgroup>
                         <col width="" />
                         <col width="120" />
@@ -103,7 +103,7 @@
                         <button @click="doNext(sellerPlatinumGroup)" class="btn btn-primary">{{ $t('getStarted') }}</button>
                     </div>
                 </div>
-                <table>
+                <table class="w-100">
                     <colgroup>
                         <col width="" />
                         <col width="120" />
@@ -162,7 +162,7 @@
                         <button @click="doNext(sellerMasterGroup)" class="btn btn-primary">{{ $t('getStarted') }}</button>
                     </div>
                 </div>
-                <table>
+                <table class="w-100">
                     <colgroup>
                         <col width="" />
                         <col width="120" />

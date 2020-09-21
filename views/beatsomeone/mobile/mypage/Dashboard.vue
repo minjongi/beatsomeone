@@ -1,11 +1,11 @@
 <template>
 
     <div v-if="member">
-        <div class="row" v-if="isSeller">
+        <div class="row" v-if="isSeller & false">
             <Dashboard_SettlementOverview :data="settlement_summary"></Dashboard_SettlementOverview>
         </div>
 
-        <div class="row" v-if="isSeller">
+        <div class="row" v-if="isSeller & false">
             <Dashboard_Chart v-if="chart_data" :data="chart_data"></Dashboard_Chart>
         </div>
 

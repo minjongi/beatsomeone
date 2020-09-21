@@ -19,7 +19,7 @@
         </div>
         <div class="profile__footer">
             <div class="location" v-if="member.mem_address1">
-                <img class="site" src="/assets/images/icon/position.png"/><div>{{ info.mem_address1 }}</div>
+                <img class="site" src="/assets/images/icon/position.png"/><div>{{ member.mem_address1 }}</div>
             </div>
             <div class="brandshop">
                 <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>

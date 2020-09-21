@@ -29,6 +29,7 @@
 </template>
 <script>
     import axios from 'axios';
+    import $ from 'jquery'
     require('@/assets/js/function');
 
     import Header from "@/views/beatsomeone/basic/include/Header";

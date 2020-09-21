@@ -3,14 +3,7 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-import app from './Policy.vue';
-// i18n
-import i18n from '*/src/i18n/i18n'
-
-Vue.config.productionTip = false;
-Vue.prototype.$log = console.log.bind(console);
-
-const store = new Vuex.Store({
+export const store = new Vuex.Store({
     state: {
         cartSum: 0,
         cartSumD: 0,
@@ -36,10 +29,3 @@ const store = new Vuex.Store({
         }
     }
 });
-
-
-window.vm = new Vue({
-    i18n,
-    store,
-    render: h => h(app),
-}).$mount('#app')
