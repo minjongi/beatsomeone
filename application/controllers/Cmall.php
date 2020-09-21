@@ -2142,7 +2142,7 @@ class Cmall extends CB_Controller
             // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
             // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
             //--------------------------------------------------------------------------
-            if (!strcmp($REPLYCD, "0000") && !strcmp($REPLYCD, "0001")) {
+            if (!strcmp($REPLYCD, "0000") || !strcmp($REPLYCD, "0001")) {
                 // reply_cd "0000" 일때만 성공
                 $ORDER_NO = getValue("order_no", $at_txt);
                 $AMT = getValue("amt", $at_txt);
@@ -2180,6 +2180,7 @@ class Cmall extends CB_Controller
                 $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
                 $insertdata['cor_deposit'] = $AMT;
                 $insertdata['cor_cash'] = 0;
+                $insertdata['is_test'] = $REPLYCD;
 
                 /*	 //request 요청값으로 체크하면 안됨
                 if ($this->input->post('good_mny')) {
@@ -2232,6 +2233,7 @@ class Cmall extends CB_Controller
             $insertdata['cor_deposit'] = $good_mny;
             $insertdata['cor_cash'] = 0;
             $insertdata['cor_pg'] = 'paypal';
+            $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
 
             /*	 //request 요청값으로 체크하면 안됨
             if ($this->input->post('good_mny')) {
@@ -2241,7 +2243,11 @@ class Cmall extends CB_Controller
             $insertdata['cor_status'] = 1;
             $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
         } else {
-            alert('결제 수단이 잘못 입력되었습니다');
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '결제 수단이 잘못 입력되었습니다'
+            ], JSON_UNESCAPED_UNICODE));
+            return false;
         }
 
         // 이벤트가 존재하면 실행합니다
@@ -2261,7 +2267,6 @@ class Cmall extends CB_Controller
         $insertdata['cor_content'] = $this->input->post('cor_content', null, '');
         $insertdata['cor_ip'] = $this->input->ip_address();
         $insertdata['cor_useragent'] = $this->agent->agent_string();
-        $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
         $insertdata['status'] = $od_status;
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
@@ -2309,6 +2314,7 @@ class Cmall extends CB_Controller
         $this->session->set_userdata('unique_id', '');
         $this->session->set_userdata('order_cct_id', '');
 
+        $this->output->set_status_header('200');
         $this->output->set_output(json_encode([
             'message' => 'Success'
         ]));

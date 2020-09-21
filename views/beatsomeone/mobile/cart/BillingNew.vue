@@ -650,7 +650,7 @@
                     axios.post('/cmall/ajax_orderupdate', formData1)
                         .then(res => res.data)
                         .then(data => {
-                            window.location.href = "/cmall/complete?cor_id=" + this.cor_id;
+                            window.location.href = "/cmall/complete?cor_id=" + this.unique_id;
                         })
                         .catch(error => {
                             console.error(error);
@@ -672,7 +672,7 @@
                 axios.post('/cmall/ajax_orderupdate', formData)
                     .then(res => res.data)
                     .then(data => {
-                        window.location.href = "/cmall/complete?cor_id=" + this.cor_id;
+                        window.location.href = "/cmall/complete?cor_id=" + this.unique_id;
                     })
                     .catch(error => {
                         alert("결제가 실패하였습니다.");
