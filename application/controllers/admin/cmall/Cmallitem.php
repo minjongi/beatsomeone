@@ -1103,4 +1103,113 @@ class Cmallitem extends CB_Controller
 
 		redirect($redirecturl);
 	}
+
+    /**
+     * 대량등록
+     */
+    public function bulk_registration()
+    {
+        $file = $_FILES['bulk']['tmp_name'];
+
+        if (empty($file)) {
+            alert('파일을 선택해 주세요', site_url('admin/cmall/cmallitem'));
+            return;
+        }
+
+        $this->load->library('excel/Spreadsheet_Excel_Reader');
+
+        $this->spreadsheet_excel_reader->read($file);
+        $sheets = $this->spreadsheet_excel_reader->sheets[0];
+
+        // Load Module
+        $this->load->model('Beatsomeone_model','Beatsomeone_model');
+        $this->load->model('Member_model','Member_model');
+
+        $imgFilePath = 'bso/';
+        $audioFilePath = 'bso/';
+        $fieldList = [
+            'mem_id', //회원고유번호
+            'mem_userid', //회원아이디
+            'cit_name', //트랙명
+            'hashTag', //태그(최대10개)
+            'trackType', //트랙유형
+            'cit_start_datetime', //판매 개시일자
+            'unTaggedFile', //다운로드용 오디오 파일명(확장자 포함)
+            'stemFile', //트랙 스팀 압축파일명(확장자 포함)
+            'previewFile', //미리듣기 파일명(확장자 포함)
+            'artwork', //표지 이미지명(확장자 포함)
+            'officially_registered', //저작권 등록 음원 여부
+            'freebeat', //무료제공 여부
+            'licenseLeasePriceKRW', //임대 가격(한화)
+            'licenseLeasePriceUSD', //임대 가격(달러)
+            'licenseLeaseQuantity', //임대 수량
+            'licenseStemPriceKRW', //판매 가격(한화)
+            'licenseStemPriceUSD', //판매 가격(달러) // 'licenseStemQuantity',
+            'include_copyright_transfer', //저작권 양도 포함 여부
+            'genre', //주 장르
+            'subgenre', //보조 장르
+            'moods', //주 무드
+            'bpm', //BPM
+            'cit_content', //트랙 설명
+        ];
+        $totalCount = 0;
+        for ($i = 3; $i <= $sheets['numRows']; $i++) {
+            $itemData =[];
+            foreach ($fieldList as $filedKey => $filedName) {
+                $itemData[$filedName] = empty($sheets['cells'][$i][$filedKey + 2]) ? '' : $sheets['cells'][$i][$filedKey + 2];
+            }
+
+            $itemData['licenseLeaseUseYn'] = 1;
+            $itemData['licenseStemUseYn'] = 1;
+            $itemData['licenseStemQuantity'] = 1;
+            $itemData['ip'] = $this->input->ip_address();
+
+            $itemData['artwork'] = $imgFilePath . $itemData['artwork'];
+
+            $itemData['unTaggedFile'] = [
+                'filename' => $audioFilePath . $itemData['unTaggedFile'],
+                'originname' => $itemData['unTaggedFile']
+            ];
+
+            $itemData['stemFile'] = [
+                'filename' => $audioFilePath . $itemData['stemFile'],
+                'originname' => $itemData['stemFile']
+            ];
+
+            $itemData['previewFile'] = [
+                'filename' => $audioFilePath . $itemData['previewFile'],
+                'originname' => $itemData['previewFile']
+            ];
+
+            if (!empty($itemData['hashTag'])) {
+                $tmpHashTag = [];
+                $hashTag = explode(',', $itemData['hashTag']);
+                foreach ($hashTag as $val) {
+                    $tmpHashTag[] = trim($val);
+                }
+                $itemData['hashTag'] = array_unique($tmpHashTag);
+            }
+
+            $cit_id = $this->Beatsomeone_model->merge_item($itemData);
+
+            $fileupdate = array(
+                'cit_id' => $cit_id,
+                'mem_id' => $itemData["mem_id"],
+                'cde_title' => 'PREVIEW',
+                'cde_price' => 0,
+                'cde_originname' => element('originname', $itemData['previewFile']),
+                'cde_filename' => $itemData['previewFile']['filename'],
+                'cde_filesize' => intval(element('filesize', $itemData['previewFile']) * 1024),
+                'cde_type' => str_replace('.', '', element('type', $itemData['previewFile'])),
+                'cde_is_image' => element('is_image', $itemData['previewFile']) ? element('is_image', $itemData['previewFile']) : 0,
+                'cde_datetime' => cdate('Y-m-d H:i:s'),
+                'cde_ip' => $itemData["ip"],
+                'cde_status' => 1,
+            );
+            $file_id = $this->Cmall_item_detail_model->insert($fileupdate);
+            $totalCount++;
+        }
+
+        alert('총 ' . $totalCount . '건 등록되었습니다', site_url('admin/cmall/cmallitem'));
+    }
 }

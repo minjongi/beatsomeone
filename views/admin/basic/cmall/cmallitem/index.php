@@ -1,5 +1,12 @@
 <div class="box">
 	<div class="box-table">
+    <div>
+      <form action="/admin/cmall/cmallitem/bulk_registration" name="bulk-reg" id="bulk-reg" method="post" enctype="multipart/form-data">
+        <div style="display: inline-block">대량등록 : </div>
+        <div style="display: inline-block;border: 1px solid #DCDCDC;"><input type="file" name="bulk"></div>
+        <div style="display: inline-block"><input type="submit" value="등록하기"></div>
+      </form>
+    </div>
 		<?php
 		echo show_alert_message($this->session->flashdata('message'), '<div class="alert alert-auto-close alert-dismissible alert-info"><button type="button" class="close alertclose" >&times;</button>', '</div>');
 		$attributes = array('class' => 'form-inline', 'name' => 'flist', 'id' => 'flist');

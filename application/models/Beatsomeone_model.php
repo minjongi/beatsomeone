@@ -543,7 +543,7 @@ class Beatsomeone_model extends CB_Model
         $fileList = ['unTaggedFile' => 'LEASE', 'stemFile' => 'STEM', 'streamingFile' => 'TAGGED'];
 
         // 만약 cit_id 존재 시 업데이트
-        if($p["cit_id"]) {
+        if(!empty($p["cit_id"])) {
             $cit_id = $p["cit_id"];
 
             // 상품 등록 (cmall_item)
