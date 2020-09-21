@@ -53,8 +53,8 @@
                 axios.post('/note/ajax_write_empty', formData)
                     .then(res => res.data)
                     .then(data => {
-                        console.log(data);
-                        // window.location.href = '/mypage/#/message';
+                        // console.log(data);
+                        window.location.href = '/mypage/#/message';
                     })
                     .catch(error => {
                         alert(error.response.data.message);

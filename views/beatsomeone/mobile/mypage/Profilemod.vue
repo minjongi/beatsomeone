@@ -176,7 +176,7 @@
             },
             updateUserInfo() {
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
-                    // alert(this.$t('dashboard_profilemod_save_ok'));
+                    alert(this.$t('dashboard_profilemod_save_ok'));
                     EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
                 });
             },

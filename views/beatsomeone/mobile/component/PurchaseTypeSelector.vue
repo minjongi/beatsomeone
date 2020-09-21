@@ -17,7 +17,7 @@
                     <ul>
                         <li
                                 class="parchase-item"
-                                v-if="item.cit_lease_license_use && !!item.detail && !!item.detail.LEASE && !!item.detail.LEASE.cde_id"
+                                v-if="item.cit_lease_license_use === '1' && !!item.detail && !!item.detail.LEASE && !!item.detail.LEASE.cde_id"
                         >
                             <div class="purchase-info">
                                 <div class="purchase-headern" style="display: flex; justify-content: space-between;">
@@ -75,7 +75,7 @@
                         </li>
                         <li
                                 class="parchase-item"
-                                v-if="item.cit_mastering_license_use && !!item.detail && !!item.detail.STEM && !!item.detail.STEM.cde_id"
+                                v-if="item.cit_mastering_license_use === '1' && !!item.detail && !!item.detail.STEM && !!item.detail.STEM.cde_id"
                         >
                             <div class="purchase-info">
                                 <div class="purchase-headern" style="display: flex; justify-content: space-between;">

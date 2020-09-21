@@ -423,6 +423,9 @@
             </form>
         </div>
         <Footer />
+        <div id="ALLAT_MOBILE_PAY" style="display: none;">
+
+        </div>
     </div>
 </template>
 
@@ -550,7 +553,7 @@
             this.$set(this.allatForm, 'buyer_nm', mem_name);
             this.$set(this.allatForm, 'pmember_id', this.member.mem_userid);
             let address = this.member.mem_address1 + ' ' + this.member.mem_address2 + ' ' + this.member.mem_address3 + ' ' + this.member.mem_address4;
-            if (!address) {
+            if (!address.trim()) {
                 address = this.member.mem_email;
             }
             this.$set(this.allatForm, 'recp_addr', address);
@@ -629,13 +632,12 @@
             goPay: function () {
                 console.log(this.allatForm);
                 console.log(this.member);
-                window.AllatPay_Approval(document.fm1);
                 // 결제창 자동종료 체크 시작
-                window.AllatPay_Closechk_Start();
+                window.Allat_Mobile_Approval(document.fm1,0,0);
             },
             procCompletePay: function (result_cd, result_msg, enc_data) {
                 // 결제창 자동종료 체크 종료
-                window.AllatPay_Closechk_End();
+                window.Allat_Mobile_Close();
 
                 if (result_cd !== "0000" && result_cd !== "0001") {
                     window.setTimeout(function () {

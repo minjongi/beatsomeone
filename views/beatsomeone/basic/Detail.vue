@@ -19,8 +19,16 @@
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="#" class="buy" v-if="item" @click="addCart">
-                                        <span>{{ $t('cart') }}</span>
+                                    <a href="javascript:;" class="buy" v-if="item" @click="addCart">
+                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
+                                            {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
+                                        </span>
+                                        <span v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
+                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
+                                        </span>
+                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1'">
+                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
+                                        </span>
                                     </a>
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
                                     <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.cit_review_count }}</span>
