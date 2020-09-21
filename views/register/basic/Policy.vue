@@ -16,7 +16,6 @@
                         <div class="tab_container">
                             <div class="tab_content" :class="tab == 0 ? 'active' : ''">
                                 <div v-html="policyContent" class="privacy-policy">
-
                                 </div>
                             </div>
                         </div>
@@ -25,13 +24,22 @@
                 </section>
             </div>
         </div>
+        <Footer />
     </div>
 </template>
 <script>
-    import {EventBus} from '*/src/eventbus';
     import axios from 'axios';
+    require('@/assets/js/function');
+
+    import Header from "@/views/beatsomeone/basic/include/Header";
+    import Footer from "@/views/beatsomeone/basic/include/Footer";
 
     export default {
+        name: "Policy",
+        components: {
+            Header,
+            Footer
+        },
         data: function () {
             return {
                 info: {},
@@ -43,7 +51,7 @@
         created() {
         },
         mounted() {
-            axios.get('/document/privacy')
+            axios.get('/document/ajax/privacy')
                 .then(res => res.data)
                 .then(data => {
                     this.policyContent = data.doc_content;
@@ -59,34 +67,23 @@
     }
 </script>
 <style lang="scss">
-</style>
-<style lang="scss">
-    ul.tabs {
-        display: flex;
-        margin-top: 5em;
-        margin-bottom: 5em;
-    }
-
-    .tabs li {
-        display: inline-block;
-        width: 20%;
-        padding: 15px;
-        text-align: center;
-        box-sizing: border-box;
-        border-bottom: 1px solid #ccc;
-        background-color: #eee;
-        color: #999;
-    }
-
-    .tabs li.active {
-        background-color: #045FB4;
-        color: #fff;
-    }
-
+    @import '@/assets/scss/App.scss';
     .tab_content {
         p {
             margin-left: 32px;
             line-height: 2em;
         }
+    }
+
+    .tab_container {
+        > .tab_content {
+            overflow-y: auto;
+        }
+    }
+</style>
+<style lang="scss" scoped>
+    .wrapper {
+        background: url(/assets/images/signup01-bg.png) no-repeat center -50px;
+        background-size: 100% auto;
     }
 </style>

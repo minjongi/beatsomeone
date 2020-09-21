@@ -166,4 +166,77 @@ class Document extends CB_Controller
 		$this->layout = element('layout_skin_file', element('layout', $view));
 		$this->view = element('view_skin_file', element('layout', $view));
 	}
+
+	public function ajax($doc_key = '')
+    {
+        $this->output->set_output('text/json');
+
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_document_index';
+        $this->load->event($eventname);
+
+        $view = array();
+        $view['view'] = array();
+
+        if (empty($doc_key)) {
+            $this->output->set_status_header('404');
+            return false;
+        }
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        $docinfo = $this->cache->get('document-key-id-info');
+
+        $doc_id = ($docinfo && element($doc_key, $docinfo)) ? element($doc_key, $docinfo) : '';
+        if ($doc_id) {
+            $data = $this->Document_model->get_one($doc_id);
+        } else {
+            $where = array(
+                'doc_key' => $doc_key,
+            );
+            $data = $this->Document_model->get_one('', '', $where);
+        }
+        if ( ! element('doc_id', $data)) {
+            $this->output->set_status_header('404');
+            return false;
+        }
+
+        if ( ! $this->session->userdata('doc_id_' . element('doc_id', $data))) {
+            $this->Document_model->update_hit(element('doc_id', $data));
+            $this->session->set_userdata(
+                'doc_id_' . element('doc_id', $data),
+                '1'
+            );
+        }
+
+        $data['content'] = ($this->cbconfig->get_device_view_type() === 'mobile')
+            ? (element('doc_mobile_content', $data) ? element('doc_mobile_content', $data)
+                : element('doc_content', $data)) : element('doc_content', $data);
+
+        $thumb_width = ($this->cbconfig->get_device_view_type() === 'mobile')
+            ? $this->cbconfig->item('document_mobile_thumb_width')
+            : $this->cbconfig->item('document_thumb_width');
+
+        $autolink = ($this->cbconfig->get_device_view_type() === 'mobile')
+            ? $this->cbconfig->item('use_document_mobile_auto_url')
+            : $this->cbconfig->item('use_document_auto_url');
+
+        $popup = ($this->cbconfig->get_device_view_type() === 'mobile')
+            ? $this->cbconfig->item('document_mobile_content_target_blank')
+            : $this->cbconfig->item('document_content_target_blank');
+
+        $data['content'] = display_html_content(
+            element('content', $data),
+            element('doc_content_html_type', $data),
+            $thumb_width,
+            $autolink,
+            $popup,
+            $writer_is_admin = true
+        );
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($data));
+        return true;
+    }
 }

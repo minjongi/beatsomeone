@@ -1,32 +1,46 @@
 <template>
-    <div class="container accounts accounts--start">
-        <div style="padding: 0 15px;">
-            <h2 class="title">Terms of Service</h2>
-        </div>
-        <div class="main__media">
-            <div class="tab">
-                <button :class="tab == 0 ? 'active' : ''" @click="tab = 0">이용약관</button>
-                <button :class="tab == 1 ? 'active' : ''" @click="tab = 1">유료사용자이용약관</button>
+    <div class="wrapper">
+        <Header />
+        <div class="container accounts accounts--start">
+            <div style="padding: 0 15px;">
+                <h2 class="title">Terms of Service</h2>
             </div>
-        </div>
-        <div class="tab_container">
-            <div class="tab_content" :class="tab == 0 ? 'active' : ''">
-                <div v-html="provisionTerms">
+            <div class="main__media">
+                <div class="tab">
+                    <button :class="tab == 0 ? 'active' : ''" @click="tab = 0">이용약관</button>
+                    <button :class="tab == 1 ? 'active' : ''" @click="tab = 1">유료사용자이용약관</button>
                 </div>
             </div>
+            <div class="tab_container">
+                <div class="tab_content" :class="tab == 0 ? 'active' : ''">
+                    <div v-html="provisionTerms">
+                    </div>
+                </div>
 
-            <div class="tab_content" :class="tab == 1 ? 'active' : ''">
-                <div v-html="premiumTerms" class="terms-of-service">
+                <div class="tab_content" :class="tab == 1 ? 'active' : ''">
+                    <div v-html="premiumTerms" class="terms-of-service">
+                    </div>
                 </div>
             </div>
         </div>
+        <Footer />
     </div>
 </template>
+
 <script>
-    import {EventBus} from '*/src/eventbus';
+    require('@/assets_m/js/function');
+
     import axios from 'axios';
 
+    import Header from "@/views/beatsomeone/mobile/include/Header";
+    import Footer from "@/views/beatsomeone/mobile/include/Footer";
+
     export default {
+        name: "Terms",
+        components: {
+            Header,
+            Footer
+        },
         data: function () {
             return {
                 info: {},
@@ -39,7 +53,7 @@
         created() {
         },
         mounted() {
-            axios.get('/document/provision')
+            axios.get('/document/ajax/provision')
                 .then(res => res.data)
                 .then(data => {
                     if (data.doc_mobile_content) {
@@ -48,7 +62,7 @@
                         this.provisionTerms = data.doc_content;
                     }
                 });
-            axios.get('/document/premium')
+            axios.get('/document/ajax/premium')
                 .then(res => res.data)
                 .then(data => {
                     if (data.doc_mobile_content) {
@@ -64,12 +78,13 @@
                 this.selectedTab = tab;
             },
         },
-
     }
 </script>
+
 <style lang="scss">
+    @import '@/assets_m/scss/App.scss';
 </style>
-<style lang="scss">
+<style lang="scss" scoped>
     .title {
         font-size: 1.5rem;
         margin-bottom: 40px;

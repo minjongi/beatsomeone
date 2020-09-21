@@ -30,6 +30,7 @@
             EventBus.$on('submit_join_form', d => {
                 Object.assign(this.info, d);
                 localStorage.setItem('bs_user_info', JSON.stringify(this.info));
+                console.log(this.info);
                 if (this.$router.currentRoute.path === '/5') {
                     if (this.info.group.mgr_title === 'buyer' || this.info.group.mgr_title === 'seller_free') {
                         this.registerBuyer();
