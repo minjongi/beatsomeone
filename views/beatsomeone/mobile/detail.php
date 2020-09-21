@@ -5,8 +5,3 @@
 <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.14/mediaelementplayer.min.css">-->
 <?php $this->managelayout->add_js('/dist/m_detail.js'); ?>
 
-
-<?php $this->managelayout->add_script('window.vm.$children[0].$data.isLogin = ("'. $this->member->is_member() .'" != "");'); ?>
-<?php $this->managelayout->add_script('var __t1 = '.json_encode(element('item', $view)).'; '); ?>
-<?php $this->managelayout->add_script('window.vm.$children[0].$data.item = __t1;'); ?>
-

@@ -1503,36 +1503,46 @@ class Cmall extends CB_Controller
 			}
 		}
 
-		//카드의 영수증 정보
-		if( element('cor_pay_type', $order) === 'card' ){
-			switch( element('cor_pg', $order) ){
-				case 'lg' :
-					$init = $this->paymentlib->lg_init();
-					$LGD_MID		= element('LGD_MID', $init);
-					$LGD_TID		= element('cor_tno', $order);
-					$LGD_MERTKEY	= element('pg_lg_key', $init);
-					$LGD_HASHDATA	= md5($LGD_MID.$LGD_TID.$LGD_MERTKEY);
+		if (element('cor_pg', $order) === 'allat') {
+		    if (strcasecmp(element('cor_pay_type', $order), 'card') === 0) {
+                $order['card_receipt_js'] = "http://www.allatpay.com/servlet/AllatBizPop/member/pop_card_receipt.jsp?shop_id=" . $this->cbconfig->item('pg_allat_shop_id') . "&order_no=" . element('cor_id', $order);
+            }
+        } elseif (element('cor_pg', $order) === 'paypal') {
 
-					if ( element('is_test', $order) ) {
-						$order['card_receipt_js'] = 'http://pgweb.uplus.co.kr:7085/WEB_SERVER/js/receipt_link.js';
-					} else {
-						$order['card_receipt_js'] = 'http://pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js';
-					}
-					$order['card_receipt_script'] = 'showReceiptByTID(\''.$LGD_MID.'\', \''.$LGD_TID.'\', \''.$LGD_HASHDATA.'\');';
-					break;
-				case 'inicis' :
-					$order['card_receipt_script'] = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid='.element('cor_tno', $order).'&noMethod=1\',\'receipt\',\'width=430,height=700\');';
-					break;
-				case 'kcp' :
-					if ( element('is_test', $order) ) {
-						$receipturl = 'https://testadmin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
-					} else {
-						$receipturl = 'https://admin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
-					}
-					$order['card_receipt_script'] = 'window.open(\''.$receipturl.'card_bill&tno='.element('cor_tno', $order).'&order_no='.element('cor_id', $order).'&trade_mony='.element('cor_cash', $order).'\', \'winreceipt\', \'width=470,height=815,scrollbars=yes,resizable=yes\');';
-					break;
-			}
-		}
+        } else {
+
+        }
+
+		//카드의 영수증 정보
+//		if( element('cor_pay_type', $order) === 'card' ){
+//			switch( element('cor_pg', $order) ){
+//				case 'lg' :
+//					$init = $this->paymentlib->lg_init();
+//					$LGD_MID		= element('LGD_MID', $init);
+//					$LGD_TID		= element('cor_tno', $order);
+//					$LGD_MERTKEY	= element('pg_lg_key', $init);
+//					$LGD_HASHDATA	= md5($LGD_MID.$LGD_TID.$LGD_MERTKEY);
+//
+//					if ( element('is_test', $order) ) {
+//						$order['card_receipt_js'] = 'http://pgweb.uplus.co.kr:7085/WEB_SERVER/js/receipt_link.js';
+//					} else {
+//						$order['card_receipt_js'] = 'http://pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js';
+//					}
+//					$order['card_receipt_script'] = 'showReceiptByTID(\''.$LGD_MID.'\', \''.$LGD_TID.'\', \''.$LGD_HASHDATA.'\');';
+//					break;
+//				case 'inicis' :
+//					$order['card_receipt_script'] = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid='.element('cor_tno', $order).'&noMethod=1\',\'receipt\',\'width=430,height=700\');';
+//					break;
+//				case 'kcp' :
+//					if ( element('is_test', $order) ) {
+//						$receipturl = 'https://testadmin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
+//					} else {
+//						$receipturl = 'https://admin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
+//					}
+//					$order['card_receipt_script'] = 'window.open(\''.$receipturl.'card_bill&tno='.element('cor_tno', $order).'&order_no='.element('cor_id', $order).'&trade_mony='.element('cor_cash', $order).'\', \'winreceipt\', \'width=470,height=815,scrollbars=yes,resizable=yes\');';
+//					break;
+//			}
+//		}
 
 		$view['view']['data'] = $order;
 		$view['view']['orderdetail'] = $orderdetail;
@@ -2283,6 +2293,7 @@ class Cmall extends CB_Controller
 
                 $insertdata['cor_status'] = 1;
                 $insertdata['cor_approve_datetime'] = $APPROVAL_YMDHMS;
+                $insertdata['cor_pay_type'] = $PAY_TYPE;
                 $insertdata['cor_pg'] = 'allat';
 
 //                echo "결과코드              : " . $REPLYCD . "<br>";
@@ -2328,6 +2339,7 @@ class Cmall extends CB_Controller
             $insertdata['cor_cash'] = 0;
             $insertdata['cor_pg'] = 'paypal';
             $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
+            $insertdata['cor_pay_type'] = 'paypal';
 
             /*	 //request 요청값으로 체크하면 안됨
             if ($this->input->post('good_mny')) {
@@ -2357,7 +2369,6 @@ class Cmall extends CB_Controller
         $insertdata['mem_nickname'] = $this->member->item('mem_nickname');
         $insertdata['mem_email'] = $this->member->item('mem_email');
         $insertdata['mem_phone'] = $this->member->item('mem_phone');
-        $insertdata['cor_pay_type'] = $this->input->post('pay_type', null, '');
         $insertdata['cor_content'] = $this->input->post('cor_content', null, '');
         $insertdata['cor_ip'] = $this->input->ip_address();
         $insertdata['cor_useragent'] = $this->agent->agent_string();

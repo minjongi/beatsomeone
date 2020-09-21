@@ -242,11 +242,11 @@ class Findaccount extends CB_Controller
 
                 // Send email
                 if(!$mail->send()){
-                    echo 'Message could not be sent.';
-                    echo 'Mailer Error: ' . $mail->ErrorInfo;
+//                    echo 'Message could not be sent.';
+//                    echo 'Mailer Error: ' . $mail->ErrorInfo;
                     $view['view']['alert_message'] = '이메일을 발송하지 못하였습니다. 메일 설정을 확인하여주세요';
                 }else{
-                    echo 'Message has been sent';
+//                    echo 'Message has been sent';
                     $view['view']['alert_message'] = '이메일을 발송하였습니다';
                 }
 

@@ -28,7 +28,15 @@
                                 <div class="utils__info">
                                     <a href="#" class="buy"
                                        @click="addCart">
-                                        <span>{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</span>
+                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
+                                            {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
+                                        </span>
+                                        <span v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
+                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
+                                        </span>
+                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1'">
+                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
+                                        </span>
                                     </a>
 
                                 </div>
@@ -99,6 +107,8 @@
 
 <script>
 
+    import axios from "axios";
+
     require('@/assets_m/js/function');
     import Header from "./include/Header";
     import Footer from "./include/Footer";
@@ -138,6 +148,21 @@
             isLogin () {
                 return this.member !== false;
             }
+        },
+        created() {
+            let params = window.location.pathname.split('/');
+            let cit_key = params[3];
+            console.log(params);
+            axios.get(`/item/ajax/${cit_key}`)
+                .then(res => res.data)
+                .then(data => {
+                    console.log(data);
+                    this.item = data;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+            console.log(cit_key);
         },
         mounted() {
             this.member = window.member;
@@ -210,7 +235,7 @@
                             "songs": [{
                                 "name": n.cit_name,
                                 "artist": n.musician,
-                                "url": `/cmallact/download_sample/${n.preview_cde_id}`,
+                                "url": `/cmallact/download_sample/${n.detail.PREVIEW.cde_id}`,
                             }],
                             callbacks: {
                                 play: () => {

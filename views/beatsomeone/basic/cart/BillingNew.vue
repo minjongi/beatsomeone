@@ -400,7 +400,6 @@
             axios.get('/cmall/ajax_order')
                 .then(res => res.data)
                 .then(data => {
-                    console.log(data);
                     this.orderProducts = data.data;
                     this.good_mny = 0;
                     this.good_mny_d = 0;
@@ -438,7 +437,7 @@
             this.$set(this.allatForm, 'buyer_nm', mem_name);
             this.$set(this.allatForm, 'pmember_id', this.member.mem_userid);
             let address = this.member.mem_address1 + ' ' + this.member.mem_address2 + ' ' + this.member.mem_address3 + ' ' + this.member.mem_address4;
-            if (!address) {
+            if (!address.trim()) {
                 address = this.member.mem_email;
             }
             this.$set(this.allatForm, 'recp_addr', address);

@@ -81,7 +81,7 @@
 			</tr>
 			<tr>
 				<td class="text-center">결제방식</td>
-				<td><?php echo $this->cmalllib->paymethodtype[element('cor_pay_type', element('data', $view))];?></td>
+				<td><?php echo element('cor_pay_type', element('data', $view));?></td>
 			</tr>
 			<tr>
 				<td class="text-center">결제금액</td>
