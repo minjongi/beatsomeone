@@ -1164,7 +1164,10 @@ class Cmallitem extends CB_Controller
             $itemData['licenseStemQuantity'] = 1;
             $itemData['ip'] = $this->input->ip_address();
 
-            $itemData['artwork'] = $imgFilePath . $itemData['artwork'];
+            $itemData['artwork'] = [
+                'filename' => $imgFilePath . $itemData['artwork'],
+                'originname' => $itemData['artwork']
+            ];
 
             $itemData['unTaggedFile'] = [
                 'filename' => $audioFilePath . $itemData['unTaggedFile'],
