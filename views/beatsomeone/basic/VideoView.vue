@@ -59,7 +59,7 @@
             copyUrl() {
                 let currentUrl = window.location.href;
                 this.$copyText(currentUrl).then(function (e) {
-                    alert('Copied');
+                    alert('링크가 복사 되었습니다.');
                 }, function (e) {
                     alert('Can not copy');
                 })

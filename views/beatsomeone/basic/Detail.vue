@@ -10,22 +10,22 @@
                         </div>
                         <div class="detail__music-info">
                             <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
-                            <p class="singer" v-if="item">{{ item.member.mem_nickname }}</p>
+                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>
                             <div class="state" v-if="item">
-                                <span class="song">{{ item.cde_download }}</span>
+<!--                                <span class="song">{{ item.cde_download }}</span>-->
                                 <!--                                <span class="play">120</span>-->
-                                <span class="registed">{{ releaseDt }}</span>
-                                <span class="etc">{{ item.cit_summary }}</span>
+                                <span class="registed">{{ item.cit_start_datetime }}</span>
+                                <div class="etc" v-html="item.cit_content"></div>
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a href="#" class="buy" v-if="item" @click="addCart">
-                                        <span>{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</span>
+                                        <span>{{ $t('cart') }}</span>
                                     </a>
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
-                                    <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.comment_cnt }}</span>
+                                    <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.cit_review_count }}</span>
                                     <div class="share">
-                                        <!-- <span>{{ item.cit_share_count }}</span> / -->
+                                         <span>{{ item.cit_share_count }}</span> /
                                         <span class="share pointer" @click="clickShare('twitter')">Twitter</span> /
                                         <span class="share pointer" @click="clickShare('facebook')">Facebook</span> /
                                         <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
@@ -113,6 +113,7 @@
     import {EventBus} from "*/src/eventbus";
     import MainPlayer from "@/vue/common/MainPlayer";
     import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
+    import axios from 'axios';
 
     export default {
         components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
@@ -150,7 +151,21 @@
                 return this.member !== false;
             }
         },
-
+        created() {
+            let params = window.location.pathname.split('/');
+            let cit_key = params[3];
+            console.log(params);
+            axios.get(`/item/ajax/${cit_key}`)
+                .then(res => res.data)
+                .then(data => {
+                    console.log(data);
+                    this.item = data;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+            console.log(cit_key);
+        },
         mounted() {
             this.member = window.member;
             EventBus.$on("player_request_start", (r) => {
@@ -217,8 +232,9 @@
         },
         watch: {
             item: function (n) {
-                if (n) {
-                    this.music.load(`/cmallact/download_sample/${n.preview_cde_id}`);
+                if (n && n.detail.PREVIEW) {
+                    console.log(n.detail.PREVIEW.cde_id);
+                    this.music.load(`/cmallact/download_sample/${n.detail.PREVIEW.cde_id}`);
                 }
             },
         },

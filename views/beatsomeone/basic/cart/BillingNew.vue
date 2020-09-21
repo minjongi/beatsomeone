@@ -438,6 +438,9 @@
             this.$set(this.allatForm, 'buyer_nm', mem_name);
             this.$set(this.allatForm, 'pmember_id', this.member.mem_userid);
             let address = this.member.mem_address1 + ' ' + this.member.mem_address2 + ' ' + this.member.mem_address3 + ' ' + this.member.mem_address4;
+            if (!address) {
+                address = this.member.mem_email;
+            }
             this.$set(this.allatForm, 'recp_addr', address);
             this.$set(this.allatForm, 'recp_nm', mem_name);
         },
@@ -539,7 +542,7 @@
                     axios.post('/cmall/ajax_orderupdate', formData1)
                         .then(res => res.data)
                         .then(data => {
-                            window.location.href = "/cmall/complete?cor_id=" + this.cor_id;
+                            window.location.href = "/cmall/complete?cor_id=" + this.unique_id;
                         })
                         .catch(error => {
                             console.error(error);
@@ -561,7 +564,7 @@
                 axios.post('/cmall/ajax_orderupdate', formData)
                     .then(res => res.data)
                     .then(data => {
-                        window.location.href = "/cmall/complete?cor_id=" + this.cor_id;
+                        window.location.href = "/cmall/complete?cor_id=" + this.unique_id;
                     })
                     .catch(error => {
                         alert("결제가 실패하였습니다.");

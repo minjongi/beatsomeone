@@ -294,13 +294,11 @@ Cmall_item_model extends CB_Model
         return $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
     }
 
-    public function get_one_with_author($primary_value = '')
+    public function get_one_with_author($cit_key)
     {
         $this->db->select('cmall_item.*, member.mem_nickname, cmall_item_meta_v.genre, cmall_item_meta_v.subgenre, cmall_item_meta_v.bpm, cmall_item_meta_v.moods, cmall_item_meta_v.trackType, cmall_item_meta_v.hashTag, cmall_item_meta_v.voice');
         $this->db->from($this->_table);
-        if ($primary_value) {
-            $this->db->where('cmall_item.cit_id', $primary_value);
-        }
+        $this->db->where('cmall_item.cit_key', $cit_key);
         $this->db->join('member', 'member.mem_id = cmall_item.mem_id', 'left');
         $this->db->join('cmall_item_meta_v', 'cmall_item_meta_v.cit_id = cmall_item.cit_id', 'left');
         $this->db->limit(1, 0);

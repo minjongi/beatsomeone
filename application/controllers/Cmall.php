@@ -487,6 +487,100 @@ class Cmall extends CB_Controller
 		$this->view = element('view_skin_file', element('layout', $view));
 	}
 
+    public function ajax_item($cit_key = '')
+    {
+        $this->output->set_content_type('text/json');
+
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_item';
+        $this->load->event($eventname);
+
+        $view = array();
+        $view['view'] = array();
+
+        $mem_id = (int) $this->member->item('mem_id');
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+        if (empty($cit_key)) {
+            $this->output->set_status_header('404');
+            return false;
+        }
+        $this->load->model(array('Cmall_item_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
+
+        $data = $this->Cmall_item_model->get_one_with_author($cit_key);
+        if ( ! element('cit_id', $data)) {
+            $this->output->set_status_header('404');
+            return false;
+        }
+        if ( ! element('cit_status', $data)) {
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '이 상품은 현재 판매하지 않습니다'
+            ]));
+            return false;
+        }
+
+        $data['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $data));
+        $detail_items = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $data));
+        $detail = array();
+        foreach ($detail_items as $detail_item) {
+            $detail[$detail_item['cde_title']] = $detail_item;
+        }
+        $data['detail'] = $detail;
+
+        $alertmessage = $this->member->is_member()
+            ? '회원님은 상품 페이지를 볼 수 있는 권한이 없습니다'
+            : '비회원은 상품 페이지를 볼 수 있는 권한이 없습니다.\\n\\n회원이시라면 로그인 후 이용해 보십시오';
+        $access_read = $this->cbconfig->item('access_cmall_read');
+        $access_read_level = $this->cbconfig->item('access_cmall_read_level');
+        $access_read_group = $this->cbconfig->item('access_cmall_read_group');
+        $this->accesslevel->check(
+            $access_read,
+            $access_read_level,
+            $access_read_group,
+            $alertmessage,
+            ''
+        );
+
+        if ( ! $this->session->userdata('cmall_item_id_' . element('cit_id', $data))) {
+            $this->Cmall_item_model->update_hit(element('cit_id', $data));
+            $this->session->set_userdata(
+                'cmall_item_id_' . element('cit_id', $data),
+                '1'
+            );
+        }
+
+        $data['content'] = ($this->cbconfig->get_device_view_type() === 'mobile')
+            ? (
+            element('cit_mobile_content', $data)
+                ? element('cit_mobile_content', $data)
+                : element('cit_content', $data)
+            )
+            : element('cit_content', $data);
+        $thumb_width = ($this->cbconfig->get_device_view_type() === 'mobile')
+            ? $this->cbconfig->item('cmall_product_mobile_thumb_width')
+            : $this->cbconfig->item('cmall_product_thumb_width');
+        $autolink = ($this->cbconfig->get_device_view_type() === 'mobile')
+            ? $this->cbconfig->item('use_cmall_product_mobile_auto_url')
+            : $this->cbconfig->item('use_cmall_product_auto_url');
+        $popup = ($this->cbconfig->get_device_view_type() === 'mobile')
+            ? $this->cbconfig->item('cmall_product_mobile_content_target_blank')
+            : $this->cbconfig->item('cmall_product_content_target_blank');
+        $data['content'] = display_html_content(
+            element('content', $data),
+            element('cit_content_html_type', $data),
+            $thumb_width,
+            $autolink,
+            $popup,
+            $writer_is_admin = true
+        );
+
+        $this->output->set_output(json_encode($data, JSON_UNESCAPED_UNICODE));
+        return true;
+    }
+
 
 	public function cartoption()
 	{
@@ -2142,7 +2236,7 @@ class Cmall extends CB_Controller
             // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
             // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
             //--------------------------------------------------------------------------
-            if (!strcmp($REPLYCD, "0000") && !strcmp($REPLYCD, "0001")) {
+            if (!strcmp($REPLYCD, "0000") || !strcmp($REPLYCD, "0001")) {
                 // reply_cd "0000" 일때만 성공
                 $ORDER_NO = getValue("order_no", $at_txt);
                 $AMT = getValue("amt", $at_txt);
@@ -2180,6 +2274,7 @@ class Cmall extends CB_Controller
                 $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
                 $insertdata['cor_deposit'] = $AMT;
                 $insertdata['cor_cash'] = 0;
+                $insertdata['is_test'] = $REPLYCD;
 
                 /*	 //request 요청값으로 체크하면 안됨
                 if ($this->input->post('good_mny')) {
@@ -2232,6 +2327,7 @@ class Cmall extends CB_Controller
             $insertdata['cor_deposit'] = $good_mny;
             $insertdata['cor_cash'] = 0;
             $insertdata['cor_pg'] = 'paypal';
+            $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
 
             /*	 //request 요청값으로 체크하면 안됨
             if ($this->input->post('good_mny')) {
@@ -2241,7 +2337,11 @@ class Cmall extends CB_Controller
             $insertdata['cor_status'] = 1;
             $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
         } else {
-            alert('결제 수단이 잘못 입력되었습니다');
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '결제 수단이 잘못 입력되었습니다'
+            ], JSON_UNESCAPED_UNICODE));
+            return false;
         }
 
         // 이벤트가 존재하면 실행합니다
@@ -2261,7 +2361,6 @@ class Cmall extends CB_Controller
         $insertdata['cor_content'] = $this->input->post('cor_content', null, '');
         $insertdata['cor_ip'] = $this->input->ip_address();
         $insertdata['cor_useragent'] = $this->agent->agent_string();
-        $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
         $insertdata['status'] = $od_status;
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
@@ -2309,6 +2408,7 @@ class Cmall extends CB_Controller
         $this->session->set_userdata('unique_id', '');
         $this->session->set_userdata('order_cct_id', '');
 
+        $this->output->set_status_header('200');
         $this->output->set_output(json_encode([
             'message' => 'Success'
         ]));

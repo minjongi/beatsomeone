@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <Header :is-login="isLogin"></Header>
+        <Header />
         <div class="container">
             <div class="main terms">
                 <section class="section1">
@@ -31,13 +31,24 @@
                 </section>
             </div>
         </div>
+        <Footer />
     </div>
 </template>
+
 <script>
-    import {EventBus} from '*/src/eventbus';
+    require('@/assets/js/function');
+
     import axios from 'axios';
 
+    import Header from "@/views/beatsomeone/basic/include/Header";
+    import Footer from "@/views/beatsomeone/basic/include/Footer";
+
     export default {
+        name: "Terms",
+        components: {
+            Header,
+            Footer
+        },
         data: function () {
             return {
                 info: {},
@@ -50,12 +61,12 @@
         created() {
         },
         mounted() {
-            axios.get('/document/provision')
+            axios.get('/document/ajax/provision')
                 .then(res => res.data)
                 .then(data => {
                     this.provisionTerms = data.doc_content;
                 });
-            axios.get('/document/premium')
+            axios.get('/document/ajax/premium')
                 .then(res => res.data)
                 .then(data => {
                     this.premiumTerms = data.doc_content;
@@ -67,12 +78,17 @@
                 this.selectedTab = tab;
             },
         },
-
     }
 </script>
+
 <style lang="scss">
+    @import '@/assets/scss/App.scss';
 </style>
-<style lang="css">
+<style lang="scss" scoped>
+    .wrapper {
+        background: url(/assets/images/signup01-bg.png) no-repeat center -50px;
+        background-size: 100% auto;
+    }
     .tab_container > .tab_content {
         left: 30px;
         right: 30px;

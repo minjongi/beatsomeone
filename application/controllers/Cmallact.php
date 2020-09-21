@@ -209,24 +209,22 @@ class Cmallact extends CB_Controller
     public function download_sample($cde_id = 0)
     {
         // 이벤트 라이브러리를 로딩합니다
-        $eventname = 'event_cmallact_download';
+        $eventname = 'event_admin_cmall_itemdownload_download';
         $this->load->event($eventname);
-
-        $cde_id = preg_replace('/[^0-9]/', '', $cde_id);
-        if (empty($cde_id) OR $cde_id < 1) {
-            show_404();
-        }
-
 
         // 이벤트가 존재하면 실행합니다
         Events::trigger('before', $eventname);
 
-        $this->load->model(array('Cmall_item_model', 'Cmall_item_detail_model', 'Cmall_order_model'));
+        $cde_id = (int) $cde_id;
+        if (empty($cde_id) OR $cde_id < 1) {
+            show_404();
+        }
 
-        $itemdetail = $this->Cmall_item_detail_model->get_one($cde_id);
-        $item = $this->Cmall_item_model->get_one(element('cit_id', $itemdetail));
+        $this->load->model(array('Cmall_item_detail_model'));
 
-        if ( ! element('cde_id', $itemdetail)) {
+        $file = $this->Cmall_item_detail_model->get_one($cde_id);
+
+        if ( ! element('cde_id', $file)) {
             show_404();
         }
 
@@ -235,19 +233,11 @@ class Cmallact extends CB_Controller
 
         $this->load->helper('download');
 
-        // Read the file's contents
-        $data = file_get_contents(config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $itemdetail));
-
-        $name = element('cde_originname', $itemdetail);
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="'.basename($name).'"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . strlen($data));
-
-        force_download($name, $data);
+        $data = file_get_contents(config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $file)); // Read the file's contents
+        $name = element('cde_originname', $file);
+        if ($name && $data) {
+            force_download($name, $data);
+        }
     }
 
 

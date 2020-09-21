@@ -36,13 +36,13 @@
               </li>
               <li>
                 <a
-                  href="/register/#/TermsOfService"
+                  href="/register/terms"
                   target="_blank"
                 >{{ $t('termsOfService') }}</a>
               </li>
               <li>
                 <a
-                  href="/register/#/PrivacyPolicy"
+                  href="/register/policy"
                   target="_blank"
                 >{{ $t('privacyPolicy') }}</a>
               </li>
