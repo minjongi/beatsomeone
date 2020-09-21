@@ -1164,6 +1164,8 @@ class Cmallitem extends CB_Controller
             $itemData['licenseStemQuantity'] = 1;
             $itemData['ip'] = $this->input->ip_address();
 
+            $itemData['cit_start_datetime'] = date('Y-m-d H:i:s', strtotime($itemData['cit_start_datetime']));
+
             $itemData['artwork'] = [
                 'filename' => $imgFilePath . $itemData['artwork'],
                 'originname' => $itemData['artwork']
@@ -1192,7 +1194,6 @@ class Cmallitem extends CB_Controller
                 }
                 $itemData['hashTag'] = array_unique($tmpHashTag);
             }
-
             $cit_id = $this->Beatsomeone_model->merge_item($itemData);
 
             $fileupdate = array(
