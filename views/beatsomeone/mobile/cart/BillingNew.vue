@@ -630,8 +630,6 @@
                 window.location.href = "/cmall/cart";
             },
             goPay: function () {
-                console.log(this.allatForm);
-                console.log(this.member);
                 // 결제창 자동종료 체크 시작
                 window.Allat_Mobile_Approval(document.fm1,0,0);
             },
