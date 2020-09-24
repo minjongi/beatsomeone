@@ -15,7 +15,7 @@
                         <div class="main__media">
                             <div class="sublist">
                                 <div class="wrap" :class="{'addPaddingTop':!isDisplayTop}">
-                                    <CommonSidePanel :userinfo="userInfo" :current="'dashboard'"></CommonSidePanel>
+                                    <CommonSidePanel />
                                     <div class="sublist__content">
                                         <router-view/>
                                     </div>
@@ -106,5 +106,11 @@
 
     .sublist {
         padding-top: 0;
+    }
+
+    .sublist .wrap {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
     }
 </style>

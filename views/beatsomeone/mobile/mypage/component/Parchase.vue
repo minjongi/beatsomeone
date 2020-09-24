@@ -1,6 +1,6 @@
 <template>
     <div class="option_item basic">
-        <div class="parchase-description" v-if="type === 'basic'">
+        <div class="purchase-description" v-if="type === 'basic'">
             <p>
                 <i>
                     <img src="/assets/images/icon/parchase-info6.png" alt/>
@@ -33,7 +33,7 @@
                 {{$t('lang29')}}
             </p>
         </div>
-        <div class="parchase-description" v-else>
+        <div class="purchase-description" v-else>
             <p>
                 <i>
                     <img src="/assets/images/icon/parchase-info6.png" alt/>
@@ -96,11 +96,11 @@
         margin-bottom: 0 !important;
     }
 
-    .parchase-description {
+    .purchase-description {
         padding-left: 0 !important;
     }
 
-    .parchase-description p {
+    .purchase-description p {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -112,11 +112,11 @@
         line-height: 20px;
     }
 
-    .parchase-description p:last-child {
+    .purchase-description p:last-child {
         margin-bottom: 0;
     }
 
-    .parchase-description p i {
+    .purchase-description p i {
         -webkit-box-flex: 0;
         -ms-flex: none;
         flex: none;
@@ -127,7 +127,7 @@
         height: 20px;
     }
 
-    .parchase-description p {
+    .purchase-description p {
         margin-bottom: 5px !important;
     }
 </style>

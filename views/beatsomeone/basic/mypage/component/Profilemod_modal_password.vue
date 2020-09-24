@@ -108,19 +108,6 @@
                             this.new_password_re_invalid = false;
                         }
                     })
-                // this.doValidation().then(r => {
-                //
-                //
-                //     Http.post('/BeatsomeoneMypageApi/updateUserPassword',{'pwdOriginal' : this.info.pwdOriginal, 'pwdChange': this.info.pwdC1 }).then(r=> {
-                //         alert(this.$t('dashboard_profilemod_pwd_change_ok'));
-                //         this.$emit('submitModal');
-                //     }).catch(e=> {
-                //         log.debug('업데이트 실패');
-                //     });
-                //
-                // },e => {
-                //     log.debug('실패');
-                // });
             },
             doValidation() {
                 const p1 = new Promise((resolve, reject) => {

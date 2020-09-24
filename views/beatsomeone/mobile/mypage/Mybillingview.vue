@@ -14,10 +14,15 @@
                     </div>
                     <div class="n-flex" style="justify-content: space-between;">
                         <div>{{$t('status')}}</div>
-                        <div
-                                :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }"
-                        >{{ $t(order.status) }}
-                        </div>
+                      <div v-if="order.cor_status === '1'" class="green">
+                        {{ $t('orderComplete')}}
+                      </div>
+                      <div v-else-if="order.cor_status === '2'" class="red">
+                        {{ $t('orderCancel')}}
+                      </div>
+                      <div v-else>
+                        {{ $t('deposit')}}
+                      </div>
                     </div>
                 </div>
             </div>
@@ -140,23 +145,23 @@
                 <div class="n-box">
                     <div class="n-flex between">
                         <span class="title">{{$t('payMethod1')}}</span>
-                        <span>{{ payType }}</span>
+                      <div>{{ order.cor_pg }}</div>
                     </div>
                     <div class="n-flex between">
                         <span class="title">{{$t('payMethodDetail')}}</span>
-                        <span>{{ cor_pg }}</span>
+                      <div>{{ order.cor_pay_type }}</div>
                     </div>
-                    <div class="n-flex between">
+                    <div class="n-flex between" v-if="false">
                         <span class="title">{{$t('paySubtotal')}}</span>
                         <span>{{ totalPrice }}</span>
                     </div>
-                    <div class="n-flex between">
+                    <div class="n-flex between" v-if="false">
                         <span class="title">{{$t('usePoints')}}</span>
                         <span>0 P</span>
                     </div>
                     <div class="n-flex between total">
                         <span>{{$t('payTotal')}}</span>
-                        <span>{{ totalPrice }}</span>
+                      <div>{{ formatPr(order.cor_pg, order.cor_total_money) }}</div>
                     </div>
                 </div>
             </div>
@@ -168,10 +173,10 @@
 
         <div class="n-flex n-btnbox">
             <button class="btn btn--gray" @click="goPage('mybilling')">{{$t('backToList')}}</button>
-            <button v-if="order.status==='order'" @click="openRequestModal" class="btn btn--submit">{{$t('requestRefund')}}</button>
+            <button v-if="order.cor_status==='1'" @click="openRequestModal" class="btn btn--submit">{{$t('requestRefund')}}</button>
         </div>
 
-        <div class="panel" :class="{ 'active': reqref > 0 }" v-if="order.status === 'order'">
+        <div class="panel" :class="{ 'active': reqref > 0 }" v-if="order.cor_status === '1'">
             <div class="popup" :class="{ 'active': reqref === 1 }">
                 <div class="box" style="padding-bottom:50px;">
                     <div class="title">Request Refund</div>
@@ -612,6 +617,23 @@
                     );
                 }
             },
+          formatPr: function (m, price) {
+            if (m === 'paypal') {
+              return '$' + this.formatNumberEn(price);
+            } else if (m === 'allat') {
+              return '₩' + this.formatNumber(price);
+            } else {
+              return ''
+            }
+          },
+          formatNumber(n) {
+            //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+            return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+          },
+          formatNumberEn(n) {
+            //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+            return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
+          },
             playAudio(i, e) {
                 if (!this.isPlay || this.currentPlayId !== i.cit_id) {
                     if (this.currentPlayId !== i.cit_id) {

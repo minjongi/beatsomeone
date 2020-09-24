@@ -54,9 +54,11 @@
         computed: {
             groupType() {
                 if (this.member_group_name === 'buyer') {
-                    return 'CUSTOMER';
+                    return 'customer';
+                } else if (this.member_group_name.includes('seller')) {
+                    return 'seller';
                 } else {
-                    return 'SELLER';
+                  return 'customer';
                 }
             },
             isAvatarSaving() {

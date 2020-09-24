@@ -29,9 +29,6 @@
             }
         },
         created() {
-            log.debug({
-                'this.$router.currentRoute' : this.$router.currentRoute.path,
-            });
             this.current = this.parseRoute(this.$router.currentRoute.path);
         },
         mounted() {

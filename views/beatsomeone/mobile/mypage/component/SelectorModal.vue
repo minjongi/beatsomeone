@@ -31,7 +31,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="parchase-description" v-show="detailItem.toggleDesc">
+                                <div class="purchase-description" v-show="detailItem.toggleDesc">
                                     <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info6.png" alt/>

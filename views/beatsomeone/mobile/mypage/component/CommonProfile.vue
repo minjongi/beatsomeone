@@ -3,11 +3,11 @@
     <div class="row center" v-if="member">
         <div class="profile">
             <div class="portrait">
-                <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portait.png'">
+                <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portrait.png'">
             </div>
             <div class="info">
                 <div class="group">
-                    <div class="group_title" :class="groupType">{{groupType}}</div>
+                    <div class="group_title" :class="groupType">{{$t(groupType)}}</div>
                 </div>
                 <div class="username">
                     {{ member.mem_nickname }}
@@ -50,9 +50,11 @@
         computed: {
             groupType() {
                 if (this.member_group_name === 'buyer') {
-                    return 'CUSTOMER';
+                    return 'customer';
+                } else if (this.member_group_name.includes('seller')) {
+                    return 'seller';
                 } else {
-                    return 'SELLER';
+                  return 'customer';
                 }
             },
             memBio() {

@@ -13,7 +13,7 @@
                         <div class="main__media">
                             <div class="sublist">
                                 <div>
-                                    <CommonTopPanel :userinfo="userInfo" :current="'dashboard'"></CommonTopPanel>
+                                    <CommonTopPanel />
                                     <div class="sublist__content">
                                         <router-view/>
                                     </div>

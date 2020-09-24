@@ -34,7 +34,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="parchase-description" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
+                                <div class="purchase-description" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
                                     <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info6.png" alt/>
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
 
-                                <div class="parchase-description" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
+                                <div class="purchase-description" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
                                     <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info6.png" alt/>
@@ -330,7 +330,7 @@
         flex: 0 !important;
     }
 
-    #purchase .modal__content .modal__body .parchase-item .parchase-description p {
+    #purchase .modal__content .modal__body .parchase-item .purchase-description p {
         margin-bottom: 5px !important;
     }
 </style>

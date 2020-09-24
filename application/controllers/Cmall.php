@@ -859,6 +859,60 @@ class Cmall extends CB_Controller
          */
         ajax_required_user_login();
 
+        $mem_id = (int) $this->member->item('mem_id');
+
+        $this->load->model(array('Cmall_cart_model'));
+
+        $cachename = 'delete_old_cart_cache';
+        $cachetime = 3600;
+        if ( ! $result = $this->cache->get($cachename)) {
+            $days = $this->cbconfig->item('cmall_cart_keep_days')
+                ? $this->cbconfig->item('cmall_cart_keep_days') : 14;
+            $cartdays = cdate('Y-m-d H:i:s', ctimestamp() - $days * 86400);
+            $deletewhere = array(
+                'cct_datetime <' => $cartdays,
+            );
+            $this->Cmall_cart_model->delete_where($deletewhere);
+            $this->cache->save($cachename, cdate('Y-m-d H:i:s'), $cachetime);
+        }
+
+
+        /**
+         * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
+         */
+        $param =& $this->querystring;
+        $findex = 'cmall_item.cit_id';
+        $forder = 'desc';
+
+        /**
+         * 게시판 목록에 필요한 정보를 가져옵니다.
+         */
+        $where = array();
+        $where['cmall_cart.mem_id'] = $mem_id;
+        $result = $this->Cmall_cart_model->get_cart_list($where, $findex, $forder);
+        if ($result) {
+            foreach ($result as $key => $val) {
+                $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+                $result[$key]['detail'] = $this->Cmall_cart_model->get_cart_detail($mem_id, element('cit_id', $val));
+            }
+        }
+
+        $this->output->set_output(json_encode($result));
+    }
+
+    public function ajax_orderstart()
+    {
+        $this->output->set_content_type('text/json');
+
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_cmall_cart';
+        $this->load->event($eventname);
+
+        /**
+         * 로그인이 필요한 페이지입니다
+         */
+        ajax_required_user_login();
+
         $mem_id = (int)$this->member->item('mem_id');
 
         $view = array();
@@ -1115,7 +1169,7 @@ class Cmall extends CB_Controller
         $this->view = element('view_skin_file', element('layout', $view));
     }
 
-    public function complete()
+    public function complete($cor_id = '')
     {
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_cmall_orderresult';
@@ -1126,7 +1180,6 @@ class Cmall extends CB_Controller
          */
         required_user_login();
 
-        $this->load->library(array('paymentlib'));
         $mem_id = (int)$this->member->item('mem_id');
 
         $view = array();
@@ -1138,13 +1191,6 @@ class Cmall extends CB_Controller
 
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
-
-
-        //log_message('error', var_dump($this->input->get(), true) );
-        $cor_id = $this->input->get("cor_id");
-        if (empty($cor_id) or $cor_id < 1) {
-            alert('잘못된 접근입니다');
-        }
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
 
@@ -1606,7 +1652,6 @@ class Cmall extends CB_Controller
          */
         ajax_required_user_login();
 
-        $this->load->library(array('paymentlib'));
         $mem_id = (int)$this->member->item('mem_id');
 
         $view = array();
@@ -1636,7 +1681,7 @@ class Cmall extends CB_Controller
         if ($orderdetail) {
             foreach ($orderdetail as $key => $value) {
                 $orderdetail[$key]['item'] = $item
-                    = $this->Cmall_item_model->get_one_with_author(element('cit_id', $value));
+                    = $this->Cmall_item_model->get_one_with_tags(element('cit_id', $value));
                 $orderdetail[$key]['itemdetail'] = $itemdetail
                     = $this->Cmall_order_detail_model
                     ->get_detail_by_item($cor_id, element('cit_id', $value));
@@ -1659,66 +1704,12 @@ class Cmall extends CB_Controller
             );
         }
 
-        //핸드폰의 영수증 정보
-        if (element('cor_pay_type', $order) === 'phone') {
-            switch (element('cor_pg', $order)) {
-                case 'lg' :
-                    $init = $this->paymentlib->lg_init();
-                    $LGD_MID = element('LGD_MID', $init);
-                    $LGD_TID = element('cor_tno', $order);
-                    $LGD_MERTKEY = element('pg_lg_key', $init);
-                    $LGD_HASHDATA = md5($LGD_MID . $LGD_TID . $LGD_MERTKEY);
-
-                    if (element('is_test', $order)) {
-                        $order['card_receipt_js'] = 'http://pgweb.uplus.co.kr:7085/WEB_SERVER/js/receipt_link.js';
-                    } else {
-                        $order['card_receipt_js'] = 'http://pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js';
-                    }
-                    $order['card_receipt_script'] = 'showReceiptByTID(\'' . $LGD_MID . '\', \'' . $LGD_TID . '\', \'' . $LGD_HASHDATA . '\');';
-                    break;
-                case 'inicis' :
-                    $order['card_receipt_script'] = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=' . element('cor_tno', $order) . '&noMethod=1\',\'receipt\',\'width=430,height=700\');';
-                    break;
-                case 'kcp' :
-                    if (element('is_test', $order)) {
-                        $receipturl = 'https://testadmin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
-                    } else {
-                        $receipturl = 'https://admin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
-                    }
-                    $order['card_receipt_script'] = 'window.open(\'' . $receipturl . 'mcash_bill&tno=' . element('cor_tno', $order) . '&order_no=' . element('cor_id', $order) . '&trade_mony=' . element('cor_cash', $order) . '\', \'winreceipt\', \'width=470,height=815,scrollbars=yes,resizable=yes\');';
-                    break;
+        if (element('cor_pg', $order) === 'allat') {
+            if (strcasecmp(element('cor_pay_type', $order), 'card') === 0) {
+                $order['card_receipt_js'] = "http://www.allatpay.com/servlet/AllatBizPop/member/pop_card_receipt.jsp?shop_id=" . $this->cbconfig->item('pg_allat_shop_id') . "&order_no=" . element('cor_id', $order);
             }
-        }
+        } elseif (element('cor_pg', $order) === 'paypal') {
 
-        //카드의 영수증 정보
-        if (element('cor_pay_type', $order) === 'card') {
-            switch (element('cor_pg', $order)) {
-                case 'lg' :
-                    $init = $this->paymentlib->lg_init();
-                    $LGD_MID = element('LGD_MID', $init);
-                    $LGD_TID = element('cor_tno', $order);
-                    $LGD_MERTKEY = element('pg_lg_key', $init);
-                    $LGD_HASHDATA = md5($LGD_MID . $LGD_TID . $LGD_MERTKEY);
-
-                    if (element('is_test', $order)) {
-                        $order['card_receipt_js'] = 'http://pgweb.uplus.co.kr:7085/WEB_SERVER/js/receipt_link.js';
-                    } else {
-                        $order['card_receipt_js'] = 'http://pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js';
-                    }
-                    $order['card_receipt_script'] = 'showReceiptByTID(\'' . $LGD_MID . '\', \'' . $LGD_TID . '\', \'' . $LGD_HASHDATA . '\');';
-                    break;
-                case 'inicis' :
-                    $order['card_receipt_script'] = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=' . element('cor_tno', $order) . '&noMethod=1\',\'receipt\',\'width=430,height=700\');';
-                    break;
-                case 'kcp' :
-                    if (element('is_test', $order)) {
-                        $receipturl = 'https://testadmin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
-                    } else {
-                        $receipturl = 'https://admin8.kcp.co.kr/assist/bill.BillActionNew.do?cmd=';
-                    }
-                    $order['card_receipt_script'] = 'window.open(\'' . $receipturl . 'card_bill&tno=' . element('cor_tno', $order) . '&order_no=' . element('cor_id', $order) . '&trade_mony=' . element('cor_cash', $order) . '\', \'winreceipt\', \'width=470,height=815,scrollbars=yes,resizable=yes\');';
-                    break;
-            }
         }
 
         $result = [
@@ -1730,61 +1721,7 @@ class Cmall extends CB_Controller
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
 
         $this->output->set_output(json_encode($result));
-
-    }
-
-    public function inicisweb()
-    {
-        // 이벤트 라이브러리를 로딩합니다
-        $eventname = 'event_payment_inicis_pc_pay';
-        $this->load->event($eventname);
-
-        // 이벤트가 존재하면 실행합니다
-        Events::trigger('before', $eventname);
-
-        $this->load->library(array('paymentlib'));
-        $init = $this->paymentlib->inicis_init();
-
-        if ('inicis' !== $this->cbconfig->item('use_payment_pg')) {
-            die(json_encode(array('error' => '올바른 방법으로 이용해 주십시오.')));
-        }
-
-        $request_mid = $this->input->post('mid', null, '');
-        $session_order_num = $this->session->userdata('unique_id');
-
-        if (($request_mid != element('pg_inicis_mid', $init)) || !$session_order_num) {
-            alert("잘못된 요청입니다.");
-        }
-
-        $orderNumber = $this->input->post('orderNumber', true, 0);
-
-        if (!$orderNumber) {
-            alert("주문번호가 없습니다.");
-        }
-
-        $this->load->model('Payment_order_data_model');
-        $row = $this->Payment_order_data_model->get_one($orderNumber);
-        $params = array();
-        $data = cmall_tmp_replace_data($row['pod_data']);
-
-        if (!$data) {
-            alert("임시 주문 정보가 저장되지 않았습니다. \\n 다시 실행해 주세요.");
-        }
-
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                foreach ($value as $k => $v) {
-                    $_POST[$key][$k] = $params[$key][$k] = $v;
-                }
-            } else {
-                $_POST[$key] = $params[$key] = $value;
-            }
-        }
-
-        // 이벤트가 존재하면 실행합니다
-        Events::trigger('after', $eventname);
-
-        $this->orderupdate();
+        return true;
     }
 
     /**
@@ -2167,7 +2104,7 @@ class Cmall extends CB_Controller
             return false;
         }
 
-        $this->load->model('Cmall_cart_model');
+        $this->load->model(array('Cmall_cart_model', 'Cmall_order_model'));
         $where = array();
         $where['cmall_cart.mem_id'] = $mem_id;
         $findex = 'cmall_item.cit_id';
@@ -2176,6 +2113,7 @@ class Cmall extends CB_Controller
 
         $good_mny = $this->input->post('good_mny', null, 0);    //request 값으로 받은 값
         $item_cct_price = 0;        //주문한 상품의 총 금액의 초기화
+        $item_cct_price_d = 0.0;
 
         $orderlist = $this->Cmall_cart_model->get_order_list($where, $findex, $forder);
         if ($orderlist) {
@@ -2186,7 +2124,8 @@ class Cmall extends CB_Controller
                     foreach ((array)$details as $detail) {
                         if (empty($detail)) continue;
 
-                        $item_cct_price += ((int)element('cit_price', $val) + (int)element('cde_price', $detail)) * element('cct_count', $detail);
+                        $item_cct_price += (int)element('cde_price', $detail) * element('cct_count', $detail);
+                        $item_cct_price_d += (float)element('cde_price_d', $detail) * element('cct_count', $detail);
                     }
                 }
 
@@ -2194,12 +2133,22 @@ class Cmall extends CB_Controller
             }
         }
 
-        if ($item_cct_price != $good_mny) {
-            $this->output->set_status_header('400');
-            $this->output->set_output(json_encode([
-                'message' => '결제 금액이 상이합니다'
-            ], JSON_UNESCAPED_UNICODE));
-            return false;
+        if ($this->input->post('pay_type') === 'allat') {
+            if ($item_cct_price != $good_mny) {
+                $this->output->set_status_header('400');
+                $this->output->set_output(json_encode([
+                    'message' => '결제 금액이 상이합니다'
+                ], JSON_UNESCAPED_UNICODE));
+                return false;
+            }
+        } elseif ($this->input->post('pay_type') === 'paypal') {
+            if ($item_cct_price_d != (float)$good_mny) {
+                $this->output->set_status_header('400');
+                $this->output->set_output(json_encode([
+                    'message' => '결제 금액이 상이합니다'
+                ], JSON_UNESCAPED_UNICODE));
+                return false;
+            }
         }
 
         $insertdata = array();
@@ -2364,12 +2313,38 @@ class Cmall extends CB_Controller
             }
 
         } elseif ($this->input->post('pay_type') === 'paypal') {
+            $paypalData = $_POST["paypal_data"];
+
+            if (empty($paypalData)) {
+                $this->output->set_status_header('400');
+                return false;
+            }
+
+            $params['raw_data'] = $paypalData;
+            $paypalData = json_decode($paypalData, true);
+            $params['id'] = $paypalData['id'];
+            $params['create_time'] = $paypalData['create_time'];
+            $params['update_time'] = $paypalData['update_time'];
+            $params['state'] = $paypalData['state'];
+            $params['intent'] = $paypalData['intent'];
+            $params['payment_method'] = $paypalData['payer']['payment_method'];
+            $params['email'] = $paypalData['payer']['payer_info']['email'];
+            $params['first_name'] = $paypalData['payer']['payer_info']['first_name'];
+            $params['last_name'] = $paypalData['payer']['payer_info']['last_name'];
+            $params['payer_id'] = $paypalData['payer']['payer_info']['payer_id'];
+            $params['invoice_number'] = $paypalData['transactions'][0]['invoice_number'];
+            $params['amount'] = $paypalData['transactions'][0]['amount']['total'];
+            $params['currency'] = $paypalData['transactions'][0]['amount']['currency'];
+            $params['links'] = $paypalData['links']['href'];
+
+            $this->Cmall_order_model->paypal_log_insert($params);
+
             $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
             $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
-            $insertdata['cor_total_money'] = $item_cct_price;
+            $insertdata['cor_total_money'] = $item_cct_price_d;
             $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
-            $insertdata['cor_deposit'] = $good_mny;
-            $insertdata['cor_cash'] = 0;
+            $insertdata['cor_deposit'] = 0;
+            $insertdata['cor_cash'] = $paypalData['transactions'][0]['amount']['total'];
             $insertdata['cor_pg'] = 'paypal';
             $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
             $insertdata['cor_pay_type'] = 'paypal';
@@ -2380,7 +2355,7 @@ class Cmall extends CB_Controller
             */
 
             $insertdata['cor_status'] = 1;
-            $insertdata['cor_approve_datetime'] = date('Y-m-d H:i:s');
+            $insertdata['cor_approve_datetime'] = $paypalData['create_time'];
         } else {
             $this->output->set_status_header('400');
             $this->output->set_output(json_encode([
@@ -2595,8 +2570,8 @@ class Cmall extends CB_Controller
         if ($this->input->get('end_date')) {
             $where .= " and cmall_order.cor_datetime <='" . $this->input->get('end_date') . "'";
         }
-        if ($this->input->get('status')) {
-            $where .= " and cmall_order.status ='" . $this->input->get('status') . "'";
+        if ($this->input->get('cor_status')) {
+            $where .= " and cmall_order.cor_status ='" . $this->input->get('cor_status') . "'";
         }
 
         $data = $this->Cmall_order_model

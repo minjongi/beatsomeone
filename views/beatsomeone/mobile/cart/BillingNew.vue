@@ -88,7 +88,7 @@
                                                                     >{{ formatPrice(product.detail[0].cde_price, product.detail[0].cde_price_d, true) }}</div>
                                                                 </button>
                                                                 <div class="option_item basic">
-                                                                    <div class="parchase-description">
+                                                                    <div class="purchase-description">
                                                                         <p>
                                                                             <i>
                                                                                 <img src="/assets/images/icon/parchase-info6.png" alt />
@@ -160,7 +160,7 @@
                                                                     >{{ formatPrice(product.detail[0].cde_price, product.detail[0].cde_price_d, true) }}</div>
                                                                 </button>
                                                                 <div class="option_item basic">
-                                                                    <div class="parchase-description">
+                                                                    <div class="purchase-description">
                                                                         <p>
                                                                             <i>
                                                                                 <img src="/assets/images/icon/parchase-info6.png" alt />
@@ -711,10 +711,10 @@
         margin-top: 15px !important;
         margin-bottom: 0 !important;
     }
-    .parchase-description {
+    .purchase-description {
         padding-left: 0 !important;
     }
-    .parchase-description p {
+    .purchase-description p {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -725,10 +725,10 @@
         margin-bottom: 10px;
         line-height: 20px;
     }
-    .parchase-description p:last-child {
+    .purchase-description p:last-child {
         margin-bottom: 0;
     }
-    .parchase-description p i {
+    .purchase-description p i {
         -webkit-box-flex: 0;
         -ms-flex: none;
         flex: none;
@@ -738,7 +738,7 @@
         line-height: 20px;
         height: 20px;
     }
-    .parchase-description p {
+    .purchase-description p {
         margin-bottom: 5px !important;
     }
 </style>
