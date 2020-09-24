@@ -51,7 +51,7 @@
                         <p>
                             {{ $t('free') }}
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ buyerGroup.mgr_monthly_cost_d }}</h2>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </th>
                 </tr>
@@ -289,18 +289,11 @@
         },
         methods: {
             doNext(group) {
-                var islogin = this.$parent.isLogin;
-                this.selectedGroup = group;
-                EventBus.$emit('submit_join_form', {
-                    group: this.selectedGroup,
-                    billTerm: this.billTerm
-                });
-
-                if (islogin) {
-                    this.$router.push({path: '/6'});
-                } else {
-                    this.$router.push({path: '/2'});
-                }
+                this.$store.dispatch('setUserInfo', {
+                    group: group,
+                    billTerm: this.billTerm,
+                })
+                this.$router.push('/2');
             },
             fetchData() {
                 axios.get('/membergroup')
