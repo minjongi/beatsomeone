@@ -46,9 +46,9 @@
         },
         mounted() {
             // 중간 리프레시 초기화
-            if (this.$router.currentRoute.path !== '/') {
-                this.$router.push({path: '/'});
-            }
+            // if (this.$router.currentRoute.path !== '/') {
+            //     this.$router.push({path: '/'});
+            // }
         },
         watch: {},
         methods: {

@@ -86,36 +86,30 @@
                     let userInfo = this.$store.getters.getUserInfo;
                     userInfo.mem_profile_content = this.user.introduce;
                     const group = userInfo.group;
-                    if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
-                        let formData = new FormData();
-                        formData.append('mem_userid', userInfo.mem_userid);
-                        formData.append('mem_nickname', userInfo.mem_userid);
-                        formData.append('mem_email', userInfo.mem_email);
-                        formData.append('mem_password', userInfo.mem_password);
-                        formData.append('mem_firstname', userInfo.mem_firstname || '');
-                        formData.append('mem_lastname', userInfo.mem_lastname || '');
-                        formData.append('mem_address1', userInfo.mem_address1 || '');
-                        formData.append('mem_profile_content', userInfo.mem_profile_content);
-                        formData.append('mem_type', userInfo.mem_type);
-                        formData.append('mgr_id', userInfo.group.mgr_id);
+                    let formData = new FormData();
+                    formData.append('mem_userid', userInfo.mem_userid);
+                    formData.append('mem_nickname', userInfo.mem_userid);
+                    formData.append('mem_email', userInfo.mem_email);
+                    formData.append('mem_password', userInfo.mem_password);
+                    formData.append('mem_firstname', userInfo.mem_firstname || '');
+                    formData.append('mem_lastname', userInfo.mem_lastname || '');
+                    formData.append('mem_address1', userInfo.mem_address1 || '');
+                    formData.append('mem_profile_content', userInfo.mem_profile_content);
+                    formData.append('mem_type', userInfo.mem_type);
+                    // formData.append('mgr_id', userInfo.group.mgr_id);
 
-                        axios.post('/register/form', formData)
-                            .then(res => res.data)
-                            .then(data => {
-                                if (data.email_auth_message) {
-                                    alert(data.email_auth_message);
-                                } else {
-                                    alert(data.message);
-                                    window.location.href = '/';
-                                }
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            })
-                    } else {
-                        this.$store.dispatch('setUserInfo', userInfo);
-                        this.$router.push('/6');
-                    }
+                    axios.post('/register/form', formData)
+                        .then(res => res.data)
+                        .then(data => {
+                            if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
+                                window.location.href = '/';
+                            } else {
+                                window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
                 }
             },
         },

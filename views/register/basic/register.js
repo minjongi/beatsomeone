@@ -28,7 +28,6 @@ const router = new VueRouter({
         {path: '/3', component: Register_3},
         {path: '/4', component: Register_4},
         {path: '/5', component: Register_5},
-        {path: '/6', component: PurchaseMembership},
     ],
     scrollBehavior(to, from, savedPosition) {
         return {x: 0, y: 0}
