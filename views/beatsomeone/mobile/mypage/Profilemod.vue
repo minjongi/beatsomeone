@@ -18,7 +18,7 @@
                     <div class="seller_class " :class="sellerClass">{{ $t(sellerClass) }}</div>
 
                     <div class="active">
-                        <button class="btn btn--yellow round"> Upgrade Now </button>
+                        <button @click="goToUpgrade" class="btn btn--yellow round"> Upgrade Now </button>
                     </div>
                 </div>
 
@@ -174,8 +174,9 @@
             moveDashboard() {
               window.location.href = '/mypage';
             },
-
-
+            goToUpgrade() {
+                window.location.href = '/mypage/upgrade'
+            }
         }
     }
 </script>

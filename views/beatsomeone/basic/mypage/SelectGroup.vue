@@ -208,8 +208,7 @@
         },
         methods: {
             doNext(group) {
-                window.selectedGroup = group;
-                this.$router.push({path: '/pay'});
+                window.location.href = `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`;
             },
             fetchData() {
                 axios.get('/membergroup')
@@ -231,10 +230,6 @@
                     .catch(error => {
                         console.error(error);
                     })
-                // Http.post(`/beatsomeoneApi/get_register_plan_cost`).then(r => {
-                //     this.listPlan = r;
-                //     // this.disBill = this.listPlan[0].yearly_discount_pc;
-                // });
             },
             selectBillTerm(term) {
                 window.billTerm = term;
