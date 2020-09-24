@@ -136,10 +136,15 @@
             },
             sellerClass: function() {
                 if (this.member_group_name.includes('seller')) {
-                    return this.member_group_name.split('_')[1];
-                } else {
-                    return '';
+                    if (this.member_group_name.includes('free')) {
+                        return 'FREE';
+                    } else if (this.member_group_name.includes('platinum')) {
+                        return 'Platinum';
+                    } else if (this.member_group_name.includes('master')) {
+                        return 'Master';
+                    }
                 }
+                return '';
             }
         },
         mounted(){
