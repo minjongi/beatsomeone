@@ -42,13 +42,13 @@
         </div>
         <div class="row" style="display:flex; margin-bottom:30px;">
             <div class="tabmenu">
-                <div :class="{ 'active': status === '' }" @click="status = ''">{{$t('total1')}}
+                <div :class="{ 'active': cor_status === '' }" @click="cor_status = ''">{{$t('total1')}}
                     ({{calcTotalCnt}})
                 </div>
-                <div :class="{ 'active': status === 'deposit' }" @click="status = 'deposit'">{{$t('wait')}}
+                <div :class="{ 'active': cor_status === '3' }" @click="cor_status = '3'">{{$t('wait')}}
                     ({{calcWaitCnt}})
                 </div>
-                <div :class="{ 'active': status === 'order' }" @click="status = 'order'">{{$t('payComplete1')}}
+                <div :class="{ 'active': cor_status === '1' }" @click="cor_status = '1'">{{$t('payComplete1')}}
                     ({{calcCompleteCnt}})
                 </div>
             </div>
@@ -105,11 +105,17 @@
                                  v-html="formatSub(order.detail)">
                             </div>
                             <div class="totalprice"
-                                 v-html="formatPr(order.cor_memo, order.cor_total_money)"></div>
+                                 v-html="formatPr(order.cor_pg, order.cor_total_money)"></div>
                             <div class="status">
-                                <div :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }">
-                                    {{ $t(order.status) }}
-                                </div>
+                              <div v-if="order.cor_status === '1'" class="green">
+                                {{ $t('orderComplete')}}
+                              </div>
+                              <div v-else-if="order.cor_status === '2'" class="red">
+                                {{ $t('orderCancel')}}
+                              </div>
+                              <div v-else>
+                                {{ $t('deposit')}}
+                              </div>
                             </div>
                             <div class="download">
                                 <div v-if="0 < funcDownStatus('Possible', order['detail'])" class="download">
@@ -190,7 +196,7 @@
                 currDate: new Date().toISOString().substring(0, 10),
                 pagination: '',
                 period: -1,
-                status: '',
+                cor_status: '',
                 forder: 'desc'
             };
         },
@@ -215,7 +221,7 @@
         },
         methods: {
             fetchData: function () {
-                axios.get(`/cmall/ajax_orderlist?start_date=${this.start_date}&end_date=${this.end_date}&status=${this.status}&forder=${this.forder}`)
+                axios.get(`/cmall/ajax_orderlist?start_date=${this.start_date}&end_date=${this.end_date}&cor_status=${this.cor_status}&forder=${this.forder}`)
                     .then(res => res.data)
                     .then(data => {
                         this.orders = data.data.list;
@@ -230,13 +236,12 @@
                     });
             },
             formatPr: function (m, price) {
-                if (this.isEmpty(m)) {
-                    m = '';
-                }
-                if (m == '$') {
-                    return m + this.formatNumberEn(price);
+                if (m === 'paypal') {
+                    return '$' + this.formatNumberEn(price);
+                } else if (m === 'allat') {
+                    return '₩' + this.formatNumber(price);
                 } else {
-                    return m + this.formatNumber(price);
+                  return ''
                 }
             },
             formatNumber(n) {
@@ -492,7 +497,7 @@
                 this.end_date = currentDate.yyyymmdd();
                 this.fetchData();
             },
-            status: function (val) {
+            cor_status: function (val) {
                 this.fetchData();
             }
         }

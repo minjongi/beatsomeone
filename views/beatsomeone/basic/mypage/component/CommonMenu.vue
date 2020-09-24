@@ -22,17 +22,15 @@
 
 <script>
     export default {
-        props: ['groupType'],
         data: function () {
             return {
-                current: 'dashboard'
+                current: 'dashboard',
+                member_group_name: ''
             }
         },
         created() {
-            log.debug({
-                'this.$router.currentRoute' : this.$router.currentRoute.path,
-            });
-            this.current = this.parseRoute(this.$router.currentRoute.path)
+            this.current = this.parseRoute(this.$router.currentRoute.path);
+            this.member_group_name = window.member_group_name;
         },
         mounted() {
         },
@@ -78,5 +76,16 @@
                 }
             }
         },
+        computed: {
+            groupType() {
+                if (this.member_group_name === 'buyer') {
+                    return 'CUSTOMER';
+                } else if (this.member_group_name.includes('seller')) {
+                    return 'SELLER';
+                } else {
+                    return 'CUSTOMER';
+                }
+            }
+        }
     }
 </script>

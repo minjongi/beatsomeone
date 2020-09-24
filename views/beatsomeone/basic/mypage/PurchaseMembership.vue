@@ -4,20 +4,20 @@
             {{ $t('paymentMethodMsg') }}
         </h1>
         <div class="accounts__title">
-            <h1 v-if="info.group">
-                {{$t(info.group.mgr_title)}}
+            <h1 v-if="member.group">
+                {{$t(member.group.mgr_title)}}
             </h1>
         </div>
         <div class="login accounts__defaultLayout">
             <div class="accounts__switch">
                 <span class="accounts__switch-bg"></span>
                 <label>
-                    <span>{{ info.billTerm === 'monthly' ? $t('billMonthly') : $t('billYearly') }}</span>
+                    <span>{{ billTerm === 'monthly' ? $t('billMonthly') : $t('billYearly') }}</span>
                 </label>
             </div>
-            <div class="accounts__plan-price" v-if="info.group">
+            <div class="accounts__plan-price" v-if="member.group">
                 <h2>
-                    <span>{{ $t('currencySymbol') }} {{ info.billTerm === 'monthly' ? ($i18n.locale === 'en' ? info.group.mgr_monthly_cost_d : info.group.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? info.group.mgr_year_cost_d : info.group.mgr_year_cost_w) }}</span>
+                    <span>{{ $t('currencySymbol') }} {{ member.billTerm === 'monthly' ? ($i18n.locale === 'en' ? member.group.mgr_monthly_cost_d : member.group.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? member.group.mgr_year_cost_d : member.group.mgr_year_cost_w) }}</span>
                 </h2>
             </div>
             <div v-if="$i18n.locale === 'en'">
@@ -62,7 +62,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row" style="display:none;" v-if="false" id="okpromo">
+                        <div class="row" style="display:none;" id="okpromo">
                             <label>
                                 <p class="form-title">
                                     {{ $t('promoCode') }}
@@ -81,7 +81,7 @@
                         <button type="button" class="btn btn--submit" @click="payAllat">
                             {{ $t('checkout') }}
                         </button>
-                        <form name="fm1" method="POST" action="/pg/allat/proc">
+                        <form name="fm1" method="POST" id="fm1" action="/pg/allat/proc">
                             <input type="text" name="allat_shop_id" v-model="allatForm.shop_id" maxlength="20"/>
                             <!--주문번호-->
                             <input type="text" name="allat_order_no" v-model="allatForm.order_no" maxlength="70"/>
@@ -143,7 +143,7 @@
         },
         data: function () {
             return {
-                info: {},
+                member: {},
                 unique_id: '',
                 use_pg_test: 0,
                 pg_paypal_env: '',
@@ -178,11 +178,14 @@
                     encode_type: "U",
                     enc_data: "",
                 },
+                selectedGroup: null,
+                billTerm: 'monthly',
             }
         },
         created() {
         },
         mounted() {
+            this.billTerm = window.billTerm;
             axios.get('/payment/pg_config')
                 .then(res => res.data)
                 .then(data => {
@@ -202,16 +205,21 @@
                 .catch(error => {
                     console.log(error);
                 });
-            this.info = JSON.parse(localStorage.getItem('bs_user_info'));
-            this.amount = this.info.billTerm === 'monthly' ? (this.info.group.mgr_monthly_cost_d) : (this.info.group.mgr_year_cost_d);
-            this.amount_w = this.info.billTerm === 'monthly' ? (this.info.group.mgr_monthly_cost_w) : (this.info.group.mgr_year_cost_w);
+            Object.assign(this.member, window.member);
+            this.selectedGroup = window.selectedGroup;
+            this.amount = window.billTerm === 'monthly' ? (this.selectedGroup.mgr_monthly_cost_d) : (this.selectedGroup.mgr_year_cost_d);
+            this.amount_w = window.billTerm === 'monthly' ? (this.selectedGroup.mgr_monthly_cost_w) : (this.selectedGroup.mgr_year_cost_w);
             let now  = Date.now();
-            this.$set(this.allatForm, 'product_cd', this.info.group.mgr_title);
-            this.$set(this.allatForm, 'product_nm', this.info.group.mgr_description);
-            this.$set(this.allatForm, 'pmember_id', this.info.username);
-            this.$set(this.allatForm, 'buyer_nm', this.info.username);
-            this.$set(this.allatForm, 'recp_nm', this.info.username);
-            this.$set(this.allatForm, 'recp_addr', this.info.location);
+            this.$set(this.allatForm, 'product_cd', this.selectedGroup.mgr_title);
+            this.$set(this.allatForm, 'product_nm', this.selectedGroup.mgr_description);
+            this.$set(this.allatForm, 'pmember_id', this.member.mem_nickname);
+            this.$set(this.allatForm, 'buyer_nm', this.member.mem_nickname);
+            this.$set(this.allatForm, 'recp_nm', this.member.mem_nickname);
+            let address = this.member.mem_address1 + ' ' + this.member.mem_address2 + ' ' + this.member.mem_address3 + ' ' + this.member.mem_address4;
+            if (!address.trim()) {
+                address = this.member.mem_email;
+            }
+            this.$set(this.allatForm, 'recp_addr', address);
             this.$set(this.allatForm, 'order_no', now.toString());
             this.$set(this.allatForm, 'amt', (+this.amount_w));
         },
@@ -222,22 +230,22 @@
             paypalAuthorized: function (data) {
             },
             paypalCompleted: function (data) {
-                this.info.paypal = data;
-                this.info.pg = 'paypal';
+                this.member.paypal = data;
+                this.member.pg = 'paypal';
 
                 let formData = new FormData();
-                formData.append('mem_userid', this.info.username);
-                formData.append('mem_email', this.info.email);
-                formData.append('mem_password', this.info.password);
-                formData.append('mem_firstname', this.info.firstname || '');
-                formData.append('mem_lastname', this.info.lastname || '');
-                formData.append('mem_address1', this.info.location || '');
-                formData.append('mem_profile_content', this.info.introduce);
-                formData.append('mem_type', this.info.type);
-                formData.append('mgr_id', this.info.group.mgr_id);
-                formData.append('pg', this.info.pg);
-                formData.append('amount', this.info.paypal.transactions[0].amount.total);
-                formData.append('bill_term', this.info.billTerm);
+                formData.append('mem_userid', this.member.username);
+                formData.append('mem_email', this.member.email);
+                formData.append('mem_password', this.member.password);
+                formData.append('mem_firstname', this.member.firstname || '');
+                formData.append('mem_lastname', this.member.lastname || '');
+                formData.append('mem_address1', this.member.location || '');
+                formData.append('mem_profile_content', this.member.introduce);
+                formData.append('mem_type', this.member.type);
+                formData.append('mgr_id', this.selectedGroup.mgr_id);
+                formData.append('pg', this.member.pg);
+                formData.append('amount', this.member.paypal.transactions[0].amount.total);
+                formData.append('bill_term', window.billTerm);
 
                 this.registerSeller(formData);
             },
@@ -275,12 +283,12 @@
                 });
             },
             payAllat: function (e) {
-                // 결제창 자동종료 체크 시작
-                window.Allat_Mobile_Approval(document.fm1,0,0);
+                // console.log(window.$('#fm1').serialize());
+                window.AllatPay_Approval(document.fm1);
+                window.AllatPay_Closechk_Start();
             },
             procCompletePay: function (result_cd, result_msg, enc_data) {
-                // 결제창 자동종료 체크 종료
-                window.Allat_Mobile_Close();
+                window.AllatPay_Closechk_End();
 
                 if( result_cd !== "0000" && result_cd !== "0001" ){
                     window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
@@ -289,29 +297,26 @@
                     document.fm1.allat_enc_data.value = enc_data;
 
                     let formData = new FormData(document.fm1);
-                    formData.append('mem_userid', this.info.username);
-                    formData.append('mem_email', this.info.email);
-                    formData.append('mem_password', this.info.password);
-                    formData.append('mem_firstname', this.info.firstname || '');
-                    formData.append('mem_lastname', this.info.lastname || '');
-                    formData.append('mem_address1', this.info.location || '');
-                    formData.append('mem_profile_content', this.info.introduce);
-                    formData.append('mem_type', this.info.type);
-                    formData.append('mgr_id', this.info.group.mgr_id);
+                    formData.append('mem_userid', this.member.username);
+                    formData.append('mem_email', this.member.email);
+                    formData.append('mem_password', this.member.password);
+                    formData.append('mem_firstname', this.member.firstname || '');
+                    formData.append('mem_lastname', this.member.lastname || '');
+                    formData.append('mem_address1', this.member.location || '');
+                    formData.append('mem_profile_content', this.member.introduce);
+                    formData.append('mem_type', this.member.type);
+                    formData.append('mgr_id', this.selectedGroup.mgr_id);
                     formData.append('pg', 'allat');
-                    formData.append('bill_term', this.info.billTerm);
+                    formData.append('bill_term', window.billTerm);
                     this.registerSeller(formData);
                 }
             },
             registerSeller: function (formData) {
-                axios.post('/register/form', formData)
+                axios.post('/mypage/post_upgrade', formData)
                     .then(res => res.data)
                     .then(data => {
-                        if (data.email_auth_message) {
-                            alert(data.email_auth_message);
-                        } else {
-                            alert(data.message);
-                        }
+                        alert(data.message);
+                        window.location.href = '/mypage';
                     })
                     .catch(error => {
                         console.error(error);
@@ -334,6 +339,6 @@
 
 <style scoped>
     .accounts__switch-bg {
-        width: calc(100% - 10px) !important;
+        width: 450px !important;
     }
 </style>

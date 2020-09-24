@@ -382,6 +382,7 @@ export default {
         year1: '1년',
         waitingDeposit: '입금대기',
         orderComplete: '결제완료',
+        orderCancel: '주문취소',
         refundComplete: '환불완료',
         total1: '전체',
         wait: '입금대기',
@@ -525,7 +526,8 @@ export default {
         post_title: '제목',
         loginAlert: '댓글은 로그인 후 작성이 가능합니다, 로그인 하시겠습니까?',
         dashboard_profilemod_save_ok: '변경내용이 저장 되었습니다',
-        dashboard_ExpiredSoon_notexists: '기간만료 예정 내역이 없습니다'
+        dashboard_ExpiredSoon_notexists: '기간만료 예정 내역이 없습니다',
+        upgrade: '업그레이드'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -910,6 +912,7 @@ export default {
         year1: '1 year',
         waitingDeposit: 'Waiting Deposit',
         orderComplete: 'Order Complete',
+        orderCancel: 'Order Cancel',
         refundComplete: 'Refund Complete',
         order: 'Order Complete',
         deposit: 'Deposit Waiting',
@@ -1052,6 +1055,7 @@ export default {
         post_content: 'Content',
         loginAlert: 'You can write comments after logging in, do you want to log in?',
         dashboard_profilemod_save_ok: 'Personal information has been modified.',
-        dashboard_ExpiredSoon_notexists: 'No products are expected to expire'
+        dashboard_ExpiredSoon_notexists: 'No products are expected to expire',
+        upgrade: 'Upgrade'
     } // en
 }

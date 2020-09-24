@@ -113,17 +113,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         echo show_alert_message(element('alert_message', $view), '<div class="alert alert-auto-close alert-dismissible alert-info"><button type="button" class="close alertclose" >&times;</button>', '</div>');
 
         $use_payment_pg = element('use_payment_pg', element('data', $view));
-        //결제에 따른 서버환경 셋팅을 검사합니다.
-        if ($use_payment_pg && $errors = pg_module_exec_check($use_payment_pg)) {
-
-            foreach ($errors as $error_msg) {
-
-                if (empty($error_msg)) continue;
-
-                echo show_alert_message(str_replace(array("\r\n", "\r", "\n", "\\r", "\\n", "\\r\\n"), "<br />", $error_msg), '<div class="alert alert-dismissible alert-info"><button type="button" class="close alertclose" >&times;</button>', '</div>');
-            }
-
-        }
 
         $attributes = array('class' => 'form-horizontal', 'name' => 'fadminwrite', 'id' => 'fadminwrite');
         echo form_open(current_full_url(), $attributes);
@@ -132,11 +121,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="form-group">
             <label class="col-sm-2 control-label">현금/카드 결제시 결제 가능 방법</label>
             <div class="col-sm-10 form-inline">
-                <label for="use_payment_bank" class="checkbox-inline">
-                    <input type="checkbox" name="use_payment_bank" id="use_payment_bank"
-                           value="1" <?php echo set_checkbox('use_payment_bank', '1', (element('use_payment_bank', element('data', $view)) ? true : false)); ?> />
-                    무통장입금
-                </label>
                 <label for="use_payment_card" class="checkbox-inline">
                     <input type="checkbox" name="use_payment_card" id="use_payment_card"
                            value="1" <?php echo set_checkbox('use_payment_card', '1', (element('use_payment_card', element('data', $view)) ? true : false)); ?> />
@@ -147,16 +131,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                            value="1" <?php echo set_checkbox('use_payment_realtime', '1', (element('use_payment_realtime', element('data', $view)) ? true : false)); ?> />
                     실시간계좌이체
                 </label>
-                <label for="use_payment_vbank" class="checkbox-inline">
-                    <input type="checkbox" name="use_payment_vbank" id="use_payment_vbank"
-                           value="1" <?php echo set_checkbox('use_payment_vbank', '1', (element('use_payment_vbank', element('data', $view)) ? true : false)); ?> />
-                    가상계좌결제
-                </label>
-                <label for="use_payment_phone" class="checkbox-inline">
-                    <input type="checkbox" name="use_payment_phone" id="use_payment_phone"
-                           value="1" <?php echo set_checkbox('use_payment_phone', '1', (element('use_payment_phone', element('data', $view)) ? true : false)); ?> />
-                    핸드폰결제
-                </label>
                 <?php
                 echo '<input type="hidden" name="use_payment_easy" value="0" >';
                 /*	 //나중에 업데이트 해야 함
@@ -165,31 +139,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </label>
                 */
                 ?>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">결제대행사</label>
-            <div class="col-sm-10 form-inline">
-                <select name="use_payment_pg" class="form-control" id="use_payment_pg">
-                    <option value="kcp" <?php echo set_select('use_payment_pg', 'kcp', (element('use_payment_pg', element('data', $view)) === 'kcp' ? true : false)); ?> >
-                        KCP
-                    </option>
-                    <option value="lg" <?php echo set_select('use_payment_pg', 'lg', (element('use_payment_pg', element('data', $view)) === 'lg' ? true : false)); ?> >
-                        LG유플러스
-                    </option>
-                    <option value="inicis" <?php echo set_select('use_payment_pg', 'inicis', (element('use_payment_pg', element('data', $view)) === 'inicis' ? true : false)); ?> >
-                        KG이니시스
-                    </option>
-                </select>
-                <ul class="de_pg_tab">
-                    <li class="<?php if ((element('use_payment_pg', element('data', $view)) === 'kcp')) echo 'tab-current'; ?>">
-                        <a href="#kcp_info_anchor" data-value="kcp" title="NHN KCP 선택하기">NHN KCP</a></li>
-                    <li class="<?php if ((element('use_payment_pg', element('data', $view)) === 'lg')) echo 'tab-current'; ?>">
-                        <a href="#lg_info_anchor" data-value="lg" title="LG유플러스 선택하기">LG유플러스</a></li>
-                    <li class="<?php if ((element('use_payment_pg', element('data', $view)) === 'inicis')) echo 'tab-current'; ?>">
-                        <a href="#inicis_info_anchor" data-value="inicis" title="KG이니시스 선택하기">KG이니시스</a></li>
-                </ul>
-                <div class="help-block">쇼핑몰에서 사용할 결제대행사를 선택합니다.</div>
             </div>
         </div>
         <div class="form-group" id="paypal_info">
@@ -245,115 +194,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     />
                     <div class="help-block">
 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group" id="kcp_info_anchor">
-            <div class="pg_info pg_kcp clearfix">
-                <div class="col-sm-2 control-label">
-                    <label for="pg_kcp_mid">KCP SITE CODE</label>
-                </div>
-                <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control pg_input" name="pg_kcp_mid" id="pg_kcp_mid"
-                           value="<?php echo set_value('pg_kcp_mid', element('pg_kcp_mid', element('data', $view))); ?>"/>
-
-                    <div class="help-block">NHN KCP 에서 받은 영대문자, 숫자 혼용 총 5자리 SITE CODE 를 입력하세요.</div>
-                </div>
-            </div>
-            <div class="pg_info pg_kcp clearfix">
-                <label class="col-sm-2 control-label" for="pg_kcp_key">NHN KCP SITE KEY</label>
-                <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control" name="pg_kcp_key" id="pg_kcp_key"
-                           value="<?php echo set_value('pg_kcp_key', element('pg_kcp_key', element('data', $view))); ?>"
-                           size="30"/>
-                    <div class="help-block">25자리 영대소문자와 숫자 - 그리고 _ 로 이루어 집니다. SITE KEY 발급 NHN KCP 전화: 1544-8660<br>예)
-                        1Q9YRV83gz6TukH8PjH0xFf__
-                    </div>
-                </div>
-            </div>
-            <div class="pg_info pg_kcp clearfix pg_kcp_info_view pg_info_hide">
-                <label class="col-sm-2 control-label" for="pg_kcp_vbank_url">NHN KCP 가상계좌 입금통보 URL</label>
-                <div class="col-sm-10 form-inline">
-                    <div class="help-block">NHN KCP 가상계좌 사용시 다음 주소를 <strong><a href="http://admin.kcp.co.kr"
-                                                                               target="_blank">NHN KCP 관리자</a> &gt;
-                            상점정보관리 &gt; 정보변경 &gt; 공통URL 정보 &gt; 공통URL 변경후</strong>에 넣으셔야 상점에 자동으로 입금 통보됩니다.
-                    </div>
-                    <div class="kcp_url_address">
-                        <?php echo site_url('payment/kcp_return_result'); ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group" id="lg_info_anchor">
-            <div class="pg_info pg_lg clearfix">
-                <div class="col-sm-2 control-label">
-                    <label for="pg_lg_mid">LG유플러스 상점아이디</label>
-                </div>
-                <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control pg_input" name="pg_lg_mid" id="pg_lg_mid"
-                           value="<?php echo set_value('pg_lg_mid', element('pg_lg_mid', element('data', $view))); ?>"/>
-                    <div class="help-block">LG유플러스에서 받은 상점 ID를 입력하세요.</div>
-                </div>
-            </div>
-            <div class="pg_info pg_lg clearfix">
-                <label class="col-sm-2 control-label" for="pg_lg_key">LG유플러스 MERT KEY</label>
-                <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control" name="pg_lg_key" id="pg_lg_key"
-                           value="<?php echo set_value('pg_lg_key', element('pg_lg_key', element('data', $view))); ?>"
-                           size="40"/>
-                    <div class="help-block">LG유플러스 상점MertKey는 상점관리자 -> 계약정보 -> 상점정보관리에서 확인하실 수 있습니다.<br>예)
-                        95160cce09854ef44d2edb2bfb05f9f3
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group" id="inicis_info_anchor">
-            <div class="clearfix pg_info pg_inicis">
-                <div class="col-sm-2 control-label">
-                    <label for="pg_inicis_mid">KG이니시스 상점아이디</label>
-                </div>
-                <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control pg_input" name="pg_inicis_mid" id="pg_inicis_mid"
-                           value="<?php echo set_value('pg_inicis_mid', element('pg_inicis_mid', element('data', $view))); ?>"/>
-                    <div class="help-block">
-                        KG이니시스로 부터 발급 받으신 상점아이디(MID) 10자리를 입력 합니다.
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix pg_info pg_inicis">
-                <label class="col-sm-2 control-label" for="pg_inicis_key">KG이니시스 키패스워드</label>
-                <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control" name="pg_inicis_key" id="pg_inicis_key"
-                           value="<?php echo set_value('pg_inicis_key', element('pg_inicis_key', element('data', $view))); ?>"/>
-                    <div class="help-block">KG이니시스에서 발급받은 4자리 상점 키패스워드를 입력합니다.<br>KG이니시스 상점관리자 패스워드와 관련이 없습니다.<br>키패스워드
-                        값을 확인하시려면 상점측에 발급된 키파일 안의 readme.txt 파일을 참조해 주십시오
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix pg_info pg_inicis">
-                <label class="col-sm-2 control-label" for="pg_inicis_websign">KG이니시스 웹결제 사인키</label>
-                <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control" name="pg_inicis_websign" id="pg_inicis_websign"
-                           value="<?php echo set_value('pg_inicis_websign', element('pg_inicis_websign', element('data', $view))); ?>"
-                           size="40"/>
-                    <div class="help-block">KG이니시스에서 발급받은 웹결제 사인키를 입력합니다.<br>관리자 페이지의 상점정보 > 계약정보 > 부가정보의 웹결제 signkey생성
-                        조회 버튼 클릭, 팝업창에서 생성 버튼 클릭 후 해당 값을 입력합니다.
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix pg_info pg_inicis pg_inicis_info_view pg_info_hide">
-                <label class="col-sm-2 control-label" for="pg_inicis_vbankurl">KG이니시스 가상계좌 입금통보 URL</label>
-                <div class="col-sm-10 form-inline">
-                    <div class="help-block">KG이니시스 가상계좌 사용시 다음 주소를 <strong><a href="https://iniweb.inicis.com/"
-                                                                              target="_blank">KG이니시스 관리자</a> &gt; 거래조회
-                            &gt; 가상계좌 &gt; 입금통보방식선택 &gt; URL 수신 설정</strong>에 넣으셔야 상점에 자동으로 입금 통보됩니다.
-                    </div>
-                    <div class="inicis_url_address">
-                        <?php echo site_url('payment/inicis_return_result'); ?>
                     </div>
                 </div>
             </div>

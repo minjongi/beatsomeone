@@ -170,7 +170,8 @@
                         axios.post(`/cmallact/wishlist_delete/${item.cwi_id}`)
                             .then(res => res.data)
                             .then(data => {
-                                this.list = data.list;
+                                this.updateAllList();
+                                this.checkedAll = false;
                             })
                             .catch(error => {
                                 console.error(error);

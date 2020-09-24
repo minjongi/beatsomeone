@@ -84,9 +84,11 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
         var use_sociallogin_twitter = +"<?php echo $this->cbconfig->item('use_sociallogin_twitter'); ?>";
         var use_sociallogin_naver = +"<?php echo $this->cbconfig->item('use_sociallogin_naver'); ?>";
         var use_sociallogin_kakao = +"<?php echo $this->cbconfig->item('use_sociallogin_kakao'); ?>";
+        var selectedGroup = null;
+        var billTerm = null;
     </script>
 
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
     <link rel="stylesheet" href="/assets/fontawesome-pro/css/all.min.css">
 
 <!--    <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />-->

@@ -40,15 +40,13 @@
         name: 'Header',
         data: function () {
             return {
-                userInfo: null,
-                searchText: null,
+                searchText: '',
                 cartSum: 0,
                 member_group_name: '',
                 member: false
             };
         },
         created() {
-            this.fetchUserInfo();
             EventBus.$on('add_cart',() => {
                 this.updateCartSum();
             });
@@ -79,11 +77,6 @@
             }
         },
         methods: {
-            fetchUserInfo() {
-                Http.post('/beatsomeoneApi/get_user_info').then(r=> {
-                    this.userInfo = r[0];
-                });
-            },
             updateCartSum() {
                 axios.get('/beatsomeoneApi/getCartSum')
                     .then(res => res.data)
