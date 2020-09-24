@@ -9,7 +9,7 @@
                     <div class="BG" v-if="isDisplayTop" style="background-image:url('/assets/images/bg1.jpg')"></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <Dashboard_Header v-if="isDisplayTop"></Dashboard_Header>
+                        <Dashboard_Header v-if="isDisplayTop && isCustomer"></Dashboard_Header>
                         <div class="main__media">
                             <div class="sublist">
                                 <div>

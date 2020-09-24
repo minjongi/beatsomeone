@@ -11,12 +11,12 @@
                     ></div>
                     <div class="filter"></div>
                     <div class="wrap">
-                        <Dashboard_Header v-if="isDisplayTop"></Dashboard_Header>
+                        <Dashboard_Header v-if="isDisplayTop && isCustomer"></Dashboard_Header>
                         <div class="main__media">
                             <div class="sublist">
                                 <div class="wrap" :class="{'addPaddingTop':!isDisplayTop}">
                                     <CommonSidePanel />
-                                    <div class="sublist__content">
+                                    <div class="sublist__content" :style="isSeller ? 'margin-top: 100px;' : ''">
                                         <router-view/>
                                     </div>
                                 </div>
