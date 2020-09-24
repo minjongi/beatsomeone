@@ -12,11 +12,10 @@
 		<div class="box-table-header">
 			<div class="btn-group btn-group-sm" role="group">
 				<a href="<?php echo admin_url('cmall/orderlist'); ?>" class="btn btn-sm <?php echo ( ! $this->input->get('cor_pay_type')) ? 'btn-success' : 'btn-default';?>">전체내역</a>
-				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=bank" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === 'bank') ? 'btn-info' : 'btn-default';?>">무통장</a>
-				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=card" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === 'card') ? 'btn-info' : 'btn-default';?>">카드</a>
-				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=realtime" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === 'realtime') ? 'btn-info' : 'btn-default';?>">실시간</a>
-				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=vbank" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === 'vbank') ? 'btn-info' : 'btn-default';?>">가상계좌</a>
-				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=phone" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === 'phone') ? 'btn-info' : 'btn-default';?>">핸드폰</a>
+				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=ABANK" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === 'ABANK') ? 'btn-info' : 'btn-default';?>">실시간</a>
+				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=CARD" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === 'CARD') ? 'btn-info' : 'btn-default';?>">카드</a>
+				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=3D" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === '3D') ? 'btn-info' : 'btn-default';?>">3D</a>
+				<a href="<?php echo admin_url('cmall/orderlist'); ?>?cor_pay_type=paypal" class="btn btn-sm <?php echo ($this->input->get('cor_pay_type') === 'paypal') ? 'btn-info' : 'btn-default';?>">PayPal</a>
 			</div>
 			<?php
 			ob_start();
@@ -47,6 +46,12 @@
 				<?php
 				if (element('list', element('data', $view))) {
 					foreach (element('list', element('data', $view)) as $result) {
+                        $currency_symbol = '';
+                        if (element('cor_pg', $result) === 'paypal') {
+                            $currency_symbol = '$';
+                        } elseif (element('cor_pg', $result) === 'allat') {
+                            $currency_symbol = '₩';
+                        }
 				?>
 					<tr>
 						<td><a href="<?php echo site_url('cmall/orderresult/' . element('cor_id', $result)); ?>" target="_blank"><?php echo element('cor_id', $result); ?></a>
@@ -59,7 +64,7 @@
 						<td><?php echo display_datetime(element('cor_datetime', $result), 'full'); ?></td>
 						<td><?php echo element('cor_pay_type', $result); ?></td>
 						<td><?php echo nl2br(html_escape(element('cor_content', $result))); ?></td>
-						<td class="text-right"><?php echo number_format(element('cor_total_money', $result)) . '원'; ?></td>
+						<td class="text-right"><?php echo $currency_symbol . number_format(element('cor_total_money', $result)); ?></td>
 					</tr>
 					<?php
 					if (element('orderdetail', $result)) {
@@ -74,7 +79,6 @@
 												<th>상품명</th>
 												<th class="text-right">다운로드</th>
 												<th class="text-center">총수량</th>
-												<th>판매가</th>
 												<th>소계</th>
 												<th>다운로드기간</th>
 												<th>기간변경</th>
@@ -94,7 +98,13 @@
 														$total_price = 0;
 														foreach (element('itemdetail', $row) as $detail) {
 														?>
-															<li><?php echo html_escape(element('cde_title', $detail)) . ' ' . element('cod_count', $detail);?>개 (+<?php echo number_format(element('cde_price', $detail)); ?>원)
+															<li><?php echo html_escape(element('cde_title', $detail)) . ' ' . element('cod_count', $detail);?>개 (
+                                                                <?php
+                                                                if (element('cor_pg', $result) == 'paypal') {
+                                                                    echo $currency_symbol . number_format(element('cde_price_d', $detail));
+                                                                } else {
+                                                                    echo $currency_symbol . number_format(element('cde_price', $detail));
+                                                                } ?>)
 														<?php
 															if (element('cor_status', $result) === '1') {
 																if (element('possible_download', element('item', $row))) {
@@ -110,15 +120,18 @@
 															</li>
 														<?php
 														$total_num += element('cod_count', $detail);
-														$total_price += ((int) element('cit_price', element('item', $row)) + (int) element('cde_price', $detail)) * element('cod_count', $detail);
+                                                            if (element('cor_pg', $result) == 'paypal') {
+                                                                $total_price += (float)element('cde_price_d', $detail) * (int)element('cod_count', $detail);
+                                                            } else {
+                                                                $total_price += (int)element('cde_price', $detail) * (int)element('cod_count', $detail);
+                                                            }
 														}
 														$total_price_sum += $total_price;
 														?>
 													</ul>
 												</td>
 												<td class="text-center"><?php echo number_format($total_num); ?></td>
-												<td><?php echo number_format(element('cit_price', element('item', $row))); ?></td>
-												<td><?php echo number_format($total_price); ?><input type="hidden" name="total_price[<?php echo element('cit_id', element('item', $row)); ?>]" value="<?php echo $total_price; ?>"></td>
+                                                <td><?php echo $currency_symbol . number_format($total_price); ?></td>
 												<td>
 													<?php
 													if (element('cod_download_days', $detail)) {

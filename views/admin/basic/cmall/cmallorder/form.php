@@ -8,6 +8,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
         <?php
         $result = element('data', $view);
+        if (element('cor_pg', $result) == 'paypal') {
+            $currency_symbol = '$';
+        } else {
+            $currency_symbol = '₩';
+        }
         if (element('orderdetail', $view)) {
         ?>
       <li>
@@ -36,7 +41,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <th class="text-right">다운로드</th>
               <th class="text-center">상태</th>
               <th class="text-center">총수량</th>
-              <th>판매가</th>
               <th>소계</th>
               <th>다운로드기간</th>
             </tr>
@@ -69,7 +73,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       foreach (element('itemdetail', $row) as $detail) {
                           ?>
                         <li class="clearfix mt5"><?php echo html_escape(element('cde_title', $detail)) . ' ' . element('cod_count', $detail); ?>
-                          개 (+<?php echo number_format(element('cde_price', $detail)); ?>원)
+                          개 (<?php
+                            if (element('cor_pg', $result) == 'paypal') {
+                                echo $currency_symbol . number_format(element('cde_price_d', $detail));
+                            } else {
+                                echo $currency_symbol . number_format(element('cde_price', $detail));
+                            }
+                            ?>)
                             <?php
                             if (element('cor_status', $result) === '1') {
                                 if (element('possible_download', element('item', $row))) {
@@ -86,20 +96,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </li>
                           <?php
                           $total_num += element('cod_count', $detail);
-                          $total_price += ((int)element('cit_price', element('item', $row)) + (int)element('cde_price', $detail)) * element('cod_count', $detail);
+                          if (element('cor_pg', $result) == 'paypal') {
+                              $total_price += (float)element('cde_price_d', $detail) * (int)element('cod_count', $detail);
+                          } else {
+                              $total_price += (int)element('cde_price', $detail) * (int)element('cod_count', $detail);
+                          }
                       }
                       $total_price_sum += $total_price;
                       ?>
                   </ul>
                 </td>
-                <td class="text-center"><?php echo cmall_print_stype_names(element('cod_status', $detail)); ?></td>
+                <td class="text-center">
+                    <?php
+                    if (element('cod_status', $detail) == 'order') {
+                        echo '결제완료';
+                    } elseif (element('cod_status', $detail) == 'cancel') {
+                        echo '결제취소';
+                    }
+                    ?>
+                </td>
                 <td class="text-center">
                     <?php echo $total_num; ?>
                 </td>
-                <td><?php echo number_format(element('cit_price', element('item', $row))); ?></td>
-                <td><?php echo number_format($total_price); ?><input type="hidden"
-                                                                     name="total_price[<?php echo element('cit_id', element('item', $row)); ?>]"
-                                                                     value="<?php echo $total_price; ?>"></td>
+                <td><?php echo $currency_symbol . number_format($total_price); ?></td>
                 <td>
                     <?php
                     if (element('cod_download_days', $detail)) {
@@ -177,23 +196,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
               </tr>
               <tr>
                 <th>총 주문액</th>
-                <td><?php echo number_format(element('cor_total_money', element('data', $view))); ?> 원</td>
+                <td><?php echo $currency_symbol . number_format(element('cor_total_money', element('data', $view))); ?></td>
               </tr>
               <tr>
                 <th>결제요청금액</th>
-                <td><?php echo (element('cor_cash_request', element('data', $view))) ? number_format(abs(element('cor_cash_request', element('data', $view)))) . ' 원' : '아직 입금되지 않았습니다'; ?></td>
+                <td><?php echo $currency_symbol . ((element('cor_cash_request', element('data', $view))) ? number_format(abs(element('cor_cash_request', element('data', $view)))) : '아직 입금되지 않았습니다'); ?></td>
               </tr>
               <tr>
                 <th>결제된 금액</th>
-                <td><?php echo number_format(element('cor_cash', element('data', $view))); ?> 원</td>
+                <td><?php echo $currency_symbol . number_format(element('cor_cash', element('data', $view))); ?></td>
               </tr>
               <tr>
                 <th>미결제액</th>
                 <td>
                     <?php
                     $notyet = abs(element('cor_cash_request', element('data', $view))) - abs(element('cor_cash', element('data', $view)));
-                    echo number_format($notyet);
-                    ?> 원
+                    echo $currency_symbol . number_format($notyet);
+                    ?>
                 </td>
               </tr>
               <?php if (element('cor_approve_datetime', element('data', $view)) > '1000-01-01 00:00:00') { ?>
@@ -225,7 +244,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="col-xs-12 col-md-6 ">
           <div class="pay-info">
             <table class="table">
-              <caption>결제상세정보 수정</caption>
+              <caption>결제상세정보</caption>
               <colgroup>
                 <col class="grid_3">
                 <col>
