@@ -16,7 +16,7 @@
                             <div class="sublist">
                                 <div class="wrap" :class="{'addPaddingTop':!isDisplayTop}">
                                     <CommonSidePanel />
-                                    <div class="sublist__content" :style="isSeller ? 'margin-top: 100px;' : ''">
+                                    <div class="sublist__content">
                                         <router-view/>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
         },
         methods: {
             judgeDisplayTop: function () {
-                this.isDisplayTop = this.$route.path === "/";
+                this.isDisplayTop = this.$route.path === "/" && this.isCustomer;
             },
         },
     };

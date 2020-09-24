@@ -105,7 +105,7 @@
                     <li v-for="(item, i) in paging()" v-bind:key="item.cor_id + item.cit_id" class="playList__itembox" :id="'slist'+ item.cor_id + item.cit_id">
                         <div class="playList__item playList__item--title nowrap active">
                             <!--<div class="index" v-html="formatCitName(item.cor_id,10)"> </div>-->
-                            <div class="index">{{ mySalesList.length - ((currPage - 1) * perPage) - i }}</div>
+                            <div class="index">{{ item.cor_id }}</div>
                             <div class="date">
                                 {{ item.cor_datetime }}
                             </div>

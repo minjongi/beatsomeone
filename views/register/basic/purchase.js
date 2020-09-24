@@ -1,39 +1,23 @@
 import Vue from 'vue'
-import VueRouter  from 'vue-router';
 import Vuex from "vuex";
+import i18n from "*/src/i18n/i18n";
+import app from "./Purchase.vue";
+
 Vue.use(Vuex);
-
-
-// i18n
-import i18n from '*/src/i18n/i18n'
-import app from './Video.vue';
-
-import Videolist from "./Videolist";
-import Videoview from "./Videoview";
-Vue.use(VueRouter);
-
-Vue.config.productionTip = false;
-Vue.prototype.$log = console.log.bind(console);
-
-const router = new VueRouter({
-  routes: [
-    { path: '/', component: Videolist},
-    { path: '/videoview', component: Videoview},
-  ],
-  scrollBehavior (to, from, savedPosition) {
-    return { x: 0, y: 0 }
-  }
-});
 
 const store = new Vuex.Store({
     state: {
         cartSum: 0,
         cartSumD: 0,
+        userInfo: {}
     },
     mutations: {
         ADD_MONEY(state, payload) {
             state.cartSum = state.cartSum + payload.money;
             state.cartSumD = state.cartSumD + payload.money_d;
+        },
+        SET_USER_INFO(state, payload) {
+            Object.assign(payload, state.userInfo);
         }
     },
     getters: {
@@ -42,19 +26,24 @@ const store = new Vuex.Store({
         },
         getCartSumD(state) {
             return state.cartSumD;
+        },
+        getUserInfo(state) {
+            return state.userInfo;
         }
     },
     actions: {
-        // moneyObject: {money: 0, money_d: 0}
         addMoney(context, moneyObject) {
             context.commit('ADD_MONEY', moneyObject);
+        },
+        setUserInfo(context, userInfo) {
+            console.log(userInfo);
+            context.commit('SET_USER_INFO', userInfo);
         }
     }
 });
 
 window.vm = new Vue({
     i18n,
-    router,
     store,
     render: h => h(app),
 }).$mount('#app')

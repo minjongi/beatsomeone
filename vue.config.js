@@ -33,6 +33,7 @@ module.exports = {
             wishlist: ['./views/beatsomeone/basic/cmall/wishlist.js'],
             favorites: ['./views/beatsomeone/basic/mypage/favorites.js'],
             upgrade: ['./views/beatsomeone/basic/mypage/upgrade.js'],
+            purchase: ['./views/register/basic/purchase.js'],
 
             m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
@@ -54,6 +55,7 @@ module.exports = {
             m_smtm9: ['./views/beatsomeone/mobile/smtm9/smtm9.js'],
             m_favorites: ['./views/beatsomeone/mobile/mypage/favorites.js'],
             m_upgrade: ['./views/beatsomeone/mobile/mypage/upgrade.js'],
+            m_purchase: ['./views/register/mobile/purchase.js'],
 
             admin_cmallitem_write: ['./views/admin/basic/cmall/cmallitem/write.js'],
         },

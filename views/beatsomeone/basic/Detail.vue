@@ -9,7 +9,7 @@
                             <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
                         </div>
                         <div class="detail__music-info">
-                            <h2 class="title" v-if="item">{{ item.cit_name }}</h2>
+                            <h2 class="title" v-if="item">{{ truncate(item.cit_name, 50) }}</h2>
                             <p class="singer" v-if="item">{{ item.mem_nickname }}</p>
                             <div class="state" v-if="item">
 <!--                                <span class="song">{{ item.cde_download }}</span>-->
@@ -421,6 +421,9 @@
                         Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
                     );
                 }
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
         },
     };

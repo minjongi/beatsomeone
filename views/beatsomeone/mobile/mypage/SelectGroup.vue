@@ -275,18 +275,7 @@
         },
         methods: {
             doNext(group) {
-                var islogin = this.$parent.isLogin;
-                this.selectedGroup = group;
-                EventBus.$emit('submit_join_form', {
-                    group: this.selectedGroup,
-                    billTerm: this.billTerm
-                });
-
-                if (islogin) {
-                    this.$router.push({path: '/6'});
-                } else {
-                    this.$router.push({path: '/2'});
-                }
+                window.location.href = `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`;
             },
             fetchData() {
                 axios.get('/membergroup')

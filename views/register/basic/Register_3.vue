@@ -248,7 +248,12 @@
             },
             doNext(type) {
                 if(this.doValidation()) {
-                    EventBus.$emit('submit_join_form',this.user);
+                    let userInfo = this.$store.getters.getUserInfo;
+                    userInfo.mem_userid = this.user.username;
+                    userInfo.mem_email = this.user.email;
+                    userInfo.mem_password = this.user.password;
+                    userInfo.mem_type = this.user.type;
+                    this.$store.dispatch('setUserInfo', userInfo);
                     this.$router.push({path: '/4'});
                 }
 

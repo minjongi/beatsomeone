@@ -27,9 +27,9 @@
             <div class="playList board inquirylist">
 
                 <ul>
-                    <li class="playList__itembox" v-for="inquiry in inquiry_list" :key="inquiry.post_id" @click="goInquiryview(inquiry)">
+                    <li class="playList__itembox" v-for="(inquiry, index) in inquiry_list" :key="inquiry.post_id" @click="goInquiryview(inquiry)">
                         <div class="playList__item playList__item--title nowrap active">
-                            <div class="index">{{ inquiry.post_id }}</div>
+                            <div class="index">{{ index + 1 }}</div>
                             <div class="subject">{{ inquiry.post_title }}</div>
                             <div class="date">
                                 {{ inquiry.post_datetime }}

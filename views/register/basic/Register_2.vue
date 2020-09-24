@@ -68,8 +68,9 @@
         },
         methods: {
             doNext(type) {
-                EventBus.$emit('submit_join_form',{ accountType: type });
-                this.$router.push({path: '/3'});
+                if (type === 'email') {
+                    this.$router.push('/3');
+                }
             },
             social_connect_on(social_type) {
                 if (social_type !== 'facebook' && social_type !== 'twitter' && social_type !== 'google' && social_type !== 'naver' && social_type !== 'kakao') {

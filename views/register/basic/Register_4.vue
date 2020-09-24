@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="accounts__btnbox half">
-                    <button type="reset" class="btn btn--gray" v-if="isCustomer" @click="doSkip">
+                    <button type="reset" class="btn btn--gray" @click="doSkip">
                         {{ $t('skipping') }}
                     </button>
 
@@ -81,7 +81,6 @@
 
         },
         mounted() {
-            this.info = JSON.parse(localStorage.getItem('bs_user_info'));
         },
         computed: {
             isCustomer: function () {
@@ -112,7 +111,11 @@
             },
             doNext(type) {
                 if(this.doValidation()) {
-                    EventBus.$emit('submit_join_form',this.user);
+                    let userInfo = this.$store.getters.getUserInfo;
+                    userInfo.mem_firstname = this.user.firstname;
+                    userInfo.mem_lastname = this.user.lastname;
+                    userInfo.mem_address1 = this.user.location;
+                    this.$store.dispatch('setUserInfo', userInfo);
                     this.$router.push({path: '/5'});
                 }else{
                     type.preventDefault();

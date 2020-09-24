@@ -329,7 +329,6 @@
             this.fetchData();
         },
         mounted() {
-            localStorage.clear();
         },
         watch: {
             currentUserType(n) {
@@ -356,18 +355,11 @@
         },
         methods: {
             doNext(group) {
-                var islogin = this.$parent.isLogin;
-                this.selectedGroup = group;
-                EventBus.$emit('submit_join_form', {
-                    group: this.selectedGroup,
-                    billTerm: this.billTerm
-                });
-
-                if (islogin) {
-                    this.$router.push({path: '/6'});
-                } else {
-                    this.$router.push({path: '/2'});
-                }
+                this.$store.dispatch('setUserInfo', {
+                    group: group,
+                    billTerm: this.billTerm,
+                })
+                this.$router.push('/2');
             },
             fetchData() {
                 axios.get('/membergroup')

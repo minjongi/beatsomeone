@@ -112,7 +112,7 @@
                                             <!--<div class="index" v-html="formatCitName(item.cor_id,10)"> </div>-->
 
                                             <div class="n-flex between">
-                                                <div class="index">{{ mySalesList.length - ((currPage - 1) * perPage) - i }}</div>
+                                                <div class="index">{{ item.cor_id }}</div>
                                                 <div class="date"> {{ item.cor_datetime }} </div>
                                             </div>
 

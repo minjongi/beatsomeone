@@ -12,7 +12,7 @@
                             <div class="col name">
                                 <figure>
                                     <figcaption class="pointer" @click="$router.push('/inquiry/' + inquiry.post_id)">
-                                        <h3 class="playList__title" style="height:18px">{{ truncate(inquiry.post_title,50 )}}</h3>
+                                        <h3 class="playList__title" style="height:18px">{{ truncate(inquiry.post_title,20 )}}</h3>
                                         <span class="playList__by">{{ inquiry.post_updated_datetime }}</span>
                                     </figcaption>
                                 </figure>

@@ -11,7 +11,7 @@
                             </button>
                         </div>
                         <div class="detail__music-info">
-                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ item.cit_name }}</h2>
+                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ truncate(item.cit_name, 20) }}</h2>
                             <p class="singer" v-if="item.member">{{ item.member.mem_nickname }}</p>
                             <div class="state" v-if="item">
                                 <span class="song">{{ item.cde_download }}</span>
@@ -324,6 +324,9 @@
 
                 // 탭 이동
                 this.selectTab(this.tabs[1]);
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
             // 카트 추가
             addCart() {
