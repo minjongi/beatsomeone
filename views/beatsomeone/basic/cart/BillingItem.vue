@@ -105,9 +105,6 @@ export default {
     props: [
         'product'
     ],
-    mounted() {
-        console.log(this.product);
-    },
     methods: {
         formatCitName: function (data) {
             var rst;

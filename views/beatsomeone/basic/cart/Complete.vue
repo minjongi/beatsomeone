@@ -125,28 +125,11 @@ export default {
                 return Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
             }
         },
-        calcTotalPrice: function () {
-            /*
-            let tp = 0.0;
-            for(let i in this.orderResultList){
-                tp += Number(this.orderResultList[i].item.cit_price);
-            }
-            this.totalPrice = tp;
-            */
-            this.totalPrice = this.orderResult.cor_total_money;
-        },
         goMain: function (e) {
             window.location.href = '/';
         },
         goOrderHistory: function (e) {
             window.location.href = '/mypage#/mybilling';
-        },
-        checkToday: function (date) {
-            const input = new Date(date);
-            const today = new Date();
-            return input.getDate() === today.getDate() &&
-                input.getMonth() === today.getMonth() &&
-                input.getFullYear() === today.getFullYear();
         },
     }
 }

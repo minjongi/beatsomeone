@@ -301,7 +301,7 @@
                     this.isEmptyPaypal = Object.keys(this.paypal).length === 0;
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                 });
             axios.get('/cmall/ajax_order')
                 .then(res => res.data)
@@ -374,8 +374,6 @@
                 window.location.href = "/cmall/cart";
             },
             goPay: function () {
-                console.log(this.allatForm);
-                console.log(this.member);
                 window.AllatPay_Approval(document.fm1);
                 // 결제창 자동종료 체크 시작
                 window.AllatPay_Closechk_Start();

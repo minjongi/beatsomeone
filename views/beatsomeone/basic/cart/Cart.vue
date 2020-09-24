@@ -100,17 +100,11 @@ export default {
     },
     data: function () {
         return {
-            isLoading: false,
             cartItems: [],
             totalPriceKr: 0,
             totalPriceEn: 0.0,
-            selectedItem: null,
             checkedAll: false,
-            checkedItem: [],
-            cntTotalItems: 0,
             cntSelectedItems: 0,
-            showDelete: false,
-            disableDelete: true,
             msgEmptyCart: "There is no purchaseable list.",
         };
     },
@@ -128,8 +122,8 @@ export default {
                 this.$set(item, 'is_selected', val);
                 if (val === true) {
                     this.cntSelectedItems++;
-                    this.totalPriceKr += item.detail[0].cde_price;
-                    this.totalPriceEn += item.detail[0].cde_price_d;
+                    this.totalPriceKr += (+item.detail[0].cde_price);
+                    this.totalPriceEn += (+item.detail[0].cde_price_d);
                 }
             })
         },
@@ -137,9 +131,13 @@ export default {
             deep: true,
             handler(items) {
                 this.cntSelectedItems = 0;
+                this.totalPriceKr = 0;
+                this.totalPriceEn = 0.0;
                 items.forEach(item => {
                     if (item.is_selected === true) {
                         this.cntSelectedItems++;
+                        this.totalPriceKr += (+item.detail[0].cde_price);
+                        this.totalPriceEn += (+item.detail[0].cde_price_d);
                     }
                 })
                 this.checkedAll = items.length !== 0 && this.cntSelectedItems === items.length;
@@ -201,9 +199,11 @@ export default {
                 alert("주문할 대상을 선택해주세요");
             } else {
                 let formData = new FormData();
-                this.checkedItem.forEach(x => {
-                    formData.append('chk[]', x);
-                });
+                this.cartItems.forEach(item => {
+                    if (item.is_selected) {
+                        formData.append('chk[]', item.cit_id);
+                    }
+                })
                 axios.post('/cmall/ajax_orderstart', formData)
                     .then(res => res.data)
                     .then(data => {
