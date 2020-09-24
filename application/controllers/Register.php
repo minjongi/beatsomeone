@@ -4187,6 +4187,7 @@ class Register extends CB_Controller
                     $params = [
                         'mem_id' => $mem_id,
                         'bill_term' => $billTerm,
+                        'plan' => $member_group['mgr_description'],
                         'plan_name' => $member_group['mgr_title'],
                         'start_date' => $startDate,
                         'end_date' => $endDate,
@@ -4258,6 +4259,7 @@ class Register extends CB_Controller
                 $params = [
                     'mem_id' => $mem_id,
                     'bill_term' => $billTerm,
+                    'plan' => $member_group['mgr_description'],
                     'plan_name' => $member_group['mgr_title'],
                     'start_date' => $startDate,
                     'end_date' => $endDate,

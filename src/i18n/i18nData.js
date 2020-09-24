@@ -527,7 +527,8 @@ export default {
         loginAlert: '댓글은 로그인 후 작성이 가능합니다, 로그인 하시겠습니까?',
         dashboard_profilemod_save_ok: '변경내용이 저장 되었습니다',
         dashboard_Recently_notexists: '기간만료 예정 내역이 없습니다',
-        upgrade: '업그레이드'
+        upgrade: '업그레이드',
+        dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1057,6 +1058,6 @@ export default {
         dashboard_profilemod_save_ok: 'Personal information has been modified.',
         dashboard_ExpiredSoon_notexists: 'No products are expected to expire',
         upgrade: 'Upgrade',
-        dashboard_Recently_notexists: '최근에 본 비트가 없습니다.',
+        dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다'
     } // en
 }

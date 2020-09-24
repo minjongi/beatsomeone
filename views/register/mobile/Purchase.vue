@@ -1,36 +1,26 @@
 <template>
     <div class="wrapper">
         <Header/>
-        <router-view/>
+        <PurchaseMembership />
         <Footer/>
     </div>
-
 </template>
 
 <script>
-
 require('@/assets_m/js/function');
 
 import Header from "@/views/beatsomeone/mobile/include/Header";
 import Footer from "@/views/beatsomeone/mobile/include/Footer";
+import PurchaseMembership from "./PurchaseMembership";
 
 export default {
-    components: {Header, Footer},
-    created() {
-    },
-    mounted() {
-        // 중간 리프레시 초기화
-        if (this.$router.currentRoute.path !== '/') {
-            this.$router.push({path: '/'});
-        }
-    },
+    name: "Purchase",
+    components: {
+        PurchaseMembership, Header, Footer
+    }
 }
 </script>
 
 <style lang="scss">
 @import '@/assets_m/scss/App.scss';
-</style>
-
-<style lang="css">
-
 </style>

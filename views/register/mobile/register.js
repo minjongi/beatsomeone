@@ -15,7 +15,6 @@ import Register_2 from "./Register_2";
 import Register_3 from "./Register_3";
 import Register_4 from "./Register_4";
 import Register_5 from "./Register_5";
-import PurchaseMembership from "./PurchaseMembership";
 
 Vue.config.productionTip = false;
 Vue.prototype.$log = console.log.bind(console);
@@ -27,7 +26,6 @@ const router = new VueRouter({
         {path: '/3', component: Register_3},
         {path: '/4', component: Register_4},
         {path: '/5', component: Register_5},
-        {path: '/6', component: PurchaseMembership},
     ],
     scrollBehavior(to, from, savedPosition) {
         return {x: 0, y: 0}
@@ -46,7 +44,7 @@ const store = new Vuex.Store({
             state.cartSumD = state.cartSumD + payload.money_d;
         },
         SET_USER_INFO(state, payload) {
-            Object.assign(payload, state.userInfo);
+            state.userInfo = payload
         }
     },
     getters: {
@@ -61,11 +59,11 @@ const store = new Vuex.Store({
         }
     },
     actions: {
+        // moneyObject: {money: 0, money_d: 0}
         addMoney(context, moneyObject) {
             context.commit('ADD_MONEY', moneyObject);
         },
         setUserInfo(context, userInfo) {
-            console.log(userInfo);
             context.commit('SET_USER_INFO', userInfo);
         }
     }

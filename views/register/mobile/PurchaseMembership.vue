@@ -127,6 +127,8 @@
                 </div>
             </div>
         </div>
+        <div id="ALLAT_MOBILE_PAY" style="display: none;">
+        </div>
     </div>
 </template>
 
@@ -178,11 +180,18 @@
                     encode_type: "U",
                     enc_data: "",
                 },
+                orderNo: ''
             }
         },
         created() {
         },
         mounted() {
+            this.info = window.member;
+            const urlParams = new URLSearchParams(window.location.search);
+            const billTerm = urlParams.get('billTerm');
+            this.$set(this.info, 'billTerm', billTerm);
+            this.$set(this.info, 'group', window.selectedGroup);
+
             axios.get('/payment/pg_config')
                 .then(res => res.data)
                 .then(data => {
@@ -202,47 +211,22 @@
                 .catch(error => {
                     console.log(error);
                 });
-            this.info = JSON.parse(localStorage.getItem('bs_user_info'));
             this.amount = this.info.billTerm === 'monthly' ? (this.info.group.mgr_monthly_cost_d) : (this.info.group.mgr_year_cost_d);
             this.amount_w = this.info.billTerm === 'monthly' ? (this.info.group.mgr_monthly_cost_w) : (this.info.group.mgr_year_cost_w);
-            let now  = Date.now();
+            let now = Date.now();
+            this.orderNo = now.toString();
             this.$set(this.allatForm, 'product_cd', this.info.group.mgr_title);
             this.$set(this.allatForm, 'product_nm', this.info.group.mgr_description);
-            this.$set(this.allatForm, 'pmember_id', this.info.username);
-            this.$set(this.allatForm, 'buyer_nm', this.info.username);
-            this.$set(this.allatForm, 'recp_nm', this.info.username);
-            this.$set(this.allatForm, 'recp_addr', this.info.location);
+            this.$set(this.allatForm, 'pmember_id', this.info.mem_userid);
+            this.$set(this.allatForm, 'buyer_nm', this.info.mem_userid);
+            this.$set(this.allatForm, 'recp_nm', this.info.mem_userid);
+            this.$set(this.allatForm, 'recp_addr', this.info.mem_address1 ? this.info.mem_address1 : this.info.mem_email);
             this.$set(this.allatForm, 'order_no', now.toString());
             this.$set(this.allatForm, 'amt', (+this.amount_w));
         },
         methods: {
             isEmptyObject: function (data) {
                 return Object.keys(data).length === 0;
-            },
-            paypalAuthorized: function (data) {
-            },
-            paypalCompleted: function (data) {
-                this.info.paypal = data;
-                this.info.pg = 'paypal';
-
-                let formData = new FormData();
-                formData.append('mem_userid', this.info.username);
-                formData.append('mem_email', this.info.email);
-                formData.append('mem_password', this.info.password);
-                formData.append('mem_firstname', this.info.firstname || '');
-                formData.append('mem_lastname', this.info.lastname || '');
-                formData.append('mem_address1', this.info.location || '');
-                formData.append('mem_profile_content', this.info.introduce);
-                formData.append('mem_type', this.info.type);
-                formData.append('mgr_id', this.info.group.mgr_id);
-                formData.append('pg', this.info.pg);
-                formData.append('amount', this.info.paypal.transactions[0].amount.total);
-                formData.append('bill_term', this.info.billTerm);
-
-                this.registerSeller(formData);
-            },
-            paypalCancelled: function (data) {
-                alert('결제를 취소하셨습니다')
             },
             promoCheckYn(event) {
                 var _no = document.getElementById('nopromo')
@@ -275,43 +259,45 @@
                 });
             },
             payAllat: function (e) {
-                // 결제창 자동종료 체크 시작
                 window.Allat_Mobile_Approval(document.fm1,0,0);
             },
             procCompletePay: function (result_cd, result_msg, enc_data) {
-                // 결제창 자동종료 체크 종료
                 window.Allat_Mobile_Close();
 
-                if( result_cd !== "0000" && result_cd !== "0001" ){
-                    window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
+                if (result_cd !== "0000" && result_cd !== "0001") {
+                    window.setTimeout(function () {
+                        alert(result_cd + " : " + result_msg);
+                    }, 1000);
                 } else {
                     this.$set(this.allatForm, 'enc_data', enc_data);
                     document.fm1.allat_enc_data.value = enc_data;
 
                     let formData = new FormData(document.fm1);
-                    formData.append('mem_userid', this.info.username);
-                    formData.append('mem_email', this.info.email);
-                    formData.append('mem_password', this.info.password);
-                    formData.append('mem_firstname', this.info.firstname || '');
-                    formData.append('mem_lastname', this.info.lastname || '');
-                    formData.append('mem_address1', this.info.location || '');
-                    formData.append('mem_profile_content', this.info.introduce);
-                    formData.append('mem_type', this.info.type);
                     formData.append('mgr_id', this.info.group.mgr_id);
                     formData.append('pg', 'allat');
                     formData.append('bill_term', this.info.billTerm);
                     this.registerSeller(formData);
                 }
             },
+            paypalAuthorized: function (data) {
+            },
+            paypalCompleted: function (data) {
+                let formData = new FormData();
+                formData.append('bill_term', this.info.billTerm);
+                formData.append('mgr_id', this.info.group.mgr_id);
+                formData.append('pg', 'paypal');
+                formData.append('paypal_data', JSON.stringify(data));
+                this.registerSeller(formData);
+            },
+            paypalCancelled: function (data) {
+                alert('결제를 취소하셨습니다')
+            },
             registerSeller: function (formData) {
-                axios.post('/register/form', formData)
+                axios.post('/register/ajax_purchase', formData)
                     .then(res => res.data)
                     .then(data => {
-                        if (data.email_auth_message) {
-                            alert(data.email_auth_message);
-                        } else {
-                            alert(data.message);
-                        }
+                        alert(data.message);
+                        window.location.href = '/mypage';
                     })
                     .catch(error => {
                         console.error(error);

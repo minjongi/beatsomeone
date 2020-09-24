@@ -81,7 +81,6 @@
 
         },
         mounted() {
-            this.info = JSON.parse(localStorage.getItem('bs_user_info'));
         },
         computed: {
             isCustomer: function () {
