@@ -1695,6 +1695,9 @@ class Cmall extends CB_Controller
 
                     $orderdetail[$key]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
                 }
+                if (element('cor_status', $order) !== '1') {
+                    $orderdetail[$key]['item']['possible_download'] = 0;
+                }
             }
         }
         if (element('cor_status', $order) === '1') {
