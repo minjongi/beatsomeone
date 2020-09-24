@@ -130,7 +130,7 @@ export default {
             total_refunds: 0,
             selectedCount: 0,
             description: '',
-            isRefundModalOpen: false,
+            isRefundModalOpen: true,
             cor_id: ''
         };
     },

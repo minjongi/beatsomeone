@@ -1665,7 +1665,7 @@ class Cmall extends CB_Controller
             return false;
         }
 
-        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+        $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model', 'Cmall_download_log_model'));
 
         $order = $this->Cmall_order_model->get_one($cor_id);
         if (!element('cor_id', $order)) {
@@ -1685,6 +1685,18 @@ class Cmall extends CB_Controller
                 $orderdetail[$key]['itemdetail'] = $itemdetail
                     = $this->Cmall_order_detail_model
                     ->get_detail_by_item($cor_id, element('cit_id', $value));
+                $where = [
+                    'cit_id' => element('cit_id', $value),
+                    'cde_id' => $itemdetail[0]['cde_id'],
+                    'mem_id' => $mem_id
+                ];
+
+                $download_log = $this->Cmall_download_log_model->get_one('', '', $where);
+                if ($download_log != false) {
+                    $orderdetail[$key]['item']['possible_refund'] = 0;
+                } else {
+                    $orderdetail[$key]['item']['possible_refund'] = 1;
+                }
 
                 $orderdetail[$key]['item']['possible_download'] = 1;
                 if (element('cod_download_days', element(0, $itemdetail)) && element('cor_approve_datetime', $order)) {

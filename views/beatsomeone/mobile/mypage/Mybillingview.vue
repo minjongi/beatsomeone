@@ -780,14 +780,18 @@
             downloadWithAxios: function (item) {
                 axios({
                     method: "get",
-                    //url: '/cmallact/download_sample/'+cde_id,
-                    url: "/uploads/cmallitemdetail/" + item.cde_filename,
-                    responseType: "arraybuffer",
+                    url: `/cmallact/download/${this.cor_id}/${item.cde_id}`,
+                    responseType: "blob",
                 })
-                    .then((r) => {
-                        this.forceFileDownload(r, item.cde_originame);
+                    .then((response) => {
+                        const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/mp3'}));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', item.cde_originname);
+                        document.body.appendChild(link);
+                        link.click();
                     })
-                    .catch(() => console.log("error occurred"));
+                    .catch((error) => console.error(error));
             },
             openRequestModal: function () {
                 this.reqref = 1;
