@@ -16,7 +16,7 @@
                 </button>
             </div>
 
-            <div class="accounts__social" v-if="false">
+            <div class="accounts__social">
                 <h2>{{ $t('snsLogin') }}</h2>
                 <a href="#" @click="social_connect_on('facebook')"><img
                         src="@/assets/images/accounts-facebook.png"

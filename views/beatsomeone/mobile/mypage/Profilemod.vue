@@ -15,7 +15,7 @@
             <div class="row" v-if="isSeller">
                 <div class="type"><span>{{$t('sellerClass')}}</span></div>
                 <div class="n-flex between data" style="margin-top: -10px; margin-bottom: -10px;">
-                    <div class="seller_class " :class="sellerClass">{{ sellerClass }}</div>
+                    <div class="seller_class " :class="sellerClass">{{ $t(sellerClass) }}</div>
 
                     <div class="active">
                         <button class="btn btn--yellow round"> Upgrade Now </button>
@@ -126,28 +126,19 @@
                 return this.groupType === 'SELLER';
             },
             groupType: function() {
-                // return 'CUSTOMER';
-                if(this.info) {
-                    return this.info.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
+                if (this.member_group_name === 'buyer') {
+                    return 'CUSTOMER';
+                } else if (this.member_group_name.includes('seller')) {
+                    return 'SELLER';
                 } else {
-                    return null;
+                    return 'CUSTOMER';
                 }
             },
             sellerClass: function() {
-
-                if(this.info) {
-                    switch (this.info.mem_usertype) {
-                        case '2':
-                            return 'FREE';
-                        case '3':
-                            return 'Platinum';
-                        case '4':
-                            return 'Master';
-                        default:
-                            return null;
-                    }
+                if (this.member_group_name.includes('seller')) {
+                    return this.member_group_name.split('_')[1];
                 } else {
-                    return null;
+                    return '';
                 }
             }
         },

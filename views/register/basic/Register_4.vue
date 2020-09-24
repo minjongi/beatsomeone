@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="accounts__btnbox half">
-                    <button type="reset" class="btn btn--gray" v-if="isCustomer" @click="doSkip">
+                    <button type="reset" class="btn btn--gray" @click="doSkip">
                         {{ $t('skipping') }}
                     </button>
 
