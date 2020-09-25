@@ -79,60 +79,6 @@
   }
 }
 
-.title-content {
-  > *:not(p):first-child {
-    display: flex;
-
-    > * {
-      width: 100%;
-      height: auto;
-      margin: auto 0;
-      min-width: max-content;
-    }
-
-    > .btn--glass {
-      color: white;
-      padding: 8px;
-      max-width: max-content;
-    }
-  }
-
-  .title {
-    font-size: 20px;
-    font-weight: 600;
-
-    + * {
-      margin-top: 16px;
-    }
-
-    > button {
-      width: 172px;
-      height: 50px;
-      font-size: 16px;
-    }
-  }
-
-  p {
-    font-size: 12px;
-    margin-top: 10px;
-    line-height: 1.6em;
-    color: rgba(255, 255, 255, 0.3);
-
-    strong {
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    span {
-      color: white;
-    }
-  }
-
-  & ~ *:not(.title-content) {
-    margin-top: 30px;
-  }
-}
-
 .complate-wrap {
   .wrap {
     padding-right: 16px;

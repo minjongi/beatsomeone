@@ -96,8 +96,9 @@
                 {{ $t('requestRefund') }}
             </button>
         </div>
-        <RefundModal :order="order" v-if="isRefundModalOpen && order.cor_status === '1'" @dismissModal="doDismissModal"
+        <RefundModal ref="refundModal" :order="order" :items="orderItems" v-if="isRefundModalOpen && order.cor_status === '1'" @dismissModal="doDismissModal"
                      @submitModal="doSubmitModal"/>
+        <RefundMemoModal :cor_id="cor_id" v-if="isMemoModalOpen" @dismissModal="doDismissModal2" @submitModal="doSubmitModal2" />
         <main-player></main-player>
     </div>
 </template>
@@ -109,6 +110,7 @@ import MainPlayer from "@/vue/common/MainPlayer";
 import ParchaseComponent from "./component/Parchase";
 import RefundModal from "*/views/beatsomeone/basic/mypage/RefundModal";
 import OrderDetailItem from "./OrderDetailItem";
+import RefundMemoModal from "./RefundMemoModal";
 
 export default {
     components: {
@@ -116,6 +118,7 @@ export default {
         MainPlayer,
         ParchaseComponent,
         OrderDetailItem,
+        RefundMemoModal
     },
     data: function () {
         return {
@@ -131,6 +134,7 @@ export default {
             selectedCount: 0,
             description: '',
             isRefundModalOpen: false,
+            isMemoModalOpen: false,
             cor_id: ''
         };
     },
@@ -142,7 +146,6 @@ export default {
                 this.order = data.data;
                 this.orderItems = data.orderdetail;
                 this.orderItems.forEach(item => {
-                    this.$set(item, 'is_selected', false);
                     if (item.item.cit_type3 === '0') {
                         this.$set(item.item, 'is_new', false);
                         let now = new Date();
@@ -192,63 +195,6 @@ export default {
                     "If the download period has , the purchased bit cannot be downloaded";
             }
         },
-        openRequestModal: function () {
-            this.reqref = 1;
-        },
-        toggleSelected: function (idx) {
-            if (this.orderItems[idx].is_selected === true) {
-                this.orderItems[idx].is_selected = false;
-            } else {
-                this.orderItems[idx].is_selected = true;
-            }
-        },
-        setCheckAll: function () {
-            if (this.checkedAll === true) {
-                this.orderItems.forEach(item => {
-                    item.is_selected = true;
-                })
-            } else {
-                this.orderItems.forEach(item => {
-                    item.is_selected = false;
-                })
-            }
-        },
-        submitRefund: function () {
-            let formData = new FormData();
-            formData.append('cor_id', this.order.cor_id);
-            this.orderItems.forEach(item => {
-                if (item.is_selected === true) {
-                    formData.append('cod_id[]', item.itemdetail[0].cod_id);
-                    formData.append('cde_id[]', item.itemdetail[0].cde_id);
-                }
-            });
-            if (this.total_refunds > 0) {
-                axios.post('/cmall/ajax_cancel', formData)
-                    .then(res => res.data)
-                    .then(data => {
-                        this.reqref = 2;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-            }
-        },
-        submitReason: function () {
-            let formData = new FormData();
-            formData.append('description', this.description);
-            formData.append('cor_id', this.order.cor_id);
-            if (this.description !== null && this.description !== '') {
-                axios.post('/cmall/ajax_refund_complete', formData)
-                    .then(res => res.data)
-                    .then(data => {
-                        this.reqref = 0;
-                        this.$router.push('/mybilling');
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-            }
-        },
         toggleRefundModalOpen() {
             this.isRefundModalOpen = !this.isRefundModalOpen;
         },
@@ -257,6 +203,14 @@ export default {
         },
         doSubmitModal() {
             this.isRefundModalOpen = false;
+            this.isMemoModalOpen = true;
+        },
+        doDismissModal2() {
+            this.isMemoModalOpen = false;
+        },
+        doSubmitModal2() {
+            this.isMemoModalOpen = false;
+            this.$router.push('/');
         },
     },
     watch: {

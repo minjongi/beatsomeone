@@ -172,7 +172,6 @@ export default {
             return val;
         },
         downloadWithAxios: function (item) {
-            console.log(item);
             axios({
                 method: "get",
                 url: `/cmallact/download/${this.cor_id}/${item.cde_id}`,
@@ -182,7 +181,7 @@ export default {
                     const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/mp3'}));
                     const link = document.createElement('a');
                     link.href = url;
-                    link.setAttribute('download', item.cde_originame);
+                    link.setAttribute('download', item.cde_originname);
                     document.body.appendChild(link);
                     link.click();
                 })
