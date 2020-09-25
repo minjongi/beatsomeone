@@ -96,8 +96,9 @@
                 {{ $t('requestRefund') }}
             </button>
         </div>
-        <RefundModal :order="order" v-if="isRefundModalOpen && order.cor_status === '1'" @dismissModal="doDismissModal"
+        <RefundModal ref="refundModal" :order="order" :items="orderItems" v-if="isRefundModalOpen && order.cor_status === '1'" @dismissModal="doDismissModal"
                      @submitModal="doSubmitModal"/>
+        <RefundMemoModal :cor_id="cor_id" v-if="isMemoModalOpen" @dismissModal="doDismissModal2" @submitModal="doSubmitModal2" />
         <main-player></main-player>
     </div>
 </template>
@@ -109,6 +110,7 @@ import MainPlayer from "@/vue/common/MainPlayer";
 import ParchaseComponent from "./component/Parchase";
 import RefundModal from "*/views/beatsomeone/basic/mypage/RefundModal";
 import OrderDetailItem from "./OrderDetailItem";
+import RefundMemoModal from "./RefundMemoModal";
 
 export default {
     components: {
@@ -116,6 +118,7 @@ export default {
         MainPlayer,
         ParchaseComponent,
         OrderDetailItem,
+        RefundMemoModal
     },
     data: function () {
         return {
@@ -130,7 +133,8 @@ export default {
             total_refunds: 0,
             selectedCount: 0,
             description: '',
-            isRefundModalOpen: true,
+            isRefundModalOpen: false,
+            isMemoModalOpen: false,
             cor_id: ''
         };
     },
@@ -142,7 +146,6 @@ export default {
                 this.order = data.data;
                 this.orderItems = data.orderdetail;
                 this.orderItems.forEach(item => {
-                    this.$set(item, 'is_selected', false);
                     if (item.item.cit_type3 === '0') {
                         this.$set(item.item, 'is_new', false);
                         let now = new Date();
@@ -257,6 +260,14 @@ export default {
         },
         doSubmitModal() {
             this.isRefundModalOpen = false;
+            this.isMemoModalOpen = true;
+        },
+        doDismissModal2() {
+            this.isMemoModalOpen = false;
+        },
+        doSubmitModal2() {
+            this.isMemoModalOpen = false;
+            this.$router.push('/');
         },
     },
     watch: {

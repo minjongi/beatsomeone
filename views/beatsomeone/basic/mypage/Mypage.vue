@@ -17,7 +17,7 @@
                                 <div class="wrap" :class="{'addPaddingTop':!isDisplayTop}">
                                     <CommonSidePanel />
                                     <div class="sublist__content">
-                                        <router-view/>
+                                        <router-view ref="routerView"/>
                                     </div>
                                 </div>
                             </div>

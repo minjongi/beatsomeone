@@ -3644,9 +3644,97 @@ class Cmall extends CB_Controller
     {
         ajax_required_user_login();
 
+        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Cmall_item_detail_model'));
+
         $cor_id = $this->input->post('cor_id');
-        $cod_ids = $this->input->post('cod_id');
-        $cde_ids = $this->input->post('cde_id');
+        $cod_ids = $this->input->post('cod_ids');
+        $pg = $this->input->post('pg');
+        if ($pg == 'allat') {
+            include(FCPATH . 'plugin/pg/allat/allatutil.php');
+            //Request Value Define
+            //----------------------
+            /*
+            $at_cross_key = "가맹점 CrossKey";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+            $at_shop_id   = "가맹점 ShopId";       //설정필요
+            */
+
+            //------------------------ Test Code ---------------------
+            $at_cross_key = $_POST["test_cross_key"];
+            $at_shop_id = $_POST["allat_shop_id"];
+            //--------------------------------------------------------
+
+            // 요청 데이터 설정
+            //----------------------
+            $at_data   = "allat_shop_id=".$at_shop_id.
+                "&allat_enc_data=".$_POST["allat_enc_data"].
+                "&allat_cross_key=".$at_cross_key;
+
+
+            // 올앳 결제 서버와 통신 : CancelReq->통신함수, $at_txt->결과값
+            //----------------------------------------------------------------
+            // PHP5 이상만 SSL 사용가능
+            $at_txt = CancelReq($at_data,"SSL");
+            // $at_txt = CancelReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
+            // 이 부분에서 로그를 남기는 것이 좋습니다.
+            // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
+
+
+
+            // 결제 결과 값 확인
+            //------------------
+            $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
+            $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
+
+            // 결과값
+            //----------------------------------------------------------------
+            $REPLYCD     = getValue("reply_cd",$at_txt);	//결과코드
+            $REPLYMSG    = getValue("reply_msg",$at_txt);	//결과 메세지
+
+            // 결과값 처리
+            //--------------------------------------------------------------------------
+            // 결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
+            // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
+            // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
+            //--------------------------------------------------------------------------
+            if( !strcmp($REPLYCD,"0000") || !strcmp($REPLYCD,"0001")){
+                // reply_cd "0000" 일때만 성공
+                $CANCEL_YMDHMS=getValue("cancel_ymdhms",$at_txt);
+                $PART_CANCEL_FLAG=getValue("part_cancel_flag",$at_txt);
+                $REMAIN_AMT=getValue("remain_amt",$at_txt);
+                $PAY_TYPE=getValue("pay_type",$at_txt);
+
+//                echo "결과코드		: ".$REPLYCD."<br>";
+//                echo "결과메세지		: ".$REPLYMSG."<br>";
+//                echo "취소날짜		: ".$CANCEL_YMDHMS."<br>";
+//                echo "취소구분		: ".$PART_CANCEL_FLAG."<br>";
+//                echo "잔액			: ".$REMAIN_AMT."<br>";
+//                echo "거래방식구분	: ".$PAY_TYPE."<br>";
+
+                $params = array();
+                $params['ORDER_NO'] = $cor_id;
+                $params['AMT'] = $this->input->post('allat_amt');
+                $params['PAY_TYPE'] = $PAY_TYPE;
+                $params['APPROVAL_YMDHMS'] = $CANCEL_YMDHMS;
+                $params['SAVE_AMT'] = $REMAIN_AMT;
+                $params['PARTCANCEL_YN'] = $PART_CANCEL_FLAG;
+                $params['RAW_DATA'] = $at_txt;
+
+                $this->Cmall_order_model->allat_log_insert($params);
+            } else {
+                // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
+                // reply_msg 가 실패에 대한 메세지
+//                echo "결과코드		: ".$REPLYCD."<br>";
+//                echo "결과메세지		: ".$REPLYMSG."<br>";
+
+                $this->output->set_status_header('400');
+                $this->output->set_output(json_encode([
+                    'reply_cd' => $REPLYCD,
+                    'reply_msg' => $REPLYMSG
+                ], JSON_UNESCAPED_UNICODE));
+                return false;
+            }
+
+        }
 
         $this->load->model(array('Cmall_order_model', 'Cmall_item_detail_model', 'Cmall_order_detail_model'));
 
@@ -3657,7 +3745,7 @@ class Cmall extends CB_Controller
             $orderdetail = $this->Cmall_order_detail_model->get_one($cod_id);
             if ($orderdetail) {
                 $itemdetail = $this->Cmall_item_detail_model->get_one($orderdetail['cde_id']);
-                if ($order['cor_memo'] == '$') {
+                if ($order['cor_pg'] == 'paypal') {
                     $total_refunds += floatval($itemdetail['cde_price_d']);
                 } else {
                     $total_refunds += floatval($itemdetail['cde_price']);
@@ -3670,7 +3758,7 @@ class Cmall extends CB_Controller
 
         if ($order) {
             $this->Cmall_order_model->update($cor_id, [
-                'status' => 'cancel',
+                'cor_status' => 2,
                 'cor_refund_price' => $total_refunds,
             ]);
         }
@@ -3678,7 +3766,7 @@ class Cmall extends CB_Controller
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode([
-            'message' => 'Success'
+            'message' => 'Cancel Success'
         ]));
     }
 
@@ -3686,15 +3774,14 @@ class Cmall extends CB_Controller
     {
         ajax_required_user_login();
 
-        $this->load->model('Cmall_refund_detail_model');
-        $mem_id = $this->member->item('mem_id');
-        $description = $this->input->post('description');
+        $this->load->model('Cmall_order_model');
         $cor_id = $this->input->post('cor_id');
-        $this->Cmall_refund_detail_model->insert([
-            'cor_id' => $cor_id,
-            'description' => $description,
-            'mem_id' => $mem_id,
+
+        $this->Cmall_order_model->update($cor_id, [
+            'cor_memo' => $this->input->post('cor_memo'),
+            'cor_admin_memo' => $this->input->post('cor_admin_memo'),
         ]);
+
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode([
             'message' => 'Success'
