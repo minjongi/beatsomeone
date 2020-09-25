@@ -66,7 +66,7 @@
                 return p
             },
             goSellerReg() {
-                window.location.href = '/mypage/sellerreg';
+                window.location.href = '/mypage/upgrade';
             }
         },
         computed: {

@@ -195,63 +195,6 @@ export default {
                     "If the download period has , the purchased bit cannot be downloaded";
             }
         },
-        openRequestModal: function () {
-            this.reqref = 1;
-        },
-        toggleSelected: function (idx) {
-            if (this.orderItems[idx].is_selected === true) {
-                this.orderItems[idx].is_selected = false;
-            } else {
-                this.orderItems[idx].is_selected = true;
-            }
-        },
-        setCheckAll: function () {
-            if (this.checkedAll === true) {
-                this.orderItems.forEach(item => {
-                    item.is_selected = true;
-                })
-            } else {
-                this.orderItems.forEach(item => {
-                    item.is_selected = false;
-                })
-            }
-        },
-        submitRefund: function () {
-            let formData = new FormData();
-            formData.append('cor_id', this.order.cor_id);
-            this.orderItems.forEach(item => {
-                if (item.is_selected === true) {
-                    formData.append('cod_id[]', item.itemdetail[0].cod_id);
-                    formData.append('cde_id[]', item.itemdetail[0].cde_id);
-                }
-            });
-            if (this.total_refunds > 0) {
-                axios.post('/cmall/ajax_cancel', formData)
-                    .then(res => res.data)
-                    .then(data => {
-                        this.reqref = 2;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-            }
-        },
-        submitReason: function () {
-            let formData = new FormData();
-            formData.append('description', this.description);
-            formData.append('cor_id', this.order.cor_id);
-            if (this.description !== null && this.description !== '') {
-                axios.post('/cmall/ajax_refund_complete', formData)
-                    .then(res => res.data)
-                    .then(data => {
-                        this.reqref = 0;
-                        this.$router.push('/mybilling');
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-            }
-        },
         toggleRefundModalOpen() {
             this.isRefundModalOpen = !this.isRefundModalOpen;
         },
