@@ -56,7 +56,9 @@
                                     </div>
                                 </div>
                                 <div class="price" style="color: white;">
-                                    {{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d, order.cor_pg) }}
+                                    {{
+                                        formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d, order.cor_pg)
+                                    }}
                                 </div>
                             </div>
 
@@ -83,7 +85,8 @@
                                                         :data-action="'playAction' + item.item.cit_id "
                                                     >재생
                                                     </button>
-                                                    <span class="timer"><span class="current">0:00 /</span><span class="duration">0:00</span></span>
+                                                    <span class="timer"><span class="current">0:00 /</span><span
+                                                        class="duration">0:00</span></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -97,6 +100,36 @@
                                         <img src="/assets/images/icon/down.png"/>
                                     </button>
                                 </figure>
+                            </div>
+                            <div class="col n-option">
+                                <div class="option">
+                                    <div class="n-box" v-if="item.item.cit_mastering_license_use === '1'">
+                                        <div>
+                                            <button class="playList__item--button">
+                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
+                                                                               @click.self="toggleButton"/></span>
+                                                <div>
+                                                    <div class="title" @click.self="toggleButton">{{ $t('lang30') }}
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
+                                        </div>
+                                    </div>
+                                    <div class="n-box" v-if="item.item.cit_mastering_license_use === '0' && item.item.cit_lease_license_use === '1'">
+                                        <div>
+                                            <button class="playList__item--button">
+                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
+                                                                               @click.self="toggleButton"/></span>
+                                                <div>
+                                                    <div class="title" @click.self="toggleButton">{{ $t('lang23') }}
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col genre" v-html="calcTag(item.item.hashTag)"></div>
                         </div>
@@ -565,9 +598,6 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-@import "/assets/plugins/slick/slick.css";
-@import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
-
 .title-content .title {
     font-size: 14px;
     line-height: 16px;
