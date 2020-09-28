@@ -78,6 +78,7 @@
                                         id="comment"
                                         maxlength="200"
                                         v-model="comment"
+                                        @click="checkLoggedIn"
                                         @keydown.enter.prevent="sendComment"
                                 />
                                 <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
@@ -425,6 +426,16 @@
             truncate(str, n) {
                 return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
+            checkLoggedIn() {
+                if (!this.isLogin) {
+                    let yn = confirm(this.$t('loginAlert'));
+                    if (yn === true) {
+                        window.location.href = '/login?url=' + window.location.href;
+                    } else {
+                        return true;
+                    }
+                }
+            }
         },
     };
 </script>

@@ -17,8 +17,7 @@
                 <div class="username">
                     {{ member.mem_nickname }}
                 </div>
-                <div class="bio">
-                    {{ memBio }}
+                <div class="bio" v-html="memBio" style="line-height: 1.4;">
                 </div>
                 <div class="location" v-if="member.mem_address1">
                     <img class="site" src="/assets/images/icon/position.png"/>
@@ -66,9 +65,9 @@
             },
             memBio() {
                 if (this.$i18n.locale === 'en') {
-                    return (this.member.mem_type ? this.member.mem_type + ', ' : '') + (this.member.mem_firstname ?? '') + ' ' + (this.member.mem_lastname ?? '');
+                    return (this.member.mem_type ? this.member.mem_type + '<br/> ' : '') + (this.member.mem_firstname ?? '') + ' ' + (this.member.mem_lastname ?? '');
                 } else if (this.$i18n.locale === 'ko') {
-                    return (this.member.mem_type ? this.member.mem_type + ', ' : '') + (this.member.mem_lastname ?? '') + ' ' + (this.member.mem_firstname ?? '');
+                    return (this.member.mem_type ? this.member.mem_type + '<br/>' : '') + (this.member.mem_lastname ?? '') + ' ' + (this.member.mem_firstname ?? '');
                 }
                 return '';
             }
