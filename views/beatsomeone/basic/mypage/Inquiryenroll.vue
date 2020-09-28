@@ -133,7 +133,9 @@
             },
             seller_class() {
                 if (this.member_group_name.includes('seller')) {
-                    return this.member_group_name.split('_')[1];
+                    let names = this.member_group_name.split('_')
+                    console.log(names);
+                    return names[1];
                 } else {
                     return ''
                 }
