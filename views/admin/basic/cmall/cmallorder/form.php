@@ -151,15 +151,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </tbody>
                     </table>
                 </div>
-                <!--        <div class="btn_list02 btn_list">-->
-                <!--          <p>-->
-                <!--            <input type="hidden" name="chk_cnt" value="--><?php //echo $i; ?><!--">-->
-                <!--            <strong>주문 상태 변경</strong>-->
-                <!--            <input type="submit" name="ct_status" value="주문" onclick="document.pressed=this.value" class="btn btn-sm">-->
-                <!--            <input type="submit" name="ct_status" value="입금" onclick="document.pressed=this.value" class="btn btn-sm">-->
-                <!--            <input type="submit" name="ct_status" value="취소" onclick="document.pressed=this.value" class="btn btn-sm">-->
-                <!--          </p>-->
-                <!--        </div>-->
+                        <div class="btn_list02 btn_list">
+                          <p>
+                            <input type="hidden" name="chk_cnt" value="<?php echo $i; ?>">
+                            <strong>주문 상태 변경</strong>
+                            <input type="submit" name="ct_status" value="주문" onclick="document.pressed=this.value" class="btn btn-sm">
+                            <input type="submit" name="ct_status" value="입금" onclick="document.pressed=this.value" class="btn btn-sm">
+                            <input type="submit" name="ct_status" value="취소" onclick="document.pressed=this.value" class="btn btn-sm">
+                          </p>
+                        </div>
                 <?php echo form_close(); ?>
                 <?php
                 } //end if

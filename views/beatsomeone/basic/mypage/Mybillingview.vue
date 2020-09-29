@@ -196,9 +196,13 @@ export default {
             }
         },
         toggleRefundModalOpen() {
+            let el = document.body;
+            el.style.overflow = 'hidden'
             this.isRefundModalOpen = !this.isRefundModalOpen;
         },
         doDismissModal() {
+            let el = document.body;
+            el.style.overflow = 'auto'
             this.isRefundModalOpen = false;
         },
         doSubmitModal() {
@@ -206,9 +210,15 @@ export default {
             this.isMemoModalOpen = true;
         },
         doDismissModal2() {
+            let el = document.body;
+            el.style.overflow = 'auto'
+
             this.isMemoModalOpen = false;
         },
         doSubmitModal2() {
+            let el = document.body;
+            el.style.overflow = 'auto'
+
             this.isMemoModalOpen = false;
             this.$router.push('/');
         },

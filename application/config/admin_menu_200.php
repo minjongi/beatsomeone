@@ -17,6 +17,7 @@ $config['admin_page_menu']['member'] =
 		'menu'						=> array(
 			'members'				=> array('회원관리', ''),
 			'membergroup'			=> array('회원그룹관리', ''),
+            'membergrouphistory'	=> array('회원그룹이력', ''),
 			'points'				=> array('포인트관리', ''),
 			'memberfollow'			=> array('팔로우현황', ''),
 			'nickname'				=> array('닉네임변경이력', ''),
