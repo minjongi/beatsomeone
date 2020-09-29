@@ -4172,13 +4172,6 @@ class Register extends CB_Controller
                     );
                     $this->Member_group_member_model->insert($mginsert);
 
-                    $gminsert = array(
-                        'mgr_id' => $this->input->post('mgr_id'),
-                        'mem_id' => $mem_id,
-                        'mgm_datetime' => cdate('Y-m-d H:i:s'),
-                    );
-                    $this->Member_group_member_model->insert($gminsert);
-
                     $termDays = '30';
                     $startDate = date('Y-m-d');
                     $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
@@ -4243,13 +4236,6 @@ class Register extends CB_Controller
                     'mgm_datetime' => cdate('Y-m-d H:i:s'),
                 );
                 $this->Member_group_member_model->insert($mginsert);
-
-                $gminsert = array(
-                    'mgr_id' => $this->input->post('mgr_id'),
-                    'mem_id' => $mem_id,
-                    'mgm_datetime' => cdate('Y-m-d H:i:s'),
-                );
-                $this->Member_group_member_model->insert($gminsert);
 
                 $termDays = '30';
                 $startDate = date('Y-m-d');

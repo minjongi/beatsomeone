@@ -26,7 +26,7 @@
           <figcaption @click="selectItem(item)">
             <h3 class="playList__title">{{ subName }}</h3>
             <div class="playList__bottom-info">
-              <span class="playList__by">{{ item.mem_nickname }} ( {{ item.bpm }}Bpm )</span>
+              <span class="playList__by">{{ item.mem_nickname }}</span>
 
               <div class="tags">
                 <button style="color:#3873d3;" v-if="item.cit_freebeat === '1'">{{ $t('lang1') }}</button>

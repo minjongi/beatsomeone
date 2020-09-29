@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="input_wrap line">
-                    <input type="text" />
+                    <input type="text" v-model="search_keyword" />
                     <button @click="searchClicked">
                         <img src="/assets/images/icon/searchicon.png" />
                     </button>

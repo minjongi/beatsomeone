@@ -162,9 +162,9 @@ export default {
             this.items.forEach(item => {
                 if (item.item.possible_refund === 1) {
                     this.$set(item.item, 'is_selected', val);
-                }
-                if (val === true) {
-                    this.countSelected++;
+                    if (val === true) {
+                        this.countSelected++;
+                    }
                 }
             });
         },

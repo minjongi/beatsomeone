@@ -187,6 +187,14 @@ export default {
                 })
                 .catch((error) => console.error(error));
         },
+        caclLeftDay: function (orderDate) {
+            var tDate = new Date(orderDate);
+            var nDate = new Date();
+            tDate.setDate(tDate.getDate());
+            var diff = tDate.getTime() - nDate.getTime();
+            diff = Math.ceil(diff / (1000 * 3600 * 24));
+            return diff;
+        },
     }
 }
 </script>
