@@ -108,17 +108,17 @@ import axios from "axios";
 import $ from "jquery";
 import MainPlayer from "@/vue/common/MainPlayer";
 import ParchaseComponent from "./component/Parchase";
-import RefundModal from "*/views/beatsomeone/basic/mypage/RefundModal";
+import RefundModal from "./RefundModal";
 import OrderDetailItem from "./OrderDetailItem";
 import RefundMemoModal from "./RefundMemoModal";
 
 export default {
     components: {
-        RefundModal,
         MainPlayer,
         ParchaseComponent,
         OrderDetailItem,
-        RefundMemoModal
+        RefundMemoModal,
+        RefundModal,
     },
     data: function () {
         return {

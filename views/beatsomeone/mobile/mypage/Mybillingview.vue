@@ -38,102 +38,7 @@
 
             <div class="playList productList orderlist" style="margin-top:10px;">
                 <ul>
-                    <li
-                        v-for="(item, idx) in orderItems"
-                        v-bind:key="idx"
-                        class="playList__itembox"
-                    >
-                        <div class="playList__item playList__item--title other">
-                            <div class="n-flex between">
-                                <div class="info">
-                                    <div class="code">{{ item.item.cit_key }}</div>
-                                </div>
-                                <div class="edit">
-                                    <div
-                                        class="download_status"
-                                        :class="getDownStatusColor(item.item)"
-                                    >{{ $t(funcDownStatus(item.item)) }}
-                                    </div>
-                                </div>
-                                <div class="price" style="color: white;">
-                                    {{
-                                        formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d, order.cor_pg)
-                                    }}
-                                </div>
-                            </div>
-
-                            <div class="name">
-                                <figure class="n-flex" style="margin-right: 0;">
-                                    <div class="playList__cover">
-                                        <img
-                                            v-if="!item.item.cit_file_1"
-                                            :src="'/assets/images/cover_default.png'"
-                                            alt
-                                        />
-                                        <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt/>
-                                        <i v-if="item.item.is_new" class="label new">N</i>
-                                    </div>
-                                    <figcaption class="pointer">
-                                        <h3 class="playList__title"
-                                            v-html="formatCitName(item.item.cit_name,50)"></h3>
-                                        <div class="n-flex">
-                                            <div class="listen">
-                                                <div class="playbtn">
-                                                    <button
-                                                        class="btn-play"
-                                                        @click="playAudio(item.item, $event)"
-                                                        :data-action="'playAction' + item.item.cit_id "
-                                                    >재생
-                                                    </button>
-                                                    <span class="timer"><span class="current">0:00 /</span><span
-                                                        class="duration">0:00</span></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </figcaption>
-
-                                    <button v-if="item.item.possible_download === 1"
-                                            @click="downloadWithAxios(item.itemdetail[0])" class="btn-edit">
-                                        <img src="/assets/images/icon/down.png"/>
-                                    </button>
-                                    <button v-else class="btn-edit unable">
-                                        <img src="/assets/images/icon/down.png"/>
-                                    </button>
-                                </figure>
-                            </div>
-                            <div class="col n-option">
-                                <div class="option">
-                                    <div class="n-box" v-if="item.item.cit_mastering_license_use === '1'">
-                                        <div>
-                                            <button class="playList__item--button">
-                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
-                                                                               @click.self="toggleButton"/></span>
-                                                <div>
-                                                    <div class="title" @click.self="toggleButton">{{ $t('lang30') }}
-                                                    </div>
-                                                </div>
-                                            </button>
-                                            <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
-                                        </div>
-                                    </div>
-                                    <div class="n-box" v-if="item.item.cit_mastering_license_use === '0' && item.item.cit_lease_license_use === '1'">
-                                        <div>
-                                            <button class="playList__item--button">
-                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
-                                                                               @click.self="toggleButton"/></span>
-                                                <div>
-                                                    <div class="title" @click.self="toggleButton">{{ $t('lang23') }}
-                                                    </div>
-                                                </div>
-                                            </button>
-                                            <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col genre" v-html="calcTag(item.item.hashTag)"></div>
-                        </div>
-                    </li>
+                    <OrderDetailItem v-for="(item, idx) in orderItems" :cor_id="cor_id" :item="item" v-bind:key="idx" :pg="order.cor_pg" />
                 </ul>
             </div>
         </div>
@@ -178,48 +83,38 @@
 
         <div class="n-flex n-btnbox">
             <button class="btn btn--gray" @click="goPage('mybilling')">{{ $t('backToList') }}</button>
-            <button v-if="order.cor_status==='1'" @click="openRequestModal" class="btn btn--submit">
+            <button v-if="order.cor_status==='1'" @click="toggleRefundModalOpen" class="btn btn--submit">
                 {{ $t('requestRefund') }}
             </button>
         </div>
+        <RefundModal ref="refundModal" :order="order" :items="orderItems" v-if="isRefundModalOpen && order.cor_status === '1'" @dismissModal="doDismissModal"
+                     @submitModal="doSubmitModal"/>
+        <RefundMemoModal :cor_id="cor_id" v-if="isMemoModalOpen" @dismissModal="doDismissModal2" @submitModal="doSubmitModal2" />
         <main-player></main-player>
     </div>
 </template>
 
 <script>
 import axios from "axios";
-import moment from "moment";
 import $ from "jquery";
 import MainPlayer from "@/vue/common/MainPlayer";
-import {EventBus} from "*/src/eventbus";
-import WaveSurfer from "wavesurfer.js";
 import ParchaseComponent from "./component/Parchase";
+import RefundModal from "./RefundModal";
+import RefundMemoModal from "./RefundMemoModal";
+import OrderDetailItem from "./OrderDetailItem";
 
 export default {
     components: {
+        OrderDetailItem,
         MainPlayer,
         ParchaseComponent,
+        RefundMemoModal,
+        RefundModal,
     },
     data: function () {
         return {
-            cid: "",
-            no: "",
-            isLogin: false,
-            cor_datetime: "",
-            cor_approve_datetime: "",
-            cor_status: "",
-            cor_pg: "",
-            mem_photo: "",
-            mem_usertype: "",
-            mem_nickname: "",
-            mem_address1: "",
-            mem_type: "",
-            mem_lastname: "",
-            myOrderList: [],
-            checkedAll: [],
+            checkedAll: false,
             reqref: 0,
-            isPlay: false,
-            currentPlayId: null,
             wavesurfer: null,
             payType: "",
             totalPrice: "",
@@ -228,7 +123,10 @@ export default {
             orderItems: [],
             total_refunds: 0,
             selectedCount: 0,
-            description: ''
+            description: '',
+            isRefundModalOpen: false,
+            isMemoModalOpen: false,
+            cor_id: ''
         };
     },
     mounted() {
@@ -255,91 +153,6 @@ export default {
         goPage: function (page) {
             this.$router.push('/' + page);
         },
-        formatCitName: function (data) {
-            var rst;
-            var limitLth = 50;
-            if (limitLth < data.length && data.length <= limitLth * 2) {
-                rst =
-                    data.substring(0, limitLth) +
-                    "<br>" +
-                    data.substring(limitLth, limitLth * 2);
-            } else if (limitLth < data.length && limitLth * 2 < data.length) {
-                rst =
-                    data.substring(0, limitLth) +
-                    "<br>" +
-                    data.substring(limitLth, limitLth * 2) +
-                    "...";
-            } else {
-                rst = data;
-            }
-            return rst;
-        },
-        funcStatus(s) {
-            if (s === "0") {
-                return "depositWaiting";
-            } else if (s === "1") {
-                return "orderComplete";
-            } else {
-                return "refundComplete";
-            }
-        },
-        getGenre(g1, g2) {
-            if (this.isEmpty(g2)) {
-                return g1;
-            } else {
-                return g1 + ", " + g2;
-            }
-        },
-        toggleButton: function (e) {
-            if (
-                e.target.parentElement.parentElement.parentElement.parentElement
-                    .className == "n-box"
-            ) {
-                e.target.parentElement.parentElement.parentElement.parentElement.className =
-                    "n-box active";
-            } else if (
-                e.target.parentElement.parentElement.parentElement.parentElement
-                    .className == "n-box active"
-            ) {
-                e.target.parentElement.parentElement.parentElement.parentElement.className =
-                    "n-box";
-            } else {
-                //
-            }
-        },
-        formatCheck: function (o) {
-            if (this.isEmpty(o)) {
-                return "";
-            } else {
-                return 0;
-            }
-        },
-        formatTotalPrice: function (price, simbol) {
-            if (simbol === "$") {
-                return (
-                    "$ " +
-                    Number(price).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
-            } else {
-                return (
-                    "₩ " +
-                    Number(price).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
-            }
-        },
-        formatPrice: function (kr, en, pg) {
-            if (pg === "paypal") {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
-            } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
-            }
-        },
         formatPr: function (m, price) {
             if (m === 'paypal') {
                 return '$' + this.formatNumberEn(price);
@@ -350,134 +163,10 @@ export default {
             }
         },
         formatNumber(n) {
-            //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
             return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
         },
         formatNumberEn(n) {
-            //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
             return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
-        },
-        playAudio(i, e) {
-            if (!this.isPlay || this.currentPlayId !== i.cit_id) {
-                if (this.currentPlayId !== i.cit_id) {
-                    this.setAudioInstance(i);
-                }
-                this.currentPlayId = i.cit_id;
-                EventBus.$emit("player_request_start", {
-                    _uid: this._uid,
-                    item: i,
-                    ws: this.wavesurfer,
-                });
-                e.target.className = "btn-play playing";
-                this.start();
-            } else {
-                EventBus.$emit("player_request_stop", {
-                    _uid: this._uid,
-                    item: i,
-                    ws: this.wavesurfer,
-                });
-                e.target.className = "btn-play paused";
-                this.stop();
-            }
-        },
-        setAudioInstance(item) {
-            if (!this.wavesurfer) {
-                this.wavesurfer = WaveSurfer.create({
-                    container: "#playerContainer",
-                    waveColor: "#696969",
-                    progressColor: "#c3ac45",
-                    hideScrollbar: true,
-                    height: 40,
-                });
-            }
-
-            if (item.cde_id) {
-                this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
-                //this.wavesurfer.load(`/uploads/cmallitemdetail/${item.cde_filename}`);
-            }
-
-            this.wavesurfer.on("ready", () => {
-                this.wavesurfer.play();
-            });
-        },
-        stop() {
-            if (this.wavesurfer) {
-                this.wavesurfer.pause();
-            }
-            this.isPlay = false;
-        },
-        start(isInit) {
-            if (this.wavesurfer) {
-                this.wavesurfer.play();
-            }
-            if (!isInit) {
-                this.isPlay = true;
-            }
-        },
-        isEmpty: function (str) {
-            if (typeof str == "undefined" || str == null || str == "") return true;
-            else return false;
-        },
-        caclLeftDay: function (orderDate) {
-            var tDate = new Date(orderDate);
-            var nDate = new Date();
-            var diff = tDate.getTime() - nDate.getTime();
-            diff = Math.ceil(diff / (1000 * 3600 * 24));
-            return diff;
-        },
-        caclTargetDay: function (orderDate) {
-            var tDate = new Date(orderDate);
-            tDate.setDate(tDate.getDate() + 60);
-            return moment(tDate).format("YYYY-MM-DD HH:mm:ss");
-        },
-        productEditBtn: function (key, status) {
-            console.log("productEditBtn:" + key);
-            if (status == 0) {
-                return;
-            } else {
-                window.location.href = "/mypage/regist_item/" + key;
-            }
-        },
-        removeReg: function (val) {
-            const regExp = /[~!@#$%^&*()_+|'"<>?:{}]/;
-            while (regExp.test(val)) {
-                val = val.replace(regExp, "");
-            }
-            return val;
-        },
-        calcTag: function (hashTag) {
-            let rst = "";
-            let tags = hashTag.split(",");
-            for (let i in tags) {
-                rst =
-                    rst +
-                    "<span><button >" +
-                    this.removeReg(tags[i]) +
-                    "</button></span>";
-            }
-            return rst;
-        },
-        funcDownStatus: function (item) {
-            if (item.possible_download === 0) {
-                return "unavailable1";
-            } else {
-                return "downloadAvailable";
-            }
-        },
-        getDownStatusColor: function (item) {
-            if (item.possible_download === 0) {
-                return "red";
-            } else {
-                if (item.cit_lease_license_use == "1") {
-                    return "blue";
-                }
-                if (item.cit_lease_license_use == "1") {
-                    return "green";
-                }
-                if (item.cit_mastering_license_use == "1") {
-                    return "green";
-                }
-            }
         },
         funcDesc: function () {
             if (this.order.status === 'deposit') {
@@ -492,87 +181,33 @@ export default {
                     "If the download period has , the purchased bit cannot be downloaded";
             }
         },
-        forceFileDownload(r, oriname) {
-            const blob = new Blob([r.data], {type: "application/mp3"});
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = oriname;
-            link.click();
-            URL.revokeObjectURL(link.href);
+        toggleRefundModalOpen() {
+            let el = document.body;
+            el.style.overflow = 'hidden'
+            this.isRefundModalOpen = !this.isRefundModalOpen;
         },
-        downloadWithAxios: function (item) {
-            axios({
-                method: "get",
-                url: `/cmallact/download/${this.cor_id}/${item.cde_id}`,
-                responseType: "blob",
-            })
-                .then((response) => {
-                    const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/mp3'}));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', item.cde_originname);
-                    document.body.appendChild(link);
-                    link.click();
-                })
-                .catch((error) => console.error(error));
+        doDismissModal() {
+            let el = document.body;
+            el.style.overflow = 'auto'
+            this.isRefundModalOpen = false;
         },
-        openRequestModal: function () {
-            this.reqref = 1;
+        doSubmitModal() {
+            this.isRefundModalOpen = false;
+            this.isMemoModalOpen = true;
         },
-        toggleSelected: function (idx) {
-            if (this.orderItems[idx].is_selected === true) {
-                this.orderItems[idx].is_selected = false;
-            } else {
-                this.orderItems[idx].is_selected = true;
-            }
+        doDismissModal2() {
+            let el = document.body;
+            el.style.overflow = 'auto'
+
+            this.isMemoModalOpen = false;
         },
-        setCheckAll: function () {
-            if (this.checkedAll === true) {
-                this.orderItems.forEach(item => {
-                    item.is_selected = true;
-                })
-            } else {
-                this.orderItems.forEach(item => {
-                    item.is_selected = false;
-                })
-            }
+        doSubmitModal2() {
+            let el = document.body;
+            el.style.overflow = 'auto'
+
+            this.isMemoModalOpen = false;
+            this.$router.push('/');
         },
-        submitRefund: function () {
-            let formData = new FormData();
-            formData.append('cor_id', this.order.cor_id);
-            this.orderItems.forEach(item => {
-                if (item.is_selected === true) {
-                    formData.append('cod_id[]', item.itemdetail[0].cod_id);
-                    formData.append('cde_id[]', item.itemdetail[0].cde_id);
-                }
-            });
-            if (this.total_refunds > 0) {
-                axios.post('/cmall/ajax_cancel', formData)
-                    .then(res => res.data)
-                    .then(data => {
-                        this.reqref = 2;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-            }
-        },
-        submitReason: function () {
-            let formData = new FormData();
-            formData.append('description', this.description);
-            formData.append('cor_id', this.order.cor_id);
-            if (this.description !== null && this.description !== '') {
-                axios.post('/cmall/ajax_refund_complete', formData)
-                    .then(res => res.data)
-                    .then(data => {
-                        this.reqref = 0;
-                        this.$router.push('/mybilling');
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-            }
-        }
     },
     watch: {
         orderItems: {

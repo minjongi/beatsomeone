@@ -77,7 +77,7 @@
                                      v-html="formatSub(order.detail)">
                                 </div>
                                 <div class="totalprice"
-                                     v-html="formatPr(order.cor_memo, order.cor_total_money)"></div>
+                                     v-html="formatPr(order.cor_pg, order.cor_total_money)"></div>
                             </div>
                             <div class="status">
                                 <div :class="{ 'yellow': order.status === 'cancel', 'red': order.status === 'refund' }">
@@ -196,7 +196,7 @@
                 let title = '';
                 if (size > 0) {
                     if (detail[0].item) {
-                        title = detail[0].item.cit_name;
+                        title = this.truncate(detail[0].item.cit_name, 20);
                     }
                 }
                 if (1 < size) {
@@ -204,14 +204,16 @@
                 }
                 return title;
             },
-            formatPr: function (m, price) {
-                if (this.isEmpty(m)) {
-                    m = '';
-                }
-                if (m == '$') {
-                    return m + this.formatNumberEn(price);
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
+            formatPr: function (pg, price) {
+                if (pg === 'paypal') {
+                    return '$' + this.formatNumberEn(price);
+                } else if (pg === 'allat') {
+                    return '₩' + this.formatNumber(price);
                 } else {
-                    return m + this.formatNumber(price);
+                    return price
                 }
             },
             formatNumber(n) {

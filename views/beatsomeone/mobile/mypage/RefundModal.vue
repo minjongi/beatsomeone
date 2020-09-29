@@ -1,18 +1,18 @@
 <template>
-    <div class="panel active">
-        <div class="popup active" style="width:1000px;">
-            <div class="box" style="padding-bottom:50px;">
-                <div class="title">Request Refund</div>
-                <div class="tab">
-                    <div>
+    <div class="modal">
+        <div class="modal__content">
+            <div class="modal__body" style="padding-bottom:50px;">
+                <div class="title" style="font-size: 1.5rem; margin-bottom: 10px;">Request Refund</div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                         <div class="title">{{ $t('orderNumber') }}</div>
                         <div>{{ order.cor_id }}</div>
                     </div>
-                    <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                         <div class="title">{{ $t('date') }}</div>
                         <div>{{ order.cor_datetime }}</div>
                     </div>
-                    <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                         <div class="title">{{ $t('status') }}</div>
                         <div :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }">
                             {{ $t(order.status) }}
@@ -22,7 +22,7 @@
                 <div class="col">
                     <div class="title-content">
                         <div class="title">
-                            <label class="checkbox" style="margin-left:20px;">
+                            <label class="checkbox">
                                 <input
                                     type="checkbox"
                                     hidden="hidden"
@@ -109,6 +109,7 @@ export default {
         this.items.forEach(item => {
             this.$set(item.item, 'is_selected', false);
         });
+        console.log(this.items);
     },
     computed: {
         isAllatTest() {

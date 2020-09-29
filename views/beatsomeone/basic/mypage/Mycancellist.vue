@@ -82,7 +82,7 @@
                                  v-html="formatSub(order.detail)">
                             </div>
                             <div class="totalprice"
-                                 v-html="formatPr(order.cor_memo, order.cor_total_money)"></div>
+                                 v-html="formatPr(order.cor_pg, order.cor_total_money)"></div>
                             <div class="status">
                                 <div :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }">
                                     {{ $t(order.status) }}
@@ -210,14 +210,11 @@
                 }
                 return title;
             },
-            formatPr: function (m, price) {
-                if (this.isEmpty(m)) {
-                    m = '';
-                }
-                if (m == '$') {
-                    return m + this.formatNumberEn(price);
+            formatPr: function (pg, price) {
+                if (pg === 'paypal') {
+                    return '$ ' + this.formatNumberEn(price);
                 } else {
-                    return m + this.formatNumber(price);
+                    return '₩' + this.formatNumber(price);
                 }
             },
             formatNumber(n) {

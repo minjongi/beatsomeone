@@ -80,9 +80,6 @@ export default {
         ParchaseComponent
     },
     props: ['item', 'pg', 'cor_id'],
-    mounted() {
-        console.log(this.item);
-    },
     methods: {
         formatCitName: function (data) {
             var rst;
