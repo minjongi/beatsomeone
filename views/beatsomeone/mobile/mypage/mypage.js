@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from "vuex";
+import vSelect from 'vue-select';
 Vue.use(Vuex);
+Vue.component('v-select', vSelect);
 
 // i18n
 import i18n from '*/src/i18n/i18n'

@@ -42,6 +42,16 @@
                 this.isModalOpen = false;
             },
         },
+        watch: {
+            isModalOpen(val) {
+                let el = document.body;
+                if (val === false) {
+                    el.style.overflow = 'auto'
+                } else {
+                    el.style.overflow = 'hidden'
+                }
+            }
+        }
 
     }
 

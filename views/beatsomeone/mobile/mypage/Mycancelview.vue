@@ -37,7 +37,6 @@
                             v-for="(item, idx) in orderItems"
                             v-bind:key="idx"
                             class="playList__itembox"
-                            v-if="item.itemdetail[0].cod_status === 'cancel'"
                     >
                         <div class="playList__item playList__item--title other">
                             <div class="n-flex between">
@@ -49,21 +48,21 @@
                                         v-if="item.item.cit_lease_license_use === '1' && item.item.cit_mastering_license_use === '1' "
                                         style="color: white;"
                                 >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                    order.cor_memo) }}
+                                    order.cor_pg) }}
                                 </div>
                                 <div
                                         class="price"
                                         v-else-if="item.item.cit_lease_license_use === '1' && item.item.cit_mastering_license_use === '0'"
                                         style="color: white;"
                                 >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                    order.cor_memo) }}
+                                    order.cor_pg) }}
                                 </div>
                                 <div
                                         class="price"
                                         v-else-if="item.item.cit_mastering_license_use === '1' && item.item.cit_lease_license_use === '0'"
                                         style="color: white;"
                                 >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                    order.cor_memo) }}
+                                    order.cor_pg) }}
                                 </div>
                             </div>
 
@@ -79,7 +78,7 @@
                   </span>
                                     <figcaption class="pointer">
                                         <h3 class="playList__title"
-                                            v-html="formatCitName(item.item.cit_name,50)"></h3>
+                                            v-html="formatCitName(item.item.cit_name,20)"></h3>
                                         <!-- <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
                                         <span class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span>-->
                                     </figcaption>
@@ -109,28 +108,28 @@
                     </div>
                     <div class="n-flex between">
                         <span class="title">Paid</span>
-                        <span class="yellow" style="font-weight: 600;">{{ order.cor_memo }} {{ order.cor_total_money }}</span>
+                        <span class="yellow" style="font-weight: 600;">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</span>
                     </div>
-                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);" v-if="false">
                         <span class="title">Refund request</span>
                         <span style="opacity:.7; font-weight:normal;">{{ order.cor_request_datetime }}</span>
                     </div>
-                    <div class="n-flex between">
+                    <div class="n-flex between" v-if="false">
                         <span class="title">Refund complete</span>
                         <span style="opacity:.7; font-weight:normal;">{{ order.cor_refund_datetime }}</span>
                     </div>
                     <div class="n-flex between">
                         <span class="title">Request Reason</span>
-                        <span style="opacity:.7; font-weight:normal;">{{ order.refund_reason }}</span>
+                        <span style="opacity:.7; font-weight:normal;">{{ order.cor_memo }}</span>
                     </div>
                     <div class="n-flex between">
-                        <span style="opacity:.7; font-weight:600;">{{ order.refund_description }}</span>
+                        <span style="opacity:.7; font-weight:600;">{{ order.cor_admin_memo }}</span>
                     </div>
-                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);" v-if="false">
                         <span class="title">Refund</span>
                         <span class="red">{{ order.cor_memo }}{{ order.cor_refund_price }}</span>
                     </div>
-                    <div class="n-flex between">
+                    <div class="n-flex between" v-if="false">
                         <span class="title">Refund Points</span>
                         <span class="red">0 P</span>
                     </div>
@@ -196,6 +195,9 @@
                     input.getFullYear() === today.getFullYear()
                 );
             },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
             getGenre(g1, g2) {
                 if (this.isEmpty(g2)) {
                     return g1;
@@ -203,9 +205,8 @@
                     return g1 + ", " + g2;
                 }
             },
-            formatCitName: function (data) {
+            formatCitName: function (data, limitLth) {
                 var rst;
-                var limitLth = 50;
                 if (limitLth < data.length && data.length <= limitLth * 2) {
                     rst =
                         data.substring(0, limitLth) +
@@ -223,11 +224,11 @@
                 return rst;
             },
             isEmpty: function (str) {
-                if (typeof str == "undefined" || str == null || str == "") return true;
+                if (typeof str == "undefined" || str == null || str === "") return true;
                 else return false;
             },
-            formatPrice: function (kr, en, simbol) {
-                if (simbol == "$") {
+            formatPrice: function (kr, en, pg) {
+                if (pg === "paypal") {
                     return (
                         "$ " +
                         Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
@@ -238,6 +239,23 @@
                         Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
                     );
                 }
+            },
+            formatPr: function (pg, price) {
+                if (pg === 'paypal') {
+                    return '$' + this.formatNumberEn(price);
+                } else if (pg === 'allat') {
+                    return '₩' + this.formatNumber(price);
+                } else {
+                    return price
+                }
+            },
+            formatNumber(n) {
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+            },
+            formatNumberEn(n) {
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
             },
             toggleButton: function (e) {
                 if (
