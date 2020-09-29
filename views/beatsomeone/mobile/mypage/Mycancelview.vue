@@ -224,11 +224,11 @@
                 return rst;
             },
             isEmpty: function (str) {
-                if (typeof str == "undefined" || str == null || str == "") return true;
+                if (typeof str == "undefined" || str == null || str === "") return true;
                 else return false;
             },
-            formatPrice: function (kr, en, simbol) {
-                if (simbol == "paypal") {
+            formatPrice: function (kr, en, pg) {
+                if (pg === "paypal") {
                     return (
                         "$ " +
                         Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
