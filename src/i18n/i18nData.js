@@ -529,7 +529,8 @@ export default {
         dashboard_profilemod_save_ok: '변경내용이 저장 되었습니다',
         dashboard_Recently_notexists: '기간만료 예정 내역이 없습니다',
         upgrade: '업그레이드',
-        dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다'
+        dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다',
+        successfullyRegistered: '회원가입이 완료 되었습니다.'
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1060,6 +1061,7 @@ export default {
         dashboard_profilemod_save_ok: 'Personal information has been modified.',
         dashboard_ExpiredSoon_notexists: 'No products are expected to expire',
         upgrade: 'Upgrade',
-        dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다'
+        dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다',
+        successfullyRegistered: 'your membership has been completed'
     } // en
 }

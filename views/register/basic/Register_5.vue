@@ -11,7 +11,7 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                {{ $t('introYourself') }}
+                                {{ $t('introYourself') }} <span class="required">*</span>
                             </p>
                             <div class="input">
                                 <input
@@ -102,6 +102,7 @@
                         .then(res => res.data)
                         .then(data => {
                             if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
+                                alert(this.$t('successfullyRegistered'));
                                 window.location.href = '/';
                             } else {
                                 window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
