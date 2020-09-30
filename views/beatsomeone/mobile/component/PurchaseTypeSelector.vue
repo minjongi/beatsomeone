@@ -167,7 +167,6 @@
         },
         watch: {
             item: function (n) {
-                console.log(n);
             },
         },
         computed: {

@@ -104,10 +104,16 @@
                                     <article class="testimonials__lists">
                                         <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
                                             <a :href="post.pln_url" target="_blank">
-                                                <div class="img">
+                                                <div class="img" v-if="post.files.length === 1">
                                                     <img
-                                                            :src="'/uploads/post/' + post.pfi_filename"
+                                                            :src="'/uploads/post/' + post.files[0].pfi_filename"
                                                             alt=""
+                                                    />
+                                                </div>
+                                                <div class="img" v-else>
+                                                    <img
+                                                        :src="'/uploads/post/' + post.files[1].pfi_filename"
+                                                        alt=""
                                                     />
                                                 </div>
                                                 <figcaption>
