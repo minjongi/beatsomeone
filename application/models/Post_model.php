@@ -583,8 +583,14 @@ class Post_model extends CB_Model
 	public function get_testimonial_list($config)
     {
         $limit = element('limit', $config) ? element('limit', $config) : 4;
-        $sql = "select * from cb_post left join cb_board cb on cb_post.brd_id = cb.brd_id left join cb_post_file cpf on cb_post.post_id = cpf.post_id left join cb_post_link cpl on cpf.post_id = cpl.post_id where cb.brd_key = 'video' limit ".$limit;
+        $sql = "select * from cb_post left join cb_board cb on cb_post.brd_id = cb.brd_id left join cb_post_link cpl on cb_post.post_id = cpl.post_id where cb.brd_key = 'video' limit ".$limit;
         $result = $this->db->query($sql)->result_array();
+        foreach ($result as $key => $post) {
+            $post_id = $post['post_id'];
+            $sql = "select * from cb_post_file where post_id=".$post_id;
+            $links = $this->db->query($sql)->result_array();
+            $result[$key]['files'] = $links;
+        }
         return $result;
     }
 }
