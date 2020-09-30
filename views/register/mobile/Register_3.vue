@@ -210,6 +210,11 @@
                     return false;
                 }
 
+                if(!this.user.password) {
+                    alert(this.$t('typeYourPassword'));
+                    return false;
+                }
+
                 if(this.user.password !== this.passwordVerify) {
                     alert(this.$t('enterSamePassword'));
                     return false;
