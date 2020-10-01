@@ -4127,6 +4127,8 @@ class Register extends CB_Controller
                 $PARTCANCEL_YN = getValue("partcancel_yn", $at_txt);
 
                 $params = array();
+                $params['REPLYCD'] = $REPLYCD;
+                $params['REPLYMSG'] = $REPLYMSG;
                 $params['ORDER_NO'] = $ORDER_NO;
                 $params['AMT'] = $AMT;
                 $params['PAY_TYPE'] = $PAY_TYPE;
