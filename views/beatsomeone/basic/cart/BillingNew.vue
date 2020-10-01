@@ -337,7 +337,7 @@
                 })
             this.member = window.member;
             let mem_name = this.member.mem_firstname + ' ' + this.member.mem_lastname;
-            if (!mem_name) {
+            if (!mem_name.trim()) {
                 mem_name = this.member.mem_nickname;
             }
             this.$set(this.allatForm, 'buyer_nm', mem_name);

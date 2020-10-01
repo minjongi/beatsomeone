@@ -79,16 +79,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td class="text-right">
                             <?php
                             $currency_symbol = '';
+                            $total_money = 0;
                             if (element('cor_pg', $result) === 'paypal') {
                                 $currency_symbol = '$';
+                                $total_money = number_format(element('cor_total_money', $result), 2);
                             } elseif (element('cor_pg', $result) === 'allat') {
                                 $currency_symbol = '₩';
+                                $total_money = number_format(element('cor_total_money', $result));
                             }
-                            echo $currency_symbol . number_format(element('cor_total_money', $result));
+                            echo $currency_symbol . $total_money;
                             ?>
                         </td>
-						<td class="text-right"><?php echo $currency_symbol . number_format(element('cor_cash', $result)); ?></td>
-						<td class="text-right"><?php echo $currency_symbol . number_format(element('cor_refund_price', $result)); ?></td>
+						<td class="text-right">
+                            <?php
+                            if (element('cor_pg', $result) === 'paypal') {
+                                echo $currency_symbol . number_format(element('cor_cash', $result), 2);
+                            } else {
+                                echo $currency_symbol . number_format(element('cor_cash', $result));
+                            }
+                            ?>
+                        </td>
+						<td class="text-right">
+                            <?php
+                            if (element('cor_pg', $result) === 'paypal') {
+                                echo $currency_symbol . number_format(element('cor_refund_price', $result), 2);
+                            } else {
+                                echo $currency_symbol . number_format(element('cor_refund_price', $result));
+                            }
+                            ?>
+                        </td>
 						<td><a href="<?php echo element('form_url', $view) .'/'. element('cor_id', $result); ?>">보기</a></td>
 					</tr>
 					<?php

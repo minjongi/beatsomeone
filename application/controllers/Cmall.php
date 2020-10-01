@@ -2235,6 +2235,8 @@ class Cmall extends CB_Controller
                 $PARTCANCEL_YN = getValue("partcancel_yn", $at_txt);
 
                 $params = array();
+                $params['REPLYCD'] = $REPLYCD;
+                $params['REPLYMSG'] = $REPLYMSG;
                 $params['ORDER_NO'] = $ORDER_NO;
                 $params['AMT'] = $AMT;
                 $params['PAY_TYPE'] = $PAY_TYPE;
@@ -2265,6 +2267,7 @@ class Cmall extends CB_Controller
                 $params['TICKET_NAME'] = $TICKET_NAME;
                 $params['PARTCANCEL_YN'] = $PARTCANCEL_YN;
                 $params['RAW_DATA'] = $at_txt;
+                $params['ENC_DATA'] = $_POST["allat_enc_data"];
 
                 $this->Cmall_order_model->allat_log_insert($params);
 

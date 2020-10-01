@@ -64,7 +64,15 @@
 						<td><?php echo display_datetime(element('cor_datetime', $result), 'full'); ?></td>
 						<td><?php echo element('cor_pay_type', $result); ?></td>
 						<td><?php echo nl2br(html_escape(element('cor_content', $result))); ?></td>
-						<td class="text-right"><?php echo $currency_symbol . number_format(element('cor_total_money', $result)); ?></td>
+						<td class="text-right">
+                            <?php
+                            if (element('cor_pg', $result) === 'paypal') {
+                                echo $currency_symbol . number_format(element('cor_total_money', $result), 2);
+                            } else {
+                                echo $currency_symbol . number_format(element('cor_total_money', $result));
+                            }
+                            ?>
+                        </td>
 					</tr>
 					<?php
 					if (element('orderdetail', $result)) {
@@ -101,7 +109,7 @@
 															<li><?php echo html_escape(element('cde_title', $detail)) . ' ' . element('cod_count', $detail);?>개 (
                                                                 <?php
                                                                 if (element('cor_pg', $result) == 'paypal') {
-                                                                    echo $currency_symbol . number_format(element('cde_price_d', $detail));
+                                                                    echo $currency_symbol . number_format(element('cde_price_d', $detail), 2);
                                                                 } else {
                                                                     echo $currency_symbol . number_format(element('cde_price', $detail));
                                                                 } ?>)
@@ -131,7 +139,15 @@
 													</ul>
 												</td>
 												<td class="text-center"><?php echo number_format($total_num); ?></td>
-                                                <td><?php echo $currency_symbol . number_format($total_price); ?></td>
+                                                <td>
+                                                    <?php
+                                                    if (element('cor_pg', $result) == 'paypal') {
+                                                        echo $currency_symbol . number_format($total_price, 2);
+                                                    } else {
+                                                        echo $currency_symbol . number_format($total_price);
+                                                    }
+                                                    ?>
+                                                </td>
 												<td>
 													<?php
 													if (element('cod_download_days', $detail)) {
