@@ -8,12 +8,14 @@
         echo form_open_multipart(current_full_url(), $attributes);
         ?>
         <input type="hidden" name="<?php echo element('primary_key', $view); ?>"	value="<?php echo element(element('primary_key', $view), element('data', $view)); ?>" />
+        <?php if (element(element('primary_key', $view), element('data', $view))) { ?>
         <div class="form-group">
             <label class="col-sm-2 control-label">회원아이디</label>
             <div class="col-sm-10 form-inline">
-                <input type="text" class="form-control" name="mem_userid" value="<?php echo set_value('mem_userid', element('mem_userid', element('data', $view))); ?>" />
+                <input type="text" class="form-control" readonly value="<?php echo set_value('mem_id', element('mem_id', element('data', $view))); ?>" />
             </div>
         </div>
+        <?php } ?>
         <div class="form-group">
             <label class="col-sm-2 control-label">회원이메일</label>
             <div class="col-sm-8">
@@ -29,12 +31,6 @@
             <label class="col-sm-2 control-label">패스워드</label>
             <div class="col-sm-10">
                 <input type="password" class="form-control" name="mem_password" value="" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">회원실명</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="mem_username" value="<?php echo set_value('mem_username', element('mem_username', element('data', $view))); ?>" />
             </div>
         </div>
         <div class="form-group">
@@ -56,17 +52,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">회원분류 <?= element('mem_usertype', element('data', $view)) ?></label>
-            <div class="col-sm-10">
-                <label for="mem_usertype_1" class="checkbox-inline">
-                    <input type="radio" name="mem_usertype" id="mem_usertype_1" value="1" <?php echo set_checkbox('mem_usertype', 1, (element('mem_usertype', element('data', $view)) != 2 ? true : false)); ?> /> 일반회원
-                </label>
-                <label for="mem_usertype_2" class="checkbox-inline">
-                    <input type="radio" name="mem_usertype" id="mem_usertype_2" value="2" <?php echo set_checkbox('mem_usertype', 2, (element('mem_usertype', element('data', $view)) == 2 ? true : false)); ?> /> 판매회원
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-sm-2 control-label">회원그룹</label>
             <div class="col-sm-10">
                 <?php
@@ -75,7 +60,7 @@
                         $chkvalue = is_array(element('member_group_member', element('data', $view))) && in_array(element('mgr_id', $gval), element('member_group_member', element('data', $view))) ? element('mgr_id', $gval) : '';
                         ?>
                         <label for="member_group_<?php echo element('mgr_id', $gval); ?>" class="checkbox-inline">
-                            <input type="checkbox" name="member_group[]" id="member_group_<?php echo element('mgr_id', $gval); ?>" value="<?php echo element('mgr_id', $gval); ?>" <?php echo set_checkbox('member_group[]', element('mgr_id', $gval), ($chkvalue ? true : false)); ?> /> <?php echo element('mgr_title', $gval); ?>
+                            <input type="checkbox" name="member_group[]" id="member_group_<?php echo element('mgr_id', $gval); ?>" value="<?php echo element('mgr_id', $gval); ?>" <?php echo set_checkbox('member_group[]', element('mgr_id', $gval), ($chkvalue ? true : false)); ?> /> <?php echo element('mgr_description', $gval); ?>
                         </label>
                         <?php
                     }

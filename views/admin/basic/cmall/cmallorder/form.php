@@ -78,7 +78,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             <li class="clearfix mt5"><?php echo html_escape(element('cde_title', $detail)) . ' ' . element('cod_count', $detail); ?>
                                                 개 (<?php
                                                 if (element('cor_pg', $result) == 'paypal') {
-                                                    echo $currency_symbol . number_format(element('cde_price_d', $detail));
+                                                    echo $currency_symbol . number_format(element('cde_price_d', $detail), 2);
                                                 } else {
                                                     echo $currency_symbol . number_format(element('cde_price', $detail));
                                                 }
@@ -127,7 +127,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <td class="text-center">
                                     <?php echo $total_num; ?>
                                 </td>
-                                <td><?php echo $currency_symbol . number_format($total_price); ?></td>
+                                <td>
+                                    <?php
+                                    if (element('cor_pg', $result) == 'paypal') {
+                                        echo $currency_symbol . number_format($total_price, 2);
+                                    } else {
+                                        echo $currency_symbol . number_format($total_price);
+                                    }
+                                    ?>
+                                </td>
                                 <td>
                                     <?php
                                     if (element('cod_download_days', $detail)) {
@@ -206,22 +214,50 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             </tr>
                             <tr>
                                 <th>총 주문액</th>
-                                <td><?php echo $currency_symbol . number_format(element('cor_total_money', element('data', $view))); ?></td>
+                                <td>
+                                    <?php
+                                    if (element('cor_pg', $result) == 'paypal') {
+                                        echo $currency_symbol . number_format(element('cor_total_money', element('data', $view)), 2);
+                                    } else {
+                                        echo $currency_symbol . number_format(element('cor_total_money', element('data', $view)));
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <th>결제요청금액</th>
-                                <td><?php echo $currency_symbol . ((element('cor_cash_request', element('data', $view))) ? number_format(abs(element('cor_cash_request', element('data', $view)))) : '아직 입금되지 않았습니다'); ?></td>
+                                <td>
+                                    <?php
+                                    if (element('cor_pg', $result) == 'paypal') {
+                                        echo $currency_symbol . ((element('cor_cash_request', element('data', $view))) ? number_format(abs(element('cor_cash_request', element('data', $view))), 2) : '아직 입금되지 않았습니다');
+                                    } else {
+                                        echo $currency_symbol . ((element('cor_cash_request', element('data', $view))) ? number_format(abs(element('cor_cash_request', element('data', $view)))) : '아직 입금되지 않았습니다');
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <th>결제된 금액</th>
-                                <td><?php echo $currency_symbol . number_format(element('cor_cash', element('data', $view))); ?></td>
+                                <td>
+                                    <?php
+                                    if (element('cor_pg', $result) == 'paypal') {
+                                        echo $currency_symbol . number_format(element('cor_cash', element('data', $view)), 2);
+                                    } else {
+                                        echo $currency_symbol . number_format(element('cor_cash', element('data', $view)));
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <th>미결제액</th>
                                 <td>
                                     <?php
                                     $notyet = abs(element('cor_cash_request', element('data', $view))) - abs(element('cor_cash', element('data', $view)));
-                                    echo $currency_symbol . number_format($notyet);
+                                    if (element('cor_pg', $result) == 'paypal') {
+                                        echo $currency_symbol . number_format($notyet, 2);
+                                    } else {
+                                        echo $currency_symbol . number_format($notyet);
+                                    }
                                     ?>
                                 </td>
                             </tr>

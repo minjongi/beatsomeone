@@ -261,11 +261,6 @@ class Members extends CB_Controller
          */
         $config = array(
             array(
-                'field' => 'mem_username',
-                'label' => '이름',
-                'rules' => 'trim|min_length[2]|max_length[20]',
-            ),
-            array(
                 'field' => 'mem_level',
                 'label' => '레벨',
                 'rules' => 'trim|required|numeric|less_than_equal_to[' . element('config_max_level', $getdata) . ']|is_natural_no_zero',
@@ -343,11 +338,6 @@ class Members extends CB_Controller
         );
         if ($this->input->post($primary_key)) {
             $config[] = array(
-                'field' => 'mem_userid',
-                'label' => '회원아이디',
-                'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|is_unique[member_userid.mem_userid.mem_id.' . element('mem_id', $getdata) . ']|callback__mem_userid_check',
-            );
-            $config[] = array(
                 'field' => 'mem_password',
                 'label' => '패스워드',
                 'rules' => 'trim|min_length[4]',
@@ -363,11 +353,6 @@ class Members extends CB_Controller
                 'rules' => 'trim|required|min_length[2]|max_length[20]|callback__mem_nickname_check|is_unique[member.mem_nickname.mem_id.' . element('mem_id', $getdata) . ']',
             );
         } else {
-            $config[] = array(
-                'field' => 'mem_userid',
-                'label' => '회원아이디',
-                'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|is_unique[member_userid.mem_userid]',
-            );
             $config[] = array(
                 'field' => 'mem_password',
                 'label' => '패스워드',
@@ -626,7 +611,7 @@ class Members extends CB_Controller
             $mem_is_admin = $this->input->post('mem_is_admin') ? 1 : 0;
 
             $updatedata = array(
-                'mem_userid' => $this->input->post('mem_userid', null, ''),
+                'mem_userid' => $this->input->post('mem_nickname', null, ''),
                 'mem_email' => $this->input->post('mem_email', null, ''),
                 'mem_username' => $this->input->post('mem_username', null, ''),
                 'mem_level' => $this->input->post('mem_level', null, ''),
