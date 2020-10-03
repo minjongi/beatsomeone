@@ -3,8 +3,8 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:48px;">
-                    <div @click="goPage('seller#/sellerlist')">Settlement Status (123)</div>
-                    <div class="active">Settlement Complete (32)</div>
+                    <div @click="goPage('seller#/sellerlist')">Settlement Status ({{ total_current_rows }})</div>
+                    <div class="active">Settlement Complete ({{ total_complete_rows }})</div>
                 </div>
             </div>
         </div>
@@ -12,33 +12,40 @@
         <div class="row" style="display:flex; margin-bottom:10px;">
             <div class="search condition">
                 <div class="n-flex between filter">
-                    <div class="condition active" :class="{ 'active': search_condition_active_idx === 1 }" @click="setSearchCondition(1)">All</div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 2 }" @click="setSearchCondition(2)">3 months</div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">6 months</div>
-                    <div class="condition" :class="{ 'active': search_condition_active_idx === 3 }" @click="setSearchCondition(3)">1 year</div>
+                    <div class="condition" :class="{ 'active': period === -1 }"
+                         @click="period = -1">{{ $t('all') }}
+                    </div>
+                    <div class="condition" :class="{ 'active': period === 3 }"
+                         @click="period = 3">{{ $t('months3') }}
+                    </div>
+                    <div class="condition" :class="{ 'active': period === 6 }"
+                         @click="period = 6">{{ $t('months6') }}
+                    </div>
+                    <div class="condition" :class="{ 'active': period === 12 }"
+                         @click="period = 12">{{ $t('year1') }}
+                    </div>
                 </div>
             </div>
-
-            <div class="row" style="margin-bottom: 10px;">
-                <div>
-                    <VueHotelDatepicker
-                        class="search-date"
-                        format="YYYY-MM-DD"
-                        :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
-                        :startDate="start_date"
-                        :endDate="end_date"
-                        minDate="1970-01-01"
-                        @update="updateSearchDate"
-                        @reset="resetSearchDate"
-                    />
-                </div>
+        </div>
+        <div class="row" style="margin-bottom: 10px;">
+            <div>
+                <VueHotelDatepicker
+                    class="search-date"
+                    format="YYYY-MM-DD"
+                    :placeholder="$t('startDate') + ' ~ ' + $t('endDate')"
+                    :startDate="start_date"
+                    :endDate="end_date"
+                    minDate="1970-01-01"
+                    @update="updateSearchDate"
+                    @reset="resetSearchDate"
+                />
             </div>
         </div>
 
         <div class="row">
             <div class="sort" style="text-align:right; margin:auto 0px 0px auto;">
-                    <button class="btn btn--green" style="display: flex;height: 40px; margin-bottom: 10px; justify-content: center;align-items: center;" @click="goDelete"><img src="/assets/images/icon/excel.png" style="margin-top:-4px; margin-right: 4px;" />Download as Excel</button>
-                    <button class="btn btn--blue" style="display: flex;height: 40px;justify-content: center;align-items: center;" @click="goDelete"><img src="/assets/images/icon/bank.png" style="margin-top:-4px; margin-right: 4px;" />Account Setting</button>
+                    <button class="btn btn--green" style="display: flex;height: 40px; margin-bottom: 10px; justify-content: center;align-items: center;" @click="downloadExcel"><img src="/assets/images/icon/excel.png" style="margin-top:-4px; margin-right: 4px;" />Download as Excel</button>
+                    <button class="btn btn--blue" style="display: flex;height: 40px;justify-content: center;align-items: center;" @click="setAccount"><img src="/assets/images/icon/bank.png" style="margin-top:-4px; margin-right: 4px;" />Account Setting</button>
             </div>
             <div class="title-content">
                 <div class="title"></div>
@@ -48,7 +55,7 @@
 
         </div>
 
-        <div class="row" style="margin-top:30px;">
+        <div class="row" v-if="false" style="margin-top:30px;">
             <div class="n-swiper-wrap">
                 <ul class="n-swiper">
                     <li>
@@ -81,7 +88,7 @@
             </div>
         </div>
 
-        <div class="row payment-box">
+        <div class="row payment-box" v-if="false">
             <h4 class="title">Last Month Settlement Detail</h4>
             <div class="n-box">
                 <div class="n-flex between">
@@ -119,7 +126,7 @@
             </div>
         </div>
 
-        <div class="row payment-box">
+        <div class="row payment-box" v-if="false">
             <h4 class="title"> Today Settlement Detail</h4>
             <div class="n-box">
                 <div class="n-flex between">
@@ -160,28 +167,108 @@
 </template>
 
 <script>
-    import $ from "jquery";
-    import WaveSurfer from 'wavesurfer.js';
+import axios from 'axios';
+import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker';
 
-    export default {
-        components: {
+Date.prototype.yyyymmdd = function () {
+    let mm = this.getMonth() + 1;
+    let dd = this.getDate();
+
+    return [this.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
+}
+
+export default {
+    components: {
+        VueHotelDatepicker
+    },
+    data: function () {
+        return {
+            total_current_rows: 0,
+            total_complete_rows: 0,
+            period: -1,
+            start_date: '',
+            end_date: '',
+            currDate: new Date().toISOString().substring(0, 10),
+            items: [],
+            complete_pagination: ''
+        };
+    },
+    mounted() {
+        this.getData()
+    },
+    created() {
+    },
+    methods: {
+        updateSearchDate(date) {
+            if (this.isEmpty(date.start) || this.isEmpty(date.end)) {
+                this.getData();
+            } else {
+                this.start_date = date.start
+                this.end_date = date.end
+                this.getData();
+            }
         },
-        data: function() {
-            return {
-                isLogin: false,
-                popup_filter:0,
-            };
+        isEmpty: function (str) {
+            return typeof str == "undefined" || str == null || str === "";
         },
-        mounted(){
+        resetSearchDate(date) {
+            this.start_date = ''
+            this.end_date = ''
+            this.getData();
         },
-        created() {
+        getData() {
+            axios.get(`/settlement/complete_list?start_date=${this.start_date}&end_date=${this.end_date}&page=${this.page}`)
+                .then(res => res.data)
+                .then(data => {
+                    this.items = data.list;
+                    this.total_complete_rows = data.total_rows;
+                    this.complete_pagination = data.paging;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
-        methods:{
-            goPage: function(page){
-                window.location.href = '/mypage/'+page;
-            },
+        goPage(path) {
+            this.$router.push(path);
+        },
+        downloadExcel() {
+
+        },
+        setAccount() {
+
+        },
+        formatPr: function (m, price) {
+            if (m === 'paypal') {
+                return '$' + this.formatNumberEn(price);
+            } else if (m === 'allat') {
+                return '₩' + this.formatNumber(price);
+            } else {
+                return ''
+            }
+        },
+        formatNumber(n) {
+            //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+            return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+        },
+        formatNumberEn(n) {
+            //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+            return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
+        },
+    },
+    watch: {
+        period: function (val) {
+            let currentDate = new Date();
+            if (val === -1) {
+                this.start_date = '2020-01-01';
+            } else {
+                let priorDate = new Date(new Date().setMonth(currentDate.getMonth() - val));
+                this.start_date = priorDate.yyyymmdd();
+            }
+            this.end_date = currentDate.yyyymmdd();
+            this.getData();
         }
     }
+}
 </script>
 
 <style scoped="scoped" lang="scss">
