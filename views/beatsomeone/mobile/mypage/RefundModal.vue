@@ -40,7 +40,7 @@
                 <div class="col">
                     <div class="playList productList cart">
                         <ul>
-                            <RefundItemDetail v-for="(item, idx) in items" v-model="item.item.is_selected" :item="item"
+                            <RefundItemDetail v-for="(item, idx) in items" v-model="item.is_selected" :item="item"
                                               :key="idx" :pg="order.cor_pg"/>
                         </ul>
                     </div>
@@ -109,7 +109,6 @@ export default {
         this.items.forEach(item => {
             this.$set(item.item, 'is_selected', false);
         });
-        console.log(this.items);
     },
     computed: {
         isAllatTest() {
@@ -162,7 +161,7 @@ export default {
             this.countSelected = 0;
             this.items.forEach(item => {
                 if (item.item.possible_refund === 1) {
-                    this.$set(item.item, 'is_selected', val);
+                    this.$set(item, 'is_selected', val);
                     if (val === true) {
                         this.countSelected++;
                     }
@@ -171,15 +170,15 @@ export default {
         },
         items: {
             deep: true,
-            handler(items) {
+            handler() {
                 this.countSelected = 0;
                 this.refundAmount = 0;
                 this.refundAmountD = 0;
-                items.forEach(item => {
-                    if (item.item.is_selected === true) {
+                this.items.forEach(item => {
+                    if (item.is_selected === true) {
                         this.countSelected++;
                         this.refundAmount += (+item.itemdetail[0].cde_price)
-                        this.refundAmountD = (+item.itemdetail[0].cde_price_d)
+                        this.refundAmountD += (+item.itemdetail[0].cde_price_d)
                     }
                 });
                 // this.checkedAll = this.countSelected === items.length;

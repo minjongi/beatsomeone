@@ -2288,7 +2288,7 @@ class Cmall extends CB_Controller
                 $insertdata['cor_approve_datetime'] = $APPROVAL_YMDHMS;
                 $insertdata['cor_pay_type'] = $PAY_TYPE;
                 $insertdata['cor_pg'] = 'allat';
-                if (strcasecmp($PAY_TYPE, 'card') == 0) {
+                if (strcasecmp($PAY_TYPE, 'card') == 0 || strcasecmp($PAY_TYPE, '3d') == 0) {
                     $insertdata['cor_bank_info'] = $CARD_NM;
                     $insertdata['cor_app_no'] = $APPROVAL_NO;
                 } elseif (strcasecmp($PAY_TYPE, 'abank' == 0)) {
@@ -2401,7 +2401,9 @@ class Cmall extends CB_Controller
         $insertdata['status'] = $od_status;
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+        log_message('debug','ORDER INSERT START !!!');
         $res = $this->Cmall_order_model->insert($insertdata);
+        log_message('debug','ORDER INSERT END !!!' . $res);
         if ($res) {
             $cwhere = array(
                 'mem_id' => $mem_id,
@@ -2421,7 +2423,9 @@ class Cmall extends CB_Controller
                         'cod_count' => element('cct_count', $val),
                         'cod_status' => $od_status,
                     );
+                    log_message('debug','ORDER Detail INSERT START !!!');
                     $this->Cmall_order_detail_model->insert($insertdetail);
+                    log_message('debug','ORDER Detail INSERT END !!!');
                     $deletewhere = array(
                         'mem_id' => $mem_id,
                         'cit_id' => element('cit_id', $val),
@@ -3789,5 +3793,37 @@ class Cmall extends CB_Controller
         $this->output->set_output(json_encode([
             'message' => 'Success'
         ]));
+    }
+
+    public function ajax_salehistory()
+    {
+        $this->output->set_content_type('text/json');
+        ajax_required_user_login();
+
+        $mem_id = (int)$this->member->item('mem_id');
+        $sql = "SELECT SUM(cid.cde_price) AS total, SUM(cid.cde_price_d) AS total_d FROM cb_cmall_order_detail AS cod LEFT JOIN cb_cmall_item_detail AS cid ON cid.cde_id=cod.cde_id WHERE cid.mem_id=? AND cod_status=?";
+        $rows = $this->db->query($sql, [$mem_id, 'deposit'])->row_array();
+        $waiting_funds = $rows['total'] | 0;
+        $waiting_funds_d = $rows['total_d'] | 0;
+
+        $rows = $this->db->query($sql, [$mem_id, 'order'])->row_array();
+        $order_funds = $rows['total'] | 0;
+        $order_funds_d = $rows['total_d'] | 0;
+
+        $rows = $this->db->query($sql, [$mem_id, 'cancel'])->row_array();
+        $refunds = $rows['total'] | 0;
+        $refunds_d = $rows['total_d'] | 0;
+
+
+        $this->output->set_output(json_encode([
+            'message' => 'Success',
+            'waiting_funds' => $waiting_funds,
+            'waiting_funds_d' => $waiting_funds_d,
+            'order_funds' => $order_funds,
+            'order_funds_d' => $order_funds_d,
+            'refunds' => $refunds,
+            'refunds_d' => $refunds_d
+        ]));
+        return true;
     }
 }

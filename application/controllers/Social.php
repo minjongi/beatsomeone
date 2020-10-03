@@ -382,7 +382,7 @@ class Social extends CB_Controller
 		}
 
 		if ($this->session->userdata('naver_access_token')) {
-			$url = 'https://apis.naver.com/nidlogin/nid/getUserProfile.xml';
+			$url = 'https://openapi.naver.com/v1/nid/me';
 
 			$ch = curl_init();
 			curl_setopt ($ch, CURLOPT_URL, $url);
@@ -397,17 +397,17 @@ class Social extends CB_Controller
 			$result = curl_exec($ch);
 			curl_close($ch);
 
-			$xml = simplexml_load_string($result);
+            $json = json_decode($result);
 
-			$naver_id = (string) $xml->response->enc_id;
-			$email = (string) $xml->response->email;
-			$nickname = (string) $xml->response->nickname;
-			$profile_image = (string) $xml->response->profile_image;
-			$age = (string) $xml->response->age;
-			$gender = (string) $xml->response->gender;
-			$id = (string) $xml->response->id;
-			$name = (string) $xml->response->name;
-			$birthday = (string) $xml->response->birthday;
+            $naver_id = (string) $json->response->id;
+            $email = (string) $json->response->email;
+            $nickname = (string) $json->response->nickname;
+            $profile_image = (string) $json->response->profile_image;
+            $age = (string) $json->response->age;
+            $gender = (string) $json->response->gender;
+            $id = (string) $json->response->id;
+            $name = (string) $json->response->name;
+            $birthday = (string) $json->response->birthday;
 
 			if (empty($name)) {
 				$this->session->unset_userdata('naver_access_token');

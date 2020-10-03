@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="row" v-show="group_title == 'SELLER'">
+                <div class="row">
                     <div class="type"><span>Attachment</span></div>
                     <div class="data">
                         <div>

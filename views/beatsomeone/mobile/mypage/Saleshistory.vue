@@ -40,14 +40,14 @@
                             <div class="main__media board inquirylist">
                                 <div class="tab">
                                     <div class="splitboard">
-                                        <div class="green">&#8361; {{watingDepositKr }} <br/>$ {{ watingDepositDr }}
-                                            <span>{{$t('waitingDeposit')}}</span>
+                                        <div class="green">{{ formatPr('₩', waiting_funds) }} <br/>{{ formatPr('$', waiting_funds_d) }}
+                                            <span>{{ $t('waitingDeposit') }}</span>
                                         </div>
-                                        <div class="blue">&#8361; {{orderCompleteKr }} <br/>$ {{ orderCompleteDr }}
-                                            <span>{{$t('orderComplete')}}</span>
+                                        <div class="blue">{{ formatPr('₩', order_funds) }} <br/>{{ formatPr('$', order_funds_d) }}
+                                            <span>{{ $t('orderComplete') }}</span>
                                         </div>
-                                        <div class="red">&#8361; {{refundCompleteKr }} <br/>$ {{ refundCompleteDr }}
-                                            <span>{{$t('refundComplete')}}</span>
+                                        <div class="red">{{ formatPr('₩', refunds) }} <br/>{{ formatPr('$', refunds_d) }}
+                                            <span>{{ $t('refundComplete') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -253,12 +253,12 @@
                 totalpage: 0,
                 currPage: 1,
                 perPage: 10,
-                watingDepositKr: '',
-                orderCompleteKr: '',
-                refundCompleteKr: '',
-                watingDepositDr: '',
-                orderCompleteDr: '',
-                refundCompleteDr: '',
+                waiting_funds: 0,
+                waiting_funds_d: 0,
+                order_funds: 0,
+                order_funds_d: 0,
+                refunds: 0,
+                refunds_d: 0,
                 currDate: new Date().toISOString().substring(0, 10),
 
             };
@@ -286,16 +286,14 @@
                     .toggle();
                     */
             });
-        },
-        created(){
+
+            this.fetchData('');
+
             this.ajaxSalesList().then(()=>{
                 this.calcTotalCnt = this.calcFuncTotalCnt();
                 this.calcWaitCnt = this.calcFuncWaitCnt();
                 this.calcCompleteCnt = this.calcFuncCompleteCnt();
                 this.calcRefundCnt = this.calcFuncRefundCnt();
-                this.calcFUncWaitingDeposit();
-                this.calcFUncOrderComplete();
-                this.calcFUncRefundComplete();
             });
         },
         computed:{
@@ -303,6 +301,21 @@
         filters:{
         },
         methods:{
+            fetchData(q) {
+                axios.get(`/cmall/ajax_salehistory?${q}`)
+                    .then(res => res.data)
+                    .then(data => {
+                        this.waiting_funds = data.waiting_funds;
+                        this.waiting_funds_d = data.waiting_funds_d;
+                        this.order_funds = data.order_funds;
+                        this.order_funds_d = data.order_funds_d;
+                        this.refunds = data.refunds;
+                        this.refunds_d = data.refunds_d;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+            },
             async ajaxSalesList() {
               try {
                 this.isLoading = true;
@@ -515,8 +528,8 @@
                         }
                     }
                 }
-                this.watingDepositKr = this.formatNumber(sumPriceKr);
-                this.watingDepositDr = this.formatNumber(sumPriceDr);
+                this.waiting_funds = this.formatNumber(sumPriceKr);
+                this.waiting_funds_d = this.formatNumber(sumPriceDr);
             },
             calcFUncOrderComplete(){
                 let sumPriceKr = 0;
@@ -530,8 +543,8 @@
                         }
                     }
                 }
-                this.orderCompleteKr = this.formatNumber(sumPriceKr);
-                this.orderCompleteDr = this.formatNumber(sumPriceDr);
+                this.order_funds_d = this.formatNumber(sumPriceKr);
+                this.order_funds = this.formatNumber(sumPriceDr);
             },
             calcFUncRefundComplete(){
                 let sumPriceKr = 0;
@@ -545,8 +558,8 @@
                         }
                     }
                 }
-                this.refundCompleteKr = this.formatNumber(sumPriceKr);
-                this.refundCompleteDr = this.formatNumber(sumPriceDr);
+                this.refunds = this.formatNumber(sumPriceKr);
+                this.refunds_d = this.formatNumber(sumPriceDr);
             },
             makePageList(n){
                 return [...Array(n).keys()].map(x => x=x+1);

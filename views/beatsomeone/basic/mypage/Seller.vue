@@ -4,7 +4,7 @@
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:64px;">
                     <div class="active">Settlement Status ({{ total_current_rows }})</div>
-                    <div>Settlement Complete ({{ total_complete_rows }})</div>
+                    <div @click="goPage('/sellerbill')">Settlement Complete ({{ total_complete_rows }})</div>
                 </div>
             </div>
         </div>
@@ -85,21 +85,21 @@
                                 {{ item.cor_datetime }}
                             </div>
                             <div class="col name">
-                                <figure>
+                                <figure style="min-width: unset;">
                                     <span class="playList__cover">
                                         <img v-if="item.cit_file_1" class="cover" :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
                                         <img v-else class="cover" src="/assets/images/cover_default.png">
                                     </span>
                                 </figure>
                             </div>
-                            <div class="subject">{{ item.cit_name }}</div>
-                            <div class="totalprice">{{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? item.cde_price * item.cod_count : item.cde_price_d * item.cod_count }}</div>
+                            <div class="subject">{{ item.item_name }}</div>
+                            <div class="totalprice">{{ formatPr(item.cor_pg, item.total_money) }}</div>
                             <div class="status">
-                                <div :class="{'yellow': item.cod_status === 'order', 'blue': item.cod_status === 'deposit', 'red': item.cod_status === 'cancel'}">{{ $t(item.cod_status) }}</div>
+                                <div :class="{'blue': item.cod_status === 'order', 'yellow': item.cod_status === 'deposit', 'red': item.cod_status === 'cancel'}">{{ $t(item.cod_status) }}</div>
                             </div>
-                            <div class="totalprice">{{ item.csh_settle_money }}</div>
+                            <div class="totalprice">{{ formatPr(item.cor_pg, item.csh_settle_money) }}</div>
                             <div class="status">
-                                <span class="green">{{ item.csh_status === 0 ? $t('settleStay') : $t('settleComplete') }}Stay</span>
+                                <span class="yellow">{{ $t('settleStay') }}</span>
                             </div>
                         </div>
                     </li>
@@ -114,9 +114,9 @@
         </div>
 
         <div class="row">
-            <div class="payment_box" style="padding-top:0; padding-bottom:10px; margin-top:0; border:0;">
-                <div class="tab row">
-                    <div>
+            <div class="payment_box" style="display: block; padding-top:0; padding-bottom:10px; margin-top:0; border:0;">
+                <div class="tab row" style="display: flex">
+                    <div style="width: 50%;">
                         <div>
                             <div class="title big">Settlement detail</div>
                         </div>
@@ -157,7 +157,7 @@
                             <div class="blue big">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9 * 0.9).toLocaleString() : Number(total_money * 0.9 * 0.9).toLocaleString() }}</div>
                         </div>
                     </div>
-                    <div>
+                    <div style="width: 50%;">
                         <div class="col">
                             <div class="title big">Help</div>
                             <div>
@@ -228,9 +228,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="payment_box" style="padding-top:0; padding-bottom:10px; margin-top:0; border:0;">
-                    <div class="tab row">
-                        <div>
+                <div class="payment_box" style="display: block; padding-top:0; padding-bottom:10px; margin-top:0; border:0;">
+                    <div class="tab row" style="display: flex">
+                        <div style="width: 50%">
                             <div>
                                 <div class="title big">Settlement detail</div>
                             </div>
@@ -271,7 +271,7 @@
                                 <div class="blue big">$ 365.00</div>
                             </div>
                         </div>
-                        <div>
+                        <div style="width: 50%">
                             <div class="col">
                                 <div class="title big">Help</div>
                                 <div>
@@ -410,17 +410,6 @@
                     .catch(error => {
                         console.error(error);
                     })
-
-                axios.get(`/settlement/complete_list?start_date=${this.start_date}&end_date=${this.end_date}&page=${this.page}`)
-                    .then(res => res.data)
-                    .then(data => {
-                        this.complete_items = data.list;
-                        this.total_complete_rows = data.total_rows;
-                        this.complete_pagination = data.paging;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
             },
             pageClicked: function (event) {
                 event.preventDefault();
@@ -461,6 +450,26 @@
             },
             downloadExcel: function () {
 
+            },
+            formatPr: function (m, price) {
+                if (m === 'paypal') {
+                    return '$' + this.formatNumberEn(price);
+                } else if (m === 'allat') {
+                    return '₩' + this.formatNumber(price);
+                } else {
+                    return ''
+                }
+            },
+            formatNumber(n) {
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+            },
+            formatNumberEn(n) {
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
+            },
+            goPage(path) {
+                this.$router.push(path);
             }
         },
         watch: {
