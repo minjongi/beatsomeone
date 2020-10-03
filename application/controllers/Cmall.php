@@ -3794,4 +3794,36 @@ class Cmall extends CB_Controller
             'message' => 'Success'
         ]));
     }
+
+    public function ajax_salehistory()
+    {
+        $this->output->set_content_type('text/json');
+        ajax_required_user_login();
+
+        $mem_id = (int)$this->member->item('mem_id');
+        $sql = "SELECT SUM(cid.cde_price) AS total, SUM(cid.cde_price_d) AS total_d FROM cb_cmall_order_detail AS cod LEFT JOIN cb_cmall_item_detail AS cid ON cid.cde_id=cod.cde_id WHERE cid.mem_id=? AND cod_status=?";
+        $rows = $this->db->query($sql, [$mem_id, 'deposit'])->row_array();
+        $waiting_funds = $rows['total'] | 0;
+        $waiting_funds_d = $rows['total_d'] | 0;
+
+        $rows = $this->db->query($sql, [$mem_id, 'order'])->row_array();
+        $order_funds = $rows['total'] | 0;
+        $order_funds_d = $rows['total_d'] | 0;
+
+        $rows = $this->db->query($sql, [$mem_id, 'cancel'])->row_array();
+        $refunds = $rows['total'] | 0;
+        $refunds_d = $rows['total_d'] | 0;
+
+
+        $this->output->set_output(json_encode([
+            'message' => 'Success',
+            'waiting_funds' => $waiting_funds,
+            'waiting_funds_d' => $waiting_funds_d,
+            'order_funds' => $order_funds,
+            'order_funds_d' => $order_funds_d,
+            'refunds' => $refunds,
+            'refunds_d' => $refunds_d
+        ]));
+        return true;
+    }
 }
