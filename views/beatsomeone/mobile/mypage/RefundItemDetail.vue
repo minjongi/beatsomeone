@@ -3,7 +3,7 @@
         <div class="playList__item playList__item--title">
             <div class="row">
                 <div class="col check">
-                    <label class="checkbox">
+                    <label class="checkbox" @click="checkRefund(item.item.possible_refund)">
                         <input type="checkbox" :disabled="item.item.possible_refund === 0" hidden="hidden" v-model="checked" />
                         <span></span>
                     </label>
@@ -76,6 +76,11 @@ export default {
                 return (Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0}));
             }
         },
+        checkRefund(flag) {
+            if (flag === 0) {
+                alert('다운로드 이력이 있는 경우 환불신청이 불가합니다.');
+            }
+        }
     }
 }
 </script>

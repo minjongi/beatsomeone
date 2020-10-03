@@ -43,7 +43,7 @@
                 </div>
 
 
-                <div class="row" style="margin-top: 30px;" v-show="group_title == 'SELLER'">
+                <div class="row" style="margin-top: 30px;">
                     <div class="type"><span>Attachment</span></div>
                     <div class="data">
                         <label class="btn btn--blue" for="attachbtn">
