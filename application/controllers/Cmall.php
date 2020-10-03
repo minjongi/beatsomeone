@@ -2288,7 +2288,7 @@ class Cmall extends CB_Controller
                 $insertdata['cor_approve_datetime'] = $APPROVAL_YMDHMS;
                 $insertdata['cor_pay_type'] = $PAY_TYPE;
                 $insertdata['cor_pg'] = 'allat';
-                if (strcasecmp($PAY_TYPE, 'card') == 0) {
+                if (strcasecmp($PAY_TYPE, 'card') == 0 || strcasecmp($PAY_TYPE, '3d') == 0) {
                     $insertdata['cor_bank_info'] = $CARD_NM;
                     $insertdata['cor_app_no'] = $APPROVAL_NO;
                 } elseif (strcasecmp($PAY_TYPE, 'abank' == 0)) {
@@ -2401,7 +2401,9 @@ class Cmall extends CB_Controller
         $insertdata['status'] = $od_status;
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
+        log_message('debug','ORDER INSERT START !!!');
         $res = $this->Cmall_order_model->insert($insertdata);
+        log_message('debug','ORDER INSERT END !!!' . $res);
         if ($res) {
             $cwhere = array(
                 'mem_id' => $mem_id,
@@ -2421,7 +2423,9 @@ class Cmall extends CB_Controller
                         'cod_count' => element('cct_count', $val),
                         'cod_status' => $od_status,
                     );
+                    log_message('debug','ORDER Detail INSERT START !!!');
                     $this->Cmall_order_detail_model->insert($insertdetail);
+                    log_message('debug','ORDER Detail INSERT END !!!');
                     $deletewhere = array(
                         'mem_id' => $mem_id,
                         'cit_id' => element('cit_id', $val),
