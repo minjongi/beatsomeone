@@ -34,7 +34,7 @@
             <div class="col n-option">
                 <!-- Option -->
                 <div class="option">
-                    <div class="n-box" v-if="item.cde_id === item.detail[0].cde_id">
+                    <div class="n-box" v-if="item.detail[0].cde_title === 'LEASE'">
                         <div>
                             <button class="playList__item--button">
                                 <span class="option_fold">
@@ -62,7 +62,7 @@
                                                :type="'basic'"></ParchaseComponent>
                         </div>
                     </div>
-                    <div class="n-box" v-if="item.cde_id === item.detail[0].cde_id_2">
+                    <div class="n-box" v-else-if="item.detail[0].cde_title === 'STEM'">
                         <div>
                             <button class="playList__item--button">
                                 <span class="option_fold">
