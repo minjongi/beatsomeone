@@ -60,7 +60,7 @@
 						<?php } ?>
 						</td>
 						<td><a href="?sfield=deposit.mem_id&amp;skeyword=<?php echo element('mem_id', $result); ?>"><?php echo html_escape(element('mem_userid', $result)); ?></a></td>
-						<td><?php echo element('display_name', $result); ?> / <?php echo html_escape(element('mem_realname', $result)); ?></td>
+						<td><?php echo element('display_name', $result); ?> / <?php echo html_escape(element('mem_firstname', $result) . ' ' . element('mem_lastname', $result)); ?></td>
 						<td><?php echo display_datetime(element('cor_datetime', $result), 'full'); ?></td>
 						<td><?php echo element('cor_pay_type', $result); ?></td>
 						<td><?php echo nl2br(html_escape(element('cor_content', $result))); ?></td>

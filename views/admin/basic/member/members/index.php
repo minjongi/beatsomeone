@@ -79,7 +79,7 @@
                             <td><?php echo number_format(element('num', $result)); ?></td>
                             <td><?php echo html_escape(element('mem_userid', $result)); ?></td>
                             <td>
-                                <span><?php echo html_escape(element('mem_username', $result)); ?></span>
+                                <span><?php echo html_escape(element('mem_firstname', $result) . ' ' . element('mem_lastname', $result)); ?></span>
                                 <?php echo element('mem_is_admin', $result) ? '<span class="label label-primary">최고관리자</span>' : ''; ?>
                                 <?php echo element('mem_denied', $result) ? '<span class="label label-danger">차단</span>' : ''; ?>
                             </td>

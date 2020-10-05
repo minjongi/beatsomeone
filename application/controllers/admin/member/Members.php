@@ -614,6 +614,8 @@ class Members extends CB_Controller
                 'mem_userid' => $this->input->post('mem_nickname', null, ''),
                 'mem_email' => $this->input->post('mem_email', null, ''),
                 'mem_username' => $this->input->post('mem_username', null, ''),
+                'mem_firstname' => $this->input->post('mem_firstname', null, ''),
+                'mem_lastname' => $this->input->post('mem_lastname', null, ''),
                 'mem_level' => $this->input->post('mem_level', null, ''),
                 'mem_homepage' => $this->input->post('mem_homepage', null, ''),
                 'mem_birthday' => $this->input->post('mem_birthday', null, ''),

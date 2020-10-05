@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php } ?>
 						</td>
 						<td><a href="?sfield=deposit.mem_id&amp;skeyword=<?php echo element('mem_id', $result); ?>"><?php echo html_escape(element('mem_userid', $result)); ?></a></td>
-						<td><?php echo element('display_name', $result); ?> / <?php echo html_escape(element('mem_realname', $result)); ?></td>
+						<td><?php echo element('display_name', $result); ?> / <?php echo html_escape(element('mem_firstname', $result) . ' ' . element('mem_lastname', $result)); ?></td>
 						<td>
                             <?php
                             if (element('cor_status', $result) == 1) {

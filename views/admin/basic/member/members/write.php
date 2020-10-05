@@ -36,13 +36,13 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">성</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="mem_firstname" value="<?php echo set_value('mem_firstname', element('mem_firstname', element('data', $view))); ?>" />
+                <input type="text" class="form-control" name="mem_lastname" value="<?php echo set_value('mem_lastname', element('mem_lastname', element('data', $view))); ?>" />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">명</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="mem_lastname" value="<?php echo set_value('mem_lastname', element('mem_lastname', element('data', $view))); ?>" />
+                <input type="text" class="form-control" name="mem_firstname" value="<?php echo set_value('mem_firstname', element('mem_firstname', element('data', $view))); ?>" />
             </div>
         </div>
         <div class="form-group">

@@ -61,7 +61,7 @@ class Cmall_order_model extends CB_Model
 
     public function get_admin_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
 	{
-		$select = 'cmall_order.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_is_admin, member.mem_icon, member.mem_point';
+		$select = 'cmall_order.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_firstname, member.mem_lastname, member.mem_is_admin, member.mem_icon, member.mem_point';
 		$join[] = array('table' => 'member', 'on' => 'cmall_order.mem_id = member.mem_id', 'type' => 'left');
 		$result = $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
 		return $result;
