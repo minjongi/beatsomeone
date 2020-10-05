@@ -170,14 +170,26 @@ class Orderlist extends CB_Controller
 						$orderdetail[$okey]['itemdetail'] = $itemdetail
 							= $this->Cmall_order_detail_model->get_detail_by_item(element('cor_id', $val), element('cit_id', $oval));
 
-						$orderdetail[$okey]['item']['possible_download'] = 1;
-						if (element('cod_download_days', element(0, $itemdetail))) {
-							$endtimestamp = strtotime(element('cor_approve_datetime', $val))
-								+ 86400 * element('cod_download_days', element(0, $itemdetail));
-							$orderdetail[$okey]['item']['download_end_date'] = $enddate = cdate('Y-m-d', $endtimestamp);
+                        if (element('cor_status', $result['list'][$key]) == '1') {
+                            if (strcasecmp(element('cde_title', element(0, $itemdetail)), "LEASE") == 0) {
+                                if (element('cor_approve_datetime', $result['list'][$key])) {
+                                    $endtimestamp = strtotime(element('cor_approve_datetime', $result['list'][$key]))
+                                        + 86400 * 60;
+                                    $orderdetail[$okey]['item']['download_end_date'] = $enddate
+                                        = cdate('Y-m-d', $endtimestamp);
 
-							$orderdetail[$okey]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
-						}
+                                    $orderdetail[$okey]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                                } else {
+                                    $orderdetail[$okey]['item']['possible_download'] = 0;
+                                }
+                            } elseif(strcasecmp(element('cde_title', element(0, $itemdetail)), "STEM") == 0) {
+                                $orderdetail[$okey]['item']['possible_download'] = 1;
+                            } else {
+                                $orderdetail[$okey]['item']['possible_download'] = 0;
+                            }
+                        } else {
+                            $orderdetail[$okey]['item']['possible_download'] = 0;
+                        }
 					}
 				}
 				$result['list'][$key]['orderdetail'] = $orderdetail;

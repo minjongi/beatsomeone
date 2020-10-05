@@ -89,7 +89,6 @@
 												<th class="text-center">총수량</th>
 												<th>소계</th>
 												<th>다운로드기간</th>
-												<th>기간변경</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -150,11 +149,13 @@
                                                 </td>
 												<td>
 													<?php
-													if (element('cod_download_days', $detail)) {
-														echo '구매후 ' . element('cod_download_days', $detail) . '일간 ( ~ ' . element('download_end_date', element('item', $row)) . ' 까지)';
-													} else {
-														echo '기간제한없음';
-													}
+                                                    if (element('possible_download', element('item', $row))) {
+                                                        if (element('download_end_date', element('item', $row))) {
+                                                            echo '구매후 60일간 ( ~ ' . element('download_end_date', element('item', $row)) . ' 까지)';
+                                                        } else {
+                                                            echo '기간제한없음';
+                                                        }
+                                                    }
 													?>
 													<div class="cor-id-cit-id-<?php echo element('cor_id', $result); ?>-<?php echo element('cit_id', element('item', $row)); ?>" style="display:none;">
 														<?php
@@ -169,7 +170,6 @@
 														<?php echo form_close(); ?>
 													</div>
 												</td>
-												<td><button class="btn btn-xs btn-primary btn-download-days-modify" data-cor-id-cit-id="<?php echo element('cor_id', $result); ?>-<?php echo element('cit_id', element('item', $row)); ?>">다운로드 기간변경</button></td>
 											</tr>
 										<?php
 										}

@@ -452,11 +452,9 @@
                 if (status === 'Possible') {
                     let possCnt = 0;
                     items.forEach(item => {
-                        if (item.itemdetail) {
-                            if (item.itemdetail[0].cod_status === 'order') {
-                                if (item.item.possible_download === 1) {
-                                    possCnt++;
-                                }
+                        if (item.item) {
+                            if (item.item.possible_download === 1) {
+                                possCnt++;
                             }
                         }
                     })
@@ -464,16 +462,14 @@
                 } else if (status === 'Impossible') {
                     let possCnt = 0;
                     items.forEach(item => {
-                        if (!item.itemdetail) {
-                            possCnt++;
-                        } else {
-                            if (item.itemdetail[0].cod_status === 'deposit') {
+                        if (item.item) {
+                            if (item.item.possible_download === 0) {
                                 possCnt++;
                             }
                         }
-                    });
+                    })
                     return possCnt;
-                } else if (status === 'Expired') {
+                } /* else if (status === 'Expired') {
                     let possCnt = 0;
                     items.forEach(item => {
                         if (item.itemdetail) {
@@ -485,7 +481,7 @@
                         }
                     });
                     return possCnt;
-                }
+                } */
             },
         },
         watch: {

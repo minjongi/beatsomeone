@@ -39,7 +39,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>이미지</th>
                             <th>상품명</th>
                             <th class="text-right">다운로드</th>
-                            <th class="text-center">상태</th>
+<!--                            <th class="text-center">상태</th>-->
                             <th class="text-center">총수량</th>
                             <th>소계</th>
                             <th>다운로드기간</th>
@@ -95,7 +95,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                             다운로드 기간 완료
                                                         </button>
                                                     <?php }
-                                                } else { ?>
+                                                } elseif(element('cor_status', $result) === '0') { ?>
                                                     <button type="button" class="btn btn-xs btn-danger pull-right">
                                                         입금확인중
                                                     </button>
@@ -115,15 +115,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         ?>
                                     </ul>
                                 </td>
-                                <td class="text-center">
-                                    <?php
-                                    if (element('cod_status', $detail) == 'order') {
-                                        echo '결제완료';
-                                    } elseif (element('cod_status', $detail) == 'cancel') {
-                                        echo '결제취소';
-                                    }
-                                    ?>
-                                </td>
+<!--                                <td class="text-center">-->
+<!--                                    --><?php
+//                                    if (element('cod_status', $detail) == 'order') {
+//                                        echo '결제완료';
+//                                    } elseif (element('cod_status', $detail) == 'cancel') {
+//                                        echo '결제취소';
+//                                    }
+//                                    ?>
+<!--                                </td>-->
                                 <td class="text-center">
                                     <?php echo $total_num; ?>
                                 </td>
@@ -138,18 +138,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 </td>
                                 <td>
                                     <?php
-                                    if (element('cod_download_days', $detail)) {
-                                        echo '구매후 ' . element('cod_download_days', $detail) . '일간 ( ~ ' . element('download_end_date', element('item', $row)) . ' 까지)';
-                                    } else {
-                                        echo '기간제한없음';
+                                    if (element('possible_download', element('item', $row))) {
+                                        if (element('download_end_date', element('item', $row))) {
+                                            echo '구매후 60일간 ( ~ ' . element('download_end_date', element('item', $row)) . ' 까지)';
+                                        } else {
+                                            echo '기간제한없음';
+                                        }
                                     }
                                     ?>
-                                    <div
-                                        class="cor-id-cit-id-<?php echo element('cor_id', $result); ?>-<?php echo element('cit_id', element('item', $row)); ?>">
-                                        <input type="number" name="cod_download_days[<?php echo $i; ?>]"
-                                               class="form-control"
-                                               value="<?php echo element('cod_download_days', $detail); ?>"/>
-                                    </div>
+<!--                                    <div-->
+<!--                                        class="cor-id-cit-id---><?php //echo element('cor_id', $result); ?><!-----><?php //echo element('cit_id', element('item', $row)); ?><!--">-->
+<!--                                        <input type="number" name="cod_download_days[--><?php //echo $i; ?><!--]"-->
+<!--                                               class="form-control"-->
+<!--                                               value="--><?php //echo element('cod_download_days', $detail); ?><!--"/>-->
+<!--                                    </div>-->
                                 </td>
                             </tr>
                             <?php

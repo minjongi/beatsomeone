@@ -1698,16 +1698,24 @@ class Cmall extends CB_Controller
                     $orderdetail[$key]['item']['possible_refund'] = 1;
                 }
 
-                $orderdetail[$key]['item']['possible_download'] = 1;
-                if (element('cod_download_days', element(0, $itemdetail)) && element('cor_approve_datetime', $order)) {
-                    $endtimestamp = strtotime(element('cor_approve_datetime', $order))
-                        + 86400 * element('cod_download_days', element(0, $itemdetail));
-                    $orderdetail[$key]['item']['download_end_date'] = $enddate
-                        = cdate('Y-m-d', $endtimestamp);
+                if (element('cor_status', $order) == '1') {
+                    if (strcasecmp(element('cde_title', element(0, $itemdetail)), "LEASE") == 0) {
+                        if (element('cor_approve_datetime', $order)) {
+                            $endtimestamp = strtotime(element('cor_approve_datetime', $order))
+                                + 86400 * 60;
+                            $orderdetail[$key]['item']['download_end_date'] = $enddate
+                                = cdate('Y-m-d', $endtimestamp);
 
-                    $orderdetail[$key]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
-                }
-                if (element('cor_status', $order) !== '1') {
+                            $orderdetail[$key]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                        } else {
+                            $orderdetail[$key]['item']['possible_download'] = 0;
+                        }
+                    } elseif(strcasecmp(element('cde_title', element(0, $itemdetail)), "STEM") == 0) {
+                        $orderdetail[$key]['item']['possible_download'] = 1;
+                    } else {
+                        $orderdetail[$key]['item']['possible_download'] = 0;
+                    }
+                } else {
                     $orderdetail[$key]['item']['possible_download'] = 0;
                 }
             }
@@ -2672,13 +2680,28 @@ class Cmall extends CB_Controller
                         = $this->Cmall_order_detail_model
                         ->get_detail_by_item($order['cor_id'], element('cit_id', $value));
                     $orderdetail[$key1]['item']['possible_download'] = 1;
-                    if (element('cod_download_days', element(0, $itemdetail))) {
-                        $endtimestamp = strtotime(element('cor_approve_datetime', $order))
-                            + 86400 * element('cod_download_days', element(0, $itemdetail));
-                        $orderdetail[$key1]['item']['download_end_date'] = $enddate = cdate('Y-m-d', $endtimestamp);
 
-                        $orderdetail[$key1]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                    if (element('cor_status', $order) == '1') {
+                        if (strcasecmp(element('cde_title', element(0, $itemdetail)), "LEASE") == 0) {
+                            if (element('cor_approve_datetime', $order)) {
+                                $endtimestamp = strtotime(element('cor_approve_datetime', $order))
+                                    + 86400 * 60;
+                                $orderdetail[$key1]['item']['download_end_date'] = $enddate
+                                    = cdate('Y-m-d', $endtimestamp);
+
+                                $orderdetail[$key1]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                            } else {
+                                $orderdetail[$key1]['item']['possible_download'] = 0;
+                            }
+                        } elseif(strcasecmp(element('cde_title', element(0, $itemdetail)), "STEM") == 0) {
+                            $orderdetail[$key1]['item']['possible_download'] = 1;
+                        } else {
+                            $orderdetail[$key1]['item']['possible_download'] = 0;
+                        }
+                    } else {
+                        $orderdetail[$key1]['item']['possible_download'] = 0;
                     }
+
                 } else {
                     $orderdetail[$key1]['item'] = null;
                     $orderdetail[$key1]['itemdetail'] = null;

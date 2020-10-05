@@ -48,7 +48,7 @@
                 </button>
                 <div
                     class="download_status"
-                    :class="getDownStatusColor(item.item)"
+                    :class="getDownStatusColor(item)"
                 >{{ $t(funcDownStatus(item.item)) }}
                 </div>
 
@@ -128,16 +128,12 @@ export default {
             return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
         },
         getDownStatusColor: function (item) {
-            if (item.possible_download === 0) {
+            if (item.item.possible_download === 0) {
                 return "red";
             } else {
-                if (item.cit_lease_license_use == "1") {
+                if (item.itemdetail[0].cde_title === "STEM") {
                     return "blue";
-                }
-                if (item.cit_lease_license_use == "1") {
-                    return "green";
-                }
-                if (item.cit_mastering_license_use == "1") {
+                } else if (item.itemdetail[0].cde_title === "LEASE") {
                     return "green";
                 }
             }
