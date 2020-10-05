@@ -3,7 +3,7 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:64px;">
-                    <div class="active">{{$t('orderHistory')}} ({{calcTotalCnt}})</div>
+                    <div class="active">{{ $t('orderHistory') }} ({{ total_rows }})</div>
                     <div @click="gocancellist">Cancellation / Refund History({{ total_cancel_rows }})</div>
                 </div>
             </div>
@@ -42,14 +42,14 @@
         </div>
         <div class="row" style="display:flex; margin-bottom:30px;">
             <div class="tabmenu">
-                <div :class="{ 'active': cor_status === '' }" @click="cor_status = ''">{{$t('total1')}}
-                    ({{calcTotalCnt}})
+                <div :class="{ 'active': cor_status === '' }" @click="cor_status = ''">{{ $t('total1') }}
+                    ({{ total_rows }})
                 </div>
-                <div :class="{ 'active': cor_status === '3' }" @click="cor_status = '3'">{{$t('wait')}}
-                    ({{calcWaitCnt}})
+                <div :class="{ 'active': cor_status === '0' }" @click="cor_status = '0'">{{ $t('wait') }}
+                    ({{ total_deposit_rows }})
                 </div>
-                <div :class="{ 'active': cor_status === '1' }" @click="cor_status = '1'">{{$t('payComplete1')}}
-                    ({{calcCompleteCnt}})
+                <div :class="{ 'active': cor_status === '1' }" @click="cor_status = '1'">{{ $t('payComplete1') }}
+                    ({{ total_order_rows }})
                 </div>
             </div>
             <div class="sort" style="text-align:right">
@@ -101,8 +101,8 @@
                             <div class="date">
                                 {{ order.cor_datetime }}
                             </div>
-                            <div class="subject"
-                                 v-html="formatSub(order.detail)">
+                            <div class="subject">
+                                {{ formatSub(order.detail) }}
                             </div>
                             <div class="totalprice"
                                  v-html="formatPr(order.cor_pg, order.cor_total_money)"></div>
@@ -183,10 +183,9 @@
                 search_tabmenu_idx: 1,
                 orderType: 'recent',
                 downType: 'total1',
-                calcTotalCnt: 0,
-                calcWaitCnt: 0,
-                calcCompleteCnt: 0,
-                calcRefundCnt: 0,
+                total_rows: 0,
+                total_deposit_rows: 0,
+                total_order_rows: 0,
                 total_cancel_rows: 0,
                 start_date: '',
                 end_date: '',
@@ -225,9 +224,9 @@
                     .then(res => res.data)
                     .then(data => {
                         this.orders = data.data.list;
-                        this.calcTotalCnt = (+data.data.total_rows);
-                        this.calcWaitCnt = (+data.data.total_deposit_rows);
-                        this.calcCompleteCnt = (+data.data.total_order_rows);
+                        this.total_rows = (+data.data.total_rows);
+                        this.total_deposit_rows = (+data.data.total_deposit_rows);
+                        this.total_order_rows = (+data.data.total_order_rows);
                         this.total_cancel_rows = (+data.data.total_cancel_rows);
                         this.pagination = data.paging;
                     })
@@ -268,13 +267,17 @@
                 let title = '';
                 if (size > 0) {
                     if (detail[0].item) {
-                        title = detail[0].item.cit_name;
+                        title = this.truncate(detail[0].item.cit_name, 50);
                     }
                 }
                 if (1 < size) {
                     return title + " 외 " + (size - 1) + "건";
+                } else {
+                    return title;
                 }
-                return title;
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
             calcFuncTotalCnt() {
                 return this.orders.length;

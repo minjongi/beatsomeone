@@ -74,7 +74,7 @@
               <div :class="{ 'active': cor_status === '' }" @click="cor_status = ''">{{$t('total1')}}
                 ({{calcTotalCnt}})
               </div>
-              <div :class="{ 'active': cor_status === '3' }" @click="cor_status = '3'">{{$t('wait')}}
+              <div :class="{ 'active': cor_status === '0' }" @click="cor_status = '0'">{{$t('wait')}}
                 ({{calcWaitCnt}})
               </div>
               <div :class="{ 'active': cor_status === '1' }" @click="cor_status = '1'">{{$t('payComplete1')}}

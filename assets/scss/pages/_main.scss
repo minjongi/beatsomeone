@@ -1899,10 +1899,11 @@ textarea {
   }
 
   .subject {
-    overflow: hidden;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    //overflow: hidden;
+    //white-space: nowrap;
+    //overflow: hidden;
+    //text-overflow: ellipsis;
+    word-break: break-all;
   }
 
   // div Table .date Color
