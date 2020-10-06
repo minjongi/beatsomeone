@@ -235,7 +235,7 @@
             'Jazz',
             'Acoustic',
             'Indie',
-            'Raggae',
+            'Reggae',
             'World',
             'Free Beats',
         ];

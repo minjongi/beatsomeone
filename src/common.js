@@ -15,7 +15,7 @@ window.genre = [
     'Jazz',
     'Acoustic',
     'Indie',
-    'Raggae',
+    'Reggae',
     'World',
 ];
 
