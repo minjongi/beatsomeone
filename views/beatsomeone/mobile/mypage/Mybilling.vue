@@ -3,7 +3,7 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab n-flex" style="height:48px;">
-                    <div class="active">{{$t('orderHistory')}} ({{calcTotalCnt}})</div>
+                    <div class="active">{{ $t('orderHistory') }} ({{ total_rows }})</div>
                     <div @click="gocancellist">Cancellation / Refund History({{ total_cancel_rows }})</div>
                 </div>
             </div>
@@ -51,9 +51,13 @@
                         {{ $t(downType) }}
                     </button>
                     <div class="options">
-                        <button data-value="" class="option" @click="funcDownType('All')"> {{$t('total1')}} </button>
-                        <button data-value="" class="option" @click="funcDownType('Download Complete')"> {{$t('downloadComplete')}} </button>
-                        <button data-value="" class="option" @click="funcDownType('Not Downloaded')"> {{$t('notDownloaded')}} </button>
+                        <button class="option" @click="downType = 'total1'; is_download = ''"> {{$t('total1')}}</button>
+                        <button class="option" @click="downType = 'downloadComplete'; is_download = '1'">
+                            {{$t('downloadComplete')}}
+                        </button>
+                        <button class="option" @click="downType = 'notDownloaded'; is_download = '0'">
+                            {{$t('notDownloaded')}}
+                        </button>
                     </div>
                 </div>
 
@@ -71,30 +75,17 @@
 
         <div class="row">
             <div class="tabmenu">
-              <div :class="{ 'active': cor_status === '' }" @click="cor_status = ''">{{$t('total1')}}
-                ({{calcTotalCnt}})
+              <div :class="{ 'active': cor_status === '' }" @click="cor_status = ''">{{ $t('total1') }}
+                  ({{ total_order_rows }})
               </div>
-              <div :class="{ 'active': cor_status === '0' }" @click="cor_status = '0'">{{$t('wait')}}
-                ({{calcWaitCnt}})
+              <div :class="{ 'active': cor_status === '0' }" @click="cor_status = '0'">{{ $t('wait') }}
+                  ({{ total_deposit_rows }})
               </div>
-              <div :class="{ 'active': cor_status === '1' }" @click="cor_status = '1'">{{$t('payComplete1')}}
-                ({{calcCompleteCnt}})
+              <div :class="{ 'active': cor_status === '1' }" @click="cor_status = '1'">{{ $t('payComplete1') }}
+                  ({{ total_complete_rows }})
               </div>
             </div>
         </div>
-
-        <!-- <div class="row" style="margin-bottom:20px;">
-            <div class="main__media board mybillinglist">
-                <div class="tab nowrap">
-                    <div class="index">{{$t('orderNumber')}}</div>
-                    <div class="date">{{$t('date')}}</div>
-                    <div class="product">{{$t('product')}}</div>
-                    <div class="totalprice">{{$t('totalPrice')}}</div>
-                    <div class="status">{{$t('status')}}</div>
-                    <div class="download">{{$t('download1')}}</div>
-                </div>
-            </div>
-        </div> -->
 
         <div class="row" style="margin-bottom:30px;">
             <div class="playList board mybillinglist">
@@ -186,9 +177,10 @@
                 search_tabmenu_idx: 1,
                 orderType: 'recent',
                 downType: 'total1',
-                calcTotalCnt: 0,
-                calcWaitCnt: 0,
-                calcCompleteCnt: 0,
+                total_rows: 0,
+                total_order_rows: 0,
+                total_deposit_rows: 0,
+                total_complete_rows: 0,
                 calcRefundCnt: 0,
                 total_cancel_rows: 0,
                 start_date: '',
@@ -200,7 +192,8 @@
                 pagination: '',
                 period: -1,
                 cor_status: '',
-                forder: 'desc'
+                forder: 'desc',
+                is_download: '',
             };
         },
         mounted() {
@@ -224,13 +217,14 @@
         },
         methods: {
             fetchData: function () {
-                axios.get(`/cmall/ajax_orderlist?start_date=${this.start_date}&end_date=${this.end_date}&cor_status=${this.cor_status}&forder=${this.forder}`)
+                axios.get(`/cmall/ajax_orderlist?start_date=${this.start_date}&end_date=${this.end_date}&cor_status=${this.cor_status}&forder=${this.forder}&is_download=${this.is_download}`)
                     .then(res => res.data)
                     .then(data => {
                         this.orders = data.data.list;
-                        this.calcTotalCnt = (+data.data.total_rows);
-                        this.calcWaitCnt = (+data.data.total_deposit_rows);
-                        this.calcCompleteCnt = (+data.data.total_order_rows);
+                        this.total_rows = (+data.data.total_rows);
+                        this.total_order_rows = (+data.data.total_order_rows);
+                        this.total_deposit_rows = (+data.data.total_deposit_rows);
+                        this.total_complete_rows = (+data.data.total_complete_rows);
                         this.total_cancel_rows = (+data.data.total_cancel_rows);
                         this.pagination = data.paging;
                     })
@@ -497,6 +491,9 @@
                 this.fetchData();
             },
             cor_status: function (val) {
+                this.fetchData();
+            },
+            is_download: function () {
                 this.fetchData();
             }
         }

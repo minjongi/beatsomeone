@@ -43,13 +43,13 @@
         <div class="row" style="display:flex; margin-bottom:30px;">
             <div class="tabmenu">
                 <div :class="{ 'active': cor_status === '' }" @click="cor_status = ''">{{ $t('total1') }}
-                    ({{ total_rows }})
+                    ({{ total_order_rows }})
                 </div>
                 <div :class="{ 'active': cor_status === '0' }" @click="cor_status = '0'">{{ $t('wait') }}
                     ({{ total_deposit_rows }})
                 </div>
                 <div :class="{ 'active': cor_status === '1' }" @click="cor_status = '1'">{{ $t('payComplete1') }}
-                    ({{ total_order_rows }})
+                    ({{ total_complete_rows }})
                 </div>
             </div>
             <div class="sort" style="text-align:right">
@@ -58,11 +58,11 @@
                         {{ $t(downType) }}
                     </button>
                     <div class="options">
-                        <button class="option" @click="downType = 'total1'"> {{$t('total1')}}</button>
-                        <button class="option" @click="downType = 'downloadComplete'">
+                        <button class="option" @click="downType = 'total1'; is_download = ''"> {{$t('total1')}}</button>
+                        <button class="option" @click="downType = 'downloadComplete'; is_download = '1'">
                             {{$t('downloadComplete')}}
                         </button>
-                        <button class="option" @click="downType = 'notDownloaded'">
+                        <button class="option" @click="downType = 'notDownloaded'; is_download = '0'">
                             {{$t('notDownloaded')}}
                         </button>
                     </div>
@@ -169,23 +169,13 @@
         },
         data: function () {
             return {
-                isLogin: false,
-                mem_photo: '',
-                mem_usertype: '',
-                mem_nickname: '',
-                mem_address1: '',
-                mem_type: '',
-                mem_lastname: '',
-                group_title: 'SELLER',
-                product_status: 'PENDING',
                 orders: [],
-                search_condition_active_idx: 1,
-                search_tabmenu_idx: 1,
                 orderType: 'recent',
                 downType: 'total1',
                 total_rows: 0,
-                total_deposit_rows: 0,
                 total_order_rows: 0,
+                total_complete_rows: 0,
+                total_deposit_rows: 0,
                 total_cancel_rows: 0,
                 start_date: '',
                 end_date: '',
@@ -196,7 +186,8 @@
                 pagination: '',
                 period: -1,
                 cor_status: '',
-                forder: 'desc'
+                forder: 'desc',
+                is_download: '',
             };
         },
         mounted() {
@@ -220,13 +211,14 @@
         },
         methods: {
             fetchData: function () {
-                axios.get(`/cmall/ajax_orderlist?start_date=${this.start_date}&end_date=${this.end_date}&cor_status=${this.cor_status}&forder=${this.forder}`)
+                axios.get(`/cmall/ajax_orderlist?start_date=${this.start_date}&end_date=${this.end_date}&cor_status=${this.cor_status}&forder=${this.forder}&is_download=${this.is_download}`)
                     .then(res => res.data)
                     .then(data => {
                         this.orders = data.data.list;
                         this.total_rows = (+data.data.total_rows);
                         this.total_deposit_rows = (+data.data.total_deposit_rows);
                         this.total_order_rows = (+data.data.total_order_rows);
+                        this.total_complete_rows = (+data.data.total_complete_rows);
                         this.total_cancel_rows = (+data.data.total_cancel_rows);
                         this.pagination = data.paging;
                     })
@@ -251,17 +243,6 @@
                 //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
                 return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
             },
-            formatCitName: function (data, limitLth) {
-                let rst;
-                if (limitLth < data.length && data.length <= limitLth * 2) {
-                    rst = data.substring(0, limitLth) + '<br/>' + data.substring(limitLth, limitLth * 2);
-                } else if (limitLth < data.length && limitLth * 2 < data.length) {
-                    rst = data.substring(0, limitLth) + '<br/>' + data.substring(limitLth, limitLth * 2) + '...';
-                } else {
-                    rst = data
-                }
-                return rst;
-            },
             formatSub: function (detail) {
                 let size = detail.length;
                 let title = '';
@@ -279,45 +260,8 @@
             truncate(str, n) {
                 return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
-            calcFuncTotalCnt() {
-                return this.orders.length;
-            },
-            calcFuncWaitCnt() {
-                let list = [];
-                Object.assign(list, this.orders);
-                let rst = list.filter(item => item['items'][0].cor_status === '0');
-                return rst.length;
-            },
-            calcFuncCompleteCnt() {
-                let list = [];
-                Object.assign(list, this.orders);
-                let rst = list.filter(item => item['items'][0].cor_status === '1');
-                return rst.length;
-            },
-            calcFuncRefundCnt() {
-                let list = [];
-                Object.assign(list, this.orders);
-                let rst = list.filter(item => item['items'][0].cor_status === '2');
-                return rst.length;
-            },
-            caclLeftDay: function (orderDate) {
-                var tDate = new Date(orderDate);
-                var nDate = new Date();
-                tDate.setDate(tDate.getDate() + 60);
-                var diff = tDate.getTime() - nDate.getTime();
-                diff = Math.ceil(diff / (1000 * 3600 * 24));
-                return diff;
-            },
-            caclTargetDay: function (orderDate) {
-                var tDate = new Date(orderDate);
-                tDate.setDate(tDate.getDate() + 60);
-                return moment(tDate).format('YYYY-MM-DD HH:mm:ss');
-            },
             isEmpty: function (str) {
-                if (typeof str == "undefined" || str == null || str == "")
-                    return true;
-                else
-                    return false;
+                return typeof str == "undefined" || str == null || str === "";
             },
             updateSearchDate(date) {
                 if (this.isEmpty(date.start) || this.isEmpty(date.end)) {
@@ -333,31 +277,6 @@
                 this.end_date = ''
                 this.fetchData();
             },
-            goPage: function (page) {
-                window.location.href = '/mypage/' + page;
-            },
-            goTabMenu: function (menu) {
-                this.ajaxOrderList().then(() => {
-                    let list = [];
-                    Object.assign(list, this.orders);
-                    if (menu == 1) {
-                        this.orders = list;
-                        this.search_tabmenu_idx = 1;
-                    } else if (menu == 2) {
-                        let rst = list.filter(item => item['items'][0].cor_status === '0');
-                        this.orders = rst;
-                        this.search_tabmenu_idx = 2;
-                    } else if (menu == 3) {
-                        let rst = list.filter(item => item['items'][0].cor_status === '1');
-                        this.orders = rst;
-                        this.search_tabmenu_idx = 3;
-                    } else if (menu == 4) {
-                        let rst = list.filter(item => item['items'][0].cor_status === '2');
-                        this.mySalesList = rst;
-                        this.search_tabmenu_idx = 4;
-                    }
-                });
-            },
             goOrderDetail: function (cor_id) {
                 this.$router.push('/mybilling/' + cor_id);
             },
@@ -368,10 +287,6 @@
             nextPage: function () {
                 if (this.currPage == this.totalpage) return
                 this.currPage += 1;
-            },
-            setSearchCondition: function (idx) {
-                this.search_condition_active_idx = idx;
-                this.goSearch();
             },
             makePageList(n) {
                 return [...Array(n).keys()].map(x => x = x + 1);
@@ -385,15 +300,6 @@
                     this.totalpage = Math.ceil(this.orders.length / this.perPage);
                 }
                 return list.slice((this.currPage - 1) * this.perPage, this.currPage * this.perPage);
-            },
-            funcStatus(s) {
-                if (s == '0') {
-                    return "depositWaiting";
-                } else if (s == '1') {
-                    return "orderComplete";
-                } else {
-                    return "refundComplete";
-                }
             },
             funcOrderType(od, forder) {
                 if (this.orderType === od) {
@@ -425,26 +331,26 @@
                     }
                 }
             },
-            funcDownType(dt) {
-                if (this.downType == dt) {
-                    return;
-                } else {
-                    // this.ajaxOrderList().then(() => {
-                    //     let list = [];
-                    //     let rst = [];
-                    //     Object.assign(list, this.myOrderList);
-                    //     if (dt == "Download Complete") {
-                    //         rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
-                    //     } else if (dt == "Not Download") {
-                    //         rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
-                    //     } else {
-                    //         rst = list;
-                    //     }
-                    //     this.downType = dt;
-                    //     this.myOrderList = rst;
-                    // });
-                }
-            },
+            // funcDownType(dt) {
+            //     if (this.downType === dt) {
+            //
+            //     } else {
+            //         // this.ajaxOrderList().then(() => {
+            //         //     let list = [];
+            //         //     let rst = [];
+            //         //     Object.assign(list, this.myOrderList);
+            //         //     if (dt == "Download Complete") {
+            //         //         rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
+            //         //     } else if (dt == "Not Download") {
+            //         //         rst = list.filter(item => this.checkDownType(dt, item['items'][0]));
+            //         //     } else {
+            //         //         rst = list;
+            //         //     }
+            //         //     this.downType = dt;
+            //         //     this.myOrderList = rst;
+            //         // });
+            //     }
+            // },
             gocancellist() {
                 this.$router.push({path: '/mycancelList'})
             },
@@ -496,7 +402,10 @@
                 this.end_date = currentDate.yyyymmdd();
                 this.fetchData();
             },
-            cor_status: function (val) {
+            cor_status: function () {
+                this.fetchData();
+            },
+            is_download: function () {
                 this.fetchData();
             }
         }

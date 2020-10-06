@@ -2592,83 +2592,68 @@ class Cmall extends CB_Controller
          * 게시판 목록에 필요한 정보를 가져옵니다.
          */
 
+        $this->member->item('mem_id');
+        $cor_status = $this->input->get('cor_status');
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+        $is_download = $this->input->get('is_download');
+        $mem_id = $this->member->item('mem_id');
+
+        $where = "cor.mem_id = " . $mem_id;
+        $where_total = $where;
+        $where1 = $where;
+        $where2 = $where;
+        $where3 = $where;
+        $where_cancel = $where;
+        $join = "";
+
+        if ($cor_status == '0' || $cor_status == '1') {
+            $where .= " AND cor_status = " . $cor_status;
+        } else {
+            $where .= " AND (cor_status = 1 OR cor_status = 0)";
+        }
+
+        $where1 .= " AND (cor_status = 1 OR cor_status = 0)";
+        $where2 .= " AND (cor_status = 0)";
+        $where3 .= " AND (cor_status = 1)";
+        $where_total .= " AND (cor_status = 1 OR cor_status = 0)";
+        $where_cancel .= " AND (cor_status = 2)";
+
+        if ($start_date && $end_date) {
+            $where .= " AND cor_datetime >= '" . $start_date . " 00:00:00' AND cor_datetime <= '" . $end_date . " 23:59:59'";
+            $where1 .= " AND cor_datetime >= '" . $start_date . " 00:00:00' AND cor_datetime <= '" . $end_date . " 23:59:59'";
+            $where2 .= " AND cor_datetime >= '" . $start_date . " 00:00:00' AND cor_datetime <= '" . $end_date . " 23:59:59'";
+            $where3 .= " AND cor_datetime >= '" . $start_date . " 00:00:00' AND cor_datetime <= '" . $end_date . " 23:59:59'";
+        }
+
+        if ($is_download == '0' || $is_download == '1') {
+            $join .= "LEFT JOIN cb_cmall_download_log as cdl on cor.cor_id = cdl.cor_id ";
+        }
+
+        if ($join) {
+            $sql = "SELECT * FROM (SELECT cor.*, IF(cdl.cdl_id IS NULL, 0, 1) as is_download FROM cb_cmall_order as cor " . $join . " WHERE " . $where . " GROUP BY cor.cor_id ORDER BY cor_datetime " . $forder . ") as order_with_download_log WHERE is_download = " . $is_download;
+            $sql1 = "SELECT COUNT(*) as rownum FROM (SELECT cor.*, IF(cdl.cdl_id IS NULL, 0, 1) as is_download FROM cb_cmall_order as cor " . $join . " WHERE " . $where1 . " GROUP BY cor.cor_id ORDER BY cor_datetime " . $forder . ") as order_with_download_log WHERE is_download = " . $is_download;
+            $sql2 = "SELECT COUNT(*) as rownum FROM (SELECT cor.*, IF(cdl.cdl_id IS NULL, 0, 1) as is_download FROM cb_cmall_order as cor " . $join . " WHERE " . $where2 . " GROUP BY cor.cor_id ORDER BY cor_datetime " . $forder . ") as order_with_download_log WHERE is_download = " . $is_download;
+            $sql_complete = "SELECT COUNT(*) as rownum FROM (SELECT cor.*, IF(cdl.cdl_id IS NULL, 0, 1) as is_download FROM cb_cmall_order as cor " . $join . " WHERE " . $where3 . " GROUP BY cor.cor_id ORDER BY cor_datetime " . $forder . ") as order_with_download_log WHERE is_download = " . $is_download;
+        } else {
+            $sql = "SELECT * FROM cb_cmall_order as cor WHERE " . $where . " ORDER BY cor.cor_datetime " . $forder;
+            $sql1 = "SELECT COUNT(*) as rownum FROM cb_cmall_order as cor WHERE " . $where1;
+            $sql2 = "SELECT COUNT(*) as rownum FROM cb_cmall_order as cor WHERE " . $where2;
+            $sql_complete = "SELECT COUNT(*) as rownum FROM cb_cmall_order as cor WHERE " . $where3;
+        }
+
+        $sql_total = "SELECT COUNT(*) as rownum FROM cb_cmall_order as cor WHERE " . $where_total;
+        $sql_cancel = "SELECT COUNT(*) as rownum FROM cb_cmall_order as cor WHERE " . $where_cancel;
+
         $data = array();
 
-        if ($this->input->get('cor_status') == '0' || $this->input->get('cor_status') == '1') {
-            if ($this->input->get('start_date') && $this->input->get('end_date')) {
-                $sql = "SELECT * FROM cb_cmall_order WHERE mem_id = ? AND cor_status = ? AND cor_datetime >=? AND cor_datetime <=? ORDER BY cor_datetime " . $forder;
-                $data['list'] = $this->db->query($sql, [
-                    $this->member->item('mem_id'),
-                    $this->input->get('cor_status'),
-                    $this->input->get('start_date') . " 00:00:00",
-                    $this->input->get('end_date') . " 23:59:59",
-                ])->result_array();
-            } else {
-                $sql = "SELECT * FROM cb_cmall_order WHERE mem_id = ? AND cor_status = ? ORDER BY cor_datetime " . $forder;
-                $data['list'] = $this->db->query($sql, [
-                    $this->member->item('mem_id'),
-                    $this->input->get('cor_status'),
-                ])->result_array();
-            }
+        $data['list'] = $this->db->query($sql)->result_array();
 
-        } else {
-            if ($this->input->get('start_date') && $this->input->get('end_date')) {
-                $sql = "SELECT * FROM cb_cmall_order WHERE mem_id = ? AND (cor_status = 1 OR cor_status = 0) AND cor_datetime >=? AND cor_datetime <=? ORDER BY cor_datetime " . $forder;
-                $data['list'] = $this->db->query($sql, [
-                    $this->member->item('mem_id'),
-                    $this->input->get('start_date') . " 00:00:00",
-                    $this->input->get('end_date') . " 23:59:59",
-                ])->result_array();
-            } else {
-                $sql = "SELECT * FROM cb_cmall_order WHERE mem_id = ? AND (cor_status = 1 OR cor_status = 0) ORDER BY cor_datetime " . $forder;
-                $data['list'] = $this->db->query($sql, [
-                    $this->member->item('mem_id'),
-                ])->result_array();
-            }
-        }
-
-        if ($this->input->get('start_date') && $this->input->get('end_date')) {
-            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order WHERE mem_id = ? AND (cor_status = 1 OR cor_status = 0) AND cor_datetime >=? AND cor_datetime <=?";
-            $data['total_rows'] = ($this->db->query($sql, [
-                $this->member->item('mem_id'),
-                $this->input->get('start_date') . " 00:00:00",
-                $this->input->get('end_date') . " 23:59:59",
-            ])->row_array())['rownum'];
-
-            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order WHERE mem_id = ? AND cor_status = 0 AND cor_datetime >=? AND cor_datetime <=?";
-            $data['total_deposit_rows'] = ($this->db->query($sql, [
-                $this->member->item('mem_id'),
-                $this->input->get('start_date') . " 00:00:00",
-                $this->input->get('end_date') . " 23:59:59",
-            ])->row_array())['rownum'];
-
-            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order WHERE mem_id = ? AND cor_status = 1 AND cor_datetime >=? AND cor_datetime <=?";
-            $data['total_order_rows'] = ($this->db->query($sql, [
-                $this->member->item('mem_id'),
-                $this->input->get('start_date') . " 00:00:00",
-                $this->input->get('end_date') . " 23:59:59",
-            ])->row_array())['rownum'];
-
-            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order WHERE mem_id = ? AND cor_status = 2 AND cor_datetime >=? AND cor_datetime <=?";
-            $data['total_cancel_rows'] = ($this->db->query($sql, [
-                $this->member->item('mem_id'),
-                $this->input->get('start_date') . " 00:00:00",
-                $this->input->get('end_date') . " 23:59:59",
-            ])->row_array())['rownum'];
-
-        } else {
-            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order WHERE mem_id = ? AND (cor_status = 1 OR cor_status = 0)";
-            $data['total_rows'] = ($this->db->query($sql, [$this->member->item('mem_id')])->row_array())['rownum'];
-
-            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order WHERE mem_id = ? AND cor_status = 0";
-            $data['total_deposit_rows'] = ($this->db->query($sql, [$this->member->item('mem_id')])->row_array())['rownum'];
-
-            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order WHERE mem_id = ? AND cor_status = 1";
-            $data['total_order_rows'] = ($this->db->query($sql, [$this->member->item('mem_id')])->row_array())['rownum'];
-
-            $sql = "SELECT COUNT(*) as rownum FROM cb_cmall_order WHERE mem_id = ? AND cor_status = 2";
-            $data['total_cancel_rows'] = ($this->db->query($sql, [$this->member->item('mem_id')])->row_array())['rownum'];
-        }
+        $data['total_rows'] = ($this->db->query($sql_total)->row_array())['rownum'];
+        $data['total_order_rows'] = ($this->db->query($sql1)->row_array())['rownum'];
+        $data['total_deposit_rows'] = ($this->db->query($sql2)->row_array())['rownum'];
+        $data['total_complete_rows'] = ($this->db->query($sql_complete)->row_array())['rownum'];
+        $data['total_cancel_rows'] = ($this->db->query($sql_cancel)->row_array())['rownum'];
 
         foreach ($data['list'] as $key0 => $order) {
             $orderdetail = $this->Cmall_order_detail_model->get_by_item($order['cor_id']);
@@ -2714,7 +2699,7 @@ class Cmall extends CB_Controller
          * 페이지네이션을 생성합니다
          */
         $config['base_url'] = site_url('cmall/orderlist') . '?' . $param->replace('page');
-        $config['total_rows'] = $data['total_rows'];
+        $config['total_rows'] = $data['total_order_rows'];
         $config['per_page'] = $per_page;
         $this->pagination->initialize($config);
         $paging = $this->pagination->create_links();
