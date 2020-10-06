@@ -78,14 +78,20 @@
                             <div class="date">
                                 {{ order.cor_datetime }}
                             </div>
-                            <div class="subject"
-                                 v-html="formatSub(order.detail)">
+                            <div class="subject">
+                                {{ formatSub(order.detail) }}
                             </div>
                             <div class="totalprice"
                                  v-html="formatPr(order.cor_pg, order.cor_total_money)"></div>
                             <div class="status">
-                                <div :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }">
-                                    {{ $t(order.status) }}
+                                <div v-if="order.cor_status === '1'" class="green">
+                                    {{ $t('orderComplete') }}
+                                </div>
+                                <div v-else-if="order.cor_status === '2'" class="red">
+                                    {{ $t('orderCancel') }}
+                                </div>
+                                <div v-else class="yellow">
+                                    {{ $t('deposit') }}
                                 </div>
                             </div>
                         </div>
@@ -130,7 +136,8 @@
                 pagination: '',
                 total_order_rows: 0,
                 total_cancel_rows: 0,
-                orders: []
+                orders: [],
+                forder: 'desc',
             };
         },
         mounted() {
@@ -167,10 +174,7 @@
                 this.fetchData();
             },
             isEmpty: function (str) {
-                if (typeof str == "undefined" || str == null || str == "")
-                    return true;
-                else
-                    return false;
+                return typeof str == "undefined" || str == null || str === "";
             },
             funcOrderType(od, forder) {
                 if (this.orderType === od) {
@@ -186,8 +190,8 @@
                     .then(res => res.data)
                     .then(data => {
                         this.orders = data.data.list;
-                        this.total_order_rows = (+data.data.total_order_rows);
-                        this.total_cancel_rows = (+data.data.total_rows);
+                        this.total_order_rows = (+data.data.total_rows);
+                        this.total_cancel_rows = (+data.data.total_cancel_rows);
                         this.pagination = data.paging;
                     })
                     .catch(error => {
@@ -202,13 +206,17 @@
                 let title = '';
                 if (size > 0) {
                     if (detail[0].item) {
-                        title = detail[0].item.cit_name;
+                        title = this.truncate(detail[0].item.cit_name, 50);
                     }
                 }
                 if (1 < size) {
                     return title + " 외 " + (size - 1) + "건";
+                } else {
+                    return title;
                 }
-                return title;
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
             formatPr: function (pg, price) {
                 if (pg === 'paypal') {
@@ -276,6 +284,19 @@
                 }
             },
         },
+        watch: {
+            period: function (val) {
+                let currentDate = new Date();
+                if (val === -1) {
+                    this.start_date = '2020-01-01';
+                } else {
+                    let priorDate = new Date(new Date().setMonth(currentDate.getMonth() - val));
+                    this.start_date = priorDate.yyyymmdd();
+                }
+                this.end_date = currentDate.yyyymmdd();
+                this.fetchData();
+            },
+        }
     };
 </script>
 

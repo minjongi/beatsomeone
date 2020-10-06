@@ -19,7 +19,14 @@
                     </div>
                     <div>
                         <div class="title">{{ $t('status') }}</div>
-                        <div class="red">{{ $t(order.status) }}
+                        <div v-if="order.cor_status === '1'" class="green">
+                            {{ $t('orderComplete') }}
+                        </div>
+                        <div v-else-if="order.cor_status === '2'" class="red">
+                            {{ $t('orderCancel') }}
+                        </div>
+                        <div v-else class="yellow">
+                            {{ $t('deposit') }}
                         </div>
                     </div>
                 </div>
@@ -38,176 +45,7 @@
 
             <div class="playList productList orderlist" style="margin-top:10px;">
                 <ul>
-                    <li
-                        v-for="(item, idx) in orderItems"
-                        v-bind:key="idx"
-                        class="playList__itembox"
-                    >
-                        <div class="playList__item playList__item--title other">
-                            <div class="col name">
-                                <figure>
-                                    <div class="playList__cover">
-                                        <img
-                                            v-if="!item.item.cit_file_1"
-                                            :src="'/assets/images/cover_default.png'"
-                                            alt
-                                        />
-                                        <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt/>
-                                        <i v-show="checkToday(order.cor_datetime)" class="label new">N</i>
-                                    </div>
-                                    <figcaption class="pointer">
-                                        <div class="info">
-                                            <div class="code">{{ item.item.cit_key }}</div>
-                                        </div>
-                                        <h3 class="playList__title"
-                                            v-html="formatCitName(item.item.cit_name,50)"></h3>
-                                        <span class="playList__by">{{ item.item.mem_nickname }}</span>
-                                        <span
-                                            v-if="item.item.bpm > 0"
-                                            class="playList__bpm"
-                                        >{{ getGenre(item.item.genre, item.item.subgenre) }} | {{
-                                                item.item.bpm
-                                            }}BPM</span>
-                                        <span
-                                            v-else
-                                            class="playList__bpm"
-                                        >{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <div class="col n-option" style="height: auto;">
-                                <div class="feature">
-                                    <div class="listen">
-                                        <div class="playbtn">
-                                            <button
-                                                class="btn-play"
-                                                :data-action="'playAction' + item.item.cit_id "
-                                            >재생
-                                            </button>
-                                            <span class="timer">
-                        <span data-v-27fa6da0 class="current">0:00 /</span>
-                        <span class="duration">0:00</span>
-                      </span>
-                                        </div>
-                                    </div>
-                                    <!--
-                                                      <div class="amount">
-                                                          <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
-                                    </div>-->
-                                </div>
-
-                                <!-- Option -->
-                                <div class="option">
-                                    <!-- BASIC LEASE LICENSE -->
-                                    <!-- UNLIMITED STEMS LICENSE -->
-                                    <div
-                                        class="n-box"
-                                        v-if="item.item.cit_lease_license_use === '1' && item.item.cit_mastering_license_use === '1' "
-                                    >
-                                        <div>
-                                            <button class="playList__item--button">
-                        <span class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
-                        </span>
-                                                <div>
-                                                    <div class="title" @click.self="toggleButton">{{ $t('lang23') }}
-                                                    </div>
-                                                    <div class="detail">{{ $t('lang24') }}</div>
-                                                </div>
-                                            </button>
-
-                                            <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
-                                        </div>
-                                        <div
-                                            class="price yellow"
-                                        >{{
-                                                formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                                    order.cor_pg)
-                                            }}
-                                        </div>
-                                    </div>
-                                    <!-- BASIC LEASE LICENSE -->
-                                    <!-- UNLIMITED STEMS LICENSE -->
-                                    <!--
-                                                      <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
-                                                          {{$t('lang30')}}
-                                                          <div>
-                                                              <button class="playList__item--button" >
-                                                                  <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                  <div>
-                                                                      <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
-                                                                      <div class="detail">{{$t('lang31')}}</div>
-                                                                  </div>
-                                                              </button>
-                                                              <div class="option_item unlimited">
-                                                                  <div> <img src="/assets/images/icon/parchase-info4.png"><span>{{$t('unlimited1')}}</span></div>
-                                                                  <div> <img src="/assets/images/icon/parchase-info4.png"> <span> {{$t('unlimitedMsg1')}} </span> </div>
-                                                                  <div> <img src="/assets/images/icon/parchase-info4.png"> <span> {{$t('unlimitedMsg2')}} </span> </div>
-                                                              </div>
-                                                          </div>
-                                                          <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
-                                    </div>-->
-                                    <!-- BASIC LEASE LICENSE -->
-                                    <div
-                                        class="n-box"
-                                        v-else-if="item.item.cit_lease_license_use === '1' && item.item.cit_mastering_license_use === '0'"
-                                    >
-                                        <div>
-                                            <button class="playList__item--button">
-                        <span class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
-                        </span>
-                                                <div>
-                                                    <div class="title" @click.self="toggleButton">{{ $t('lang23') }}
-                                                    </div>
-                                                    <div class="detail">{{ $t('lang24') }}</div>
-                                                </div>
-                                            </button>
-                                            <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
-                                        </div>
-                                        <div
-                                            class="price yellow"
-                                        >{{
-                                                formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                                    order.cor_memo)
-                                            }}
-                                        </div>
-                                    </div>
-
-                                    <!-- UNLIMITED STEMS LICENSE -->
-                                    <div
-                                        class="n-box"
-                                        v-else-if="item.item.cit_mastering_license_use === '1' && item.item.cit_lease_license_use === '0'"
-                                    >
-                                        <div>
-                                            <button class="playList__item--button">
-                        <span class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
-                        </span>
-                                                <div>
-                                                    <div
-                                                        class="title"
-                                                        @click.self="toggleButton"
-                                                    >{{ $t('lang30') }}
-                                                    </div>
-                                                    <div class="detail">{{ $t('lang31') }}</div>
-                                                </div>
-                                            </button>
-                                            <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
-                                        </div>
-                                        <div
-                                            class="price yellow"
-                                        >{{
-                                                formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                                    order.cor_memo)
-                                            }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col genre" v-html="calcTag(item.item.hashTag)"></div>
-                        </div>
-                    </li>
+                    <OrderDetailItem v-for="(item, idx) in orderItems" :cor_id="cor_id" :item="item" v-bind:key="idx" :pg="order.cor_pg" />
                 </ul>
             </div>
         </div>
@@ -272,11 +110,13 @@
 
 <script>
 import ParchaseComponent from "./component/Parchase";
+import OrderDetailItem from "./OrderDetailItem";
 import axios from "axios";
 
 export default {
     components: {
         ParchaseComponent,
+        OrderDetailItem,
     },
     data: function () {
         return {

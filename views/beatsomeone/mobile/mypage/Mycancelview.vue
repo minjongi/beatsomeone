@@ -12,7 +12,16 @@
                         <span style="margin-top: 0; color: rgba(255,255,255,.3)">{{ order.cor_datetime }}</span>
                     </div>
                     <div class="n-flex">
-                        <span class="title">Status</span> <span class="red"  style="margin-top: 0;">{{ $t(order.status) }}</span>
+                        <div class="title">Status</div>
+                        <div v-if="order.cor_status === '1'" class="green">
+                            {{ $t('orderComplete') }}
+                        </div>
+                        <div v-else-if="order.cor_status === '2'" class="red">
+                            {{ $t('orderCancel') }}
+                        </div>
+                        <div v-else class="yellow">
+                            {{ $t('deposit') }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -33,60 +42,7 @@
 
             <div class="playList productList orderlist" style="margin-top:10px;">
                 <ul>
-                    <li
-                            v-for="(item, idx) in orderItems"
-                            v-bind:key="idx"
-                            class="playList__itembox"
-                    >
-                        <div class="playList__item playList__item--title other">
-                            <div class="n-flex between">
-                                <div class="info">
-                                    <div class="code">{{ item.item.cit_key }}</div>
-                                </div>
-                                <div
-                                        class="price"
-                                        v-if="item.item.cit_lease_license_use === '1' && item.item.cit_mastering_license_use === '1' "
-                                        style="color: white;"
-                                >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                    order.cor_pg) }}
-                                </div>
-                                <div
-                                        class="price"
-                                        v-else-if="item.item.cit_lease_license_use === '1' && item.item.cit_mastering_license_use === '0'"
-                                        style="color: white;"
-                                >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                    order.cor_pg) }}
-                                </div>
-                                <div
-                                        class="price"
-                                        v-else-if="item.item.cit_mastering_license_use === '1' && item.item.cit_lease_license_use === '0'"
-                                        style="color: white;"
-                                >{{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d,
-                                    order.cor_pg) }}
-                                </div>
-                            </div>
-
-                            <div class="name">
-                                <figure class="n-flex" style="margin-right: 0;">
-                  <span class="playList__cover">
-                    <img
-                            v-if="!item.item.cit_file_1"
-                            :src="'/assets/images/cover_default.png'"
-                            alt
-                    />
-                    <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt/>
-                  </span>
-                                    <figcaption class="pointer">
-                                        <h3 class="playList__title"
-                                            v-html="formatCitName(item.item.cit_name,20)"></h3>
-                                        <!-- <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
-                                        <span class="playList__bpm">{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span>-->
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <div class="col genre" v-html="calcTag(item.item.hashTag)"></div>
-                        </div>
-                    </li>
+                    <OrderDetailItem v-for="(item, idx) in orderItems" :cor_id="cor_id" :item="item" v-bind:key="idx" :pg="order.cor_pg" />
                 </ul>
             </div>
 
@@ -152,9 +108,11 @@
     import $ from "jquery";
     import WaveSurfer from 'wavesurfer.js';
     import axios from "axios";
+    import OrderDetailItem from "./OrderDetailItem";
 
     export default {
         components: {
+            OrderDetailItem,
         },
         data: function() {
             return {

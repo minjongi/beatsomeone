@@ -18,10 +18,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <li>
                 <h4 class="h2_frm">주문컨텐츠 목록</h4>
 
-                <?php
-                $attributes = array('class' => 'frmorderform', 'name' => 'frmorderform', 'onsubmit' => 'return form_submit(this)');
-                echo form_open(current_full_url(), $attributes);
-                ?>
+<!--                --><?php
+//                $attributes = array('class' => 'frmorderform', 'name' => 'frmorderform', 'onsubmit' => 'return form_submit(this)');
+//                echo form_open(current_full_url(), $attributes);
+//                ?>
                 <input type="hidden" name="cor_pay_type" id="cor_pay_type"
                        value="<?php echo element('cor_pay_type', $result); ?>">
                 <input type="hidden" name="cor_id" value="<?php echo element('cor_id', $result); ?>">
@@ -161,16 +161,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </tbody>
                     </table>
                 </div>
+                <?php
+                if (element('cor_status', element('data', $view)) == '2') {
+                ?>
                         <div class="btn_list02 btn_list">
                           <p>
                             <input type="hidden" name="chk_cnt" value="<?php echo $i; ?>">
-                            <strong>주문 상태 변경</strong>
-                            <input type="submit" name="ct_status" value="주문" onclick="document.pressed=this.value" class="btn btn-sm">
-                            <input type="submit" name="ct_status" value="입금" onclick="document.pressed=this.value" class="btn btn-sm">
-                            <input type="submit" name="ct_status" value="취소" onclick="document.pressed=this.value" class="btn btn-sm">
+                            <strong>환불처리</strong>
+                                  <input type="submit" name="ct_status" value="환불" onclick="document.pressed=this.value" class="btn btn-sm">
+<!--                            <input type="submit" name="ct_status" value="주문" onclick="document.pressed=this.value" class="btn btn-sm">-->
+<!--                            <input type="submit" name="ct_status" value="입금" onclick="document.pressed=this.value" class="btn btn-sm">-->
                           </p>
                         </div>
-                <?php echo form_close(); ?>
+                    <?php
+                }
+                ?>
+<!--                --><?php //echo form_close(); ?>
                 <?php
                 } //end if
                 ?>

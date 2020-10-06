@@ -24,7 +24,7 @@
                         <div v-else-if="order.cor_status === '2'" class="red">
                             {{ $t('orderCancel') }}
                         </div>
-                        <div v-else>
+                        <div v-else class="yellow">
                             {{ $t('deposit') }}
                         </div>
                     </div>

@@ -14,8 +14,14 @@
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                         <div class="title">{{ $t('status') }}</div>
-                        <div :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }">
-                            {{ $t(order.status) }}
+                        <div v-if="order.cor_status === '1'" class="green">
+                            {{ $t('orderComplete') }}
+                        </div>
+                        <div v-else-if="order.cor_status === '2'" class="red">
+                            {{ $t('orderCancel') }}
+                        </div>
+                        <div v-else class="yellow">
+                            {{ $t('deposit') }}
                         </div>
                     </div>
                 </div>
@@ -125,7 +131,19 @@ export default {
         },
         doSubmit() {
             if (this.refundAmount > 0) {
-                window.Allat_Plus_Api(document.fm);
+                let formData = new FormData();
+                formData.append('cor_id', this.order.cor_id);
+                this.items.forEach(item => {
+                    if (item.item.is_selected === true) {
+                        formData.append('cod_ids[]', item.itemdetail[0].cod_id);
+                    }
+                });
+                axios.post('/cmall/ajax_cancel', formData)
+                    .catch(res => res.data)
+                    .then(data => {
+                        alert('결제가 취소되었습니다.')
+                        this.$emit('submitModal');
+                    })
             } else {
                 alert('취소할 비트를 선택해주세요.');
             }

@@ -1688,7 +1688,8 @@ class Cmall extends CB_Controller
                 $where = [
                     'cit_id' => element('cit_id', $value),
                     'cde_id' => $itemdetail[0]['cde_id'],
-                    'mem_id' => $mem_id
+                    'mem_id' => $mem_id,
+                    'cor_id' => $cor_id
                 ];
 
                 $download_log = $this->Cmall_download_log_model->get_one('', '', $where);
@@ -1698,7 +1699,7 @@ class Cmall extends CB_Controller
                     $orderdetail[$key]['item']['possible_refund'] = 1;
                 }
 
-                if (element('cor_status', $order) == '1') {
+                if (element('cod_status', element(0, $itemdetail)) == 'order') {
                     if (strcasecmp(element('cde_title', element(0, $itemdetail)), "LEASE") == 0) {
                         if (element('cor_approve_datetime', $order)) {
                             $endtimestamp = strtotime(element('cor_approve_datetime', $order))
@@ -2748,16 +2749,36 @@ class Cmall extends CB_Controller
          * 게시판 목록에 필요한 정보를 가져옵니다.
          */
 
-        $where = "cmall_order.mem_id=" . $this->member->item('mem_id');
-        if ($this->input->get('start_date')) {
-            $where .= " and cmall_order.cor_datetime >=" . $this->input->get('start_date');
-        }
-        if ($this->input->get('end_date')) {
-            $where .= " and cmall_order.cor_datetime <=" . $this->input->get('end_date');
+        $this->member->item('mem_id');
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+        $mem_id = $this->member->item('mem_id');
+
+        $where = "cor.mem_id = " . $mem_id;
+        $where_total = $where;
+        $where_cancel = $where;
+
+        $where .= " AND cor_status = 2 ";
+
+        $where_total .= " AND (cor_status = 1 OR cor_status = 0)";
+        $where_cancel .= " AND (cor_status = 2)";
+
+        if ($start_date && $end_date) {
+            $where .= " AND cor_datetime >= '" . $start_date . " 00:00:00' AND cor_datetime <= '" . $end_date . " 23:59:59'";
         }
 
-        $data = $this->Cmall_order_model
-            ->get_cancel_list($per_page, $offset, $where, '', $findex, $forder);
+        $sql = "SELECT * FROM cb_cmall_order as cor WHERE " . $where . " ORDER BY cor.cor_datetime " . $forder;
+
+        $sql_total = "SELECT COUNT(*) as rownum FROM cb_cmall_order as cor WHERE " . $where_total;
+        $sql_cancel = "SELECT COUNT(*) as rownum FROM cb_cmall_order as cor WHERE " . $where_cancel;
+
+        $data = array();
+
+        $data['list'] = $this->db->query($sql)->result_array();
+
+        $data['total_rows'] = ($this->db->query($sql_total)->row_array())['rownum'];
+        $data['total_cancel_rows'] = ($this->db->query($sql_cancel)->row_array())['rownum'];
+
         foreach ($data['list'] as $key0 => $order) {
             $orderdetail = $this->Cmall_order_detail_model->get_by_item($order['cor_id']);
             foreach ($orderdetail as $key1 => $value) {
@@ -2767,14 +2788,7 @@ class Cmall extends CB_Controller
                     $orderdetail[$key1]['itemdetail'] = $itemdetail
                         = $this->Cmall_order_detail_model
                         ->get_detail_by_item($order['cor_id'], element('cit_id', $value));
-                    $orderdetail[$key1]['item']['possible_download'] = 1;
-                    if (element('cod_download_days', element(0, $itemdetail))) {
-                        $endtimestamp = strtotime(element('cor_approve_datetime', $order))
-                            + 86400 * element('cod_download_days', element(0, $itemdetail));
-                        $orderdetail[$key1]['item']['download_end_date'] = $enddate = cdate('Y-m-d', $endtimestamp);
 
-                        $orderdetail[$key1]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
-                    }
                 } else {
                     $orderdetail[$key1]['item'] = null;
                     $orderdetail[$key1]['itemdetail'] = null;
@@ -3727,93 +3741,6 @@ class Cmall extends CB_Controller
 
         $cor_id = $this->input->post('cor_id');
         $cod_ids = $this->input->post('cod_ids');
-        $pg = $this->input->post('pg');
-        if ($pg == 'allat') {
-            include(FCPATH . 'plugin/pg/allat/allatutil.php');
-            //Request Value Define
-            //----------------------
-            /*
-            $at_cross_key = "가맹점 CrossKey";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
-            $at_shop_id   = "가맹점 ShopId";       //설정필요
-            */
-
-            //------------------------ Test Code ---------------------
-            $at_cross_key = $_POST["test_cross_key"];
-            $at_shop_id = $_POST["allat_shop_id"];
-            //--------------------------------------------------------
-
-            // 요청 데이터 설정
-            //----------------------
-            $at_data   = "allat_shop_id=".$at_shop_id.
-                "&allat_enc_data=".$_POST["allat_enc_data"].
-                "&allat_cross_key=".$at_cross_key;
-
-
-            // 올앳 결제 서버와 통신 : CancelReq->통신함수, $at_txt->결과값
-            //----------------------------------------------------------------
-            // PHP5 이상만 SSL 사용가능
-            $at_txt = CancelReq($at_data,"SSL");
-            // $at_txt = CancelReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
-            // 이 부분에서 로그를 남기는 것이 좋습니다.
-            // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
-
-
-
-            // 결제 결과 값 확인
-            //------------------
-            $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
-            $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
-
-            // 결과값
-            //----------------------------------------------------------------
-            $REPLYCD     = getValue("reply_cd",$at_txt);	//결과코드
-            $REPLYMSG    = getValue("reply_msg",$at_txt);	//결과 메세지
-
-            // 결과값 처리
-            //--------------------------------------------------------------------------
-            // 결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
-            // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
-            // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
-            //--------------------------------------------------------------------------
-            if( !strcmp($REPLYCD,"0000") || !strcmp($REPLYCD,"0001")){
-                // reply_cd "0000" 일때만 성공
-                $CANCEL_YMDHMS=getValue("cancel_ymdhms",$at_txt);
-                $PART_CANCEL_FLAG=getValue("part_cancel_flag",$at_txt);
-                $REMAIN_AMT=getValue("remain_amt",$at_txt);
-                $PAY_TYPE=getValue("pay_type",$at_txt);
-
-//                echo "결과코드		: ".$REPLYCD."<br>";
-//                echo "결과메세지		: ".$REPLYMSG."<br>";
-//                echo "취소날짜		: ".$CANCEL_YMDHMS."<br>";
-//                echo "취소구분		: ".$PART_CANCEL_FLAG."<br>";
-//                echo "잔액			: ".$REMAIN_AMT."<br>";
-//                echo "거래방식구분	: ".$PAY_TYPE."<br>";
-
-                $params = array();
-                $params['ORDER_NO'] = $cor_id;
-                $params['AMT'] = $this->input->post('allat_amt');
-                $params['PAY_TYPE'] = $PAY_TYPE;
-                $params['APPROVAL_YMDHMS'] = $CANCEL_YMDHMS;
-                $params['SAVE_AMT'] = $REMAIN_AMT;
-                $params['PARTCANCEL_YN'] = $PART_CANCEL_FLAG;
-                $params['RAW_DATA'] = $at_txt;
-
-                $this->Cmall_order_model->allat_log_insert($params);
-            } else {
-                // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
-                // reply_msg 가 실패에 대한 메세지
-//                echo "결과코드		: ".$REPLYCD."<br>";
-//                echo "결과메세지		: ".$REPLYMSG."<br>";
-
-                $this->output->set_status_header('400');
-                $this->output->set_output(json_encode([
-                    'reply_cd' => $REPLYCD,
-                    'reply_msg' => $REPLYMSG
-                ], JSON_UNESCAPED_UNICODE));
-                return false;
-            }
-
-        }
 
         $this->load->model(array('Cmall_order_model', 'Cmall_item_detail_model', 'Cmall_order_detail_model'));
 
@@ -3829,7 +3756,7 @@ class Cmall extends CB_Controller
                 } else {
                     $total_refunds += floatval($itemdetail['cde_price']);
                 }
-                $this->Cmall_order_model->update($cod_id, [
+                $this->Cmall_order_detail_model->update($cod_id, [
                     'cod_status' => 'cancel'
                 ]);
             }

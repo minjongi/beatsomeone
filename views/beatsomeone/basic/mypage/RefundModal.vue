@@ -14,8 +14,14 @@
                     </div>
                     <div>
                         <div class="title">{{ $t('status') }}</div>
-                        <div :class="{ 'green': order.status === 'order', 'red': order.status === 'deposit' }">
-                            {{ $t(order.status) }}
+                        <div v-if="order.cor_status === '1'" class="green">
+                            {{ $t('orderComplete') }}
+                        </div>
+                        <div v-else-if="order.cor_status === '2'" class="red">
+                            {{ $t('orderCancel') }}
+                        </div>
+                        <div v-else class="yellow">
+                            {{ $t('deposit') }}
                         </div>
                     </div>
                 </div>
@@ -93,7 +99,6 @@ export default {
             allat_shop_id: '',
             allat_crosskey: '',
             refundAmount: 0,
-            refundAmountD: 0,
         }
     },
     mounted() {
@@ -125,10 +130,28 @@ export default {
         },
         doSubmit() {
             if (this.refundAmount > 0) {
-                window.Allat_Plus_Api(document.fm);
+                let formData = new FormData();
+                formData.append('cor_id', this.order.cor_id);
+                this.items.forEach(item => {
+                    if (item.item.is_selected === true) {
+                        formData.append('cod_ids[]', item.itemdetail[0].cod_id);
+                    }
+                });
+                axios.post('/cmall/ajax_cancel', formData)
+                    .catch(res => res.data)
+                    .then(data => {
+                        alert('결제가 취소되었습니다.')
+                        this.$emit('submitModal');
+                    })
             } else {
                 alert('취소할 비트를 선택해주세요.');
             }
+
+            // if (this.refundAmount > 0) {
+            //     window.Allat_Plus_Api(document.fm);
+            // } else {
+            //     alert('취소할 비트를 선택해주세요.');
+            // }
         },
         procCompletePay(result_cd, result_msg, enc_data) {
             if (result_cd !== '0000' && result_cd !== '0001') {
@@ -173,12 +196,14 @@ export default {
             handler(items) {
                 this.countSelected = 0;
                 this.refundAmount = 0;
-                this.refundAmountD = 0;
                 items.forEach(item => {
                     if (item.item.is_selected === true) {
                         this.countSelected++;
-                        this.refundAmount += (+item.itemdetail[0].cde_price)
-                        this.refundAmountD = (+item.itemdetail[0].cde_price_d)
+                        if (this.order.cor_pg == 'allat') {
+                            this.refundAmount += (+item.itemdetail[0].cde_price)
+                        } else {
+                            this.refundAmount += (+item.itemdetail[0].cde_price_d)
+                        }
                     }
                 });
                 // this.checkedAll = this.countSelected === items.length;
