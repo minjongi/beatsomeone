@@ -174,23 +174,25 @@ class Cmallact extends CB_Controller
 	 */
 	public function download($cor_id = 0, $cde_id = 0)
 	{
+	    $this->output->set_content_type('text/json');
+
 		// 이벤트 라이브러리를 로딩합니다
 		$eventname = 'event_cmallact_download';
 		$this->load->event($eventname);
 
 		$cor_id = preg_replace('/[^0-9]/', '', $cor_id);
 		if (empty($cor_id) OR $cor_id < 1) {
-			show_404();
+			return_404();
 		}
 		$cde_id = preg_replace('/[^0-9]/', '', $cde_id);
 		if (empty($cde_id) OR $cde_id < 1) {
-			show_404();
+			return_404();
 		}
 
 		/**
 		 * 로그인이 필요한 페이지입니다
 		 */
-		required_user_login();
+		ajax_required_user_login();
 
 		// 이벤트가 존재하면 실행합니다
 		Events::trigger('before', $eventname);
@@ -201,31 +203,52 @@ class Cmallact extends CB_Controller
 		$item = $this->Cmall_item_model->get_one(element('cit_id', $itemdetail));
 
 		if ( ! element('cde_id', $itemdetail)) {
-			show_404();
+			return_404();
 		}
 		if ( ! $this->session->userdata('cmall_item_download_' . $cor_id)) {
-			alert('주문상세내역 페이지에서만 접근 가능합니다');
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '주문상세내역 페이지에서만 접근 가능합니다'
+            ]));
+            return false;
 		}
 
 		$order = $this->Cmall_order_model
 			->is_ordered_item_detail($this->member->item('mem_id'), $cor_id, $cde_id);
 		if ( ! element('cor_id', $order) OR preg_replace('/[^0-9]/', '', element('cor_id', $order)) != $cor_id) {
-			alert('회원님은 다운받으실 수 있는 권한이 없습니다');
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '회원님은 다운받으실 수 있는 권한이 없습니다'
+            ]));
+            return false;
 		}
-		if (element('cod_download_days', $order)) {
-			$endtimestamp = strtotime(element('cor_approve_datetime', $order))
-				+ 86400 * element('cod_download_days', $order);
-			if (cdate('Y-m-d', $endtimestamp) < cdate('Y-m-d')) {
-				alert('다운로드 가능한 기간이 지났습니다');
-			}
-		}
+		if (element('cor_status', $order) == '1') {
+		    if (element('cde_title', $itemdetail) == 'LEASE') {
+                $endtimestamp = strtotime(element('cor_approve_datetime', $order))
+                    + 86400 * 60;
+                if (cdate('Y-m-d', $endtimestamp) < cdate('Y-m-d')) {
+                    $this->output->set_status_header('400');
+                    $this->output->set_output(json_encode([
+                        'message' => '다운로드 가능한 기간이 지났습니다'
+                    ]));
+                    return false;
+                }
+            }
+		} else {
+            $this->output->set_status_header('400');
+            $this->output->set_output(json_encode([
+                'message' => '회원님은 다운받으실 수 있는 권한이 없습니다'
+            ]));
+            return false;
+        }
 
-		if ( ! $this->session->userdata('cmall_download_item_' . element('cde_id', $itemdetail))) {
+		if ( ! $this->session->userdata('cmall_download_item_' . element('cor_id', $order) . '_' . element('cde_id', $itemdetail))) {
 			$this->session->set_userdata(
-				'cmall_download_item_' . element('cde_id', $itemdetail),
+                'cmall_download_item_' . element('cor_id', $order) . '_' . element('cde_id', $itemdetail),
 				'1'
 			);
 			$insertdata = array(
+                'cor_id' => element('cor_id', $order),
 				'cde_id' => element('cde_id', $itemdetail),
 				'cit_id' => element('cit_id', $itemdetail),
 				'mem_id' => $this->member->item('mem_id'),
@@ -248,6 +271,7 @@ class Cmallact extends CB_Controller
         if ($name && $data) {
             force_download($name, $data);
         }
+        return true;
 	}
 
 

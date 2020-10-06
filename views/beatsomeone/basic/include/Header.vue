@@ -61,10 +61,10 @@
                 return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
             },
             getCartSum() {
-                return this.$store.getters.getCartSum;
+                return Number(this.$store.getters.getCartSum).toLocaleString('ko-KR', {minimumFractionDigits: 0});
             },
             getCartSumD() {
-                return this.$store.getters.getCartSumD;
+                return Number(this.$store.getters.getCartSumD).toLocaleString(undefined, {minimumFractionDigits: 2});
             },
             isSeller() {
                 return this.member_group_name.includes('seller')

@@ -120,10 +120,10 @@
                 return this.userInfo !== false;
             },
             getCartSum() {
-                return this.$store.getters.getCartSum;
+                return Number(this.$store.getters.getCartSum).toLocaleString('ko-KR', {minimumFractionDigits: 0});
             },
             getCartSumD() {
-                return this.$store.getters.getCartSumD;
+                return Number(this.$store.getters.getCartSumD).toLocaleString(undefined, {minimumFractionDigits: 2});
             },
         },
         methods: {

@@ -71,6 +71,7 @@
                                         id="comment"
                                         maxlength="200"
                                         v-model="comment"
+                                        @click="checkLoggedIn"
                                         @keydown.enter.prevent="sendComment"
                                 />
                                 <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
@@ -449,6 +450,16 @@
                     );
                 }
             },
+            checkLoggedIn() {
+                if (!this.isLogin) {
+                    let yn = confirm(this.$t('loginAlert'));
+                    if (yn === true) {
+                        window.location.href = '/login?url=' + window.location.href;
+                    } else {
+                        return true;
+                    }
+                }
+            }
         },
 
     }
