@@ -4376,7 +4376,7 @@ class Register extends CB_Controller
         if ($this->_mem_email_check($email) === false) {
             $result = array(
                 'result' => 'no',
-                'reason' => $email . '은(는) 예약어로 사용하실 수 없는 이메일입니다',
+                'reason' => '이메일 주소를 정확하게 입력 해주세요',
             );
             exit(json_encode($result));
         }
