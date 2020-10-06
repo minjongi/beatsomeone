@@ -558,7 +558,7 @@ class Cmallorder extends CB_Controller
                     = $this->Cmall_order_detail_model
                     ->get_detail_by_item($cor_id, element('cit_id', $value));
 
-                if (element('cor_status', $order) == '1') {
+                if (element('cod_status', element(0, $itemdetail)) == 'order') {
                     if (strcasecmp(element('cde_title', element(0, $itemdetail)), "LEASE") == 0) {
                         if (element('cor_approve_datetime', $order)) {
                             $endtimestamp = strtotime(element('cor_approve_datetime', $order))

@@ -84,7 +84,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                 }
                                                 ?>)
                                                 <?php
-                                                if (element('cor_status', $result) === '1') {
+                                                if (element('cod_status', $detail) === 'order') {
                                                     if (element('possible_download', element('item', $row))) {
                                                         ?>
                                                         <button type="button" class="btn btn-xs btn-success pull-right">
@@ -95,11 +95,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                             다운로드 기간 완료
                                                         </button>
                                                     <?php }
-                                                } elseif(element('cor_status', $result) === '0') { ?>
+                                                } elseif(element('cod_status', $detail) === 'cancel') { ?>
+                                                    <button type="button" class="btn btn-xs btn-danger pull-right">
+                                                        주문취소
+                                                    </button>
+                                                    <?php
+                                                } else {
+                                                    ?>
                                                     <button type="button" class="btn btn-xs btn-danger pull-right">
                                                         입금확인중
                                                     </button>
-                                                    <?php
+                                                <?php
                                                 }
                                                 ?>
                                             </li>
