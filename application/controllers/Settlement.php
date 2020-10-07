@@ -188,11 +188,21 @@ class Settlement extends CB_Controller
 
     public function save_account()
     {
+        ajax_required_user_login();
+
+        $mem_id = $this->member->item('mem_id');
+
         $bank_name = $this->input->post('bank_name');
         $account_number = $this->input->post('account_number');
-        $receipent = $this->input->post('receipent');
+        $recipient = $this->input->post('recipient');
         $file = $_FILES['file_attach'];
 
+        $this->db->query('UPDATE cb_member SET mem_bank_name=?, mem_account_number=?, mem_recipient=? WHERE mem_id=?', [
+            $bank_name,
+            $account_number,
+            $recipient,
+            $mem_id
+        ]);
 
         $result = [
             'message' => 'Success'

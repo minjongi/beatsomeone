@@ -10,7 +10,7 @@
                     </div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" type="mail" placeholder="Enter your bank name...">
+                            <input class="inputbox" type="text" v-model="bank_name" placeholder="Enter your bank name...">
                             <div class="caution deactive" style="min-width:100%;">
                                 <div>
                                     <img class="caution" src="/assets/images/icon/caution.png">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" type="mail" placeholder="Enter your account number...">
+                            <input class="inputbox" type="text" v-model="account_number" placeholder="Enter your account number...">
                             <div class="caution deactive" style="min-width:100%;">
                                 <div>
                                     <img class="caution" src="/assets/images/icon/caution.png">
@@ -46,11 +46,11 @@
                 </div>
 
                 <div class="row">
-                    <div class="type"><span style="margin-top:-4px;">Receipent<span class="red">*</span></span>
+                    <div class="type"><span style="margin-top:-4px;">Recipient<span class="red">*</span></span>
                     </div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" type="mail" placeholder="Enter receipent name...">
+                            <input class="inputbox" type="text" v-model="recipient" placeholder="Enter receipent name...">
                             <div class="caution deactive" style="min-width:100%;">
                                 <div>
                                     <img class="caution" src="/assets/images/icon/caution.png">
@@ -65,7 +65,7 @@
                     <div></div>
                 </div>
 
-                <div class="row">
+                <div class="row" v-if="false">
                     <div class="type"><span style="margin-top:-4px;">Copy of Account<span
                         class="red">*</span></span></div>
                     <div class="data">
@@ -109,14 +109,49 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "AccountSettingModal",
+    data: function () {
+        return {
+            bank_name: '',
+            account_number: '',
+            recipient: '',
+            file_attach: null
+        }
+    },
     methods: {
         dismissModal() {
             this.$emit('dismissModal');
         },
         doSubmit() {
-            this.$emit('submitModal');
+            let formData = new FormData();
+            if (!this.bank_name) {
+                return false;
+            }
+            if (!this.account_number) {
+                return false;
+            }
+            if (!this.recipient) {
+                return false;
+            }
+            // if (!this.file_attach) {
+            //     return false;
+            // }
+            formData.append('bank_name', this.bank_name);
+            formData.append('account_number', this.account_number);
+            formData.append('recipient', this.recipient);
+            // formData.append('file', this.file_attach, this.file_attach.name);
+
+            axios.post('/settlement/save_account', formData)
+                .then(res => res.data)
+                .then(data => {
+                    this.$emit('submitModal');
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         },
     }
 }
