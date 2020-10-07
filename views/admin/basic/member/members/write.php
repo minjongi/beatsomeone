@@ -244,18 +244,24 @@
                 <textarea class="form-control" rows="5" name="mem_adminmemo"><?php echo set_value('mem_adminmemo', element('mem_adminmemo', element('data', $view))); ?></textarea>
             </div>
         </div>
-        <?php
-        if (element('html_content', $view)) {
-            foreach (element('html_content', $view) as $key => $value) {
-                ?>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="<?php echo element('field_name', $value); ?>"><?php echo element('display_name', $value); ?></label>
-                    <div class="col-sm-10"><?php echo element('input', $value); ?></div>
-                </div>
-                <?php
-            }
-        }
-        ?>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">은행</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="mem_bank_name" value="<?php echo set_value('mem_bank_name', element('mem_bank_name', element('data', $view))); ?>" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">계좌번호</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="mem_account_number" value="<?php echo set_value('mem_account_number', element('mem_account_number', element('data', $view))); ?>" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">예금주</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="mem_recipient" value="<?php echo set_value('mem_recipient', element('mem_recipient', element('data', $view))); ?>" />
+            </div>
+        </div>
         <div class="btn-group pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-default btn-sm btn-history-back" >취소하기</button>
             <button type="submit" class="btn btn-success btn-sm">저장하기</button>
