@@ -4011,117 +4011,194 @@ class Register extends CB_Controller
         $this->load->model(array('Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model'));
 
         $member_group = $this->Member_group_model->item($this->input->post('mgr_id'));
-        $billTerm = $this->input->post('bill_term');
-        if ($billTerm === 'monthly') {
-            $amount = (int)$member_group['mgr_monthly_cost_w'];
-            $amount_d = (float)$member_group['mgr_monthly_cost_d'];
-        } else {
-            $amount = (int)$member_group['mgr_year_cost_w'];
-            $amount_d = (float)$member_group['mgr_year_cost_d'];
-        }
+        if ($member_group['mgr_title'] == 'buyer' || $member_group['mgr_title'] == 'seller_free') {
+            $deletewhere = array(
+                'mem_id' => $mem_id,
+            );
+            $this->Member_group_member_model->delete_where($deletewhere);
+            $mginsert = array(
+                'mgr_id' => $member_group['mgr_id'],
+                'mem_id' => $mem_id,
+                'mgm_datetime' => cdate('Y-m-d H:i:s'),
+            );
+            $this->Member_group_member_model->insert($mginsert);
+        }  else {
+            $billTerm = $this->input->post('bill_term');
+            if ($billTerm === 'monthly') {
+                $amount = (int)$member_group['mgr_monthly_cost_w'];
+                $amount_d = (float)$member_group['mgr_monthly_cost_d'];
+            } else {
+                $amount = (int)$member_group['mgr_year_cost_w'];
+                $amount_d = (float)$member_group['mgr_year_cost_d'];
+            }
 
-        $pg = $this->input->post('pg');
+            $pg = $this->input->post('pg');
 
-        if ($this->input->post('pg') === 'allat') {        //올앳
-            include(FCPATH . 'plugin/pg/allat/allatutil.php');
-            $at_cross_key = $this->cbconfig->item('pg_allat_crosskey');    //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
-            $at_shop_id = $this->cbconfig->item('pg_allat_shop_id');        //설정필요
+            if ($this->input->post('pg') === 'allat') {        //올앳
+                include(FCPATH . 'plugin/pg/allat/allatutil.php');
+                $at_cross_key = $this->cbconfig->item('pg_allat_crosskey');    //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+                $at_shop_id = $this->cbconfig->item('pg_allat_shop_id');        //설정필요
 
-            // 요청 데이터 설정
-            //----------------------
-            $at_data = "allat_shop_id=" . $at_shop_id .
-                "&allat_amt=" . $amount .
-                "&allat_enc_data=" . $_POST["allat_enc_data"] .
-                "&allat_cross_key=" . $at_cross_key;
-            // 올앳 결제 서버와 통신 : ApprovalReq->통신함수, $at_txt->결과값
-            //----------------------------------------------------------------
-            // PHP5 이상만 SSL 사용가능
-            $at_txt = ApprovalReq($at_data, "SSL");
-            // $at_txt = ApprovalReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
-            // 이 부분에서 로그를 남기는 것이 좋습니다.
-            // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
-            log_message('info', 'Allat: ' . $at_txt);
+                // 요청 데이터 설정
+                //----------------------
+                $at_data = "allat_shop_id=" . $at_shop_id .
+                    "&allat_amt=" . $amount .
+                    "&allat_enc_data=" . $_POST["allat_enc_data"] .
+                    "&allat_cross_key=" . $at_cross_key;
+                // 올앳 결제 서버와 통신 : ApprovalReq->통신함수, $at_txt->결과값
+                //----------------------------------------------------------------
+                // PHP5 이상만 SSL 사용가능
+                $at_txt = ApprovalReq($at_data, "SSL");
+                // $at_txt = ApprovalReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
+                // 이 부분에서 로그를 남기는 것이 좋습니다.
+                // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
+                log_message('info', 'Allat: ' . $at_txt);
 
-            // 결제 결과 값 확인
-            //------------------
-            $REPLYCD = getValue("reply_cd", $at_txt);        //결과코드
-            $REPLYMSG = getValue("reply_msg", $at_txt);       //결과 메세지
+                // 결제 결과 값 확인
+                //------------------
+                $REPLYCD = getValue("reply_cd", $at_txt);        //결과코드
+                $REPLYMSG = getValue("reply_msg", $at_txt);       //결과 메세지
 
-            // 결과값 처리
-            //--------------------------------------------------------------------------
-            // 결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
-            // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
-            // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
-            //--------------------------------------------------------------------------
-            if (!strcmp($REPLYCD, "0000") || !strcmp($REPLYCD, "0001")) {
-                // reply_cd "0000" 일때만 성공
-                $ORDER_NO = getValue("order_no", $at_txt);
-                $AMT = getValue("amt", $at_txt);
-                $PAY_TYPE = getValue("pay_type", $at_txt);
-                $APPROVAL_YMDHMS = getValue("approval_ymdhms", $at_txt);
-                $SEQ_NO = getValue("seq_no", $at_txt);
-                $APPROVAL_NO = getValue("approval_no", $at_txt);
-                $CARD_ID = getValue("card_id", $at_txt);
-                $CARD_NM = getValue("card_nm", $at_txt);
-                $SELL_MM = getValue("sell_mm", $at_txt);
-                $ZEROFEE_YN = getValue("zerofee_yn", $at_txt);
-                $CERT_YN = getValue("cert_yn", $at_txt);
-                $CONTRACT_YN = getValue("contract_yn", $at_txt);
-                $SAVE_AMT = getValue("save_amt", $at_txt);
-                $CARD_POINTDC_AMT = getValue("card_pointdc_amt", $at_txt);
-                $BANK_ID = getValue("bank_id", $at_txt);
-                $BANK_NM = getValue("bank_nm", $at_txt);
-                $CASH_BILL_NO = getValue("cash_bill_no", $at_txt);
-                $ESCROW_YN = getValue("escrow_yn", $at_txt);
-                $ACCOUNT_NO = getValue("account_no", $at_txt);
-                $ACCOUNT_NM = getValue("account_nm", $at_txt);
-                $INCOME_ACC_NM = getValue("income_account_nm", $at_txt);
-                $INCOME_LIMIT_YMD = getValue("income_limit_ymd", $at_txt);
-                $INCOME_EXPECT_YMD = getValue("income_expect_ymd", $at_txt);
-                $CASH_YN = getValue("cash_yn", $at_txt);
-                $HP_ID = getValue("hp_id", $at_txt);
-                $TICKET_ID = getValue("ticket_id", $at_txt);
-                $TICKET_PAY_TYPE = getValue("ticket_pay_type", $at_txt);
-                $TICKET_NAME = getValue("ticket_nm", $at_txt);
-                $PARTCANCEL_YN = getValue("partcancel_yn", $at_txt);
+                // 결과값 처리
+                //--------------------------------------------------------------------------
+                // 결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
+                // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
+                // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
+                //--------------------------------------------------------------------------
+                if (!strcmp($REPLYCD, "0000") || !strcmp($REPLYCD, "0001")) {
+                    // reply_cd "0000" 일때만 성공
+                    $ORDER_NO = getValue("order_no", $at_txt);
+                    $AMT = getValue("amt", $at_txt);
+                    $PAY_TYPE = getValue("pay_type", $at_txt);
+                    $APPROVAL_YMDHMS = getValue("approval_ymdhms", $at_txt);
+                    $SEQ_NO = getValue("seq_no", $at_txt);
+                    $APPROVAL_NO = getValue("approval_no", $at_txt);
+                    $CARD_ID = getValue("card_id", $at_txt);
+                    $CARD_NM = getValue("card_nm", $at_txt);
+                    $SELL_MM = getValue("sell_mm", $at_txt);
+                    $ZEROFEE_YN = getValue("zerofee_yn", $at_txt);
+                    $CERT_YN = getValue("cert_yn", $at_txt);
+                    $CONTRACT_YN = getValue("contract_yn", $at_txt);
+                    $SAVE_AMT = getValue("save_amt", $at_txt);
+                    $CARD_POINTDC_AMT = getValue("card_pointdc_amt", $at_txt);
+                    $BANK_ID = getValue("bank_id", $at_txt);
+                    $BANK_NM = getValue("bank_nm", $at_txt);
+                    $CASH_BILL_NO = getValue("cash_bill_no", $at_txt);
+                    $ESCROW_YN = getValue("escrow_yn", $at_txt);
+                    $ACCOUNT_NO = getValue("account_no", $at_txt);
+                    $ACCOUNT_NM = getValue("account_nm", $at_txt);
+                    $INCOME_ACC_NM = getValue("income_account_nm", $at_txt);
+                    $INCOME_LIMIT_YMD = getValue("income_limit_ymd", $at_txt);
+                    $INCOME_EXPECT_YMD = getValue("income_expect_ymd", $at_txt);
+                    $CASH_YN = getValue("cash_yn", $at_txt);
+                    $HP_ID = getValue("hp_id", $at_txt);
+                    $TICKET_ID = getValue("ticket_id", $at_txt);
+                    $TICKET_PAY_TYPE = getValue("ticket_pay_type", $at_txt);
+                    $TICKET_NAME = getValue("ticket_nm", $at_txt);
+                    $PARTCANCEL_YN = getValue("partcancel_yn", $at_txt);
 
-                $params = array();
-                $params['REPLYCD'] = $REPLYCD;
-                $params['REPLYMSG'] = $REPLYMSG;
-                $params['ORDER_NO'] = $ORDER_NO;
-                $params['AMT'] = $AMT;
-                $params['PAY_TYPE'] = $PAY_TYPE;
-                $params['APPROVAL_YMDHMS'] = $APPROVAL_YMDHMS;
-                $params['SEQ_NO'] = $SEQ_NO;
-                $params['APPROVAL_NO'] = $APPROVAL_NO;
-                $params['CARD_ID'] = $CARD_ID;
-                $params['CARD_NM'] = $CARD_NM;
-                $params['SELL_MM'] = $SELL_MM;
-                $params['ZEROFEE_YN'] = $ZEROFEE_YN;
-                $params['CERT_YN'] = $CERT_YN;
-                $params['CONTRACT_YN'] = $CONTRACT_YN;
-                $params['SAVE_AMT'] = $SAVE_AMT;
-                $params['CARD_POINTDC_AMT'] = $CARD_POINTDC_AMT;
-                $params['BANK_ID'] = $BANK_ID;
-                $params['BANK_NM'] = $BANK_NM;
-                $params['CASH_BILL_NO'] = $CASH_BILL_NO;
-                $params['ESCROW_YN'] = $ESCROW_YN;
-                $params['ACCOUNT_NO'] = $ACCOUNT_NO;
-                $params['ACCOUNT_NM'] = $ACCOUNT_NM;
-                $params['INCOME_ACC_NM'] = $INCOME_ACC_NM;
-                $params['INCOME_LIMIT_YMD'] = $INCOME_LIMIT_YMD;
-                $params['INCOME_EXPECT_YMD'] = $INCOME_EXPECT_YMD;
-                $params['CASH_YN'] = $CASH_YN;
-                $params['HP_ID'] = $HP_ID;
-                $params['TICKET_ID'] = $TICKET_ID;
-                $params['TICKET_PAY_TYPE'] = $TICKET_PAY_TYPE;
-                $params['TICKET_NAME'] = $TICKET_NAME;
-                $params['PARTCANCEL_YN'] = $PARTCANCEL_YN;
-                $params['RAW_DATA'] = $at_txt;
+                    $params = array();
+                    $params['REPLYCD'] = $REPLYCD;
+                    $params['REPLYMSG'] = $REPLYMSG;
+                    $params['ORDER_NO'] = $ORDER_NO;
+                    $params['AMT'] = $AMT;
+                    $params['PAY_TYPE'] = $PAY_TYPE;
+                    $params['APPROVAL_YMDHMS'] = $APPROVAL_YMDHMS;
+                    $params['SEQ_NO'] = $SEQ_NO;
+                    $params['APPROVAL_NO'] = $APPROVAL_NO;
+                    $params['CARD_ID'] = $CARD_ID;
+                    $params['CARD_NM'] = $CARD_NM;
+                    $params['SELL_MM'] = $SELL_MM;
+                    $params['ZEROFEE_YN'] = $ZEROFEE_YN;
+                    $params['CERT_YN'] = $CERT_YN;
+                    $params['CONTRACT_YN'] = $CONTRACT_YN;
+                    $params['SAVE_AMT'] = $SAVE_AMT;
+                    $params['CARD_POINTDC_AMT'] = $CARD_POINTDC_AMT;
+                    $params['BANK_ID'] = $BANK_ID;
+                    $params['BANK_NM'] = $BANK_NM;
+                    $params['CASH_BILL_NO'] = $CASH_BILL_NO;
+                    $params['ESCROW_YN'] = $ESCROW_YN;
+                    $params['ACCOUNT_NO'] = $ACCOUNT_NO;
+                    $params['ACCOUNT_NM'] = $ACCOUNT_NM;
+                    $params['INCOME_ACC_NM'] = $INCOME_ACC_NM;
+                    $params['INCOME_LIMIT_YMD'] = $INCOME_LIMIT_YMD;
+                    $params['INCOME_EXPECT_YMD'] = $INCOME_EXPECT_YMD;
+                    $params['CASH_YN'] = $CASH_YN;
+                    $params['HP_ID'] = $HP_ID;
+                    $params['TICKET_ID'] = $TICKET_ID;
+                    $params['TICKET_PAY_TYPE'] = $TICKET_PAY_TYPE;
+                    $params['TICKET_NAME'] = $TICKET_NAME;
+                    $params['PARTCANCEL_YN'] = $PARTCANCEL_YN;
+                    $params['RAW_DATA'] = $at_txt;
 
-                $this->Cmall_order_model->allat_log_insert($params);
+                    $this->Cmall_order_model->allat_log_insert($params);
 
-                if ((int)$AMT == $amount) {
+                    if ((int)$AMT == $amount) {
+                        $deletewhere = array(
+                            'mem_id' => $mem_id,
+                        );
+                        $this->Member_group_member_model->delete_where($deletewhere);
+                        $mginsert = array(
+                            'mgr_id' => $member_group['mgr_id'],
+                            'mem_id' => $mem_id,
+                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                        );
+                        $this->Member_group_member_model->insert($mginsert);
+
+                        $termDays = '30';
+                        $startDate = date('Y-m-d');
+                        $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+
+                        $params = [
+                            'mem_id' => $mem_id,
+                            'bill_term' => $billTerm,
+                            'plan' => $member_group['mgr_description'],
+                            'plan_name' => $member_group['mgr_title'],
+                            'start_date' => $startDate,
+                            'end_date' => $endDate,
+                            'pay_method' => $pg,
+                            'amount' => $amount
+                        ];
+                        $this->Beatsomeone_model->insert_membership_purchase_log($params);
+                    }
+
+                } else {
+                    $this->output->set_status_header('400');
+                    $this->output->set_output(json_encode([
+                        'reply_cd' => $REPLYCD,
+                        'reply_msg' => $REPLYMSG
+                    ], JSON_UNESCAPED_UNICODE));
+                    return false;
+                }
+
+            } elseif ($this->input->post('pg') === 'paypal') {
+                $paypalData = $_POST["paypal_data"];
+
+                if (empty($paypalData)) {
+                    $this->output->set_status_header('400');
+                    return false;
+                }
+
+                $params['raw_data'] = $paypalData;
+                $paypalData = json_decode($paypalData, true);
+                $params['id'] = $paypalData['id'];
+                $params['create_time'] = $paypalData['create_time'];
+                $params['update_time'] = $paypalData['update_time'];
+                $params['state'] = $paypalData['state'];
+                $params['intent'] = $paypalData['intent'];
+                $params['payment_method'] = $paypalData['payer']['payment_method'];
+                $params['email'] = $paypalData['payer']['payer_info']['email'];
+                $params['first_name'] = $paypalData['payer']['payer_info']['first_name'];
+                $params['last_name'] = $paypalData['payer']['payer_info']['last_name'];
+                $params['payer_id'] = $paypalData['payer']['payer_info']['payer_id'];
+                $params['invoice_number'] = $paypalData['transactions'][0]['invoice_number'];
+                $params['amount'] = $paypalData['transactions'][0]['amount']['total'];
+                $params['currency'] = $paypalData['transactions'][0]['amount']['currency'];
+                $params['links'] = $paypalData['links']['href'];
+
+                $this->Cmall_order_model->paypal_log_insert($params);
+
+                if ((float)$paypalData['transactions'][0]['amount']['total'] == $amount_d) {
                     $deletewhere = array(
                         'mem_id' => $mem_id,
                     );
@@ -4145,7 +4222,7 @@ class Register extends CB_Controller
                         'start_date' => $startDate,
                         'end_date' => $endDate,
                         'pay_method' => $pg,
-                        'amount' => $amount
+                        'amount' => $amount_d
                     ];
                     $this->Beatsomeone_model->insert_membership_purchase_log($params);
                 }
@@ -4153,74 +4230,10 @@ class Register extends CB_Controller
             } else {
                 $this->output->set_status_header('400');
                 $this->output->set_output(json_encode([
-                    'reply_cd' => $REPLYCD,
-                    'reply_msg' => $REPLYMSG
+                    'message' => '결제 수단이 잘못 입력되었습니다'
                 ], JSON_UNESCAPED_UNICODE));
                 return false;
             }
-
-        } elseif ($this->input->post('pg') === 'paypal') {
-            $paypalData = $_POST["paypal_data"];
-
-            if (empty($paypalData)) {
-                $this->output->set_status_header('400');
-                return false;
-            }
-
-            $params['raw_data'] = $paypalData;
-            $paypalData = json_decode($paypalData, true);
-            $params['id'] = $paypalData['id'];
-            $params['create_time'] = $paypalData['create_time'];
-            $params['update_time'] = $paypalData['update_time'];
-            $params['state'] = $paypalData['state'];
-            $params['intent'] = $paypalData['intent'];
-            $params['payment_method'] = $paypalData['payer']['payment_method'];
-            $params['email'] = $paypalData['payer']['payer_info']['email'];
-            $params['first_name'] = $paypalData['payer']['payer_info']['first_name'];
-            $params['last_name'] = $paypalData['payer']['payer_info']['last_name'];
-            $params['payer_id'] = $paypalData['payer']['payer_info']['payer_id'];
-            $params['invoice_number'] = $paypalData['transactions'][0]['invoice_number'];
-            $params['amount'] = $paypalData['transactions'][0]['amount']['total'];
-            $params['currency'] = $paypalData['transactions'][0]['amount']['currency'];
-            $params['links'] = $paypalData['links']['href'];
-
-            $this->Cmall_order_model->paypal_log_insert($params);
-
-            if ((float)$paypalData['transactions'][0]['amount']['total'] == $amount_d) {
-                $deletewhere = array(
-                    'mem_id' => $mem_id,
-                );
-                $this->Member_group_member_model->delete_where($deletewhere);
-                $mginsert = array(
-                    'mgr_id' => $member_group['mgr_id'],
-                    'mem_id' => $mem_id,
-                    'mgm_datetime' => cdate('Y-m-d H:i:s'),
-                );
-                $this->Member_group_member_model->insert($mginsert);
-
-                $termDays = '30';
-                $startDate = date('Y-m-d');
-                $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
-
-                $params = [
-                    'mem_id' => $mem_id,
-                    'bill_term' => $billTerm,
-                    'plan' => $member_group['mgr_description'],
-                    'plan_name' => $member_group['mgr_title'],
-                    'start_date' => $startDate,
-                    'end_date' => $endDate,
-                    'pay_method' => $pg,
-                    'amount' => $amount_d
-                ];
-                $this->Beatsomeone_model->insert_membership_purchase_log($params);
-            }
-
-        } else {
-            $this->output->set_status_header('400');
-            $this->output->set_output(json_encode([
-                'message' => '결제 수단이 잘못 입력되었습니다'
-            ], JSON_UNESCAPED_UNICODE));
-            return false;
         }
 
         $this->output->set_output(json_encode([

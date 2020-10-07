@@ -4,7 +4,24 @@
             <h1>{{ $t('doYouCreateBeats') }}<br/>{{ $t('thenJoin') }}</h1>
         </div>
         <div class="login accounts__defaultLayout">
-            <div class="accounts__switch">
+            <div class="accounts__case">
+                <label for="listen " class="case case--listen">
+                    <input type="radio" name="case" id="listen " hidden @click="currentUserType = 'buyer'"/>
+                    <div>
+                        <span class="icon"></span>
+                        <p>{{ $t ('listenAndBuyMusic1') }}<br/>{{ $t ('listenAndBuyMusic2') }}</p>
+                    </div>
+                </label>
+
+                <label for="monetize" class="case case--monetize">
+                    <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'seller'"/>
+                    <div>
+                        <span class="icon"></span>
+                        <p>{{ $t('monetizeMyMusic1') }}<br/>{{ $t('monetizeMyMusic2') }}</p>
+                    </div>
+                </label>
+            </div>
+            <div class="accounts__switch" v-if="isMusician">
                 <span class="accounts__switch-bg"></span>
                 <label for="monthly" @click="selectBillTerm('monthly')">
                     <input type="radio" id="monthly" hidden name="bill" checked/>
@@ -19,8 +36,69 @@
                 </label>
             </div>
         </div>
+        <div class="accounts__plan-case" v-if="!isMusician">
+            <table>
+                <colgroup>
+                    <col width="300"/>
+                    <col/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <p>
+                            {{ $t('free') }}
+                        </p>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ $t('personalChatFunction') }}</td>
+                    <td>{{ $t('unlimited') }}</td>
+                </tr>
+                <tr>
+                    <td>{{ $t('freeBeatDownload') }}</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
 
-        <div class="accounts__plan-case">
+                </tr>
+                <tr>
+                    <td>{{ $t('storePurchaseMusicFiles') }}</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>{{ $t('purchaseSoundSourceLicenseStorage') }}</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>{{ $t('previewStreamingService') }}</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <!--                    <tfoot>-->
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                    </td>
+                </tr>
+                <!--                    </tfoot>-->
+                </tbody>
+            </table>
+        </div>
+        <div class="accounts__plan-case" v-if="isMusician">
             <table>
                 <colgroup>
                     <col width="300"/>
@@ -208,7 +286,21 @@
         },
         methods: {
             doNext(group) {
-                window.location.href = `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`;
+                if (group.mgr_title === 'seller_free' || group.mgr_title === 'buyer') {
+                    let formData = new FormData();
+                    formData.append('mgr_id', group.mgr_id);
+                    axios.post('/register/ajax_purchase', formData)
+                        .then(res => res.data)
+                        .then(data => {
+                            alert(data.message);
+                            window.location.href = '/mypage';
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+                } else {
+                    window.location.href = `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`;
+                }
             },
             fetchData() {
                 axios.get('/membergroup')

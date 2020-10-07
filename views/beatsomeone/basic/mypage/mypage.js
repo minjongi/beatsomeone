@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import vSelect from 'vue-select';
+
 Vue.component('v-select', vSelect);
 
 // i18n
@@ -28,6 +29,7 @@ import Favorites from './FavoritesOld.vue';
 Vue.use(VueRouter);
 
 import infiniteScroll from 'vue-infinite-scroll';
+
 Vue.use(infiniteScroll);
 Vue.use(Vuex);
 
@@ -35,61 +37,71 @@ Vue.config.productionTip = false;
 Vue.prototype.$log = console.log.bind(console);
 
 const router = new VueRouter({
-  scrollBehavior() {
-    return { x: 0, y: 0 };
-  },
-  routes: [
-    { path: '/', component: Dashboard },
-    { path: '/profilemod', component: Profilemod },
-    { path: '/list_item', component: List_item },
-    { path: '/mybilling', component: Mybilling },
-    { path: '/mybilling/:cor_id', component: Mybillingview },
-    { path: '/mycancelList', component: Mycancellist },
-    { path: '/mycancelList/:cor_id', component: Mycancelview },
-    { path: '/saleshistory', component: Saleshistory },
-    { path: '/seller', component: Seller },
-    { path: '/sellerbill', component: Sellerbill },
-    { path: '/message', component: Message },
-    { path: '/inquiry', component: Inquiry },
-    { path: '/inquiryenroll', component: Inquiryenroll },
-    { path: '/inquiry', component: Inquiry },
-    { path: '/inquiry/:post_id', component: Inquiryview},
-    { path: '/inquiry/:post_id/edit', component: Inquiryenroll},
-    { path: '/faq', component: Faq },
-    { path: '/favorites', component: Favorites },
-  ],
+    scrollBehavior() {
+        return {x: 0, y: 0};
+    },
+    routes: [
+        {path: '/', component: Dashboard},
+        {path: '/profilemod', component: Profilemod},
+        {path: '/list_item', component: List_item},
+        {path: '/mybilling', component: Mybilling},
+        {path: '/mybilling/:cor_id', component: Mybillingview},
+        {path: '/mycancelList', component: Mycancellist},
+        {path: '/mycancelList/:cor_id', component: Mycancelview},
+        {path: '/saleshistory', component: Saleshistory},
+        {path: '/seller', component: Seller},
+        {path: '/sellerbill', component: Sellerbill},
+        {path: '/message', component: Message},
+        {path: '/inquiry', component: Inquiry},
+        {path: '/inquiryenroll', component: Inquiryenroll},
+        {path: '/inquiry', component: Inquiry},
+        {path: '/inquiry/:post_id', component: Inquiryview},
+        {path: '/inquiry/:post_id/edit', component: Inquiryenroll},
+        {path: '/faq', component: Faq},
+        {path: '/favorites', component: Favorites},
+    ],
 });
 
 const store = new Vuex.Store({
-  state: {
-    cartSum: 0,
-    cartSumD: 0,
-  },
-  mutations: {
-    ADD_MONEY(state, payload) {
-      state.cartSum = state.cartSum + payload.money;
-      state.cartSumD = state.cartSumD + payload.money_d;
-    }
-  },
-  getters: {
-    getCartSum(state) {
-      return state.cartSum;
+    state: {
+        cartSum: 0,
+        cartSumD: 0,
+        refundObj: {},
     },
-    getCartSumD(state) {
-      return state.cartSumD;
+    mutations: {
+        ADD_MONEY(state, payload) {
+            state.cartSum = state.cartSum + payload.money;
+            state.cartSumD = state.cartSumD + payload.money_d;
+        },
+        SET_REFUND_DATA(state, payload) {
+            state.refundObj = payload;
+        }
+    },
+    getters: {
+        getCartSum(state) {
+            return state.cartSum;
+        },
+        getCartSumD(state) {
+            return state.cartSumD;
+        },
+        getRefundData(state) {
+            return state.refundObj;
+        }
+    },
+    actions: {
+        // moneyObject: {money: 0, money_d: 0}
+        addMoney(context, moneyObject) {
+            context.commit('ADD_MONEY', moneyObject);
+        },
+        setRefundData(context, refundObj) {
+            context.commit('SET_REFUND_DATA', refundObj);
+        }
     }
-  },
-  actions: {
-    // moneyObject: {money: 0, money_d: 0}
-    addMoney(context, moneyObject) {
-      context.commit('ADD_MONEY', moneyObject);
-    }
-  }
 });
 
 window.vm = new Vue({
-  i18n,
-  router,
-  store,
-  render: (h) => h(app),
+    i18n,
+    router,
+    store,
+    render: (h) => h(app),
 }).$mount('#app');

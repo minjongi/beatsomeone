@@ -62,11 +62,15 @@ const store = new Vuex.Store({
     state: {
         cartSum: 0,
         cartSumD: 0,
+        refundObj: {},
     },
     mutations: {
         ADD_MONEY(state, payload) {
             state.cartSum = state.cartSum + payload.money;
             state.cartSumD = state.cartSumD + payload.money_d;
+        },
+        SET_REFUND_DATA(state, payload) {
+            state.refundObj = payload;
         }
     },
     getters: {
@@ -75,12 +79,18 @@ const store = new Vuex.Store({
         },
         getCartSumD(state) {
             return state.cartSumD;
+        },
+        getRefundData(state) {
+            return state.refundObj;
         }
     },
     actions: {
         // moneyObject: {money: 0, money_d: 0}
         addMoney(context, moneyObject) {
             context.commit('ADD_MONEY', moneyObject);
+        },
+        setRefundData(context, refundObj) {
+            context.commit('SET_REFUND_DATA', refundObj);
         }
     }
 });

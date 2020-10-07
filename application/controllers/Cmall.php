@@ -3766,13 +3766,15 @@ class Cmall extends CB_Controller
             $this->Cmall_order_model->update($cor_id, [
                 'cor_status' => 2,
                 'cor_refund_price' => $total_refunds,
+                'cor_memo' => $this->input->post('cor_memo'),
+                'cor_admin_memo' => $this->input->post('cor_admin_memo'),
             ]);
         }
 
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode([
-            'message' => 'Cancel Success'
+            'message' => '결제가 취소되었습니다.'
         ]));
     }
 

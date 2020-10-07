@@ -130,54 +130,20 @@ export default {
         },
         doSubmit() {
             if (this.refundAmount > 0) {
-                let formData = new FormData();
-                formData.append('cor_id', this.order.cor_id);
+                let refundObj = {};
+                refundObj.cor_id = this.order.cor_id;
+                refundObj.cod_ids = [];
                 this.items.forEach(item => {
                     if (item.item.is_selected === true) {
-                        formData.append('cod_ids[]', item.itemdetail[0].cod_id);
+                        refundObj.cod_ids.push(item.itemdetail[0].cod_id);
                     }
                 });
-                axios.post('/cmall/ajax_cancel', formData)
-                    .catch(res => res.data)
-                    .then(data => {
-                        alert('결제가 취소되었습니다.')
-                        this.$emit('submitModal');
-                    })
+                this.$store.dispatch('setRefundData', refundObj);
+                this.$emit('submitModal');
             } else {
                 alert('취소할 비트를 선택해주세요.');
             }
-
-            // if (this.refundAmount > 0) {
-            //     window.Allat_Plus_Api(document.fm);
-            // } else {
-            //     alert('취소할 비트를 선택해주세요.');
-            // }
         },
-        procCompletePay(result_cd, result_msg, enc_data) {
-            if (result_cd !== '0000' && result_cd !== '0001') {
-                window.setTimeout(function () {
-                    alert(result_cd + " : " + result_msg);
-                }, 1000);
-            } else {
-                document.fm.allat_enc_data.value = enc_data;
-                let formData = new FormData(document.fm);
-                formData.append('cor_id', this.order.cor_id);
-                formData.append('pg', 'allat');
-                let cde_ids = [];
-                this.items.forEach(item => {
-                    if (item.item.is_selected === true) {
-                        cde_ids.push(item.itemdetail[0].cde_id);
-                    }
-                })
-                formData.append('cde_ids[]', cde_ids);
-                axios.post('/cmall/ajax_cancel', formData)
-                    .catch(res => res.data)
-                    .then(data => {
-                        alert('결제가 취소되었습니다.')
-                        this.$emit('submitModal');
-                    })
-            }
-        }
     },
     watch: {
         checkedAll(val) {

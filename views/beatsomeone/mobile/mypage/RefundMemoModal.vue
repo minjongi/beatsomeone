@@ -79,19 +79,29 @@ export default {
             this.$emit('dismissModal');
         },
         doComplete() {
-            let formData = new FormData()
-            formData.append('cor_memo', this.reason);
-            formData.append('cor_admin_memo', this.description);
-            formData.append('cor_id', this.cor_id);
+            if (this.reason && this.description) {
+                let refundObj = this.$store.getters.getRefundData;
+                console.log(refundObj);
+                let formData = new FormData();
+                formData.append('cor_id', refundObj.cor_id);
+                refundObj.cod_ids.forEach(cod_id => {
+                    formData.append('cod_ids[]', cod_id);
+                })
+                formData.append('cor_memo', this.reason);
+                formData.append('cor_admin_memo', this.description);
 
-            axios.post('/cmall/ajax_refund_complete', formData)
-                .then(res => res.data)
-                .then(data => {
-                    this.$emit('submitModal');
-                })
-                .catch(error => {
-                    console.error(error);
-                })
+                axios.post('/cmall/ajax_cancel', formData)
+                    .then(res => res.data)
+                    .then(data => {
+                        alert(data.message);
+                        this.$emit('submitModal');
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+            } else {
+                alert('사유를 작성해주세요.');
+            }
         }
     }
 }
