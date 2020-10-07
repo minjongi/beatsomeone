@@ -69,8 +69,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 echo '결제완료';
                             } elseif (element('cor_status', $result) == 0) {
                                 echo '입금대기';
-                            } else {
-                                echo '결제취소';
+                            } elseif (element('cor_status', $result) == 2) {
+                                if (element('status', $result) == 'order') {
+                                    echo '결제취소 <span class="btn btn-xs btn-warning">요청</span>';
+                                } elseif (element('status', $result) == 'cancel') {
+                                    echo '결제취소 <span class="btn btn-xs btn-danger">완료</span>';
+                                } else {
+                                    echo '결제취소';
+                                }
                             } //주문상태 ?>
                         </td>
 						<td><?php echo count($order_detail);	 //주문상품수 ?></td>

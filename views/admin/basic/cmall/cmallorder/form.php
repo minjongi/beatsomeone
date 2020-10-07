@@ -19,19 +19,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <h4 class="h2_frm">주문컨텐츠 목록</h4>
 
                 <?php
-                $attributes = array('class' => 'frmorderform', 'name' => 'frmorderform', 'onsubmit' => 'return form_submit(this)');
+                $attributes = array('class' => 'frmorderform', 'id' => 'frmorderform');
                 echo form_open(current_full_url(), $attributes);
                 ?>
-                <input type="hidden" name="cor_id" value="<?php echo element('cor_id', $result); ?>">
-                <input type="hidden" name="mem_id" value="<?php echo element('mem_id', $result); ?>">
 
                 <div>
                     <table class="table table-bordered mt20">
                         <thead>
                         <tr class="success">
-                            <th>
-                                <input type="checkbox" name="chkall" id="chkall">
-                            </th>
+                            <!--                            <th>-->
+                            <!--                                <input type="checkbox" name="chkall" id="chkall">-->
+                            <!--                            </th>-->
                             <th>이미지</th>
                             <th>상품명</th>
                             <th class="text-right">다운로드</th>
@@ -48,13 +46,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         foreach (element('orderdetail', $view) as $row) {
                             ?>
                             <tr>
-                                <td>
-                                    <input type="checkbox" id="ct_chk_
-                                <?php echo $i; ?>" class="product_chk" name="chk[]" value="
-                                <?php echo $i; ?>">
-                                    <input type="hidden" name="cit_id[]" value="
-                                <?php echo element('cit_id', element('item', $row)); ?>">
-                                </td>
+                                <!--                                <td>-->
+                                <!--                                    <input type="checkbox" id="ct_chk_-->
+                                <!--                                -->
+                                <?php //echo $i; ?><!--" class="product_chk" name="chk[]" value="-->
+                                <!--                                --><?php //echo $i; ?><!--">-->
+                                <!--                                    <input type="hidden" name="cit_id[]" value="-->
+                                <!--                                -->
+                                <?php //echo element('cit_id', element('item', $row)); ?><!--">-->
+                                <!--                                </td>-->
                                 <td><a href="<?php echo cmall_item_url(element('cit_key', element('item', $row))); ?>"
                                        target="_blank"><img
                                             src="<?php echo thumb_url('cmallitem', element('cit_file_1', element('item', $row)), 60, 60); ?>"
@@ -161,14 +161,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
                 <div class="btn_list02 btn_list">
                     <p>
-                        <input type="hidden" name="chk_cnt" value="<?php echo $i; ?>">
                         <strong>상태변경</strong>
-                        <input type="submit" name="ct_status" value="입금대기" onclick="document.pressed=this.value"
-                               class="btn btn-sm">
-                        <input type="submit" name="ct_status" value="결제완료" onclick="document.pressed=this.value"
-                               class="btn btn-sm">
-                        <input type="submit" name="ct_status" value="주문취소" onclick="document.pressed=this.value"
-                               class="btn btn-sm">
+                        <input type="hidden" name="cor_status" id="cor_status" value="">
+                        <input type="hidden" name="cor_pg" id="cor_pg" value="<?php echo element('cor_pg', $result); ?>" />
+                        <input type="hidden" name="pcase" value="product">
+                        <?php
+                        if (element('status', $result) == 'order') {
+                            ?>
+                            <button type="button" class="btn btn-sm change-status" data-status="0">입금대기</button>
+                            <button type="button" class="btn btn-sm change-status" data-status="1">결제완료</button>
+                            <?php
+                        }
+                        ?>
+                        <?php
+                        if (element('cor_status', $result) == '2') {
+                            if (element('status', $result) == 'order') {
+                                ?>
+                                <button type="button" class="btn btn-sm change-status" data-status="2">주문취소</button>
+                                <?php
+                            } elseif (element('status', $result) == 'cancel') {
+                                ?>
+                                <button type="button" class="btn btn-sm">주문취소됨</button>
+                                <?php
+                            }
+                        }
+                        ?>
                     </p>
                 </div>
                 <?php echo form_close(); ?>
@@ -342,7 +359,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                 <div class="tbl_wrap">
                     <label for="cor_admin_memo" class="sound_only">유저메모</label>
-                    <textarea name="cor_admin_memo" id="cor_admin_memo" placeholder="유저 메모" rows="8"
+                    <textarea name="cor_memo" id="cor_memo" placeholder="유저 메모" rows="8"
                               class="form-control"><?php echo stripslashes(element('cor_memo', element('data', $view))); ?></textarea>
                 </div>
             </div>
@@ -363,49 +380,69 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 </div> <!-- end class box-table -->
 </div> <!-- end class box -->
-
-<script>
-    function form_submit(f) {
-
-        var check = false;
-        var status = document.pressed;
-
-        for (i = 0; i < f.chk_cnt.value; i++) {
-            if (document.getElementById('ct_chk_' + i).checked == true)
-                check = true;
-        }
-
-        if (check == false) {
-            alert("처리할 자료를 하나 이상 선택해 주십시오.");
-            return false;
-        }
-
-        var msg = "";
-        var cor_pay_type = document.getElementById("cor_pay_type").value;
-
-        if (status == "취소") {
-            var $ct_chk = jQuery("input.product_chk:checkbox");
-            var chk_cnt = $ct_chk.size();
-            var chked_cnt = $ct_chk.filter(":checked").size();
-            var cancel_pg = "PG사의 ";
-
-            if ((chk_cnt == chked_cnt) && (cor_pay_type == 'card' || cor_pay_type == 'easy')) {
-                if (confirm(cancel_pg + " 결제를 함께 취소하시겠습니까?\n\n한번 취소한 결제는 다시 복구할 수 없습니다.")) {
-                    f.pg_cancel.value = 1;
-                    msg = " 결제 취소와 함께 ";
-                } else {
-                    f.pg_cancel.value = 0;
-                    msg = "";
-                }
-            }
-        }
-
-        if (confirm(msg + "\'" + status + "\' 상태를 선택하셨습니다.\n\n선택하신대로 처리하시겠습니까?")) {
-            return true;
+<form name="fm" hidden>
+    <input type="hidden" name="cor_status" id="cor_status" value="2">
+    <input type="hidden" name="pcase" value="product">
+    <input type=text name="test_cross_key" value="<?php echo $this->cbconfig->item('pg_allat_crosskey') ?>" size="19"
+           maxlength=200>
+    <input type=text name="allat_shop_id" value="<?php echo $this->cbconfig->item('pg_allat_shop_id') ?>" size="19"
+           maxlength=20>
+    <input type=text name="allat_order_no" value="<?php echo element('cor_id', $result); ?>" size="19" maxlength=80>
+    <input type=text name="allat_amt" value="<?php echo (int)element('cor_refund_price', $result); ?>" size="19"
+           maxlength=10>
+    <input type=text name="allat_pay_type" value="<?php echo element('cor_pay_type', $result); ?>" size="19"
+           maxlength=6>
+    <input type=text name="shop_receive_url" value="<?php echo base_url('pg/allat/proc'); ?>" size="19">
+    <input type=hidden name=allat_enc_data value=''>
+    <input type="hidden" name="allat_opt_pin" value="NOUSE" size="19">
+    <input type="hidden" name="allat_opt_mod" value="APP" size="19">
+    <input type=text name="allat_seq_no" value="" size="19" maxlength="10">
+    <input type=text name="allat_test_yn"
+           value="<?php if (element('is_test', $result) == '1') echo 'Y'; else echo 'N'; ?>" size="19" maxlength="1">
+</form>
+<div id='ALLAT_PLUS_PAY'
+     style='left:0px; top:0px; width:0px; height:0px; position:absolute; z-index:1000; display:block; background-color:white;'>
+    <iframe id='ALLAT_PLUS_FRAME' name='ALLAT_PLUS_FRAME' src='https://tx.allatpay.com/common/iframe_blank.jsp'
+            frameborder=0 width=0px height=0px scrolling=no></iframe>
+</div>
+<script language=JavaScript charset='euc-kr' src="https://tx.allatpay.com/common/NonAllatPayREPlus.js"></script>
+<script language=Javascript>
+    // 결과값 반환( receive 페이지에서 호출 )
+    function result_submit(result_cd, result_msg, enc_data) {
+        if (result_cd != '0000' && result_cd != '0001') {
+            window.setTimeout(function () {
+                alert(result_cd + " : " + result_msg);
+            }, 1000);
         } else {
-            return false;
+            document.fm.allat_enc_data.value = enc_data;
+
+            document.fm.action = "<?php echo current_full_url(); ?>";
+            document.fm.method = "post";
+            document.fm.target = "_self";
+            document.fm.submit();
         }
     }
+</script>
+<script>
+    $('.change-status').on('click', function () {
+        var status = $(this).data('status');
+        var pg = $('#cor_pg').val();
+
+        $('#cor_status').val(status);
+
+        if (status == 2) {
+            if (confirm("결제를 취소하시겠습니까?\n\n한번 취소한 결제는 다시 복구할 수 없습니다.")) {
+                // console.log(pg);
+                if (pg == 'paypal') {
+                    $('#frmorderform').submit();
+                } else if (pg == 'allat') {
+                    Allat_Plus_Api(document.fm);
+                }
+            }
+        } else {
+            $('#frmorderform').submit();
+        }
+    });
 
     // 결제금액 수동 설정
     function chk_receipt_price() {

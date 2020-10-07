@@ -1,4 +1,7 @@
 <?php
+
+use PayPal\Auth\OAuthTokenCredential;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
@@ -244,17 +247,19 @@ class Cmallorder extends CB_Controller
          */
         $this->load->library('form_validation');
 
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
+
+        if (empty($cor_id) or $cor_id < 1) {
+            alert('잘못된 접근입니다');
+        }
+
+        $order = $this->{$this->modelname}->get_one($cor_id);
+        if (!element('cor_id', $order)) {
+            alert('해당 주문이 존재하지 않습니다.');
+        }
+
         $config = array(
-            array(
-                'field' => 'cor_id',
-                'label' => '구매아이디',
-                'rules' => 'trim|required|numeric',
-            ),
-            array(
-                'field' => 'mem_id',
-                'label' => '회원아이디',
-                'rules' => 'trim|required|numeric|is_natural',
-            ),
             array(
                 'field' => 'pcase',
                 'label' => '액션',
@@ -279,209 +284,133 @@ class Cmallorder extends CB_Controller
 
             // 이벤트가 존재하면 실행합니다
             $view['view']['event']['formruntrue'] = Events::trigger('formruntrue', $eventname);
-
-            $cor_id = $this->input->post('cor_id');
-            $mem_id = $this->input->post('mem_id');
             $pcase = $this->input->post('pcase');
 
             if ($pcase === 'product') {
-                $ori_ct_status = $this->input->post('ct_status');
-                $ct_status = $this->input->post('ct_status') ? cmall_get_stype_names($ori_ct_status) : '';
-                $pg_cancel = $this->input->post('pg_cancel');
-                $cnt = $this->input->post('cit_id') ? count($this->input->post('cit_id')) : '';
-                $cit_ids = $this->input->post('cit_id') ? $this->input->post('cit_id') : array();
-                $chk = $this->input->post('chk') ? $this->input->post('chk') : array();
-                $cod_download_days = $this->input->post('cod_download_days') ? $this->input->post('cod_download_days') : array();
-                $ct_qtys = $this->input->post('ct_qty') ? $this->input->post('ct_qty') : array();
+                $cor_status = $this->input->post('cor_status');
+                $pg = $order['cor_pg'];
 
-                $order = get_cmall_order_data($cor_id);
-                $status_normal = array('order', 'deposit');
-
-                for ($i = 0; $i < $cnt; $i++) {
-                    $k = element($i, $chk);
-                    $cit_id = element($k, $cit_ids);
-
-                    if (!$cit_id)
-                        continue;
-
-                    /*
-                    $item_detail = $this->Cmall_order_detail_model->get_detail_by_item($cor_id, $cit_id);
-
-                    if( ! element('cit_id', $item_detail) ){
-                        continue;
+                $orderdetail = $this->db->query("SELECT * FROM cb_cmall_order_detail cod LEFT JOIN cb_cmall_item_detail cid on cod.cde_id = cid.cde_id WHERE cor_id=?", [$cor_id])->result_array();
+                $total = 0.0;
+                foreach ($orderdetail as $item) {
+                    if ($pg == 'paypal') {
+                        $total += floatval($item['cde_price_d']);
+                    } elseif ($pg == 'allat') {
+                        $total += intval($item['cde_price']);
                     }
-                    */
+                }
+                // 결제정보 반영
+                $updatedata = array(
+                    'cor_status' => $cor_status,
+                );
 
-                    $updatedata = array(        //주문상태 수정
-                        'cod_status' => $ct_status,
-                    );
-
-                    if (element($k, $cod_download_days) !== null) {        //다운로드기간 수정
-
-                        $updatedata['cod_download_days'] = (int)element($k, $cod_download_days);
-
-                    }
-
+                if ($cor_status == '1') {
+                    $updatedata['cor_cash_request'] = $total;
+                    $updatedata['cor_cash'] = $total;
                     $where = array(
                         'cor_id' => $cor_id,
-                        'mem_id' => $mem_id,
-                        'cit_id' => $cit_id,
                     );
+                    $this->Cmall_order_model->update('', $updatedata, $where);
 
-                    $this->Cmall_order_detail_model->update('', $updatedata, $where);
-                }
+                    $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='order' WHERE cor_id=?", [$cor_id]);
+                } elseif ($cor_status == '0') {
+                    $updatedata['cor_cash_request'] = $total;
+                    $updatedata['cor_cash'] = 0;
+                    $where = array(
+                        'cor_id' => $cor_id,
+                    );
+                    $this->Cmall_order_model->update('', $updatedata, $where);
+                    $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='deposit' WHERE cor_id=?", [$cor_id]);
+                } elseif ($cor_status == '2') {
+                    if ($pg == 'allat') {
+                        // 올앳관련 함수 Include
+                        //----------------------
+                        include(FCPATH . 'plugin/pg/allat/allatutil.php');
 
-                $cancel_change = false;
-                $pg_cancel_log = '';
-                $mod_history = '';
+                        //Request Value Define
+                        //----------------------
+                        /*
+                        $at_cross_key = "가맹점 CrossKey";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+                        $at_shop_id   = "가맹점 ShopId";       //설정필요
+                        */
 
-                if ($ct_status == 'cancel') {
+                        //------------------------ Test Code ---------------------
+                        $at_cross_key = $_POST["test_cross_key"];
+                        $at_shop_id = $_POST["allat_shop_id"];
+                        //--------------------------------------------------------
 
-                    if ($pg_cancel) {
+                        // 요청 데이터 설정
+                        //----------------------
+                        $at_data   = "allat_shop_id=".$at_shop_id.
+                            "&allat_enc_data=".$_POST["allat_enc_data"].
+                            "&allat_cross_key=".$at_cross_key;
 
-                        $select = "count(*) as od_count1, SUM(IF(cod_status = 'cancel', 1, 0)) as od_count2";
-                        $where = array(
-                            'cor_id' => $cor_id,
-                            'mem_id' => $mem_id,
-                        );
 
-                        $row = $this->Cmall_order_detail_model->get_one('', $select, $where);
+                        // 올앳 결제 서버와 통신 : CancelReq->통신함수, $at_txt->결과값
+                        //----------------------------------------------------------------
+                        // PHP5 이상만 SSL 사용가능
+                        $at_txt = CancelReq($at_data,"SSL");
+                        // $at_txt = CancelReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
+                        // 이 부분에서 로그를 남기는 것이 좋습니다.
+                        // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
 
-                        // PG 신용카드 결제 취소일 때
-                        if ($row['od_count1'] === $row['od_count2']) {
-                            $cancel_change = true;
+                        // 결과값
+                        //----------------------------------------------------------------
+                        $REPLYCD     = getValue("reply_cd",$at_txt);	//결과코드
+                        $REPLYMSG    = getValue("reply_msg",$at_txt);	//결과 메세지
 
-                            $pg_res_cd = '';
-                            $pg_res_msg = '';
-                            $pg_cancel_log = '';
+                        // 결과값 처리
+                        //--------------------------------------------------------------------------
+                        // 결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
+                        // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
+                        // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
+                        //--------------------------------------------------------------------------
+                        if( strcmp($REPLYCD,"0000") == 0 || strcmp($REPLYCD,"0001") == 0 ){
+                            // reply_cd "0000" 일때만 성공
+                            $CANCEL_YMDHMS=getValue("cancel_ymdhms",$at_txt);
+                            $PART_CANCEL_FLAG=getValue("part_cancel_flag",$at_txt);
+                            $REMAIN_AMT=getValue("remain_amt",$at_txt);
+                            $PAY_TYPE=getValue("pay_type",$at_txt);
 
-                            $order = get_cmall_order_data($cor_id);
+//                        echo "결과코드		: ".$REPLYCD."<br>";
+//                        echo "결과메세지		: ".$REPLYMSG."<br>";
+//                        echo "취소날짜		: ".$CANCEL_YMDHMS."<br>";
+//                        echo "취소구분		: ".$PART_CANCEL_FLAG."<br>";
+//                        echo "잔액			: ".$REMAIN_AMT."<br>";
+//                        echo "거래방식구분	: ".$PAY_TYPE."<br>";
 
-                            $this->load->library('paymentlib');
+                            $params = array();
+                            $params['ORDER_NO'] = $cor_id;
+                            $params['AMT'] = $this->input->post('allat_amt');
+                            $params['PAY_TYPE'] = $PAY_TYPE;
+                            $params['APPROVAL_YMDHMS'] = $CANCEL_YMDHMS;
+                            $params['SAVE_AMT'] = $REMAIN_AMT;
+                            $params['PARTCANCEL_YN'] = $PART_CANCEL_FLAG;
+                            $params['RAW_DATA'] = $at_txt;
 
-                            $pg_res_cd = '';
+                            $this->Cmall_order_model->allat_log_insert($params);
 
-                            $result = array(
-                                'req_tx' => 'pay',
-                                'res_cd' => '0000',
-                                'tno' => element('cor_tno', $order),
-                                'cust_ip' => $this->input->ip_address(),
-                                'refund_msg' => iconv('utf-8', 'euc-kr', '쇼핑몰 운영자 승인 취소'),
+                            $updatedata['cor_cash_request'] = $total;
+                            $updatedata['cor_cash'] = $REMAIN_AMT;
+                            $updatedata['status'] = 'cancel';
+                            $where = array(
+                                'cor_id' => $cor_id,
                             );
-
-                            if (element('cor_tno', $order) && in_array(element('cor_pay_type', $order), array('card', 'easy'))) {
-                                switch (element('cor_pg', $order)) {
-
-                                    case 'lg' :
-
-                                        $pg_res_cd = $this->paymentlib->xpay_admin_cancel($result, true);
-
-                                        break;
-                                    case 'kcp' :
-
-                                        $pg_res_cd = $this->paymentlib->kcp_pp_ax_hub_cancel($result, true);
-
-                                        break;
-                                    case 'inicis' :
-
-                                        $pg_res_cd = $this->paymentlib->inipay_admin_cancel($result, true);
-
-                                        break;
-
-                                }
-
-                                // PG 취소요청 성공했으면
-                                if ($pg_res_cd === 'success') {
-                                    $pg_cancel_log = ' PG 신용카드 승인취소 처리';
-
-                                    $updatedata = array(
-                                        'cor_refund_price' => element('cor_cash', $order),
-                                    );
-                                    $where = array(
-                                        'cor_id' => $cor_id,
-                                        'mem_id' => $mem_id,
-                                    );
-                                    $this->Cmall_order_model->update('', $updatedata, $where);
-
-                                }
-                            }
+                            $this->Cmall_order_model->update('', $updatedata, $where);
+                        } else {
+                            // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
+                            // reply_msg 가 실패에 대한 메세지
+//                        echo "결과코드		: ".$REPLYCD."<br>";
+//                        echo "결과메세지		: ".$REPLYMSG."<br>";
+                            alert($REPLYCD . ':' . $REPLYMSG);
                         }
-
-                    } //enf if $pg_cancel
-
-                    // 관리자 주문취소 로그
-                    $mod_history .= date('Y-m-d H:i:s', time()) . ' ' . $mem_id . ' 주문' . $ori_ct_status . ' 처리' . $pg_cancel_log . "\n";
-
-                }
-
-                // 미수금 등의 정보
-                $info = get_cmall_order_amounts($cor_id);
-
-                $updatedata = array(
-                    'cor_refund_price' => $info['od_cancel_price'],
-                    'cor_cash' => $info['od_cash_price'],
-                );
-
-                if ($mod_history) {
-
-                    $mod_history = $order['cor_order_history'] . $mod_history;
-
-                    $updatedata['cor_order_history'] = $mod_history;
-                }
-
-                if ($cancel_change) {
-
-                    $updatedata['status'] = $ct_status;
-                    $updatedata['cor_status'] = 0;
-
-                } else {
-
-                    if (in_array($ct_status, $status_normal)) { // 정상인 주문상태만 기록
-                        $updatedata['status'] = $ct_status;
+                    } elseif ($pg == 'paypal') {
+//                        $credential = new OAuthTokenCredential($this->cbconfig->item('pg_paypal_'));
                     }
-
-                    if ($ct_status === 'deposit') {        //입금이면
-                        $updatedata['cor_status'] = 1;
-                    } else { //주문 또는 취소 인 경우
-
-                        $select = "count(*) as od_count1, SUM(IF(cod_status = 'order', 1, 0)) as od_count2, SUM(IF(cod_status = 'cancel', 1, 0)) as od_count3";
-                        $where = array(
-                            'cor_id' => $cor_id,
-                            'mem_id' => $mem_id,
-                        );
-
-                        $row = $this->Cmall_order_detail_model->get_one('', $select, $where);
-
-                        if (($row['od_count1'] === $row['od_count2']) || ($row['od_count1'] === $row['od_count3'])) {
-                            $updatedata['cor_status'] = 0;
-                            $updatedata['status'] = $ct_status;
-                        }
-
-                    }
-
                 }
-
-                $where = array(
-                    'cor_id' => $this->input->post('cor_id'),
-                    'mem_id' => $this->input->post('mem_id'),
-                );
-
-                $this->Cmall_order_model->update('', $updatedata, $where);
-
             } else if ($pcase === 'info') {
-
-                $cor_cash = (int)$this->input->post('cor_cash');
-                $cor_approve_datetime = $this->input->post('cor_approve_datetime');
-                $cor_deposit = (int)$this->input->post('cor_deposit');
-                $cor_refund_price = (int)$this->input->post('cor_refund_price');
                 $cor_admin_memo = $this->input->post('cor_admin_memo');
-                $cor_bank_info = $this->input->post('cor_bank_info');
-
-                if ($cor_approve_datetime) {
-                    if (check_datetime($cor_approve_datetime) == false) {
-                        alert('결제일시 오류입니다.');
-                    }
-                }
+                $cor_memo = $this->input->post('cor_memo');
 
                 // 주문정보
                 $info = get_cmall_order_data($cor_id, false);
@@ -491,60 +420,20 @@ class Cmallorder extends CB_Controller
 
                 // 결제정보 반영
                 $updatedata = array(
-                    'cor_cash' => $cor_cash,
-                    'cor_approve_datetime' => $cor_approve_datetime,
-                    'cor_deposit' => $cor_deposit,
-                    'cor_refund_price' => $cor_refund_price,
                     'cor_admin_memo' => $cor_admin_memo,
-                    'cor_bank_info' => $cor_bank_info,
+                    'cor_memo' => $cor_memo,
                 );
-
-                //미수금 금액을 구함
-                $notyet = abs(element('cor_cash_request', $info)) - abs($cor_cash);
-                $cart_status = false;
-
-                if ('order' == element('status', $info) && $notyet == 0) { // 주문 상태이면
-                    $updatedata['status'] = 'deposit';     //입금 상태로 변경
-                    $updatedata['cor_status'] = 1;
-                    $cart_status = true;
-                }
 
                 $where = array(
                     'cor_id' => $cor_id,
-                    'mem_id' => $mem_id,
                 );
 
                 $this->Cmall_order_model->update('', $updatedata, $where);
-
-                if ($cart_status) {
-                    $updatedata = array(
-                        'cod_status' => 'deposit',
-                    );
-
-                    $where = array(
-                        'cor_id' => $cor_id,
-                        'mem_id' => $mem_id,
-                        'cod_status' => 'order',
-                    );
-
-                    $this->Cmall_order_detail_model->update('', $updatedata, $where);
-                }
             }
 
             redirect(current_full_url(), 'refresh');
         }
 
-        // 이벤트가 존재하면 실행합니다
-        $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
-
-        if (empty($cor_id) or $cor_id < 1) {
-            alert('잘못된 접근입니다');
-        }
-
-        $order = $this->{$this->modelname}->get_one($cor_id);
-        if (!element('cor_id', $order)) {
-            alert('해당 주문이 존재하지 않습니다.');
-        }
         if ($this->member->is_admin() === false
             && (int)element('mem_id', $order) !== $mem_id) {
             alert('잘못된 접근입니다');
