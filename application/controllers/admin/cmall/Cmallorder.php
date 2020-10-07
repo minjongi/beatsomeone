@@ -434,8 +434,7 @@ class Cmallorder extends CB_Controller
             redirect(current_full_url(), 'refresh');
         }
 
-        if ($this->member->is_admin() === false
-            && (int)element('mem_id', $order) !== $mem_id) {
+        if ($this->member->is_admin() === false) {
             alert('잘못된 접근입니다');
         }
         $orderdetail = $this->Cmall_order_detail_model->get_by_item($cor_id);

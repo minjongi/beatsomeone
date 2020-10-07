@@ -55,6 +55,52 @@
 
         </div>
 
+        <div class="row" style="margin-top: 30px;">
+            <div class="playList board mybillinglist saleshistory">
+
+                <ul>
+                    <li class="playList__itembox" v-for="(item, index) in items" v-bind:key="index">
+                        <div class="playList__item playList__item--title nowrap active">
+                            <div class="n-flex between">
+                                <div class="index">{{ item.cor_id }}</div>
+                                <div class="date"> {{ item.cor_datetime }}</div>
+                            </div>
+                            <div class="n-flex none">
+                                <div class="col name" style="width: 32px; margin-right: 16px;">
+                                    <figure>
+                                        <span class="playList__cover">
+                                            <img v-if="item.cit_file_1" class="cover" :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                            <img v-else class="cover" src="/assets/images/cover_default.png">
+                                            <!--                                            <i ng-if="item.isNew" class="label new">N</i>-->
+                                        </span>
+                                    </figure>
+                                </div>
+                                <div class="subject">
+                                    <p style="word-break: break-all;">{{ item.item_name }}</p>
+                                    <!--                                    <p>(HipHop / 108Bpm)</p>-->
+                                </div>
+                            </div>
+                            <div class="n-flex">
+                                <div style="flex: 1;">
+                                    <div class="status">
+                                        <span :class="{'blue': item.cod_status === 'order', 'yellow': item.cod_status === 'deposit', 'red': item.cod_status === 'cancel'}">{{ $t(item.cod_status) }}</span>
+                                    </div>
+                                    <div class="totalprice">{{ formatPr(item.cor_pg, item.total_money) }}</div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div class="status">
+                                        <span class="yellow">{{ $t('settleComplete') }}</span>
+                                    </div>
+                                    <div class="totalprice">{{ formatPr(item.cor_pg, item.csh_settle_money) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
         <div class="row" v-if="false" style="margin-top:30px;">
             <div class="n-swiper-wrap">
                 <ul class="n-swiper">
@@ -194,6 +240,9 @@ export default {
         };
     },
     mounted() {
+        this.start_date = '2020-01-01';
+        let currentDate = new Date();
+        this.end_date = currentDate.yyyymmdd();
         this.getData()
     },
     created() {
@@ -212,8 +261,10 @@ export default {
             return typeof str == "undefined" || str == null || str === "";
         },
         resetSearchDate(date) {
-            this.start_date = ''
-            this.end_date = ''
+            this.start_date = '2020-01-01';
+            let currentDate = new Date();
+            this.end_date = currentDate.yyyymmdd();
+            this.period = -1;
             this.getData();
         },
         getData() {
@@ -232,7 +283,21 @@ export default {
             this.$router.push(path);
         },
         downloadExcel() {
-
+            axios({
+                method: "get",
+                url: `/settlement/ajax_download_complete?start_date=${this.start_date}&end_date=${this.end_date}`,
+                responseType: "blob",
+            })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    let currentDate = new Date();
+                    link.setAttribute('download', `settlement_complete_${currentDate.yyyymmdd()}.xls`);
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch((error) => console.error(error));
         },
         setAccount() {
 

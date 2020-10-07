@@ -217,7 +217,7 @@ $config['subclass_prefix'] = 'CB_';
  * CiBoard 주 : 씨아이보드는 composer 기능을 현재는 사용하고 있지 않습니다.
  * 즉 아래의 값을 변경하실 필요가 없습니다
  */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = 'vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------

@@ -92,7 +92,7 @@
                                     </figure>
                                 </div>
                                 <div class="subject">
-                                    <p>{{ item.item_name }}</p>
+                                    <p style="word-break: break-all;">{{ item.item_name }}</p>
 <!--                                    <p>(HipHop / 108Bpm)</p>-->
                                 </div>
                             </div>
@@ -287,6 +287,9 @@ export default {
     },
     mounted() {
         $('.paging').on('click', 'a', this.pageClicked);
+        this.start_date = '2020-01-01';
+        let currentDate = new Date();
+        this.end_date = currentDate.yyyymmdd();
         this.getData();
     },
     created() {
@@ -302,12 +305,13 @@ export default {
             }
         },
         isEmpty: function (str) {
-            if (typeof str == "undefined" || str == null || str == "") return true;
-            else return false;
+            return typeof str == "undefined" || str == null || str === "";
         },
         resetSearchDate(date) {
-            this.start_date = ''
-            this.end_date = ''
+            this.start_date = '2020-01-01';
+            let currentDate = new Date();
+            this.end_date = currentDate.yyyymmdd();
+            this.period = -1;
             this.getData();
         },
         getData() {
@@ -369,7 +373,21 @@ export default {
                 })
         },
         downloadExcel: function () {
-
+            axios({
+                method: "get",
+                url: `/settlement/ajax_download?start_date=${this.start_date}&end_date=${this.end_date}`,
+                responseType: "blob",
+            })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    let currentDate = new Date();
+                    link.setAttribute('download', `settlement_${currentDate.yyyymmdd()}.xls`);
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch((error) => console.error(error));
         },
         formatPr: function (m, price) {
             if (m === 'paypal') {
