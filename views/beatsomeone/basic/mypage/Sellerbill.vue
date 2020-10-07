@@ -122,118 +122,14 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
-        <div class="panel">
-            <div class="popup active" style="width:1110px;">
-
-                <div class="box" style="padding-bottom:50px;">
-                    <div class="title" style="margin-bottom:30px;">ACCOUNT SETTING</div>
-
-                    <div class="row">
-                        <div class="type"><span style="margin-top:-4px;">Bank Name<span class="red">*</span></span>
-                        </div>
-                        <div class="data">
-                            <div class="input_wrap col">
-                                <input class="inputbox" type="mail" placeholder="Enter your bank name...">
-                                <div class="caution deactive" style="min-width:100%;">
-                                    <div>
-                                        <img class="caution" src="/assets/images/icon/caution.png">
-                                        <img class="warning" src="/assets/images/icon/warning.png">
-                                    </div>
-                                    <span>
-                                        {{ $t('noteChangeEmailMsg') }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="type"><span style="margin-top:-4px;">Account Number<span class="red">*</span></span>
-                        </div>
-                        <div class="data">
-                            <div class="input_wrap col">
-                                <input class="inputbox" type="mail" placeholder="Enter your account number...">
-                                <div class="caution deactive" style="min-width:100%;">
-                                    <div>
-                                        <img class="caution" src="/assets/images/icon/caution.png">
-                                        <img class="warning" src="/assets/images/icon/warning.png">
-                                    </div>
-                                    <span>
-                                        {{ $t('noteChangeEmailMsg') }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="type"><span style="margin-top:-4px;">Receipent<span class="red">*</span></span>
-                        </div>
-                        <div class="data">
-                            <div class="input_wrap col">
-                                <input class="inputbox" type="mail" placeholder="Enter receipent name...">
-                                <div class="caution deactive" style="min-width:100%;">
-                                    <div>
-                                        <img class="caution" src="/assets/images/icon/caution.png">
-                                        <img class="warning" src="/assets/images/icon/warning.png">
-                                    </div>
-                                    <span>
-                                        {{ $t('noteChangeEmailMsg') }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="type"><span style="margin-top:-4px;">Copy of Account<span
-                            class="red">*</span></span></div>
-                        <div class="data">
-                            <label class="btn btn--blue" for="attachbtn">
-                                <input type="file" id="attachbtn" style="display:none;">
-                                <span style="margin:auto; padding:0 15px;">Attach Copy</span>
-                            </label>
-                            <div class="attached active" style="margin-left:20px;">
-                                <div class="btn btn--glass">
-                                    <img src="/assets/images/icon/file.png"/>powerfulbeat.mp3
-                                    <button class="close">
-                                        <img src="/assets/images/icon/x-white.png"/>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div></div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="title-content">
-                            <p>
-                                - Please upload a file less than 1mb in size to your account copy.<br/>
-                                - Account is only available to the <strong>seller's own account</strong>, and <strong>proof
-                                may be required</strong>.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="btnbox" style="text-align:center;">
-                        <button class="btn btn--gray" style="width:208px">Cancel</button>
-                        <button type="submit" class="btn btn--yellow" style="width:208px; margin-left:20px;">Save
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <AccountSettingModal v-if="isModalOpen" @dismissModal="doDismissModal" @submitModal="doSubmitModal" />
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker';
+import AccountSettingModal from "./component/AccountSettingModal";
 
 Date.prototype.yyyymmdd = function () {
     let mm = this.getMonth() + 1;
@@ -244,7 +140,8 @@ Date.prototype.yyyymmdd = function () {
 
 export default {
     components: {
-        VueHotelDatepicker
+        VueHotelDatepicker,
+        AccountSettingModal
     },
     data: function () {
         return {
@@ -255,7 +152,8 @@ export default {
             end_date: '',
             currDate: new Date().toISOString().substring(0, 10),
             items: [],
-            complete_pagination: ''
+            complete_pagination: '',
+            isModalOpen: false,
         };
     },
     mounted() {
@@ -319,7 +217,9 @@ export default {
                 .catch((error) => console.error(error));
         },
         setAccount() {
-
+            let el = document.body;
+            el.style.overflow = 'hidden'
+            this.isModalOpen = !this.isModalOpen;
         },
         formatPr: function (m, price) {
             if (m === 'paypal') {
@@ -337,6 +237,14 @@ export default {
         formatNumberEn(n) {
             //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
             return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
+        },
+        doDismissModal() {
+            let el = document.body;
+            el.style.overflow = 'auto'
+            this.isModalOpen = false;
+        },
+        doSubmitModal() {
+            this.isModalOpen = false;
         },
     },
     watch: {
