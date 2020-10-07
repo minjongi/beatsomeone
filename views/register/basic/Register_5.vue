@@ -96,7 +96,7 @@
                     formData.append('mem_address1', userInfo.mem_address1 || '');
                     formData.append('mem_profile_content', userInfo.mem_profile_content);
                     formData.append('mem_type', userInfo.mem_type);
-                    // formData.append('mgr_id', userInfo.group.mgr_id);
+                    formData.append('mgr_id', userInfo.group.mgr_id);
 
                     axios.post('/register/form', formData)
                         .then(res => res.data)

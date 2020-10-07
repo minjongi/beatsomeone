@@ -251,7 +251,7 @@ class Member extends CI_Controller
 				'Member_level_history_model', 'Member_login_log_model', 'Member_meta_model',
 				'Member_register_model', 'Notification_model', 'Point_model',
 				'Scrap_model', 'Social_meta_model',
-				'Tempsave_model', 'Member_userid_model',
+				'Tempsave_model',
 			)
 		);
 
@@ -277,8 +277,6 @@ class Member extends CI_Controller
 		$this->CI->Scrap_model->delete_where($deletewhere);
 		$this->CI->Social_meta_model->delete_where($deletewhere);
 		$this->CI->Tempsave_model->delete_where($deletewhere);
-
-		$this->CI->Member_userid_model->update($mem_id, array('mem_status' => 1));
 
 		return true;
 	}

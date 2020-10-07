@@ -18,7 +18,7 @@ class Register extends CB_Controller
     /**
      * 모델을 로딩합니다
      */
-    protected $models = array('Member_nickname', 'Member_meta', 'Member_auth_email', 'Member_userid', 'Promo', 'Member');
+    protected $models = array('Member_meta', 'Member_auth_email', 'Promo', 'Member');
 
     /**
      * 헬퍼를 로딩합니다
@@ -400,7 +400,7 @@ class Register extends CB_Controller
         $configbasic['mem_userid'] = array(
             'field' => 'mem_userid',
             'label' => '아이디',
-            'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|is_unique[member_userid.mem_userid]|callback__mem_userid_check',
+            'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|callback__mem_userid_check',
             'description' => '영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요',
         );
 
@@ -845,12 +845,6 @@ class Register extends CB_Controller
                 return false;
             }
 
-            $useridinsertdata = array(
-                'mem_id' => $mem_id,
-                'mem_userid' => $this->input->post('mem_userid'),
-            );
-            $this->Member_userid_model->insert($useridinsertdata);
-
             if ($selfcert_meta) {
                 foreach ($selfcert_meta as $certkey => $certvalue) {
                     $metadata[$certkey] = $certvalue;
@@ -868,13 +862,6 @@ class Register extends CB_Controller
             }
 
             $this->Member_meta_model->save($mem_id, $metadata);
-
-            $nickinsert = array(
-                'mem_id' => $mem_id,
-                'mni_nickname' => $this->input->post('mem_nickname'),
-                'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-            );
-            $this->Member_nickname_model->insert($nickinsert);
 
             $extradata = array();
             if ($form && is_array($form)) {
@@ -904,16 +891,27 @@ class Register extends CB_Controller
 
             $this->load->model('Member_group_model');
             $allgroup = $this->Member_group_model->get_all_group();
+            $mgr_id = $this->input->post('mgr_id');
             if ($allgroup && is_array($allgroup)) {
                 $this->load->model('Member_group_member_model');
-                foreach ($allgroup as $gkey => $gval) {
-                    if (element('mgr_is_default', $gval)) {
-                        $gminsert = array(
-                            'mgr_id' => element('mgr_id', $gval),
-                            'mem_id' => $mem_id,
-                            'mgm_datetime' => cdate('Y-m-d H:i:s'),
-                        );
-                        $this->Member_group_member_model->insert($gminsert);
+                $member_group = $this->db->query("SELECT * FROM cb_member_group WHERE mgr_id=?", [$mgr_id])->row_array();
+                if ($member_group['mgr_title'] == 'buyer' || $member_group['mgr_title'] == 'seller_free') {
+                    $gminsert = array(
+                        'mgr_id' => $mgr_id,
+                        'mem_id' => $mem_id,
+                        'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                    );
+                    $this->Member_group_member_model->insert($gminsert);
+                } else {
+                    foreach ($allgroup as $gkey => $gval) {
+                        if (element('mgr_is_default', $gval)) {
+                            $gminsert = array(
+                                'mgr_id' => element('mgr_id', $gval),
+                                'mem_id' => $mem_id,
+                                'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                            );
+                            $this->Member_group_member_model->insert($gminsert);
+                        }
                     }
                 }
             }
@@ -4579,19 +4577,6 @@ class Register extends CB_Controller
             'mem_nickname' => $str,
         );
         $row = $this->Member_model->count_by($countwhere);
-
-        if ($row > 0) {
-            $this->form_validation->set_message(
-                '_mem_nickname_check',
-                $str . ' 는 이미 다른 회원이 사용하고 있는 닉네임입니다'
-            );
-            return false;
-        }
-
-        $countwhere = array(
-            'mni_nickname' => $str,
-        );
-        $row = $this->Member_nickname_model->count_by($countwhere);
 
         if ($row > 0) {
             $this->form_validation->set_message(

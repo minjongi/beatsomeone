@@ -293,7 +293,7 @@
                     group: group,
                     billTerm: this.billTerm,
                 })
-                this.$router.push('/2');
+                this.$router.push('/3');
             },
             fetchData() {
                 axios.get('/membergroup')

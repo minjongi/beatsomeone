@@ -24,7 +24,7 @@ class Members extends CB_Controller
     /**
      * 모델을 로딩합니다
      */
-    protected $models = array('Member_meta', 'Member_group', 'Member_group_member', 'Member_nickname', 'Member_extra_vars', 'Member_userid', 'Social_meta');
+    protected $models = array('Member_meta', 'Member_group', 'Member_group_member', 'Member_extra_vars', 'Social_meta');
 
     /**
      * 이 컨트롤러의 메인 모델 이름입니다

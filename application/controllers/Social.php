@@ -1137,11 +1137,11 @@ class Social extends CB_Controller
 
 				echo '<meta http-equiv="content-type" content="text/html; charset=' . config_item('charset') . '">';
 				echo '<script type="text/javascript"> window.close();';
-				if ($url_after_login) {
-					echo 'window.opener.document.location.href = "' . $url_after_login . '";';
-				} else {
+//				if ($url_after_login) {
+//					echo 'window.opener.document.location.href = "' . $url_after_login . '";';
+//				} else {
 					echo 'window.opener.location.reload();';
-				}
+//				}
 				echo '</script>';
 				exit;
 			}
