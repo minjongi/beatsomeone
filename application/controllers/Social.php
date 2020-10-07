@@ -18,7 +18,7 @@ class Social extends CB_Controller
 	/**
 	 * 모델을 로딩합니다
 	 */
-	protected $models = array('Social', 'Social_meta', 'Member_nickname');
+	protected $models = array('Social', 'Social_meta');
 
 	/**
 	 * 헬퍼를 로딩합니다
@@ -887,15 +887,6 @@ class Social extends CB_Controller
 						}
 					}
 					if ($good) {
-						$countwhere = array(
-							'mni_nickname' => $nickname,
-						);
-						$row = $this->Member_nickname_model->count_by($countwhere);
-						if ($row > 0) {
-							$good = false;
-						}
-					}
-					if ($good) {
 						break;
 					}
 					$nickname = $nickname_origin . $k;
@@ -939,13 +930,6 @@ class Social extends CB_Controller
 				$insertdata['mem_lastlogin_ip'] = $this->input->ip_address();
 
 				$mem_id = $this->Member_model->insert($insertdata);
-
-				$nickinsert = array(
-					'mem_id' => $mem_id,
-					'mni_nickname' => $nickname,
-					'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-				);
-				$this->Member_nickname_model->insert($nickinsert);
 
 				$levelhistoryinsert = array(
 					'mem_id' => $mem_id,

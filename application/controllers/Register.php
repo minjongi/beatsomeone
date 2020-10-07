@@ -1457,20 +1457,7 @@ class Register extends CB_Controller
 
         $mem_id = $this->Member_model->insert($insertdata);
 
-//        $useridinsertdata = array(
-//            'mem_id' => $mem_id,
-//            'mem_userid' => $this->input->post('mem_userid'),
-//        );
-//        $this->Member_userid_model->insert($useridinsertdata);
-
         $this->Member_meta_model->save($mem_id, $metadata);
-
-        $nickinsert = array(
-            'mem_id' => $mem_id,
-            'mni_nickname' => $this->input->post('mem_nickname'),
-            'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-        );
-        $this->Member_nickname_model->insert($nickinsert);
 
         if ($this->input->post('mem_musician_bank') != null) {
             $this->load->model('Member_extra_vars_model');
@@ -1666,7 +1653,7 @@ class Register extends CB_Controller
         $configbasic['mem_userid'] = array(
             'field' => 'mem_userid',
             'label' => '아이디',
-            'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|is_unique[member_userid.mem_userid]|callback__mem_userid_check',
+            'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|callback__mem_userid_check',
             'description' => '영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요',
         );
 
@@ -2277,12 +2264,6 @@ class Register extends CB_Controller
 
             $mem_id = $this->Member_model->insert($insertdata);
 
-//			$useridinsertdata = array(
-//				'mem_id' => $mem_id,
-//				'mem_userid' => $this->input->post('mem_userid'),
-//			);
-//			$this->Member_userid_model->insert($useridinsertdata);
-
             if ($selfcert_meta) {
                 foreach ($selfcert_meta as $certkey => $certvalue) {
                     $metadata[$certkey] = $certvalue;
@@ -2300,13 +2281,6 @@ class Register extends CB_Controller
             }
 
             $this->Member_meta_model->save($mem_id, $metadata);
-
-            $nickinsert = array(
-                'mem_id' => $mem_id,
-                'mni_nickname' => $this->input->post('mem_nickname'),
-                'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-            );
-            $this->Member_nickname_model->insert($nickinsert);
 
             $extradata = array();
             if ($form && is_array($form)) {
@@ -2817,7 +2791,7 @@ class Register extends CB_Controller
         $configbasic['mem_userid'] = array(
             'field' => 'mem_userid',
             'label' => '아이디',
-            'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|is_unique[member_userid.mem_userid]|callback__mem_userid_check',
+            'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|callback__mem_userid_check',
             'description' => '영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요',
         );
 
@@ -3433,12 +3407,6 @@ class Register extends CB_Controller
 
             $mem_id = $this->Member_model->insert($insertdata);
 
-//            $useridinsertdata = array(
-//                'mem_id' => $mem_id,
-//                'mem_userid' => $this->input->post('mem_userid'),
-//            );
-//            $this->Member_userid_model->insert($useridinsertdata);
-
             if ($selfcert_meta) {
                 foreach ($selfcert_meta as $certkey => $certvalue) {
                     $metadata[$certkey] = $certvalue;
@@ -3456,13 +3424,6 @@ class Register extends CB_Controller
             }
 
             $this->Member_meta_model->save($mem_id, $metadata);
-
-            $nickinsert = array(
-                'mem_id' => $mem_id,
-                'mni_nickname' => $this->input->post('mem_nickname'),
-                'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-            );
-            $this->Member_nickname_model->insert($nickinsert);
 
             $extradata = array();
             if ($form && is_array($form)) {

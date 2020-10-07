@@ -687,27 +687,6 @@ class Members extends CB_Controller
                 $mem_id = $this->input->post($primary_key);
                 $this->{$this->modelname}->update($mem_id, $updatedata);
                 $this->Member_meta_model->save($mem_id, $metadata);
-                if (element('mem_userid', $getdata) !== $this->input->post('mem_userid')) {
-                    $useriddata = array('mem_userid' => $this->input->post('mem_userid'));
-                    $useridwhere = array('mem_id' => element('mem_id', $getdata));
-                    $this->Member_userid_model->update('', $useriddata, $useridwhere);
-                }
-                if (element('mem_nickname', $getdata) !== $this->input->post('mem_nickname')) {
-                    $upnick = array(
-                        'mni_end_datetime' => cdate('Y-m-d H:i:s'),
-                    );
-                    $upwhere = array(
-                        'mem_id' => $mem_id,
-                    );
-                    $this->Member_nickname_model->update('', $upnick, $upwhere);
-
-                    $nickinsert = array(
-                        'mem_id' => $mem_id,
-                        'mni_nickname' => $this->input->post('mem_nickname'),
-                        'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-                    );
-                    $this->Member_nickname_model->insert($nickinsert);
-                }
 
                 if (element('mem_level', $getdata) !== $this->input->post('mem_level')) {
                     $levelhistoryinsert = array(
@@ -763,19 +742,7 @@ class Members extends CB_Controller
 
                 $mem_id = $this->{$this->modelname}->insert($updatedata);
 
-                $useridinsertdata = array(
-                    'mem_id' => $mem_id,
-                    'mem_userid' => $this->input->post('mem_userid'),
-                );
-                $this->Member_userid_model->insert($useridinsertdata);
-
                 $this->Member_meta_model->save($mem_id, $metadata);
-                $nickinsert = array(
-                    'mem_id' => $mem_id,
-                    'mni_nickname' => $this->input->post('mem_nickname'),
-                    'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-                );
-                $this->Member_nickname_model->insert($nickinsert);
                 $levelhistoryinsert = array(
                     'mem_id' => $mem_id,
                     'mlh_from' => 0,

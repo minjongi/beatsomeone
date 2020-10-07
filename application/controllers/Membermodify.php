@@ -18,7 +18,7 @@ class Membermodify extends CB_Controller
 	/**
 	 * 모델을 로딩합니다
 	 */
-	protected $models = array('Member_nickname', 'Member_meta', 'Member_auth_email', 'Member_extra_vars');
+	protected $models = array('Member_meta', 'Member_auth_email', 'Member_extra_vars');
 
 	/**
 	 * 헬퍼를 로딩합니다
@@ -767,18 +767,6 @@ class Membermodify extends CB_Controller
 				$upnick = array(
 					'mni_end_datetime' => cdate('Y-m-d H:i:s'),
 				);
-				$nickwhere = array(
-					'mem_id' => $mem_id,
-					'mni_nickname' => $this->member->item('mem_nickname'),
-				);
-				$this->Member_nickname_model->update('', $upnick, $nickwhere);
-
-				$nickinsert = array(
-					'mem_id' => $mem_id,
-					'mni_nickname' => $this->input->post('mem_nickname'),
-					'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-				);
-				$this->Member_nickname_model->insert($nickinsert);
 			}
 			if ($selfcert_username) {
 				$updatedata['mem_username'] = $selfcert_username;
@@ -1574,18 +1562,6 @@ class Membermodify extends CB_Controller
                 $upnick = array(
                     'mni_end_datetime' => cdate('Y-m-d H:i:s'),
                 );
-                $nickwhere = array(
-                    'mem_id' => $mem_id,
-                    'mni_nickname' => $this->member->item('mem_nickname'),
-                );
-                $this->Member_nickname_model->update('', $upnick, $nickwhere);
-
-                $nickinsert = array(
-                    'mem_id' => $mem_id,
-                    'mni_nickname' => $this->input->post('mem_nickname'),
-                    'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-                );
-                $this->Member_nickname_model->insert($nickinsert);
             }
             if ($selfcert_username) {
                 $updatedata['mem_username'] = $selfcert_username;
@@ -1838,7 +1814,7 @@ class Membermodify extends CB_Controller
 		$config['mem_userid'] = array(
 			'field' => 'mem_userid',
 			'label' => '아이디',
-			'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|is_unique[member_userid.mem_userid]|callback__mem_userid_check',
+			'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|callback__mem_userid_check',
 		);
 		$config['mem_password'] = array(
 			'field' => 'mem_password',
@@ -1929,18 +1905,6 @@ class Membermodify extends CB_Controller
 				$upnick = array(
 					'mni_end_datetime' => cdate('Y-m-d H:i:s'),
 				);
-				$nickwhere = array(
-					'mem_id' => $mem_id,
-					'mni_nickname' => $this->member->item('mem_nickname'),
-				);
-				$this->Member_nickname_model->update('', $upnick, $nickwhere);
-
-				$nickinsert = array(
-					'mem_id' => $mem_id,
-					'mni_nickname' => $this->input->post('mem_nickname'),
-					'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-				);
-				$this->Member_nickname_model->insert($nickinsert);
 			}
 			$updatedata['mem_password'] = password_hash($this->input->post('mem_password'), PASSWORD_BCRYPT);
 
@@ -3180,19 +3144,6 @@ class Membermodify extends CB_Controller
 			'mem_nickname' => $str,
 		);
 		$row = $this->Member_model->count_by($countwhere);
-
-		if ($row > 0) {
-			$this->form_validation->set_message(
-				'_mem_nickname_check',
-				$str . ' 는 이미 다른 회원이 사용하고 있는 닉네임입니다'
-			);
-			return false;
-		}
-
-		$countwhere = array(
-			'mni_nickname' => $str,
-		);
-		$row = $this->Member_nickname_model->count_by($countwhere);
 
 		if ($row > 0) {
 			$this->form_validation->set_message(
