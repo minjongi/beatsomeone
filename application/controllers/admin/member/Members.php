@@ -135,7 +135,7 @@ class Members extends CB_Controller
                 }
                 $result['list'][$key]['display_name'] = display_username(
                     element('mem_userid', $val),
-                    element('mem_nickname', $val),
+                    element('mem_userid', $val),
                     element('mem_icon', $val)
                 );
                 $result['list'][$key]['meta'] = $this->Member_meta_model->get_all_meta(element('mem_id', $val));
