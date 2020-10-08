@@ -374,6 +374,7 @@
                 window.location.href = "/cmall/cart";
             },
             goPay: function () {
+                console.log(document.fm1);
                 window.AllatPay_Approval(document.fm1);
                 // 결제창 자동종료 체크 시작
                 window.AllatPay_Closechk_Start();

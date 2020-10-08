@@ -121,7 +121,8 @@ class Settlement extends CB_Controller
                          LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
                 WHERE ci.mem_id = ? AND (csh_status IS NULL OR csh_status = 0 ) AND co.cor_datetime >= ? AND co.cor_datetime <=?
                 ORDER BY co.cor_datetime DESC";
-        $sql2 = "SELECT COUNT(*) as total_rows 
+
+        $sql_total_stay_rows = "SELECT COUNT(*) as rownum 
                 FROM cb_cmall_order_detail AS cod
                          LEFT JOIN cb_cmall_settlement_history AS csh ON csh.cod_id = cod.cod_id
                          LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
@@ -130,12 +131,77 @@ class Settlement extends CB_Controller
                          LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
                          LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
                          LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
-                WHERE ci.mem_id = ? AND (csh_status IS NULL OR csh_status = 0 ) AND co.cor_datetime >= ? AND co.cor_datetime <=?";
+                WHERE ci.mem_id = ? AND (csh_status IS NULL OR csh_status = 0 )";
 
-        //        $result = $this->Cmall_order_detail_model->get_settlement_data($mem_id, $start_date, $end_date, $offset, 20);
+        $sql_total_complete_rows = "SELECT COUNT(*) as rownum 
+                FROM cb_cmall_order_detail AS cod
+                         LEFT JOIN cb_cmall_settlement_history AS csh ON csh.cod_id = cod.cod_id
+                         LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
+                         LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
+                         LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
+                         LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
+                         LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
+                         LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
+                WHERE ci.mem_id = ? AND csh_status = 1";
 
-        $result['total_rows'] = ($this->db->query($sql2, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->row_array())['total_rows'];
+        $sql_total_money = "SELECT SUM(total_money) as total FROM (SELECT 
+                       CASE
+                           WHEN co.cor_pg = 'allat' THEN cid.cde_price
+                           WHEN co.cor_pg = 'paypal' THEN cid.cde_price_d
+                           ELSE cid.cde_price END                               as total_money
+                FROM cb_cmall_order_detail AS cod
+                         LEFT JOIN cb_cmall_settlement_history AS csh ON csh.cod_id = cod.cod_id
+                         LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
+                         LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
+                         LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
+                         LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
+                         LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
+                         LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
+                WHERE ci.mem_id = ? AND (csh_status IS NULL OR csh_status = 0 ) AND co.cor_datetime >= ? AND co.cor_datetime <=? AND cid.cde_title LIKE ? AND co.cor_pg = ?) as settle_data";
+
+        $sql_total_settle = "SELECT SUM(csh_settle_money) as total FROM (SELECT 
+                       IFNULL(csh.csh_settle_money, CASE
+                                                        WHEN co.cor_pg = 'allat' THEN cid.cde_price
+                                                        WHEN co.cor_pg = 'paypal' THEN cid.cde_price_d
+                                                        ELSE cid.cde_price END) * (100 - mg.mgr_commission) / 100.0 as csh_settle_money
+                FROM cb_cmall_order_detail AS cod
+                         LEFT JOIN cb_cmall_settlement_history AS csh ON csh.cod_id = cod.cod_id
+                         LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
+                         LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
+                         LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
+                         LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
+                         LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
+                         LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
+                WHERE ci.mem_id = ? AND (csh_status IS NULL OR csh_status = 0 ) AND co.cor_datetime >= ? AND co.cor_datetime <=? AND cid.cde_title LIKE ? AND co.cor_pg = ?) as settle_data";
+
+        $sql_total_amount = "SELECT COUNT(*) as rownum
+                FROM cb_cmall_order_detail AS cod
+                         LEFT JOIN cb_cmall_settlement_history AS csh ON csh.cod_id = cod.cod_id
+                         LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
+                         LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
+                         LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
+                         LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
+                         LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
+                         LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
+                WHERE ci.mem_id = ? AND (csh_status IS NULL OR csh_status = 0 ) AND co.cor_datetime >= ? AND co.cor_datetime <=? AND cid.cde_title = ?";
+        $sql_mgr_commission = "SELECT mgr_commission FROM cb_member as m 
+                LEFT JOIN cb_member_group_member mgm on m.mem_id = mgm.mem_id
+                LEFT JOIN cb_member_group mg on mgm.mgr_id = mg.mgr_id WHERE m.mem_id=?";
+
         $result['list'] = $this->db->query($sql, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->result_array();
+        $result['total_stay_rows'] = ($this->db->query($sql_total_stay_rows, [$mem_id])->row_array())['rownum'];
+        $result['total_complete_rows'] = ($this->db->query($sql_total_complete_rows, [$mem_id])->row_array())['rownum'];
+        $result['total_lease_money'] = ($this->db->query($sql_total_money, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'LEASE', 'allat'])->row_array())['total'];
+        $result['total_lease_money_d'] = ($this->db->query($sql_total_money, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'LEASE', 'paypal'])->row_array())['total'];
+        $result['total_stem_money'] = ($this->db->query($sql_total_money, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'STEM', 'allat'])->row_array())['total'];
+        $result['total_stem_money_d'] = ($this->db->query($sql_total_money, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'STEM', 'paypal'])->row_array())['total'];
+        $result['total_lease_amount'] = ($this->db->query($sql_total_amount, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'LEASE'])->row_array())['rownum'];
+        $result['total_stem_amount'] = ($this->db->query($sql_total_amount, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'STEM'])->row_array())['rownum'];
+        $result['total_money'] = ($this->db->query($sql_total_money, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', '%%', 'allat'])->row_array())['total'];
+        $result['total_money_d'] = ($this->db->query($sql_total_money, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', '%%', 'paypal'])->row_array())['total'];
+        $result['total_settle_money'] = ($this->db->query($sql_total_settle, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', '%%', 'allat'])->row_array())['total'];
+        $result['total_settle_money_d'] = ($this->db->query($sql_total_settle, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', '%%', 'paypal'])->row_array())['total'];
+        $result['mgr_commission'] = ($this->db->query($sql_mgr_commission, [$mem_id])->row_array())['mgr_commission'];
         return $result;
     }
 
@@ -170,7 +236,7 @@ class Settlement extends CB_Controller
                          LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
                          LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
                 WHERE ci.mem_id = ? AND csh_status = 1 AND co.cor_datetime >= ? AND co.cor_datetime <=?";
-        $sql2 = "SELECT COUNT(*) as total_rows 
+        $sql2 = "SELECT COUNT(*) as rownum 
                 FROM cb_cmall_order_detail AS cod
                          LEFT JOIN cb_cmall_settlement_history AS csh ON csh.cod_id = cod.cod_id
                          LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
@@ -179,10 +245,22 @@ class Settlement extends CB_Controller
                          LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
                          LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
                          LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
-                WHERE ci.mem_id = ? AND csh_status = 1 AND co.cor_datetime >= ? AND co.cor_datetime <=?";
+                WHERE ci.mem_id = ? AND (csh_status IS NULL OR csh_status = 0 )";
 
-        $result['total_rows'] = ($this->db->query($sql2, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->row_array())['total_rows'];
+        $sql3 = "SELECT COUNT(*) as rownum 
+                FROM cb_cmall_order_detail AS cod
+                         LEFT JOIN cb_cmall_settlement_history AS csh ON csh.cod_id = cod.cod_id
+                         LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
+                         LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
+                         LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
+                         LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
+                         LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
+                         LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
+                WHERE ci.mem_id = ? AND csh_status = 1";
+
         $result['list'] = $this->db->query($sql, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->result_array();
+        $result['total_stay_rows'] = ($this->db->query($sql2, [$mem_id])->row_array())['rownum'];
+        $result['total_complete_rows'] = ($this->db->query($sql3, [$mem_id])->row_array())['rownum'];
         return $result;
     }
 

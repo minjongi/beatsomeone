@@ -118,8 +118,15 @@ export default {
             bank_name: '',
             account_number: '',
             recipient: '',
-            file_attach: null
+            file_attach: null,
+            member: {}
         }
+    },
+    mounted() {
+        this.member = window.member;
+        if (this.member && this.member.mem_bank_name) this.bank_name = this.member.mem_bank_name;
+        if (this.member && this.member.mem_account_number) this.account_number = this.member.mem_account_number;
+        if (this.member && this.member.mem_recipient) this.recipient = this.member.mem_recipient;
     },
     methods: {
         dismissModal() {

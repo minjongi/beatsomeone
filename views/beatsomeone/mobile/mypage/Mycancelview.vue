@@ -66,11 +66,11 @@
                         <span class="title">Paid</span>
                         <span class="yellow" style="font-weight: 600;">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</span>
                     </div>
-                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);" v-if="false">
+                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);" v-if="order.cor_cancel_datetime">
                         <span class="title">Refund request</span>
-                        <span style="opacity:.7; font-weight:normal;">{{ order.cor_request_datetime }}</span>
+                        <span style="opacity:.7; font-weight:normal;">{{ order.cor_cancel_datetime }}</span>
                     </div>
-                    <div class="n-flex between" v-if="false">
+                    <div class="n-flex between" v-if="order.cor_refund_datetime">
                         <span class="title">Refund complete</span>
                         <span style="opacity:.7; font-weight:normal;">{{ order.cor_refund_datetime }}</span>
                     </div>
@@ -81,9 +81,9 @@
                     <div class="n-flex between">
                         <span style="opacity:.7; font-weight:600;">{{ order.cor_admin_memo }}</span>
                     </div>
-                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);" v-if="false">
+                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
                         <span class="title">Refund</span>
-                        <span class="red">{{ order.cor_memo }}{{ order.cor_refund_price }}</span>
+                        <span class="red">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</span>
                     </div>
                     <div class="n-flex between" v-if="false">
                         <span class="title">Refund Points</span>

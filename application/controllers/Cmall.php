@@ -3768,6 +3768,7 @@ class Cmall extends CB_Controller
                 'cor_refund_price' => $total_refunds,
                 'cor_memo' => $this->input->post('cor_memo'),
                 'cor_admin_memo' => $this->input->post('cor_admin_memo'),
+                'cor_cancel_datetime' => cdate('Y-m-d H:i:s')
             ]);
         }
 

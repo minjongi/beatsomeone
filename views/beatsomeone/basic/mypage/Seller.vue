@@ -3,7 +3,7 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:64px;">
-                    <div class="active">Settlement Status ({{ total_current_rows }})</div>
+                    <div class="active">Settlement Status ({{ total_stay_rows }})</div>
                     <div @click="goPage('/sellerbill')">Settlement Complete ({{ total_complete_rows }})</div>
                 </div>
             </div>
@@ -95,7 +95,15 @@
                             <div class="subject">{{ item.item_name }}</div>
                             <div class="totalprice">{{ formatPr(item.cor_pg, item.total_money) }}</div>
                             <div class="status">
-                                <div :class="{'blue': item.cod_status === 'order', 'yellow': item.cod_status === 'deposit', 'red': item.cod_status === 'cancel'}">{{ $t(item.cod_status) }}</div>
+                                <div v-if="item.cod_status === 'order'" class="green">
+                                    {{ $t('orderComplete')}}
+                                </div>
+                                <div v-else-if="item.cod_status === 'deposit'" class="yellow">
+                                    {{ $t('deposit')}}
+                                </div>
+                                <div v-else-if="item.cod_status === 'cancel'" class="red">
+                                    {{ $t('orderCancel')}}
+                                </div>
                             </div>
                             <div class="totalprice">{{ formatPr(item.cor_pg, item.csh_settle_money) }}</div>
                             <div class="status">
@@ -117,44 +125,56 @@
             <div class="payment_box" style="display: block; padding-top:0; padding-bottom:10px; margin-top:0; border:0;">
                 <div class="tab row" style="display: flex">
                     <div style="width: 50%;">
-                        <div>
+                        <div style="max-width: unset;">
                             <div class="title big">Settlement detail</div>
                         </div>
-                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3); justify-content: space-between; max-width: unset;">
                             <div class="title">Total rental (VAT included)</div>
-                            <div>{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_lease_money_d).toLocaleString() : Number(total_lease_money).toLocaleString() }}</div>
+                            <div style="display: block;">
+                                <div>￦ {{ Number(total_lease_money).toLocaleString() }}</div>
+                                <div style="margin-left: 0;">$ {{ Number(total_lease_money_d).toLocaleString() }}</div>
+                            </div>
                         </div>
-                        <div>
+                        <div style="justify-content: space-between; max-width: unset; margin-bottom: 15px;">
                             <div class="subtitle">- Rent amount</div>
                             <div>{{ total_lease_amount }}</div>
                         </div>
-                        <div>
+                        <div style="justify-content: space-between; max-width: unset;">
                             <div class="title">Total sales (VAT included)</div>
-                            <div>{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_sale_money_d).toLocaleString() : Number(total_sale_money).toLocaleString() }}</div>
+                            <div style="display: block;">
+                                <div>￦ {{ Number(total_stem_money).toLocaleString() }}</div>
+                                <div style="margin-left: 0;">$ {{ Number(total_stem_money_d).toLocaleString() }}</div>
+                            </div>
                         </div>
-                        <div>
+                        <div style="justify-content: space-between; max-width: unset;">
                             <div class="subtitle">- Sales amount</div>
-                            <div>{{ total_sale_amount }}</div>
+                            <div>{{ total_stem_amount }}</div>
                         </div>
-                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3); justify-content: space-between; max-width: unset;">
                             <div class="title">Order total (VAT Included)</div>
-                            <div>{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d).toLocaleString() : Number(total_money).toLocaleString() }}</div>
+                            <div style="display: block;">
+                                <div>￦ {{ Number(total_money).toLocaleString() }}</div>
+                                <div style="margin-left: 0;">$ {{ Number(total_money_d).toLocaleString() }}</div>
+                            </div>
                         </div>
-                        <div>
+                        <div style="justify-content: space-between; max-width: unset;" v-if="false">
                             <div class="title">VAT (10%)</div>
                             <div class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.1).toLocaleString() : Number(total_money * 0.1).toLocaleString() }}</div>
                         </div>
-                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                        <div v-if="false" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3); justify-content: space-between; max-width: unset;">
                             <div class="title">Settlement</div>
                             <div style="opacity:.7; font-weight:300;">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9).toLocaleString() : Number(total_money * 0.9).toLocaleString() }}</div>
                         </div>
-                        <div>
-                            <div class="title">Fee (10%)</div>
-                            <div class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9 * 0.1).toLocaleString() : Number(total_money * 0.9 * 0.1).toLocaleString() }}</div>
+                        <div style="justify-content: space-between; max-width: unset;">
+                            <div class="title">Fee</div>
+                            <div class="red">{{ mgr_commission }}%</div>
                         </div>
-                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                        <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3); justify-content: space-between; max-width: unset;">
                             <div class="title big">Total settlement</div>
-                            <div class="blue big">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9 * 0.9).toLocaleString() : Number(total_money * 0.9 * 0.9).toLocaleString() }}</div>
+                            <div style="display: block;">
+                                <div class="blue big">￦ {{ Number(total_settle_money).toLocaleString() }}</div>
+                                <div class="blue big" style="margin-left: 0">$ {{ Number(total_settle_money_d).toLocaleString() }}</div>
+                            </div>
                         </div>
                     </div>
                     <div style="width: 50%;">
@@ -336,7 +356,7 @@
         },
         data: function () {
             return {
-                total_current_rows: 0,
+                total_stay_rows: 0,
                 total_complete_rows: 0,
                 start_date: '',
                 end_date: '',
@@ -351,18 +371,17 @@
                 total_lease_money: 0,
                 total_lease_money_d: 0,
                 total_lease_amount: 0,
-                total_sale_money: 0,
-                total_sale_money_d: 0,
-                total_sale_amount: 0,
+                total_stem_money: 0,
+                total_stem_money_d: 0,
+                total_stem_amount: 0,
                 total_money: 0,
                 total_money_d: 0,
+                total_settle_money: 0,
+                total_settle_money_d: 0,
                 complete_items: [],
                 complete_pagination: null,
-                bank_name: '',
-                account_number: '',
-                receipent: '',
-                file_attach: null,
                 popupActive: '',
+                mgr_commission: 0,
             };
         },
         mounted() {
@@ -399,17 +418,21 @@
                     .then(res => res.data)
                     .then(data => {
                         this.items = data.list;
-                        this.total_current_rows = data.total_rows;
                         this.pagination = data.paging;
+                        this.total_stay_rows = data.total_stay_rows;
+                        this.total_complete_rows = data.total_complete_rows;
                         this.total_lease_money = data.total_lease_money ? data.total_lease_money : 0;
                         this.total_lease_money_d = data.total_lease_money_d ? data.total_lease_money_d : 0;
                         this.total_lease_amount = data.total_lease_amount ? data.total_lease_amount : 0;
-                        this.total_sale_money = data.total_sale_money ? data.total_sale_money : 0;
-                        this.total_sale_money_d = data.total_sale_money_d ? data.total_sale_money_d : 0;
-                        this.total_sale_amount = data.total_sale_amount ? data.total_sale_amount : 0;
+                        this.total_stem_money = data.total_stem_money ? data.total_stem_money : 0;
+                        this.total_stem_money_d = data.total_stem_money_d ? data.total_stem_money_d : 0;
+                        this.total_stem_amount = data.total_stem_amount ? data.total_stem_amount : 0;
                         this.total_money = data.total_money ? data.total_money : 0;
                         this.total_money_d = data.total_money_d ? data.total_money_d : 0;
                         this.total_amount = data.total_amount ? data.total_amount : 0;
+                        this.total_settle_money = data.total_settle_money ? data.total_settle_money : 0;
+                        this.total_settle_money_d = data.total_settle_money_d ? data.total_settle_money_d : 0;
+                        this.mgr_commission = data.mgr_commission;
                     })
                     .catch(error => {
                         console.error(error);
@@ -420,37 +443,6 @@
                 let page = $(event.target).data('ci-pagination-page');
                 this.page = page;
                 this.getData();
-            },
-            fileAttached: function (fileList) {
-                this.file_attach = fileList[0]
-            },
-            submitAccount: function () {
-                let formData = new FormData();
-                if (!this.bank_name) {
-                    return false;
-                }
-                if (!this.account_number) {
-                    return false;
-                }
-                if (!this.receipent) {
-                    return false;
-                }
-                if (!this.file_attach) {
-                    return false;
-                }
-                formData.append('bank_name', this.bank_name);
-                formData.append('account_number', this.account_number);
-                formData.append('receipent', this.receipent);
-                formData.append('file', this.file_attach, this.file_attach.name);
-
-                axios.post('/settlement/save_account')
-                    .then(res => res.data)
-                    .then(data => {
-                        window.location.reload();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
             },
             downloadExcel: function () {
                 axios({

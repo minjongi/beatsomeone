@@ -150,7 +150,7 @@
                     </label>
                 </div>
                 <div class="accounts__btnbox border-none">
-                    <button class="btn btn--submit" @click="doNext" :disabled="!isCheckTos">
+                    <button class="btn btn--submit" @click="doNext">
                         {{ $t('next') }}
                     </button>
                 </div>

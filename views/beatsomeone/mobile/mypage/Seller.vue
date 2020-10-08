@@ -4,7 +4,7 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:48px;">
-                    <div class="active">Settlement<br>Status ({{ total_current_rows }})</div>
+                    <div class="active">Settlement<br>Status ({{ total_stay_rows }})</div>
                     <div @click="goPage('/sellerbill')">Settlement<br>Complete ({{ total_complete_rows }})</div>
                 </div>
             </div>
@@ -99,7 +99,15 @@
                             <div class="n-flex">
                                 <div style="flex: 1;">
                                     <div class="status">
-                                        <span :class="{'blue': item.cod_status === 'order', 'yellow': item.cod_status === 'deposit', 'red': item.cod_status === 'cancel'}">{{ $t(item.cod_status) }}</span>
+                                        <div v-if="item.cod_status === 'order'" class="green">
+                                            {{ $t('orderComplete')}}
+                                        </div>
+                                        <div v-else-if="item.cod_status === 'deposit'" class="yellow">
+                                            {{ $t('deposit')}}
+                                        </div>
+                                        <div v-else-if="item.cod_status === 'cancel'" class="red">
+                                            {{ $t('orderCancel')}}
+                                        </div>
                                     </div>
                                     <div class="totalprice">{{ formatPr(item.cor_pg, item.total_money) }}</div>
                                 </div>
@@ -143,7 +151,10 @@
                                 Total rental (VAT included)
                                 <img src="/assets_m/images/icon/info.png"/>
                             </span>
-                            <span>{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_lease_money_d).toLocaleString() : Number(total_lease_money).toLocaleString() }}</span>
+                            <div style="display: block; text-align: right;">
+                                <div>￦ {{ Number(total_lease_money).toLocaleString() }}</div>
+                                <div>$ {{ Number(total_lease_money_d).toLocaleString() }}</div>
+                            </div>
                         </div>
                         <div class="n-flex between">
                             <span class="subtitle">- Rent amount<img src="/assets_m/images/icon/info.png"/></span>
@@ -151,27 +162,33 @@
                         </div>
                         <div class="n-flex between">
                             <span>Total sales (VAT included)<img src="/assets_m/images/icon/info.png"/></span>
-                            <span>{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_sale_money_d).toLocaleString() : Number(total_sale_money).toLocaleString() }}</span>
+                            <div style="display: block; text-align: right;">
+                                <div>￦ {{ Number(total_stem_money).toLocaleString() }}</div>
+                                <div>$ {{ Number(total_stem_money_d).toLocaleString() }}</div>
+                            </div>
                         </div>
                         <div class="n-flex between">
                             <span class="subtitle">- Sales amount<img src="/assets_m/images/icon/info.png"/></span>
-                            <span>{{ total_sale_amount }}</span>
+                            <span>{{ total_stem_amount }}</span>
                         </div>
                     </div>
 
                     <div>
                         <div class="n-flex between">
                             <span>Order total (VAT Included)<img src="/assets_m/images/icon/info.png"/></span>
-                            <span>{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d).toLocaleString() : Number(total_money).toLocaleString() }}</span>
+                            <div style="display: block; text-align: right;">
+                                <div>￦ {{ Number(total_money).toLocaleString() }}</div>
+                                <div>$ {{ Number(total_money_d).toLocaleString() }}</div>
+                            </div>
                         </div>
 
-                        <div class="n-flex between">
+                        <div class="n-flex between" v-if="false">
                             <span>VAT (10%)</span>
                             <span class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.1).toLocaleString() : Number(total_money * 0.1).toLocaleString() }}</span>
                         </div>
                     </div>
 
-                    <div>
+                    <div v-if="false">
                         <div class="n-flex between">
                             <span>Settlement<img src="/assets_m/images/icon/info.png"/></span>
                             <span style="opacity:.7; font-weight:300;">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9).toLocaleString() : Number(total_money * 0.9).toLocaleString() }}</span>
@@ -184,7 +201,10 @@
 
                     <div class="n-flex between large">
                         <span>Total settlement</span>
-                        <span class="blue big">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9 * 0.9).toLocaleString() : Number(total_money * 0.9 * 0.9).toLocaleString() }}</span>
+                        <div style="display: block; text-align: right">
+                            <div class="blue big">￦ {{ Number(total_settle_money).toLocaleString() }}</div>
+                            <div class="blue big" style="margin-left: 0">$ {{ Number(total_settle_money_d).toLocaleString() }}</div>
+                        </div>
                     </div>
                 </div>
 
@@ -256,7 +276,7 @@ export default {
     },
     data: function () {
         return {
-            total_current_rows: 0,
+            total_stay_rows: 0,
             total_complete_rows: 0,
             start_date: '',
             end_date: '',
@@ -271,11 +291,13 @@ export default {
             total_lease_money: 0,
             total_lease_money_d: 0,
             total_lease_amount: 0,
-            total_sale_money: 0,
-            total_sale_money_d: 0,
-            total_sale_amount: 0,
+            total_stem_money: 0,
+            total_stem_money_d: 0,
+            total_stem_amount: 0,
             total_money: 0,
             total_money_d: 0,
+            total_settle_money: 0,
+            total_settle_money_d: 0,
             complete_items: [],
             complete_pagination: null,
             bank_name: '',
@@ -319,17 +341,21 @@ export default {
                 .then(res => res.data)
                 .then(data => {
                     this.items = data.list;
-                    this.total_current_rows = data.total_rows;
                     this.pagination = data.paging;
+                    this.total_stay_rows = data.total_stay_rows;
+                    this.total_complete_rows = data.total_complete_rows;
                     this.total_lease_money = data.total_lease_money ? data.total_lease_money : 0;
                     this.total_lease_money_d = data.total_lease_money_d ? data.total_lease_money_d : 0;
                     this.total_lease_amount = data.total_lease_amount ? data.total_lease_amount : 0;
-                    this.total_sale_money = data.total_sale_money ? data.total_sale_money : 0;
-                    this.total_sale_money_d = data.total_sale_money_d ? data.total_sale_money_d : 0;
-                    this.total_sale_amount = data.total_sale_amount ? data.total_sale_amount : 0;
+                    this.total_stem_money = data.total_stem_money ? data.total_stem_money : 0;
+                    this.total_stem_money_d = data.total_stem_money_d ? data.total_stem_money_d : 0;
+                    this.total_stem_amount = data.total_stem_amount ? data.total_stem_amount : 0;
                     this.total_money = data.total_money ? data.total_money : 0;
                     this.total_money_d = data.total_money_d ? data.total_money_d : 0;
                     this.total_amount = data.total_amount ? data.total_amount : 0;
+                    this.total_settle_money = data.total_settle_money ? data.total_settle_money : 0;
+                    this.total_settle_money_d = data.total_settle_money_d ? data.total_settle_money_d : 0;
+                    this.mgr_commission = data.mgr_commission;
                 })
                 .catch(error => {
                     console.error(error);

@@ -301,7 +301,7 @@ export default {
             axios.post('/register/ajax_purchase', formData)
                 .then(res => res.data)
                 .then(data => {
-                    alert(data.message);
+                    alert(this.$t('successfullyRegistered'));
                     window.location.href = '/mypage';
                 })
                 .catch(error => {

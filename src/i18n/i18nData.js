@@ -388,7 +388,7 @@ export default {
         total1: '전체',
         wait: '입금대기',
         payComplete1: '결제완료',
-        order: '주문',
+        order: '결제완료',
         deposit: '입금대기',
         downloadComplete: '다운로드 완료',
         notDownloaded: '다운로드 안함',

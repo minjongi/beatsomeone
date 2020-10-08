@@ -77,10 +77,10 @@ class Member extends CI_Controller
 		if ($this->is_member()) {
 			if (empty($this->mb)) {
 				$member = $this->CI->Member_model->get_by_memid($this->is_member());
-				$extras = $this->get_all_extras(element('mem_id', $member));
-				if (is_array($extras)) {
-					$member = array_merge($member, $extras);
-				}
+//				$extras = $this->get_all_extras(element('mem_id', $member));
+//				if (is_array($extras)) {
+//					$member = array_merge($member, $extras);
+//				}
 				$metas = $this->get_all_meta(element('mem_id', $member));
 				if (is_array($metas)) {
 					$member = array_merge($member, $metas);

@@ -3,7 +3,7 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:48px;">
-                    <div @click="goPage('seller#/sellerlist')">Settlement Status ({{ total_current_rows }})</div>
+                    <div @click="goPage('seller#/sellerlist')">Settlement Status ({{ total_stay_rows }})</div>
                     <div class="active">Settlement Complete ({{ total_complete_rows }})</div>
                 </div>
             </div>
@@ -229,7 +229,7 @@ export default {
     },
     data: function () {
         return {
-            total_current_rows: 0,
+            total_stay_rows: 0,
             total_complete_rows: 0,
             period: -1,
             start_date: '',
@@ -272,7 +272,8 @@ export default {
                 .then(res => res.data)
                 .then(data => {
                     this.items = data.list;
-                    this.total_complete_rows = data.total_rows;
+                    this.total_stay_rows = data.total_stay_rows;
+                    this.total_complete_rows = data.total_complete_rows;
                     this.complete_pagination = data.paging;
                 })
                 .catch(error => {
@@ -300,7 +301,7 @@ export default {
                 .catch((error) => console.error(error));
         },
         setAccount() {
-
+            alert('PC웹으로 접속 후 설정 해주세요.');
         },
         formatPr: function (m, price) {
             if (m === 'paypal') {
