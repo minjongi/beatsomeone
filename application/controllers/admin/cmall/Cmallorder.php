@@ -393,6 +393,7 @@ class Cmallorder extends CB_Controller
                             $updatedata['cor_cash_request'] = $total;
                             $updatedata['cor_cash'] = $REMAIN_AMT;
                             $updatedata['status'] = 'cancel';
+                            $updatedata['cor_refund_datetime'] = cdate('Y-m-d H:i:s');
                             $where = array(
                                 'cor_id' => $cor_id,
                             );
