@@ -78,6 +78,12 @@
         },
         mounted() {
             this.member_group_name = window.member_group_name;
+            let accountSetting = {
+                bank_name: window.member.mem_bank_name,
+                account_number: window.member.mem_account_number,
+                recipient: window.member.mem_recipient,
+            }
+            this.$store.dispatch('setAccountSetting', accountSetting)
             this.judgeDisplayTop();
         },
         created() {

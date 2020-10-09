@@ -1,8 +1,11 @@
 <?php
 
-use PayPal\Auth\OAuthTokenCredential;
-
 defined('BASEPATH') or exit('No direct script access allowed');
+
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 
 /**
  * Cmallorder class
@@ -406,7 +409,13 @@ class Cmallorder extends CB_Controller
                             alert($REPLYCD . ':' . $REPLYMSG);
                         }
                     } elseif ($pg == 'paypal') {
-//                        $credential = new OAuthTokenCredential($this->cbconfig->item('pg_paypal_'));
+                        $is_test = $order['is_test'];
+                        $client = $this->_get_paypal_client($is_test);
+                        try {
+                            $response = $client->execute(new OrdersGetRequest('PAYID-L577YOA3KE58086771004807'));
+                        } catch (Exception $exception) {
+                            log_message('error', $exception->getMessage());
+                        }
                     }
                 }
             } else if ($pcase === 'info') {
@@ -482,5 +491,19 @@ class Cmallorder extends CB_Controller
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
 
+    }
+
+    public function _get_paypal_client($is_test)
+    {
+        $paypal_live_id = $this->cbconfig->item('pg_paypal_live_id');
+        $paypal_live_secret = $this->cbconfig->item('pg_paypal_live_secret');
+
+        $paypal_sandbox_id = $this->cbconfig->item('pg_paypal_sandbox_id');
+        $paypal_sandbox_secret = $this->cbconfig->item('pg_paypal_sandbox_secret');
+        if ($is_test == '1') {
+            return new PayPalHttpClient(new SandboxEnvironment($paypal_sandbox_id, $paypal_sandbox_secret));
+        } else {
+            return new PayPalHttpClient(new ProductionEnvironment($paypal_live_id, $paypal_live_secret));
+        }
     }
 }

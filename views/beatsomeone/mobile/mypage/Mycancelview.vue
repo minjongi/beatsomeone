@@ -3,24 +3,26 @@
         <div class="row" style="margin-bottom:30px;">
             <div class="title-content">
                 <div class="title"> Refund detail </div>
-                <div class="n-box">
-                    <div class="n-flex">
-                        <span class="title">{{$t('orderNumber')}}</span> <span style="margin-top: 0; color: rgba(255,255,255,.7);">{{ order.cor_id }}</span>
-                    </div>
-                    <div class="n-flex">
-                        <span class="title">Date</span>
-                        <span style="margin-top: 0; color: rgba(255,255,255,.3)">{{ order.cor_datetime }}</span>
-                    </div>
-                    <div class="n-flex">
-                        <div class="title">Status</div>
-                        <div v-if="order.cor_status === '1'" class="green">
-                            {{ $t('orderComplete') }}
+                <div class="payment_box">
+                    <div class="n-box">
+                        <div class="n-flex">
+                            <span class="title">{{$t('orderNumber')}}</span> <span style="margin-top: 0; color: rgba(255,255,255,.7);">{{ order.cor_id }}</span>
                         </div>
-                        <div v-else-if="order.cor_status === '2'" class="red">
-                            {{ $t('orderCancel') }}
+                        <div class="n-flex">
+                            <span class="title">Date</span>
+                            <span style="margin-top: 0; color: rgba(255,255,255,.3)">{{ order.cor_datetime }}</span>
                         </div>
-                        <div v-else class="yellow">
-                            {{ $t('deposit') }}
+                        <div class="n-flex">
+                            <div class="title">Status</div>
+                            <div v-if="order.cor_status === '1'" class="green">
+                                {{ $t('orderComplete') }}
+                            </div>
+                            <div v-else-if="order.cor_status === '2'" class="red">
+                                {{ $t('orderCancel') }}
+                            </div>
+                            <div v-else class="yellow">
+                                {{ $t('deposit') }}
+                            </div>
                         </div>
                     </div>
                 </div>

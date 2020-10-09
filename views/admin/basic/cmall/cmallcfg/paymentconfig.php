@@ -157,11 +157,37 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </div>
             <div class="pg_info pg_paypal clearfix">
                 <div class="col-sm-2 control-label">
+                    <label for="pg_paypal_live_id">PAYPAL LIVE Secret</label>
+                </div>
+                <div class="col-sm-10 form-inline">
+                    <input type="text" class="form-control" style="width: 300px;" name="pg_paypal_live_secret" id="pg_paypal_live_secret"
+                           value="<?php echo set_value('pg_paypal_live_secret', element('pg_paypal_live_secret', element('data', $view))); ?>"
+                    />
+                    <div class="help-block">
+
+                    </div>
+                </div>
+            </div>
+            <div class="pg_info pg_paypal clearfix">
+                <div class="col-sm-2 control-label">
                     <label for="pg_paypal_sandbox_id">PAYPAL Sandbox Client ID</label>
                 </div>
                 <div class="col-sm-10 form-inline">
                     <input type="text" class="form-control" style="width: 300px;" name="pg_paypal_sandbox_id" id="pg_paypal_sandbox_id"
                            value="<?php echo set_value('pg_paypal_sandbox_id', element('pg_paypal_sandbox_id', element('data', $view))); ?>"
+                    />
+                    <div class="help-block">
+
+                    </div>
+                </div>
+            </div>
+            <div class="pg_info pg_paypal clearfix">
+                <div class="col-sm-2 control-label">
+                    <label for="pg_paypal_sandbox_id">PAYPAL Sandbox Secret</label>
+                </div>
+                <div class="col-sm-10 form-inline">
+                    <input type="text" class="form-control" style="width: 300px;" name="pg_paypal_sandbox_secret" id="pg_paypal_sandbox_secret"
+                           value="<?php echo set_value('pg_paypal_sandbox_secret', element('pg_paypal_sandbox_secret', element('data', $view))); ?>"
                     />
                     <div class="help-block">
 

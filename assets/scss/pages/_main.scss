@@ -2792,8 +2792,11 @@ textarea {
   }
 
   .cover {
-    margin-right: 20px;
+    min-width: 75px;
+    max-width: 75px;
+    padding-right: 30px;
     text-align: center;
+    word-break: break-all;
   }
 
   .status {

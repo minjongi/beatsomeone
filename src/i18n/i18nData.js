@@ -530,7 +530,10 @@ export default {
         dashboard_Recently_notexists: '기간만료 예정 내역이 없습니다',
         upgrade: '업그레이드',
         dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다',
-        successfullyRegistered: '회원가입이 완료 되었습니다.'
+        successfullyRegistered: '회원가입이 완료 되었습니다.',
+        saleDate: '판매일시',
+        saleProduct: '판매내역',
+        saleTotalPrice: '총 판매금액',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1062,6 +1065,9 @@ export default {
         dashboard_ExpiredSoon_notexists: 'No products are expected to expire',
         upgrade: 'Upgrade',
         dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다',
-        successfullyRegistered: 'your membership has been completed'
+        successfullyRegistered: 'your membership has been completed',
+        saleDate: '판매일시',
+        saleProduct: '판매내역',
+        saleTotalPrice: '총 판매금액',
     } // en
 }

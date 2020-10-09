@@ -31,8 +31,10 @@
                         <i v-if="item.item.is_new" class="label new">N</i>
                     </div>
                     <figcaption class="pointer">
-                        <h3 class="playList__title"
-                            v-html="formatCitName(item.item.cit_name,50)"></h3>
+                        <h3 class="playList__title">{{ formatCitName(item.item.cit_name,25) }}</h3>
+                        <span class="playList__by">by {{ item.item.mem_nickname }}</span>
+                        <span v-if="item.item.bpm" class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
+                        <span v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
                         <div class="n-flex">
                             <div class="listen">
                                 <div class="playbtn">
@@ -104,24 +106,11 @@ export default {
         ParchaseComponent
     },
     methods: {
-        formatCitName: function (data) {
-            var rst;
-            var limitLth = 50;
-            if (limitLth < data.length && data.length <= limitLth * 2) {
-                rst =
-                    data.substring(0, limitLth) +
-                    "<br>" +
-                    data.substring(limitLth, limitLth * 2);
-            } else if (limitLth < data.length && limitLth * 2 < data.length) {
-                rst =
-                    data.substring(0, limitLth) +
-                    "<br>" +
-                    data.substring(limitLth, limitLth * 2) +
-                    "...";
-            } else {
-                rst = data;
-            }
-            return rst;
+        formatCitName: function (data, limitLth) {
+            return this.truncate(data, limitLth);
+        },
+        truncate(str, n) {
+            return (str.length > n) ? str.substr(0, n-1) + '...' : str;
         },
         getGenre(g1, g2) {
             if (this.isEmpty(g2)) {

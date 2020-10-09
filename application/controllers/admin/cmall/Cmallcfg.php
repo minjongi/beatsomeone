@@ -1236,6 +1236,7 @@ class Cmallcfg extends CB_Controller
 			$array = array(
 				'use_payment_card', 'use_payment_realtime',
                 'pg_paypal_live_id', 'pg_paypal_sandbox_id',
+                'pg_paypal_live_secret', 'pg_paypal_sandbox_secret',
                 'pg_allat_crosskey', 'pg_allat_shop_id',
 				'use_pg_no_interest', 'use_pg_test', 'payment_bank_info',
 			);

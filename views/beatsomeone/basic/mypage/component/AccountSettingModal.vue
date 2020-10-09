@@ -119,46 +119,59 @@ export default {
             account_number: '',
             recipient: '',
             file_attach: null,
-            member: {}
         }
     },
     mounted() {
-        this.member = window.member;
-        if (this.member && this.member.mem_bank_name) this.bank_name = this.member.mem_bank_name;
-        if (this.member && this.member.mem_account_number) this.account_number = this.member.mem_account_number;
-        if (this.member && this.member.mem_recipient) this.recipient = this.member.mem_recipient;
+        let accountSetting = this.$store.getters.getAccountSetting;
+        this.bank_name = accountSetting.bank_name;
+        this.account_number = accountSetting.account_number;
+        this.recipient = accountSetting.recipient;
     },
     methods: {
         dismissModal() {
             this.$emit('dismissModal');
         },
-        doSubmit() {
-            let formData = new FormData();
+        doValidation() {
             if (!this.bank_name) {
+                alert('은행을 입력해 주세요');
                 return false;
             }
             if (!this.account_number) {
+                alert('계좌번호를 입력해 주세요');
                 return false;
             }
             if (!this.recipient) {
+                alert('계좌주를 입력해 주세요');
                 return false;
             }
             // if (!this.file_attach) {
             //     return false;
             // }
-            formData.append('bank_name', this.bank_name);
-            formData.append('account_number', this.account_number);
-            formData.append('recipient', this.recipient);
-            // formData.append('file', this.file_attach, this.file_attach.name);
+            return true;
+        },
+        doSubmit() {
+            if (this.doValidation()) {
+                let formData = new FormData();
+                formData.append('bank_name', this.bank_name);
+                formData.append('account_number', this.account_number);
+                formData.append('recipient', this.recipient);
+                // formData.append('file', this.file_attach, this.file_attach.name);
 
-            axios.post('/settlement/save_account', formData)
-                .then(res => res.data)
-                .then(data => {
-                    this.$emit('submitModal');
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+                axios.post('/settlement/save_account', formData)
+                    .then(res => res.data)
+                    .then(data => {
+                        let accountSetting = {
+                            bank_name: this.bank_name,
+                            account_number: this.account_number,
+                            recipient: this.recipient,
+                        }
+                        this.$store.dispatch('setAccountSetting', accountSetting)
+                        this.$emit('submitModal');
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         },
     }
 }

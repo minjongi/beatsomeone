@@ -18,17 +18,9 @@
                         </div>
                         <h3 class="playList__title"
                             v-html="formatCitName(item.item.cit_name,50)"></h3>
-                        <span class="playList__by">{{ item.item.mem_nickname }}</span>
-                        <span
-                            v-if="item.item.bpm > 0"
-                            class="playList__bpm"
-                        >{{ getGenre(item.item.genre, item.item.subgenre) }} | {{
-                                item.item.bpm
-                            }}BPM</span>
-                        <span
-                            v-else
-                            class="playList__bpm"
-                        >{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
+                        <span class="playList__by">by {{ item.item.mem_nickname }}</span>
+                        <span v-if="item.item.bpm" class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
+                        <span v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
                     </figcaption>
                 </figure>
             </div>
@@ -48,7 +40,7 @@
                 </button>
                 <div
                     class="download_status"
-                    :class="getDownStatusColor(item)"
+                    :class="getDownStatusColor(item.item)"
                 >{{ $t(funcDownStatus(item.item)) }}
                 </div>
 
@@ -128,13 +120,13 @@ export default {
             return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
         },
         getDownStatusColor: function (item) {
-            if (item.item.possible_download === 0) {
+            if (item.possible_download === 0) {
                 return "red";
             } else {
-                if (item.itemdetail[0].cde_title === "STEM") {
+                if (item.possible_refund == 1) {
                     return "blue";
-                } else if (item.itemdetail[0].cde_title === "LEASE") {
-                    return "green";
+                } else {
+                    return 'green'
                 }
             }
         },
@@ -142,7 +134,11 @@ export default {
             if (item.possible_download === 0) {
                 return "unavailable1";
             } else {
-                return "downloadAvailable";
+                if (item.possible_refund == 1) {
+                    return "downloadAvailable";
+                } else {
+                    return 'downloadComplete'
+                }
             }
         },
         calcTag: function (hashTag) {

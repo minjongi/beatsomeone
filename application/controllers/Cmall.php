@@ -859,13 +859,13 @@ class Cmall extends CB_Controller
          */
         ajax_required_user_login();
 
-        $mem_id = (int) $this->member->item('mem_id');
+        $mem_id = (int)$this->member->item('mem_id');
 
         $this->load->model(array('Cmall_cart_model'));
 
         $cachename = 'delete_old_cart_cache';
         $cachetime = 3600;
-        if ( ! $result = $this->cache->get($cachename)) {
+        if (!$result = $this->cache->get($cachename)) {
             $days = $this->cbconfig->item('cmall_cart_keep_days')
                 ? $this->cbconfig->item('cmall_cart_keep_days') : 14;
             $cartdays = cdate('Y-m-d H:i:s', ctimestamp() - $days * 86400);
@@ -1711,7 +1711,7 @@ class Cmall extends CB_Controller
                         } else {
                             $orderdetail[$key]['item']['possible_download'] = 0;
                         }
-                    } elseif(strcasecmp(element('cde_title', element(0, $itemdetail)), "STEM") == 0) {
+                    } elseif (strcasecmp(element('cde_title', element(0, $itemdetail)), "STEM") == 0) {
                         $orderdetail[$key]['item']['possible_download'] = 1;
                     } else {
                         $orderdetail[$key]['item']['possible_download'] = 0;
@@ -2410,9 +2410,9 @@ class Cmall extends CB_Controller
         $insertdata['status'] = $od_status;
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
-        log_message('debug','ORDER INSERT START !!!');
+        log_message('debug', 'ORDER INSERT START !!!');
         $res = $this->Cmall_order_model->insert($insertdata);
-        log_message('debug','ORDER INSERT END !!!' . $res);
+        log_message('debug', 'ORDER INSERT END !!!' . $res);
         if ($res) {
             $cwhere = array(
                 'mem_id' => $mem_id,
@@ -2432,9 +2432,9 @@ class Cmall extends CB_Controller
                         'cod_count' => element('cct_count', $val),
                         'cod_status' => $od_status,
                     );
-                    log_message('debug','ORDER Detail INSERT START !!!');
+                    log_message('debug', 'ORDER Detail INSERT START !!!');
                     $this->Cmall_order_detail_model->insert($insertdetail);
-                    log_message('debug','ORDER Detail INSERT END !!!');
+                    log_message('debug', 'ORDER Detail INSERT END !!!');
                     $deletewhere = array(
                         'mem_id' => $mem_id,
                         'cit_id' => element('cit_id', $val),
@@ -2679,7 +2679,7 @@ class Cmall extends CB_Controller
                             } else {
                                 $orderdetail[$key1]['item']['possible_download'] = 0;
                             }
-                        } elseif(strcasecmp(element('cde_title', element(0, $itemdetail)), "STEM") == 0) {
+                        } elseif (strcasecmp(element('cde_title', element(0, $itemdetail)), "STEM") == 0) {
                             $orderdetail[$key1]['item']['possible_download'] = 1;
                         } else {
                             $orderdetail[$key1]['item']['possible_download'] = 0;
@@ -3800,31 +3800,88 @@ class Cmall extends CB_Controller
     public function ajax_salehistory()
     {
         $this->output->set_content_type('text/json');
+
         ajax_required_user_login();
 
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+        $forder = $this->input->get('forder');
+
         $mem_id = (int)$this->member->item('mem_id');
-        $sql = "SELECT SUM(cid.cde_price) AS total, SUM(cid.cde_price_d) AS total_d FROM cb_cmall_order_detail AS cod LEFT JOIN cb_cmall_item_detail AS cid ON cid.cde_id=cod.cde_id WHERE cid.mem_id=? AND cod_status=?";
-        $rows = $this->db->query($sql, [$mem_id, 'deposit'])->row_array();
-        $waiting_funds = $rows['total'] | 0;
-        $waiting_funds_d = $rows['total_d'] | 0;
 
-        $rows = $this->db->query($sql, [$mem_id, 'order'])->row_array();
-        $order_funds = $rows['total'] | 0;
-        $order_funds_d = $rows['total_d'] | 0;
+        $sql_total_money = "SELECT SUM(total_money) as total FROM (SELECT 
+                       CASE
+                           WHEN co.cor_pg = 'allat' THEN cid.cde_price
+                           WHEN co.cor_pg = 'paypal' THEN cid.cde_price_d
+                           ELSE cid.cde_price END                               as total_money
+                FROM cb_cmall_order_detail AS cod
+                         LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
+                         LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
+                         LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
+                         LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
+                         LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
+                         LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
+                WHERE ci.mem_id = ? AND cod.cod_status=? AND co.cor_datetime >= ? AND co.cor_datetime <=? AND co.cor_pg = ?) as sale_data";
 
-        $rows = $this->db->query($sql, [$mem_id, 'cancel'])->row_array();
-        $refunds = $rows['total'] | 0;
-        $refunds_d = $rows['total_d'] | 0;
+        $sql_count = "SELECT COUNT(*) as rownum
+                FROM cb_cmall_order_detail AS cod
+                         LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
+                         LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
+                         LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
+                         LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
+                         LEFT JOIN cb_member_group_member as mgm ON m.mem_id = mgm.mem_id
+                         LEFT JOIN cb_member_group as mg ON mg.mgr_id = mgm.mgr_id 
+                WHERE ci.mem_id = ? AND cod.cod_status LIKE ? AND co.cor_datetime >= ? AND co.cor_datetime <=?";
+
+        $sql_list = "SELECT cod.cod_id, cod.cor_id, co.cor_datetime,
+                       co.mem_nickname                                          as buyer_nickname,
+                       m.mem_nickname                                           as seller_nickname,
+                       ci.cit_file_1, ci.cit_name, ci.cit_key,
+                       cid.cde_title,
+                       co.cor_pg,
+                       CASE
+                           WHEN co.cor_pg = 'allat' THEN cid.cde_price
+                           WHEN co.cor_pg = 'paypal' THEN cid.cde_price_d
+                           ELSE cid.cde_price END                               as total_money,
+                       cod.cod_status
+                FROM cb_cmall_order_detail AS cod
+                         LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
+                         LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
+                         LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
+                         LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
+                WHERE ci.mem_id = ? AND co.cor_datetime >= ? AND co.cor_datetime <=?
+                ORDER BY co.cor_datetime " . $forder;
+
+        $deposit_money = ($this->db->query($sql_total_money, [$mem_id, 'deposit', $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'allat'])->row_array())['total'];
+        $deposit_money_d = ($this->db->query($sql_total_money, [$mem_id, 'deposit', $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'paypal'])->row_array())['total'];
+
+        $order_funds = ($this->db->query($sql_total_money, [$mem_id, 'order', $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'allat'])->row_array())['total'];
+        $order_funds_d = ($this->db->query($sql_total_money, [$mem_id, 'order', $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'paypal'])->row_array())['total'];
+
+        $refunds = ($this->db->query($sql_total_money, [$mem_id, 'cancel', $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'allat'])->row_array())['total'];
+        $refunds_d = ($this->db->query($sql_total_money, [$mem_id, 'cancel', $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'paypal'])->row_array())['total'];
+
+        $total_rows = ($this->db->query($sql_count, [$mem_id, '%%', $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->row_array())['rownum'];
+        $deposit_rows = ($this->db->query($sql_count, [$mem_id, 'deposit', $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->row_array())['rownum'];
+        $order_rows = ($this->db->query($sql_count, [$mem_id, 'order', $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->row_array())['rownum'];
+        $refund_rows = ($this->db->query($sql_count, [$mem_id, 'cancel', $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->row_array())['rownum'];
+
+        $sp_list = $this->db->query($sql_list, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->result_array();
 
 
         $this->output->set_output(json_encode([
             'message' => 'Success',
-            'waiting_funds' => $waiting_funds,
-            'waiting_funds_d' => $waiting_funds_d,
+            'waiting_funds' => $deposit_money,
+            'waiting_funds_d' => $deposit_money_d,
             'order_funds' => $order_funds,
             'order_funds_d' => $order_funds_d,
             'refunds' => $refunds,
-            'refunds_d' => $refunds_d
+            'refunds_d' => $refunds_d,
+            'total_rows' => $total_rows,
+            'deposit_rows' => $deposit_rows,
+            'order_rows' => $order_rows,
+            'refund_rows' => $refund_rows,
+            'sp_list' => $sp_list
         ]));
         return true;
     }

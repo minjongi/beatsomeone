@@ -302,9 +302,7 @@
                 return list.slice((this.currPage - 1) * this.perPage, this.currPage * this.perPage);
             },
             funcOrderType(od, forder) {
-                if (this.orderType === od) {
-                    return;
-                } else {
+                if (this.orderType !== od) {
                     this.orderType = od;
                     this.forder = forder;
                     this.fetchData();

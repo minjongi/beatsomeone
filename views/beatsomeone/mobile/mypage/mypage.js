@@ -63,6 +63,11 @@ const store = new Vuex.Store({
         cartSum: 0,
         cartSumD: 0,
         refundObj: {},
+        accountSetting: {
+            bank_name: '',
+            account_number: '',
+            recipient: ''
+        }
     },
     mutations: {
         ADD_MONEY(state, payload) {
@@ -71,6 +76,11 @@ const store = new Vuex.Store({
         },
         SET_REFUND_DATA(state, payload) {
             state.refundObj = payload;
+        },
+        SET_ACCOUNT_SETTING(state, payload) {
+            state.accountSetting.bank_name = payload.bank_name;
+            state.accountSetting.account_number = payload.account_number;
+            state.accountSetting.recipient = payload.recipient;
         }
     },
     getters: {
@@ -82,6 +92,9 @@ const store = new Vuex.Store({
         },
         getRefundData(state) {
             return state.refundObj;
+        },
+        getAccountSetting(state) {
+            return state.accountSetting;
         }
     },
     actions: {
@@ -91,7 +104,10 @@ const store = new Vuex.Store({
         },
         setRefundData(context, refundObj) {
             context.commit('SET_REFUND_DATA', refundObj);
-        }
+        },
+        setAccountSetting(context, accountSetting) {
+            context.commit('SET_ACCOUNT_SETTING', accountSetting);
+        },
     }
 });
 
