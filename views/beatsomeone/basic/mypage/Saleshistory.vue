@@ -30,16 +30,6 @@
                     @update="updateSearchDate"
                     @reset="resetSearchDate"
                 />
-                <!--
-                <div>
-                    <div class="sort datepicker" style="max-width: initial; margin-top:10px;">
-                        <input type="date" :placeholder="$t('startDate')" @change="goStartDate"/>
-                        <span>─</span>
-                        <input type="date" :placeholder="$t('endDate')" @change="goEndDate"/>
-                        <button><img src="/assets/images/icon/calendar-white.png" /></button>
-                    </div>
-                </div>
-                -->
             </div>
         </div>
 
@@ -63,16 +53,16 @@
 
         <div class="row" style="display:flex; margin-bottom:30px;">
             <div class="tabmenu">
-                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{ $t('total1') }}
+                <div :class="{ 'active': status === '' }" @click="goTabMenu('')">{{ $t('total1') }}
                     ({{ calcTotalCnt }})
                 </div>
-                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{ $t('wait') }}
+                <div :class="{ 'active': status === 'deposit' }" @click="goTabMenu('deposit')">{{ $t('wait') }}
                     ({{ calcWaitCnt }})
                 </div>
-                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">{{ $t('payComplete1') }}
+                <div :class="{ 'active': status === 'order' }" @click="goTabMenu('order')">{{ $t('payComplete1') }}
                     ({{ calcCompleteCnt }})
                 </div>
-                <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">{{ $t('refundComplete') }}
+                <div :class="{ 'active': status === 'cancel' }" @click="goTabMenu('cancel')">{{ $t('refundComplete') }}
                     ({{ calcRefundCnt }})
                 </div>
             </div>
@@ -125,7 +115,6 @@
                     <li v-for="(item, i) in paging()" v-bind:key="i" class="playList__itembox"
                         :id="'slist'+ item.cor_id + item.cit_id">
                         <div class="playList__item playList__item--title nowrap active">
-                            <!--<div class="index" v-html="formatCitName(item.cor_id,10)"> </div>-->
                             <div class="index">{{ item.cor_id }}</div>
                             <div class="date">
                                 {{ item.cor_datetime }}
@@ -215,7 +204,7 @@ export default {
             search_condition_active_idx: 1,
             search_tabmenu_idx: 1,
             orderType: 'recent',
-            downType: 'All',
+            downType: 'all',
             calcTotalCnt: 0,
             calcWaitCnt: 0,
             calcCompleteCnt: 0,
@@ -236,6 +225,7 @@ export default {
             page: 1,
             forder:'desc',
             is_download: '',
+            status: ''
         };
     },
     mounted() {
@@ -262,7 +252,7 @@ export default {
     filters: {},
     methods: {
         fetchData() {
-            axios.get(`/cmall/ajax_salehistory?start_date=${this.start_date}&end_date=${this.end_date}&page=${this.page}&forder=${this.forder}&is_download=${this.is_download}`)
+            axios.get(`/cmall/ajax_salehistory?start_date=${this.start_date}&end_date=${this.end_date}&page=${this.page}&is_download=${this.is_download}&status=${this.status}&forder=${this.forder}`)
                 .then(res => res.data)
                 .then(data => {
                     this.waiting_funds = data.waiting_funds;
@@ -289,17 +279,6 @@ export default {
         goToDetailPage(cit_key) {
             window.location.href = '/beatsomeone/detail/' + cit_key;
         },
-        formatCitName: function (data, limitLth) {
-            let rst;
-            if (limitLth < data.length && data.length <= limitLth * 2) {
-                rst = data.substring(0, limitLth) + '<br/>' + data.substring(limitLth, limitLth * 2);
-            } else if (limitLth < data.length && limitLth * 2 < data.length) {
-                rst = data.substring(0, limitLth) + '<br/>' + data.substring(limitLth, limitLth * 2) + '...';
-            } else {
-                rst = data
-            }
-            return rst;
-        },
         truncate(str, n) {
             return (str.length > n) ? str.substr(0, n-1) + '...' : str;
         },
@@ -311,15 +290,10 @@ export default {
             }
         },
         formatNumber(n) {
-            //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
             return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
         },
         formatNumberEn(n) {
-            //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
             return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
-        },
-        formatSub: function (data, genre, bpm) {
-            return data + " (" + genre + " / " + bpm + "bpm)";
         },
         isEmpty: function (str) {
             return typeof str == "undefined" || str == null || str === "";
@@ -356,31 +330,8 @@ export default {
         goPage: function (page) {
             window.location.href = '/mypage/' + page;
         },
-        goSearch: function () {
-            this.fetchData();
-        },
-        goTabMenu: function (menu) {
-            this.fetchData();
-        },
-        goStartDate: function (e) {
-            console.log(e.target.value);
-            this.start_date = e.target.value;
-            if (this.start_date == '' || this.end_date == '') {
-                return;
-            } else {
-                this.goSearchDate();
-            }
-        },
-        goEndDate: function (e) {
-            console.log(e.target.value);
-            this.end_date = e.target.value;
-            if (this.start_date == '' || this.end_date == '') {
-                return;
-            } else {
-                this.goSearchDate();
-            }
-        },
-        goSearchDate: function () {
+        goTabMenu: function (status) {
+            this.status = status;
             this.fetchData();
         },
         prevPage: function () {
@@ -423,19 +374,6 @@ export default {
                 this.forder = forder;
                 this.fetchData();
             }
-        },
-        checkDownload(dt, d, q) {
-            console.log(dt + ',' + d + ',' + q);
-            if (dt == "Download Complete") {
-                //console.log(d==q);
-                if (d == q) return true;
-            } else if (dt == "Not Downloaded") {
-                //console.log(d<q);
-                if (d < q) return true;
-            } else if (dt == "All") {
-                return true;
-            }
-            return false;
         },
         funcDownType(dt) {
             if (!this.downType === dt) {

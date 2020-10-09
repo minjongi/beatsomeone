@@ -3806,6 +3806,9 @@ class Cmall extends CB_Controller
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
         $forder = $this->input->get('forder');
+        $status = $this->input->get('status');
+        $is_download = $this->input->get('is_download');
+        if ($status == '') $status = '%%';
 
         $mem_id = (int)$this->member->item('mem_id');
 
@@ -3837,7 +3840,7 @@ class Cmall extends CB_Controller
                        co.mem_nickname                                          as buyer_nickname,
                        m.mem_nickname                                           as seller_nickname,
                        ci.cit_file_1, ci.cit_name, ci.cit_key,
-                       cid.cde_title,
+                       cid.cde_title, cid.cde_id,
                        co.cor_pg,
                        CASE
                            WHEN co.cor_pg = 'allat' THEN cid.cde_price
@@ -3849,7 +3852,8 @@ class Cmall extends CB_Controller
                          LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
                          LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
                          LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
-                WHERE ci.mem_id = ? AND co.cor_datetime >= ? AND co.cor_datetime <=?
+                         LEFT JOIN cb_cmall_download_log cdl ON co.cor_id = cdl.cor_id
+                WHERE ci.mem_id = ? AND co.cor_datetime >= ? AND co.cor_datetime <=? AND cod.cod_status LIKE ?
                 ORDER BY co.cor_datetime " . $forder;
 
         $deposit_money = ($this->db->query($sql_total_money, [$mem_id, 'deposit', $start_date . ' 00:00:00', $end_date . ' 23:59:59', 'allat'])->row_array())['total'];
@@ -3866,8 +3870,7 @@ class Cmall extends CB_Controller
         $order_rows = ($this->db->query($sql_count, [$mem_id, 'order', $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->row_array())['rownum'];
         $refund_rows = ($this->db->query($sql_count, [$mem_id, 'cancel', $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->row_array())['rownum'];
 
-        $sp_list = $this->db->query($sql_list, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59'])->result_array();
-
+        $sp_list = $this->db->query($sql_list, [$mem_id, $start_date . ' 00:00:00', $end_date . ' 23:59:59', $status, ])->result_array();
 
         $this->output->set_output(json_encode([
             'message' => 'Success',
