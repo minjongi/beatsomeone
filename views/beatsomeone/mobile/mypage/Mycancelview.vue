@@ -87,9 +87,9 @@
                         <span class="title">Refund</span>
                         <span class="red">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</span>
                     </div>
-                    <div class="n-flex between" v-if="false">
+                    <div class="n-flex between" v-if="order.cor_refund_point">
                         <span class="title">Refund Points</span>
-                        <span class="red">0 P</span>
+                        <span class="red">{{ order.cor_refund_point }} P</span>
                     </div>
                 </div>
             </div>

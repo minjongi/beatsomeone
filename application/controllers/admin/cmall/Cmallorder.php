@@ -413,6 +413,7 @@ class Cmallorder extends CB_Controller
                             if ($origin_cor_status == '1' || $origin_cor_status == '0') {
                                 $updatedata['cor_refund_point'] = $order['cor_point'];
                                 $order['cor_refund_point'] = $order['cor_point'];
+                                $updatedata['cor_refund_price'] = (int)$order['cor_total_money'] - (int)$order['cor_point'];
                                 $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
                             }
                             $this->Cmall_order_model->update('', $updatedata, $where);

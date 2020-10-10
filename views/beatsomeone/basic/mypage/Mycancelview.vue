@@ -92,9 +92,9 @@
                         <div class="title">Refund</div>
                         <div class="red">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</div>
                     </div>
-                    <div v-if="false">
+                    <div v-if="order.cor_refund_point">
                         <div class="title">Refund Points</div>
-                        <div class="red">300 P</div>
+                        <div class="red">{{ order.cor_refund_point }} P</div>
                     </div>
                 </div>
             </div>
