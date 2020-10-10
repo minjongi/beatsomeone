@@ -11,7 +11,7 @@
 
         <div class="row double">
             <Dashboard_OrderDetails :data="order_summary"></Dashboard_OrderDetails>
-            <Dashboard_ExpiredSoon :data="expired_soon_items" v-if="isCustomer"></Dashboard_ExpiredSoon>
+            <Dashboard_ExpiredSoon :data="expired_soon_items"></Dashboard_ExpiredSoon>
             <Dashboard_ProductDetails :data="product_summary" v-if="isSeller"></Dashboard_ProductDetails>
         </div>
 

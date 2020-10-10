@@ -69,8 +69,24 @@ class Cmall_order_detail_model extends CB_Model
 
 	public function get_expired_items($mem_id)
     {
-        $sql = "SELECT * FROM (SELECT `cb_d`.`mem_id`, `cb_d`.`cit_id`, `i`.`cit_key`, `i`.`cit_name`, `p`.`mem_nickname`, `i`.`cit_file_1` as `coverImg`, `i`.`cit_type3`, `cb_d`.`cod_download_days`, DATE_ADD(o.cor_approve_datetime, INTERVAL cb_d.cod_download_days DAY) as download_end_date FROM `cb_cmall_order_detail` as `cb_d` INNER JOIN `cb_cmall_item` as `i` ON `i`.`cit_id` = `cb_d`.`cit_id` LEFT JOIN `cb_member` as `p` ON `p`.`mem_id` = `i`.`mem_id` LEFT JOIN `cb_cmall_order` as `o` ON `o`.`cor_id` = `cb_d`.`cor_id` WHERE `cb_d`.`mem_id` = '125' AND `cb_d`.`cod_download_days` > 0 LIMIT 3) as cdipo WHERE `download_end_date` <= DATE_ADD(NOW(), INTERVAL 7 DAY)";
-        $result = $this->db->query($sql)->result_array();
+        $sql = "SELECT *
+                FROM (SELECT cb_d.mem_id,
+                             cb_d.cit_id,
+                             i.cit_key,
+                             i.cit_name,
+                             p.mem_nickname,
+                             i.cit_file_1                                                       as coverImg,
+                             i.cit_type3,
+                             DATE_ADD(o.cor_approve_datetime, INTERVAL 60 DAY)                  as expired_date,
+                             DATEDIFF(DATE_ADD(o.cor_approve_datetime, INTERVAL 60 DAY), NOW()) as remain_days
+                      FROM cb_cmall_order_detail as cb_d
+                               LEFT JOIN cb_cmall_item_detail as id ON id.cde_id = cb_d.cde_id
+                               LEFT JOIN cb_cmall_item as i ON i.cit_id = id.cit_id
+                               LEFT JOIN cb_member as p ON p.mem_id = i.mem_id
+                               LEFT JOIN cb_cmall_order as o ON o.cor_id = cb_d.cor_id
+                      WHERE cb_d.mem_id = ?
+                        AND id.cde_title = 'LEASE') as cdipo WHERE remain_days <= 7 LIMIT 6";
+        $result = $this->db->query($sql, [$mem_id])->result_array();
         return $result;
     }
 
