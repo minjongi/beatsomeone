@@ -138,33 +138,21 @@
                                 </div>
                             </div>
                             <div class="user"> {{ item.buyer_nickname }}</div>
-                            <div v-if="item.cde_title === 'STEM'" class="download">
+                            <div v-if="item.cde_title === 'STEM' && item.cod_status === 'order'" class="download">
                                 <span class="gray">{{ $t('possible') }}</span>
                             </div>
-                            <div v-else-if="item.cde_title === 'LEASE'" class="download">
-                                <span>{{ item.remain_days }} {{ $t('daysLeft') }}</span>
-                                <span class="gray">(~ {{ item.expired_date }})</span>
+                            <div v-else-if="item.cde_title === 'LEASE' && item.cod_status === 'order'" class="download">
+                                <template v-if="item.remain_days >= 0">
+                                    <span>{{ item.remain_days }} {{ $t('daysLeft') }}</span>
+                                    <span class="gray">(~ {{ item.expired_date }})</span>
+                                </template>
+                                <template v-else>
+                                    <span class="red">{{ $t('unavailable') }}</span>
+                                </template>
                             </div>
-<!--                            <div-->
-<!--                                v-if="item.cor_status === '1' && item.cit_lease_license_use === '1'  && caclLeftDay(item.cor_datetime) <= 0 "-->
-<!--                                class="download">-->
-<!--                                <span class="red">{{ $t('unavailable') }}</span>-->
-<!--                            </div>-->
-<!--                            <div-->
-<!--                                v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime)"-->
-<!--                                class="download">-->
-<!--                                <span>{{ caclLeftDay(item.cor_datetime) }} {{ $t('daysLeft') }}</span>-->
-<!--                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>-->
-<!--                            </div>-->
-<!--                            <div-->
-<!--                                v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'"-->
-<!--                                class="download">-->
-<!--                                <span>{{ caclLeftDay(item.cor_datetime) }} {{ $t('daysLeft') }}</span>-->
-<!--                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>-->
-<!--                            </div>-->
-<!--                            <div v-else class="download">-->
-<!--                                <span class="red">{{ $t('unavailable') }}</span>-->
-<!--                            </div>-->
+                            <div v-else class="download">
+                                <span class="red">{{ $t('unavailable') }}</span>
+                            </div>
                         </div>
                     </li>
                 </ul>
