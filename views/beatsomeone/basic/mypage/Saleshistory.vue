@@ -122,8 +122,8 @@
                             <div class="col name">
                                 <figure>
                                     <span class="playList__cover">
-                                        <!-- <img :src="'/assets/images/cover_default.png'" alt=""> -->
-                                        <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                        <img :src="'/uploads/cmallitem/' + item.cit_file_1" v-if="item.cit_file_1" alt="">
+                                         <img :src="'/assets/images/cover_default.png'" v-else alt="">
                                         <!-- <i ng-if="item.isNew" class="label new">N</i> -->
                                     </span>
                                 </figure>
@@ -138,26 +138,33 @@
                                 </div>
                             </div>
                             <div class="user"> {{ item.buyer_nickname }}</div>
-                            <div
-                                v-if="item.cor_status === '1' && item.cit_lease_license_use === '1'  && caclLeftDay(item.cor_datetime) <= 0 "
-                                class="download">
-                                <span class="red">{{ $t('unavailable') }}</span>
+                            <div v-if="item.cde_title === 'STEM'" class="download">
+                                <span class="gray">{{ $t('possible') }}</span>
                             </div>
-                            <div
-                                v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime)"
-                                class="download">
-                                <span>{{ caclLeftDay(item.cor_datetime) }} {{ $t('daysLeft') }}</span>
-                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
+                            <div v-else-if="item.cde_title === 'LEASE'" class="download">
+                                <span>{{ item.remain_days }} {{ $t('daysLeft') }}</span>
+                                <span class="gray">(~ {{ item.expired_date }})</span>
                             </div>
-                            <div
-                                v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'"
-                                class="download">
-                                <span>{{ caclLeftDay(item.cor_datetime) }} {{ $t('daysLeft') }}</span>
-                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>
-                            </div>
-                            <div v-else class="download">
-                                <span class="red">{{ $t('unavailable') }}</span>
-                            </div>
+<!--                            <div-->
+<!--                                v-if="item.cor_status === '1' && item.cit_lease_license_use === '1'  && caclLeftDay(item.cor_datetime) <= 0 "-->
+<!--                                class="download">-->
+<!--                                <span class="red">{{ $t('unavailable') }}</span>-->
+<!--                            </div>-->
+<!--                            <div-->
+<!--                                v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '1' && 0 < caclLeftDay(item.cor_datetime)"-->
+<!--                                class="download">-->
+<!--                                <span>{{ caclLeftDay(item.cor_datetime) }} {{ $t('daysLeft') }}</span>-->
+<!--                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>-->
+<!--                            </div>-->
+<!--                            <div-->
+<!--                                v-else-if="item.cor_status === '1' && item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'"-->
+<!--                                class="download">-->
+<!--                                <span>{{ caclLeftDay(item.cor_datetime) }} {{ $t('daysLeft') }}</span>-->
+<!--                                <span class="gray">(~ {{ caclTargetDay(item.cor_datetime) }})</span>-->
+<!--                            </div>-->
+<!--                            <div v-else class="download">-->
+<!--                                <span class="red">{{ $t('unavailable') }}</span>-->
+<!--                            </div>-->
                         </div>
                     </li>
                 </ul>

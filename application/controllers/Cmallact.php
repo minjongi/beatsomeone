@@ -251,6 +251,7 @@ class Cmallact extends CB_Controller
                 'cor_id' => element('cor_id', $order),
 				'cde_id' => element('cde_id', $itemdetail),
 				'cit_id' => element('cit_id', $itemdetail),
+				'cod_id' => element('cod_id', $order),
 				'mem_id' => $this->member->item('mem_id'),
 				'cdo_datetime' => cdate('Y-m-d H:i:s'),
 				'cdo_ip' => $this->input->ip_address(),

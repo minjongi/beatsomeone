@@ -3846,7 +3846,9 @@ class Cmall extends CB_Controller
                            WHEN co.cor_pg = 'allat' THEN cid.cde_price
                            WHEN co.cor_pg = 'paypal' THEN cid.cde_price_d
                            ELSE cid.cde_price END                               as total_money,
-                       cod.cod_status
+                       cod.cod_status,
+                      DATE_ADD(co.cor_approve_datetime, INTERVAL 60 DAY) as expired_date,
+                      DATEDIFF(DATE_ADD(co.cor_approve_datetime, INTERVAL 60 DAY), NOW()) as remain_days
                 FROM cb_cmall_order_detail AS cod
                          LEFT JOIN cb_cmall_order as co ON co.cor_id = cod.cor_id
                          LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
