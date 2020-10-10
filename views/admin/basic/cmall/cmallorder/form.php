@@ -36,6 +36,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th class="text-center">상태</th>
                             <th class="text-center">총수량</th>
                             <th>소계</th>
+                            <th>포인트</th>
                             <th>다운로드기간</th>
                         </tr>
                         </thead>
@@ -140,6 +141,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     }
                                     ?>
                                 </td>
+                                <td class="text-center">
+                                    <?php echo element('cod_point', $detail); ?>
+                                </td>
                                 <td>
                                     <?php
                                     if (element('possible_download', element('item', $row))) {
@@ -174,7 +178,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         }
                         ?>
                         <?php
-                        if (element('cor_status', $result) == '2') {
+//                        if (element('cor_status', $result) == '2') {
                             if (element('status', $result) == 'order') {
                                 ?>
                                 <button type="button" class="btn btn-sm change-status" data-status="2">주문취소</button>
@@ -184,7 +188,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <button type="button" class="btn btn-sm">주문취소됨</button>
                                 <?php
                             }
-                        }
+//                        }
                         ?>
                     </p>
                 </div>
@@ -388,7 +392,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <input type=text name="allat_shop_id" value="<?php echo $this->cbconfig->item('pg_allat_shop_id') ?>" size="19"
            maxlength=20>
     <input type=text name="allat_order_no" value="<?php echo element('cor_id', $result); ?>" size="19" maxlength=80>
-    <input type=text name="allat_amt" value="<?php echo (int)element('cor_refund_price', $result); ?>" size="19"
+    <input type=text name="allat_amt"
+           value="<?php
+           if (element('cor_status', $result) == '1' || element('cor_status', $result) == '0') {
+               echo ((int)element('cor_total_money', $result) - (int)element('cor_point', $result));
+           } else {
+               echo (int)element('cor_refund_price', $result);
+           }
+           ?>"
+           size="19"
            maxlength=10>
     <input type=text name="allat_pay_type" value="<?php echo element('cor_pay_type', $result); ?>" size="19"
            maxlength=6>

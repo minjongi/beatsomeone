@@ -104,8 +104,12 @@
                             <div class="subject">
                                 {{ formatSub(order.detail) }}
                             </div>
-                            <div class="totalprice"
-                                 v-html="formatPr(order.cor_pg, order.cor_total_money)"></div>
+                            <div class="totalprice">
+                                {{ formatPr(order.cor_pg, order.cor_total_money) }}
+                                <template v-if="order.cor_point">
+                                    <br> {{ order.cor_point }} P
+                                </template>
+                            </div>
                             <div class="status">
                               <div v-if="order.cor_status === '1'" class="green">
                                 {{ $t('orderComplete')}}

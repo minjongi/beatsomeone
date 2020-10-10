@@ -92,19 +92,18 @@
                                         </div>
                                     </div>
 
-                                    <div class="title-content" v-if="false">
+                                    <div class="title-content">
                                         <div div class="title">{{$t('point')}}</div>
                                         <div>
                                             <div class="input_wrap inputbox unit" style="height:48px">
-                                                <input type="number" value="0" v-model="mem_point"/>
+                                                <input type="number" value="0" v-model="cor_point"/>
                                                 <span>P</span>
                                             </div>
-                                            <button
-                                                    class="btn btn--blue"
-                                                    style="width:100px;height:48px;margin-left:-10px;"
-                                                    @click="usePointFn"
-                                            >{{$t('use')}}
-                                            </button>
+<!--                                            <button-->
+<!--                                                    class="btn btn&#45;&#45;blue"-->
+<!--                                                    style="width:100px;height:48px;margin-left:-10px;"-->
+<!--                                            >{{$t('use')}}-->
+<!--                                            </button>-->
                                         </div>
                                         <p style="display:inline-block;">
                                             <span>{{ remPoint }}</span>
@@ -117,15 +116,15 @@
                                         <div class="title">{{$t('paySubtotal')}}</div>
                                         <div>{{ formatPrice(good_mny, good_mny_d, true) }}</div>
                                     </div>
-                                    <!--                                    <div>-->
-                                    <!--                                        <div class="title">{{$t('points')}}</div>-->
-                                    <!--                                        <div>{{ mem_point }} P</div>-->
-                                    <!--                                    </div>-->
+                                    <div>
+                                        <div class="title">{{$t('points')}}</div>
+                                        <div>{{ cor_point }} P</div>
+                                    </div>
                                     <div class="total">
                                         <div>{{$t('payTotal2')}}</div>
                                         <!--                                        <div>{{ formatPrice(totalPriceKr - usePoint, totalPriceEn - usePoint, true) }}-->
                                         <!--                                        </div>-->
-                                        <div>{{ formatPrice(good_mny, good_mny_d, true) }}</div>
+                                        <div>{{ formatPrice(good_mny - cor_point, good_mny_d - cor_point, true) }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +149,7 @@
                                         :env="pg_paypal_env"
                                         currency="USD"
                                         locale="en_US"
-                                        :amount="this.good_mny_d.toString() || '0'"
+                                        :amount="total_money_d"
                                         :client="paypal"
                                         :invoice-number="orderNo"
                                         :button-style="paypalBtnStyle"
@@ -272,7 +271,8 @@
                 isEmptyPaypal: true,
                 unique_id: '',
                 good_name: '',
-                member: {}
+                member: {},
+                cor_point: 0
             }
         },
         computed: {
@@ -282,6 +282,12 @@
             orderNo() {
                 return this.unique_id || "none";
             },
+            remPoint() {
+                return this.mem_point - this.cor_point;
+            },
+            total_money_d() {
+                return Number(this.good_mny_d - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false});
+            }
         },
         mounted() {
             axios.get('/payment/pg_config')
@@ -336,6 +342,7 @@
                     console.error(error);
                 })
             this.member = window.member;
+            this.mem_point = (+this.member.mem_point);
             let mem_name = this.member.mem_firstname + ' ' + this.member.mem_lastname;
             if (!mem_name.trim()) {
                 mem_name = this.member.mem_nickname;
@@ -374,7 +381,6 @@
                 window.location.href = "/cmall/cart";
             },
             goPay: function () {
-                console.log(document.fm1);
                 window.AllatPay_Approval(document.fm1);
                 // 결제창 자동종료 체크 시작
                 window.AllatPay_Closechk_Start();
@@ -396,6 +402,7 @@
                     formData1.append('pay_type', 'allat');
                     formData1.append('unique_id', this.unique_id);
                     formData1.append('good_mny', this.good_mny);
+                    formData1.append('cor_point', this.cor_point);
                     formData1.append('mem_realname', this.member.mem_lastname + this.member.mem_firstname);
                     axios.post('/cmall/ajax_orderupdate', formData1)
                         .then(res => res.data)
@@ -417,6 +424,7 @@
                 formData.append('unique_id', this.unique_id);
                 formData.append('state', data.state);
                 formData.append('good_mny', data.transactions[0].amount.total);
+                formData.append('cor_point', this.cor_point);
                 formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
                 formData.append('paypal_data', this.paypalData);
                 axios.post('/cmall/ajax_orderupdate', formData)
@@ -441,6 +449,28 @@
                     this.$set(this.allatForm, 'card_yn', 'N');
                     this.$set(this.allatForm, 'bank_yn', 'Y');
                 }
+            },
+            cor_point(val) {
+                if (val < 0) {
+                    alert('포인트은 0보다 커야 합니다.');
+                    this.cor_point = 0;
+                }
+                if (val > this.mem_point) {
+                    alert('포인트가 유효하지 않습니다.');
+                    this.cor_point = this.mem_point;
+                }
+                if (this.$i18n.locale === 'en') {
+                    if (val > this.good_mny_d - 1) {
+                        alert('포인트가 유효하지 않습니다.');
+                        this.cor_point = 0;
+                    }
+                } else {
+                    if (val > this.good_mny - 200) {
+                        alert('포인트가 유효하지 않습니다.');
+                        this.cor_point = 0;
+                    }
+                }
+                this.$set(this.allatForm, 'amt', this.good_mny - val);
             }
         }
     }

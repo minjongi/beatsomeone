@@ -2128,14 +2128,16 @@ class Cmall extends CB_Controller
             return false;
         }
 
-        $this->load->model(array('Cmall_cart_model', 'Cmall_order_model'));
+        $this->load->model(array('Cmall_cart_model', 'Cmall_order_model', 'Cmall_item_detail_model'));
         $where = array();
         $where['cmall_cart.mem_id'] = $mem_id;
         $findex = 'cmall_item.cit_id';
         $forder = 'desc';
         $session_cct_id = array();
 
-        $good_mny = $this->input->post('good_mny', null, 0);    //request 값으로 받은 값
+        $good_mny = floatval($this->input->post('good_mny', null, 0));    //request 값으로 받은 값
+        $cor_point = intval($this->input->post('cor_point', null, 0));
+        $pay_type = $this->input->post('pay_type');
         $item_cct_price = 0;        //주문한 상품의 총 금액의 초기화
         $item_cct_price_d = 0.0;
 
@@ -2158,7 +2160,7 @@ class Cmall extends CB_Controller
         }
 
         if ($this->input->post('pay_type') === 'allat') {
-            if ($item_cct_price != $good_mny) {
+            if ($item_cct_price != $good_mny + $cor_point) {
                 $this->output->set_status_header('400');
                 $this->output->set_output(json_encode([
                     'message' => '결제 금액이 상이합니다'
@@ -2166,7 +2168,7 @@ class Cmall extends CB_Controller
                 return false;
             }
         } elseif ($this->input->post('pay_type') === 'paypal') {
-            if ($item_cct_price_d != (float)$good_mny) {
+            if ($item_cct_price_d != $good_mny + $cor_point) {
                 $this->output->set_status_header('400');
                 $this->output->set_output(json_encode([
                     'message' => '결제 금액이 상이합니다'
@@ -2400,6 +2402,7 @@ class Cmall extends CB_Controller
         // 정보 입력
         $cor_id = $this->session->userdata('unique_id');
         $insertdata['cor_id'] = $cor_id;
+        $insertdata['cor_point'] = $cor_point;
         $insertdata['mem_id'] = $mem_id;
         $insertdata['mem_nickname'] = $this->member->item('mem_nickname');
         $insertdata['mem_email'] = $this->member->item('mem_email');
@@ -2410,10 +2413,18 @@ class Cmall extends CB_Controller
         $insertdata['status'] = $od_status;
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
-        log_message('debug', 'ORDER INSERT START !!!');
         $res = $this->Cmall_order_model->insert($insertdata);
-        log_message('debug', 'ORDER INSERT END !!!' . $res);
         if ($res) {
+            $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                $mem_id,
+                cdate('Y-m-d H:i:s'),
+                cdate('Y-m-d H:i:s') . ' 주문',
+                -$cor_point,
+                'order',
+                $this->member->item('mem_id'),
+                $this->member->item('mem_id') . '-' . $cor_id
+            ]);
+            $this->db->query("UPDATE cb_member SET mem_point=mem_point-? WHERE mem_id=?", [$cor_point, $mem_id]);
             $cwhere = array(
                 'mem_id' => $mem_id,
                 'cct_order' => 1,
@@ -2423,18 +2434,24 @@ class Cmall extends CB_Controller
                 foreach ($cartorder as $key => $val) {
                     $item = $this->Cmall_item_model
                         ->get_one(element('cit_id', $val), 'cit_download_days');
+                    $item_detail = $this->Cmall_item_detail_model->get_one(element('cde_id', $val));
+                    $cde_price = intval($item_detail['cde_price']);
+                    $cde_price_d = floatval($item_detail['cde_price_d']);
+                    if ($pay_type == 'allat') {
+                        $item_point = round($cde_price / $item_cct_price * $cor_point);
+                    } else {
+                        $item_point = round($cde_price_d / $item_cct_price_d * $cor_point);
+                    }
                     $insertdetail = array(
                         'cor_id' => $cor_id,
                         'mem_id' => $mem_id,
                         'cit_id' => element('cit_id', $val),
                         'cde_id' => element('cde_id', $val),
-                        'cod_download_days' => element('cit_download_days', $item),
                         'cod_count' => element('cct_count', $val),
                         'cod_status' => $od_status,
+                        'cod_point' => $item_point,
                     );
-                    log_message('debug', 'ORDER Detail INSERT START !!!');
                     $this->Cmall_order_detail_model->insert($insertdetail);
-                    log_message('debug', 'ORDER Detail INSERT END !!!');
                     $deletewhere = array(
                         'mem_id' => $mem_id,
                         'cit_id' => element('cit_id', $val),

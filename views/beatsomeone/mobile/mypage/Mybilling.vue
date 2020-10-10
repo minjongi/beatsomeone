@@ -111,8 +111,12 @@
                                     {{ $t('deposit')}}
                                   </div>
                                 </div>
-                              <div class="totalprice"
-                                   v-html="formatPr(order.cor_pg, order.cor_total_money)"></div>
+                                <div class="totalprice">
+                                    {{ formatPr(order.cor_pg, order.cor_total_money) }}
+                                    <template v-if="order.cor_point">
+                                        <br> {{ order.cor_point }} P
+                                    </template>
+                                </div>
                             </div>
 
                             <div class="subject"

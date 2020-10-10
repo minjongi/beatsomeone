@@ -382,6 +382,8 @@ class Cmallorder extends CB_Controller
 //                        echo "잔액			: ".$REMAIN_AMT."<br>";
 //                        echo "거래방식구분	: ".$PAY_TYPE."<br>";
 
+                            $origin_cor_status = $order['cor_status'];
+
                             $params = array();
                             $params['ORDER_NO'] = $cor_id;
                             $params['AMT'] = $this->input->post('allat_amt');
@@ -401,6 +403,29 @@ class Cmallorder extends CB_Controller
                                 'cor_id' => $cor_id,
                             );
                             $this->Cmall_order_model->update('', $updatedata, $where);
+
+                            $updatedata['cor_cash_request'] = $total;
+                            $updatedata['cor_cash'] = 0;
+                            $where = array(
+                                'cor_id' => $cor_id,
+                            );
+
+                            if ($origin_cor_status == '1' || $origin_cor_status == '0') {
+                                $updatedata['cor_refund_point'] = $order['cor_point'];
+                                $order['cor_refund_point'] = $order['cor_point'];
+                                $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
+                            }
+                            $this->Cmall_order_model->update('', $updatedata, $where);
+                            $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                                $order['mem_id'],
+                                cdate('Y-m-d H:i:s'),
+                                cdate('Y-m-d H:i:s') . ' 주문취소',
+                                $updatedata['cor_refund_point'],
+                                'order',
+                                $order['mem_id'],
+                                $order['mem_id'] . '-' . $cor_id
+                            ]);
+                            $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$order['cor_refund_point'], $order['mem_id']]);
                         } else {
                             // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
                             // reply_msg 가 실패에 대한 메세지

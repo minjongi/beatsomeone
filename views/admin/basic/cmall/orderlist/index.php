@@ -40,6 +40,7 @@
 						<th>결제수단</th>
 						<th>하고싶은 말</th>
 						<th>결제금액</th>
+                        <th>포인트</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -73,12 +74,13 @@
                             }
                             ?>
                         </td>
+                        <td><?php echo element('cor_point', $result); ?></td>
 					</tr>
 					<?php
 					if (element('orderdetail', $result)) {
 					?>
 						<tr>
-							<td colspan="7" >
+							<td colspan="8" >
 								<div class="bg-warning">
 									<table class="table table-bordered mt20">
 										<thead>
@@ -88,6 +90,7 @@
 												<th class="text-right">다운로드</th>
 												<th class="text-center">총수량</th>
 												<th>소계</th>
+                                                <th>포인트</th>
 												<th>다운로드기간</th>
 											</tr>
 										</thead>
@@ -147,6 +150,7 @@
                                                     }
                                                     ?>
                                                 </td>
+                                                <td class="text-right"><?php echo element('cod_point', element(0, element('itemdetail', $row))); ?></td>
 												<td>
 													<?php
                                                     if (element('possible_download', element('item', $row))) {

@@ -43,6 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>주문상품수</th>
 						<th>결제수단</th>
 						<th>주문합계</th>
+                        <th>포인트</th>
 						<th>입금합계</th>
 						<th>주문취소</th>
 						<th>보기</th>
@@ -95,6 +96,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             }
                             echo $currency_symbol . $total_money;
                             ?>
+                        </td>
+                        <td class="text-right">
+                            <?php echo element('cor_point', $result); ?>
                         </td>
 						<td class="text-right">
                             <?php

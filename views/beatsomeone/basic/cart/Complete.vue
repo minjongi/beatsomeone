@@ -34,18 +34,17 @@
                                         <div class="title">{{ $t('payMethod1') }}</div>
                                         <div>{{ $t(order.cor_pay_type) }}</div>
                                     </div>
-                                    <div v-if="false">
+                                    <div>
                                         <div class="title">{{ $t('paySubtotal') }}</div>
                                         <div>{{ formatPrice(order.cor_total_money, true) }}</div>
                                     </div>
-                                    <div v-if="false">
+                                    <div>
                                         <div class="title">{{ $t('usePoints') }}</div>
-                                        <div>0 P</div>
+                                        <div>{{ order.cor_point }} P</div>
                                     </div>
                                     <div class="total">
                                         <div>{{ $t('payTotal') }}</div>
-                                        <!--                                        <div>{{ formatPrice(totalPrice - point, true) }}</div>-->
-                                        <div>{{ formatPrice(order.cor_total_money) }}</div>
+                                        <div>{{ formatPrice(order.cor_total_money - order.cor_point) }}</div>
                                     </div>
                                 </div>
                             </div>

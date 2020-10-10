@@ -63,17 +63,17 @@
                         <span class="title">{{ $t('payMethodDetail') }}</span>
                         <div>{{ order.cor_pay_type }}</div>
                     </div>
-                    <div class="n-flex between" v-if="false">
+                    <div class="n-flex between">
                         <span class="title">{{ $t('paySubtotal') }}</span>
-                        <span>{{ totalPrice }}</span>
+                        <span>{{ order.cor_total_money }}</span>
                     </div>
-                    <div class="n-flex between" v-if="false">
+                    <div class="n-flex between">
                         <span class="title">{{ $t('usePoints') }}</span>
-                        <span>0 P</span>
+                        <div>{{ order.cor_point }} P</div>
                     </div>
                     <div class="n-flex between total">
                         <span>{{ $t('payTotal') }}</span>
-                        <div>{{ formatPr(order.cor_pg, order.cor_total_money) }}</div>
+                        <div>{{ formatPr(order.cor_pg, order.cor_total_money - order.cor_point) }}</div>
                     </div>
                 </div>
             </div>
