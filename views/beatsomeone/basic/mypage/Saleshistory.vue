@@ -196,8 +196,6 @@ export default {
     data: function () {
         return {
             mySalesList: [],
-            search_condition_active_idx: 1,
-            search_tabmenu_idx: 1,
             orderType: 'recent',
             downType: 'all',
             calcTotalCnt: 0,
@@ -309,22 +307,6 @@ export default {
             this.period = -1;
             this.fetchData();
         },
-        caclLeftDay: function (orderDate) {
-            var tDate = new Date(orderDate);
-            var nDate = new Date();
-            tDate.setDate(tDate.getDate() + 60);
-            var diff = tDate.getTime() - nDate.getTime();
-            diff = Math.ceil(diff / (1000 * 3600 * 24));
-            return diff;
-        },
-        caclTargetDay: function (orderDate) {
-            var tDate = new Date(orderDate);
-            tDate.setDate(tDate.getDate() + 60);
-            return moment(tDate).format('YYYY-MM-DD HH:mm:ss');
-        },
-        goPage: function (page) {
-            window.location.href = '/mypage/' + page;
-        },
         goTabMenu: function (status) {
             this.status = status;
             this.fetchData();
@@ -337,17 +319,13 @@ export default {
             if (this.currPage == this.totalpage) return
             this.currPage += 1;
         },
-        setSearchCondition: function (idx) {
-            this.search_condition_active_idx = idx;
-            this.goSearch();
-        },
         makePageList(n) {
             return [...Array(n).keys()].map(x => x = x + 1);
         },
         funcStatus(s) {
-            if (s == 'deposit') {
+            if (s === 'deposit') {
                 return "depositWaiting";
-            } else if (s == 'order') {
+            } else if (s === 'order') {
                 return "orderComplete";
             } else {
                 return "refundComplete";
