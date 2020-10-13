@@ -163,17 +163,14 @@
         created() {
             let params = window.location.pathname.split('/');
             let cit_key = params[3];
-            console.log(params);
             axios.get(`/item/ajax/${cit_key}`)
                 .then(res => res.data)
                 .then(data => {
-                    console.log(data);
                     this.item = data;
                 })
                 .catch(error => {
                     console.error(error);
                 })
-            console.log(cit_key);
         },
         mounted() {
             this.member = window.member;
@@ -242,7 +239,6 @@
         watch: {
             item: function (n) {
                 if (n && n.detail.PREVIEW) {
-                    console.log(n.detail.PREVIEW.cde_id);
                     this.music.load(`/cmallact/download_sample/${n.detail.PREVIEW.cde_id}`);
                 }
             },

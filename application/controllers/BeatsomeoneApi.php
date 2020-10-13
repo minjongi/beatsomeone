@@ -230,21 +230,43 @@ class BeatsomeoneApi extends CB_Controller
     // detail similar tracks 조회
     public function detail_similartracks_list($cit_id = '')
     {
-        $this->load->model('Beatsomeone_model');
+        $mem_id = $this->member->item('mem_id') | 0;
 
+        $sql = "SELECT *
+        FROM cb_cmall_item cci
+            LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id WHERE cci.cit_id = ?";
+        $product = $this->db->query($sql, [$cit_id])->row_array();
+        $hash_tag_string = $product['cim_value'];
+        $hash_tags = explode(",", $hash_tag_string);
+        $where = "";
+        foreach ($hash_tags as $idx => $hash_tag) {
+            if ($idx == 0) {
+                $where = "(cim_value LIKE '%,".$hash_tag. ",%' OR cim_value LIKE '".$hash_tag. ",%' OR cim_value LIKE '%,".$hash_tag. "')";
+            } else {
+                $where .= " OR (cim_value LIKE '%,".$hash_tag. ",%' OR cim_value LIKE '".$hash_tag. ",%' OR cim_value LIKE '%,".$hash_tag. "')";
+            }
+        }
+        $where = "WHERE (".$where.") AND cci.cit_id != ?";
 
-        $config = array(
-            'limit' =>  $this->input->post('limit') ,
-            'offset' =>  $this->input->post('offset') ,
-            'cit_id' => $cit_id,
-            'mem_id' => $this->member->item('mem_id'),
-        );
-        log_message('debug','$cit_id : ' . $cit_id);
-        log_message('debug','$CONFIG : ' . print_r($config,true));
-        $result = $this->Beatsomeone_model->get_relation_list($config);
+        $sql = "SELECT cci.*, cm.mem_nickname, ccim.cim_value as hashTag, IF(cwi_id > 0, TRUE, FALSE) as is_wish
+                FROM cb_cmall_item cci
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id
+                    LEFT JOIN cb_cmall_wishlist ccw on cci.cit_id = ccw.cit_id AND ccw.mem_id = ?
+                    LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
+                     " . $where;
+        $similar_products = $this->db->query($sql, [$mem_id, $cit_id])->result_array();
+        foreach ($similar_products as $idx => $product) {
+            $sql_detail = "SELECT * FROM cb_cmall_item_detail WHERE cit_id = ?";
+            $details = $this->db->query($sql_detail, [$product['cit_id']])->result_array();
+            $details2 = array();
+            foreach ($details as $idx2 => $detail) {
+                $details2[$detail['cde_title']] = $detail;
+            }
+            $similar_products[$idx]['detail'] = $details2;
+        }
 
         $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
+        $this->output->set_output(json_encode($similar_products));
     }
 
     // 음반 기타정보 조회

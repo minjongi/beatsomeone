@@ -72,11 +72,12 @@
                     </div>
                     <div>
                         <div class="title">{{ $t('paySubtotal') }}</div>
-                        <div>{{ order.cor_total_money }}</div>
+                        <div>{{ formatPr(order.cor_pg, order.cor_cash_request) }}</div>
                     </div>
                     <div>
                         <div class="title">{{ $t('usePoints') }}</div>
-                        <div>{{ order.cor_point }} P</div>
+                        <div v-if="order.cor_point">{{ order.cor_point }} P</div>
+                        <div v-else>0 P</div>
                     </div>
                     <div class="total">
                         <div>{{ $t('payTotal') }}</div>

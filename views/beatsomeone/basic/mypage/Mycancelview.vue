@@ -86,13 +86,11 @@
                     <div>
                         <div style="opacity:.7; font-weight:300;">{{ order.cor_admin_memo }}</div>
                     </div>
-                    <div
-                        style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);"
-                    >
+                    <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
                         <div class="title">Refund</div>
                         <div class="red">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</div>
                     </div>
-                    <div v-if="order.cor_refund_point">
+                    <div>
                         <div class="title">Refund Points</div>
                         <div class="red">{{ order.cor_refund_point }} P</div>
                     </div>
@@ -130,6 +128,7 @@ export default {
             .then(res => res.data)
             .then(data => {
                 this.order = data.data;
+                if (this.order.cor_refund_point == undefined) this.$set(this.order, 'cor_refund_point', 0);
                 this.orderItems = data.orderdetail;
                 this.orderItems.forEach(item => {
                     this.$set(item, 'is_selected', false);

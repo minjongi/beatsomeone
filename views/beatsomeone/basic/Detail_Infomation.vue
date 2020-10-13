@@ -45,9 +45,11 @@
                 });
             },
             sendMessage() {
-                console.log(this.info.mem_id);
-                if (this.member === false)
+                if (this.member === false) {
+                    alert('로그인이 필요합니다');
+                    window.location.href = "/login?url=" + window.location.href;
                     return false;
+                }
                 let formData = new FormData();
                 formData.append('userid', this.info.mem_id);
                 axios.post('/note/ajax_write_empty', formData)

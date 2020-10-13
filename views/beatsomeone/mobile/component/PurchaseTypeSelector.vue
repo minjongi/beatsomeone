@@ -10,7 +10,7 @@
                     <div class="album__thumb">
                         <img :src="albumThumb" alt/>
                     </div>
-                    <h3>{{ item.cit_name }}</h3>
+                    <h3 style="word-break: break-all;">{{ item.cit_name }}</h3>
                     <p>{{ item.musician }}</p>
                 </div>
                 <div class="purchase-list">

@@ -65,11 +65,12 @@
                     </div>
                     <div class="n-flex between">
                         <span class="title">{{ $t('paySubtotal') }}</span>
-                        <span>{{ order.cor_total_money }}</span>
+                        <div>{{ formatPr(order.cor_pg, order.cor_cash_request) }}</div>
                     </div>
                     <div class="n-flex between">
                         <span class="title">{{ $t('usePoints') }}</span>
-                        <div>{{ order.cor_point }} P</div>
+                        <div v-if="order.cor_point">{{ order.cor_point }} P</div>
+                        <div v-else>0 P</div>
                     </div>
                     <div class="n-flex between total">
                         <span>{{ $t('payTotal') }}</span>

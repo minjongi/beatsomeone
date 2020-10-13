@@ -303,15 +303,7 @@
                         <label class="checkbox"></label>
                       </div>
                       <div class="input">
-                        <input
-                          type="number"
-                          placeholder="USD 5.00"
-                          min="0"
-                          step="0.01"
-                          v-model.number="item.licenseLeasePriceUSD"
-                          ref="licenseLeasePriceUSD"
-                          @input="onlyNumber($event, 'licenseLeasePriceUSD')"
-                        />
+                        <NumberInput placeholder="USD 5.00" v-model="item.licenseLeasePriceUSD" />
                       </div>
                     </span>
                   </div>
@@ -371,15 +363,7 @@
                         </label>
                       </div>
                       <div class="input">
-                        <input
-                          type="number"
-                          placeholder="USD 280.00"
-                          min="0"
-                          step="0.01"
-                          v-model.number="item.licenseStemPriceUSD"
-                          ref="licenseStemPriceUSD"
-                          @input="onlyNumber($event, 'licenseStemPriceUSD')"
-                        />
+                          <NumberInput v-model="item.licenseStemPriceUSD" placeholder="USD 280.00" />
                       </div>
                     </span>
                   </div>
@@ -480,6 +464,7 @@
 </template>
 
 <script>
+import NumberInput from "../component/NumberInput";
 require("@/assets/js/function");
 import Header from "../include/Header";
 import Footer from "../include/Footer";
@@ -490,6 +475,7 @@ import("vue-datetime/dist/vue-datetime.css");
 
 export default {
   components: {
+      NumberInput,
     Header,
     Footer,
     FileUpload,
@@ -726,6 +712,7 @@ export default {
     },
     // 저장
     doSubmit() {
+        console.log(this.item.licenseLeasePriceUSD);
       if (this.processStatus) {
         return false;
       }

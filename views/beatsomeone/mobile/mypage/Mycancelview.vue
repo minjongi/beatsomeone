@@ -87,7 +87,7 @@
                         <span class="title">Refund</span>
                         <span class="red">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</span>
                     </div>
-                    <div class="n-flex between" v-if="order.cor_refund_point">
+                    <div class="n-flex between">
                         <span class="title">Refund Points</span>
                         <span class="red">{{ order.cor_refund_point }} P</span>
                     </div>
@@ -130,6 +130,7 @@
                 .then(res => res.data)
                 .then(data => {
                     this.order = data.data;
+                    if (this.order.cor_refund_point == undefined) this.$set(this.order, 'cor_refund_point', 0);
                     this.orderItems = data.orderdetail;
                     this.orderItems.forEach(item => {
                         this.$set(item, 'is_selected', false);
