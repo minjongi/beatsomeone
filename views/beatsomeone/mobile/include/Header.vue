@@ -17,7 +17,7 @@
                            style="width: 175px;
                                 position:absolute;
                                 top: 8px;
-                                right:40px;
+                                right:60px;
                                 height: 25px;
                                 color: #fff;
                                 background: rgba(255, 255, 255, 0.2);

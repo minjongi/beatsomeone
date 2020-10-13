@@ -1,5 +1,5 @@
 <template>
-    <div class="option_item basic">
+    <div class="option_item" :class="{'basic': type === 'basic', 'unlimited': type === 'mastering'}">
         <div class="purchase-description" v-if="type === 'basic'">
             <p>
                 <i>

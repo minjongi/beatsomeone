@@ -17,7 +17,7 @@
                 </a>
                 <a :href="'/beatsomeone/detail/'+citem.cit_key" class="albumItem__link">
                     <h4 class="albumItem__title">{{ citem.cit_name }}</h4>
-                    <p class="albumItem__singer">{{ citem.musician }}</p>
+                    <p class="albumItem__singer">by {{ citem.mem_nickname }}</p>
                 </a>
             </div>
         </div>
@@ -52,10 +52,16 @@
 
 <style scoped="scoped" lang="scss">
     .albumItem {
-        width: 15%;
+        width: 16.6%;
     }
     .albumItem__cover {
         width: 150px;
         height: 150px;
+    }
+    .albumItem__title {
+        width: 150px;
+    }
+    .albumItem__singer {
+        width: 150px;
     }
 </style>

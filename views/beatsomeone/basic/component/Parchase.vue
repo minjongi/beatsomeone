@@ -40,37 +40,37 @@
                 </i>
                 {{ $t('lang33') }}
             </p>
-            <p></p>
             <p>
                 <i>
-                    <img src="/assets/images/icon/parchase-info8.png" alt/>
+                    <img src="/assets/images/icon/parchase-info8.png"/>
                 </i>
                 {{$t('lang34')}}
             </p>
             <p>
                 <i>
-                    <img src="/assets/images/icon/parchase-info9.png" alt/>
+                    <img src="/assets/images/icon/parchase-info9.png"/>
                 </i>
                 {{$t('lang35')}}
             </p>
             <p>
                 <i>
-                    <img src="/assets/images/icon/parchase-info4.png" alt/>
+                    <img src="/assets/images/icon/parchase-info4.png"/>
                 </i>
                 {{$t('lang36')}}
             </p>
             <p v-if="item.cit_include_copyright_transfer !== '1'">
                 <i>
-                    <img src="/assets/images/icon/parchase-info10.png" alt/>
+                    <img src="/assets/images/icon/parchase-info10.png"/>
                 </i>
                 {{$t('lang41')}}
             </p>
             <p v-else>
                 <i>
-                    <img src="/assets/images/icon/parchase-info10.png" alt/>
+                    <img src="/assets/images/icon/parchase-info10.png"/>
                 </i>
                 {{$t('lang42')}}
             </p>
+
             <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
                 <span>{{ $t('lang21') }}</span>
                 <span>{{ $t('lang22') }}</span>
@@ -101,9 +101,6 @@
         height: auto !important;
         margin-top: 20px !important;
         margin-bottom: 0 !important;
-    }
-
-    .purchase-description {
     }
 
     .purchase-description p {

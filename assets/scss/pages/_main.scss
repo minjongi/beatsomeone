@@ -901,7 +901,7 @@ section[class*='section'] {
     .option_item {
       flex-direction: column;
       margin-top: 20px;
-      margin-bottom: 50px;
+      //margin-bottom: 50px;
       display: none;
       transform: translateY(-10%);
       transition: 0.3s ease;
@@ -1125,7 +1125,7 @@ section[class*='section'] {
           height: 113px;
         }
         &.unlimited {
-          height: 252px;
+          height: 170px;
         }
       }
     }

@@ -166,6 +166,9 @@ export default {
             console.log(this.product);
             window.location.href = '/beatsomeone/detail/' + this.product.cit_key
         }
+    },
+    mounted() {
+        console.log(this.product);
     }
 }
 </script>

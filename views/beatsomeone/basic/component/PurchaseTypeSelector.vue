@@ -11,7 +11,7 @@
                         <img :src="albumThumb" alt/>
                     </div>
                     <h3>{{ item.cit_name }}</h3>
-                    <p>{{ item.musician }}</p>
+                    <p>by {{ item.mem_nickname }}</p>
                 </div>
                 <div class="purchase-list">
                     <ul>
@@ -234,9 +234,7 @@
     };
 </script>
 
-<style lang="scss" scoped>
-    @import "/assets/plugins/slick/slick.css";
-    @import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
+<style lang="scss">
 
     /* width */
     .purchase-list::-webkit-scrollbar {
@@ -261,13 +259,6 @@
     .parchase-dropdown {
         display: flex;
         align-items: center;
-    }
-
-    .parchase-dropdown span {
-        color: #fff;
-        font-size: 13px;
-        margin-left: 5px;
-        opacity: 0.3;
     }
 
     .parchase-dropdown:hover span {

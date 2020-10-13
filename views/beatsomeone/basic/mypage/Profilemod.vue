@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="type"><span>{{$t('userGroup')}}</span></div>
                 <div class="data">
-                   <div class="group_title" :class="groupType">{{ $t(groupType) }}</div>
+                   <div class="group_title">{{ $t(groupType) }}</div>
                 </div>
             </div>
             <div class="row" v-if="isSeller">

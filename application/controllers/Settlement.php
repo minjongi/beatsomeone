@@ -96,7 +96,8 @@ class Settlement extends CB_Controller
                        co.mem_nickname                                          as buyer_nickname,
                        m.mem_nickname                                           as seller_nickname,
                        ci.cit_file_1,
-                       CONCAT(ci.cit_name, '(', cid.cde_title, ')')             as item_name,
+                       ci.cit_name,
+                       cid.cde_title,
                        co.cor_pg,
                        CASE
                            WHEN co.cor_pg = 'allat' THEN cid.cde_price

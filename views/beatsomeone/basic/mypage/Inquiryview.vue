@@ -50,7 +50,7 @@
                             <div class="playList__item playList__item--title nowrap question stay">
                                 <div class="row">
                                     <div class="mark">Q</div>
-                                    <div class="answer" v-html="post.post_content">
+                                    <div class="answer" style="word-break: break-all;" v-html="post.post_content">
                                     </div>
                                 </div>
                             </div>

@@ -30,7 +30,7 @@
                     <li class="playList__itembox" v-for="(inquiry, index) in inquiry_list" :key="inquiry.post_id" @click="goInquiryview(inquiry)">
                         <div class="playList__item playList__item--title nowrap active">
                             <div class="index">{{ index + 1 }}</div>
-                            <div class="subject">{{ inquiry.post_title }}</div>
+                            <div class="subject">{{ truncate(inquiry.post_title, 60) }}</div>
                             <div class="date">
                                 {{ inquiry.post_datetime }}
                             </div>
@@ -166,7 +166,10 @@
             searchClicked(event) {
                 this.query_string = `sfield=${this.search_field}&skeyword=${this.search_keyword}`;
                 this.fetchData(this.query_string);
-            }
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
         },
     }
 </script>

@@ -25,9 +25,7 @@
                 </figure>
             </div>
             <div class="col n-option" style="height: auto;">
-                <div class="option">
-                    <ItemDetail :type="item.itemdetail[0].cde_title" :item="item.itemdetail[0]" :pg="pg" />
-                </div>
+                <ItemDetail :type="item.itemdetail[0].cde_title" :item="item.itemdetail[0]" :pg="pg" />
             </div>
             <div class="col edit">
                 <button v-if="item.item.possible_download === 1"

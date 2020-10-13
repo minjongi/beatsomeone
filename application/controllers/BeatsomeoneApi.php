@@ -293,16 +293,30 @@ class BeatsomeoneApi extends CB_Controller
             return;
         }
 
+        $mem_id = $this->member->item('mem_id');
 
-        $this->load->model('Beatsomeone_model');
+        $sql = "SELECT cci.*, ccim7.cim_value hashTag, ccim1.cim_value genre, ccim4.cim_value subgenre, ccim2.cim_value bpm, cm.mem_nickname 
+                FROM cb_cmall_item cci 
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim7 on cci.cit_id = ccim7.cit_id
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_1') as ccim1 on cci.cit_id = ccim1.cit_id
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_2') as ccim2 on cci.cit_id = ccim2.cit_id
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_4') as ccim4 on cci.cit_id = ccim4.cit_id
+                    LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
+                WHERE cci.mem_id = ?";
+        $products = $this->db->query($sql, [$mem_id])->result_array();
 
-        $config = array(
-            'mem_id' => $this->member->item('mem_id'),
-        );
-        $result = $this->Beatsomeone_model->get_user_regist_item_list($config);
+        foreach ($products as $idx => $product) {
+            $sql_detail = "SELECT * FROM cb_cmall_item_detail WHERE cit_id = ?";
+            $details = $this->db->query($sql_detail, [$product['cit_id']])->result_array();
+            $details2 = array();
+            foreach ($details as $idx2 => $detail) {
+                $details2[$detail['cde_title']] = $detail;
+            }
+            $products[$idx]['detail'] = $details2;
+        }
 
         $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
+        $this->output->set_output(json_encode($products));
     }
 
     // mypage 음원 조회

@@ -1,101 +1,111 @@
 <template>
-    <div class="n-box">
-        <div>
-            <button class="playList__item--button">
-                <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
-                                               @click.self="toggleButton"/></span>
-                <div>
-                    <div class="title" @click.self="toggleButton" v-if="type === 'LEASE'">
-                        {{ $t('lang23') }}
-                    </div>
-                    <div class="title" @click.self="toggleButton" v-if="type === 'STEM'">
-                        {{ $t('lang30') }}
-                    </div>
-                    <div class="detail">{{ $t('lang24') }}</div>
-                </div>
-            </button>
-            <div class="option_item basic">
-                <div class="purchase-description" v-if="type === 'LEASE'">
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info6.png" alt/>
-                        </i>
-                        {{$t('lang25')}}
-                    </p>
-                    <p></p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info1.png" alt/>
-                        </i>
-                        {{$t('lang26')}}
-                    </p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info3.png" alt/>
-                        </i>
-                        {{$t('lang27')}}
-                    </p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info2.png" alt/>
-                        </i>
-                        {{$t('lang28')}}
-                    </p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                        </i>
-                        {{$t('lang29')}}
-                    </p>
-                </div>
-                <div class="purchase-description" v-else>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info6.png" alt/>
-                        </i>
-                        {{ $t('lang33') }}
-                    </p>
-                    <p></p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info8.png" alt/>
-                        </i>
-                        {{$t('lang34')}}
-                    </p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info9.png" alt/>
-                        </i>
-                        {{$t('lang35')}}
-                    </p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info4.png" alt/>
-                        </i>
-                        {{$t('lang36')}}
-                    </p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info10.png" alt/>
-                        </i>
-                        {{$t('lang41')}}
-                    </p>
-                    <p>
-                        <i>
-                            <img src="/assets/images/icon/parchase-info10.png" alt/>
-                        </i>
-                        {{$t('lang42')}}
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div>
+    <div>
+        <div class="feature">
             <div class="playbtn">
                 <button class="btn-play" @click="playAudio(item, $event)">재생</button>
                 <span class="timer"><span class="current">0:00 /</span><span class="duration">0:00</span></span>
             </div>
             <div class="price yellow">
                 {{ formatPrice(item.cde_price, item.cde_price_d, pg) }}
+            </div>
+        </div>
+        <div class="option">
+            <div class="n-box">
+                <div>
+                    <button class="playList__item--button">
+                        <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                        <div>
+                            <div class="title" @click.self="toggleButton" v-if="type === 'LEASE'">
+                                {{ $t('lang23') }}
+                            </div>
+                            <div class="title" @click.self="toggleButton" v-if="type === 'STEM'">
+                                {{ $t('lang30') }}
+                            </div>
+                            <div class="detail">{{ $t('lang24') }}</div>
+                        </div>
+                    </button>
+                    <div class="option_item basic">
+                        <div class="purchase-description" v-if="type === 'LEASE'">
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info6.png" alt/>
+                                </i>
+                                {{$t('lang25')}}
+                            </p>
+                            <p></p>
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info1.png" alt/>
+                                </i>
+                                {{$t('lang26')}}
+                            </p>
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info3.png" alt/>
+                                </i>
+                                {{$t('lang27')}}
+                            </p>
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info2.png" alt/>
+                                </i>
+                                {{$t('lang28')}}
+                            </p>
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info7.png" alt/>
+                                </i>
+                                {{$t('lang29')}}
+                            </p>
+                        </div>
+                        <div class="purchase-description" v-else>
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info6.png" alt/>
+                                </i>
+                                {{ $t('lang33') }}
+                            </p>
+                            <p></p>
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info8.png" alt/>
+                                </i>
+                                {{$t('lang34')}}
+                            </p>
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info9.png" alt/>
+                                </i>
+                                {{$t('lang35')}}
+                            </p>
+                            <p>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info4.png" alt/>
+                                </i>
+                                {{$t('lang36')}}
+                            </p>
+                            <p v-if="item.cit_include_copyright_transfer !== '1'">
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info10.png" alt/>
+                                </i>
+                                {{$t('lang41')}}
+                            </p>
+                            <p v-else>
+                                <i>
+                                    <img src="/assets/images/icon/parchase-info10.png" alt/>
+                                </i>
+                                {{$t('lang42')}}
+                            </p>
+                            <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
+                                <span>{{ $t('lang21') }}</span>
+                                <span>{{ $t('lang22') }}</span>
+                            </div>
+                            <div class="copybox" v-else>
+                                <span>{{ $t('lang43') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

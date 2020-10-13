@@ -92,7 +92,7 @@
                                     </span>
                                 </figure>
                             </div>
-                            <div class="subject">{{ item.item_name }}</div>
+                            <div class="subject">{{ truncate(item.cit_name, 30) }}</div>
                             <div class="totalprice">{{ formatPr(item.cor_pg, item.total_money) }}</div>
                             <div class="status">
                                 <div v-if="item.cod_status === 'order'" class="green">
@@ -394,6 +394,9 @@
         created() {
         },
         methods: {
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
             updateSearchDate(date) {
                 if (this.isEmpty(date.start) || this.isEmpty(date.end)) {
                     this.getData();
