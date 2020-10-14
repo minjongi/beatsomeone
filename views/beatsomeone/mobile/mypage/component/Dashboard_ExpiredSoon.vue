@@ -4,9 +4,9 @@
             {{$t('expiredSoon')}}
         </h4>
 
-        <h3 v-if="data.length === 0" style="text-align: center">
+        <p v-if="data.length === 0" style="text-align: center; opacity: 0.7">
             {{ $t('dashboard_ExpiredSoon_notexists') }}
-        </h3>
+        </p>
 
 
         <div v-if="data.length > 0" >

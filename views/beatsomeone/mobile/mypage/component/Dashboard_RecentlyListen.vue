@@ -16,8 +16,8 @@
                 </button>
                 </a>
                 <a :href="'/beatsomeone/detail/'+citem.cit_key" class="albumItem__link">
-                    <h4 class="albumItem__title">{{ citem.cit_name }}</h4>
-                    <p class="albumItem__singer">{{ citem.mem_nickname }}</p>
+                    <h4 class="albumItem__title">{{ truncate(citem.cit_name, 10) }}</h4>
+                    <p class="albumItem__singer">by {{ citem.mem_nickname }}</p>
                 </a>
             </div>
         </div>
@@ -43,7 +43,9 @@
 
         },
         methods: {
-
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
         },
 
     }

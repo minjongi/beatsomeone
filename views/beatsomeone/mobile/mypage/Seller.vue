@@ -63,7 +63,7 @@
                 </button>
             </div>
 
-            <div class="title-content">
+            <div class="title-content" style="opacity: 0.3">
                 <div class="title"></div>
                 <p style="line-height: 1.2;">- The search period is based on the date and time of purchase. </p>
                 <p style="margin-top: 5px; line-height: 1.2;">- You can see not only the amount of sales, but also the

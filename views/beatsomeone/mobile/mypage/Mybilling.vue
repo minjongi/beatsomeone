@@ -269,13 +269,16 @@
                 let title = '';
                 if (size > 0) {
                     if (detail[0].item) {
-                        title = detail[0].item.cit_name;
+                        title = this.truncate(detail[0].item.cit_name, 20)
                     }
                 }
                 if (1 < size) {
                     return title + " 외 " + (size - 1) + "건";
                 }
                 return title;
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
             calcFuncTotalCnt() {
                 return this.orders.length;

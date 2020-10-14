@@ -33,9 +33,9 @@
                     <figcaption class="pointer">
                         <h3 class="playList__title">{{ formatCitName(item.item.cit_name,25) }}</h3>
                         <span class="playList__by">by {{ item.item.mem_nickname }}</span>
-                        <span v-if="item.item.bpm" class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
-                        <span v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
-                        <div class="n-flex">
+                        <span style="margin-top: 5px; display: block;" v-if="item.item.bpm" class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
+                        <span style="margin-top: 5px; display: block;" v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
+                        <div class="n-flex" style="margin-top: 5px;">
                             <div class="listen">
                                 <div class="playbtn">
                                     <button

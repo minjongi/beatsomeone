@@ -310,7 +310,7 @@
                 setTimeout(function () {
                     Velocity(
                         el,
-                        {opacity: 1, height: 55, "margin-bottom": 1},
+                        {opacity: 1, height: 70, "margin-bottom": 1},
                         {complete: done}
                     );
                 }, delay);

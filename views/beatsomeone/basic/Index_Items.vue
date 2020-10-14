@@ -15,7 +15,7 @@
                 <figure>
                     <span class="playList__cover"><img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/><i class="label new" v-show="item.is_new === true">N</i></span>
                     <figcaption class="pointer" @click="selectItem(item)">
-                        <h3 class="playList__title">{{ item.cit_name }}</h3>
+                        <h3 class="playList__title">{{ truncate(item.cit_name, 20) }}</h3>
                         <span class="playList__by">by {{ item.mem_nickname }}</span>
                     </figcaption>
                 </figure>
@@ -170,6 +170,9 @@
             }
         },
         methods: {
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
             stop() {
                 if (this.ws) {
                     this.ws.pause();
@@ -421,7 +424,7 @@
     };
 </script>
 
-<style scoped="scoped" lang="scss">
+<style lang="scss">
     .timer {
         margin-left: 20px !important;
         width: 63px;
@@ -453,40 +456,6 @@
 
             figcaption {
                 width: calc(100% - 85px);
-            }
-        }
-
-        .tags {
-            padding-right: 30px;
-            width: 160px;
-            flex: none;
-
-            div {
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-
-                &:first-child {
-                    margin-bottom: 5px;
-                }
-            }
-
-            button {
-                height: 20px;
-                padding: 0 8px;
-                border: 1px solid #fff;
-                opacity: 0.3;
-                transition: all 0.3s;
-                font-size: 10px;
-                border-radius: 2em;
-
-                & + button {
-                    margin-left: 5px;
-                }
-
-                &:hover {
-                    opacity: 1;
-                }
             }
         }
     }

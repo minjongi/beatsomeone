@@ -17,7 +17,7 @@
 <!--                        <span class="comment__created-at">8 day ago</span>-->
                         <div>
                             <span class="comment__created-at">{{ timeago(c.cqa_datetime) }}</span><br>
-                            <button @click="deleteComment(c)" v-if="member.mem_nickname === c.mem_nickname" class="red" style="margin-top: 5px">{{ $t('delete') }}</button>
+                            <button @click="deleteComment(c)" v-if="member.mem_nickname === c.mem_nickname" class="red" style="margin-top: 5px; font-size: 12px;">{{ $t('delete') }}</button>
                         </div>
                     </div>
                     <div class="comment__description">

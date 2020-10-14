@@ -142,6 +142,7 @@
         opacity: 0.3;
         margin-top: 5px;
         padding: 0;
+        color: white;
       }
     }
     .n-box {
@@ -190,9 +191,12 @@
         transition: height 0.3s ease;
         > div {
           line-height: 2em;
-          font-size: 14px;
-          padding-left: 28px;
+          font-size: 12px;
           position: relative;
+
+          p {
+            margin-bottom: 2px;
+          }
           .img-box {
             position: absolute;
             left: 0;

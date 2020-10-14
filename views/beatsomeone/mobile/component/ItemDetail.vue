@@ -10,12 +10,12 @@
                                   </span>
                 <div>
                     <div
-                        class="title"
+                        class="title" style="font-size: 12px;"
                         @click.self="toggleButton" v-if="type === 'lease'"
                     >{{ $t('lang23') }}
                     </div>
                     <div v-if="type === 'mastering'"
-                        class="title"
+                        class="title" style="font-size: 12px;"
                         @click.self="toggleButton"
                     >{{ $t('lang30') }}
                     </div>

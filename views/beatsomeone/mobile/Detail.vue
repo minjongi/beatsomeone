@@ -11,7 +11,7 @@
                             </button>
                         </div>
                         <div class="detail__music-info">
-                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ truncate(item.cit_name, 20) }}</h2>
+                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ truncate(item.cit_name, 15) }}</h2>
                             <p class="singer" v-if="item.member">{{ item.member.mem_nickname }}</p>
                             <div class="state" v-if="item">
                                 <span class="song">{{ item.cde_download }}</span>

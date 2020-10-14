@@ -11,7 +11,7 @@
                         <i class="label new" v-if="item.is_new">N</i>
                     </span>
                     <figcaption class="pointer" @click="selectItem">
-                        <h3 class="playList__title">{{ item.cit_name}}</h3>
+                        <h3 class="playList__title">{{ truncate(item.cit_name, 20)}}</h3>
                         <span class="playList__by">{{ item.mem_nickname }}</span>
                     </figcaption>
                 </figure>
@@ -61,6 +61,9 @@
             },
             timeago(date) {
                 return timeago.format(date);
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
         },
 

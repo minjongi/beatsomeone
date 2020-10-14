@@ -198,7 +198,7 @@
       box-shadow: 0 0 32px rgba(255, 255, 255, 0.5);
     }
     .group_title {
-      &.SELLER {
+      &.seller {
         margin-top: 5px;
         display: inline-block;
         padding: 2px 4px;
@@ -208,7 +208,7 @@
         text-align: center;
         background-color: #ff4848;
       }
-      &.CUSTOMER {
+      &.customer {
         margin-top: 5px;
         display: inline-block;
         padding: 2px 4px;
