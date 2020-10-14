@@ -18,7 +18,7 @@
             <div class="content-header">
                 <div class="n-flex column">
                     <h4 class="category">Title</h4>
-                    <p class="body">{{ post.post_title }}</p>
+                    <h3 class="body">{{ post.post_title }}</h3>
                 </div>
 
                 <div class="n-flex">

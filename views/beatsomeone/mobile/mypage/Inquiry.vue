@@ -18,7 +18,7 @@
         <div class="row">
             <div class="board">
                 <ul>
-                    <li class="n-box" v-for="inquiry in inquiry_list" :key="inquiry.post_id" @click="goInquiryview(inquiry)">
+                    <li class="n-box" style="margin-bottom: 1px;" v-for="inquiry in inquiry_list" :key="inquiry.post_id" @click="goInquiryview(inquiry)">
                         <div class="n-flex setween">
                             <span class="subject">{{ inquiry.post_title }}</span>
                             <span class="action yellow" v-if="inquiry.replies.list.length === 0">
