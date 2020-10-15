@@ -8,8 +8,8 @@
                     <div class="type"><span>{{$t('currentPassword')}}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" ref="firstForm" @keydown.enter="doSubmit" v-model="info.pwdOriginal" type="password" :placeholder="$t('enterYourCurrentPassword')">
-                            <CommonCaution css="red" v-if="errors.pwdOriginal">{{$t('incorrectPasswordMsg')}}</CommonCaution>
+                            <input class="inputbox" ref="firstForm" @keydown.enter="doSubmit" v-model="current_password" type="password" :placeholder="$t('enterYourCurrentPassword')">
+                            <CommonCaution css="red" v-if="cur_password_invalid">{{cur_password_invalid_feedback}}</CommonCaution>
                         </div>
                     </div>
                 </div>
@@ -18,8 +18,8 @@
                     <div class="type"><span>{{$t('newPassword')}}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" @keydown.enter="doSubmit" v-model="info.pwdC1" type="password" :placeholder="$t('enterYourNewPassword')">
-                            <CommonCaution css="red" v-if="errors.pwdC1">{{$t('passwordCharactersMsg')}}</CommonCaution>
+                            <input class="inputbox" @keydown.enter="doSubmit" v-model="new_password" type="password" :placeholder="$t('enterYourNewPassword')">
+                            <CommonCaution css="red" v-if="new_password_invalid">{{new_password_invalid_feedback}}</CommonCaution>
                         </div>
                     </div>
                 </div>
@@ -28,8 +28,8 @@
                     <div class="type"><span>{{$t('newPasswordConfirm')}}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" @keydown.enter="doSubmit" v-model="info.pwdC2" type="password" :placeholder="$t('enterYourNewPasswordAgain')">
-                            <CommonCaution css="red" v-if="errors.pwdC2">{{$t('confirmIncorrectPasswordMsg')}}</CommonCaution>
+                            <input class="inputbox" @keydown.enter="doSubmit" v-model="new_password_confirm" type="password" :placeholder="$t('enterYourNewPasswordAgain')">
+                            <CommonCaution css="red" v-if="new_password_re_invalid">{{new_password_re_invalid_feedback}}</CommonCaution>
                         </div>
                     </div>
                 </div>
@@ -46,16 +46,23 @@
 
 
 <script>
-
-
     import CommonCaution from "./CommonCaution";
+    import axios from 'axios';
+
     export default {
         components: {CommonCaution},
         props: ['item'],
         data: function () {
             return {
-                errors: null,
-                info: {},
+                current_password: '',
+                new_password: '',
+                new_password_confirm: '',
+                cur_password_invalid: false,
+                cur_password_invalid_feedback: '',
+                new_password_invalid: false,
+                new_password_invalid_feedback: '',
+                new_password_re_invalid: false,
+                new_password_re_invalid_feedback: '',
             }
         },
         created() {
@@ -70,19 +77,37 @@
                 this.$emit('dismissModal');
             },
             doSubmit() {
-                this.doValidation().then(r => {
+                let formData = new FormData();
+                formData.append('cur_password', this.current_password);
+                formData.append('new_password', this.new_password);
+                formData.append('new_password_re', this.new_password_confirm);
 
-
-                    Http.post('/BeatsomeoneMypageApi/updateUserPassword',{'pwdOriginal' : this.info.pwdOriginal, 'pwdChange': this.info.pwdC1 }).then(r=> {
-                        alert(this.$t('dashboard_profilemod_pwd_change_ok'));
-                        this.$emit('submitModal');
-                    }).catch(e=> {
-                        log.debug('업데이트 실패');
-                    });
-
-                },e => {
-                    log.debug('실패');
-                });
+                axios.post('/membermodify/ajax_password_modify',formData)
+                    .then(res => res.data)
+                    .then(data => {
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        const error_data = error.response.data;
+                        if (error_data.cur_password) {
+                            this.cur_password_invalid = true;
+                            this.cur_password_invalid_feedback = error_data.cur_password;
+                        } else {
+                            this.cur_password_invalid = false;
+                        }
+                        if (error_data.new_password) {
+                            this.new_password_invalid = true;
+                            this.new_password_invalid_feedback = error_data.new_password;
+                        } else {
+                            this.new_password_invalid = false;
+                        }
+                        if (error_data.new_password_re) {
+                            this.new_password_re_invalid = true;
+                            this.new_password_re_invalid_feedback = error_data.new_password_re;
+                        } else {
+                            this.new_password_re_invalid = false;
+                        }
+                    })
             },
             doValidation() {
                 const p1 = new Promise((resolve, reject) => {

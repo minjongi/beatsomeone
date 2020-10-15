@@ -27,9 +27,9 @@
     flex: 1;
 
     .topFive {
-      @include flex($justify: space-between);
+      @include flex();
       .albumItem {
-        padding: 0;
+        //padding: 0;
       }
     }
   }

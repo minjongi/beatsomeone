@@ -8,7 +8,7 @@
                 </h1>
             </div>
             <div class="login accounts__defaultLayout">
-                <form action="/login" method="post">
+                <form :action="fullUrl" method="post">
                     <div class="accounts__form">
                         <div class="row">
                             <label for="">
@@ -34,7 +34,7 @@
 
                     </div>
                     <div class="accounts__btnbox">
-                        <button type="submit" class="btn btn--submit">
+                        <button type="submit" class="btn btn--submit" style="height: 54px; width: 100%">
                             {{ $t('login') }}
                         </button>
                     </div>
@@ -89,10 +89,12 @@
             return {
                 errorMsg: '',
                 isLogin: false,
+                fullUrl: '/login'
             }
         },
         mounted() {
             this.$refs.userid.focus();
+            this.fullUrl = window.location.pathname + window.location.search;
         },
         watch: {
         },

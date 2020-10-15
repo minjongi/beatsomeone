@@ -59,10 +59,9 @@ class Cmall_order_model extends CB_Model
 		return $result;
 	}
 
-
-	public function get_admin_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
+    public function get_admin_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
 	{
-		$select = 'cmall_order.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_is_admin, member.mem_icon, member.mem_point';
+		$select = 'cmall_order.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_firstname, member.mem_lastname, member.mem_is_admin, member.mem_icon, member.mem_point';
 		$join[] = array('table' => 'member', 'on' => 'cmall_order.mem_id = member.mem_id', 'type' => 'left');
 		$result = $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
 		return $result;
@@ -158,7 +157,7 @@ class Cmall_order_model extends CB_Model
 			return;
 		}
 
-		$this->db->select('cmall_order.cor_id, cmall_order.cor_approve_datetime, cmall_order_detail.cod_download_days');
+		$this->db->select('cmall_order.cor_id, cmall_order.cor_approve_datetime, cmall_order.cor_status, cmall_order_detail.cod_id');
 		$this->db->join('cmall_order_detail', 'cmall_order.cor_id = cmall_order_detail.cor_id', 'inner');
 		$where = array(
 			'cmall_order.mem_id' => $mem_id,
@@ -191,5 +190,49 @@ class Cmall_order_model extends CB_Model
         $return = $this->db->insert('paypal_log', $data);
 
         return $return;
+    }
+
+    public function get_order_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
+    {
+        $where .= " and (cmall_order.status = 'order' or cmall_order.status = 'deposit')";
+        $result = $this->get_list($limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
+
+        $this->db->select('count(*) as rownum');
+        $where1 = $where." and cmall_order.status = 'deposit'";
+        $this->db->where($where1);
+        $qry = $this->db->get($this->_table);
+        $rows = $qry->row_array();
+        $result['total_deposit_rows'] = $rows['rownum'];
+
+        $this->db->select('count(*) as rownum');
+        $where2 = $where." and cmall_order.status = 'order'";
+        $this->db->where($where2);
+        $qry = $this->db->get($this->_table);
+        $rows = $qry->row_array();
+        $result['total_order_rows'] = $rows['rownum'];
+
+        $this->db->select('count(*) as rownum');
+        $where3 = "cmall_order.mem_id = ". $this->member->item('mem_id'). " and (cmall_order.status = 'cancel' or cmall_order.status = 'refund')";
+        $this->db->where($where3);
+        $qry = $this->db->get($this->_table);
+        $rows = $qry->row_array();
+        $result['total_cancel_rows'] = $rows['rownum'];
+
+        return $result;
+    }
+
+    public function get_cancel_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
+    {
+        $where .= " and (cmall_order.status = 'cancel' or cmall_order.status = 'refund')";
+        $result = $this->get_list($limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
+
+        $this->db->select('count(*) as rownum');
+        $where3 = "cmall_order.mem_id = ". $this->member->item('mem_id'). " and (cmall_order.status = 'order' or cmall_order.status = 'deposit')";
+        $this->db->where($where3);
+        $qry = $this->db->get($this->_table);
+        $rows = $qry->row_array();
+        $result['total_order_rows'] = $rows['rownum'];
+
+        return $result;
     }
 }

@@ -1,5 +1,8 @@
 <template>
     <header class="header">
+        <div class="smtm9-top" v-if="false">
+            <a href="/smtm9"><img src="/assets/images/event/smtm9/top.jpg"></a>
+        </div>
         <div class="wrap">
             <h1 class="header__logo">
                 <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
@@ -14,13 +17,14 @@
                 <nav class="header__nav">
                     <a href=""></a>
                     <a href="/mypage/favorites">{{ $t('favorite') }}</a>
-                    <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                    <a v-if="isCustomer" href="">{{ $t('freeBeats') }}</a>
+                    <a v-if="isSeller" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
-                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') + cartSum }})</a>
-                    <a href="#" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
+                    <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </nav>
             </div>
         </div>
@@ -29,54 +33,64 @@
 
 <script>
     import { EventBus } from '*/src/eventbus';
-    import Vuecookies from 'vue-cookies'
+    import Vuecookies from 'vue-cookies';
+    import axios from 'axios';
 
     export default {
         name: 'Header',
-        props: {
-            isLogin : {
-                type: Boolean,
-                default: false,
-            }
-        },
         data: function () {
             return {
-                userInfo: null,
-                searchText: null,
+                searchText: '',
                 cartSum: 0,
+                member_group_name: '',
+                member: false
             };
         },
-        watch: {
-          isLogin: function (n) {
-
-          },
-        },
         created() {
-            this.fetchUserInfo();
             EventBus.$on('add_cart',() => {
                 this.updateCartSum();
             });
         },
         mounted() {
             this.updateCartSum();
+            this.member_group_name = window.member_group_name;
+            this.member = window.member;
         },
         computed: {
             toggleLocaleMenuTit: function() {
                 return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
             },
+            getCartSum() {
+                return Number(this.$store.getters.getCartSum).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+            },
+            getCartSumD() {
+                return Number(this.$store.getters.getCartSumD).toLocaleString(undefined, {minimumFractionDigits: 2});
+            },
+            isSeller() {
+                return this.member_group_name.includes('seller')
+            },
+            isCustomer() {
+                return this.member_group_name === 'buyer';
+            },
+            isLogin () {
+                return this.member !== false;
+            }
         },
         methods: {
-            fetchUserInfo() {
-                Http.post('/beatsomeoneApi/get_user_info').then(r=> {
-                    this.userInfo = r[0];
-                });
-            },
             updateCartSum() {
-                Http.post( `/beatsomeoneApi/getCartSum`).then(r=> {
-                    if(r >= 0) {
-                        this.cartSum = r;
-                    }
-                });
+                axios.get('/beatsomeoneApi/getCartSum')
+                    .then(res => res.data)
+                    .then(data => {
+                        this.cartSum = data.s;
+                        this.cartSumD = data.s_d;
+                        this.$store.dispatch('addMoney', {
+                            money: data.s,
+                            money_d: data.s_d,
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
             },
             search() {
                 // if(!this.searchText) {

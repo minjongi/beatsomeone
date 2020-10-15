@@ -1348,8 +1348,16 @@ class Board_write extends CB_Controller
 			/**
 			 * 게시물의 신규입력 또는 수정작업이 끝난 후 뷰 페이지로 이동합니다
 			 */
-			$redirecturl = post_url(element('brd_key', $board), $post_id);
-			redirect($redirecturl);
+			if ($this->input->is_ajax_request()) {
+                $this->output->set_content_type('text/json');
+                $result = [
+                    'message' => 'Success',
+                ];
+                $this->output->set_output(json_encode($result));
+            } else {
+                $redirecturl = post_url(element('brd_key', $board), $post_id);
+                redirect($redirecturl);
+            }
 		}
 	}
 
@@ -1695,23 +1703,23 @@ class Board_write extends CB_Controller
 			}
 		}
 
-		if ($is_post_name) {
-			$config[] = array(
-				'field' => 'post_nickname',
-				'label' => '닉네임',
-				'rules' => 'trim|required|min_length[2]|max_length[20]|callback__mem_nickname_check',
-			);
-			$config[] = array(
-				'field' => 'post_email',
-				'label' => '이메일',
-				'rules' => 'trim|valid_email|max_length[50]|callback__mem_email_check',
-			);
-			$config[] = array(
-				'field' => 'post_homepage',
-				'label' => '홈페이지',
-				'rules' => 'prep_url|valid_url',
-			);
-		}
+//		if ($is_post_name) {
+//			$config[] = array(
+//				'field' => 'post_nickname',
+//				'label' => '닉네임',
+//				'rules' => 'trim|required|min_length[2]|max_length[20]|callback__mem_nickname_check',
+//			);
+//			$config[] = array(
+//				'field' => 'post_email',
+//				'label' => '이메일',
+//				'rules' => 'trim|valid_email|max_length[50]|callback__mem_email_check',
+//			);
+//			$config[] = array(
+//				'field' => 'post_homepage',
+//				'label' => '홈페이지',
+//				'rules' => 'prep_url|valid_url',
+//			);
+//		}
 		if ($this->member->is_member() === false) {
 			$password_length = $this->cbconfig->item('password_length');
 			$config[] = array(

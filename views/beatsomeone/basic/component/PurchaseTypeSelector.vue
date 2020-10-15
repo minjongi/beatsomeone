@@ -8,61 +8,61 @@
       <div class="modal__body">
         <div class="album">
           <div class="album__thumb">
-            <img :src="albumThumb" alt />
+            <img :src="albumThumb" alt/>
           </div>
           <h3>{{ item.cit_name }}</h3>
-          <p>{{ item.musician }}</p>
+          <p>by {{ item.mem_nickname }}</p>
         </div>
         <div class="purchase-list">
           <ul>
             <li
-              class="parchase-item"
-              v-if="item.cit_lease_license_use && !!item.detail && !!item.detail.LEASE && !!item.detail.LEASE.cde_id"
+                class="parchase-item"
+                v-if="item.detail.LEASE"
             >
-              <div class="parchase-info">
-                <div class="parchase-headern">
+              <div class="purchase-info">
+                <div class="purchase-headern" style="display: flex; justify-content: space-between;">
                   <div>
-                    <h4 class="parchase-title">{{ $t('lang23') }}</h4>
-                    <p class="parchase-desc">
+                    <h4 class="purchase-title">{{ $t('lang23') }}</h4>
+                    <p class="purchase-desc">
                       {{$t('lang24')}}
                     </p>
                   </div>
 
                   <div class="parchase-btnbox">
-                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE.cde_id)">
+                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;">
                       <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
                     </a>
                   </div>
                 </div>
-                <div class="parchase-description" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
+                <div class="purchase-description" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info6.png" alt />
+                      <img src="/assets/images/icon/parchase-info6.png" alt/>
                     </i>
                     {{$t('lang25')}}
                   </p>
                   <p></p>
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info1.png" alt />
+                      <img src="/assets/images/icon/parchase-info1.png" alt/>
                     </i>
                     {{$t('lang26')}}
                   </p>
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info3.png" alt />
+                      <img src="/assets/images/icon/parchase-info3.png" alt/>
                     </i>
                     {{$t('lang27')}}
                   </p>
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info2.png" alt />
+                      <img src="/assets/images/icon/parchase-info2.png" alt/>
                     </i>
                     {{$t('lang28')}}
                   </p>
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info7.png" alt />
+                      <img src="/assets/images/icon/parchase-info7.png" alt/>
                     </i>
                     {{$t('lang29')}}
                   </p>
@@ -74,60 +74,61 @@
               </div>
             </li>
             <li
-              class="parchase-item"
-              v-if="item.cit_mastering_license_use && !!item.detail && !!item.detail.STEM && !!item.detail.STEM.cde_id"
+                class="parchase-item"
+                v-if="item.detail.STEM"
             >
-              <div class="parchase-info">
-                <div class="parchase-headern">
+              <div class="purchase-info">
+                <div class="purchase-headern" style="display: flex; justify-content: space-between;">
                   <div>
-                    <h4 class="parchase-title">{{ $t('lang30') }}</h4>
-                    <p class="parchase-desc">
+                    <h4 class="purchase-title">{{ $t('lang30') }}</h4>
+                    <p class="purchase-desc">
                       {{ $t('lang31') }}
-                      <span class="copytransfer" v-if="item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
+                      <span class="copytransfer"
+                            v-if="item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
                     </p>
                   </div>
 
                   <div class="parchase-btnbox">
-                    <a class="buy waves-effect" @click="addCart(item.detail.STEM.cde_id)">
+                    <a class="buy waves-effect" @click="addCart(item.detail.STEM)" href="javascript:;">
                       <span>{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</span>
                     </a>
                   </div>
                 </div>
 
-                <div class="parchase-description" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
+                <div class="purchase-description" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info6.png" alt />
+                      <img src="/assets/images/icon/parchase-info6.png" alt/>
                     </i>
                     {{ $t('lang33') }}
                   </p>
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info8.png" />
+                      <img src="/assets/images/icon/parchase-info8.png"/>
                     </i>
                     {{$t('lang34')}}
                   </p>
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info9.png" />
+                      <img src="/assets/images/icon/parchase-info9.png"/>
                     </i>
                     {{$t('lang35')}}
                   </p>
                   <p>
                     <i>
-                      <img src="/assets/images/icon/parchase-info4.png" />
+                      <img src="/assets/images/icon/parchase-info4.png"/>
                     </i>
                     {{$t('lang36')}}
                   </p>
                   <p v-if="item.cit_include_copyright_transfer !== '1'">
                     <i>
-                      <img src="/assets/images/icon/parchase-info10.png" />
+                      <img src="/assets/images/icon/parchase-info10.png"/>
                     </i>
                     {{$t('lang41')}}
                   </p>
                   <p v-else>
                     <i>
-                      <img src="/assets/images/icon/parchase-info10.png" />
+                      <img src="/assets/images/icon/parchase-info10.png"/>
                     </i>
                     {{$t('lang42')}}
                   </p>
@@ -154,7 +155,7 @@
 </template>
 
 <script>
-import { EventBus } from "*/src/eventbus";
+import {EventBus} from "*/src/eventbus";
 import $ from "jquery";
 
 export default {
@@ -162,34 +163,28 @@ export default {
   data: function () {
     return {};
   },
-  mounted() {},
-  watch: {
-    item: function (n) {
-      console.log(n);
-    },
-  },
   computed: {
     albumThumb() {
       return !this.item.cit_file_1
-        ? "/assets/images/no_190x190.png"
-        : "/uploads/cmallitem/" + this.item.cit_file_1;
+          ? "/assets/images/no_190x190.png"
+          : "/uploads/cmallitem/" + this.item.cit_file_1;
     },
   },
   methods: {
     openDesc(id) {
       this.$refs["purchaseBtn" + id].classList.toggle("active");
       this.$refs["purchaseDesc" + id].style.display =
-        this.$refs["purchaseDesc" + id].style.display === "block"
-          ? "none"
-          : "block";
+          this.$refs["purchaseDesc" + id].style.display === "block"
+              ? "none"
+              : "block";
     },
-    addCart(cde_id) {
+    addCart(item_detail) {
       let detail_qty = {};
-      detail_qty[cde_id] = 1;
+      detail_qty[item_detail.cde_id] = 1;
       Http.post(`/beatsomeoneApi/itemAction`, {
         stype: "cart",
         cit_id: this.item.cit_id,
-        chk_detail: [cde_id],
+        chk_detail: [item_detail.cde_id],
         detail_qty: detail_qty,
       }).then((r) => {
         if (!r) {
@@ -197,6 +192,10 @@ export default {
         } else {
           log.debug("장바구니 담기 성공");
           alert(this.$t("inMyShoppingCart"));
+          this.$store.dispatch('addMoney', {
+            money: Number(item_detail.cde_price),
+            money_d: Number(item_detail.cde_price_d)
+          });
           this.close();
         }
       });
@@ -214,13 +213,13 @@ export default {
       }
       if (this.$i18n.locale === "en") {
         return (
-          "$ " +
-          Number(en).toLocaleString(undefined, { minimumFractionDigits: 2 })
+            "$ " +
+            Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
         );
       } else {
         return (
-          "₩ " +
-          Number(kr).toLocaleString("ko-KR", { minimumFractionDigits: 0 })
+            "₩ " +
+            Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
         );
       }
     },
@@ -228,9 +227,7 @@ export default {
 };
 </script>
 
-<style lang="css">
-@import "/assets/plugins/slick/slick.css";
-@import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
+<style lang="scss">
 
 /* width */
 .purchase-list::-webkit-scrollbar {
@@ -256,22 +253,17 @@ export default {
   display: flex;
   align-items: center;
 }
-.parchase-dropdown span {
-  color: #fff;
-  font-size: 13px;
-  margin-left: 5px;
-  opacity: 0.3;
-}
+
 .parchase-dropdown:hover span {
   opacity: 1;
 }
 
 #purchase
-  .modal__content
-  .modal__body
-  .parchase-item
-  .parchase-dropdown:hover
-  button {
+.modal__content
+.modal__body
+.parchase-item
+.parchase-dropdown:hover
+button {
   background: url("/assets/images/icon/dropdown-up.png") no-repeat center;
   background-size: 100% 100%;
 }
@@ -280,6 +272,7 @@ export default {
 .copybox {
   padding-left: 30px;
 }
+
 .copybox span {
   display: block;
   font-size: 11px;
@@ -289,6 +282,7 @@ export default {
   align-items: flex-start;
   line-height: 15px;
 }
+
 .copybox span:before {
   content: "*";
   font-size: 11px;
@@ -296,26 +290,31 @@ export default {
   margin-top: 2px;
   margin-right: 3px;
 }
+
 .copytransfer {
   font-size: 13px;
   color: #3873d3;
 }
+
 /* 추가 해야할 부분 끝 */
 
-.parchase-headern {
+.purchase-headern {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
 }
-.parchase-headern div {
+
+.purchase-headern div {
   flex: 1;
 }
+
 .parchase-btnbox {
   margin-left: auto;
   padding-left: 10px;
   flex: 0 !important;
 }
-#purchase .modal__content .modal__body .parchase-item .parchase-description p {
+
+#purchase .modal__content .modal__body .parchase-item .purchase-description p {
   margin-bottom: 5px !important;
 }
 </style>

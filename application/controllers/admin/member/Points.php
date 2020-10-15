@@ -252,14 +252,16 @@ class Points extends CB_Controller
 			} elseif ($this->input->post('poi_type') === 'toone') {
 				$mb = $this->Member_model->get_by_userid($this->input->post('mem_userid'), 'mem_id');
 				if (element('mem_id', $mb)) {
-					$this->point->insert_point(
-						element('mem_id', $mb),
-						$this->input->post('poi_point'),
-						$this->input->post('poi_content'),
-						'@byadmin',
-						element('mem_id', $mb),
-						$this->member->item('mem_id') . '-' . uniqid('')
-					);
+					$this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                        element('mem_id', $mb),
+                        cdate('Y-m-d H:i:s'),
+                        $this->input->post('poi_content'),
+                        $this->input->post('poi_point'),
+                        '@byadmin',
+                        $this->member->item('mem_id'),
+                        $this->member->item('mem_id') . '-' . uniqid('')
+                    ]);
+					$this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$this->input->post('poi_point'), element('mem_id', $mb)]);
 				}
 			}
 

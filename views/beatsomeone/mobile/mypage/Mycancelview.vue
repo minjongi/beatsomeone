@@ -3,15 +3,27 @@
         <div class="row" style="margin-bottom:30px;">
             <div class="title-content">
                 <div class="title"> Refund detail </div>
-                <div class="n-box">
-                    <div class="n-flex">
-                        <span class="title">No</span> <span style="margin-top: 0; color: rgba(255,255,255,.7);">Order_099</span>
-                    </div>
-                    <div class="n-flex">
-                        <span class="title">Date</span> <span style="margin-top: 0; color: rgba(255,255,255,.3)">0000-00-00 00:00:00</span>
-                    </div>
-                    <div class="n-flex">
-                        <span class="title">Status</span> <span class="red"  style="margin-top: 0;">Refund Complete</span>
+                <div class="payment_box">
+                    <div class="n-box">
+                        <div class="n-flex">
+                            <span class="title">{{$t('orderNumber')}}</span> <span style="margin-top: 0; color: rgba(255,255,255,.7);">{{ order.cor_id }}</span>
+                        </div>
+                        <div class="n-flex">
+                            <span class="title">Date</span>
+                            <span style="margin-top: 0; color: rgba(255,255,255,.3)">{{ order.cor_datetime }}</span>
+                        </div>
+                        <div class="n-flex">
+                            <div class="title">Status</div>
+                            <div v-if="order.cor_status === '1'" class="green">
+                                {{ $t('orderComplete') }}
+                            </div>
+                            <div v-else-if="order.cor_status === '2'" class="red">
+                                {{ $t('orderCancel') }}
+                            </div>
+                            <div v-else class="yellow">
+                                {{ $t('deposit') }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -26,79 +38,13 @@
 
             <div class="title-content">
                 <div class="title">
-                    <div><span class="yellow">3</span> Requested items</div>
+                    <div><span class="yellow">{{ orderItems.length }}</span> Requested items</div>
                 </div>
             </div>
 
             <div class="playList productList orderlist" style="margin-top:10px;">
                 <ul>
-                    <li class="playList__itembox">
-                        <div class="playList__item playList__item--title other">
-                            <div class="n-flex between">
-                                <div class="info"> <div class="code">item_1</div> </div>
-                                <!-- <div class="edit" style="flex: 1 1 auto;">
-                                    <div class="download_status green"> Download Available </div>
-                                </div> -->
-                                <div class="price" style="color: white;">₩ 22,000</div>
-                                <div class="price" style="color: white; display: none;">₩ 0 </div>
-                            </div>
-                            <div class="name">
-                                <figure class="n-flex" style="margin-right: 0px;">
-                                    <span class="playList__cover">
-                                        <img src="/uploads/cmallitem/2020/05//690d20391c8439243968cdf073ca8f2a.jpg" alt="">
-                                        <i class="label new" style="display: none;">N</i>
-                                    </span>
-                                    <figcaption class="pointer">
-                                    <h3 class="playList__title">Tidal Wave</h3>
-                                    <div class="n-flex">
-                                        <div class="listen">
-                                            <div class="playbtn"><button data-action="playAction105" class="btn-play">재생</button>
-                                                <span class="timer">
-                                                    <span data-v-27fa6da0="" class="current">0:00 / </span>
-                                                    <span class="duration">0:00</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="amount"><img src="/assets/images/icon/cd.png">
-                                            <div><span>500</span> left</div>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                                <button class="btn-edit"><img src="/assets/images/icon/down.png"></button>
-                            </figure>
-                            </div>
-                            <div class="col n-option">
-                            <div class="option">
-                                <!---->
-                                <div class="n-box">
-                                <div><button class="playList__item--button"><span class="option_fold"><img
-                                        src="/assets/images/icon/togglefold.png"></span>
-                                    <div>
-                                        <div class="title">{{$t('lang23')}}</div>
-                                        <div class="detail">{{$t('lang24')}}</div>
-                                    </div>
-                                    </button>
-                                    <div class="option_item basic" style="margin-left: 38px;">
-                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>Available for 60
-                                        days</span></div>
-                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>Unable to edit
-                                        arbitrarily</span></div>
-                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>Rented members
-                                        cannot
-                                        be re-rented to others</span></div>
-                                    <div><span class="img-box"><img src="/assets/images/icon/parchase-info5.png"></span><span>No other
-                                        activities not
-                                        authorized by the platform</span></div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="col genre">
-                            <span><button>Wave</button></span><span><button>Calm</button></span><span><button>Kpop</button></span><span><button>pop</button></span><span><button>singing</button></span>
-                            </div>
-                        </div>
-                    </li>
+                    <OrderDetailItem v-for="(item, idx) in orderItems" :cor_id="cor_id" :item="item" v-bind:key="idx" :pg="order.cor_pg" />
                 </ul>
             </div>
 
@@ -116,34 +62,34 @@
                 <div class="n-box">
                     <div class="n-flex between">
                         <span class="title">Method</span>
-                        <span  style="font-weight: 600;">{{$t('realtimeBankTransfer')}}</span>
+                        <span  style="font-weight: 600;">{{ order.cor_pg }}</span>
                     </div>
                     <div class="n-flex between">
                         <span class="title">Paid</span>
-                        <span class="yellow" style="font-weight: 600;">$ 27.00</span>
+                        <span class="yellow" style="font-weight: 600;">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</span>
                     </div>
-                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
+                    <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);" v-if="order.cor_cancel_datetime">
                         <span class="title">Refund request</span>
-                        <span style="opacity:.7; font-weight:normal;">0000-00-00 00:00:00</span>
+                        <span style="opacity:.7; font-weight:normal;">{{ order.cor_cancel_datetime }}</span>
                     </div>
-                    <div class="n-flex between">
+                    <div class="n-flex between" v-if="order.cor_refund_datetime">
                         <span class="title">Refund complete</span>
-                        <span style="opacity:.7; font-weight:normal;">0000-00-00 00:00:00</span>
+                        <span style="opacity:.7; font-weight:normal;">{{ order.cor_refund_datetime }}</span>
                     </div>
                     <div class="n-flex between">
                         <span class="title">Request Reason</span>
-                        <span style="opacity:.7; font-weight:normal;">etc</span>
+                        <span style="opacity:.7; font-weight:normal;">{{ order.cor_memo }}</span>
                     </div>
                     <div class="n-flex between">
-                        <span style="opacity:.7; font-weight:600;">Request refund reason describtion</span>
+                        <span style="opacity:.7; font-weight:600;">{{ order.cor_admin_memo }}</span>
                     </div>
                     <div class="n-flex between" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
                         <span class="title">Refund</span>
-                        <span class="red">$ 27.00 P</span>
+                        <span class="red">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</span>
                     </div>
                     <div class="n-flex between">
                         <span class="title">Refund Points</span>
-                        <span class="red">300 P</span>
+                        <span class="red">{{ order.cor_refund_point }} P</span>
                     </div>
                 </div>
             </div>
@@ -154,7 +100,7 @@
         </div>
 
         <div class="n-flex n-btnbox">
-            <button class="btn btn--gray">{{$t('backToList')}}</button>
+            <button class="btn btn--gray" @click="goPage('/mycancelList')">{{$t('backToList')}}</button>
         </div>
     </div>
 </template>
@@ -163,20 +109,151 @@
 <script>
     import $ from "jquery";
     import WaveSurfer from 'wavesurfer.js';
+    import axios from "axios";
+    import OrderDetailItem from "./OrderDetailItem";
 
     export default {
         components: {
+            OrderDetailItem,
         },
         data: function() {
             return {
                 isLogin: false,
+                item: {},
+                order: {},
+                orderItems: []
             };
         },
         mounted(){
+            this.cor_id = this.$route.params.cor_id;
+            axios.get(`/cmall/ajax_orderresult/${this.cor_id}`)
+                .then(res => res.data)
+                .then(data => {
+                    this.order = data.data;
+                    if (this.order.cor_refund_point == undefined) this.$set(this.order, 'cor_refund_point', 0);
+                    this.orderItems = data.orderdetail;
+                    this.orderItems.forEach(item => {
+                        this.$set(item, 'is_selected', false);
+                    })
+                    // this.funcDesc();
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         },
         created() {
         },
         methods:{
+            goPage(path) {
+                this.$router.push(path);
+            },
+            checkToday: function (date) {
+                const input = new Date(date);
+                const today = new Date();
+                return (
+                    input.getDate() === today.getDate() &&
+                    input.getMonth() === today.getMonth() &&
+                    input.getFullYear() === today.getFullYear()
+                );
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
+            getGenre(g1, g2) {
+                if (this.isEmpty(g2)) {
+                    return g1;
+                } else {
+                    return g1 + ", " + g2;
+                }
+            },
+            formatCitName: function (data, limitLth) {
+                var rst;
+                if (limitLth < data.length && data.length <= limitLth * 2) {
+                    rst =
+                        data.substring(0, limitLth) +
+                        "<br>" +
+                        data.substring(limitLth, limitLth * 2);
+                } else if (limitLth < data.length && limitLth * 2 < data.length) {
+                    rst =
+                        data.substring(0, limitLth) +
+                        "<br>" +
+                        data.substring(limitLth, limitLth * 2) +
+                        "...";
+                } else {
+                    rst = data;
+                }
+                return rst;
+            },
+            isEmpty: function (str) {
+                if (typeof str == "undefined" || str == null || str === "") return true;
+                else return false;
+            },
+            formatPrice: function (kr, en, pg) {
+                if (pg === "paypal") {
+                    return (
+                        "$ " +
+                        Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    );
+                } else {
+                    return (
+                        "₩ " +
+                        Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                    );
+                }
+            },
+            formatPr: function (pg, price) {
+                if (pg === 'paypal') {
+                    return '$' + this.formatNumberEn(price);
+                } else if (pg === 'allat') {
+                    return '₩' + this.formatNumber(price);
+                } else {
+                    return price
+                }
+            },
+            formatNumber(n) {
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
+            },
+            formatNumberEn(n) {
+                //Number(n).toLocaleString('en', {minimumFractionDigits: 3});
+                return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
+            },
+            toggleButton: function (e) {
+                if (
+                    e.target.parentElement.parentElement.parentElement.parentElement
+                        .className == "n-box"
+                ) {
+                    e.target.parentElement.parentElement.parentElement.parentElement.className =
+                        "n-box active";
+                } else if (
+                    e.target.parentElement.parentElement.parentElement.parentElement
+                        .className == "n-box active"
+                ) {
+                    e.target.parentElement.parentElement.parentElement.parentElement.className =
+                        "n-box";
+                } else {
+                    //
+                }
+            },
+            removeReg: function (val) {
+                const regExp = /[~!@#$%^&*()_+|'"<>?:{}]/;
+                while (regExp.test(val)) {
+                    val = val.replace(regExp, "");
+                }
+                return val;
+            },
+            calcTag: function (hashTag) {
+                let rst = "";
+                let tags = hashTag.split(",");
+                for (let i in tags) {
+                    rst =
+                        rst +
+                        "<span><button >" +
+                        this.removeReg(tags[i]) +
+                        "</button></span>";
+                }
+                return rst;
+            },
         }
     }
 </script>
@@ -186,12 +263,25 @@
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
     .title-content {
-        border: 1px solid red;
         .n-box {
             >div {
                 span {
                     margin: 0;
                 }
+            }
+        }
+    }
+
+    .title-content {
+        justify-content: space-between;
+
+        .title {
+            font-size: 14px;
+        }
+
+        .n-box {
+            .n-flex {
+                justify-content: space-between;
             }
         }
     }

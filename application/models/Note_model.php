@@ -50,7 +50,7 @@ class Note_model extends CB_Model
 
 	public function get_send_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
 	{
-		$select = 'note.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_is_admin, member.mem_icon';
+		$select = 'note.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_is_admin, member.mem_icon, member.mem_photo';
 		$join[] = array('table' => 'member', 'on' => 'note.recv_mem_id = member.mem_id', 'type' => 'left');
 		$result = $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
 
@@ -60,10 +60,22 @@ class Note_model extends CB_Model
 
 	public function get_recv_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
 	{
-		$select = 'note.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_is_admin, member.mem_icon';
+		$select = 'note.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_is_admin, member.mem_icon, member.mem_photo';
 		$join[] = array('table' => 'member', 'on' => 'note.send_mem_id = member.mem_id', 'type' => 'left');
 		$result = $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
 
 		return $result;
 	}
+
+	public function get_all_list($mem_id, $per_page, $offset)
+    {
+        $result = array();
+        $sql = "SELECT * FROM cb_note WHERE send_mem_id = ? OR recv_mem_id = ? ORDER BY nte_datetime DESC LIMIT ?, ?";
+        $result['list'] = $this->db->query($sql, [$mem_id, $mem_id, $offset, $per_page])->result_array();
+
+        $sql = "SELECT count(*) as rownum FROM cb_note WHERE send_mem_id = ? OR recv_mem_id = ? ORDER BY nte_datetime DESC LIMIT ?, ?";
+        $result['total_rows'] = ($this->db->query($sql, [$mem_id, $mem_id, $offset, $per_page])->row_array())['rownum'];
+
+        return $result;
+    }
 }

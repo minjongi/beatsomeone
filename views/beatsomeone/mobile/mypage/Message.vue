@@ -28,8 +28,8 @@
                             <ul>
                                 <li v-for="(m, i) in messageList" v-bind:key="i" class="playList__itembox" :class="mid == m.mem_id ? 'active' : ''" @click="goMChat($event, m)">
                                     <div class="playList__item playList__item--title nowrap">
-                                        <div class="portait">
-                                            <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portait.png"/>
+                                        <div class="portrait">
+                                            <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portrait.png"/>
                                             <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
                                         </div>
                                         <div style="max-width: calc(100% - 64px);">
@@ -56,15 +56,15 @@
                 <!-- 챗팅창 -->
                 <div class="messageChat" :style="'display: '+mchat">
                     <div class="head" style="position: relative;">
-                        <div class="portait">
-                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
+                        <div class="portrait">
+                            <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portrait.png"/>
                             <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
                         </div>
                         <div>
                             <div class="user">{{ mchatUser }}</div>
                             <div class="bio">{{ mchatUserBio }}</div>
                         </div>
-                        <div class="icon-close">
+                        <div class="icon-close" @click="closeMChat()">
                             <span></span>
                             <span></span>
                         </div>
@@ -298,6 +298,9 @@
                         });
                     }
                 }
+            },
+            closeMChat: function () {
+                this.mchat = 'none';
             },
             goMChat: function(e, m){
                 if(this.mchat == "none"){
@@ -559,7 +562,7 @@
         }
     }
 
-.sub .mypage .portait {
+.sub .mypage .portrait {
     width: 48px;
     height: 48px;
 }
@@ -570,7 +573,7 @@
         line-height: 19px;
         color: white;
     }
-    .portait {
+    .portrait {
         flex: none;
     }
     >div {

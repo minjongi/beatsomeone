@@ -1198,46 +1198,6 @@ class Cmallcfg extends CB_Controller
 				'rules' => 'trim|numeric',
 			),
 			array(
-				'field' => 'use_payment_pg',
-				'label' => '결제대행사',
-				'rules' => 'trim|required',
-			),
-			array(
-				'field' => 'pg_kcp_mid',
-				'label' => 'KCP ID',
-				'rules' => 'trim',
-			),
-			array(
-				'field' => 'pg_kcp_key',
-				'label' => 'KCP KEY',
-				'rules' => 'trim',
-			),
-			array(
-				'field' => 'pg_inicis_mid',
-				'label' => 'INICIS ID',
-				'rules' => 'trim',
-			),
-			array(
-				'field' => 'pg_inicis_key',
-				'label' => 'INICIS KEY',
-				'rules' => 'trim',
-			),
-			array(
-				'field' => 'pg_inicis_websign',
-				'label' => 'INICIS SIGNKEY',
-				'rules' => 'trim',
-			),
-			array(
-				'field' => 'pg_lg_mid',
-				'label' => 'LG ID',
-				'rules' => 'trim',
-			),
-			array(
-				'field' => 'pg_lg_key',
-				'label' => 'LG KEY',
-				'rules' => 'trim',
-			),
-			array(
 				'field' => 'use_pg_no_interest',
 				'label' => '무이자할부사용',
 				'rules' => 'trim',
@@ -1274,10 +1234,11 @@ class Cmallcfg extends CB_Controller
 			$view['view']['event']['formruntrue'] = Events::trigger('formruntrue', $eventname);
 
 			$array = array(
-				'use_payment_bank', 'use_payment_card', 'use_payment_realtime',
-				'use_payment_vbank', 'use_payment_phone', 'use_payment_easy', 'use_payment_pg', 'pg_kcp_mid',
-				'pg_kcp_key', 'pg_inicis_mid', 'pg_inicis_key', 'pg_inicis_websign', 'pg_lg_mid', 'pg_lg_key',
-				'use_pg_no_interest', 'use_pg_test', 'payment_bank_info'
+				'use_payment_card', 'use_payment_realtime',
+                'pg_paypal_live_id', 'pg_paypal_sandbox_id',
+                'pg_paypal_live_secret', 'pg_paypal_sandbox_secret',
+                'pg_allat_crosskey', 'pg_allat_shop_id',
+				'use_pg_no_interest', 'use_pg_test', 'payment_bank_info',
 			);
 			foreach ($array as $value) {
 				$savedata[$value] = $this->input->post($value, null, '');

@@ -2332,42 +2332,6 @@ class Install extends CI_Controller
 		$this->db->query('ALTER TABLE ' . $this->db->dbprefix . 'member_meta ADD UNIQUE KEY `mem_id_mmt_key` (`mem_id`, `mmt_key`)');
 
 
-		// member_nickname table
-		$this->dbforge->add_field(array(
-			'mni_id' => array(
-				'type' => 'INT',
-				'constraint' => 11,
-				'unsigned' => true,
-				'auto_increment' => true,
-			),
-			'mem_id' => array(
-				'type' => 'INT',
-				'constraint' => 11,
-				'unsigned' => true,
-				'default' => '0',
-			),
-			'mni_nickname' => array(
-				'type' => 'VARCHAR',
-				'constraint' => '100',
-				'default' => '',
-			),
-			'mni_start_datetime' => array(
-				'type' => 'DATETIME',
-				'null' => true,
-			),
-			'mni_end_datetime' => array(
-				'type' => 'DATETIME',
-				'null' => true,
-			),
-		));
-		$this->dbforge->add_key('mni_id', true);
-		$this->dbforge->add_key('mem_id');
-		$this->dbforge->add_key('mni_nickname');
-		if ($this->dbforge->create_table('member_nickname', true) === false) {
-			return false;
-		}
-
-
 		// member_register table
 		$this->dbforge->add_field(array(
 			'mrg_id' => array(
@@ -2412,32 +2376,6 @@ class Install extends CI_Controller
 			return false;
 		}
 		$this->db->query('ALTER TABLE ' . $this->db->dbprefix . 'member_register ADD UNIQUE KEY `mem_id` (`mem_id`)');
-
-
-		// member_userid table
-		$this->dbforge->add_field(array(
-			'mem_id' => array(
-				'type' => 'INT',
-				'constraint' => 11,
-				'unsigned' => true,
-			),
-			'mem_userid' => array(
-				'type' => 'VARCHAR',
-				'constraint' => '100',
-				'default' => '',
-			),
-			'mem_status' => array(
-				'type' => 'INT',
-				'constraint' => 11,
-				'unsigned' => true,
-				'default' => '0',
-			),
-		));
-		$this->dbforge->add_key('mem_id');
-		if ($this->dbforge->create_table('member_userid', true) === false) {
-			return false;
-		}
-		$this->db->query('ALTER TABLE ' . $this->db->dbprefix . 'member_userid ADD UNIQUE KEY `mem_userid` (`mem_userid`)');
 
 
 		// menu table
@@ -5538,8 +5476,8 @@ class Install extends CI_Controller
 	{
 		$this->load->library(array('user_agent', 'session'));
 		$this->load->model(array(
-			'Member_model', 'Member_group_model', 'Member_userid_model', 'Member_meta_model',
-			'Member_nickname_model', 'Member_register_model', 'Document_model',
+			'Member_model', 'Member_group_model', 'Member_meta_model',
+            'Member_register_model', 'Document_model',
 			'Faq_model', 'Faq_group_model', 'Board_model', 'Config_model',
 			'Board_meta_model', 'Board_group_model', 'Board_group_meta_model',
 			'Menu_model',
@@ -5959,12 +5897,6 @@ flvr.pandora.tv',
 		);
 		$mem_id = $this->Member_model->insert($insertdata);
 
-		$useriddata = array(
-			'mem_id' => $mem_id,
-			'mem_userid' => $this->input->post('mem_userid'),
-		);
-		$this->Member_userid_model->insert($useriddata);
-
 		$membermeta = array(
 			'meta_change_pw_datetime' => cdate('Y-m-d H:i:s'),
 			'meta_email_cert_datetime' => cdate('Y-m-d H:i:s'),
@@ -5973,13 +5905,6 @@ flvr.pandora.tv',
 			'meta_nickname_datetime' => cdate('Y-m-d H:i:s'),
 		);
 		$this->Member_meta_model->save($mem_id, $membermeta);
-
-		$insertdata = array(
-			'mem_id' => $mem_id,
-			'mni_nickname' => $this->input->post('mem_nickname'),
-			'mni_start_datetime' => cdate('Y-m-d H:i:s'),
-		);
-		$this->Member_nickname_model->insert($insertdata);
 
 		$insertdata = array(
 			'mem_id' => $mem_id,

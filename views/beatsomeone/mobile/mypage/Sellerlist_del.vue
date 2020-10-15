@@ -8,7 +8,7 @@
                     <div class="sublist__filter sticky">
                         <div class="row center">
                             <div class="profile">
-                                <div class="portait">
+                                <div class="portrait">
                                     <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
                                     <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
                                 </div>

@@ -63,6 +63,7 @@ $config['uri_segment_cmall_item'] ='item';  //Cmall item 페이지 주소
  */
 //$config['base_url'] = 'http://bso.dumdum.kr/';
 //$config['base_url'] = 'http://homestead.test';
+$config['base_url'] = 'http://192.168.0.182';
 $config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
 //if (empty($config['base_url'])) exit("&dollar;config&lsqb;&apos;base_url&apos;&rsqb;  need to be set up in application/config/config.php");  // base_url 의 값을 입력하신 후에는 여기 if 문 자체를 주석처리해도 좋습니다
 
@@ -216,7 +217,7 @@ $config['subclass_prefix'] = 'CB_';
  * CiBoard 주 : 씨아이보드는 composer 기능을 현재는 사용하고 있지 않습니다.
  * 즉 아래의 값을 변경하실 필요가 없습니다
  */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = 'vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------

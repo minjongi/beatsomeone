@@ -81,6 +81,13 @@ class Member_group_model extends CB_Model
 						'mgr_datetime' => cdate('Y-m-d H:i:s'),
 						'mgr_order' => $order,
 						'mgr_description' => $data['mgr_description'][$key],
+                        'mgr_monthly_cost_d' => $data['mgr_monthly_cost_d'][$key],
+                        'mgr_monthly_cost_w' => $data['mgr_monthly_cost_w'][$key],
+                        'mgr_year_cost_d' => $data['mgr_year_cost_d'][$key],
+                        'mgr_year_cost_w' => $data['mgr_year_cost_w'][$key],
+                        'mgr_monthly_discount' => $data['mgr_monthly_discount'][$key],
+                        'mgr_year_discount' => $data['mgr_year_discount'][$key],
+                        'mgr_commission' => $data['mgr_commission'][$key],
 					);
 					$this->update($value, $updatedata);
 				} else {
@@ -91,6 +98,13 @@ class Member_group_model extends CB_Model
 						'mgr_datetime' => cdate('Y-m-d H:i:s'),
 						'mgr_order' => $order,
 						'mgr_description' => $data['mgr_description'][$key],
+                        'mgr_monthly_cost_d' => $data['mgr_monthly_cost_d'][$key],
+                        'mgr_monthly_cost_w' => $data['mgr_monthly_cost_w'][$key],
+                        'mgr_year_cost_d' => $data['mgr_year_cost_d'][$key],
+                        'mgr_year_cost_w' => $data['mgr_year_cost_w'][$key],
+                        'mgr_monthly_discount' => $data['mgr_monthly_discount'][$key],
+                        'mgr_year_discount' => $data['mgr_year_discount'][$key],
+                        'mgr_commission' => $data['mgr_commission'][$key],
 					);
 					$this->insert($insertdata);
 				}

@@ -442,6 +442,27 @@ if ( ! function_exists('show_404'))
 	}
 }
 
+if ( ! function_exists('return_404'))
+{
+    /**
+     * 404 Page Handler
+     *
+     * This function is similar to the show_error() function above
+     * However, instead of the standard error template it displays
+     * 404 errors.
+     *
+     * @return	bool
+     */
+    function return_404()
+    {
+        $this->output->set_status_header('404');
+        $this->output->set_output(json_encode([
+            'message' => 'Not Found'
+        ]));
+        return false;
+    }
+}
+
 // ------------------------------------------------------------------------
 
 if ( ! function_exists('log_message'))
