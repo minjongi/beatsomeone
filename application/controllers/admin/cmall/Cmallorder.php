@@ -2,10 +2,12 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-use PayPalCheckoutSdk\Core\PayPalHttpClient;
-use PayPalCheckoutSdk\Core\ProductionEnvironment;
-use PayPalCheckoutSdk\Core\SandboxEnvironment;
-use PayPalCheckoutSdk\Orders\OrdersGetRequest;
+use PayPal\Api\Amount;
+use PayPal\Api\RefundRequest;
+use PayPal\Api\Sale;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Api\Payment;
+use PayPal\Rest\ApiContext;
 
 /**
  * Cmallorder class
@@ -294,13 +296,15 @@ class Cmallorder extends CB_Controller
                 $pg = $order['cor_pg'];
 
                 $orderdetail = $this->db->query("SELECT * FROM cb_cmall_order_detail cod LEFT JOIN cb_cmall_item_detail cid on cod.cde_id = cid.cde_id WHERE cor_id=?", [$cor_id])->result_array();
-                $total = 0.0;
+                $total_money = 0.0;
+                $total_point = 0;
                 foreach ($orderdetail as $item) {
                     if ($pg == 'paypal') {
-                        $total += floatval($item['cde_price_d']);
+                        $total_money += floatval($item['cde_price_d']);
                     } elseif ($pg == 'allat') {
-                        $total += intval($item['cde_price']);
+                        $total_money += intval($item['cde_price']);
                     }
+                    $total_point += intval($item['cod_point']);
                 }
                 // 결제정보 반영
                 $updatedata = array(
@@ -308,8 +312,10 @@ class Cmallorder extends CB_Controller
                 );
 
                 if ($cor_status == '1') {
-                    $updatedata['cor_cash_request'] = $total;
-                    $updatedata['cor_cash'] = $total;
+                    $updatedata['cor_cash_request'] = $total_money - $total_point;
+                    $updatedata['cor_cash'] = $total_money - $total_point;
+                    $updatedata['cor_refund_price'] = 0;
+                    $updatedata['cor_refund_point'] = 0;
                     $where = array(
                         'cor_id' => $cor_id,
                     );
@@ -317,8 +323,10 @@ class Cmallorder extends CB_Controller
 
                     $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='order' WHERE cor_id=?", [$cor_id]);
                 } elseif ($cor_status == '0') {
-                    $updatedata['cor_cash_request'] = $total;
+                    $updatedata['cor_cash_request'] = $total_money - $total_point;
                     $updatedata['cor_cash'] = 0;
+                    $updatedata['cor_refund_price'] = 0;
+                    $updatedata['cor_refund_point'] = 0;
                     $where = array(
                         'cor_id' => $cor_id,
                     );
@@ -395,22 +403,19 @@ class Cmallorder extends CB_Controller
 
                             $this->Cmall_order_model->allat_log_insert($params);
 
-                            $updatedata['cor_cash_request'] = $total;
+                            $updatedata['cor_cash_request'] = $total_money;
                             $updatedata['cor_cash'] = $REMAIN_AMT;
                             $updatedata['status'] = 'cancel';
                             $updatedata['cor_refund_datetime'] = cdate('Y-m-d H:i:s');
-                            $where = array(
-                                'cor_id' => $cor_id,
-                            );
-                            $this->Cmall_order_model->update('', $updatedata, $where);
+//                            $this->Cmall_order_model->update('', $updatedata, $where);
 
-                            $updatedata['cor_cash_request'] = $total;
+                            $updatedata['cor_cash_request'] = $total_money;
                             $updatedata['cor_cash'] = 0;
                             $where = array(
                                 'cor_id' => $cor_id,
                             );
 
-                            if ($origin_cor_status == '1' || $origin_cor_status == '0') {
+                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
                                 $updatedata['cor_refund_point'] = $order['cor_point'];
                                 $order['cor_refund_point'] = $order['cor_point'];
                                 $updatedata['cor_refund_price'] = (int)$order['cor_total_money'] - (int)$order['cor_point'];
@@ -436,9 +441,67 @@ class Cmallorder extends CB_Controller
                         }
                     } elseif ($pg == 'paypal') {
                         $is_test = $order['is_test'];
-                        $client = $this->_get_paypal_client($is_test);
+                        $sql = "SELECT * FROM cb_paypal_log WHERE invoice_number=?";
+                        $paypal_log = $this->db->query($sql, [$cor_id])->row_array();
+                        $pay_id = $paypal_log['id'];
+
+                        $refund_price = floatval($order['cor_refund_price']);
+                        $refund_point = intval($order['cor_refund_point']);
+
                         try {
-                            $response = $client->execute(new OrdersGetRequest('PAYID-L577YOA3KE58086771004807'));
+                            $apiContext = $this->_get_paypal_api_context($is_test);
+                            $payment = Payment::get($pay_id, $apiContext);
+                            $transaction = $payment->getTransactions()[0];
+                            $relatedResource = $transaction->getRelatedResources()[0];
+                            $sale = $relatedResource->getSale();
+                            $sale_id = $sale->getId();
+
+                            $amt = new Amount();
+                            $amt->setCurrency('USD')->setTotal($refund_price);
+                            $refundRequest = new RefundRequest();
+                            $refundRequest->setAmount($amt);
+                            $sale = new Sale();
+                            $sale->setId($sale_id);
+
+                            $refundedSale = $sale->refundSale($refundRequest, $apiContext);
+                            $params = array();
+
+                            $params['id'] = $refundedSale->getId();
+                            $params['create_time'] = $refundedSale->getCreateTime();
+                            $params['update_time'] = $refundedSale->getUpdateTime();
+                            $params['state'] = $refundedSale->getState();
+                            $params['invoice_number'] = $refundedSale->getInvoiceNumber();
+                            $params['amount'] = $refundedSale->getAmount()->getTotal();
+                            $params['currency'] = $refundedSale->getAmount()->getCurrency();
+                            $params['links'] = json_encode($refundedSale->getLinks());
+
+                            $this->Cmall_order_model->paypal_log_insert($params);
+
+                            $dt = new DateTime($refundedSale->getCreateTime());
+                            $kstTimezone = new DateTimeZone('Asia/Seoul');
+                            $dt->setTimezone($kstTimezone);
+                            $create_time = $dt->format("Y-m-d H:i:s");
+
+                            $updatedata = array();
+                            $updatedata['status'] = 'cancel';
+                            $updatedata['cor_refund_datetime'] = $create_time;
+
+                            $where = array(
+                                'cor_id' => $cor_id,
+                            );
+                            $this->Cmall_order_model->update('', $updatedata, $where);
+
+                            $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                                $order['mem_id'],
+                                cdate('Y-m-d H:i:s'),
+                                cdate('Y-m-d H:i:s') . ' 주문취소',
+                                $refund_point,
+                                'refund',
+                                $order['mem_id'],
+                                $order['mem_id'] . '-' . $cor_id
+                            ]);
+                            $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
+
                         } catch (Exception $exception) {
                             log_message('error', $exception->getMessage());
                         }
@@ -519,7 +582,7 @@ class Cmallorder extends CB_Controller
 
     }
 
-    public function _get_paypal_client($is_test)
+    public function _get_paypal_api_context($is_test)
     {
         $paypal_live_id = $this->cbconfig->item('pg_paypal_live_id');
         $paypal_live_secret = $this->cbconfig->item('pg_paypal_live_secret');
@@ -527,9 +590,9 @@ class Cmallorder extends CB_Controller
         $paypal_sandbox_id = $this->cbconfig->item('pg_paypal_sandbox_id');
         $paypal_sandbox_secret = $this->cbconfig->item('pg_paypal_sandbox_secret');
         if ($is_test == '1') {
-            return new PayPalHttpClient(new SandboxEnvironment($paypal_sandbox_id, $paypal_sandbox_secret));
+            return new ApiContext(new OAuthTokenCredential($paypal_sandbox_id, $paypal_sandbox_secret));
         } else {
-            return new PayPalHttpClient(new ProductionEnvironment($paypal_live_id, $paypal_live_secret));
+            return new ApiContext(new OAuthTokenCredential($paypal_live_id, $paypal_live_secret));
         }
     }
 }

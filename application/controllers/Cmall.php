@@ -2384,7 +2384,11 @@ class Cmall extends CB_Controller
             */
 
             $insertdata['cor_status'] = 1;
-            $insertdata['cor_approve_datetime'] = $paypalData['create_time'];
+            $dt = new DateTime($paypalData['create_time']);
+            $kstTimezone = new DateTimeZone('Asia/Seoul');
+            $dt->setTimezone($kstTimezone);
+            $create_time = $dt->format("Y-m-d H:i:s");
+            $insertdata['cor_approve_datetime'] = $create_time;
         } else {
             $this->output->set_status_header('400');
             $this->output->set_output(json_encode([
@@ -3764,6 +3768,7 @@ class Cmall extends CB_Controller
         $order = $this->Cmall_order_model->get_one($cor_id);
 
         $total_refunds = 0;
+        $total_refund_point = 0;
         foreach ($cod_ids as $cod_id) {
             $orderdetail = $this->Cmall_order_detail_model->get_one($cod_id);
             if ($orderdetail) {
@@ -3773,6 +3778,7 @@ class Cmall extends CB_Controller
                 } else {
                     $total_refunds += floatval($itemdetail['cde_price']);
                 }
+                $total_refund_point += intval($orderdetail['cod_point']);
                 $this->Cmall_order_detail_model->update($cod_id, [
                     'cod_status' => 'cancel'
                 ]);
@@ -3782,7 +3788,8 @@ class Cmall extends CB_Controller
         if ($order) {
             $this->Cmall_order_model->update($cor_id, [
                 'cor_status' => 2,
-                'cor_refund_price' => $total_refunds,
+                'cor_refund_price' => $total_refunds - $total_refund_point,
+                'cor_refund_point' => $total_refund_point,
                 'cor_memo' => $this->input->post('cor_memo'),
                 'cor_admin_memo' => $this->input->post('cor_admin_memo'),
                 'cor_cancel_datetime' => cdate('Y-m-d H:i:s')

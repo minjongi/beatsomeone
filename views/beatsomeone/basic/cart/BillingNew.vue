@@ -458,7 +458,7 @@
                     this.cor_point = 0;
                 }
                 if ((+val) > this.mem_point) {
-                    alert('포인트가 유효하지 않습니다.');
+                    alert('포인트가 충분하지 않습니다.');
                     this.cor_point = this.mem_point;
                 }
                 if (this.$i18n.locale === 'en') {
