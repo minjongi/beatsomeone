@@ -596,8 +596,8 @@ class Note extends CB_Controller
                         $send_result = $this->notelib->send_note(
                             $this->member->item('mem_id'),
                             element('mem_id', $mem),
-                            ' ',
-                            ' '
+                            '안녕하세요',
+                            '<p>안녕하세요?</p>'
                         );
 
                         $jsonresult = json_decode($send_result, true);

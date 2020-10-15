@@ -3,7 +3,7 @@
         <div class="information" v-if="info">
             <div class="information__thumb">
                 <img v-if="info.mem_photo" :src="'/uploads/member_photo/' + info.mem_photo">
-                <img v-if="!info.mem_photo" src="https://via.placeholder.com/130x130" alt="">
+                <img v-if="!info.mem_photo" src="/assets/images/portrait.png" alt="">
             </div>
             <div class="information__user">
                 <h2 class="information__username">{{ info.mem_username }}</h2>
@@ -47,6 +47,7 @@
             sendMessage() {
                 if (this.member === false) {
                     alert('로그인이 필요합니다');
+                    window.location.href = "/login?url=" + window.location.href;
                     return false;
                 }
                 let formData = new FormData();

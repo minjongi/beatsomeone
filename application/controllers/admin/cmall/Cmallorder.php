@@ -390,8 +390,6 @@ class Cmallorder extends CB_Controller
 //                        echo "잔액			: ".$REMAIN_AMT."<br>";
 //                        echo "거래방식구분	: ".$PAY_TYPE."<br>";
 
-                            $origin_cor_status = $order['cor_status'];
-
                             $params = array();
                             $params['ORDER_NO'] = $cor_id;
                             $params['AMT'] = $this->input->post('allat_amt');
@@ -403,35 +401,43 @@ class Cmallorder extends CB_Controller
 
                             $this->Cmall_order_model->allat_log_insert($params);
 
-                            $updatedata['cor_cash_request'] = $total_money;
-                            $updatedata['cor_cash'] = $REMAIN_AMT;
-                            $updatedata['status'] = 'cancel';
-                            $updatedata['cor_refund_datetime'] = cdate('Y-m-d H:i:s');
-//                            $this->Cmall_order_model->update('', $updatedata, $where);
+                            $origin_cor_status = $order['cor_status'];
 
-                            $updatedata['cor_cash_request'] = $total_money;
-                            $updatedata['cor_cash'] = 0;
+                            $refund_price = intval($this->input->post('allat_amt'));
+                            $refund_point = intval($order['cor_point']);
+                            $refund_datetime = DateTime::createFromFormat("YmdHis", $CANCEL_YMDHMS);
+
+                            $updatedata = array();
+                            $updatedata['status'] = 'cancel';
+                            $updatedata['cor_refund_datetime'] = $refund_datetime->format("Y-m-d H:i:s");
+                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                $updatedata['cor_cancel_datetime'] = $refund_datetime->format("Y-m-d H:i:s");
+                                $updatedata['cor_refund_price'] = $refund_price;
+                                $updatedata['cor_refund_point'] = $refund_point;
+                                $updatedata['cor_status'] = 2;
+                            }
+
                             $where = array(
                                 'cor_id' => $cor_id,
                             );
+                            $this->Cmall_order_model->update('', $updatedata, $where);
 
                             if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
-                                $updatedata['cor_refund_point'] = $order['cor_point'];
-                                $order['cor_refund_point'] = $order['cor_point'];
-                                $updatedata['cor_refund_price'] = (int)$order['cor_total_money'] - (int)$order['cor_point'];
                                 $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
                             }
-                            $this->Cmall_order_model->update('', $updatedata, $where);
-                            $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
-                                $order['mem_id'],
-                                cdate('Y-m-d H:i:s'),
-                                cdate('Y-m-d H:i:s') . ' 주문취소',
-                                $updatedata['cor_refund_point'],
-                                'order',
-                                $order['mem_id'],
-                                $order['mem_id'] . '-' . $cor_id
-                            ]);
-                            $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$order['cor_refund_point'], $order['mem_id']]);
+
+                            if ($refund_point > 0) {
+                                $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                                    $order['mem_id'],
+                                    cdate('Y-m-d H:i:s'),
+                                    cdate('Y-m-d H:i:s') . ' 주문취소',
+                                    $refund_point,
+                                    'refund',
+                                    $order['mem_id'],
+                                    $order['mem_id'] . '-' . $cor_id
+                                ]);
+                                $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
+                            }
                         } else {
                             // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
                             // reply_msg 가 실패에 대한 메세지
@@ -447,6 +453,12 @@ class Cmallorder extends CB_Controller
 
                         $refund_price = floatval($order['cor_refund_price']);
                         $refund_point = intval($order['cor_refund_point']);
+
+                        $origin_cor_status = $order['cor_status'];
+                        if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                            $refund_price = floatval($order['cor_total_money']) - intval($order['cor_point']);
+                            $refund_point = intval($order['cor_point']);
+                        }
 
                         try {
                             $apiContext = $this->_get_paypal_api_context($is_test);
@@ -485,22 +497,34 @@ class Cmallorder extends CB_Controller
                             $updatedata = array();
                             $updatedata['status'] = 'cancel';
                             $updatedata['cor_refund_datetime'] = $create_time;
+                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                $updatedata['cor_cancel_datetime'] = $create_time;
+                                $updatedata['cor_refund_price'] = $refund_price;
+                                $updatedata['cor_refund_point'] = $refund_point;
+                                $updatedata['cor_status'] = 2;
+                            }
 
                             $where = array(
                                 'cor_id' => $cor_id,
                             );
                             $this->Cmall_order_model->update('', $updatedata, $where);
 
-                            $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
-                                $order['mem_id'],
-                                cdate('Y-m-d H:i:s'),
-                                cdate('Y-m-d H:i:s') . ' 주문취소',
-                                $refund_point,
-                                'refund',
-                                $order['mem_id'],
-                                $order['mem_id'] . '-' . $cor_id
-                            ]);
-                            $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
+                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
+                            }
+
+                            if ($refund_point > 0) {
+                                $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                                    $order['mem_id'],
+                                    cdate('Y-m-d H:i:s'),
+                                    cdate('Y-m-d H:i:s') . ' 주문취소',
+                                    $refund_point,
+                                    'refund',
+                                    $order['mem_id'],
+                                    $order['mem_id'] . '-' . $cor_id
+                                ]);
+                                $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
+                            }
 
                         } catch (Exception $exception) {
                             log_message('error', $exception->getMessage());
