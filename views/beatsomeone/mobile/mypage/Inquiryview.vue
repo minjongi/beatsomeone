@@ -18,7 +18,7 @@
             <div class="content-header">
                 <div class="n-flex column">
                     <h4 class="category">Title</h4>
-                    <h3 class="body">{{ post.post_title }}</h3>
+                    <h3 class="body" style="word-break: break-all;">{{ post.post_title }}</h3>
                 </div>
 
                 <div class="n-flex">
@@ -47,10 +47,10 @@
 
                 <ul>
                     <li class="playList__itembox">
-                        <div class="playList__item playList__item--title nowrap question stay">
+                        <div class="playList__item playList__item--title nowrap question stay" style="min-height: 60px;">
                             <div class="row">
                                 <div class="mark">Q</div>
-                                <div class="answer" v-html="post.post_content">
+                                <div class="answer" style="word-break: break-all;" v-html="post.post_content">
                                 </div>
                             </div>
                         </div>
@@ -59,16 +59,16 @@
                         <div class="playList__item playList__item--title nowrap question">
                             <div class="row">
                                 <div class="mark"></div>
-                                <div class="answer" v-html="comment.cmt_content">
+                                <div class="answer" style="word-break: break-all;" v-html="comment.cmt_content">
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li class="playList__itembox" v-for="reply in replies" v-bind:key="reply.post_id">
-                        <div class="playList__item playList__item--title nowrap question complete">
+                        <div class="playList__item playList__item--title nowrap question complete" style="min-height: 60px;">
                             <div class="row">
                                 <div class="mark">{{ reply.post_reply }}</div>
-                                <div class="answer" v-html="reply.post_content">
+                                <div class="answer" style="word-break: break-all;" v-html="reply.post_content">
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
 
         <div class="row">
             <div>
-                <button class="btn btn--gray" @click="goPage('/inquiry')">Back</button>
+                <button class="btn btn--gray" style="margin-bottom: 16px;" @click="goPage('/inquiry')">Back</button>
                  <button type="submit" class="btn btn--submit" @click="goInquirymod">Edit</button>
             </div>
         </div>

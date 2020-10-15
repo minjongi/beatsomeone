@@ -2,6 +2,10 @@
     <div class="sublist__filter sticky">
     <div class="row center" v-if="member">
         <div class="profile">
+            <label for="avatar_file" class="file-wrapper">
+                <i class="fa fa-camera"></i>
+                <input type="file" id="avatar_file" accept="image/*" :name="uploadFieldName" :disabled="isAvatarSaving" v-on:change="avatarChange($event.target.name, $event.target.files)">
+            </label>
             <div class="portrait">
                 <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portrait.png'">
             </div>
@@ -110,6 +114,29 @@
 
 </script>
 
-<style scoped="scoped" lang="sass">
+<style scoped="scoped" lang="scss">
+.file-wrapper {
+    position: absolute;
+    z-index: 2;
+    top: 18px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #4890ff;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
 
+    input[type=file] {
+        display: none;
+    }
+}
+
+.portrait {
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
 </style>

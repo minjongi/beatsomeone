@@ -73,7 +73,9 @@
                                         @click.self="toggleButton"
                                     >{{ $t('lang30') }}
                                     </div>
-                                    <div class="detail 2222">{{ $t('lang31') }}</div>
+                                    <div class="detail 2222">{{ $t('lang31') }}
+                                        <span class="copytransfer" v-if="product.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
+                                    </div>
                                 </div>
                                 <div
                                     class="price"

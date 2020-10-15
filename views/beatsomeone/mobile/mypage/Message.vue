@@ -64,7 +64,7 @@
                             <div class="user">{{ mchatUser }}</div>
                             <div class="bio">{{ mchatUserBio }}</div>
                         </div>
-                        <div class="icon-close">
+                        <div class="icon-close" @click="closeMChat()">
                             <span></span>
                             <span></span>
                         </div>
@@ -298,6 +298,9 @@
                         });
                     }
                 }
+            },
+            closeMChat: function () {
+                this.mchat = 'none';
             },
             goMChat: function(e, m){
                 if(this.mchat == "none"){

@@ -1259,12 +1259,12 @@ class Register extends CB_Controller
                 $this->input->post('mem_nickname')
             );
 
-            if (!$this->cbconfig->item('use_register_email_auth')) {
+//            if (!$this->cbconfig->item('use_register_email_auth')) {
                 $this->session->set_userdata(
                     'mem_id',
                     $mem_id
                 );
-            }
+//            }
             $this->session->unset_userdata('selfcertinfo');
 
             $this->output->set_content_type('text/json');
@@ -4160,6 +4160,11 @@ class Register extends CB_Controller
                             'amount' => $amount
                         ];
                         $this->Beatsomeone_model->insert_membership_purchase_log($params);
+
+                        $this->session->set_userdata(
+                            'mem_id',
+                            $mem_id
+                        );
                     }
 
                 } else {

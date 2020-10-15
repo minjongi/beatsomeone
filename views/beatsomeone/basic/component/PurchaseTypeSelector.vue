@@ -17,7 +17,7 @@
                     <ul>
                         <li
                                 class="parchase-item"
-                                v-if="item.cit_lease_license_use === '1'"
+                                v-if="item.detail.LEASE"
                         >
                             <div class="purchase-info">
                                 <div class="purchase-headern" style="display: flex; justify-content: space-between;">
@@ -75,7 +75,7 @@
                         </li>
                         <li
                                 class="parchase-item"
-                                v-if="item.cit_mastering_license_use === '1'"
+                                v-if="item.detail.STEM"
                         >
                             <div class="purchase-info">
                                 <div class="purchase-headern" style="display: flex; justify-content: space-between;">
@@ -162,13 +162,6 @@
         props: ["purchaseTypeSelectorPopup", "item"],
         data: function () {
             return {};
-        },
-        mounted() {
-        },
-        watch: {
-            item: function (n) {
-                // console.log(n);
-            },
         },
         computed: {
             albumThumb() {

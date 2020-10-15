@@ -21,10 +21,6 @@
                     </div>
                     <div class="detail">{{ $t('lang24') }}</div>
                 </div>
-                <div
-                    class="price 11221122"
-                >{{ formatPrice(item.cde_price, item.cde_price_d, true) }}
-                </div>
             </button>
             <div class="option_item basic">
                 <div class="purchase-description">

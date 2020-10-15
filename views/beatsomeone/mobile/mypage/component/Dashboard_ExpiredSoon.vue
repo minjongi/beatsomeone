@@ -2,6 +2,7 @@
     <div class="title-content">
         <h4 class="title">
             {{$t('expiredSoon')}}
+            <a class="more" href="/mypage#/mybilling">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
 
         <p v-if="data.length === 0" style="text-align: center; opacity: 0.7">
@@ -11,19 +12,19 @@
 
         <div v-if="data.length > 0" >
             <div class="slide">
-                <div class="n-flex playList" :class="slide_expired == 0 ? 'active' : ''" v-if="slide_expired === 0">
+                <div class="n-flex playList" style="justify-content: center" :class="slide_expired == 0 ? 'active' : ''" v-if="slide_expired === 0">
                     <ul class="itemContainer">
                         <Dashboard_ExpiredSoon_Item :item="data[0]"></Dashboard_ExpiredSoon_Item>
                         <Dashboard_ExpiredSoon_Item :item="data[1]"></Dashboard_ExpiredSoon_Item>
                     </ul>
                 </div>
-                <div class="n-flex playList" :class="slide_expired == 1 ? 'active' : ''" v-if="slide_expired === 1">
+                <div class="n-flex playList" style="justify-content: center" :class="slide_expired == 1 ? 'active' : ''" v-if="slide_expired === 1">
                     <ul class="itemContainer">
                     <Dashboard_ExpiredSoon_Item :item="data[2]"></Dashboard_ExpiredSoon_Item>
                     <Dashboard_ExpiredSoon_Item :item="data[3]"></Dashboard_ExpiredSoon_Item>
                     </ul>
                 </div>
-                <div class="n-flex playList" :class="slide_expired == 2 ? 'active' : ''" v-if="slide_expired === 2">
+                <div class="n-flex playList" style="justify-content: center" :class="slide_expired == 2 ? 'active' : ''" v-if="slide_expired === 2">
                     <ul class="itemContainer">
                     <Dashboard_ExpiredSoon_Item :item="data[4]"></Dashboard_ExpiredSoon_Item>
                     <Dashboard_ExpiredSoon_Item :item="data[5]"></Dashboard_ExpiredSoon_Item>

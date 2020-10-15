@@ -6,33 +6,29 @@
                 <span class="timer"><span class="current">0:00 /</span><span class="duration">0:00</span></span>
             </div>
             <div class="price yellow">
-                {{ formatPrice(item.cde_price, item.cde_price_d, pg) }}
+                {{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d, pg) }}
             </div>
         </div>
         <div class="option">
-            <div class="n-box">
+            <div class="n-box" v-if="item.itemdetail[0].cde_title === 'LEASE'">
                 <div>
                     <button class="playList__item--button">
                         <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
                         <div>
-                            <div class="title" @click.self="toggleButton" v-if="type === 'LEASE'">
+                            <div class="title" @click.self="toggleButton">
                                 {{ $t('lang23') }}
-                            </div>
-                            <div class="title" @click.self="toggleButton" v-if="type === 'STEM'">
-                                {{ $t('lang30') }}
                             </div>
                             <div class="detail">{{ $t('lang24') }}</div>
                         </div>
                     </button>
                     <div class="option_item basic">
-                        <div class="purchase-description" v-if="type === 'LEASE'">
+                        <div class="purchase-description">
                             <p>
                                 <i>
                                     <img src="/assets/images/icon/parchase-info6.png" alt/>
                                 </i>
                                 {{$t('lang25')}}
                             </p>
-                            <p></p>
                             <p>
                                 <i>
                                     <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -58,14 +54,30 @@
                                 {{$t('lang29')}}
                             </p>
                         </div>
-                        <div class="purchase-description" v-else>
+                    </div>
+                </div>
+            </div>
+            <div class="n-box" v-else-if="item.itemdetail[0].cde_title === 'STEM'">
+                <div>
+                    <button class="playList__item--button">
+                        <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
+                        <div>
+                            <div class="title" @click.self="toggleButton">
+                                {{ $t('lang30') }}
+                            </div>
+                            <div class="detail">{{ $t('lang31') }}
+                                <span class="copytransfer" v-if="item.item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
+                            </div>
+                        </div>
+                    </button>
+                    <div class="option_item basic">
+                        <div class="purchase-description">
                             <p>
                                 <i>
                                     <img src="/assets/images/icon/parchase-info6.png" alt/>
                                 </i>
                                 {{ $t('lang33') }}
                             </p>
-                            <p></p>
                             <p>
                                 <i>
                                     <img src="/assets/images/icon/parchase-info8.png" alt/>
@@ -84,7 +96,7 @@
                                 </i>
                                 {{$t('lang36')}}
                             </p>
-                            <p v-if="item.cit_include_copyright_transfer !== '1'">
+                            <p v-if="item.item.cit_include_copyright_transfer !== '1'">
                                 <i>
                                     <img src="/assets/images/icon/parchase-info10.png" alt/>
                                 </i>
@@ -96,7 +108,7 @@
                                 </i>
                                 {{$t('lang42')}}
                             </p>
-                            <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
+                            <div class="copybox" v-if="item.item.cit_include_copyright_transfer !== '1'">
                                 <span>{{ $t('lang21') }}</span>
                                 <span>{{ $t('lang22') }}</span>
                             </div>
@@ -115,7 +127,6 @@
 export default {
     name: "ItemDetail",
     props: [
-        'type',
         'item',
         'pg'
     ],

@@ -17,7 +17,7 @@
                             <div class="code">{{ item.item.cit_key }}</div>
                         </div>
                         <h3 class="playList__title"
-                            v-html="formatCitName(item.item.cit_name,50)"></h3>
+                            v-html="truncate(item.item.cit_name,50)"></h3>
                         <span class="playList__by">by {{ item.item.mem_nickname }}</span>
                         <span v-if="item.item.bpm" class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
                         <span v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
@@ -25,7 +25,7 @@
                 </figure>
             </div>
             <div class="col n-option" style="height: auto;">
-                <ItemDetail :type="item.itemdetail[0].cde_title" :item="item.itemdetail[0]" :pg="pg" />
+                <ItemDetail :item="item" :pg="pg" />
             </div>
             <div class="col edit">
                 <button v-if="item.item.possible_download === 1"
@@ -71,24 +71,8 @@ export default {
     },
     props: ['item', 'pg', 'cor_id'],
     methods: {
-        formatCitName: function (data) {
-            var rst;
-            var limitLth = 50;
-            if (limitLth < data.length && data.length <= limitLth * 2) {
-                rst =
-                    data.substring(0, limitLth) +
-                    "<br>" +
-                    data.substring(limitLth, limitLth * 2);
-            } else if (limitLth < data.length && limitLth * 2 < data.length) {
-                rst =
-                    data.substring(0, limitLth) +
-                    "<br>" +
-                    data.substring(limitLth, limitLth * 2) +
-                    "...";
-            } else {
-                rst = data;
-            }
-            return rst;
+        truncate(str, n) {
+            return (str.length > n) ? str.substr(0, n-1) + '...' : str;
         },
         getGenre(g1, g2) {
             if (this.isEmpty(g2)) {
@@ -182,6 +166,9 @@ export default {
             diff = Math.ceil(diff / (1000 * 3600 * 24));
             return diff;
         },
+    },
+    mounted() {
+        console.log(this.item);
     }
 }
 </script>

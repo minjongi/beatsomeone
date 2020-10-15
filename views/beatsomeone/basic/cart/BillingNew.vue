@@ -44,7 +44,7 @@
                             <div class="payment_box" style="max-width:initial!important">
                                 <div>
                                     <div class="title-content">
-                                        <div div class="title">{{$t('payMethod')}}</div>
+                                        <div class="title">{{$t('payMethod')}}</div>
                                         <div v-if="currentLocale === 'ko'">
                                             <label class="checkbox" for="method1">
                                                 <input
@@ -343,6 +343,7 @@
                 })
             this.member = window.member;
             this.mem_point = (+this.member.mem_point);
+            console.log(this.mem_point);
             let mem_name = this.member.mem_firstname + ' ' + this.member.mem_lastname;
             if (!mem_name.trim()) {
                 mem_name = this.member.mem_nickname;
@@ -451,26 +452,27 @@
                 }
             },
             cor_point(val) {
-                if (val < 0) {
+                console.log(val);
+                if ((+val) < 0) {
                     alert('포인트은 0보다 커야 합니다.');
                     this.cor_point = 0;
                 }
-                if (val > this.mem_point) {
+                if ((+val) > this.mem_point) {
                     alert('포인트가 유효하지 않습니다.');
                     this.cor_point = this.mem_point;
                 }
                 if (this.$i18n.locale === 'en') {
-                    if (val > this.good_mny_d - 1) {
+                    if ((+val) > this.good_mny_d - 1) {
                         alert('포인트가 유효하지 않습니다.');
                         this.cor_point = 0;
                     }
                 } else {
-                    if (val > this.good_mny - 200) {
+                    if (200 > this.good_mny - (+val)) {
                         alert('포인트가 유효하지 않습니다.');
                         this.cor_point = 0;
                     }
                 }
-                this.$set(this.allatForm, 'amt', this.good_mny - val);
+                this.$set(this.allatForm, 'amt', this.good_mny - (+val));
             }
         }
     }

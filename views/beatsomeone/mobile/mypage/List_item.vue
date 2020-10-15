@@ -228,7 +228,6 @@
                             <div class="row">
                                 <div class="col index">{{ calcSeq(myProduct_list.length, i) }}</div>
                                 <div class="col code">{{ item.cit_key }}</div>
-                                <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div>
                             </div>
 
                             <div class="row">
@@ -240,40 +239,6 @@
 
                                 <div class="col pointer">
                                     <h3 class="playList__title" v-html="truncate(item.cit_name,20)"></h3>
-
-                                    <div class="feature">
-                                        <div class="listen">
-                                            <div class="playbtn">
-                                                <button
-                                                    class="btn-play"
-                                                    @click="playAudio(item, $event)"
-                                                    :data-action="'playAction' + item.cit_id "
-                                                >재생
-                                                </button>
-                                                <span class="timer">
-                          <span data-v-27fa6da0 class="current">0:00 /</span>
-                          <span class="duration">0:00</span>
-                        </span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'"
-                                            class="amount"
-                                        >
-                                            <img src="/assets/images/icon/cd.png"/>
-                                            <div>
-                                                <span>{{ item.cde_quantity_2 }}</span>
-                                                {{ $t('left') }}
-                                            </div>
-                                        </div>
-                                        <div v-else class="amount">
-                                            <img src="/assets/images/icon/cd.png"/>
-                                            <div>
-                                                <span>{{ item.cde_quantity }}</span>
-                                                {{ $t('left') }}
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <!-- Comment -->
@@ -285,13 +250,38 @@
                             </div>
                             <div class="col n-option">
                                 <!-- Option -->
-                                <div class="option">
+                                <div class="option" v-if="item.detail.LEASE">
                                     <!-- BASIC LEASE LICENSE -->
                                     <!-- UNLIMITED STEMS LICENSE -->
                                     <div
                                         class="n-box"
-                                        v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' "
                                     >
+                                        <div class="feature">
+                                            <div class="listen">
+                                                <div class="playbtn">
+                                                    <button
+                                                        class="btn-play"
+                                                        @click="playAudio(item, $event)"
+                                                        :data-action="'playAction' + item.cit_id "
+                                                    >재생
+                                                    </button>
+                                                    <span class="timer">
+                          <span data-v-27fa6da0 class="current">0:00 /</span>
+                          <span class="duration">0:00</span>
+                        </span>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="amount"
+                                            >
+                                                <img src="/assets/images/icon/cd.png"/>
+                                                <div>
+                                                    <span>{{ item.detail.LEASE.cde_quantity }}</span>
+                                                    {{ $t('left') }}
+                                                </div>
+                                            </div>
+                                            <div class="price">{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</div>
+                                        </div>
                                         <div>
                                             <button class="playList__item--button">
                         <span class="option_fold">
@@ -309,61 +299,47 @@
                                     </div>
                                     <!-- BASIC LEASE LICENSE -->
                                     <!-- UNLIMITED STEMS LICENSE -->
+                                </div>
+                                <div class="option" v-if="item.detail.STEM">
                                     <div
                                         class="n-box"
-                                        v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1' "
                                     >
-                                        <!-- UNLIMITED STEMS LICENSE //둘다 있는 경우 lease만 보여지도록
-                                                            <div>
-                                                                <button class="playList__item--button" >
-                                                                    <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                                    <div>
-                                                                        <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
-                                                                        <p>{{$t('lang31')}}</p>
-                                                                    </div>
-                                                                    <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div>
-                                                                </button>
-                                                                <div class="option_item unlimited">
-                                                                    <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('unlimited1')}}</span></div>
-                                                                    <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg1')}} </span> </div>
-                                                                    <div><span class="img-box"> <img src="/assets/images/icon/parchase-info4.png"></span> <span> {{$t('unlimitedMsg2')}} </span> </div>
-                                                                </div>
-                                        </div>-->
-                                    </div>
-                                    <!-- BASIC LEASE LICENSE -->
-                                    <div class="n-box" v-else-if="item.cit_lease_license_use === '1' ">
+                                        <div class="feature">
+                                            <div class="listen">
+                                                <div class="playbtn">
+                                                    <button
+                                                        class="btn-play"
+                                                        @click="playAudio(item, $event)"
+                                                        :data-action="'playAction' + item.cit_id "
+                                                    >재생
+                                                    </button>
+                                                    <span class="timer">
+                          <span data-v-27fa6da0 class="current">0:00 /</span>
+                          <span class="duration">0:00</span>
+                        </span>
+                                                </div>
+                                            </div>
+                                            <div class="amount">
+                                                <img src="/assets/images/icon/cd.png"/>
+                                                <div>
+                                                    <span>{{ item.detail.STEM.cde_quantity }}</span>
+                                                    {{ $t('left') }}
+                                                </div>
+                                            </div>
+                                            <div class="price">{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</div>
+                                        </div>
                                         <div>
                                             <button class="playList__item--button">
                         <span class="option_fold">
                           <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
                         </span>
                                                 <div>
-                                                    <div class="title" @click.self="toggleButton">{{ $t('lang23') }}
-                                                    </div>
-                                                    <p>{{ $t('lang24') }}</p>
-                                                </div>
-                                                <!-- <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div> -->
-                                            </button>
-                                            <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
-                                        </div>
-                                    </div>
+                                                    <div class="title" @click.self="toggleButton">
+                                                        {{ $t('lang30') }}
 
-                                    <!-- UNLIMITED STEMS LICENSE -->
-                                    <div class="n-box" v-else-if="item.cit_mastering_license_use === '1' ">
-                                        <div>
-                                            <button class="playList__item--button">
-                        <span class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
-                        </span>
-                                                <div>
-                                                    <div
-                                                        class="title"
-                                                        @click.self="toggleButton"
-                                                    >{{ $t('lang30') }}
                                                     </div>
-                                                    <p>{{ $t('lang31') }}</p>
+                                                    <p class="detail">{{ $t('lang15') }}<span class="copytransfer" v-if="item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span></p>
                                                 </div>
-                                                <!-- <div class="price">{{ formatPrice(item.cde_price_2, item.cde_price_d_2, true) }}</div> -->
                                             </button>
                                             <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
                                         </div>
@@ -374,83 +350,6 @@
                             <div class="col genre" v-html="calcTag(item.hashTag)"></div>
                         </div>
                     </li>
-
-                    <!--
-                              <li class="playList__itembox" style="opacity: 1; margin-bottom: 1px;">
-                                  <div class="playList__item playList__item--title">
-                                      <div class="col index">18</div>
-                                      <div class="col name">
-                                          <figure>
-                                              <span class="playList__cover">
-                                                  <img src="/uploads/cmallitem/2020/01/37617719f8a82eaee60242b2a0acf30e.png" alt="">
-                                                  <i ng-if="item.isNew" class="label new">N</i>
-                                              </span>
-                                              <figcaption class="pointer">
-                                                  <div class="info">
-                                                    <div class="status" :class="product_status">{{product_status}}</div>
-                                                    <div class="code">item_100</div>
-                                                  </div>
-                                                  <h3 class="playList__title"> Mickey (Buy 1 Get 3 Free) </h3>
-                                                  <span class="playList__by"> ( Bpm )</span>
-                                              </figcaption>
-                                          </figure>
-                                      </div>
-                                      <div class="col option">
-                                          <div>
-                                              <button class="option_fold"><img src="/assets/images/icon/togglefold.png"/></button>
-                                              <div>
-                                                  <div class="title">BASIC LEASE</div>
-                                                  <div class="detail">{{$t('lang24')}}</div>
-                                              </div>
-                                          </div>
-                                          <div class="option_item">
-                                              <div><span class="img-box"><img src="/assets/images/icon/parchase-info1.png"></span><span>{{$t('available60Days')}}</span></div>
-                                              <div><span class="img-box"><img src="/assets/images/icon/parchase-info2.png"></span><span>{{$t('unableToEditArbitrarily')}}</span></div>
-                                              <div><span class="img-box"><img src="/assets/images/icon/parchase-info3.png"></span><span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span></div>
-                                              <div><span class="img-box"><img src="/assets/images/icon/parchase-info4.png"></span><span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span></div>
-                                          </div>
-                                      </div>
-                                      <div class="col feature">
-                                          <div class="listen">
-                                              <div class="playbtn">
-                                                  <button class="btn-play">재생</button>
-                                                  <span class="timer"><span data-v-27fa6da0="" class="current">0:00 / </span>
-                                                  <span class="duration">0:00</span></span>
-                                              </div>
-                                              <div data-v-27fa6da0="" class="col spectrum">
-                                                  <div class="wave"></div>
-                                              </div>
-                                          </div>
-                                          <div class="amount">
-                                              <img src="/assets/images/icon/cd.png"/><div><span>500</span> left</div>
-                                          </div>
-                                          <div class="price">
-                                              $ 10.00
-                                          </div>
-                                      </div>
-                                      <div class="col edit">
-                                          <button class="btn-edit"><img src="/assets/images/icon/edit.png"/></button>
-                                      </div>
-                                      <div class="col genre">
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                          <span><button >music tech03</button></span>
-                                      </div>
-                                  </div>
-                              </li>
-                    -->
                 </ul>
                 <div class="row" style="margin-bottom:30px;">
                     <div class="pagination">

@@ -77,7 +77,9 @@
                                         @click.self="toggleButton"
                                     >{{ $t('lang30') }}
                                     </div>
-                                    <div class="detail">{{ $t('lang31') }}</div>
+                                    <div class="detail">{{ $t('lang31') }}
+                                        <span class="copytransfer" v-if="item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
+                                    </div>
                                 </div>
                                 <div
                                     class="price"
@@ -131,9 +133,6 @@ export default {
                 this.$emit('input', val);
             }
         }
-    },
-    mounted() {
-        console.log(this.item);
     },
     methods: {
         formatCitName: function (data) {

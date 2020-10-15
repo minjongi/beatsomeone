@@ -1,115 +1,133 @@
 .sublist .col.name figure {
-  min-width: 369px;
-  // border: 1px solid red;
+    min-width: 369px;
+    // border: 1px solid red;
 }
+
 .n-box {
-  // border: 1px solid blue;
-  .playList__item--button {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    > div {
-      flex: auto;
-      text-align: left;
-    }
-    .option_fold {
-      margin-right: 16px;
-      flex: none;
-    }
-    .price {
-      flex: none;
-      color: #ffda2a;
-      font-weight: bold;
-      font-size: 12px;
-      line-height: 14px;
-    }
-    .title {
-      font-size: 16px;
-      font-weight: bold;
-      color: white;
-    }
-    .detail {
-      color: white;
-    }
-    p {
-      font-size: 14px;
-      text-align: left;
-      color: rgba(white, 0.3);
-    }
-  }
-  .option_fold {
-    > img {
-      opacity: 0.3;
-      transition: 0.3s ease;
-    }
-  }
-  .option_item {
-    margin-top: 16px;
-    visibility: hidden;
-    height: 0;
-    transition: height 0.3s ease;
-    > div {
-      line-height: 2em;
-      font-size: 14px;
-      padding-left: 28px;
-      position: relative;
-      .img-box {
-        position: absolute;
-        left: 0;
-        top: 5px;
-        width: 18px;
-        height: 18px;
+    // border: 1px solid blue;
+    .playList__item--button {
         display: flex;
         align-items: center;
-      }
+        width: 100%;
+
+        > div {
+            flex: auto;
+            text-align: left;
+        }
+
+        .option_fold {
+            margin-right: 16px;
+            flex: none;
+        }
+
+        .price {
+            flex: none;
+            color: #ffda2a;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 14px;
+        }
+
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+
+        p {
+            font-size: 14px;
+            text-align: left;
+            color: rgba(white, 0.3);
+        }
     }
-  }
-  &.active {
-    margin-bottom: 24px;
+
     .option_fold {
-      > img {
-        transform: rotate(180deg);
-        opacity: 1;
-      }
+        > img {
+            opacity: 0.3;
+            transition: 0.3s ease;
+        }
     }
+
     .option_item {
-      visibility: visible;
-      &.basic {
-        height: 140px;
-      }
-      &.unlimited {
-        height: 170px;
-      }
+        margin-top: 16px;
+        visibility: hidden;
+        height: 0;
+        transition: height 0.3s ease;
+
+        > div {
+            line-height: 2em;
+            font-size: 14px;
+            padding-left: 28px;
+            position: relative;
+
+            .img-box {
+                position: absolute;
+                left: 0;
+                top: 5px;
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+            }
+        }
     }
-  }
+
+    &.active {
+        margin-bottom: 24px;
+
+        .option_fold {
+            > img {
+                transform: rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        .option_item {
+            visibility: visible;
+
+            &.basic {
+                height: 140px;
+            }
+
+            &.unlimited {
+                height: 170px;
+            }
+        }
+    }
 }
+
 .sub {
-  .orderlist {
-    .edit {
-      min-width: 120px;
+    .orderlist {
+        .edit {
+            min-width: 120px;
+        }
+
+        .option {
+            max-width: initial;
+        }
+
+        .playList__item .n-option .n-box {
+            &:first-child .price {
+                margin-top: 28px;
+            }
+
+            .price {
+                color: white;
+            }
+
+            &.active {
+                margin-bottom: 0;
+            }
+        }
     }
-    .option {
-      max-width: initial;
+
+    .productList .genre {
+        margin-left: 0;
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 1030px;
+        color: rgba(white, .3);
     }
-    .playList__item .n-option .n-box {
-      &:first-child .price {
-        margin-top: 28px;
-      }
-      .price {
-        color: white;
-      }
-      &.active {
-        margin-bottom: 0;
-      }
-    }
-  }
-  .productList .genre {
-    margin-left: 0;
-    white-space: nowrap;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 1030px;
-    color: rgba(white,.3);
-  }
 }

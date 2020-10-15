@@ -24,9 +24,9 @@
                             <span class="action yellow" v-if="inquiry.replies.list.length === 0">
                                 Wait...
                             </span>
-                            <div class="action" v-else>
+                            <span class="action blue" v-else>
                                 Answer Complete...
-                            </div>
+                            </span>
                         </div>
                     </li>
                 </ul>

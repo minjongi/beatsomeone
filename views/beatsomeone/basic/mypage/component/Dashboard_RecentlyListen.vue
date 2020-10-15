@@ -52,16 +52,16 @@
 
 <style scoped="scoped" lang="scss">
     .albumItem {
-        width: 16.6%;
-    }
-    .albumItem__cover {
-        width: 150px;
-        height: 150px;
-    }
-    .albumItem__title {
-        width: 150px;
-    }
-    .albumItem__singer {
-        width: 150px;
+        width: 163px;
+        margin-right: 20px;
+        padding: 0;
+
+        .albumItem__cover {
+            height: 163px;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
     }
 </style>

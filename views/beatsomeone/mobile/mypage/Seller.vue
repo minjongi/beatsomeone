@@ -63,9 +63,8 @@
                 </button>
             </div>
 
-            <div class="title-content" style="opacity: 0.3">
-                <div class="title"></div>
-                <p style="line-height: 1.2;">- The search period is based on the date and time of purchase. </p>
+            <div class="title-content" style="opacity: 0.3; font-size: 14px; padding-top: 12px;">
+                <p style="line-height: 1.2; ">- The search period is based on the date and time of purchase. </p>
                 <p style="margin-top: 5px; line-height: 1.2;">- You can see not only the amount of sales, but also the
                     amount of settlement that has occurred.</p>
             </div>
@@ -92,7 +91,7 @@
                                     </figure>
                                 </div>
                                 <div class="subject">
-                                    <p style="word-break: break-all;">{{ item.item_name }}</p>
+                                    <p style="word-break: break-all;">{{ truncate(item.cit_name, 20) }}</p>
 <!--                                    <p>(HipHop / 108Bpm)</p>-->
                                 </div>
                             </div>
@@ -243,7 +242,7 @@
                 </div>
 
             </div>
-            <div class="title-content">
+            <div class="title-content" style="padding-top: 12px; font-size: 12px; opacity: 0.3;">
                 <p>
                     - Settlement will be made on the <strong>10th of the following month</strong> based on the
                     downloaded items from the 1st to the last day.<br/>
@@ -434,7 +433,10 @@ export default {
         },
         goPage(path) {
             this.$router.push(path);
-        }
+        },
+        truncate(str, n) {
+            return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+        },
     },
     watch: {
         period: function (val) {

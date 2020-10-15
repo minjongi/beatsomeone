@@ -12,10 +12,10 @@
             </div>
             <div class="col name">
                 <figure>
-          <span class="playList__cover" @click="selectItem(item)">
-            <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
-            <i v-if="item.is_new" class="label new">N</i>
-          </span>
+                    <div class="playList__cover" @click="selectItem(item)">
+                        <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
+                        <i v-if="item.is_new" class="label new">N</i>
+                    </div>
 
                     <button
                         :data-action="'playAction' + item.cit_id "

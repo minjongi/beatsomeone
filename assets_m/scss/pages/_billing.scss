@@ -217,9 +217,38 @@
                     font-size: 12px;
                     position: relative;
 
-                  p {
-                    margin-bottom: 2px;
-                  }
+                    p {
+                        margin-bottom: 5px;
+                    }
+
+                    .copybox {
+                        padding-left: 30px;
+
+                        span {
+                            display: block;
+                            font-size: 11px;
+                            color: #3873d3;
+                            margin-bottom: 5px;
+                            align-items: flex-start;
+                            line-height: 15px;
+                        }
+
+                        span:before {
+                            content: "*";
+                            font-size: 11px;
+                            color: #3873d3;
+                            margin-top: 2px;
+                            margin-right: 3px;
+                        }
+                    }
+
+                    i {
+                        width: 20px;
+                        height: 20px;
+                        text-align: center;
+                        margin-right: 10px;
+                        line-height: 20px;
+                    }
 
                     .img-box {
                         position: absolute;
@@ -247,11 +276,11 @@
                     visibility: visible;
 
                     &.basic {
-                        height: 168px;
+                        height: 200px;
                     }
 
                     &.unlimited {
-                        height: 308px;
+                        height: 275px;
                     }
                 }
             }

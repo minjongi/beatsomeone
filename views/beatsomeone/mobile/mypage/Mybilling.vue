@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="totalprice">
                                     {{ formatPr(order.cor_pg, order.cor_total_money) }}
-                                    <template v-if="order.cor_point">
+                                    <template v-if="(+order.cor_point) > 0">
                                         <br> {{ order.cor_point }} P
                                     </template>
                                 </div>

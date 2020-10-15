@@ -92,7 +92,7 @@
                                     </span>
                                 </figure>
                             </div>
-                            <div class="subject">{{ truncate(item.cit_name, 30) }}</div>
+                            <div class="subject">{{ truncate(item.cit_name, 25) }}</div>
                             <div class="totalprice">{{ formatPr(item.cor_pg, item.total_money) }}</div>
                             <div class="status">
                                 <div v-if="item.cod_status === 'order'" class="green">

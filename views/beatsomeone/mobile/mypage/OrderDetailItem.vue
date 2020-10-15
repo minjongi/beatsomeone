@@ -62,7 +62,7 @@
             </div>
             <div class="col n-option">
                 <div class="option">
-                    <div class="n-box" v-if="item.item.cit_mastering_license_use === '1'">
+                    <div class="n-box" v-if="item.itemdetail[0].cde_title === 'STEM'">
                         <div>
                             <button class="playList__item--button">
                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
@@ -70,12 +70,15 @@
                                 <div>
                                     <div class="title" @click.self="toggleButton">{{ $t('lang30') }}
                                     </div>
+                                    <div class="detail">{{ $t('lang31') }}
+                                        <span class="copytransfer" v-if="item.item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
+                                    </div>
                                 </div>
                             </button>
                             <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
                         </div>
                     </div>
-                    <div class="n-box" v-if="item.item.cit_mastering_license_use === '0' && item.item.cit_lease_license_use === '1'">
+                    <div class="n-box" v-else-if="item.itemdetail[0].cde_title === 'LEASE'">
                         <div>
                             <button class="playList__item--button">
                                                 <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
@@ -83,6 +86,7 @@
                                 <div>
                                     <div class="title" @click.self="toggleButton">{{ $t('lang23') }}
                                     </div>
+                                    <div class="detail">{{ $t('lang24') }}</div>
                                 </div>
                             </button>
                             <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
@@ -104,6 +108,9 @@ export default {
     props: ['item', 'pg', 'cor_id'],
     components: {
         ParchaseComponent
+    },
+    mounted() {
+        console.log(this.item);
     },
     methods: {
         formatCitName: function (data, limitLth) {

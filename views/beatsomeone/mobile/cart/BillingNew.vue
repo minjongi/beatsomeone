@@ -64,16 +64,139 @@
                                                         </figcaption>
                                                     </figure>
                                                 </div>
+                                                <div class="edit" style="text-align: right">
+                                                    <div class="price 11221122" style="font-size: 12px;">
+                                                        {{ formatPrice(product.detail[0].cde_price, product.detail[0].cde_price_d, true) }}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="n-flex">
                                                 <div class="col n-option">
                                                     <!-- Option -->
-                                                    <div class="option">
-                                                        <!-- BASIC LEASE LICENSE -->
-                                                        <ItemDetail :item="product.detail[0]" :type="'lease'"
-                                                                    v-if="product.detail[0].cde_title === 'LEASE'"/>
-                                                        <ItemDetail :item="product.detail[0]" :type="'mastering'"
-                                                                    v-else-if="product.detail[0].cde_title === 'STEM'"/>
+                                                    <div class="option" v-if="product.detail[0].cde_title === 'LEASE'">
+                                                        <div class="n-box">
+                                                            <div>
+                                                                <button class="playList__item--button">
+                                  <span class="option_fold">
+                                    <img
+                                        src="/assets/images/icon/togglefold.png"
+                                        @click.self="toggleButton"
+                                    />
+                                  </span>
+                                                                    <div>
+                                                                        <div class="title" style="font-size: 12px;" @click.self="toggleButton">
+                                                                            {{ $t('lang23') }}
+                                                                        </div>
+                                                                        <div class="detail">{{ $t('lang24') }}</div>
+                                                                    </div>
+                                                                </button>
+                                                                <div class="option_item basic">
+                                                                    <div class="purchase-description">
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info6.png" alt/>
+                                                                            </i>
+                                                                            {{$t('lang25')}}
+                                                                        </p>
+                                                                        <p></p>
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info1.png" alt/>
+                                                                            </i>
+                                                                            {{$t('lang26')}}
+                                                                        </p>
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info3.png" alt/>
+                                                                            </i>
+                                                                            {{$t('lang27')}}
+                                                                        </p>
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info2.png" alt/>
+                                                                            </i>
+                                                                            {{$t('lang28')}}
+                                                                        </p>
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info7.png" alt/>
+                                                                            </i>
+                                                                            {{$t('lang29')}}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="option basic" v-else-if="product.detail[0].cde_title === 'STEM'">
+                                                        <div class="n-box">
+                                                            <div>
+                                                                <button class="playList__item--button">
+                                  <span class="option_fold">
+                                    <img
+                                        src="/assets/images/icon/togglefold.png"
+                                        @click.self="toggleButton"
+                                    />
+                                  </span>
+                                                                    <div>
+                                                                        <div class="title" style="font-size: 12px;" @click.self="toggleButton">
+                                                                            {{ $t('lang30') }}
+                                                                        </div>
+                                                                        <div class="detail">{{ $t('lang31') }}
+                                                                            <span class="copytransfer" v-if="product.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </button>
+                                                                <div class="option_item basic">
+                                                                    <div class="purchase-description">
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info6.png" alt/>
+                                                                            </i>
+                                                                            {{ $t('lang33') }}
+                                                                        </p>
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info8.png"/>
+                                                                            </i>
+                                                                            {{$t('lang34')}}
+                                                                        </p>
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info9.png"/>
+                                                                            </i>
+                                                                            {{$t('lang35')}}
+                                                                        </p>
+                                                                        <p>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info4.png"/>
+                                                                            </i>
+                                                                            {{$t('lang36')}}
+                                                                        </p>
+                                                                        <p v-if="product.cit_include_copyright_transfer !== '1'">
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info10.png"/>
+                                                                            </i>
+                                                                            {{$t('lang41')}}
+                                                                        </p>
+                                                                        <p v-else>
+                                                                            <i>
+                                                                                <img src="/assets/images/icon/parchase-info10.png"/>
+                                                                            </i>
+                                                                            {{$t('lang42')}}
+                                                                        </p>
+
+                                                                        <div class="copybox" v-if="product.cit_include_copyright_transfer !== '1'">
+                                                                            <span>{{ $t('lang21') }}</span>
+                                                                            <span>{{ $t('lang22') }}</span>
+                                                                        </div>
+                                                                        <div class="copybox" v-else>
+                                                                            <span>{{ $t('lang43') }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

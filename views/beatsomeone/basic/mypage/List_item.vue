@@ -249,11 +249,7 @@
                     <p>{{ msgEmptyCart }}</p>
                 </div>
                 <ul>
-                    <li
-                        v-for="(item, i) in myProduct_list"
-                        v-bind:key="i"
-                        class="playList__itembox"
-                    >
+                    <li v-for="(item, i) in myProduct_list" v-bind:key="i" class="playList__itembox">
                         <div class="playList__item playList__item--title">
                             <div class="col index">{{ calcSeq(myProduct_list.length, i) }}</div>
                             <div class="col name">
@@ -275,7 +271,7 @@
 
                                             <div class="code">{{ item.cit_key }}</div>
                                         </div>
-                                        <h3 class="playList__title" v-html="formatCitName(item.cit_name,50)"></h3>
+                                        <h3 class="playList__title" v-html="truncate(item.cit_name,50)"></h3>
                                         <span class="playList__by">by {{ item.mem_nickname }}</span>
                                         <span
                                             class="playList__bpm"
@@ -361,7 +357,9 @@
                                                             @click.self="toggleButton"
                                                         >{{ $t('lang30') }}
                                                         </div>
-                                                        <div class="detail">{{ $t('lang31') }}</div>
+                                                        <div class="detail">{{ $t('lang31') }}
+                                                            <span class="copytransfer" v-if="item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
+                                                        </div>
                                                     </div>
                                                 </button>
                                                 <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
@@ -850,6 +848,9 @@ export default {
             } else {
                 return g1 + ", " + g2;
             }
+        },
+        truncate(str, n) {
+            return (str.length > n) ? str.substr(0, n-1) + '...' : str;
         },
         playAudio(i, e) {
             if (!this.isPlay || this.currentPlayId !== i.cit_id) {
