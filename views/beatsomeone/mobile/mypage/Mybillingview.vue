@@ -61,7 +61,7 @@
                     </div>
                     <div class="n-flex between">
                         <span class="title">{{ $t('payMethodDetail') }}</span>
-                        <div>{{ order.cor_pay_type }}</div>
+                        <div>{{ $t(paymentMethod) }}</div>
                     </div>
                     <div class="n-flex between">
                         <span class="title">{{ $t('paySubtotal') }}</span>
@@ -229,6 +229,19 @@ export default {
                     }
                 })
                 this.checkedAll = this.selectedCount === this.orderItems.length;
+            }
+        }
+    },
+    computed: {
+        paymentMethod() {
+            if (this.order.cor_pay_type === '3D' || this.order.cor_pay_type === 'NOR') {
+                return 'creditCard'
+            } else if (this.order.cor_pay_type === 'ABANK') {
+                return 'realtimeBankTransfer';
+            } else if (this.order.cor_pay_type === 'paypal') {
+                return 'paypal';
+            } else {
+                return '';
             }
         }
     }

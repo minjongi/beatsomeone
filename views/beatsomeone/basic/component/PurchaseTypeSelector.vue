@@ -17,7 +17,7 @@
                     <ul>
                         <li
                                 class="parchase-item"
-                                v-if="item.detail.LEASE"
+                                v-if="item.detail.LEASE && item.cit_lease_license_use == '1'"
                         >
                             <div class="purchase-info">
                                 <div class="purchase-headern" style="display: flex; justify-content: space-between;">
@@ -75,7 +75,7 @@
                         </li>
                         <li
                                 class="parchase-item"
-                                v-if="item.detail.STEM"
+                                v-if="item.detail.STEM && item.cit_mastering_license_use == '1'"
                         >
                             <div class="purchase-info">
                                 <div class="purchase-headern" style="display: flex; justify-content: space-between;">
@@ -160,6 +160,9 @@
 
     export default {
         props: ["purchaseTypeSelectorPopup", "item"],
+        mounted() {
+            console.log(this.item);
+        },
         data: function () {
             return {};
         },

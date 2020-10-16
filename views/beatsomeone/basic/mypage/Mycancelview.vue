@@ -64,8 +64,12 @@
             <div class="payment_box" style="padding-top:0; margin-top:0; border:0;">
                 <div class="tab">
                     <div>
-                        <div class="title">Method</div>
-                        <div>{{ $t(order.cor_pay_type) }}</div>
+                        <div class="title">{{ $t('payMethod1') }}</div>
+                        <div>{{ $t(order.cor_pg) }}</div>
+                    </div>
+                    <div>
+                        <div class="title">{{ $t('payMethodDetail') }}</div>
+                        <div>{{ $t(paymentMethod) }}</div>
                     </div>
                     <div>
                         <div class="title">Paid</div>
@@ -178,8 +182,7 @@ export default {
             return rst;
         },
         isEmpty: function (str) {
-            if (typeof str == "undefined" || str == null || str == "") return true;
-            else return false;
+            return typeof str == "undefined" || str == null || str === "";
         },
         formatPrice: function (kr, en, pg) {
             if (pg === "paypal") {
@@ -251,6 +254,19 @@ export default {
             this.$router.push('/' + page);
         }
     },
+    computed: {
+        paymentMethod() {
+            if (this.order.cor_pay_type === '3D' || this.order.cor_pay_type === 'NOR') {
+                return 'creditCard'
+            } else if (this.order.cor_pay_type === 'ABANK') {
+                return 'realtimeBankTransfer';
+            } else if (this.order.cor_pay_type === 'paypal') {
+                return 'paypal';
+            } else {
+                return '';
+            }
+        }
+    }
 };
 </script>
 
