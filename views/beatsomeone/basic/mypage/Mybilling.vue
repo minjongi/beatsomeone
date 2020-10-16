@@ -138,7 +138,7 @@
 
             </div>
         </div>
-        <div class="row" style="margin-bottom:30px;">
+        <div class="row" style="margin-bottom:30px;" v-if="false">
             <div class="pagination" v-html="pagination">
 <!--                <div>-->
 <!--                    <button class="prev active" @click="prevPage"><img src="/assets/images/icon/chevron_prev.png"/>-->
