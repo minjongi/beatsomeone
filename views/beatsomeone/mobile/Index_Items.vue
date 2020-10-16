@@ -1,5 +1,5 @@
 <template>
-    <li v-if="item" class="playList__itembox">
+    <li v-if="item" class="playList__itembox" :id="'playList__item'+ item.cit_id">
         <div class="playList__item playList__item--title">
             <div v-if="!showCheck" :class="{active : item.is_wish === '1' }" class="col favorite" @click="toggleWish">
                 <button>{{ $t('favorite') }}</button>

@@ -402,7 +402,7 @@
                     let formData1 = new FormData(document.fm1);
                     formData1.append('pay_type', 'allat');
                     formData1.append('unique_id', this.unique_id);
-                    formData1.append('good_mny', this.good_mny);
+                    formData1.append('good_mny', this.allatForm.amt);
                     formData1.append('cor_point', this.cor_point);
                     formData1.append('mem_realname', this.member.mem_lastname + this.member.mem_firstname);
                     axios.post('/cmall/ajax_orderupdate', formData1)
@@ -411,6 +411,9 @@
                             window.location.href = "/cmall/complete/" + this.unique_id;
                         })
                         .catch(error => {
+                            if (error.response) {
+                                alert(error.response.data.message);
+                            }
                             console.error(error);
                         });
                 }

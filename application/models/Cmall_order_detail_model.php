@@ -85,7 +85,7 @@ class Cmall_order_detail_model extends CB_Model
                                LEFT JOIN cb_member as p ON p.mem_id = i.mem_id
                                LEFT JOIN cb_cmall_order as o ON o.cor_id = cb_d.cor_id
                       WHERE cb_d.mem_id = ?
-                        AND id.cde_title = 'LEASE') as cdipo WHERE remain_days <= 7 LIMIT 6";
+                        AND id.cde_title = 'LEASE') as cdipo WHERE remain_days <= 7 AND remain_days >=0 LIMIT 6";
         $result = $this->db->query($sql, [$mem_id])->result_array();
         return $result;
     }

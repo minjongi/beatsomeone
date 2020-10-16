@@ -391,10 +391,14 @@ class Cmallorder extends CB_Controller
 //                        echo "거래방식구분	: ".$PAY_TYPE."<br>";
 
                             $params = array();
+                            $params['REPLYCD'] = $REPLYCD;
+                            $params['REPLYMSG'] = $REPLYMSG;
                             $params['ORDER_NO'] = $cor_id;
                             $params['AMT'] = $this->input->post('allat_amt');
                             $params['PAY_TYPE'] = $PAY_TYPE;
                             $params['APPROVAL_YMDHMS'] = $CANCEL_YMDHMS;
+                            $params['REPLYCD'] = $REPLYCD;
+                            $params['REPLYMSG'] = $REPLYMSG;
                             $params['SAVE_AMT'] = $REMAIN_AMT;
                             $params['PARTCANCEL_YN'] = $PART_CANCEL_FLAG;
                             $params['RAW_DATA'] = $at_txt;

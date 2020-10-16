@@ -586,7 +586,7 @@ export default {
                 let formData1 = new FormData(document.fm1);
                 formData1.append('pay_type', 'allat');
                 formData1.append('unique_id', this.unique_id);
-                formData1.append('good_mny', this.good_mny);
+                formData1.append('good_mny', this.allatForm.amt);
                 formData1.append('cor_point', this.cor_point);
                 formData1.append('mem_realname', this.member.mem_lastname + this.member.mem_firstname);
 
@@ -596,6 +596,9 @@ export default {
                         window.location.href = "/cmall/complete/" + this.unique_id;
                     })
                     .catch(error => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
                         console.error(error);
                     });
             }
@@ -637,26 +640,26 @@ export default {
             }
         },
         cor_point(val) {
-            if (val < 0) {
+            if ((+val) < 0) {
                 alert('포인트은 0보다 커야 합니다.');
                 this.cor_point = 0;
             }
-            if (val > this.mem_point) {
-                alert('포인트가 유효하지 않습니다.');
+            if ((+val) > this.mem_point) {
+                alert('포인트가 충분하지 않습니다.');
                 this.cor_point = this.mem_point;
             }
             if (this.$i18n.locale === 'en') {
-                if (val > this.good_mny_d) {
+                if ((+val) > this.good_mny_d - 1) {
                     alert('포인트가 유효하지 않습니다.');
                     this.cor_point = 0;
                 }
             } else {
-                if (val > this.good_mny - 200) {
+                if (200 > this.good_mny - (+val)) {
                     alert('포인트가 유효하지 않습니다.');
                     this.cor_point = 0;
                 }
             }
-            this.$set(this.allatForm, 'amt', this.good_mny - val);
+            this.$set(this.allatForm, 'amt', this.good_mny - (+val));
         }
     }
 }
