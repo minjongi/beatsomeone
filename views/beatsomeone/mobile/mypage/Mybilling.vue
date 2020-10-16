@@ -101,7 +101,7 @@
 
                             <div class="n-flex between">
                                 <div class="status">
-                                  <div v-if="order.cor_status === '1'" class="green">
+                                  <div v-if="order.cor_status === '1'" :class="{'green': getDownloadStatus(order) === 1, 'blue': getDownloadStatus(order) === 0}">
                                     {{ $t('orderComplete')}}
                                   </div>
                                   <div v-else-if="order.cor_status === '2'" class="red">
@@ -141,7 +141,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-bottom:30px;">
+        <div class="row" style="margin-bottom:30px;" v-if="false">
             <div class="pagination" v-html="pagination">
             </div>
         </div>
@@ -484,6 +484,20 @@
                     return possCnt;
                 } */
             },
+            getDownloadStatus(order) {
+                if (order.detail.length > 0) {
+                    let status = 0;
+                    order.detail.forEach(item => {
+                        if (item.item.possible_refund === 0) {
+                            status = 1;
+                            return false;
+                        }
+                    })
+                    return status;
+                } else {
+                    return 0;
+                }
+            }
         },
         watch: {
             period: function (val) {

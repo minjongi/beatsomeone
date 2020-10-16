@@ -620,7 +620,11 @@ class Cmallorder extends CB_Controller
         if ($is_test == '1') {
             return new ApiContext(new OAuthTokenCredential($paypal_sandbox_id, $paypal_sandbox_secret));
         } else {
-            return new ApiContext(new OAuthTokenCredential($paypal_live_id, $paypal_live_secret));
+            $apiContext = new ApiContext(new OAuthTokenCredential($paypal_live_id, $paypal_live_secret));
+            $apiContext->setConfig(array(
+                'mode' => 'live'
+            ));
+            return $apiContext;
         }
     }
 }

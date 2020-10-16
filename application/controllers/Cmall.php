@@ -2288,7 +2288,7 @@ class Cmall extends CB_Controller
                 $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
                 $insertdata['cor_deposit'] = 0;
                 $insertdata['cor_cash'] = $AMT;
-                $insertdata['is_test'] = $REPLYCD;
+                $insertdata['is_test'] = intval($REPLYCD);
 
                 /*	 //request 요청값으로 체크하면 안됨
                 if ($this->input->post('good_mny')) {
@@ -2417,7 +2417,7 @@ class Cmall extends CB_Controller
         $insertdata['cor_ip'] = $this->input->ip_address();
         $insertdata['cor_useragent'] = $this->agent->agent_string();
         $insertdata['status'] = $od_status;
-        log_message('debug', 'Insert Data: ' . $insertdata);
+        log_message('debug', 'Insert Data: ' . json_encode($insertdata));
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
         $res = $this->Cmall_order_model->insert($insertdata);
@@ -2608,7 +2608,7 @@ class Cmall extends CB_Controller
         // 이벤트가 존재하면 실행합니다
         Events::trigger('before', $eventname);
 
-        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Cmall_item_model'));
+        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Cmall_item_model', 'Cmall_download_log_model'));
         /**
          * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
          */
@@ -2695,6 +2695,20 @@ class Cmall extends CB_Controller
                     $orderdetail[$key1]['itemdetail'] = $itemdetail
                         = $this->Cmall_order_detail_model
                         ->get_detail_by_item($order['cor_id'], element('cit_id', $value));
+                    $where = [
+                        'cit_id' => element('cit_id', $value),
+                        'cde_id' => $itemdetail[0]['cde_id'],
+                        'mem_id' => $mem_id,
+                        'cor_id' => $order['cor_id']
+                    ];
+
+                    $download_log = $this->Cmall_download_log_model->get_one('', '', $where);
+                    if ($download_log != false) {
+                        $orderdetail[$key1]['item']['possible_refund'] = 0;
+                    } else {
+                        $orderdetail[$key1]['item']['possible_refund'] = 1;
+                    }
+
                     $orderdetail[$key1]['item']['possible_download'] = 1;
 
                     if (element('cor_status', $order) == '1') {

@@ -18,7 +18,7 @@
                     </div>
                     <div>
                         <div class="title">{{ $t('status') }}</div>
-                        <div v-if="order.cor_status === '1'" class="green">
+                        <div v-if="order.cor_status === '1'" :class="{'green': downloadStatus === 1, 'blue': downloadStatus === 0}">
                             {{ $t('orderComplete') }}
                         </div>
                         <div v-else-if="order.cor_status === '2'" class="red">
@@ -254,6 +254,20 @@ export default {
                 return 'paypal';
             } else {
                 return '';
+            }
+        },
+        downloadStatus() {
+            if (this.orderItems.length > 0) {
+                let status = 0;
+                this.orderItems.forEach(item => {
+                    if (item.item.possible_refund === 0) {
+                        status = 1;
+                        return false;
+                    }
+                })
+                return status;
+            } else {
+                return 0;
             }
         }
     }
