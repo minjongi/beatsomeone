@@ -256,6 +256,21 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.purchase-description p {
+    margin-bottom: 5px !important;
+    display: flex;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 20px;
 
+    i {
+        flex: none;
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+        line-height: 20px;
+        height: 20px;
+    }
+}
 </style>

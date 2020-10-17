@@ -669,10 +669,27 @@ export default {
 @import "@/assets_m/scss/App.scss";
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
 
 .option_item.basic {
     margin-top: 15px !important;
     margin-bottom: 0 !important;
+}
+
+.purchase-description p {
+    margin-bottom: 5px !important;
+    display: flex;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 20px;
+
+    i {
+        flex: none;
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+        line-height: 20px;
+        height: 20px;
+    }
 }
 </style>
