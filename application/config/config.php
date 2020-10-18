@@ -532,8 +532,8 @@ $config['sess_regenerate_destroy'] = FALSE;
 $config['cookie_prefix'] = '';
 //$config['cookie_domain'] = '.dumdum.kr'; // .ciboard.co.kr 와 같이 맨 앞에 . 을 찍고 도메인 명을 적습니다
 $config['cookie_domain'] = ''; // .ciboard.co.kr 와 같이 맨 앞에 . 을 찍고 도메인 명을 적습니다
-$config['cookie_path'] = '/';
-$config['cookie_secure'] = FALSE;
+$config['cookie_path'] = '/; SameSite=None; Secure';
+$config['cookie_secure'] = TRUE;
 $config['cookie_httponly'] = FALSE;
 
 /*
