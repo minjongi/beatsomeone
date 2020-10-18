@@ -32,7 +32,7 @@
                                 <div class="tab">
                                     <div>
                                         <div class="title">{{ $t('payMethod1') }}</div>
-                                        <div>{{ $t(order.cor_pay_type) }}</div>
+                                        <div>{{ $t(paymentMethod) }}</div>
                                     </div>
                                     <div>
                                         <div class="title">{{ $t('paySubtotal') }}</div>
@@ -130,6 +130,19 @@ export default {
         goOrderHistory: function (e) {
             window.location.href = '/mypage#/mybilling';
         },
+    },
+    computed: {
+        paymentMethod() {
+            if (this.order.cor_pay_type === '3D' || this.order.cor_pay_type === 'NOR') {
+                return 'creditCard'
+            } else if (this.order.cor_pay_type === 'ABANK') {
+                return 'realtimeBankTransfer';
+            } else if (this.order.cor_pay_type === 'paypal') {
+                return 'paypal';
+            } else {
+                return '';
+            }
+        }
     }
 }
 </script>

@@ -15,7 +15,7 @@
             </div>
             <div class="n-flex" style="justify-content: space-between;">
               <div>{{ $t('status') }}</div>
-              <div v-if="order.cor_status === '1'" class="green">
+              <div v-if="order.cor_status === '1'" :class="{'green': downloadStatus === 1, 'blue': downloadStatus === 0}">
                 {{ $t('orderComplete') }}
               </div>
               <div v-else-if="order.cor_status === '2'" class="red">
@@ -61,7 +61,7 @@
           </div>
           <div class="n-flex between">
             <span class="title">{{ $t('payMethodDetail') }}</span>
-            <div>{{ order.cor_pay_type }}</div>
+            <div>{{ $t(paymentMethod) }}</div>
           </div>
           <div class="n-flex between">
             <span class="title">{{ $t('paySubtotal') }}</span>
@@ -229,6 +229,33 @@ export default {
           }
         })
         this.checkedAll = this.selectedCount === this.orderItems.length;
+      }
+    }
+  },
+  computed: {
+    paymentMethod() {
+      if (this.order.cor_pay_type === '3D' || this.order.cor_pay_type === 'NOR') {
+        return 'creditCard'
+      } else if (this.order.cor_pay_type === 'ABANK') {
+        return 'realtimeBankTransfer';
+      } else if (this.order.cor_pay_type === 'paypal') {
+        return 'paypal';
+      } else {
+        return '';
+      }
+    },
+    downloadStatus() {
+      if (this.orderItems.length > 0) {
+        let status = 0;
+        this.orderItems.forEach(item => {
+          if (item.item.possible_refund === 0) {
+            status = 1;
+            return false;
+          }
+        })
+        return status;
+      } else {
+        return 0;
       }
     }
   }

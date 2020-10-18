@@ -150,14 +150,10 @@ export default {
             if (item.possible_download === 0) {
                 return "red";
             } else {
-                if (item.cit_lease_license_use == "1") {
+                if (item.possible_refund == 1) {
                     return "blue";
-                }
-                if (item.cit_lease_license_use == "1") {
-                    return "green";
-                }
-                if (item.cit_mastering_license_use == "1") {
-                    return "green";
+                } else {
+                    return 'green'
                 }
             }
         },
@@ -165,7 +161,11 @@ export default {
             if (item.possible_download === 0) {
                 return "unavailable1";
             } else {
-                return "downloadAvailable";
+                if (item.possible_refund == 1) {
+                    return "downloadAvailable";
+                } else {
+                    return 'downloadComplete'
+                }
             }
         },
         calcTag: function (hashTag) {

@@ -2116,14 +2116,14 @@ class Cmall extends CB_Controller
         if (!$this->session->userdata('unique_id') or !$this->input->post('unique_id') or $this->session->userdata('unique_id') !== $this->input->post('unique_id')) {
             $this->output->set_status_header('400');
             $this->output->set_output(json_encode([
-                'message' => '잘못된 접근입니다.'
+                'message' => '잘못된 접근입니다. 오류: 주문번호 없음'
             ], JSON_UNESCAPED_UNICODE));
             return false;
         }
         if (!$this->session->userdata('order_cct_id')) {
             $this->output->set_status_header('400');
             $this->output->set_output(json_encode([
-                'message' => '잘못된 접근입니다.'
+                'message' => '잘못된 접근입니다. 오류: order_cct_id 없음'
             ], JSON_UNESCAPED_UNICODE));
             return false;
         }
@@ -2150,7 +2150,7 @@ class Cmall extends CB_Controller
                     foreach ((array)$details as $detail) {
                         if (empty($detail)) continue;
 
-                        $item_cct_price += (int)element('cde_price', $detail) * element('cct_count', $detail);
+                        $item_cct_price += intval(element('cde_price', $detail));
                         $item_cct_price_d += (float)element('cde_price_d', $detail) * element('cct_count', $detail);
                     }
                 }
@@ -2163,7 +2163,7 @@ class Cmall extends CB_Controller
             if ($item_cct_price != $good_mny + $cor_point) {
                 $this->output->set_status_header('400');
                 $this->output->set_output(json_encode([
-                    'message' => '결제 금액이 상이합니다'
+                    'message' => '결제 금액이 상이합니다. total: ' . $item_cct_price . ', good_mny: ' . $good_mny . ', point: '.$cor_point,
                 ], JSON_UNESCAPED_UNICODE));
                 return false;
             }
@@ -2185,7 +2185,7 @@ class Cmall extends CB_Controller
             include(FCPATH . 'plugin/pg/allat/allatutil.php');
             $at_cross_key = $this->cbconfig->item('pg_allat_crosskey');    //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
             $at_shop_id = $this->cbconfig->item('pg_allat_shop_id');        //설정필요
-            $at_amt = $item_cct_price;                        //결제 금액을 다시 계산해서 만들어야 함(해킹방지), ( session, DB 사용 )
+            $at_amt = $item_cct_price - $cor_point;                        //결제 금액을 다시 계산해서 만들어야 함(해킹방지), ( session, DB 사용 )
 
             // 요청 데이터 설정
             //----------------------
@@ -2200,7 +2200,7 @@ class Cmall extends CB_Controller
             // $at_txt = ApprovalReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
             // 이 부분에서 로그를 남기는 것이 좋습니다.
             // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
-            log_message('info', 'Allat: ' . $at_txt);
+            log_message('debug', 'Allat: ' . $at_txt);
 
             // 결제 결과 값 확인
             //------------------
@@ -2288,7 +2288,7 @@ class Cmall extends CB_Controller
                 $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
                 $insertdata['cor_deposit'] = 0;
                 $insertdata['cor_cash'] = $AMT;
-                $insertdata['is_test'] = $REPLYCD;
+                $insertdata['is_test'] = intval($REPLYCD);
 
                 /*	 //request 요청값으로 체크하면 안됨
                 if ($this->input->post('good_mny')) {
@@ -2296,10 +2296,11 @@ class Cmall extends CB_Controller
                 */
 
                 $insertdata['cor_status'] = 1;
-                $insertdata['cor_approve_datetime'] = $APPROVAL_YMDHMS;
+                $approve_datetime = DateTime::createFromFormat("YmdHis", $APPROVAL_YMDHMS);
+                $insertdata['cor_approve_datetime'] = $approve_datetime->format("Y-m-d H:i:s");
                 $insertdata['cor_pay_type'] = $PAY_TYPE;
                 $insertdata['cor_pg'] = 'allat';
-                if (strcasecmp($PAY_TYPE, 'card') == 0 || strcasecmp($PAY_TYPE, '3d') == 0) {
+                if (strcasecmp($PAY_TYPE, 'card') == 0 || strcasecmp($PAY_TYPE, '3d') == 0 || strcasecmp($PAY_TYPE, 'nor') == 0) {
                     $insertdata['cor_bank_info'] = $CARD_NM;
                     $insertdata['cor_app_no'] = $APPROVAL_NO;
                 } elseif (strcasecmp($PAY_TYPE, 'abank' == 0)) {
@@ -2336,7 +2337,8 @@ class Cmall extends CB_Controller
                 $this->output->set_status_header('400');
                 $this->output->set_output(json_encode([
                     'reply_cd' => $REPLYCD,
-                    'reply_msg' => $REPLYMSG
+                    'reply_msg' => $REPLYMSG,
+                    'message' => $REPLYMSG . ', '. $REPLYCD,
                 ], JSON_UNESCAPED_UNICODE));
                 return false;
             }
@@ -2415,6 +2417,7 @@ class Cmall extends CB_Controller
         $insertdata['cor_ip'] = $this->input->ip_address();
         $insertdata['cor_useragent'] = $this->agent->agent_string();
         $insertdata['status'] = $od_status;
+        log_message('debug', 'Insert Data: ' . json_encode($insertdata));
 
         $this->load->model(array('Cmall_item_model', 'Cmall_order_model', 'Cmall_order_detail_model'));
         $res = $this->Cmall_order_model->insert($insertdata);
@@ -2464,6 +2467,12 @@ class Cmall extends CB_Controller
                     $this->Cmall_cart_model->delete_where($deletewhere);
                 }
             }
+        } else {
+            $this->output->set_status_header('500');
+            $this->output->set_output(json_encode([
+                'message' => '주문이 디비에 입력되지 않았습니다.'
+            ], JSON_UNESCAPED_UNICODE));
+            return false;
         }
 
 
@@ -2599,7 +2608,7 @@ class Cmall extends CB_Controller
         // 이벤트가 존재하면 실행합니다
         Events::trigger('before', $eventname);
 
-        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Cmall_item_model'));
+        $this->load->model(array('Cmall_order_model', 'Cmall_order_detail_model', 'Cmall_item_model', 'Cmall_download_log_model'));
         /**
          * 페이지에 숫자가 아닌 문자가 입력되거나 1보다 작은 숫자가 입력되면 에러 페이지를 보여줍니다.
          */
@@ -2686,6 +2695,20 @@ class Cmall extends CB_Controller
                     $orderdetail[$key1]['itemdetail'] = $itemdetail
                         = $this->Cmall_order_detail_model
                         ->get_detail_by_item($order['cor_id'], element('cit_id', $value));
+                    $where = [
+                        'cit_id' => element('cit_id', $value),
+                        'cde_id' => $itemdetail[0]['cde_id'],
+                        'mem_id' => $mem_id,
+                        'cor_id' => $order['cor_id']
+                    ];
+
+                    $download_log = $this->Cmall_download_log_model->get_one('', '', $where);
+                    if ($download_log != false) {
+                        $orderdetail[$key1]['item']['possible_refund'] = 0;
+                    } else {
+                        $orderdetail[$key1]['item']['possible_refund'] = 1;
+                    }
+
                     $orderdetail[$key1]['item']['possible_download'] = 1;
 
                     if (element('cor_status', $order) == '1') {

@@ -61,8 +61,12 @@
             <div class="payment_box">
                 <div class="n-box">
                     <div class="n-flex between">
-                        <span class="title">Method</span>
-                        <span  style="font-weight: 600;">{{ order.cor_pg }}</span>
+                        <span class="title">{{ $t('payMethod1') }}</span>
+                        <span style="font-weight: 600;">{{ $t(order.cor_pg) }}</span>
+                    </div>
+                    <div class="n-flex between">
+                        <span class="title">{{ $t('payMethodDetail') }}</span>
+                        <span style="font-weight: 600;">{{ $t(paymentMethod) }}</span>
                     </div>
                     <div class="n-flex between">
                         <span class="title">Paid</span>
@@ -254,6 +258,19 @@
                 }
                 return rst;
             },
+        },
+        computed: {
+            paymentMethod() {
+                if (this.order.cor_pay_type === '3D' || this.order.cor_pay_type === 'NOR') {
+                    return 'creditCard'
+                } else if (this.order.cor_pay_type === 'ABANK') {
+                    return 'realtimeBankTransfer';
+                } else if (this.order.cor_pay_type === 'paypal') {
+                    return 'paypal';
+                } else {
+                    return '';
+                }
+            }
         }
     }
 </script>

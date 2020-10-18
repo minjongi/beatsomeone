@@ -2,8 +2,8 @@
   <div class="modal" id="purchase" v-if="purchaseTypeSelectorPopup" @click.self="close">
     <div class="modal__content">
       <header class="modal__header">
-        <h2 class="modal__title">{{ $t('selectPurchaseType') }}</h2>
-        <button class="modal__close" @click="close">{{ $t('cancel2') }}</button>
+        <h2 class="modal__title">PLEASE SELECT A PURCHASE TYPE</h2>
+        <button class="modal__close" @click="close">닫기</button>
       </header>
       <div class="modal__body">
         <div class="album">
@@ -17,7 +17,7 @@
           <ul>
             <li
                 class="parchase-item"
-                v-if="item.detail.LEASE"
+                v-if="item.detail.LEASE && item.cit_lease_license_use == '1'"
             >
               <div class="purchase-info">
                 <div class="purchase-headern" style="display: flex; justify-content: space-between;">
@@ -75,7 +75,7 @@
             </li>
             <li
                 class="parchase-item"
-                v-if="item.detail.STEM"
+                v-if="item.detail.STEM && item.cit_mastering_license_use == '1'"
             >
               <div class="purchase-info">
                 <div class="purchase-headern" style="display: flex; justify-content: space-between;">
@@ -160,6 +160,9 @@ import $ from "jquery";
 
 export default {
   props: ["purchaseTypeSelectorPopup", "item"],
+  mounted() {
+    console.log(this.item);
+  },
   data: function () {
     return {};
   },

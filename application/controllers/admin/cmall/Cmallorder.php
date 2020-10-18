@@ -391,10 +391,14 @@ class Cmallorder extends CB_Controller
 //                        echo "거래방식구분	: ".$PAY_TYPE."<br>";
 
                             $params = array();
+                            $params['REPLYCD'] = $REPLYCD;
+                            $params['REPLYMSG'] = $REPLYMSG;
                             $params['ORDER_NO'] = $cor_id;
                             $params['AMT'] = $this->input->post('allat_amt');
                             $params['PAY_TYPE'] = $PAY_TYPE;
                             $params['APPROVAL_YMDHMS'] = $CANCEL_YMDHMS;
+                            $params['REPLYCD'] = $REPLYCD;
+                            $params['REPLYMSG'] = $REPLYMSG;
                             $params['SAVE_AMT'] = $REMAIN_AMT;
                             $params['PARTCANCEL_YN'] = $PART_CANCEL_FLAG;
                             $params['RAW_DATA'] = $at_txt;
@@ -616,7 +620,11 @@ class Cmallorder extends CB_Controller
         if ($is_test == '1') {
             return new ApiContext(new OAuthTokenCredential($paypal_sandbox_id, $paypal_sandbox_secret));
         } else {
-            return new ApiContext(new OAuthTokenCredential($paypal_live_id, $paypal_live_secret));
+            $apiContext = new ApiContext(new OAuthTokenCredential($paypal_live_id, $paypal_live_secret));
+            $apiContext->setConfig(array(
+                'mode' => 'live'
+            ));
+            return $apiContext;
         }
     }
 }

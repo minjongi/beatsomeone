@@ -155,6 +155,7 @@ export default {
                     link.setAttribute('download', item.cde_originname);
                     document.body.appendChild(link);
                     link.click();
+                    this.$set(this.item.item, 'possible_refund', 0);
                 })
                 .catch((error) => console.error(error));
         },

@@ -24,10 +24,10 @@
                           </span>
                             <figcaption>
                                 <h3 class="playList__title song-title" >
-                                    {{ currentMusic.name }}
+                                    {{ truncate(currentMusic.name, 15) }}
                                 </h3>
                                 <span class="playList__by song-artist">
-                                    {{ currentMusic.artist }}
+                                    by {{ currentMusic.artist }}
                                 </span>
                             </figcaption>
                         </figure>
@@ -116,7 +116,7 @@
                     _uid: r._uid,
                     id: r.item.cit_id,
                     name : r.item.cit_name,
-                    artist: r.item.musician,
+                    artist: r.item.mem_nickname,
                     url: `/cmallact/download_sample/${r.item.cde_id}`,
                     cover_art_url: `/uploads/cmallitem/${r.item.cit_file_1}`,
                     isNew : true,
@@ -254,6 +254,9 @@
             //         }
             //     });
             // }
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
         },
 
     }

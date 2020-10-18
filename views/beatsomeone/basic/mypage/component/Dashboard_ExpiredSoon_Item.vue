@@ -10,14 +10,14 @@
                         />
                     </span>
                     <figcaption class="pointer" @click="selectItem">
-                        <h3 class="playList__title">{{ item.cit_name}}</h3>
-                        <span class="playList__by">{{ item.mem_nickname }}</span>
+                        <h3 class="playList__title">{{ truncate(item.cit_name, 30) }}</h3>
+                        <span class="playList__by">by {{ item.mem_nickname }}</span>
                     </figcaption>
                 </figure>
             </div>
             <div class="info">
                 <div class="expire">
-                    <span>{{ timeago(item.download_end_date).replace('ago','')}}</span> remaining
+                    <span>{{ timeago(item.expired_date).replace('ago','')}}</span> remaining
                 </div>
             </div>
         </div>
@@ -49,6 +49,9 @@
             },
             timeago(date) {
                 return timeago.format(date);
+            },
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
         },
 

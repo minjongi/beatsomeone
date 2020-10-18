@@ -30,7 +30,7 @@
                                     {{ currentMusic.name }}
                                 </h3>
                                 <span class="playList__by song-artist">
-                                    {{ currentMusic.artist }}
+                                    by {{ currentMusic.artist }}
                                 </span>
                             </figcaption>
                         </figure>
@@ -79,7 +79,7 @@
                     is_wish: r.item.is_wish,
                     id: r.item.cit_id,
                     name : r.item.cit_name,
-                    artist: r.item.musician,
+                    artist: r.item.mem_nickname,
                     url: `/cmallact/download_sample/${r.item.cde_id}`,
                     cover_art_url: `/uploads/cmallitem/${r.item.cit_file_1}`,
                     isNew : true,
