@@ -4027,9 +4027,11 @@ class Register extends CB_Controller
             if ($billTerm === 'monthly') {
                 $amount = (int)$member_group['mgr_monthly_cost_w'];
                 $amount_d = (float)$member_group['mgr_monthly_cost_d'];
+                $termDays = '30';
             } else {
                 $amount = (int)$member_group['mgr_year_cost_w'];
                 $amount_d = (float)$member_group['mgr_year_cost_d'];
+                $termDays = '365';
             }
 
             $pg = $this->input->post('pg');
@@ -4145,7 +4147,6 @@ class Register extends CB_Controller
                         );
                         $this->Member_group_member_model->insert($mginsert);
 
-                        $termDays = '30';
                         $startDate = date('Y-m-d');
                         $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
 
@@ -4215,7 +4216,6 @@ class Register extends CB_Controller
                     );
                     $this->Member_group_member_model->insert($mginsert);
 
-                    $termDays = '30';
                     $startDate = date('Y-m-d');
                     $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
 
