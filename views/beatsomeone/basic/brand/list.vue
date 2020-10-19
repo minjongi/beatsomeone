@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Header :is-login="isLogin" />
+    <Header />
 
     <div class="container sub">
       <div class="sublist">
@@ -14,12 +14,12 @@
                     <li class="filter__item" v-for="(f,index) in listFilter" :key="index">
                       <label :for="'fillter1'+index" class="checkbox">
                         <input
-                          type="radio"
-                          name="filter"
-                          hidden
-                          :id="'fillter1'+index"
-                          :value="f"
-                          v-model="param.currentGenre"
+                            type="radio"
+                            name="filter"
+                            hidden
+                            :id="'fillter1'+index"
+                            :value="f"
+                            v-model="param.currentGenre"
                         />
                         <span></span>
                         {{ listFilterName[index] }}
@@ -37,12 +37,12 @@
                     <li class="filter__item" v-for="(f,index) in listSubgenres" :key="index">
                       <label :for="'fillter2'+index" class="checkbox">
                         <input
-                          type="radio"
-                          name="subgenres"
-                          hidden
-                          :id="'fillter2'+index"
-                          :value="f"
-                          v-model="param.currentSubgenres"
+                            type="radio"
+                            name="subgenres"
+                            hidden
+                            :id="'fillter2'+index"
+                            :value="f"
+                            v-model="param.currentSubgenres"
                         />
                         <span></span>
                         {{ listSubgenresName[index] }}
@@ -75,12 +75,12 @@
                     <li class="filter__item" v-for="(f,index) in listMoods" :key="index">
                       <label :for="'fillter3'+index" class="checkbox">
                         <input
-                          type="radio"
-                          name="moods"
-                          hidden
-                          :id="'fillter3'+index"
-                          :value="f"
-                          v-model="param.currentMoods"
+                            type="radio"
+                            name="moods"
+                            hidden
+                            :id="'fillter3'+index"
+                            :value="f"
+                            v-model="param.currentMoods"
                         />
                         <span></span>
                         {{ listMoodsName[index] }}
@@ -98,12 +98,12 @@
                     <li class="filter__item" v-for="(f,index) in listTrackType" :key="index">
                       <label :for="'fillter4'+index" class="checkbox">
                         <input
-                          type="radio"
-                          name="trackTypes"
-                          hidden
-                          :id="'fillter4'+index"
-                          :value="f"
-                          v-model="param.currentTrackType"
+                            type="radio"
+                            name="trackTypes"
+                            hidden
+                            :id="'fillter4'+index"
+                            :value="f"
+                            v-model="param.currentTrackType"
                         />
                         <span></span>
                         {{ listTrackTypeName[index] }}
@@ -115,20 +115,39 @@
             </div>
           </div>
           <div class="sublist__content">
+            <div>
+              <h2 class="section-title">
+                <span>{{ $t('goToBrandshop') }} > {{ brand.mem_nickname }}</span>
+                <div class="sort">
+                  <span>{{ $t('sortBy') }}</span>
+                  <div class="custom-select">
+                    <button class="selected-option">{{ listSortParamName }}</button>
+                    <div class="options">
+                      <button
+                          class="option"
+                          data-value
+                          v-for="(o,i) in listSort"
+                          :key="i"
+                          @click="param.sort = o;"
+                      >{{ listSortName[i] }}</button>
+                    </div>
+                  </div>
+                </div>
+              </h2>
+            </div>
             <div class="row">
-              <h2 class="section-title">{{ $t('goToBrandshop') }} > {{ brand.mem_nickname }}</h2>
               <div
-                class="playList"
-                v-infinite-scroll="loading"
-                infinite-scroll-immediate-check="false"
+                  class="playList"
+                  v-infinite-scroll="loading"
+                  infinite-scroll-immediate-check="false"
               >
                 <transition-group
-                  name="staggered-fade"
-                  tag="ul"
-                  v-bind:css="false"
-                  v-on:before-enter="beforeEnter"
-                  v-on:enter="enter"
-                  v-on:leave="leave"
+                    name="staggered-fade"
+                    tag="ul"
+                    v-bind:css="false"
+                    v-on:before-enter="beforeEnter"
+                    v-on:enter="enter"
+                    v-on:leave="leave"
                 >
                   <template v-for="item in randomList">
                     <KeepAliveGlobal :key="'randomList' + item.cit_key">
@@ -269,10 +288,10 @@ export default {
     // 커스텀 셀렉트 옵션
     $(".custom-select").on("click", function () {
       $(this)
-        .siblings(".custom-select")
-        .removeClass("active")
-        .find(".options")
-        .hide();
+          .siblings(".custom-select")
+          .removeClass("active")
+          .find(".options")
+          .hide();
       $(this).toggleClass("active");
       $(this).find(".options").toggle();
     });
@@ -285,7 +304,7 @@ export default {
     },
     listSortName() {
       let list = [],
-        _self = this;
+          _self = this;
 
       this.listSort.forEach(function (val) {
         list.push(_self.$t("sortItem" + window.genLangCode(val)));
@@ -295,7 +314,7 @@ export default {
     },
     listFilterName() {
       let list = [],
-        _self = this;
+          _self = this;
 
       this.listFilter.forEach(function (val) {
         list.push(_self.$t("genre" + window.genLangCode(val)));
@@ -305,7 +324,7 @@ export default {
     },
     listSubgenresName() {
       let list = [],
-        _self = this;
+          _self = this;
 
       this.listSubgenres.forEach(function (val) {
         list.push(_self.$t("genre" + window.genLangCode(val)));
@@ -315,7 +334,7 @@ export default {
     },
     listMoodsName() {
       let list = [],
-        _self = this;
+          _self = this;
 
       this.listMoods.forEach(function (val) {
         list.push(_self.$t("moods" + window.genLangCode(val)));
@@ -325,7 +344,7 @@ export default {
     },
     listTrackTypeName() {
       let list = [],
-        _self = this;
+          _self = this;
 
       this.listTrackType.forEach(function (val) {
         list.push(_self.$t("trackType" + window.genLangCode(val)));
@@ -379,7 +398,6 @@ export default {
         search: this.param.search,
         brand_mem_id: this.brand.mem_id
       };
-
       Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
         if (!this.param.sort || this.param.sort === "Sort By") {
           this.randomList = r;
@@ -420,9 +438,9 @@ export default {
       var delay = el.dataset.index * 150;
       setTimeout(function () {
         Velocity(
-          el,
-          { opacity: 1, height: 90, "margin-bottom": 1 },
-          { complete: done }
+            el,
+            { opacity: 1, height: 90, "margin-bottom": 1 },
+            { complete: done }
         );
       }, delay);
     },
@@ -430,10 +448,10 @@ export default {
       var delay = el.dataset.index * 150;
       setTimeout(function () {
         Velocity(
-          el,
-          { opacity: 0, height: 0, "margin-bottom": 0 },
+            el,
+            { opacity: 0, height: 0, "margin-bottom": 0 },
 
-          { complete: done }
+            { complete: done }
         );
       }, delay);
     },
@@ -445,7 +463,22 @@ export default {
 @import "@/assets/scss/App.scss";
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
 @import "/assets/plugins/slick/slick.css";
 @import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
+
+.albumItem {
+  width: 20%;
+
+  .albumItem__cover {
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
 </style>

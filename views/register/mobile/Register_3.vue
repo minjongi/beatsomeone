@@ -144,9 +144,9 @@
                     <label for="privacy" class="checkbox" >
                         <input type="checkbox" hidden id="privacy" v-model="isCheckTos" />
                         <span></span> {{ $t('agreeToTermMsg') }}
-                        <a @click="doTermsOfService">{{ $t('termsOfService') }}</a>
+                        <a href="/register/terms" target="_blank">{{ $t('termsOfService') }}</a>
                         &
-                        <a @click="doPrivacyPolicy">{{ $t('privacyPolicy') }}.</a>
+                        <a href="/register/policy" target="_blank">{{ $t('privacyPolicy') }}.</a>
                     </label>
                 </div>
                 <div class="accounts__btnbox border-none">
@@ -210,6 +210,11 @@
                     return false;
                 }
 
+                if(!this.user.password) {
+                    alert(this.$t('typeYourPassword'));
+                    return false;
+                }
+
                 if(this.user.password !== this.passwordVerify) {
                     alert(this.$t('enterSamePassword'));
                     return false;
@@ -247,16 +252,15 @@
             },
             doNext(type) {
                 if(this.doValidation()) {
-                    EventBus.$emit('submit_join_form',this.user);
+                    let userInfo = this.$store.getters.getUserInfo;
+                    userInfo.mem_userid = this.user.username;
+                    userInfo.mem_email = this.user.email;
+                    userInfo.mem_password = this.user.password;
+                    userInfo.mem_type = this.user.type;
+                    this.$store.dispatch('setUserInfo', userInfo);
                     this.$router.push({path: '/4'});
                 }
 
-            },
-            doTermsOfService() {
-                this.$router.push({path: '/TermsOfService'});
-            },
-            doPrivacyPolicy() {
-                this.$router.push({path: '/PrivacyPolicy'});
             },
             validateUsername() {
                 if(!this.user.username) return;

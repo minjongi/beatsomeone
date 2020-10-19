@@ -138,7 +138,7 @@ class Orderlist extends CB_Controller
 		/**
 		 * 게시판 목록에 필요한 정보를 가져옵니다.
 		 */
-		$this->{$this->modelname}->allow_search_field = array('cor_id', 'member.mem_nickname', 'cmall_order.mem_realname', 'member.mem_userid', 'cor_content', 'cor_total_money', 'cor_cash', 'cor_memo', 'cor_admin_memo', 'cor_ip', 'member.mem_id'); // 검색이 가능한 필드
+		$this->{$this->modelname}->allow_search_field = array('cor_id', 'member.mem_nickname', 'member.mem_userid', 'cor_content', 'cor_total_money', 'cor_cash', 'cor_memo', 'cor_admin_memo', 'cor_ip', 'member.mem_id'); // 검색이 가능한 필드
 		$this->{$this->modelname}->search_field_equal = array('member.mem_id', 'cor_total_money', 'cor_cash'); // 검색중 like 가 아닌 = 검색을 하는 필드
 		$this->{$this->modelname}->allow_order_field = array('cor_id', 'cor_approve_datetime'); // 정렬이 가능한 필드
 
@@ -170,14 +170,26 @@ class Orderlist extends CB_Controller
 						$orderdetail[$okey]['itemdetail'] = $itemdetail
 							= $this->Cmall_order_detail_model->get_detail_by_item(element('cor_id', $val), element('cit_id', $oval));
 
-						$orderdetail[$okey]['item']['possible_download'] = 1;
-						if (element('cod_download_days', element(0, $itemdetail))) {
-							$endtimestamp = strtotime(element('cor_approve_datetime', $val))
-								+ 86400 * element('cod_download_days', element(0, $itemdetail));
-							$orderdetail[$okey]['item']['download_end_date'] = $enddate = cdate('Y-m-d', $endtimestamp);
+                        if (element('cor_status', $result['list'][$key]) == '1') {
+                            if (strcasecmp(element('cde_title', element(0, $itemdetail)), "LEASE") == 0) {
+                                if (element('cor_approve_datetime', $result['list'][$key])) {
+                                    $endtimestamp = strtotime(element('cor_approve_datetime', $result['list'][$key]))
+                                        + 86400 * 60;
+                                    $orderdetail[$okey]['item']['download_end_date'] = $enddate
+                                        = cdate('Y-m-d', $endtimestamp);
 
-							$orderdetail[$okey]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
-						}
+                                    $orderdetail[$okey]['item']['possible_download'] = ($enddate >= date('Y-m-d')) ? 1 : 0;
+                                } else {
+                                    $orderdetail[$okey]['item']['possible_download'] = 0;
+                                }
+                            } elseif(strcasecmp(element('cde_title', element(0, $itemdetail)), "STEM") == 0) {
+                                $orderdetail[$okey]['item']['possible_download'] = 1;
+                            } else {
+                                $orderdetail[$okey]['item']['possible_download'] = 0;
+                            }
+                        } else {
+                            $orderdetail[$okey]['item']['possible_download'] = 0;
+                        }
 					}
 				}
 				$result['list'][$key]['orderdetail'] = $orderdetail;
@@ -204,7 +216,7 @@ class Orderlist extends CB_Controller
 		/**
 		 * 쓰기 주소, 삭제 주소등 필요한 주소를 구합니다
 		 */
-		$search_option = array('member.mem_nickname' => '회원명', 'cmall_order.mem_realname' => '회원실명', 'member.mem_userid' => '회원아이디', 'cor_content' => '내용', 'cor_total_money' => '결제금액');
+		$search_option = array('member.mem_nickname' => '회원명', 'member.mem_userid' => '회원아이디', 'cor_content' => '내용', 'cor_total_money' => '결제금액');
 		$view['view']['skeyword'] = ($sfield && array_key_exists($sfield, $search_option)) ? $skeyword : '';
 		$view['view']['search_option'] = search_option($search_option, $sfield);
 		$view['view']['listall_url'] = admin_url($this->pagedir);

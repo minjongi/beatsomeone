@@ -27,16 +27,16 @@
     flex: 1;
 
     .topFive {
-      @include flex($justify: space-between);
+      @include flex();
       .albumItem {
-        padding: 0;
+        //padding: 0;
       }
     }
   }
 
   .col {
     &.name {
-      width: 365px;
+      width: 360px;
       figure {
         margin: 0;
       }

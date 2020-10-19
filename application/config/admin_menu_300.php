@@ -16,6 +16,7 @@ $config['admin_page_menu']['board'] =
 		'__config'					=> array('게시판설정', 'fa-pencil-square-o'),
 		'menu'						=> array(
 			'boards'				=> array('게시판관리', ''),
+            'video'                 => array('영상게시판', ''),
 			'boardgroup'			=> array('게시판그룹관리', ''),
 			'trash'					=> array('휴지통', ''),
 			'trash_comment'			=> array('휴지통', '', 'hide'),

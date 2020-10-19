@@ -30,7 +30,7 @@
                                     {{ currentMusic.name }}
                                 </h3>
                                 <span class="playList__by song-artist">
-                                    {{ currentMusic.artist }}
+                                    by {{ currentMusic.artist }}
                                 </span>
                             </figcaption>
                         </figure>
@@ -79,7 +79,7 @@
                     is_wish: r.item.is_wish,
                     id: r.item.cit_id,
                     name : r.item.cit_name,
-                    artist: r.item.musician,
+                    artist: r.item.mem_nickname,
                     url: `/cmallact/download_sample/${r.item.cde_id}`,
                     cover_art_url: `/uploads/cmallitem/${r.item.cit_file_1}`,
                     isNew : true,
@@ -228,35 +228,5 @@
         wave {
             border-right: 0 !important;
         }
-    }
-
-    .player .player__controller .play-prev {
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        background: url("/assets_m/images/icon/prev.png") no-repeat center;
-        background-size: 100% 100%;
-        opacity: 0.3;
-    }
-    .player .player__controller .play-play-pause {
-        cursor: pointer;
-        width: 50px;
-        height: 50px;
-        background: url("/assets_m/images/icon/pause.png") no-repeat center;
-        background-size: 100% 100%;
-        opacity: 1;
-        margin: 0 5px;
-    }
-    .player .player__controller .play-play-pause.play-paused {
-        background: url("/assets_m/images/icon/play.png") no-repeat center;
-        background-size: 100% 100%;
-    }
-    .player .player__controller .play-next {
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        background: url("/assets_m/images/icon/next.png") no-repeat center;
-        background-size: 100% 100%;
-        opacity: 0.3;
     }
 </style>

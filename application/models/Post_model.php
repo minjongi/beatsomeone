@@ -92,6 +92,7 @@ class Post_model extends CB_Model
 		$this->db->select('post.*, member.mem_id, member.mem_userid, member.mem_nickname, member.mem_icon, member.mem_photo, member.mem_point');
 		$this->db->from($this->_table);
 		$this->db->join('member', 'post.mem_id = member.mem_id', 'left');
+		$this->db->group_by('post.post_num');
 
 		if ($where) {
 			$this->db->where($where);
@@ -174,6 +175,11 @@ class Post_model extends CB_Model
 
 		return $result;
 	}
+	public function get_reply_list($post)
+    {
+        $reply_len = strlen(element('post_reply', $post)) + 1;
+        return $this->get_post_list('', '', ['post_num' => $post['post_num'], 'SUBSTRING(post_reply, ' . $reply_len . ', 1) <>' => '']);
+    }
 
 
 	public function get_notice_list($brd_id = 0, $except_all_notice = '', $sfield = '', $skeyword = '', $sop = 'OR')
@@ -573,4 +579,18 @@ class Post_model extends CB_Model
 		$post_num = $row['post_num'] - 1;
 		return $post_num;
 	}
+
+	public function get_testimonial_list($config)
+    {
+        $limit = element('limit', $config) ? element('limit', $config) : 4;
+        $sql = "select * from cb_post left join cb_board cb on cb_post.brd_id = cb.brd_id left join cb_post_link cpl on cb_post.post_id = cpl.post_id where cb.brd_key = 'video' order by cb_post.post_datetime desc limit ".$limit;
+        $result = $this->db->query($sql)->result_array();
+        foreach ($result as $key => $post) {
+            $post_id = $post['post_id'];
+            $sql = "select * from cb_post_file where post_id=".$post_id;
+            $links = $this->db->query($sql)->result_array();
+            $result[$key]['files'] = $links;
+        }
+        return $result;
+    }
 }

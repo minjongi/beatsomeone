@@ -5,9 +5,9 @@
             <button class="btn btn--glass" onclick='location.href = "/mypage#/list_item"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div class="splitboard">
-            <div class="blue">{{ data.Total }}<span>Total</span></div>
-            <div class="red">{{ data.Selling }}<span>Selling</span></div>
-            <div class="green">{{ data.Pending }}<span>Pending</span></div>
+            <div class="blue">{{ data.total_product_count }}<span>Total</span></div>
+            <div class="red">{{ data.selling_product_count }}<span>Selling</span></div>
+            <div class="green">{{ data.pending_product_count }}<span>Pending</span></div>
         </div>
     </div>
 </template>

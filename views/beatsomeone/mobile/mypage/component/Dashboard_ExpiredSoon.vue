@@ -1,29 +1,30 @@
 <template>
     <div class="title-content">
         <h4 class="title">
-            {{$t('expriedSoon')}}
+            {{$t('expiredSoon')}}
+            <a class="more" href="/mypage#/mybilling">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
 
-        <h3 v-if="data.length === 0">
+        <p v-if="data.length === 0" style="text-align: center; opacity: 0.7">
             {{ $t('dashboard_ExpiredSoon_notexists') }}
-        </h3>
+        </p>
 
 
         <div v-if="data.length > 0" >
             <div class="slide">
-                <div class="n-flex playList" :class="slide_expired == 0 ? 'active' : ''" v-if="slide_expired === 0">
+                <div class="n-flex playList" style="justify-content: center" :class="slide_expired == 0 ? 'active' : ''" v-if="slide_expired === 0">
                     <ul class="itemContainer">
                         <Dashboard_ExpiredSoon_Item :item="data[0]"></Dashboard_ExpiredSoon_Item>
                         <Dashboard_ExpiredSoon_Item :item="data[1]"></Dashboard_ExpiredSoon_Item>
                     </ul>
                 </div>
-                <div class="n-flex playList" :class="slide_expired == 1 ? 'active' : ''" v-if="slide_expired === 1">
+                <div class="n-flex playList" style="justify-content: center" :class="slide_expired == 1 ? 'active' : ''" v-if="slide_expired === 1">
                     <ul class="itemContainer">
                     <Dashboard_ExpiredSoon_Item :item="data[2]"></Dashboard_ExpiredSoon_Item>
                     <Dashboard_ExpiredSoon_Item :item="data[3]"></Dashboard_ExpiredSoon_Item>
                     </ul>
                 </div>
-                <div class="n-flex playList" :class="slide_expired == 2 ? 'active' : ''" v-if="slide_expired === 2">
+                <div class="n-flex playList" style="justify-content: center" :class="slide_expired == 2 ? 'active' : ''" v-if="slide_expired === 2">
                     <ul class="itemContainer">
                     <Dashboard_ExpiredSoon_Item :item="data[4]"></Dashboard_ExpiredSoon_Item>
                     <Dashboard_ExpiredSoon_Item :item="data[5]"></Dashboard_ExpiredSoon_Item>
@@ -36,23 +37,6 @@
                 <div :class="slide_expired == 2 ? 'active' : ''" @click="slide_expired = 2" v-if="data.length > 4"></div>
             </div>
         </div>
-
-<!--        <div class="playList" v-if="data.length === 0">-->
-<!--            <ul class="itemContainer">-->
-<!--                <li class="playList__itembox" >-->
-<!--                    <div class="playList__item playList__item&#45;&#45;title active">-->
-<!--                        <div class="col name">-->
-<!--                            <figure>-->
-<!--                                <figcaption>-->
-<!--                                    <h3 class="playList__title">Not Exists</h3>-->
-<!--                                </figcaption>-->
-<!--                            </figure>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-
     </div>
 </template>
 

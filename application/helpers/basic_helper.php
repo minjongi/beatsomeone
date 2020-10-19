@@ -393,6 +393,18 @@ if ( ! function_exists('required_user_login')) {
 	}
 }
 
+if ( ! function_exists('ajax_required_user_login')) {
+    function ajax_required_user_login($type = '')
+    {
+        $CI =& get_instance();
+        if ($CI->member->is_member() === false) {
+            $this->output->set_status_header('401');
+            return false;
+        }
+        return true;
+    }
+}
+
 
 /**
  * ip 를 정한 형식에 따라 보여주기

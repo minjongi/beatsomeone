@@ -210,12 +210,45 @@ class Findaccount extends CB_Controller
 					$this->cbconfig->item('send_email_findaccount_user_content')
 				);
 
-				$this->email->clear(true);
-				$this->email->from($this->cbconfig->item('webmaster_email'), $this->cbconfig->item('webmaster_name'));
-				$this->email->to($this->input->post('idpw_email'));
-				$this->email->subject($title);
-				$this->email->message($content);
-				$this->email->send();
+//                $this->email->clear(true);
+//                $this->email->from($this->cbconfig->item('webmaster_email'), $this->cbconfig->item('webmaster_name'));
+//                $this->email->to($this->input->post('idpw_email'));
+//                $this->email->subject($title);
+//                $this->email->message($content);
+//                $this->email->send();
+
+                // Load PHPMailer library
+                $this->load->library('phpmailer_lib');
+
+                // PHPMailer object
+                $mail = $this->phpmailer_lib->load();
+
+
+                $mail->setFrom($this->cbconfig->item('webmaster_email'), $this->cbconfig->item('webmaster_name'));
+                $mail->addReplyTo($this->cbconfig->item('webmaster_email'), $this->cbconfig->item('webmaster_name'));
+
+                // Add a recipient
+                $mail->addAddress($this->input->post('idpw_email'));
+
+                // Email subject
+                $mail->Subject = $title;
+
+                // Set email format to HTML
+                $mail->isHTML(true);
+
+                // Email body content
+                $mailContent = $content;
+                $mail->Body = $mailContent;
+
+                // Send email
+                if(!$mail->send()){
+//                    echo 'Message could not be sent.';
+//                    echo 'Mailer Error: ' . $mail->ErrorInfo;
+                    $view['view']['alert_message'] = '이메일을 발송하지 못하였습니다. 메일 설정을 확인하여주세요';
+                }else{
+//                    echo 'Message has been sent';
+                    $view['view']['alert_message'] = '이메일을 발송하였습니다';
+                }
 
 				$view['view']['message'] = $this->input->post('idpw_email') . '로 인증메일이 발송되었습니다. <br />발송된 인증메일을 확인하신 후에 회원님의 정보 확인이 가능합니다';
 

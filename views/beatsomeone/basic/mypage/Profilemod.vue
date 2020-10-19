@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="type"><span>{{$t('userGroup')}}</span></div>
                 <div class="data">
-                   <div class="group_title" :class="groupType">{{ $t(groupType) }}</div>
+                   <div class="group_title">{{ $t(groupType) }}</div>
                 </div>
             </div>
             <div class="row" v-if="isSeller">
@@ -19,7 +19,7 @@
                     <div class="seller_class" :class="sellerClass">{{ sellerClass }}</div>
                 </div>
                 <div class="active">
-                    <button class="btn btn--yellow round">
+                    <button @click="goToUpgrade" class="btn btn--yellow round">
                         Upgrade Now
                     </button>
                 </div>
@@ -28,7 +28,7 @@
             <Profilemod_Email :email="info.mem_email" @updatedEmail="updateEmail"></Profilemod_Email>
             <Profilemod_Password></Profilemod_Password>
 
-            <div class="row">
+            <div class="row" style="align-items: center">
                 <div class="type"><span>{{$t('yourType')}}</span></div>
                 <div class="data">
                     <label for="type1" class="checkbox">
@@ -106,46 +106,44 @@
                 isLogin: false,
                 info: null,
                 csrfHash: null,
-
+                member_group_name: ''
             };
         },
         computed: {
             isCustomer: function () {
-                return this.groupType === 'CUSTOMER';
+                return this.member_group_name === 'buyer';
             },
             isSeller: function () {
-                return this.groupType === 'SELLER';
+                return this.member_group_name.includes('seller');
             },
             groupType: function() {
-                // return 'CUSTOMER';
-                if(this.info) {
-                    return this.info.mem_usertype === '1' ? 'CUSTOMER' : 'SELLER';
-                } else {
-                    return null;
+                if (this.member_group_name === 'buyer') {
+                    return 'customer';
                 }
+                if (this.member_group_name.includes('seller')) {
+                    return 'seller';
+                }
+                return null;
             },
             sellerClass: function() {
-                if(this.info) {
-                    switch (this.info.mem_usertype) {
-                        case '2':
-                            return 'FREE';
-                        case '3':
-                            return 'Platinum';
-                        case '4':
-                            return 'Master';
-                        default:
-                            return null;
+                if (this.member_group_name.includes('seller')) {
+                    if (this.member_group_name.includes('free')) {
+                        return 'FREE';
+                    } else if (this.member_group_name.includes('platinum')) {
+                        return 'Platinum';
+                    } else if (this.member_group_name.includes('master')) {
+                        return 'Master';
                     }
-                } else {
-                    return null;
                 }
+                return '';
             }
         },
         mounted(){
-
+            this.info = window.member;
+            this.member_group_name = window.member_group_name;
         },
         created() {
-            this.fetchInfo();
+            // this.fetchInfo();
         },
         methods:{
             fetchInfo: function () {
@@ -165,7 +163,6 @@
             },
             updateUserInfo() {
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
-                    // alert('변경내용이 저장 되었습니다');
                     alert(this.$t('dashboard_profilemod_save_ok'));
                     EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
                 });
@@ -173,6 +170,9 @@
             moveDashboard() {
               window.location.href = '/mypage';
             },
+            goToUpgrade() {
+                window.location.href = '/mypage/upgrade'
+            }
 
 
         }
@@ -180,7 +180,9 @@
 </script>
 
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+    .data .checkbox {
+        width: 160px;
+    }
 </style>
 

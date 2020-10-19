@@ -13,7 +13,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <?php if (element('meta_author', $layout)) { ?><meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
     <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
     <?php if (element('canonical', $view)) { ?><link rel="canonical" href="<?php echo element('canonical', $view); ?>" /><?php } ?>
-    <meta property="fb:app_id" content="579999516228616"/>
+    <meta property="fb:app_id" content="<?php echo html_escape(element('facebook_app_id', $layout)); ?>"/>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
@@ -69,10 +69,29 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
             wcs_do();
         }
     </script>
+    <script>
+        var member_group_name = "<?php echo element('member_group_name', $view); ?>";
+        var member = <?php echo json_encode($this->member->get_member()); ?>;
+        var is_member = "<?php echo $this->member->is_member() ? '1' : ''; ?>";
+        var is_admin = "<?php echo $this->member->is_admin(); ?>";
+        var cb_board = "<?php echo isset($view) ? element('board_key', $view) : ''; ?>";
+        var cb_board_url = <?php echo ( isset($view) && element('board_key', $view)) ? 'cb_url + "/' . config_item('uri_segment_board') . '/' . element('board_key', $view) . '"' : '""'; ?>;
+        var cb_device_type = "<?php echo $this->cbconfig->get_device_type() === 'mobile' ? 'mobile' : 'desktop' ?>";
+        var cb_csrf_hash = "<?php echo $this->security->get_csrf_hash(); ?>";
+        var cookie_prefix = "<?php echo config_item('cookie_prefix'); ?>";
+        var use_sociallogin_facebook = +"<?php echo $this->cbconfig->item('use_sociallogin_facebook'); ?>";
+        var use_sociallogin_google = +"<?php echo $this->cbconfig->item('use_sociallogin_google'); ?>";
+        var use_sociallogin_twitter = +"<?php echo $this->cbconfig->item('use_sociallogin_twitter'); ?>";
+        var use_sociallogin_naver = +"<?php echo $this->cbconfig->item('use_sociallogin_naver'); ?>";
+        var use_sociallogin_kakao = +"<?php echo $this->cbconfig->item('use_sociallogin_kakao'); ?>";
+        var selectedGroup = null;
+        var billTerm = null;
+    </script>
 
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/assets/fontawesome-pro/css/all.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />
+<!--    <link rel="stylesheet" type="text/css" href="/dist/chunk-common.css" />-->
     <script src="/dist/chunk-common.js?v=<?php echo time(); ?>"></script>
     <script src="/dist/chunk-vendors.js?v=<?php echo time(); ?>"></script>
     <script src="/src/common.js?v=<?php echo time(); ?>"></script>

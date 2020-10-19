@@ -33,6 +33,7 @@
 					<thead>
 						<tr>
 							<th><a href="<?php echo element('cit_key', element('sort', $view)); ?>">상품코드</a></th>
+                            <th>카테고리</th>
 							<th>이미지</th>
 							<th><a href="<?php echo element('cit_name', element('sort', $view)); ?>">트랙명</a></th>
                             <th><a href="<?php echo element('seller_mem_userid', element('sort', $view)); ?>">판매자</a></th>
@@ -52,6 +53,13 @@
 					?>
 						<tr>
 							<td><a href="<?php echo goto_url(cmall_item_url(html_escape(element('cit_key', $result)))); ?>" target="_blank"><?php echo html_escape(element('cit_key', $result)); ?></a></td>
+                            <td style="width:130px;">
+                                <?php foreach (element('category', $result) as $cv) { echo '<label class="label label-info">' . html_escape(element('cca_value', $cv)) . '</label> ';} ?>
+                                <?php if (element('cit_type1', $result)) { ?><label class="label label-danger">추천</label> <?php } ?>
+                                <?php if (element('cit_type2', $result)) { ?><label class="label label-warning">인기</label> <?php } ?>
+                                <?php if (element('cit_type3', $result)) { ?><label class="label label-default">신상품</label> <?php } ?>
+                                <?php if (element('cit_type4', $result)) { ?><label class="label label-primary">할인</label> <?php } ?>
+                            </td>
 							<td>
 								<?php if (element('cit_file_1', $result)) {?>
 									<a href="<?php echo goto_url(cmall_item_url(html_escape(element('cit_key', $result)))); ?>" target="_blank">

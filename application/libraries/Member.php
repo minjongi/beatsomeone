@@ -25,7 +25,7 @@ class Member extends CI_Controller
 	function __construct()
 	{
 		$this->CI = & get_instance();
-		$this->CI->load->model( array('Member_model'));
+		$this->CI->load->model( array('Member_model', 'Social_model'));
 		$this->CI->load->helper( array('array'));
 	}
 
@@ -77,15 +77,22 @@ class Member extends CI_Controller
 		if ($this->is_member()) {
 			if (empty($this->mb)) {
 				$member = $this->CI->Member_model->get_by_memid($this->is_member());
-				$extras = $this->get_all_extras(element('mem_id', $member));
-				if (is_array($extras)) {
-					$member = array_merge($member, $extras);
-				}
+//				$extras = $this->get_all_extras(element('mem_id', $member));
+//				if (is_array($extras)) {
+//					$member = array_merge($member, $extras);
+//				}
 				$metas = $this->get_all_meta(element('mem_id', $member));
 				if (is_array($metas)) {
 					$member = array_merge($member, $metas);
 				}
 				$member['social'] = $this->get_all_social_meta(element('mem_id', $member));
+				foreach ($member['social'] as $key => $item) {
+				    if (!empty($item)) {
+				        $soc_type = substr($key, 0, -3);
+				        $result = $this->CI->Social_model->item($soc_type, $item, 'update_datetime');
+				        $member['social'][$soc_type . '_update_datetime'] = $result;
+                    }
+                }
 				$this->mb = $member;
 			}
 			return $this->mb;
@@ -145,7 +152,7 @@ class Member extends CI_Controller
 				'mem_id' => $this->item('mem_id'),
 			);
 			$this->CI->load->model('Member_group_member_model');
-			$this->member_group = $this->CI->Member_group_member_model->get('', '', $where, '', 0, 'mgm_id', 'ASC');
+			$this->member_group = $this->CI->Member_group_member_model->get_with_group($this->item('mem_id'));
 		}
 		return $this->member_group;
 	}
@@ -244,7 +251,7 @@ class Member extends CI_Controller
 				'Member_level_history_model', 'Member_login_log_model', 'Member_meta_model',
 				'Member_register_model', 'Notification_model', 'Point_model',
 				'Scrap_model', 'Social_meta_model',
-				'Tempsave_model', 'Member_userid_model',
+				'Tempsave_model',
 			)
 		);
 
@@ -270,8 +277,6 @@ class Member extends CI_Controller
 		$this->CI->Scrap_model->delete_where($deletewhere);
 		$this->CI->Social_meta_model->delete_where($deletewhere);
 		$this->CI->Tempsave_model->delete_where($deletewhere);
-
-		$this->CI->Member_userid_model->update($mem_id, array('mem_status' => 1));
 
 		return true;
 	}

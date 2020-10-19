@@ -3,24 +3,30 @@
     <div class="row" style="margin-bottom:30px;">
       <div class="title-content">
         <div class="title">
-          <div>{{$t('orderDetail')}}</div>
+          <div>{{ $t('orderDetail') }}</div>
         </div>
       </div>
       <div class="main__media board inquirylist">
         <div class="tab" style="height:48px; justify-content:flex-start;">
           <div>
-            <div class="title">{{$t('orderNumber')}}</div>
-            <div>{{ no }}</div>
+            <div class="title">{{ $t('orderNumber') }}</div>
+            <div>{{ order.cor_id }} <span v-if="order.is_test === '1'">(테스트결제)</span></div>
           </div>
           <div>
-            <div class="title">{{$t('date')}}</div>
-            <div>{{ cor_datetime }}</div>
+            <div class="title">{{ $t('date') }}</div>
+            <div>{{ order.cor_datetime }}</div>
           </div>
           <div>
-            <div class="title">{{$t('status')}}</div>
-            <div
-              :class="{ 'green': cor_status === '0', 'blue': cor_status === '1', 'red': cor_status === '2' }"
-            >{{ $t(funcStatus(cor_status)) }}</div>
+            <div class="title">{{ $t('status') }}</div>
+            <div v-if="order.cor_status === '1'" :class="{'green': downloadStatus === 1, 'blue': downloadStatus === 0}">
+              {{ $t('orderComplete') }}
+            </div>
+            <div v-else-if="order.cor_status === '2'" class="red">
+              {{ $t('orderCancel') }}
+            </div>
+            <div v-else class="yellow">
+              {{ $t('deposit') }}
+            </div>
           </div>
         </div>
       </div>
@@ -30,228 +36,15 @@
       <div class="title-content">
         <div class="title">
           <div>
-            <span class="yellow">{{ myOrderList.length }}</span>
-            {{$t('orderedItems')}}
+            <span class="yellow">{{ orderItems.length }}</span>
+            {{ $t('orderedItems') }}
           </div>
         </div>
       </div>
 
       <div class="playList productList orderlist" style="margin-top:10px;">
         <ul>
-          <li
-            v-for="(item, i) in myOrderList"
-            v-bind:key="item.order.cor_id + item.order.cit_id"
-            class="playList__itembox"
-            :id="'playList__item'+ item.order.cor_id + item.order.cit_id"
-          >
-            <div class="playList__item playList__item--title other">
-              <div class="col name">
-                <figure>
-                  <span class="playList__cover">
-                    <img
-                      v-if="!item.order.Item.cit_file_1"
-                      :src="'/assets/images/cover_default.png'"
-                      alt
-                    />
-                    <img v-else :src="'/uploads/cmallitem/' + item.order.Item.cit_file_1" alt />
-                    <i v-show="checkToday(item.order.cor_datetime)" class="label new">N</i>
-                  </span>
-                  <figcaption class="pointer">
-                    <div class="info">
-                      <div class="code">{{ item.order.Item.cit_key }}</div>
-                    </div>
-                    <h3 class="playList__title" v-html="formatCitName(item.order.Item.cit_name,50)"></h3>
-                    <span class="playList__by">{{ item.order.Item.mem_nickname }}</span>
-                    <span
-                      v-if="item.order.Item.bpm > 0"
-                      class="playList__bpm"
-                    >{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }} | {{ item.order.Item.bpm }}BPM</span>
-                    <span
-                      v-else
-                      class="playList__bpm"
-                    >{{ getGenre(item.order.Item.genre, item.order.Item.subgenre) }}</span>
-                  </figcaption>
-                </figure>
-              </div>
-              <div class="col n-option" style="height: auto;">
-                <div class="feature">
-                  <div class="listen">
-                    <div class="playbtn">
-                      <button
-                        class="btn-play"
-                        @click="playAudio(item.order.Item, $event)"
-                        :data-action="'playAction' + item.order.Item.cit_id "
-                      >재생</button>
-                      <span class="timer">
-                        <span data-v-27fa6da0 class="current">0:00 /</span>
-                        <span class="duration">0:00</span>
-                      </span>
-                    </div>
-                  </div>
-                  <!--
-                                    <div class="amount">
-                                        <img src="/assets/images/icon/cd.png"/><div><span>{{ item.cde_quantity }}</span> left</div>
-                  </div>-->
-                </div>
-
-                <!-- Option -->
-                <div class="option">
-                  <!-- BASIC LEASE LICENSE -->
-                  <!-- UNLIMITED STEMS LICENSE -->
-                  <div
-                    class="n-box"
-                    v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                  >
-                    <div>
-                      <button class="playList__item--button">
-                        <span class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton" />
-                        </span>
-                        <div>
-                          <div class="title" @click.self="toggleButton">{{$t('lang23')}}</div>
-                          <div class="detail">{{$t('lang24')}}</div>
-                        </div>
-                      </button>
-
-                      <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
-                    </div>
-                    <div
-                      class="price yellow"
-                    >{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, item.order.cor_memo) }}</div>
-                  </div>
-                  <!-- BASIC LEASE LICENSE -->
-                  <!-- UNLIMITED STEMS LICENSE -->
-                  <!--
-                                    <div class="n-box" v-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' ">
-                                        {{$t('lang30')}}
-                                        <div>
-                                            <button class="playList__item--button" >
-                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/></span>
-                                                <div>
-                                                    <div class="title" @click.self="toggleButton">{{$t('lang30')}}</div>
-                                                    <div class="detail">{{$t('lang31')}}</div>
-                                                </div>
-                                            </button>
-                                            <div class="option_item unlimited">
-                                                <div> <img src="/assets/images/icon/parchase-info4.png"><span>{{$t('unlimited1')}}</span></div>
-                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> {{$t('unlimitedMsg1')}} </span> </div>
-                                                <div> <img src="/assets/images/icon/parchase-info4.png"> <span> {{$t('unlimitedMsg2')}} </span> </div>
-                                            </div>
-                                        </div>
-                                        <div class="price">{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, true) }}</div>
-                  </div>-->
-                  <!-- BASIC LEASE LICENSE -->
-                  <div
-                    class="n-box"
-                    v-else-if="item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '0'"
-                  >
-                    <div>
-                      <button class="playList__item--button">
-                        <span class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton" />
-                        </span>
-                        <div>
-                          <div class="title" @click.self="toggleButton">{{$t('lang23')}}</div>
-                          <div class="detail">{{$t('lang24')}}</div>
-                        </div>
-                      </button>
-                      <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
-                    </div>
-                    <div
-                      class="price yellow"
-                    >{{ formatPrice(item.order.Item.cde_price, item.order.Item.cde_price_d, item.order.cor_memo) }}</div>
-                  </div>
-
-                  <!-- UNLIMITED STEMS LICENSE -->
-                  <div
-                    class="n-box"
-                    v-else-if="item.order.Item.cit_mastering_license_use === '1' && item.order.Item.cit_lease_license_use === '0'"
-                  >
-                    <div>
-                      <button class="playList__item--button">
-                        <span class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton" />
-                        </span>
-                        <div>
-                          <div
-                            class="title"
-                            @click.self="toggleButton"
-                          >{{$t('lang30')}}</div>
-                          <div class="detail">{{$t('lang31')}}</div>
-                        </div>
-                      </button>
-                      <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
-                    </div>
-                    <div
-                      class="price yellow"
-                    >{{ formatPrice(item.order.Item.cde_price_2, item.order.Item.cde_price_d_2, item.order.cor_memo) }}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col edit">
-                <button
-                  v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0"
-                  @click="downloadWithAxios(item.order.Item.cde_filename, cor_status, item.order.Item)"
-                  class="btn-edit"
-                >
-                  <img src="/assets/images/icon/down.png" />
-                </button>
-                <button
-                  v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                  class="btn-edit unable"
-                >
-                  <img src="/assets/images/icon/down.png" />
-                </button>
-                <button
-                  v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                  @click="downloadWithAxios(item.order.Item.cde_filename_2, cor_status, item.order.Item)"
-                  class="btn-edit"
-                >
-                  <img src="/assets/images/icon/down.png" />
-                </button>
-                <button v-else class="btn-edit unable">
-                  <img src="/assets/images/icon/down.png" />
-                </button>
-
-                <div
-                  class="download_status"
-                  :class="getDownStatusColor(cor_status, item.order.Item)"
-                >{{ $t(funcDownStatus(cor_status, item.order.Item)) }}</div>
-
-                <div
-                  v-if="cor_status === '1' && caclLeftDay(item.order.cor_approve_datetime) > 0"
-                  class="download_period"
-                >
-                  <span>
-                    {{ caclLeftDay(item.order.cor_approve_datetime) }} {{$t('daysLeft')}}
-                    <br />
-                    (~ {{ caclTargetDay(item.order.cor_approve_datetime) }})
-                  </span>
-                </div>
-                <div
-                  v-else-if="cor_status === '1' && item.order.Item.cit_lease_license_use === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                  class="download_period"
-                >
-                  <span class="gray">(~ {{ caclTargetDay(item.order.cor_approve_datetime) }})</span>
-                </div>
-                <div
-                  v-else-if="cor_status === '1' && item.order.Item.cit_mastering_license_use === '1' "
-                  class="download_period"
-                >
-                  <span></span>
-                </div>
-                <div v-else-if="cor_status === '0' " class="download_period">
-                  <span></span>
-                </div>
-                <div v-else class="download_period">
-                  <span class="gray">(~ {{ caclTargetDay(item.order.cor_approve_datetime) }})</span>
-                </div>
-
-                <!-- <div class="download_period">40 {{$t('daysLeft')}}<br/>(~2020.06.24 12:30:34)</div> -->
-              </div>
-              <div class="col genre" v-html="calcTag(item.order.Item.hashTag)"></div>
-            </div>
-          </li>
+          <OrderDetailItem v-for="(item, idx) in orderItems" :cor_id="cor_id" :item="item" v-bind:key="idx" :pg="order.cor_pg" />
         </ul>
       </div>
     </div>
@@ -259,9 +52,9 @@
     <div class="row">
       <div class="title-content">
         <p>
-          ※- {{$t('downloadNotAvailableWhenDepositMsg')}}
-          <br />
-          ※- {{$t('downloadAvailable60Msg')}}
+          ※- {{ $t('downloadNotAvailableWhenDepositMsg') }}
+          <br/>
+          ※- {{ $t('downloadAvailable60Msg') }}
         </p>
       </div>
     </div>
@@ -270,848 +63,218 @@
       <div class="payment_box" style="padding-top:0; margin-top:0; border:0;">
         <div class="tab">
           <div>
-            <div class="title">{{$t('payMethod1')}}</div>
-            <div>{{ payType }}</div>
+            <div class="title">{{ $t('payMethod1') }}</div>
+            <div>{{ $t(order.cor_pg) }}</div>
           </div>
           <div>
-            <div class="title">{{$t('payMethodDetail')}}</div>
-            <div>{{ cor_pg }}</div>
+            <div class="title">{{ $t('payMethodDetail') }}</div>
+            <div>{{ $t(paymentMethod) }}</div>
           </div>
           <div>
-            <div class="title">{{$t('paySubtotal')}}</div>
-            <div>{{ totalPrice }}</div>
+            <div class="title">{{ $t('paySubtotal') }}</div>
+            <div>{{ formatPr(order.cor_pg, order.cor_cash_request) }}</div>
           </div>
           <div>
-            <div class="title">{{$t('usePoints')}}</div>
-            <div>0 P</div>
+            <div class="title">{{ $t('usePoints') }}</div>
+            <div v-if="order.cor_point">{{ order.cor_point }} P</div>
+            <div v-else>0 P</div>
           </div>
           <div class="total">
-            <div>{{$t('payTotal')}}</div>
-            <div>{{ totalPrice }}</div>
+            <div>{{ $t('payTotal') }}</div>
+            <div>{{ formatPr(order.cor_pg, order.cor_total_money - order.cor_point) }}</div>
           </div>
         </div>
       </div>
       <p class="desc">
-        <img src="/assets/images/icon/info_blue.png" />
+        <img src="/assets/images/icon/info_blue.png"/>
         <span v-html="descNoti"></span>
       </p>
     </div>
 
     <div class="btnbox col" style="width:50%; margin:0 auto 100px;">
-      <button class="btn btn--gray" @click="goPage('mybilling')">{{$t('backToList')}}</button>
-      <button v-if="cor_status==='1'" type="submit" class="btn btn--submit">{{$t('requestRefund')}}</button>
+      <button class="btn btn--gray" @click="goPage('mybilling')">{{ $t('backToList') }}</button>
+      <button v-if="order.cor_status ==='1'" @click="toggleRefundModalOpen" type="submit" class="btn btn--submit">
+        {{ $t('requestRefund') }}
+      </button>
     </div>
-    <div class="panel" :class="{ 'active': reqref === 1 }">
-      <div class="popup" style="width:1110px; display:none;">
-        <div class="box" style="padding-bottom:50px;">
-          <div class="title">CHANGE PASSWORD</div>
-          <div class="tab">
-            <div>
-              <div class="title">{{$t('no')}}</div>
-              <div>Order_099</div>
-            </div>
-            <div>
-              <div class="title">{{$t('date')}}</div>
-              <div>0000-00-00 00:00:00</div>
-            </div>
-            <div>
-              <div class="title">{{$t('status')}}</div>
-              <div class="blue">{{$t('orderComplete')}}</div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="title-content">
-              <div class="title">
-                <label for="checkAll" class="checkbox" style="margin-left:20px;">
-                  <input
-                    type="checkbox"
-                    hidden="hidden"
-                    id="checkAll"
-                    v-model="checkedAll"
-                    @change="setCheckAll"
-                  />
-                  <span></span>
-                  <div style="font-weight:600">{{$t('selectAll')}} (0/4)</div>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="playList productList cart">
-              <ul>
-                <li class="playList__itembox">
-                  <div class="playList__item playList__item--title">
-                    <div class="col check">
-                      <label for="item1" class="checkbox">
-                        <input type="checkbox" hidden="hidden" id="item1" />
-                        <span></span>
-                      </label>
-                    </div>
-                    <div class="col name" style="margin-top:0">
-                      <figure>
-                        <span class="playList__cover">
-                          <img src="/assets/images/cover_default.png" alt />
-                          <i ng-if="item.isNew" class="label new">N</i>
-                        </span>
-                        <figcaption class="pointer">
-                          <h3 class="playList__title">Mickey (Buy 1 Get 3 Free)</h3>
-                          <span class="playList__by">( Bpm )</span>
-                        </figcaption>
-                      </figure>
-                    </div>
-                    <div class="col option">
-                      <div>
-                        <button class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" />
-                        </button>
-                        <div>
-                          <div class="title">{{$t('lang23')}}</div>
-                          <div class="detail">{{$t('lang24')}}</div>
-                        </div>
-                      </div>
-                      <div class="option_item">
-                        <div>
-                          <img src="/assets/images/icon/parchase-info1.png" />
-                          <span>{{$t('available60Days')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info2.png" />
-                          <span>{{$t('unableToEditArbitrarily')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info3.png" />
-                          <span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info5.png" />
-                          <span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col feature">
-                      <div class="price">$ 10.00</div>
-                    </div>
-                  </div>
-                </li>
-                <li class="playList__itembox">
-                  <div class="playList__item playList__item--title">
-                    <div class="col check">
-                      <label for="item1" class="checkbox">
-                        <input type="checkbox" hidden="hidden" id="item1" />
-                        <span></span>
-                      </label>
-                    </div>
-                    <div class="col name" style="margin-top:0">
-                      <figure>
-                        <span class="playList__cover">
-                          <img src="/assets/images/cover_default.png" alt />
-                          <i ng-if="item.isNew" class="label new">N</i>
-                        </span>
-                        <figcaption class="pointer">
-                          <h3 class="playList__title">Mickey (Buy 1 Get 3 Free)</h3>
-                          <span class="playList__by">( Bpm )</span>
-                        </figcaption>
-                      </figure>
-                    </div>
-                    <div class="col option">
-                      <div>
-                        <button class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" />
-                        </button>
-                        <div>
-                          <div class="title">{{$t('lang23')}}</div>
-                          <div class="detail">{{$t('lang24')}}</div>
-                        </div>
-                      </div>
-                      <div class="option_item">
-                        <div>
-                          <img src="/assets/images/icon/parchase-info1.png" />
-                          <span>{{$t('available60Days')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info2.png" />
-                          <span>{{$t('unableToEditArbitrarily')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info3.png" />
-                          <span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info5.png" />
-                          <span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col feature">
-                      <div class="price">$ 10.00</div>
-                    </div>
-                  </div>
-                </li>
-                <li class="playList__itembox">
-                  <div class="playList__item playList__item--title">
-                    <div class="col check">
-                      <label for="item1" class="checkbox">
-                        <input type="checkbox" hidden="hidden" id="item1" />
-                        <span></span>
-                      </label>
-                    </div>
-                    <div class="col name" style="margin-top:0">
-                      <figure>
-                        <span class="playList__cover">
-                          <img src="/assets/images/cover_default.png" alt />
-                          <i ng-if="item.isNew" class="label new">N</i>
-                        </span>
-                        <figcaption class="pointer">
-                          <h3 class="playList__title">Mickey (Buy 1 Get 3 Free)</h3>
-                          <span class="playList__by">( Bpm )</span>
-                        </figcaption>
-                      </figure>
-                    </div>
-                    <div class="col option">
-                      <div>
-                        <button class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" />
-                        </button>
-                        <div>
-                          <div class="title">{{$t('lang23')}}</div>
-                          <div class="detail">{{$t('lang24')}}</div>
-                        </div>
-                      </div>
-                      <div class="option_item">
-                        <div>
-                          <img src="/assets/images/icon/parchase-info1.png" />
-                          <span>{{$t('available60Days')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info2.png" />
-                          <span>{{$t('unableToEditArbitrarily')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info3.png" />
-                          <span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info5.png" />
-                          <span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col feature">
-                      <div class="price">$ 10.00</div>
-                    </div>
-                  </div>
-                </li>
-                <li class="playList__itembox">
-                  <div class="playList__item playList__item--title">
-                    <div class="col check">
-                      <label for="item1" class="checkbox">
-                        <input type="checkbox" hidden="hidden" id="item1" />
-                        <span></span>
-                      </label>
-                    </div>
-                    <div class="col name" style="margin-top:0">
-                      <figure>
-                        <span class="playList__cover">
-                          <img src="/assets/images/cover_default.png" alt />
-                          <i ng-if="item.isNew" class="label new">N</i>
-                        </span>
-                        <figcaption class="pointer">
-                          <h3 class="playList__title">Mickey (Buy 1 Get 3 Free)</h3>
-                          <span class="playList__by">( Bpm )</span>
-                        </figcaption>
-                      </figure>
-                    </div>
-                    <div class="col option">
-                      <div>
-                        <button class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" />
-                        </button>
-                        <div>
-                          <div class="title">{{$t('lang23')}}</div>
-                          <div class="detail">{{$t('lang24')}}</div>
-                        </div>
-                      </div>
-                      <div class="option_item">
-                        <div>
-                          <img src="/assets/images/icon/parchase-info1.png" />
-                          <span>{{$t('available60Days')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info2.png" />
-                          <span>{{$t('unableToEditArbitrarily')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info3.png" />
-                          <span>{{$t('rentedMembersCannotBeRerentedToOthers')}}</span>
-                        </div>
-                        <div>
-                          <img src="/assets/images/icon/parchase-info5.png" />
-                          <span>{{$t('noOtherActivitiesNotAuthorizedByThePlatform')}}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col feature">
-                      <div class="price">$ 10.00</div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="tab" style="margin-top:30px; margin-bottom:10px;">
-            <div>
-              <div class="title">Total Refund</div>
-              <div class="yellow" style="font-weight:600">$ 20.00</div>
-            </div>
-            <div>
-              <div class="title">Points to be Refunded</div>
-              <div>
-                <div class="yellow" style="font-weight:600; margin-right:10px;">1500 P</div>
-                <div class="gray">
-                  (Used Point
-                  <span class="yellow">3,000P</span>)
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col" style="margin:0">
-            <div class="title-content" style="margin:0;">
-              <div class="title"></div>
-              <p style="margin:0">
-                - Returned points will be returned / paid depending on the number of products requested for cancellation if there are any points used in ordering.
-                <br />- In the case of a full cancellation, the return points will be returned as the amount of points used for payment.
-              </p>
-            </div>
-          </div>
-
-          <div class="btnbox" style="text-align:center;">
-            <button
-              type="submit"
-              class="btn btn--yellow"
-              style="width:208px"
-              onclick="reqref = 1"
-            >Request Fund</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="popup" :class="{ 'active': reqref === 1 }" style="width:1110px;">
-        <div class="box" style="padding-bottom:50px;">
-          <div class="title" style="margin-bottom:30px;">{{$t('requestRefund')}}</div>
-          <div class="row" style="margin-bottom:30px;">
-            <div class="type"></div>
-            <div class="data">
-              <div class="result">
-                <div>
-                  <img src="/assets/images/icon/check-circle.png" />
-                </div>
-                <div>
-                  <div class="title">Your refund request has been completed.</div>
-                  <div
-                    class="desc"
-                  >Please let us know the reason for the refund and we will process it after confirmation.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="type">
-              <span>Reason *</span>
-            </div>
-            <div class="data">
-              <div class="sort" style="display:flex; margin-left:0; flex-flow:row nowrap">
-                <div class="custom-select">
-                  <button class="selected-option" style="min-width: 224px;">Select your reason</button>
-                  <div class="options">
-                    <button data-value class="option">Selecting the wrong beat</button>
-                    <button data-value class="option">No intention to purchase</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="type">
-              <span>Description *</span>
-            </div>
-            <div class="data">
-              <textarea
-                class="firstname"
-                type="text"
-                placeholder="Write your description for refund requesting..."
-              ></textarea>
-            </div>
-            <div></div>
-          </div>
-
-          <div class="btnbox" style="text-align:center;">
-            <button
-              type="submit"
-              class="btn btn--yellow"
-              style="width:208px"
-              @click="reqref = 0"
-            >Request Complete</button>
-          </div>
-        </div>
-      </div>
-      <div id="playerContainer" class="hidden"></div>
-    </div>
+    <RefundModal ref="refundModal" :order="order" :items="orderItems" v-if="isRefundModalOpen && order.cor_status === '1'" @dismissModal="doDismissModal"
+                 @submitModal="doSubmitModal"/>
+    <RefundMemoModal :cor_id="cor_id" v-if="isMemoModalOpen" @dismissModal="doDismissModal2" @submitModal="doSubmitModal2" />
     <main-player></main-player>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import moment from "moment";
 import $ from "jquery";
 import MainPlayer from "@/vue/common/MainPlayer";
-import { EventBus } from "*/src/eventbus";
-import WaveSurfer from "wavesurfer.js";
 import ParchaseComponent from "./component/Parchase";
+import RefundModal from "./RefundModal";
+import OrderDetailItem from "./OrderDetailItem";
+import RefundMemoModal from "./RefundMemoModal";
 
 export default {
   components: {
     MainPlayer,
     ParchaseComponent,
+    OrderDetailItem,
+    RefundMemoModal,
+    RefundModal,
   },
   data: function () {
     return {
-      cid: "",
-      no: "",
-      isLogin: false,
-      cor_datetime: "",
-      cor_approve_datetime: "",
-      cor_status: "",
-      cor_pg: "",
-      mem_photo: "",
-      mem_usertype: "",
-      mem_nickname: "",
-      mem_address1: "",
-      mem_type: "",
-      mem_lastname: "",
-      group_title: "SELLER",
-      product_status: "PENDING",
-      myOrderList: [],
-      checkedAll: [],
+      checkedAll: false,
       reqref: 0,
-      isPlay: false,
-      currentPlayId: null,
       wavesurfer: null,
       payType: "",
       totalPrice: "",
+      order: {},
       descNoti: "",
+      orderItems: [],
+      total_refunds: 0,
+      selectedCount: 0,
+      description: '',
+      isRefundModalOpen: false,
+      isMemoModalOpen: false,
+      cor_id: ''
     };
   },
   mounted() {
-    // 커스텀 셀렉트 옵션
-    $(".custom-select").on("click", function () {
-      $(this)
-        .siblings(".custom-select")
-        .removeClass("active")
-        .find(".options")
-        .hide();
-      $(this).toggleClass("active");
-      $(this).find(".options").toggle();
-    });
+    this.cor_id = this.$route.params.cor_id;
+    axios.get(`/cmall/ajax_orderresult/${this.cor_id}`)
+        .then(res => res.data)
+        .then(data => {
+          this.order = data.data;
+          this.orderItems = data.orderdetail;
+          this.orderItems.forEach(item => {
+            if (item.item.cit_type3 === '0') {
+              this.$set(item.item, 'is_new', false);
+              let now = new Date();
+              let startDateTime = new Date(item.item.cit_start_datetime);
+              if ((now - startDateTime) < 1000 * 3600 * 24 * 7) this.$set(item.item, 'is_new', true);
+            } else if (item.item.cit_type3 === '1') {
+              this.$set(item.item, 'is_new', true);
+            }
+          })
+          this.funcDesc();
+        })
+        .catch(error => {
+          console.error(error);
+        })
   },
   created() {
-    this.getParam();
-    this.ajaxOrderList().then(() => {});
   },
   methods: {
-    async ajaxOrderList() {
-      try {
-        this.isLoading = true;
-        var param = new FormData();
-        param.append("cid", JSON.stringify(this.cid));
-        const { data } = await axios.post(
-          "/beatsomeoneApi/user_order_Detail",
-          param,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        this.myOrderList = data.result;
-
-        this.cor_datetime = this.myOrderList[0].order.cor_datetime;
-        this.cor_approve_datetime = this.myOrderList[0].order.cor_approve_datetime;
-        this.cor_status = this.myOrderList[0].order.cor_status;
-        this.payType = this.$t(
-          this.formPayType(this.myOrderList[0].order.cor_pay_type)
-        );
-        this.totalPrice = this.formatTotalPrice(
-          this.myOrderList[0].order.cor_total_money,
-          this.myOrderList[0].order.cor_memo
-        );
-        this.cor_pg = this.myOrderList[0].order.cor_pg;
-        this.funcDesc();
-      } catch (err) {
-        console.log("ajaxOrderList error");
-      } finally {
-        this.isLoading = false;
-      }
-    },
-    getParam: function () {
-      this.cid = window.location.hash.split("?")[1].split("&")[0].split("=")[1];
-      this.no = window.location.hash.split("?")[1].split("&")[1].split("=")[1];
-      // let uri = window.location.search.substring(1);
-      // let params = new URLSearchParams(uri);
-      // this.cid = params.get('cid');
-      // this.no = params.get('n');
-    },
-    formPayType: function (pt) {
-      if (pt == 1) {
-        return "creditCard";
-      } else if (pt == 2) {
-        return "realtimeBankTransfer";
-      } else {
-        return "paypal";
-      }
-    },
     goPage: function (page) {
-      window.location.href = "/mypage/" + page;
+      this.$router.push('/' + page);
     },
-    calcSeq: function (size, i) {
-      return parseInt(size) - parseInt(i);
-    },
-    formatCitName: function (data) {
-      var rst;
-      var limitLth = 50;
-      if (limitLth < data.length && data.length <= limitLth * 2) {
-        rst =
-          data.substring(0, limitLth) +
-          "<br>" +
-          data.substring(limitLth, limitLth * 2);
-      } else if (limitLth < data.length && limitLth * 2 < data.length) {
-        rst =
-          data.substring(0, limitLth) +
-          "<br>" +
-          data.substring(limitLth, limitLth * 2) +
-          "...";
+    formatPr: function (m, price) {
+      if (m === 'paypal') {
+        return '$' + this.formatNumberEn(price);
+      } else if (m === 'allat') {
+        return '₩' + this.formatNumber(price);
       } else {
-        rst = data;
-      }
-      return rst;
-    },
-    funcStatus(s) {
-      if (s == "0") {
-        return "depositWaiting";
-      } else if (s == "1") {
-        return "orderComplete";
-      } else {
-        return "refundComplete";
+        return ''
       }
     },
-    setCheckAll: function () {},
-    checkToday: function (date) {
-      const input = new Date(date);
-      const today = new Date();
-      return (
-        input.getDate() === today.getDate() &&
-        input.getMonth() === today.getMonth() &&
-        input.getFullYear() === today.getFullYear()
-      );
+    formatNumber(n) {
+      return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
     },
-    getGenre(g1, g2) {
-      if (this.isEmpty(g2)) {
-        return g1;
-      } else {
-        return g1 + ", " + g2;
+    formatNumberEn(n) {
+      return Number(n).toLocaleString(undefined, {minimumFractionDigits: 2});
+    },
+    funcDesc: function () {
+      if (this.order.status === 'deposit') {
+        this.descNoti =
+            this.$t("depositWaitingStateSupportCaseMenuMsg") +
+            " " +
+            '<a href="/mypage#/inquiry/">' +
+            this.$t("shortcut") +
+            "</a>";
+      } else if (this.order.status === "order") {
+        this.descNoti =
+            "If the download period has , the purchased bit cannot be downloaded";
       }
     },
-    toggleButton: function (e) {
-      if (
-        e.target.parentElement.parentElement.parentElement.parentElement
-          .className == "n-box"
-      ) {
-        e.target.parentElement.parentElement.parentElement.parentElement.className =
-          "n-box active";
-      } else if (
-        e.target.parentElement.parentElement.parentElement.parentElement
-          .className == "n-box active"
-      ) {
-        e.target.parentElement.parentElement.parentElement.parentElement.className =
-          "n-box";
+    toggleRefundModalOpen() {
+      let el = document.body;
+      el.style.overflow = 'hidden'
+      this.isRefundModalOpen = !this.isRefundModalOpen;
+    },
+    doDismissModal() {
+      let el = document.body;
+      el.style.overflow = 'auto'
+      this.isRefundModalOpen = false;
+    },
+    doSubmitModal() {
+      this.isRefundModalOpen = false;
+      this.isMemoModalOpen = true;
+    },
+    doDismissModal2() {
+      let el = document.body;
+      el.style.overflow = 'auto'
+
+      this.isMemoModalOpen = false;
+    },
+    doSubmitModal2() {
+      let el = document.body;
+      el.style.overflow = 'auto'
+
+      this.isMemoModalOpen = false;
+      this.$router.push('/');
+    },
+  },
+  watch: {
+    orderItems: {
+      deep: true,
+      handler(val) {
+        this.selectedCount = 0;
+        this.total_refunds = 0;
+        this.orderItems.forEach(item => {
+          if (item.is_selected === true) {
+            this.selectedCount++;
+            if (this.order.cor_memo === '$') {
+              this.total_refunds += (+item.itemdetail[0].cde_price_d);
+            } else if (this.order.cor_memo === '₩') {
+              this.total_refunds += (+item.itemdetail[0].cde_price);
+            }
+          }
+        })
+        this.checkedAll = this.selectedCount === this.orderItems.length;
+      }
+    }
+  },
+  computed: {
+    paymentMethod() {
+      if (this.order.cor_pay_type === '3D' || this.order.cor_pay_type === 'NOR') {
+        return 'creditCard'
+      } else if (this.order.cor_pay_type === 'ABANK') {
+        return 'realtimeBankTransfer';
+      } else if (this.order.cor_pay_type === 'paypal') {
+        return 'paypal';
       } else {
-        //
+        return '';
       }
     },
-    formatCheck: function (o) {
-      if (this.isEmpty(o)) {
-        return "";
+    downloadStatus() {
+      if (this.orderItems.length > 0) {
+        let status = 0;
+        this.orderItems.forEach(item => {
+          if (item.item.possible_refund === 0) {
+            status = 1;
+            return false;
+          }
+        })
+        return status;
       } else {
         return 0;
       }
-    },
-    formatTotalPrice: function (price, simbol) {
-      if (simbol === "$") {
-        return (
-          "$ " +
-          Number(price).toLocaleString(undefined, { minimumFractionDigits: 2 })
-        );
-      } else {
-        return (
-          "₩ " +
-          Number(price).toLocaleString("ko-KR", { minimumFractionDigits: 0 })
-        );
-      }
-    },
-    formatPrice: function (kr, en, simbol) {
-      if (simbol == "$") {
-        return (
-          "$ " +
-          Number(en).toLocaleString(undefined, { minimumFractionDigits: 2 })
-        );
-      } else {
-        return (
-          "₩ " +
-          Number(kr).toLocaleString("ko-KR", { minimumFractionDigits: 0 })
-        );
-      }
-    },
-    playAudio(i, e) {
-      if (!this.isPlay || this.currentPlayId !== i.cit_id) {
-        if (this.currentPlayId !== i.cit_id) {
-          this.setAudioInstance(i);
-        }
-        this.currentPlayId = i.cit_id;
-        EventBus.$emit("player_request_start", {
-          _uid: this._uid,
-          item: i,
-          ws: this.wavesurfer,
-        });
-        e.target.className = "btn-play playing";
-        this.start();
-      } else {
-        EventBus.$emit("player_request_stop", {
-          _uid: this._uid,
-          item: i,
-          ws: this.wavesurfer,
-        });
-        e.target.className = "btn-play paused";
-        this.stop();
-      }
-    },
-    setAudioInstance(item) {
-      if (!this.wavesurfer) {
-        this.wavesurfer = WaveSurfer.create({
-          container: "#playerContainer",
-          waveColor: "#696969",
-          progressColor: "#c3ac45",
-          hideScrollbar: true,
-          height: 40,
-        });
-      }
-
-      if (item.cde_id) {
-        this.wavesurfer.load(`/cmallact/download_sample/${item.cde_id}`);
-        //this.wavesurfer.load(`/uploads/cmallitemdetail/${item.cde_filename}`);
-      }
-
-      this.wavesurfer.on("ready", () => {
-        this.wavesurfer.play();
-      });
-    },
-    stop() {
-      if (this.wavesurfer) {
-        this.wavesurfer.pause();
-      }
-      this.isPlay = false;
-    },
-    start(isInit) {
-      if (this.wavesurfer) {
-        this.wavesurfer.play();
-      }
-      if (!isInit) {
-        this.isPlay = true;
-      }
-    },
-    isEmpty: function (str) {
-      if (typeof str == "undefined" || str == null || str == "") return true;
-      else return false;
-    },
-    caclLeftDay: function (orderDate) {
-      var tDate = new Date(orderDate);
-      var nDate = new Date();
-      tDate.setDate(tDate.getDate() + 60);
-      var diff = tDate.getTime() - nDate.getTime();
-      diff = Math.ceil(diff / (1000 * 3600 * 24));
-      return diff;
-    },
-    caclTargetDay: function (orderDate) {
-      var tDate = new Date(orderDate);
-      tDate.setDate(tDate.getDate() + 60);
-      return moment(tDate).format("YYYY-MM-DD HH:mm:ss");
-    },
-    productEditBtn: function (key, status) {
-      console.log("productEditBtn:" + key);
-      if (status == 0) {
-        return;
-      } else {
-        window.location.href = "/mypage/regist_item/" + key;
-      }
-    },
-    removeReg: function (val) {
-      const regExp = /[~!@#$%^&*()_+|'"<>?:{}]/;
-      while (regExp.test(val)) {
-        val = val.replace(regExp, "");
-      }
-      return val;
-    },
-    calcTag: function (hashTag) {
-      let rst = "";
-      let tags = hashTag.split(",");
-      for (let i in tags) {
-        rst =
-          rst +
-          "<span><button >" +
-          this.removeReg(tags[i]) +
-          "</button></span>";
-      }
-      return rst;
-    },
-    funcDownStatus: function (status, i) {
-      if (status === "0") {
-        return "unavailable1";
-      } else if (
-        status === "1" &&
-        this.caclLeftDay(this.cor_approve_datetime) > 0
-      ) {
-        if (i.cit_lease_license_use == "1") {
-          return "downloadAvailable";
-        }
-        if (
-          i.cit_mastering_license_use == "0" &&
-          i.cit_mastering_license_use == "1"
-        ) {
-          return "downloadAvailable";
-        }
-      } else if (
-        status === "1" &&
-        i.cit_lease_license_use === "1" &&
-        i.cit_mastering_license_use === "1"
-      ) {
-        return "expried";
-      } else if (status === "1" && i.cit_mastering_license_use === "1") {
-        return "downloadAvailable";
-      } else {
-        return "expried";
-      }
-    },
-    getDownStatusColor: function (status, i) {
-      if (status === "0") {
-        return "red";
-      } else if (
-        status === "1" &&
-        this.caclLeftDay(this.cor_approve_datetime) > 0
-      ) {
-        if (i.cit_lease_license_use == "1") {
-          return "blue";
-        }
-        if (i.cit_lease_license_use == "1") {
-          return "green";
-        }
-        if (i.cit_mastering_license_use == "1") {
-          return "green";
-        }
-      } else if (
-        status === "1" &&
-        i.cit_lease_license_use === "1" &&
-        i.cit_mastering_license_use === "1"
-      ) {
-        return "gray";
-      } else if (status === "1" && i.cit_mastering_license_use === "1") {
-        return "blue";
-      } else {
-        return "gray";
-      }
-    },
-    funcDesc: function () {
-      if (this.cor_status === "0") {
-        this.descNoti =
-          this.$t("depositWaitingStateSupportCaseMenuMsg") +
-          " " +
-          '<a href="/mypage#/inquiry/">' +
-          this.$t("shortcut") +
-          "</a>";
-      } else if (
-        this.cor_status === "1" &&
-        this.caclLeftDay(this.cor_approve_datetime) < 0
-      ) {
-        this.descNoti =
-          "If the download period has , the purchased bit cannot be downloaded";
-      } else {
-        this.descNoti =
-          this.$t("depositWaitingStateSupportCaseMenuMsg") +
-          " " +
-          '<a href="/mypage#/inquiry/">' +
-          this.$t("shortcut") +
-          "</a>";
-      }
-    },
-    forceFileDownload(r, oriname) {
-      const blob = new Blob([r.data], { type: "application/mp3" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = oriname;
-      link.click();
-      URL.revokeObjectURL(link.href);
-    },
-    downloadWithAxios: function (cde_filename, status, i) {
-      console.log("downloadWithAxios");
-      if (
-        !(
-          this.getDownStatusColor(status, i) == "green" ||
-          this.getDownStatusColor(status, i) == "blue"
-        )
-      ) {
-        return;
-      }
-
-      let filename = "";
-      let oriname = "";
-      if (
-        i.cit_lease_license_use == "1" &&
-        i.cit_mastering_license_use == "1"
-      ) {
-        filename = i.cde_filename;
-        oriname = i.cde_originname;
-      } else if (
-        i.cit_lease_license_use == "1" &&
-        i.cit_mastering_license_use == "0"
-      ) {
-        filename = i.cde_filename;
-        oriname = i.cde_originname;
-      } else {
-        filename = i.cde_filename_2;
-        oriname = i.cde_originname_2;
-      }
-      console.log(filename);
-      console.log(oriname);
-
-      axios({
-        method: "get",
-        //url: '/cmallact/download_sample/'+cde_id,
-        url: "/uploads/cmallitemdetail/" + filename,
-        responseType: "arraybuffer",
-      })
-        .then((r) => {
-          this.forceFileDownload(r, oriname);
-        })
-        .catch(() => console.log("error occured"));
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style scoped="scoped" lang="scss">
-@import "/assets/plugins/slick/slick.css";
-@import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
+<style lang="scss">
 .playList__item .n-option .n-box .price {
   color: white;
 }
@@ -1122,9 +285,11 @@ export default {
   margin-top: 20px !important;
   margin-bottom: 0 !important;
 }
-.parchase-description {
+
+.purchase-description {
 }
-.parchase-description p {
+
+.purchase-description p {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1135,10 +300,12 @@ export default {
   margin-bottom: 10px;
   line-height: 20px;
 }
-.parchase-description p:last-child {
+
+.purchase-description p:last-child {
   margin-bottom: 0;
 }
-.parchase-description p i {
+
+.purchase-description p i {
   -webkit-box-flex: 0;
   -ms-flex: none;
   flex: none;
@@ -1148,7 +315,29 @@ export default {
   line-height: 20px;
   height: 20px;
 }
-.parchase-description p {
+
+.purchase-description p {
   margin-bottom: 5px !important;
+}
+
+.payment_box .tab {
+  display: block;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    max-width: unset;
+
+    div:not(.title) {
+      text-align: right;
+      margin-right: unset;
+    }
+  }
+}
+
+.custom-select.modal-select {
+  .options {
+    z-index: 1002;
+  }
 }
 </style>

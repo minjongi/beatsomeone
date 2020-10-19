@@ -5,23 +5,27 @@
             <button class="btn btn--glass" onclick='location.href = "/mypage#/message"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div>
-            <div class="playList">
+            <div v-if="data.length === 0">
+                No messages
+            </div>
+            <div class="playList" v-else>
                 <ul>
-                    <li class="playList__itembox" v-for="(o,index) in data" :key="index">
+                    <li class="playList__itembox" v-for="(message,index) in data" :key="index">
                         <div class="playList__item playList__item--title active">
                             <div class="col name">
                                 <figure>
                                     <span class="playList__cover profile">
-                                        <img :src="'/uploads/member_photo/' + o.mem_photo" :alt="o.mem_name">
+                                        <img v-if="message.mem_photo" :src="message.mem_photo" :alt="message.mem_name">
+                                        <img v-else src="/assets/images/portrait.png">
                                     </span>
                                     <figcaption class="pointer" onclick='location.href = `/mypage#/message/`'>
-                                        <h3 class="playList__title">{{ o.mem_name }}</h3>
-                                        <span class="playList__by date">{{ o.sendDt.date }}</span>
+                                        <h3 class="playList__title">{{ message.mem_nickname }}</h3>
+                                        <span class="playList__by date">{{ message.nte_datetime }}</span>
                                     </figcaption>
                                 </figure>
                             </div>
-                            <div class="action" :class="{'active': o.status === 'unread'}">
-                                {{ $t(o.status) }}
+                            <div class="action" :class="{'active': message.nte_read_datetime }">
+                                {{ message.nte_read_datetime ? $t('read') : $t('unread') }}
                             </div>
                         </div>
                     </li>
@@ -60,6 +64,9 @@
 
 </script>
 
-<style scoped="scoped" lang="sass">
-
+<style scoped="scoped" lang="scss">
+    .playList .playList__item .name figure .playList__cover {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
 </style>

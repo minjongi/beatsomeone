@@ -70,14 +70,20 @@
         data: function() {
             return {
                 user: {},
+                info: {}
             }
         },
         created() {
 
         },
         mounted() {
-
-
+            this.info = JSON.parse(localStorage.getItem('bs_user_info'));
+            console.log(this.info);
+        },
+        computed: {
+            isCustomer: function () {
+                return this.info.group && this.info.group.mgr_title === 'buyer';
+            }
         },
         watch: {
 
@@ -103,7 +109,11 @@
             },
             doNext(type) {
                 if(this.doValidation()) {
-                    EventBus.$emit('submit_join_form',this.user);
+                    let userInfo = this.$store.getters.getUserInfo;
+                    userInfo.mem_firstname = this.user.firstname;
+                    userInfo.mem_lastname = this.user.lastname;
+                    userInfo.mem_address1 = this.user.location;
+                    this.$store.dispatch('setUserInfo', userInfo);
                     this.$router.push({path: '/5'});
                 }else{
                     type.preventDefault();

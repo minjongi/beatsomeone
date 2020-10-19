@@ -7,95 +7,116 @@
         </div>
         <div class="login accounts__defaultLayout">
 
-                <div class="accounts__form">
-                    <div class="row">
-                        <label for="">
-                            <p class="form-title">
-                                {{ $t('introYourself') }}
-                            </p>
-                            <div class="input">
-                                <input
-                                        type="text" v-model="user.introduce"
-                                        :placeholder="$t('introYourself')"
-                                />
-                            </div>
-                        </label>
-                    </div>
-                    <div class="row">
-                        <label for="">
-                            <p class="form-title">
-                                {{ $t('nameOfMyBrandShop') }}
-                            </p>
-                            <div class="input">
-                                <input
-                                        type="text"
-                                        :placeholder="beandshop"
-                                        disabled
-                                />
-                            </div>
-                        </label>
-                    </div>
+            <div class="accounts__form">
+                <div class="row">
+                    <label for="">
+                        <p class="form-title">
+                            {{ $t('introYourself') }} <span class="required">*</span>
+                        </p>
+                        <div class="input">
+                            <input
+                                type="text" v-model="user.introduce"
+                                :placeholder="$t('introYourself')"
+                            />
+                        </div>
+                    </label>
                 </div>
-                <div class="accounts__btnbox">
-                    <button type="submit" class="btn btn--submit" @click="doNext">
-                        {{ $t('signup') }}
-                    </button>
+                <div class="row">
+                    <label for="">
+                        <p class="form-title">
+                            {{ $t('nameOfMyBrandShop') }}
+                        </p>
+                        <div class="input">
+                            <input
+                                type="text"
+                                :placeholder="beandshop"
+                                disabled
+                            />
+                        </div>
+                    </label>
                 </div>
+            </div>
+            <div class="accounts__btnbox">
+                <button type="submit" class="btn btn--submit" @click="doNext">
+                    {{ $t('signup') }}
+                </button>
+            </div>
 
         </div>
     </div>
 </template>
 
 <script>
-    import { EventBus } from '*/src/eventbus';
+import {EventBus} from '*/src/eventbus';
+import axios from "axios";
 
-    export default {
-        data: function() {
-            return {
-                user: {},
+export default {
+    data: function () {
+        return {
+            user: {},
+            info: {}
+        }
+    },
+    computed: {
+        beandshop: function () {
+            return 'https://beatsomeone.com/' + this.user.mem_userid;
+        },
+        isMusician: function () {
+            return this.$parent.info.userType === 'musician';
+        },
+    },
+    created() {
+
+    },
+    mounted() {
+        this.user = this.$store.getters.getUserInfo;
+    },
+    watch: {},
+    methods: {
+        doValidation() {
+
+            if (!this.user.introduce) {
+                alert(this.$t('enterYourSelfIntroduction'));
+                return false;
+            }
+
+            return true;
+        },
+        doNext(type) {
+            if (this.doValidation()) {
+                let userInfo = this.$store.getters.getUserInfo;
+                userInfo.mem_profile_content = this.user.introduce;
+                const group = userInfo.group;
+                let formData = new FormData();
+                formData.append('mem_userid', userInfo.mem_userid);
+                formData.append('mem_nickname', userInfo.mem_userid);
+                formData.append('mem_email', userInfo.mem_email);
+                formData.append('mem_password', userInfo.mem_password);
+                formData.append('mem_firstname', userInfo.mem_firstname || '');
+                formData.append('mem_lastname', userInfo.mem_lastname || '');
+                formData.append('mem_address1', userInfo.mem_address1 || '');
+                formData.append('mem_profile_content', userInfo.mem_profile_content);
+                formData.append('mem_type', userInfo.mem_type);
+                formData.append('mgr_id', userInfo.group.mgr_id);
+
+                axios.post('/register/form', formData)
+                    .then(res => res.data)
+                    .then(data => {
+                        if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
+                            alert(this.$t('successfullyRegistered'));
+                            window.location.href = '/';
+                        } else {
+                            alert('기본 가입은 완료되였으며, 결제 후 회원등급이 적용됩니다.');
+                            window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
             }
         },
-        computed: {
-            beandshop: function() {
-                return 'https://beatsomeone.com/' + this.$parent.info.username;
-            },
-            isMusician: function() {
-                return this.$parent.info.userType === 'musician';
-            },
-        },
-        created() {
-
-        },
-        mounted() {
-
-        },
-        watch: {
-
-        },
-        methods: {
-            doValidation() {
-
-                if(!this.user.introduce) {
-                    alert(this.$t('enterYourSelfIntroduction'));
-                    return false;
-                }
-
-                return true;
-            },
-            doNext(type) {
-                if(this.doValidation()) {
-                    /*
-                    if(!this.isMusician || this.$parent.info.plan === 'free') {
-                        EventBus.$emit('finish_join_form',this.user);
-                    } else {
-                        EventBus.$emit('submit_join_form',this.user);
-                        this.$router.push({path: '/6'});
-                    }*/
-                    EventBus.$emit('finish_join_form',this.user);
-                }
-            },
-        },
-    }
+    },
+}
 </script>
 
 <style lang="scss">

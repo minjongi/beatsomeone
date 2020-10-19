@@ -8,12 +8,12 @@
             <li :class="{'active':current === 'mybilling'}" @click="goRoute('mybilling')">{{$t('orderHistory')}}</li>
             <li :class="{'active':current === 'saleshistory'}" @click="goRoute('saleshistory')" v-show="groupType == 'SELLER'">{{$t('salesHistory')}}</li>
             <li :class="{'active':current === 'message'}" @click="goRoute('message')">{{$t('chat')}}</li>
-            <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-if="false" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
-            <li :class="{'active':current === 'sellerreg'}" @click="goRoute('sellerreg')" v-if="false" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
-            <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')" v-if="false">{{$t('support1')}}
+            <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
+            <li @click="goUpgrade()" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
+            <li :class="{'active':(current === 'inquiry' || current === 'faq')}" @click="openSubmenu($event)">{{$t('support1')}}
                 <ul class="menu">
-                    <li @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
-                    <li @click="goRoute('faq')">FAQ</li>
+                    <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
+                    <li :class="{'active':current === 'faq'}" @click="goRoute('faq')">FAQ</li>
                 </ul>
             </li>
         </ul>
@@ -22,17 +22,15 @@
 
 <script>
     export default {
-        props: ['groupType'],
         data: function () {
             return {
-                current: 'dashboard'
+                current: 'dashboard',
+                member_group_name: ''
             }
         },
         created() {
-            log.debug({
-                'this.$router.currentRoute' : this.$router.currentRoute.path,
-            });
-            this.current = this.parseRoute(this.$router.currentRoute.path)
+            this.current = this.parseRoute(this.$router.currentRoute.path);
+            this.member_group_name = window.member_group_name;
         },
         mounted() {
         },
@@ -55,6 +53,9 @@
                 }
                 this.$router.push({path: p})
             },
+            goUpgrade() {
+                window.location.href = '/mypage/upgrade'
+            },
             parseRoute(r) {
                 let p = null;
                 switch (r) {
@@ -67,6 +68,24 @@
                 }
                 return p
             },
+            openSubmenu($event) {
+                let element = $event.currentTarget;
+                let path = this.parseRoute(this.$router.currentRoute.path);
+                if (path !== 'inquiry' && path !== 'faq') {
+                    this.goRoute('inquiry');
+                }
+            }
         },
+        computed: {
+            groupType() {
+                if (this.member_group_name === 'buyer') {
+                    return 'CUSTOMER';
+                } else if (this.member_group_name.includes('seller')) {
+                    return 'SELLER';
+                } else {
+                    return 'CUSTOMER';
+                }
+            }
+        }
     }
 </script>

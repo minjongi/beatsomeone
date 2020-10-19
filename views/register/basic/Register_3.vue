@@ -121,19 +121,19 @@
                         <p class="form-title">{{ $t('userType') }}</p>
                         <div class="accounts__check">
                             <label for="type1" class="radio">
-                                <input type="radio" id="type1" hidden name="TYPE" @click="user.type = 'Music Lover'" />
+                                <input type="radio" id="type1" hidden name="TYPE" v-model="user.type" v-bind:value="'Music Lover'" />
                                 <span></span> {{ $t('musicLover') }}
                             </label>
                             <label for="type2" class="radio">
-                                <input type="radio" id="type2" hidden name="TYPE" @click="user.type = 'Recording Artist'" />
+                                <input type="radio" id="type2" hidden name="TYPE" v-model="user.type" v-bind:value="'Recording Artist'" />
                                 <span></span> {{ $t('recordingArtist') }}
                             </label>
                             <label for="type3" class="radio">
-                                <input type="radio" id="type3" hidden name="TYPE" @click="user.type = 'Music Producer'" />
+                                <input type="radio" id="type3" hidden name="TYPE" v-model="user.type" v-bind:value="'Music Producer'" />
                                 <span></span> {{ $t('musicProducer') }}
                             </label>
                             <label for="type4" class="radio">
-                                <input type="radio" id="type4" hidden name="TYPE" @click="user.type = 'Artist/Producer'" />
+                                <input type="radio" id="type4" hidden name="TYPE" v-model="user.type" v-bind:value="'Artist/Producer'" />
                                 <span></span> {{ $t('artist') }}/{{ $t('producer') }}
                             </label>
                         </div>
@@ -144,9 +144,9 @@
                     <label for="privacy" class="checkbox" >
                         <input type="checkbox" hidden id="privacy" v-model="isCheckTos" />
                         <span></span> {{ $t('agreeToTermMsg') }}
-                        <a @click="doTermsOfService" target="_blank">{{ $t('termsOfService') }}</a>
+                        <a href="/register/terms" target="_blank">{{ $t('termsOfService') }}</a>
                         &
-                        <a @click="doPrivacyPolicy">{{ $t('privacyPolicy') }}.</a>
+                        <a href="/register/policy" target="_blank">{{ $t('privacyPolicy') }}.</a>
                     </label>
                 </div>
                 <div class="accounts__btnbox border-none">
@@ -168,9 +168,7 @@
 
         data: function() {
             return {
-                user: {
-
-                },
+                user: {},
                 errorValidUserId : null,
                 errorValidEmail : null,
                 isCheckTos: false,
@@ -214,6 +212,11 @@
                     return false;
                 }
 
+                if(!this.user.password) {
+                    alert(this.$t('typeYourPassword'));
+                    return false;
+                }
+
                 if(this.user.password !== this.passwordVerify) {
                     alert(this.$t('enterSamePassword'));
                     return false;
@@ -250,20 +253,18 @@
             },
             doNext(type) {
                 if(this.doValidation()) {
-                    EventBus.$emit('submit_join_form',this.user);
+                    let userInfo = this.$store.getters.getUserInfo;
+                    userInfo.mem_userid = this.user.username;
+                    userInfo.mem_email = this.user.email;
+                    userInfo.mem_password = this.user.password;
+                    userInfo.mem_type = this.user.type;
+                    this.$store.dispatch('setUserInfo', userInfo);
                     this.$router.push({path: '/4'});
                 }
 
             },
-            doTermsOfService() {
-                let routeData = this.$router.resolve({path: '/TermsOfService'});
-                window.open(routeData.href, '_blank');
-            },
-            doPrivacyPolicy() {
-                //this.$router.push({path: '/PrivacyPolicy'});
-                let routeData = this.$router.resolve({path: '/PrivacyPolicy'});
-                window.open(routeData.href, '_blank');
-
+            openPage(path) {
+                window.open(path, '_blank')
             },
             validateUsername() {
                 if(!this.user.username) return;

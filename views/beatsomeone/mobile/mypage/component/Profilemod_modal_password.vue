@@ -1,7 +1,7 @@
 <template>
-    <div class="panel">
-        <div class="popup active" style="width:560px;">
-            <div class="box" style="padding-bottom:50px;">
+    <div class="modal">
+        <div class="modal__content">
+            <div class="modal__body" style="padding-bottom:50px;">
                 <div class="title">{{$t('changePassword')}}</div>
                 <p>※ {{$t('passwordCharactersMsg')}}</p>
                 <div class="col">

@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Header :is-login="isLogin" />
+    <Header />
 
     <div class="container sub">
       <div class="sublist">
@@ -149,7 +149,7 @@
                   <button class="albumItem__cover">
                     <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name" />
                   </button>
-                  <a href="#//" class="albumItem__link">
+                  <a href="javascript:;" class="albumItem__link">
                     <h4 class="albumItem__title">{{ i.cit_name }}</h4>
                     <p class="albumItem__singer">{{ i.mem_nickname }}</p>
                   </a>
@@ -494,7 +494,22 @@ export default {
 @import "@/assets/scss/App.scss";
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
 @import "/assets/plugins/slick/slick.css";
 @import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
+
+  .albumItem {
+    width: 20%;
+
+    .albumItem__cover {
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 </style>

@@ -4,9 +4,9 @@
             {{$t('orderDetails')}}
         </h4>
         <div class="n-flex splitboard">
-            <div class="blue">{{ buyCnt }}<span>{{$t('buy')}}</span></div>
-            <div class="red">{{ cancelCnt }}<span>{{$t('cancel1')}}</span></div>
-            <div class="green">{{ refundCnt }}<span>{{$t('refund')}}</span></div>
+            <div class="green">{{ data.order_deposit_count }}<span>{{$t('waitingDeposit')}}</span></div>
+            <div class="blue">{{ data.order_order_count }}<span>{{$t('buy')}}</span></div>
+            <div class="red">{{ data.order_cancel_count }}<span>{{$t('cancel1')}}</span></div>
         </div>
     </div>
 </template>
@@ -24,23 +24,6 @@
             }
         },
         computed: {
-            buyCnt() {
-                // return this.data ? _.find(this.data,r => { return r.cod_status === 'deposit'}).cnt : 0;
-                if(!this.data) return 0;
-                const p = _.find(this.data,r => { return r.cod_status === 'deposit'});
-                return p ? (p.cnt) : 0;
-            },
-            cancelCnt() {
-                if(!this.data) return 0;
-                const p = _.find(this.data,r => { return r.cod_status === 'cancel'});
-                return p ? (p.cnt) : 0;
-            },
-            refundCnt() {
-                // return this.data ? _.find(this.data,r => { return r.cod_status === 'refund'}).cnt : 0;
-                if(!this.data) return 0;
-                const p = _.find(this.data,r => { return r.cod_status === 'refund'});
-                return p ? (p.cnt) : 0;
-            },
         },
         created() {
         },

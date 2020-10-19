@@ -1,12 +1,12 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>{{$t('expriedSoon')}} </div>
-            <button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
+            <div>{{$t('expiredSoon')}} </div>
+            <button @click="goOrderPage" class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
 
-        <h3 v-if="data.length === 0">
-            {{ $t('dashboard_ExpiredSoon_notexists') }}
+        <h3 v-if="data.length === 0" style="text-align: center">
+            {{ $t('dashboard_ExpiredSoon_noexists') }}
         </h3>
 
         <div v-if="data.length > 0" >
@@ -78,7 +78,9 @@
 
         },
         methods: {
-
+            goOrderPage() {
+                this.$router.push('/mybilling');
+            }
         },
 
     }

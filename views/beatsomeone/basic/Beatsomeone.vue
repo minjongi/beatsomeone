@@ -94,8 +94,7 @@
                                 <div class="slider">
                                     <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
                                     <div v-for="(i,index) in listTrending" :key="index"
-                                         class="trending__slide-item albumItem"
-                                         :onclick="`window.vm.$children[0].selectItem('${i.cit_key}')`">
+                                         class="trending__slide-item albumItem" @click="goToDetail(i.cit_key)">
 
                                         <button class="albumItem__cover">
                                             <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
@@ -120,48 +119,18 @@
                                 <p>{{ $t('bestTeamMember') }}</p>
                             </article>
                             <article class="testimonials__lists">
-                                <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/0gGCw6CNQ6U" target="_blank">
+                                <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
+                                    <a :href="post.pln_url" target="_blank">
                                         <div class="img">
                                             <img
-                                                    src="@/assets/images/testimonials/testimonials_004.png"
+                                                    :src="'/uploads/post/' + post.files[0].pfi_filename"
                                                     alt=""
                                             />
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>
-                                            <h3>작사·작곡·편곡·보컬 모두 소화 가능한 만능 뮤지션</h3>
-                                            <p>by CHORDA</p>
-                                        </figcaption>
-                                    </a>
-                                </figure>
-                                <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/pCzTJXycusQ" target="_blank">
-                                        <div class="img">
-                                            <img
-                                                    src="@/assets/images/testimonials/testimonials_005.png"
-                                                    alt=""
-                                            />
-                                            <button class="card--testimonials_play"></button>
-                                        </div>
-                                        <figcaption>
-                                            <h3>재즈힙합을 사랑하는 자유로운 영혼의 소유자</h3>
-                                            <p>by SEORILLA</p>
-                                        </figcaption>
-                                    </a>
-                                </figure>
-                                <figure class="card card--testimonials">
-                                    <a href="https://youtu.be/iB9A5UJo3L8" target="_blank">
-                                        <div class="img">
-                                            <img
-                                                    src="@/assets/images/testimonials/testimonials_006.png"
-                                                    alt=""
-                                            />
-                                            <button class="card--testimonials_play"></button>
-                                        </div>
-                                        <figcaption>
-                                            <h3>실력파 프로듀서에서, 첫 싱글음반 '핑계'를 발매</h3>
-                                            <p>by 김달란</p>
+                                            <h3>{{ post.post_title }}</h3>
+                                            <p>by {{ post.post_nickname }}</p>
                                         </figcaption>
                                     </a>
                                 </figure>
@@ -194,7 +163,8 @@
 
     require('@/assets/js/function')
 
-    import $ from "jquery"
+    import $ from "jquery";
+    import axios from 'axios';
     import Header from "./include/Header"
     import Footer from "./include/Footer"
     import Index_Items from "./Index_Items"
@@ -211,9 +181,9 @@
                 userInfo: null,
                 isLogin: false,
                 init: {},
-                list: null,
+                list: [],
                 listTrending: null,
-                listTestimonials: null,
+                listTestimonials: [],
                 currentGenre: 'All Genre',
                 listGenre: ['All Genre'].concat(window.genre), // .concat(['Free Beats'])
                 listSort: window.sortItem,
@@ -229,7 +199,9 @@
                     sort: 'Sort By Staff Picks',
                     bpm: {t: 'BPM', v: null},
                 },
-                videoBGPath: ''
+                videoBGPath: '',
+                member: null,
+                member_group_name: ''
             }
         },
         mounted() {
@@ -278,7 +250,7 @@
             this.getTrendingList()
 
             // Testimonials List
-            // this.getTestimonialsList()
+            this.getTestimonialsList()
 
             // Amplitude.init({
             //     "songs": this.listPlayer,
@@ -288,7 +260,12 @@
             //     }
             // })
 
-            this.endVideoBG()
+            this.endVideoBG();
+
+            this.member = window.member;
+            this.member_group_name = window.member_group_name;
+
+            console.log(this.$store.getters.getCartSum);
         },
         computed: {
             listSortParamName() {
@@ -383,9 +360,10 @@
                 })
             },
             getTestimonialsList() {
-                Http.get(`/beatsomeoneApi/main_testimonials_list`).then(r => {
-                    this.listTestimonials = r.data
-                })
+                axios.get('/beatsomeoneApi/main_testimonials_list')
+                    .then(res => res.data)
+                    .then(data => this.listTestimonials = data)
+                    .catch(error => console.error(error))
             },
             beforeEnter: function (el) {
                 el.style.opacity = 0
@@ -414,23 +392,15 @@
             moveAction(o) {
                 let url = null;
                 // 로그인시
-                if(this.userInfo) {
+                if(this.member) {
                     switch(o) {
                         case 'startSelling': {
-                            switch (this.userInfo.mem_usertype) {
-                                case '1':
-                                    url = '/mypage/sellerreg';
-                                    break;
-                                case '2':
-                                    url = '/mypage/regist_item';
-                                    break;
-                                case '3':
-                                    url = '/mypage/regist_item';
-                                    break;
-                                case '4':
-                                    url = '/mypage/regist_item';
-                                    break;
-
+                            if (this.member_group_name === 'buyer') {
+                                url = '/mypage/upgrade';
+                            } else if (this.member_group_name.includes('seller')) {
+                                url = '/mypage/regist_item';
+                            } else {
+                                url = '/mypage/upgrade';
                             }
                             break;
                         }
@@ -444,6 +414,9 @@
                 // 이동
                 window.location.href = url;
             },
+            goToDetail(cit_key) {
+                window.location.href = '/beatsomeone/detail/' + cit_key;
+            }
 
         },
 
@@ -457,12 +430,25 @@
 
 </style>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped" lang="scss">
     @import '/assets/plugins/slick/slick.css';
     @import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
 
     .startSelling {
         cursor: pointer;
+    }
+
+    .card.card--testimonials .img {
+        position: relative;
+        height: 230px;
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+        }
     }
 
 </style>

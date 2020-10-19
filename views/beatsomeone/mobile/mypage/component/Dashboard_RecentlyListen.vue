@@ -8,16 +8,16 @@
             {{ $t('dashboard_RecentlyListen_notexists') }}
         </h3>
 
-        <div class="n-flex topFive recentListen">
-            <div class="trending__slide-item albumItem" v-for="(o,index) in data" :key="index">
-                <a :href="'/beatsomeone/detail/'+o.cit_key">
+        <div v-else class="n-flex topFive recentListen">
+            <div class="trending__slide-item albumItem" v-for="(citem,index) in data" :key="index">
+                <a :href="'/beatsomeone/detail/'+citem.cit_key">
                 <button class="albumItem__cover">
-                    <img  :src="'/uploads/cmallitem/' + o.coverImg" :alt="o.cit_name" />
+                    <img class="coverImg" :src="citem.cit_file_1 ? ('/uploads/cmallitem/' + citem.cit_file_1) : '/assets/images/cover_default.png'" :alt="citem.cit_name" />
                 </button>
                 </a>
-                <a :href="'/beatsomeone/detail/'+o.cit_key" class="albumItem__link">
-                    <h4 class="albumItem__title">{{ o.cit_name }}</h4>
-                    <p class="albumItem__singer">{{ o.musician }}</p>
+                <a :href="'/beatsomeone/detail/'+citem.cit_key" class="albumItem__link">
+                    <h4 class="albumItem__title">{{ truncate(citem.cit_name, 10) }}</h4>
+                    <p class="albumItem__singer">by {{ citem.mem_nickname }}</p>
                 </a>
             </div>
         </div>
@@ -43,7 +43,9 @@
 
         },
         methods: {
-
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+            },
         },
 
     }

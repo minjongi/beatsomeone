@@ -105,5 +105,11 @@
 </script>
 
 <style scoped="scoped" lang="scss">
+    .input_wrap {
+        align-items: flex-start;
+    }
 
+    .caution {
+        width: 102%;
+    }
 </style>

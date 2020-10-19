@@ -42,7 +42,7 @@ class BeatsomeoneApi extends CB_Controller
     public function main_list($genre = '')
     {
 
-        $this->load->model('Beatsomeone_model');
+        $this->load->model(array('Beatsomeone_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
 
         // DB Querying (장르별 Top 5)
         $config = array(
@@ -54,6 +54,14 @@ class BeatsomeoneApi extends CB_Controller
             'voice' => $this->input->get('voice'),
         );
         $result = $this->Beatsomeone_model->get_main_list($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+            $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
+            $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+            foreach ($itemdetails as $itemdetail) {
+                $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+            }
+        }
         $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
@@ -102,13 +110,13 @@ class BeatsomeoneApi extends CB_Controller
     public function main_trending_list()
     {
 
-        $this->load->model('Beatsomeone_model');
+        $this->load->model('Cmall_item_model');
 
-        // DB Querying (Trending)
         $config = array(
+            'cit_type2' => '1',
             'limit' => '10',
         );
-        $result = $this->Beatsomeone_model->get_main_trending_list($config);
+        $result = $this->Cmall_item_model->get_latest($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -118,13 +126,13 @@ class BeatsomeoneApi extends CB_Controller
     public function main_testimonials_list()
     {
 
-        $this->load->model('Beatsomeone_model');
+        $this->load->model('Post_model');
 
         // DB Querying (Trending)
         $config = array(
             'limit' => '3',
         );
-        $result = $this->Beatsomeone_model->get_main_trending_list($config);
+        $result = $this->Post_model->get_testimonial_list($config);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -133,7 +141,7 @@ class BeatsomeoneApi extends CB_Controller
     // sublist 목록 조회
     public function sublist_list()
     {
-        $this->load->model('Beatsomeone_model');
+        $this->load->model(array('Beatsomeone_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
 
         $config = array(
             'limit' =>  $this->input->post('limit') ,
@@ -151,6 +159,14 @@ class BeatsomeoneApi extends CB_Controller
         );
 
         $result = $this->Beatsomeone_model->get_sublist_list($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+            $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
+            $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+            foreach ($itemdetails as $itemdetail) {
+                $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+            }
+        }
         $result = $this->filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
@@ -215,21 +231,43 @@ class BeatsomeoneApi extends CB_Controller
     // detail similar tracks 조회
     public function detail_similartracks_list($cit_id = '')
     {
-        $this->load->model('Beatsomeone_model');
+        $mem_id = $this->member->item('mem_id') | 0;
 
+        $sql = "SELECT *
+        FROM cb_cmall_item cci
+            LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id WHERE cci.cit_id = ?";
+        $product = $this->db->query($sql, [$cit_id])->row_array();
+        $hash_tag_string = $product['cim_value'];
+        $hash_tags = explode(",", $hash_tag_string);
+        $where = "";
+        foreach ($hash_tags as $idx => $hash_tag) {
+            if ($idx == 0) {
+                $where = "(cim_value LIKE '%,".$hash_tag. ",%' OR cim_value LIKE '".$hash_tag. ",%' OR cim_value LIKE '%,".$hash_tag. "')";
+            } else {
+                $where .= " OR (cim_value LIKE '%,".$hash_tag. ",%' OR cim_value LIKE '".$hash_tag. ",%' OR cim_value LIKE '%,".$hash_tag. "')";
+            }
+        }
+        $where = "WHERE (".$where.") AND cci.cit_id != ?";
 
-        $config = array(
-            'limit' =>  $this->input->post('limit') ,
-            'offset' =>  $this->input->post('offset') ,
-            'cit_id' => $cit_id,
-            'mem_id' => $this->member->item('mem_id'),
-        );
-        log_message('debug','$cit_id : ' . $cit_id);
-        log_message('debug','$CONFIG : ' . print_r($config,true));
-        $result = $this->Beatsomeone_model->get_relation_list($config);
+        $sql = "SELECT cci.*, cm.mem_nickname, ccim.cim_value as hashTag, IF(cwi_id > 0, TRUE, FALSE) as is_wish
+                FROM cb_cmall_item cci
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id
+                    LEFT JOIN cb_cmall_wishlist ccw on cci.cit_id = ccw.cit_id AND ccw.mem_id = ?
+                    LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
+                     " . $where;
+        $similar_products = $this->db->query($sql, [$mem_id, $cit_id])->result_array();
+        foreach ($similar_products as $idx => $product) {
+            $sql_detail = "SELECT * FROM cb_cmall_item_detail WHERE cit_id = ?";
+            $details = $this->db->query($sql_detail, [$product['cit_id']])->result_array();
+            $details2 = array();
+            foreach ($details as $idx2 => $detail) {
+                $details2[$detail['cde_title']] = $detail;
+            }
+            $similar_products[$idx]['detail'] = $details2;
+        }
 
         $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
+        $this->output->set_output(json_encode($similar_products));
     }
 
     // 음반 기타정보 조회
@@ -256,16 +294,30 @@ class BeatsomeoneApi extends CB_Controller
             return;
         }
 
+        $mem_id = $this->member->item('mem_id');
 
-        $this->load->model('Beatsomeone_model');
+        $sql = "SELECT cci.*, ccim7.cim_value hashTag, ccim1.cim_value genre, ccim4.cim_value subgenre, ccim2.cim_value bpm, cm.mem_nickname 
+                FROM cb_cmall_item cci 
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim7 on cci.cit_id = ccim7.cit_id
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_1') as ccim1 on cci.cit_id = ccim1.cit_id
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_2') as ccim2 on cci.cit_id = ccim2.cit_id
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_4') as ccim4 on cci.cit_id = ccim4.cit_id
+                    LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
+                WHERE cci.mem_id = ?";
+        $products = $this->db->query($sql, [$mem_id])->result_array();
 
-        $config = array(
-            'mem_id' => $this->member->item('mem_id'),
-        );
-        $result = $this->Beatsomeone_model->get_user_regist_item_list($config);
+        foreach ($products as $idx => $product) {
+            $sql_detail = "SELECT * FROM cb_cmall_item_detail WHERE cit_id = ?";
+            $details = $this->db->query($sql_detail, [$product['cit_id']])->result_array();
+            $details2 = array();
+            foreach ($details as $idx2 => $detail) {
+                $details2[$detail['cde_title']] = $detail;
+            }
+            $products[$idx]['detail'] = $details2;
+        }
 
         $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($result));
+        $this->output->set_output(json_encode($products));
     }
 
     // mypage 음원 조회
@@ -352,10 +404,10 @@ class BeatsomeoneApi extends CB_Controller
         $this->load->model('Beatsomeone_model');
 
         // 비로그인 사용자 거부
-        if(!$this->member->item('mem_id')) {
-            $this->output->set_status_header('412');
-            return;
-        }
+//        if(!$this->member->item('mem_id')) {
+//            $this->output->set_status_header('412');
+//            return;
+//        }
 
 
         $updatedata = array(
@@ -696,16 +748,21 @@ class BeatsomeoneApi extends CB_Controller
 //
 //        $vs = $this->cmalllib->get_my_cart(1000);
         $s = 0;
+        $s_d = 0;
         foreach($result as $v) {
 //            log_message('debug','ITEM : '. print_r($v,true));
             $s += element('cit_price', $v);
 
             foreach (element('detail', $v) as $d) {
                 $s += element('cde_price', $d);
+                $s_d += element('cde_price_d', $d);
 //                log_message('debug','DETAIL : '. print_r($d,true));
             }
         }
-        echo json_encode($s);
+        echo json_encode([
+            's' => $s,
+            's_d' => $s_d
+        ]);
         return false;
     }
     
@@ -1607,12 +1664,26 @@ class BeatsomeoneApi extends CB_Controller
         }
 
         $result = $this->chk_product_reg_limit_proc($memId);
-        if ($result === true) {
+//        if ($result === true) {
             $result = ['status' => 'possible', 'msg' => 'possible', 'msgCode' => ''];
-        } else {
-            $msgCode = 'registrationLimitExceededMsg' . (($result === false) ? '' : $result['limitCnt']);
-            $result = ['status' => 'limited', 'msg' => 'limited', 'msgCode' => $msgCode];
-        }
+//        } else {
+//            $msgCode = 'registrationLimitExceededMsg' . (($result === false) ? '' : $result['limitCnt']);
+//            $result = ['status' => 'limited', 'msg' => 'limited', 'msgCode' => $msgCode];
+//        }
+//        $member = $this->member->get_member();
+//
+//        if ($member) {
+//            $member_group = $this->member->group();
+//            if ($member_group && is_array($member_group)) {
+//
+//                $this->load->model('Member_group_model');
+//
+//                foreach ($member_group as $gkey => $gval) {
+//                    $item = $this->Member_group_model->item(element('mgr_id', $gval));
+//                }
+//            }
+//        }
+        // TODO: Seller Free limit
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -1735,5 +1806,14 @@ class BeatsomeoneApi extends CB_Controller
 
         $this->load->model('Beatsomeone_model');
         $resut = $this->Beatsomeone_model->chk_membership_purchase_promotion($this->member->item('mem_id'));
+    }
+
+    public function get_banner()
+    {
+        $result = banner('mobile');
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode([
+            'content' => $result
+        ]));
     }
 }
