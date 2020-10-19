@@ -4,8 +4,8 @@
 <?php if($this->member->is_member()) { ?>
 <?php $this->managelayout->add_script('window.vm.$children[0].$data.isLogin = !!'. $this->member->is_member() .';'); ?>
 <?php } ?>
-<?php $this->managelayout->add_script('window.vm.$children[0].$data.param.search = "'.$_GET['search'].'"'); ?>
-<?php $this->managelayout->add_script('window.vm.$children[0].$data.brand = '.json_encode($view['brand'])); ?>
+<?php $this->managelayout->add_script('window.vm.$children[0].$data.param.search = "'.$_GET['search'].'";'); ?>
+<?php $this->managelayout->add_script('window.vm.$children[0].$data.brand = '.json_encode($view['brand']).';'); ?>
 <?php if($_GET['genre']) { ?>
-<?php $this->managelayout->add_script('window.vm.$children[0].$data.param.currentGenre = "'.$_GET['genre'].'"'); ?>
+<?php $this->managelayout->add_script('window.vm.$children[0].$data.param.currentGenre = "'.$_GET['genre'].'";'); ?>
 <?php } ?>

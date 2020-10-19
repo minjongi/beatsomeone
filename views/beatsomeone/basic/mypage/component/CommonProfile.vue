@@ -24,7 +24,7 @@
                     <div>{{ member.mem_address1 }}</div>
                 </div>
                 <div class="brandshop">
-                    <img class="shop" src="/assets/images/icon/shop.png"/><a :href="'/brand/' + info.mem_nickname">{{ $t('goToBrandshop') }} ></a>
+                    <img class="shop" src="/assets/images/icon/shop.png"/><a :href="'/brandshop/' + member.mem_nickname">{{ $t('goToBrandshop') }} ></a>
                 </div>
             </div>
         </div>
