@@ -169,12 +169,8 @@
             font-size: 14px;
             font-weight: 600;
             color: white;
-            overflow: hidden;
-            height: 18px;
             line-height: 18px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            word-break: break-all;
             margin-bottom: 10px;
         }
         .desc {
@@ -182,9 +178,7 @@
             font-weight: normal;
             color: rgba(white,.7);
             line-height: 15px;
-            height: 30px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            word-break: break-all;
         }
     }
     .sns-box {

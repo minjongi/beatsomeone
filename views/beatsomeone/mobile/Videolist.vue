@@ -7,7 +7,7 @@
                         <div class="videolist">
                             <div class="head">
                                 <div class="block" v-if="posts.length > 0">
-                                    <div>
+                                    <div @click="$router.push('/' + posts[0].post_id)">
                                         <img :src="posts[0].thumb_url"/>
                                         <div class="play">
                                             <img src="/assets/images/icon/hover_play.png">
@@ -16,14 +16,14 @@
                                     <router-link :to="posts[0].post_id">
                                         <div class="text">
                                             <div class="title">{{ posts[0].post_title }}</div>
-                                            <div v-html="posts[0].post_content" class="desc">
+                                            <div v-html="posts[0].post_content" class="desc" style="text-overflow: ellipsis;">
                                             </div>
                                         </div>
                                     </router-link>
                                 </div>
                                 <template v-if="posts.length > 1">
                                     <div class="block" v-for="(post, index) in posts" v-bind:key="post.post_id" v-if="index > 0">
-                                        <div>
+                                        <div @click="$router.push('/' + post.post_id)">
                                             <img :src="post.thumb_url" />
                                             <div class="play">
                                                 <img src="/assets/images/icon/hover_play.png">
@@ -149,6 +149,14 @@
 
 <style lang="scss">
     @import '@/assets_m/scss/App.scss';
+
+    .desc {
+        p {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
 </style>
 
 <style scoped="scoped" lang="scss">
