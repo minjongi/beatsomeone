@@ -155,6 +155,7 @@ class BeatsomeoneApi extends CB_Controller
             'moods' =>  $this->input->post('moods') ,
             'trackType' =>  $this->input->post('trackType') ,
             'mem_id' => $this->member->item('mem_id'),
+            'brand_mem_id' => $this->input->post('brand_mem_id'),
         );
 
         $result = $this->Beatsomeone_model->get_sublist_list($config);

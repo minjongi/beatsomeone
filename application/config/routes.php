@@ -88,3 +88,5 @@ $route['board_info/(:any)'] = "board_info/index/$1";
 
 $route[config_item('uri_segment_cmall_item') . '/([a-zA-Z0-9_-]+)'] = "cmall/item/$1";
 $route[config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmall/ajax_item/$1";
+
+$route['brandshop/(:any)'] = "brandshop/shop/$1";
