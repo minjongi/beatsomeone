@@ -230,9 +230,14 @@ class Beatsomeone_model extends CB_Model
         $bpmTo = element('bpmTo', $config);
         $moods = element('moods', $config);
         $trackType = element('trackType', $config);
+        $brandMemId = element('brand_mem_id', $config);
 
         $where['cit_status'] = 1;
         $this->db->where('cit_start_datetime <= now()');
+
+        if (!empty($brandMemId)) {
+            $where['cb_cmall_item.mem_id'] = $brandMemId;
+        }
 
         // search
         if ($search) {
