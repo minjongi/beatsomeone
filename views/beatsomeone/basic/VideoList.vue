@@ -7,7 +7,7 @@
                         <div class="gallery-box">
                             <img :src="posts[0].thumb_url" class="post-thumbnail" @click="$router.push('/' + posts[0].post_id)" />
                             <router-link :to="posts[0].post_id">
-                                <h5 class="post-title-h4" style="word-break: break-all;">{{ posts[0].post_title }}</h5>
+                                <h5 class="post-title-h4" style="text-overflow: ellipsis;overflow: hidden;">{{ posts[0].post_title }}</h5>
                                 <div v-html="posts[0].post_content" class="post-content">
                                 </div>
                             </router-link>
@@ -133,6 +133,9 @@
         .post-title {
             font-size: 1.2rem;
             margin-bottom: 7px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .post-title-h4 {
@@ -142,6 +145,13 @@
 
         .post-content {
             opacity: 0.7;
+            word-break: keep-all;
+
+            p {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         a {
