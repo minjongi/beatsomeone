@@ -33,7 +33,7 @@
                     <div>
                         <div class="category">Attachment</div>
                         <div class="flie_list">
-                            <button class="btn--file" v-for="file in files" v-bind:key="file.pfi_id">
+                            <button class="btn--file" v-for="file in files" v-bind:key="file.pfi_id" @click="downloadAxios(file)">
                                 <img src="/assets/images/icon/file.png"/>
                                 <span>{{ file.pfi_originname }}</span>
                             </button>
@@ -162,6 +162,24 @@
             goBack() {
                 this.$router.go(-1);
             },
+            downloadAxios(file) {
+
+                axios({
+                    method: "get",
+                    url: `/uploads/post/${file.pfi_filename}`,
+                    responseType: "blob",
+                })
+                    .then((response) => {
+                        const url = window.URL.createObjectURL(new Blob([response.data]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', file.pfi_originname);
+                        document.body.appendChild(link);
+                        link.click();
+                    })
+                    .catch((error) => console.error(error));
+                console.log(file);
+            }
         },
     }
 </script>

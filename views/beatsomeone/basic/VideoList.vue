@@ -5,9 +5,9 @@
                 <div class="row">
                     <div class="col-8" v-if="posts.length > 0">
                         <div class="gallery-box">
-                            <img :src="posts[0].thumb_url" class="post-thumbnail" />
+                            <img :src="posts[0].thumb_url" class="post-thumbnail" @click="$router.push('/' + posts[0].post_id)" />
                             <router-link :to="posts[0].post_id">
-                                <h5 class="post-title-h4">{{ posts[0].post_title }}</h5>
+                                <h5 class="post-title-h4" style="word-break: break-all;">{{ posts[0].post_title }}</h5>
                                 <div v-html="posts[0].post_content" class="post-content">
                                 </div>
                             </router-link>
@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-4">
                         <div class="gallery-box" v-if="posts.length > 1">
-                            <img :src="posts[1].thumb_url" class="post-thumbnail" />
+                            <img :src="posts[1].thumb_url" class="post-thumbnail" @click="$router.push('/' + posts[1].post_id)" />
                             <router-link :to="posts[1].post_id">
                                 <h5 class="post-title">{{ posts[1].post_title }}</h5>
                                 <div v-html="posts[1].post_content" class="post-content">
@@ -23,7 +23,7 @@
                             </router-link>
                         </div>
                         <div class="gallery-box" v-if="posts.length > 2">
-                            <img :src="posts[2].thumb_url" class="post-thumbnail" />
+                            <img :src="posts[2].thumb_url" class="post-thumbnail" @click="$router.push('/' + posts[2].post_id)" />
                             <router-link :to="posts[2].post_id">
                                 <h5 class="post-title">{{ posts[2].post_title }}</h5>
                                 <div v-html="posts[2].post_content" class="post-content">
@@ -35,10 +35,10 @@
             </div>
         </div>
         <div class="list-section">
-            <div class="container">
+            <div class="container" style="padding-top: 0;">
                 <div class="row" v-if="posts.length > 3">
                     <div class="col-4" v-for="(post, index) in posts" v-bind:key="post.post_id" v-if="index > 2">
-                        <div class="gallery-box">
+                        <div class="gallery-box" @click="$router.push('/' + post.post_id)">
                             <img :src="post.thumb_url" class="post-thumbnail" />
                             <router-link :to="post.post_id">
                                 <h5 class="post-title">{{ post.post_title }}</h5>

@@ -80,11 +80,13 @@
     .post-title {
         font-size: 1.5rem;
         margin-bottom: 30px;
+        word-break: break-all;
     }
 
     .post-content {
         opacity: 0.7;
         margin-bottom: 50px;
+        word-break: break-all;
     }
 
     .video {
