@@ -2128,7 +2128,7 @@ class Cmall extends CB_Controller
             return false;
         }
 
-        $this->load->model(array('Cmall_cart_model', 'Cmall_order_model', 'Cmall_item_detail_model'));
+        $this->load->model(array('Cmall_cart_model', 'Cmall_order_model', 'Cmall_item_detail_model', 'Member_group_member_model'));
         $where = array();
         $where['cmall_cart.mem_id'] = $mem_id;
         $findex = 'cmall_item.cit_id';
@@ -2439,8 +2439,6 @@ class Cmall extends CB_Controller
             $cartorder = $this->Cmall_cart_model->get('', '', $cwhere);
             if ($cartorder) {
                 foreach ($cartorder as $key => $val) {
-                    $item = $this->Cmall_item_model
-                        ->get_one(element('cit_id', $val), 'cit_download_days');
                     $item_detail = $this->Cmall_item_detail_model->get_one(element('cde_id', $val));
                     $cde_price = intval($item_detail['cde_price']);
                     $cde_price_d = floatval($item_detail['cde_price_d']);
@@ -2449,6 +2447,8 @@ class Cmall extends CB_Controller
                     } else {
                         $item_point = round($cde_price_d / $item_cct_price_d * $cor_point);
                     }
+                    $member_group = $this->Member_group_member_model->get_with_group($item_detail['mem_id']);
+
                     $insertdetail = array(
                         'cor_id' => $cor_id,
                         'mem_id' => $mem_id,
@@ -2457,6 +2457,7 @@ class Cmall extends CB_Controller
                         'cod_count' => element('cct_count', $val),
                         'cod_status' => $od_status,
                         'cod_point' => $item_point,
+                        'cod_seller_usertype' => element('mgr_id', $member_group[0])
                     );
                     $this->Cmall_order_detail_model->insert($insertdetail);
                     $deletewhere = array(
