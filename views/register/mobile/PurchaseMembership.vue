@@ -172,7 +172,7 @@
                     buyer_nm: "",
                     recp_nm: "",
                     recp_addr: "",
-                    shop_receive_url: 'https://qa.beatsomeone.com/pg/allat/proc',
+                    shop_receive_url: 'https://beatsomeone.com/pg/allat/proc',
                     test_yn: "N",
                     card_yn: "Y",
                     bank_yn: "N",
