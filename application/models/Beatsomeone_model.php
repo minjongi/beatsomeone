@@ -64,19 +64,13 @@ class Beatsomeone_model extends CB_Model
         }
 
         $where['cmall_item.cit_type1'] = 1;
-        $this->db->order_by('RAND()', 'desc');
 
-        // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
-        if(!$sort || $sort == 'Sort By Staff Picks') {
-            $this->db->order_by('cde_download', 'desc');
-        }
-        // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
-        if($sort == 'Newest') {
+        if($sort == 'Newest') { // 만약 정렬 조건이 [Newest] 인경우에는 최신 등록 상품 조회
             $this->db->order_by('cit_datetime', 'desc');
-        }
-        // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
-        if($sort == 'Top Downloads') {
+        } else if($sort == 'Top Downloads') { // 만약 정렬 조건이 [Top Downloads] 인경우에는 다운로드 수 많은 순 조회
             $this->db->order_by('cde_download', 'desc');
+        } else { // 만약 정렬 조건이 없거나 [Sort By Staff Picks] 인경우에는 [상품유형] 이 [추천] 인 경우만 검색
+            $this->db->order_by('RAND()', 'desc');
         }
 
         $limit = element('limit', $config) ? element('limit', $config) : 4;

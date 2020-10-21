@@ -287,12 +287,13 @@
         }
 
         .spectrum {
-            width: 200px;
+            width: 190px;
             flex: none;
 
             .wave {
                 border-right: 0 !important;
                 background: none !important;
+                zoom: 1.051;
             }
         }
 

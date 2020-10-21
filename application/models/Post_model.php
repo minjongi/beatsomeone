@@ -583,13 +583,26 @@ class Post_model extends CB_Model
 	public function get_testimonial_list($config)
     {
         $limit = element('limit', $config) ? element('limit', $config) : 4;
-        $sql = "select * from cb_post left join cb_board cb on cb_post.brd_id = cb.brd_id left join cb_post_link cpl on cb_post.post_id = cpl.post_id where cb.brd_key = 'video' order by cb_post.post_datetime desc limit ".$limit;
+        $sql = "select cb_post.*, cb.*, cpl.pln_id, cpl.brd_id, cpl.pln_url, cpl.pln_hit 
+                from cb_post 
+                    left join cb_board cb on cb_post.brd_id = cb.brd_id 
+                    left join cb_post_link cpl on cb_post.post_id = cpl.post_id 
+                where cb.brd_key = 'video' 
+                order by cb_post.post_datetime 
+                desc limit ".$limit;
         $result = $this->db->query($sql)->result_array();
+
         foreach ($result as $key => $post) {
             $post_id = $post['post_id'];
             $sql = "select * from cb_post_file where post_id=".$post_id;
             $links = $this->db->query($sql)->result_array();
             $result[$key]['files'] = $links;
+
+            $sql = "select * from cb_post_extra_vars where post_id=".$post_id;
+            $vars = $this->db->query($sql)->result_array();
+            foreach ($vars as $var) {
+                $result[$key][$var['pev_key']] = $var['pev_value'];
+            }
         }
         return $result;
     }

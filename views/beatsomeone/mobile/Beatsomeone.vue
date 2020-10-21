@@ -103,7 +103,7 @@
                                     </article>
                                     <article class="testimonials__lists">
                                         <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
-                                            <a :href="post.pln_url" target="_blank">
+                                            <a :href="'/video#/' + post.post_id">
                                                 <div class="img" v-if="post.files.length === 1">
                                                     <img
                                                             :src="'/uploads/post/' + post.files[0].pfi_filename"
@@ -117,8 +117,8 @@
                                                     />
                                                 </div>
                                                 <figcaption>
-                                                    <h3>{{ post.post_title }}</h3>
-                                                    <p>by {{ post.post_nickname }}</p>
+                                                    <h3>{{ post.dp_title || post.post_title }}</h3>
+                                                    <p>{{ post.dp_sub_title || post.post_nickname }}</p>
                                                 </figcaption>
                                             </a>
                                         </figure>
