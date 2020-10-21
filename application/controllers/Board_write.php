@@ -1948,7 +1948,7 @@ class Board_write extends CB_Controller
 				}
 			}
 
-			$extra_content = '';
+			$extra_content = [];
 			$k = 0;
 			if ($form && is_array($form)) {
 				foreach ($form as $key => $value) {
