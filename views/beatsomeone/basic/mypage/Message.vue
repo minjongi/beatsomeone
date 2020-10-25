@@ -324,7 +324,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+                window.location.href = 'https://beatsomeone.com/detail/'+key;
             },
             funcDateType: function(t){
                 if(this.dateType == t){

@@ -51,7 +51,7 @@
             },
 
             moveDetail(item) {
-                window.location.href = `/beatsomeone/detail/${item.cit_key}`;
+                window.location.href = `/detail/${item.cit_key}`;
             },
         }
     }

@@ -58,7 +58,7 @@
         }
 
         .favorite {
-            width: 100px;
+            width: 70px;
             text-align: center;
 
             button {
@@ -92,7 +92,7 @@
                     height: 55px;
                     flex: none;
                     position: relative;
-                    margin-right: 30px;
+                    margin-right: 20px;
                     background: rgba(0, 0, 0, 0.6);
                     border-radius: 3px;
 
@@ -117,7 +117,7 @@
                 }
 
                 figcaption {
-                    width: calc(100% - 125px);
+                    width: calc(100% - 75px);
                     flex: none;
 
                     .playList__title {
@@ -168,8 +168,8 @@
             }
 
             .tags {
-                padding-right: 30px;
-                width: 160px;
+                padding-right: 15px;
+                width: 155px;
                 flex: none;
 
                 div {
@@ -206,8 +206,8 @@
             @include flex();
             max-height: 50px;
             overflow: hidden;
-            padding: 0 30px;
-            width: 265px;
+            padding: 0 15px;
+            width: 175px;
             flex: none;
             position: relative;
 
@@ -239,7 +239,7 @@
 
         .playbtn {
             @include flex();
-            padding: 0 30px;
+            padding: 0 15px;
             position: relative;
 
             &:after {

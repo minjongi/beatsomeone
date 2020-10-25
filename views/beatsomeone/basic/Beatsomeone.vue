@@ -110,7 +110,7 @@
                         <!-- 트렌드 슬라이드 끝 -->
                         <!-- 제휴 업체 로그 이미지  -->
                         <div class="alliance" @click="selectItem">
-                            <img src="@/assets/images/alliance.png" alt="" href="#" style="opacity: .3"/>
+                            <img src="@/assets/images/alliance1.png" alt="" href="#" style="opacity: .3"/>
                         </div>
                         <!-- 제휴업체 로그 이미지 끝 -->
                         <div class="testimonials">
@@ -337,7 +337,7 @@
             },
             selectItem(i) {
                 if (typeof (i) !== 'string') return
-                const path = `/beatsomeone/detail/${i}`
+                const path = `/detail/${i}`
                 window.location.href = path
             },
             getMainList() {
@@ -414,7 +414,7 @@
                 window.location.href = url;
             },
             goToDetail(cit_key) {
-                window.location.href = '/beatsomeone/detail/' + cit_key;
+                window.location.href = '/detail/' + cit_key;
             }
 
         },

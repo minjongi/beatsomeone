@@ -15,7 +15,7 @@
                 <figure>
                     <span class="playList__cover"><img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/><i class="label new" v-show="item.is_new === true">N</i></span>
                     <figcaption class="pointer" @click="selectItem(item)">
-                        <h3 class="playList__title">{{ truncate(item.cit_name, 20) }}</h3>
+                        <h3 class="playList__title">{{ truncate(item.cit_name, 30) }}</h3>
                         <span class="playList__by">by {{ item.mem_nickname }}</span>
                     </figcaption>
                 </figure>
@@ -223,7 +223,7 @@
                 this.purchaseTypeSelectorPopup = true;
             },
             selectItem(i) {
-                const path = `/beatsomeone/detail/${i.cit_key}`;
+                const path = `/detail/${i.cit_key}`;
                 window.location.href = path;
             },
             playAudio(i) {
@@ -337,7 +337,7 @@
                     }
                 });
 
-                var url = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                var url = `https://beatsomeone.com/detail/${this.item.cit_key}`;
                 var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
 
                 var o;
@@ -414,7 +414,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                t.value = `https://beatsomeone.com/detail/${this.item.cit_key}`;
                 t.select();
                 document.execCommand("copy");
                 document.body.removeChild(t);

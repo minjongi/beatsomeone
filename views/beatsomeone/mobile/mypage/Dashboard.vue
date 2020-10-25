@@ -20,7 +20,7 @@
         </div>
 
         <div class="row double" style="margin-bottom:100px;">
-            <Dashboard_Message :data="messages"></Dashboard_Message>
+            <Dashboard_Message :data="messages" v-if="false"></Dashboard_Message>
             <Dashboard_SupportCase :data="inquiries"></Dashboard_SupportCase>
         </div>
     </div>

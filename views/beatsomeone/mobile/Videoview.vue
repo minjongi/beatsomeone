@@ -123,7 +123,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+                window.location.href = 'https://beatsomeone.com/detail/'+key;
             },
             playAudio(i) {
                 this.wavesurfer = WaveSurfer.create({

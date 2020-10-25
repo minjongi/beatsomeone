@@ -22,10 +22,10 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
 
     <script type="application/ld+json">
         {
-            "@context": "http://schema.org",
+            "@context": "https://schema.org",
             "@type": "Organization",
             "name": "<?php echo html_escape(element('page_title', $layout)); ?>",
-            "url": "http://beatsomeone.com",
+            "url": "https://beatsomeone.com",
             "sameAs": [
                 "https://www.instagram.com/beatsomeone",
                 "https://www.youtube.com/channel/UCkOZTgnHFgC0Cb04W0AJ1LQ",

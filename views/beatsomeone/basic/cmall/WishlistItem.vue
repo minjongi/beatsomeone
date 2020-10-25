@@ -82,7 +82,7 @@
                 this.$refs.surfer.playPause();
             },
             selectItem(i) {
-                window.location.href = `/beatsomeone/detail/${i.cit_key}`;
+                window.location.href = `/detail/${i.cit_key}`;
             },
             selected: function (event) {
                 this.$emit('selected', {

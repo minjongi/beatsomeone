@@ -10,7 +10,7 @@
                             <div class="profile">
                                 <div class="portrait">
                                     <img v-if="mem_photo === ''" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'http://dev.beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
+                                    <img v-else :src="'https://beatsomeone.com/uploads/member_photo/' + mem_photo" alt="">
                                 </div>
                                 <div class="info">
                                     <div class="group">
@@ -487,14 +487,14 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = 'http://dev.beatsomeone.com/beatsomeone/detail/'+key;
+                window.location.href = 'https://beatsomeone.com/detail/'+key;
             },
             playAudio(i) {
                 this.wavesurfer = WaveSurfer.create({
                     container: document.querySelector('#waveform'),
                 });
                 // https://nachwon.github.io/waveform/
-                this.wavesurfer.load('http://dev.beatsomeone.com/uploads/cmallitemdetail/2020/04/cb40bdf9165462c6351ebd82abedb1d6.mp3');
+                this.wavesurfer.load('https://beatsomeone.com/uploads/cmallitemdetail/2020/04/cb40bdf9165462c6351ebd82abedb1d6.mp3');
                 this.wavesurfer.on('ready', this.start);
             },
             start(){

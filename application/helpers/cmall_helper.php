@@ -18,7 +18,7 @@ if (!function_exists('cmall_item_url')) {
     {
         $url = trim($url, '/');
         //$itemurl = site_url(config_item('uri_segment_cmall_item') . '/' . $url);
-        $itemurl = site_url('beatsomeone/detail' . '/' . $url);
+        $itemurl = site_url('detail' . '/' . $url);
         return $itemurl;
     }
 }

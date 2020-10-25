@@ -395,7 +395,7 @@
                 if (order.detail.length > 0) {
                     let status = 0;
                     order.detail.forEach(item => {
-                        if (item.item.possible_refund === 0) {
+                        if (!!item.item && item.item.possible_refund === 0) {
                             status = 1;
                             return false;
                         }

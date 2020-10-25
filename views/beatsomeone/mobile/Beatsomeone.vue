@@ -92,7 +92,7 @@
                             <!-- 트렌드 슬라이드 끝 -->
                             <!-- 제휴 업체 로그 이미지  -->
                             <div class="alliance">
-                                <img src="@/assets_m/images/partner/partner-total.png" alt href="#"/>
+                                <img src="@/assets_m/images/partner/partner-total1.png" alt href="#"/>
                             </div>
                             <!-- 제휴업체 로그 이미지 끝 -->
                             <div class="testimonials">
@@ -120,6 +120,7 @@
                                                     <h3>{{ post.dp_title || post.post_title }}</h3>
                                                     <p>{{ post.dp_sub_title || post.post_nickname }}</p>
                                                 </figcaption>
+                                                <button class="play">play</button>
                                             </a>
                                         </figure>
                                     </article>
@@ -278,7 +279,7 @@
                 window.location.href = path;
             },
             selectItem(i) {
-                const path = `/beatsomeone/detail/${i}`;
+                const path = `/detail/${i}`;
                 window.location.href = path;
             },
             getMainList() {
@@ -351,7 +352,7 @@
                 window.location.href = url;
             },
             goToDetail(cit_key) {
-                window.location.href = '/beatsomeone/detail/' + cit_key;
+                window.location.href = '/detail/' + cit_key;
             }
         },
     };

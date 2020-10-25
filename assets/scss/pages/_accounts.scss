@@ -425,6 +425,10 @@
       &:disabled {
         background: #9fa2a5;
         color: #63676b;
+
+        &::placeholder {
+          color: #FFFFFF;
+        }
       }
     }
   }

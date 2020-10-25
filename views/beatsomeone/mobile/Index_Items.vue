@@ -223,7 +223,7 @@ export default {
             this.purchaseTypeSelectorPopup = true;
         },
         selectItem(i) {
-            const path = `/beatsomeone/detail/${i.cit_key}`;
+            const path = `/detail/${i.cit_key}`;
             window.location.href = path;
         },
         playAudio(i) {
@@ -346,7 +346,7 @@ export default {
                 }
             });
 
-            var url = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+            var url = `https://beatsomeone.com/detail/${this.item.cit_key}`;
             var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
 
             var o;
@@ -423,7 +423,7 @@ export default {
         copyLinkToClipboard() {
             var t = document.createElement("textarea");
             document.body.appendChild(t);
-            t.value = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+            t.value = `https://beatsomeone.com/detail/${this.item.cit_key}`;
             t.select();
             document.execCommand("copy");
             document.body.removeChild(t);

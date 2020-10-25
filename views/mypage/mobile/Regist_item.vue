@@ -313,7 +313,7 @@
                     r.data.cde_id_1 = r.data.cde_id;
                     r.data.releaseDate = moment(r.data.cit_start_datetime).format('YYYY-MM-DD');
                     r.data.releaseTime = moment(r.data.cit_start_datetime).format('HH:mm');
-                    r.data.url = 'http://beatsomeone.com/beatsomeone/detail/' + r.data.cit_key;
+                    r.data.url = 'https://beatsomeone.com/detail/' + r.data.cit_key;
                     r.data.licenseLeasePriceKR = r.data.cde_price;
                     r.data.licenseLeasePriceDL = r.data.cde_price_d;
                     r.data.licenseLeasePriceQuantity = r.data.cde_quantity;

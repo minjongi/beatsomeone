@@ -152,7 +152,7 @@
         },
         created() {
             let params = window.location.pathname.split('/');
-            let cit_key = params[3];
+            let cit_key = params[1] === 'beatsomeone' ? params[3] : params[2];
             console.log(params);
             axios.get(`/item/ajax/${cit_key}`)
                 .then(res => res.data)
@@ -353,7 +353,7 @@
                     }
                 });
 
-                var url = `https://beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                var url = `https://beatsomeone.com/detail/${this.item.cit_key}`;
                 var txt = `${this.item.cit_name} / ${this.item.member.mem_nickname} / ${this.item.genre}`;
 
                 var o;
@@ -424,7 +424,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = `http://mvp.beatsomeone.com/beatsomeone/detail/${this.item.cit_key}`;
+                t.value = `https://beatsomeone.com/detail/${this.item.cit_key}`;
                 t.select();
                 document.execCommand('copy');
                 document.body.removeChild(t);

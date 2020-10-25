@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://www.sitemaps.org/schemas/sitemap/0.9 https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>http://beatsomeone.com/</loc>
+        <loc>https://beatsomeone.com/</loc>
         <lastmod>2020-08-06T05:01:17+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>http://beatsomeone.com/beatsomeone/sublist</loc>
+        <loc>https://beatsomeone.com/beatsomeone/sublist</loc>
         <lastmod>2020-08-06T05:01:17+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>0.85</priority>
     </url>
     <url>
-        <loc>http://beatsomeone.com/smtm9</loc>
+        <loc>https://beatsomeone.com/smtm9</loc>
         <lastmod>2020-08-06T05:01:17+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>0.85</priority>
     </url>
     <url>
-        <loc>http://beatsomeone.com/register</loc>
+        <loc>https://beatsomeone.com/register</loc>
         <lastmod>2020-08-06T05:01:17+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>0.80</priority>
     </url>
     <url>
-        <loc>http://beatsomeone.com/login</loc>
+        <loc>https://beatsomeone.com/login</loc>
         <lastmod>2020-08-06T05:01:17+00:00</lastmod>
         <changefreq>always</changefreq>
         <priority>0.80</priority>

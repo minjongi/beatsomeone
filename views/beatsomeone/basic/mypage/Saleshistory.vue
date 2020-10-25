@@ -270,7 +270,7 @@ export default {
                 })
         },
         goToDetailPage(cit_key) {
-            window.location.href = '/beatsomeone/detail/' + cit_key;
+            window.location.href = '/detail/' + cit_key;
         },
         truncate(str, n) {
             return (str.length > n) ? str.substr(0, n-1) + '...' : str;

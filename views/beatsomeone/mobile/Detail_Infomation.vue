@@ -9,7 +9,7 @@
                 <h2 class="information__username">{{ info.mem_username }}</h2>
                 <p class="information__description" v-html="info.cit_content"></p>
 
-                <a href="javascript:;" @click="sendMessage" class="information__message">{{ $t('chat') }}</a>
+                <a href="javascript:;" @click="sendMessage" class="information__message" v-if="false">{{ $t('chat') }}</a>
             </div>
         </div>
     </div>

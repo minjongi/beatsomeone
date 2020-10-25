@@ -399,7 +399,7 @@ export default {
       // });
     },
     selectItem(i) {
-      const path = `/beatsomeone/detail/${i.cit_key}`;
+      const path = `/detail/${i.cit_key}`;
       window.location.href = path;
     },
     getList() {

@@ -67,7 +67,7 @@
                                         {{$t('lang29')}}
                                     </p>
                                 </div>
-                                <div class="parchase-dropdown" @click="openDesc(item.detail.LEASE.cde_id)">
+                                <div class="parchase-dropdown" :ref="'purchaseDropdown' + item.detail.LEASE.cde_id" @click="openDesc(item.detail.LEASE.cde_id)">
                                     <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id">정보열람</button>
                                     <span>{{ $t('lang40') }}</span>
                                 </div>
@@ -141,7 +141,7 @@
                                         <span>{{ $t('lang43') }}</span>
                                     </div>
                                 </div>
-                                <div class="parchase-dropdown" @click="openDesc(item.detail.STEM.cde_id)">
+                                <div class="parchase-dropdown" :ref="'purchaseDropdown' + item.detail.STEM.cde_id" @click="openDesc(item.detail.STEM.cde_id)">
                                     <button :ref="'purchaseBtn' + item.detail.STEM.cde_id">정보열람</button>
                                     <span>{{ $t('lang40') }}</span>
                                 </div>
@@ -178,6 +178,7 @@
         },
         methods: {
             openDesc(id) {
+                this.$refs["purchaseDropdown" + id].blur()
                 this.$refs["purchaseBtn" + id].classList.toggle("active");
                 this.$refs["purchaseDesc" + id].style.display =
                     this.$refs["purchaseDesc" + id].style.display === "block"

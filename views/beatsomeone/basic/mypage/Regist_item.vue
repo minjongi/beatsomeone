@@ -47,14 +47,8 @@
                   <div class="col">
                     <label class="form-item">
                       <p class="form-title required">{{ $t('trackType1') }}</p>
-                      <select v-model="item.trackType" class="custom-select-basic">
-                        <option value>{{ $t('select') }}</option>
-                        <option
-                          v-for="(item, index) in listTrackType"
-                          :key="'trackType' + index"
-                          :value="item"
-                        >{{ listTrackTypeName[index] }}</option>
-                      </select>
+                      <v-select v-model="item.trackType" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listTrackTypeName">
+                      </v-select>
                     </label>
                   </div>
                   <div class="col">
@@ -412,17 +406,17 @@
               <div class="col">
                 <label class="form-item">
                   <p class="form-title required">{{ $t('primaryGenre') }}</p>
-                  <v-select v-model="item.genre" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listGenre">
+                  <v-select v-model="item.genre" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listGenreName">
                   </v-select>
                 </label>
                 <label class="form-item">
                   <p class="form-title">{{ $t('subGenre') }}</p>
-                  <v-select v-model="item.subgenre" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listGenre">
+                  <v-select v-model="item.subgenre" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listGenreName">
                   </v-select>
                 </label>
                 <label class="form-item">
                   <p class="form-title required">{{ $t('primaryMood') }}</p>
-                  <v-select v-model="item.moods" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listMoods">
+                  <v-select v-model="item.moods" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listMoodsName">
                   </v-select>
                 </label>
               </div>
@@ -541,7 +535,7 @@ export default {
     },
     cit_key: function (n) {
       if (n) {
-        this.item.url = "http://beatsomeone.com/beatsomeone/detail/" + n;
+        this.item.url = "https://beatsomeone.com/detail/" + n;
       }
     },
   },
@@ -556,7 +550,10 @@ export default {
         _self = this;
 
       this.listGenre.forEach(function (val) {
-        list.push(_self.$t("genre" + window.genLangCode(val)));
+        list.push({
+          label: _self.$t("genre" + window.genLangCode(val)),
+          code: val
+        });
       });
 
       return list;
@@ -566,7 +563,10 @@ export default {
         _self = this;
 
       this.listMoods.forEach(function (val) {
-        list.push(_self.$t("moods" + window.genLangCode(val)));
+        list.push({
+          label: _self.$t("moods" + window.genLangCode(val)),
+          code: val
+        });
       });
 
       return list;
@@ -576,7 +576,10 @@ export default {
         _self = this;
 
       this.listTrackType.forEach(function (val) {
-        list.push(_self.$t("trackType" + window.genLangCode(val)));
+        list.push({
+          label: _self.$t("trackType" + window.genLangCode(val)),
+          code: val
+        });
       });
 
       return list;
@@ -670,12 +673,13 @@ export default {
     },
     // 데이터 로딩
     getItem() {
+      let _self = this
       Http.get(`/beatsomeoneApi/get_item/${this.cit_id}`).then((r) => {
         // 전처리
         r.data.cde_id_1 = r.data.cde_id || 0;
         r.data.cde_id_2 = r.data.cde_id_2 || 0;
         r.data.cde_id_3 = r.data.cde_id_3 || 0;
-        r.data.url = "http://beatsomeone.com/beatsomeone/detail/" + r.data.cit_key;
+        r.data.url = "https://beatsomeone.com/detail/" + r.data.cit_key;
         r.data.licenseLeaseUseYn = r.data.cit_lease_license_use == 1 ? true : false;
         r.data.licenseLeasePriceKRW = r.data.cde_price;
         r.data.licenseLeasePriceUSD = r.data.cde_price_d;
@@ -693,6 +697,11 @@ export default {
         r.data.freebeat = r.data.cit_freebeat == 1 ? 1 : 0;
         r.data.include_copyright_transfer = r.data.cit_include_copyright_transfer == 1 ? 1 : 0;
         r.data.officially_registered = r.data.cit_officially_registered == 1 ? 1 : 0;
+        r.data.trackType = {label: _self.$t('trackType' + window.genLangCode(r.data.trackType)), code: r.data.trackType}
+        r.data.genre = {label: _self.$t('genre' + window.genLangCode(r.data.genre)), code: r.data.genre}
+        r.data.subgenre = {label: _self.$t('genre' + window.genLangCode(r.data.subgenre)), code: r.data.subgenre}
+        r.data.moods = {label: _self.$t('moods' + window.genLangCode(r.data.moods)), code: r.data.moods}
+
         this.item = r.data;
       });
     },
@@ -803,6 +812,10 @@ export default {
       this.item.freebeat = this.item.freebeat ? 1 : 0
       this.item.include_copyright_transfer = this.item.include_copyright_transfer ? 1 : 0
       this.item.officially_registered = this.item.officially_registered ? 1 : 0
+      this.item.trackType = this.item.trackType.code
+      this.item.genre = this.item.genre.code
+      this.item.subgenre = this.item.subgenre.code
+      this.item.moods = this.item.moods.code
 
       let param;
       _.forEach(this.item, (v, k) => {

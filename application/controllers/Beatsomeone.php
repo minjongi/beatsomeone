@@ -157,7 +157,6 @@ class Beatsomeone extends CB_Controller
      */
     public function detail($cit_key = '')
     {
-
         log_message('debug', '$cit_key : ' . $cit_key);
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_cmall_index';
@@ -172,7 +171,6 @@ class Beatsomeone extends CB_Controller
         // 이벤트가 존재하면 실행합니다
         $view['view']['event']['before_layout'] = Events::trigger('before_layout', $eventname);
 
-
         /**
          * Data Querying
          */
@@ -185,22 +183,10 @@ class Beatsomeone extends CB_Controller
             'cit_key' => $cit_key,
         );
         $view['view']['item'] = $this->Beatsomeone_model->get_detail($where)[0];
-//        if ( ! element('cit_id', $view['view']['item'])) {
-//            show_404();
-//        }
-//        $view['view']['item'] = $this->Cmall_item_model->get_one('', '', $where);
-//        if ( ! element('cit_id', $view['view']['item'])) {
-//            show_404();
-//        }
-//        if ( ! element('cit_status', $view['view']['item'])) {
-//            alert('이 상품은 현재 판매하지 않습니다');
-//        }
-//
-//        $view['view']['item']['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $view['view']['item']));
-//        $view['view']['item']['detail'] = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $view['view']['item']));
 
-
-//        update_hit($primary_value = '')
+        if (empty($view['view']['item'])) {
+            alert('잘못된 접근입니다.', '/');
+        }
 
         if (!$this->session->userdata('cmall_item_id_' . element('cit_id', $view['view']['item']))) {
             $this->Cmall_item_model->update_hit(element('cit_id', $view['view']['item']));
@@ -291,7 +277,7 @@ class Beatsomeone extends CB_Controller
             'meta_author' => $meta_author,
             'page_name' => $page_name,
             'og_title' => $page_title,
-            'og_url' => site_url() . 'beatsomeone/detail/' . $view['view']['item']['cit_key'],
+            'og_url' => site_url() . 'detail/' . $view['view']['item']['cit_key'],
             'og_description' => $page_title,
             'og_image' => site_url() . 'uploads/cmallitem/' . $view['view']['item']['cit_file_1'],
         );

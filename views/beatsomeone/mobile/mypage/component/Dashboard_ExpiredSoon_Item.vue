@@ -56,7 +56,7 @@
         },
         methods: {
             selectItem() {
-                const path = `/beatsomeone/detail/${this.item.cit_key}`;
+                const path = `/detail/${this.item.cit_key}`;
                 window.location.href = path;
             },
             timeago(date) {

@@ -16,7 +16,7 @@
                   <img
                     v-else
                     :src="
-                      'http://dev.beatsomeone.com/uploads/member_photo/' +
+                      'https://beatsomeone.com/uploads/member_photo/' +
                         mem_photo
                     "
                     alt=""

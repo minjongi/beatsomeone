@@ -289,7 +289,7 @@ export default {
                 })
         },
         goToDetailPage(cit_key) {
-            window.location.href = '/beatsomeone/detail/' + cit_key;
+            window.location.href = '/detail/' + cit_key;
         },
         formatCitName: function (data, limitLth) {
             let rst;

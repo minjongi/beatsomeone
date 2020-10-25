@@ -181,7 +181,7 @@
                 this.$refs.surfer[index].playPause();
             },
             selectItem: function (i) {
-                window.location.href = `/beatsomeone/detail/${i.cit_key}`;
+                window.location.href = `/detail/${i.cit_key}`;
             },
             togglePopup: function (item) {
                 this.$set(item, 'toggle_popup', true);

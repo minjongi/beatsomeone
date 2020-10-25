@@ -493,6 +493,7 @@ export default {
     return {
       isLogin: false,
       cit_id: null,
+      cit_key: null,
       item: {
         cit_name: "",
         hashTag: "",
@@ -542,6 +543,11 @@ export default {
         this.getItem();
       } else {
         this.getItemRegCount();
+      }
+    },
+    cit_key: function (n) {
+      if (n) {
+        this.item.url = "https://beatsomeone.com/detail/" + n;
       }
     },
   },
@@ -671,7 +677,7 @@ export default {
         r.data.cde_id_1 = r.data.cde_id || 0;
         r.data.cde_id_2 = r.data.cde_id_2 || 0;
         r.data.cde_id_3 = r.data.cde_id_3 || 0;
-        r.data.url = "http://beatsomeone.com/beatsomeone/detail/" + r.data.cit_key;
+        r.data.url = "https://beatsomeone.com/detail/" + r.data.cit_key;
         r.data.licenseLeaseUseYn = r.data.cit_lease_license_use == 1 ? true : false;
         r.data.licenseLeasePriceKRW = r.data.cde_price;
         r.data.licenseLeasePriceUSD = r.data.cde_price_d;
