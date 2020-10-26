@@ -15,7 +15,7 @@
 <!--                                <span class="song">{{ item.cde_download }}</span>-->
                                 <!--                                <span class="play">120</span>-->
                                 <span class="registed">{{ item.cit_start_datetime }}</span>
-                                <div class="etc" v-html="item.cit_content"></div>
+                                <div class="etc" v-if="!!item.info_content" v-html="item.info_content"></div>
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
@@ -44,20 +44,18 @@
                                 <div class="tags">
                                     <button style="color:#3873d3;" v-if="item.cit_freebeat === '1'">{{ $t('lang1') }}
                                     </button>
-                                    <button style="color:#ffda2a;" v-if="item.cit_org_content === '1'">{{ $t('lang2')
-                                        }}
+                                    <button style="color:#ffda2a;" v-if="item.cit_org_content === '1'">{{ $t('lang2') }}
                                     </button>
-                                    <button style="color:#fff;" v-if="item.cit_officially_registered === '1'">{{
-                                        $t('lang3') }}
+                                    <button style="color:#fff;" v-if="item.cit_officially_registered === '1'">{{ $t('lang3') }}
                                     </button>
                                 </div>
                                 <div class="category" v-if="item" style="width: 100%;">
-                  <span
-                          class="pointer"
-                          v-for="(t,i) in hashtag"
-                          :key="i"
-                          @click="clickHash(t)"
-                  >{{ t }}</span>
+                                    <span
+                                            class="pointer"
+                                            v-for="(t,i) in hashtag"
+                                            :key="i"
+                                            @click="clickHash(t)"
+                                    >{{ t }}</span>
                                 </div>
                             </div>
                         </div>

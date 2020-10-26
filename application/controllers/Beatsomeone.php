@@ -257,9 +257,8 @@ class Beatsomeone extends CB_Controller
         $meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
         $page_name = str_replace($searchconfig, $replaceconfig, $page_name);
 
-
         // 타이틀 정의
-        $page_title = 'Beatsomeone - ' . $view['view']['item']['cit_name'] . ' (' . $view['view']['item']['musician'] . ')';
+        $page_title = 'Beatsomeone - ' . $view['view']['item']['cit_name'] . ' (' . $view['view']['item']['member']['mem_nickname'] . ')';
 
         $layoutconfig = array(
             'path' => 'beatsomeone',

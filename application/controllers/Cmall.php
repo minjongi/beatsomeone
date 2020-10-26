@@ -550,22 +550,19 @@ class Cmall extends CB_Controller
             );
         }
 
-        $data['content'] = ($this->cbconfig->get_device_view_type() === 'mobile')
-            ? (
-            element('cit_mobile_content', $data)
-                ? element('cit_mobile_content', $data)
-                : element('cit_content', $data)
-            )
-            : element('cit_content', $data);
-        $thumb_width = ($this->cbconfig->get_device_view_type() === 'mobile')
-            ? $this->cbconfig->item('cmall_product_mobile_thumb_width')
-            : $this->cbconfig->item('cmall_product_thumb_width');
-        $autolink = ($this->cbconfig->get_device_view_type() === 'mobile')
-            ? $this->cbconfig->item('use_cmall_product_mobile_auto_url')
-            : $this->cbconfig->item('use_cmall_product_auto_url');
-        $popup = ($this->cbconfig->get_device_view_type() === 'mobile')
-            ? $this->cbconfig->item('cmall_product_mobile_content_target_blank')
-            : $this->cbconfig->item('cmall_product_content_target_blank');
+        $data['info_content'] = str_replace('-', '', strip_tags($data['cit_content']));
+        if ($this->cbconfig->get_device_view_type() === 'mobile') {
+            $data['content'] = element('cit_mobile_content', $data) ? element('cit_mobile_content', $data) : element('cit_content', $data);
+            $thumb_width = $this->cbconfig->item('cmall_product_mobile_thumb_width');
+            $autolink = $this->cbconfig->item('use_cmall_product_mobile_auto_url');
+            $popup = $this->cbconfig->item('cmall_product_mobile_content_target_blank');
+        } else {
+            $data['content'] = element('cit_content', $data);
+            $thumb_width = $this->cbconfig->item('cmall_product_thumb_width');
+            $autolink =  $this->cbconfig->item('use_cmall_product_auto_url');
+            $popup = $this->cbconfig->item('cmall_product_content_target_blank');
+        }
+
         $data['content'] = display_html_content(
             element('content', $data),
             element('cit_content_html_type', $data),

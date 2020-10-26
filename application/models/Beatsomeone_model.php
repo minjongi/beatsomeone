@@ -494,7 +494,7 @@ class Beatsomeone_model extends CB_Model
         $this->db->join('cb_member as cm','m.cim_value = cm.mem_id','inner');
 
         $this->db->where($where);
-        $this->db->select('cb_c.*, cm.mem_userid, cm.mem_email, cm.mem_username, cm.mem_nickname,cm.mem_photo');
+        $this->db->select('cb_c.*, cm.mem_userid, cm.mem_email, cm.mem_username, cm.mem_nickname, cm.mem_photo, cm.mem_profile_content');
         $this->db->order_by('cit_id', 'desc');
         $qry = $this->db->get('cmall_item as cb_c');
 

@@ -79,6 +79,9 @@
           padding-left: 15px;
           margin-right: 20px;
         }
+        .state-singer {
+          margin-right: 20px;
+        }
         .registed {
           background: url("/assets_m/images/icon/time.png") no-repeat left center;
           background-size: 10px auto;
@@ -103,11 +106,8 @@
             padding: 0 10px;
             border-radius: 3px;
             span {
-              background: url("/assets_m/images/icon/cart.png") no-repeat left center;
               margin: 0;
               font-size: 14px;
-              padding-left: 23px;
-              background-size: 16px auto;
             }
           }
         }
