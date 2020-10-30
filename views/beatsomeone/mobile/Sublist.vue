@@ -1,118 +1,9 @@
 <template>
-
     <div class="wrapper">
-
         <Header :is-login="isLogin"/>
         <div class="container sub">
             <div class="sublist">
                 <!-- 필터 -->
-                <div class="sublist__filter" v-show="isShowFilter">
-                    <div class="sublist__filter-content">
-                        <div class="row">
-                            <div class="filter">
-                                <h2 class="filter__title">{{ $t('filter') }}</h2>
-                                <div class="filter__content">
-                                    <ul class="filter__list">
-                                        <li class="filter__item" v-for="(f,index) in listFilter" :key="index">
-                                            <label :for="'fillter1'+index" class="checkbox">
-                                                <input
-                                                    type="radio"
-                                                    name="filter"
-                                                    hidden
-                                                    :id="'fillter1'+index"
-                                                    :value="f"
-                                                    v-model="param.currentGenre"
-                                                />
-                                                <span></span> {{ listFilterName[index] }}
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="filter">
-                                <h2 class="filter__title">{{ $t('subGenres') }}</h2>
-                                <div class="filter__content">
-                                    <ul class="filter__list">
-                                        <li class="filter__item" v-for="(f,index) in listSubgenres" :key="index">
-                                            <label :for="'fillter2'+index" class="checkbox">
-                                                <input
-                                                    type="radio"
-                                                    name="subgenres"
-                                                    hidden
-                                                    :id="'fillter2'+index"
-                                                    :value="f"
-                                                    v-model="param.currentSubgenres"
-                                                />
-                                                <span></span> {{ listSubgenresName[index] }}
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="filter">
-                                <h2 class="filter__title">BPM</h2>
-                                <div class="filter__content">
-                                    <div class="bpmRange">
-                                        <input type="text"/>
-                                    </div>
-                                    <div class="bpmRangeInfo">
-                                        <input type="text" readonly id="bpm-start"/>
-                                        <span> - </span>
-                                        <input type="text" readonly id="bpm-end"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="filter">
-                                <h2 class="filter__title folded">{{ $t('moods') }}</h2>
-                                <div class="filter__content" style="display: none;">
-                                    <ul class="filter__list">
-                                        <li class="filter__item" v-for="(f,index) in listMoods" :key="index">
-                                            <label :for="'fillter3'+index" class="checkbox">
-                                                <input
-                                                    type="radio"
-                                                    name="moods"
-                                                    hidden
-                                                    :id="'fillter3'+index"
-                                                    :value="f"
-                                                    v-model="param.currentMoods"
-                                                />
-                                                <span></span> {{ listMoodsName[index] }}
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="filter">
-                                <h2 class="filter__title folded">{{ $t('trackType') }}</h2>
-                                <div class="filter__content" style="display: none;">
-                                    <ul class="filter__list">
-                                        <li class="filter__item" v-for="(f,index) in listTrackType" :key="index">
-                                            <label :for="'fillter4'+index" class="checkbox">
-                                                <input
-                                                    type="radio"
-                                                    name="trackTypes"
-                                                    hidden
-                                                    :id="'fillter4'+index"
-                                                    :value="f"
-                                                    v-model="param.currentTrackType"
-                                                />
-                                                <span></span> {{ listTrackTypeName[index] }}
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <button class="showFilter" @click="toggleFilter"></button>
                 <!-- 필터 끝 -->
                 <div class="sublist__content">
@@ -170,6 +61,113 @@
                 </div>
             </div>
         </div>
+        <div class="sublist__filter" v-show="isShowFilter">
+        <div class="sublist__filter-content">
+          <div class="row">
+            <div class="filter">
+              <h2 class="filter__title">{{ $t('filter') }}</h2>
+              <div class="filter__content">
+                <ul class="filter__list">
+                  <li class="filter__item" v-for="(f,index) in listFilter" :key="index">
+                    <label :for="'fillter1'+index" class="checkbox">
+                      <input
+                          type="radio"
+                          name="filter"
+                          hidden
+                          :id="'fillter1'+index"
+                          :value="f"
+                          v-model="param.currentGenre"
+                      />
+                      <span></span> {{ listFilterName[index] }}
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="filter">
+              <h2 class="filter__title">{{ $t('subGenres') }}</h2>
+              <div class="filter__content">
+                <ul class="filter__list">
+                  <li class="filter__item" v-for="(f,index) in listSubgenres" :key="index">
+                    <label :for="'fillter2'+index" class="checkbox">
+                      <input
+                          type="radio"
+                          name="subgenres"
+                          hidden
+                          :id="'fillter2'+index"
+                          :value="f"
+                          v-model="param.currentSubgenres"
+                      />
+                      <span></span> {{ listSubgenresName[index] }}
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="filter">
+              <h2 class="filter__title">BPM</h2>
+              <div class="filter__content">
+                <div class="bpmRange">
+                  <input type="text"/>
+                </div>
+                <div class="bpmRangeInfo">
+                  <input type="text" readonly id="bpm-start"/>
+                  <span> - </span>
+                  <input type="text" readonly id="bpm-end"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="filter">
+              <h2 class="filter__title folded">{{ $t('moods') }}</h2>
+              <div class="filter__content" style="display: none;">
+                <ul class="filter__list">
+                  <li class="filter__item" v-for="(f,index) in listMoods" :key="index">
+                    <label :for="'fillter3'+index" class="checkbox">
+                      <input
+                          type="radio"
+                          name="moods"
+                          hidden
+                          :id="'fillter3'+index"
+                          :value="f"
+                          v-model="param.currentMoods"
+                      />
+                      <span></span> {{ listMoodsName[index] }}
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="filter">
+              <h2 class="filter__title folded">{{ $t('trackType') }}</h2>
+              <div class="filter__content" style="display: none;">
+                <ul class="filter__list">
+                  <li class="filter__item" v-for="(f,index) in listTrackType" :key="index">
+                    <label :for="'fillter4'+index" class="checkbox">
+                      <input
+                          type="radio"
+                          name="trackTypes"
+                          hidden
+                          :id="'fillter4'+index"
+                          :value="f"
+                          v-model="param.currentTrackType"
+                      />
+                      <span></span> {{ listTrackTypeName[index] }}
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
         <main-player></main-player>
         <Footer/>
     </div>
@@ -536,5 +534,9 @@ html, body {
 
 .sub .playList .playList__item > div {
     margin-bottom: 0 !important;
+}
+
+.playList .playList__itembox {
+  height: 70px !important;
 }
 </style>
