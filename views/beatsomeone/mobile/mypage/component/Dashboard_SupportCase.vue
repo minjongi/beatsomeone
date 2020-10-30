@@ -25,7 +25,7 @@
                 </ul>
             </div>
             <div v-else>
-                <h3 style="text-align: center">No questions</h3>
+                <p style="text-align: center; opacity: 0.7; font-size: 12px;">No questions</p>
             </div>
         </div>
 

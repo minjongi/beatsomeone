@@ -5,9 +5,9 @@
             <a class="more" href="/mypage#/message">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
         <div>
-            <div v-if="data.length === 0">
+            <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 12px;">
                 No messages
-            </div>
+            </p>
             <div class="playList" v-else>
                 <ul>
                     <li class="playList__itembox" v-for="(message,index) in data" :key="index">

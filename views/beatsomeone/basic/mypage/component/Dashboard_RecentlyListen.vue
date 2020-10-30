@@ -4,8 +4,8 @@
             <div>{{$t('recentlyListen')}}</div>
         </div>
 
-        <div v-if="data.length === 0">
-            <h3 style="text-align: center">{{ $t('dashboard_RecentlyListen_notexists') }}</h3>
+        <div v-if="data.length === 0" >
+            <p style="text-align: center; opacity: 0.7; font-size: 16px;">{{ $t('dashboard_RecentlyListen_notexists') }}</p>
         </div>
 
         <div v-else class="topFive recentListen">

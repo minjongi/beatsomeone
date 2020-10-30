@@ -4,7 +4,7 @@
             {{$t('recentlyListen')}}
         </h4>
 
-        <h3 v-if="data.length === 0">
+        <h3 v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 12px;">
             {{ $t('dashboard_RecentlyListen_notexists') }}
         </h3>
 

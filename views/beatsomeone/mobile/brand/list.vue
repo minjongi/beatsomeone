@@ -122,7 +122,7 @@
             </h2>
           </div>
           <div class="row">
-            <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
+            <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false" v-if="randomList.length > 0">
               <transition-group
                   name="staggered-fade"
                   tag="ul"
@@ -148,6 +148,9 @@
               </div>
 
             </div>
+              <div v-else style="text-align: center; padding: 30px 0; opacity: 0.7;">
+                  {{ brand.mem_nickname }}님께서 등록한 비트가 없습니다.
+              </div>
           </div>
         </div>
       </div>
@@ -192,7 +195,7 @@ export default {
       last_offset: null,
       list: [],
       listTop5: null,
-      randomList: null,
+      randomList: [],
       param: {
         currentGenre: null,
         currentSubgenres: null,
@@ -421,7 +424,7 @@ export default {
         if (!this.param.sort || this.param.sort === 'Sort By') {
           this.randomList = r
         } else {
-          this.randomList = null
+          this.randomList = []
           this.list = r
           this.last_offset = this.offset
         }

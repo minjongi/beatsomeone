@@ -232,6 +232,10 @@
             margin-top: 60px;
         }
     }
+
+    .playList .playList__item .genre {
+        width: 330px !important;
+    }
 }
 
 .mypage {
@@ -831,7 +835,7 @@ section[class*='section'] {
         align-items: flex-start;
         padding: 20px;
         height: auto;
-        min-height: 184px;
+        min-height: 260px;
         // overflow:hidden;
         transition: max-height 0.3s ease;
 
@@ -1004,7 +1008,7 @@ section[class*='section'] {
             }
 
             &:only-child {
-                margin-top: 15px;
+                //margin-top: 15px;
             }
 
             &.open {
@@ -1017,7 +1021,7 @@ section[class*='section'] {
         .feature {
             .price {
                 &:last-child {
-                    margin-top: 34px;
+                    //margin-top: 34px;
                     display: block !important;
                 }
 
@@ -3646,4 +3650,8 @@ textarea {
         color: rgba(white, 0.3);
         font-weight: 500;
     }
+}
+
+.nfavorites .playList .playList__item .genre {
+    width: 300px;
 }

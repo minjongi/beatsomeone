@@ -1,10 +1,6 @@
 <template>
     <div>
         <div class="feature">
-            <div class="playbtn">
-                <button class="btn-play" @click="playAudio(item, $event)">재생</button>
-                <span class="timer"><span class="current">0:00 /</span><span class="duration">0:00</span></span>
-            </div>
             <div class="price yellow">
                 {{ formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d, pg) }}
             </div>

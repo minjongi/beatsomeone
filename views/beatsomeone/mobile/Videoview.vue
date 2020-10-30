@@ -12,7 +12,7 @@
                     </div>
                     <div class="block">
                         <div>
-                            <iframe class="video" v-for="link in links" :key="link.post_id" :src="link.pln_url">
+                            <iframe class="video" style="height: 250px;" v-for="link in links" :key="link.post_id" :src="link.pln_url">
                             </iframe>
                         </div>
                     </div>

@@ -140,6 +140,7 @@
                   class="playList"
                   v-infinite-scroll="loading"
                   infinite-scroll-immediate-check="false"
+                  v-if="randomList.length > 0"
               >
                 <transition-group
                     name="staggered-fade"
@@ -164,6 +165,9 @@
 
                 <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
               </div>
+                <div v-else style="text-align: center; padding: 30px 0; opacity: 0.7;">
+                    {{ brand.mem_nickname }}님께서 등록한 비트가 없습니다.
+                </div>
             </div>
           </div>
         </div>
@@ -205,7 +209,7 @@ export default {
       listTrackType: ["All types"].concat(window.trackType),
       list: [],
       listTop5: null,
-      randomList: null,
+      randomList: [],
       offset: 0,
       last_offset: null,
       busy: false,
@@ -402,7 +406,7 @@ export default {
         if (!this.param.sort || this.param.sort === "Sort By") {
           this.randomList = r;
         } else {
-          this.randomList = null;
+          this.randomList = [];
           this.list = r;
           this.last_offset = this.offset;
         }

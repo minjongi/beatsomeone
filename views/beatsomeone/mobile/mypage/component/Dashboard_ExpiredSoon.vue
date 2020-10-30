@@ -5,7 +5,7 @@
             <a class="more" href="/mypage#/mybilling">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
 
-        <p v-if="data.length === 0" style="text-align: center; opacity: 0.7">
+        <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 12px;">
             {{ $t('dashboard_ExpiredSoon_notexists') }}
         </p>
 

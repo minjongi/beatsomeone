@@ -35,20 +35,6 @@
                         <span class="playList__by">by {{ item.item.mem_nickname }}</span>
                         <span style="margin-top: 5px; display: block;" v-if="item.item.bpm" class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
                         <span style="margin-top: 5px; display: block;" v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
-                        <div class="n-flex" style="margin-top: 5px;">
-                            <div class="listen">
-                                <div class="playbtn">
-                                    <button
-                                        class="btn-play"
-                                        @click="playAudio(item.item, $event)"
-                                        :data-action="'playAction' + item.item.cit_id "
-                                    >재생
-                                    </button>
-                                    <span class="timer"><span class="current">0:00 /</span><span
-                                        class="duration">0:00</span></span>
-                                </div>
-                            </div>
-                        </div>
                     </figcaption>
 
                     <button v-if="item.item.possible_download === 1"

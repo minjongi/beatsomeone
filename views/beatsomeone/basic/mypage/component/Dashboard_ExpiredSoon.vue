@@ -5,9 +5,9 @@
             <button @click="goOrderPage" class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
 
-        <h3 v-if="data.length === 0" style="text-align: center">
+        <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 16px;">
             {{ $t('dashboard_ExpiredSoon_noexists') }}
-        </h3>
+        </p>
 
         <div v-if="data.length > 0" >
             <div class="slide">

@@ -5,9 +5,9 @@
             <button class="btn btn--glass" onclick='location.href = "/mypage#/message"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div>
-            <div v-if="data.length === 0">
+            <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 16px;">
                 No messages
-            </div>
+            </p>
             <div class="playList" v-else>
                 <ul>
                     <li class="playList__itembox" v-for="(message,index) in data" :key="index">

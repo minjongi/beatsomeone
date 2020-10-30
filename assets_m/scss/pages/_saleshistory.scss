@@ -19,6 +19,7 @@
 
       &:only-child {
         border: 0;
+        width: 100%;
       }
 
       > .condition {
@@ -29,6 +30,8 @@
         margin-right: 8px;
         border-radius: 32px;
         transition: 0.3s ease;
+        width: calc(25% - 8px);
+        text-align: center;
       }
 
       > .condition.active {

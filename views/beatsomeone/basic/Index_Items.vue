@@ -36,7 +36,7 @@
             </div>
 
             <div class="col genre">
-              <span v-for="(t,i) in hashtag" :key="i"><button @click="clickHash(t)" v-hover="'active'">{{ t }}</button></span>
+              <span v-for="(t,i) in hashtag" :key="i"><button @click="clickHash(t)" v-hover="'active'">{{ truncate(t, 15) }}</button></span>
             </div>
             <div class="col playbtn">
                 <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
