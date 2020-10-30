@@ -166,7 +166,7 @@
                         <!-- {{ $t('platinum') }}<br /> -->
                         MARKETPLACE PLAN<br />
                     </p>
-                    <h2><span>$</span>9.99<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                    <h2><span>$</span>9.99<em>/{{billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(2)">업그레이드</a>
@@ -224,7 +224,7 @@
                         <!-- {{ $t('master') }}<br /> -->
                         PRO PAGE PLAN
                     </p>
-                    <h2><span>$</span>19.99<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                    <h2><span>$</span>19.99<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="#" class="btn btn--start" @click="doNext(3)">업그레이드</a>

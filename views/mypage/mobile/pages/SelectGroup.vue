@@ -38,7 +38,7 @@
                         <h3 class="text-warning"><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ?
                             sellerFreeGroup.mgr_monthly_cost_d : sellerFreeGroup.mgr_monthly_cost_w) : ($i18n.locale
                             === 'en' ? sellerFreeGroup.mgr_year_cost_d : sellerFreeGroup.mgr_year_cost_w) }}<em>/{{
-                                billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h3>
+                            billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h3>
                     </div>
                     <div class="col-6 text-right">
                         <button @click="doNext(sellerFreeGroup)" class="btn btn-primary">{{ $t('getStarted') }}</button>
@@ -97,7 +97,7 @@
                         <h3 class="text-warning"><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ?
                             sellerPlatinumGroup.mgr_monthly_cost_d : sellerPlatinumGroup.mgr_monthly_cost_w) : ($i18n.locale
                             === 'en' ? sellerPlatinumGroup.mgr_year_cost_d : sellerPlatinumGroup.mgr_year_cost_w) }}<em>/{{
-                                billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h3>
+                            billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h3>
                     </div>
                     <div class="col-6 text-right">
                         <button @click="doNext(sellerPlatinumGroup)" class="btn btn-primary">{{ $t('getStarted') }}</button>
@@ -156,7 +156,7 @@
                         <h3 class="text-warning"><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ?
                             sellerMasterGroup.mgr_monthly_cost_d : sellerMasterGroup.mgr_monthly_cost_w) : ($i18n.locale
                             === 'en' ? sellerMasterGroup.mgr_year_cost_d : sellerMasterGroup.mgr_year_cost_w) }}<em>/{{
-                                billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h3>
+                            billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h3>
                     </div>
                     <div class="col-6 text-right">
                         <button @click="doNext(sellerMasterGroup)" class="btn btn-primary">{{ $t('getStarted') }}</button>
