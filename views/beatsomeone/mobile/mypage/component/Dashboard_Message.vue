@@ -6,7 +6,7 @@
         </h4>
         <div>
             <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 12px;">
-                No messages
+              {{ $t('lang50') }}
             </p>
             <div class="playList" v-else>
                 <ul>

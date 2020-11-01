@@ -6,7 +6,7 @@
         </div>
         <div>
             <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 16px;">
-                No messages
+              {{ $t('lang50') }}
             </p>
             <div class="playList" v-else>
                 <ul>
@@ -15,7 +15,7 @@
                             <div class="col name">
                                 <figure>
                                     <span class="playList__cover profile">
-                                        <img v-if="message.mem_photo" :src="message.mem_photo" :alt="message.mem_name">
+                                        <img v-if="message.mem_photo" :src="message.mem_photo" :alt="message.mem_nicname">
                                         <img v-else src="/assets/images/portrait.png">
                                     </span>
                                     <figcaption class="pointer" onclick='location.href = `/mypage#/message/`'>
