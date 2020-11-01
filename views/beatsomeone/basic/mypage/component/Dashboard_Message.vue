@@ -6,7 +6,7 @@
         </div>
         <div>
             <div v-if="data.length === 0">
-                No messages
+              {{ $t('lang50') }}
             </div>
             <div class="playList" v-else>
                 <ul>

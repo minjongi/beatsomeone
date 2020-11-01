@@ -554,3 +554,7 @@ $lang['lang106'] = 'Buy';
 $lang['lang107'] = 'Twitter';
 $lang['lang108'] = 'Facebook';
 $lang['lang109'] = 'CopyLink';
+$lang['lang110'] = 'The basic subscription has been completed, and membership level is applied after payment.';
+$lang['lang111'] = 'Wait';
+$lang['lang112'] = 'Answer Complete';
+$lang['lang113'] = 'You can upload only jpg, png, gif, doc, and pdf files';

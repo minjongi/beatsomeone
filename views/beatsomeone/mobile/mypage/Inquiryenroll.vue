@@ -17,16 +17,16 @@
         <div class="row inquiry-mod">
             <div class="box">
                 <div class="row">
-                    <div class="type"><span>Title</span></div>
+                    <div class="type"><span>{{ $t('lang83') }}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
-                            <input class="inputbox" v-model="post_title" type="text" placeholder="Please enter your title about problem..."/>
+                            <input class="inputbox" v-model="post_title" type="text" :placeholder="$t('lang91')"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="row" style="margin-top: 30px;" v-show="group_title === 'SELLER'">
-                    <div class="type"><span>Writer</span></div>
+                    <div class="type"><span>{{ $t('lang84') }}</span></div>
                     <div class="n-flex data">
                         <div class="group_title" :class="group_title">{{$t(group_title)}}</div>
                         <div v-if="group_title === 'SELLER'" class="seller_class" :class="seller_class">{{$t(seller_class)}}</div>
@@ -35,23 +35,22 @@
                 </div>
 
                 <div class="row" style="margin-top: 30px;">
-                    <div class="type"><span>Content</span></div>
+                    <div class="type"><span>{{ $t('lang85') }}</span></div>
                     <div class="data">
-                        <textarea v-model="post_content" class="firstname" type="text" placeholder="Please decribe your problem detaily..."
-                                  style="height:360px"/>
+                        <textarea v-model="post_content" class="firstname" type="text" :placeholder="$t('lang92')" style="height:360px"/>
                     </div>
                 </div>
 
 
                 <div class="row" style="margin-top: 30px;">
-                    <div class="type"><span>Attachment</span></div>
+                    <div class="type"><span>{{ $t('lang86') }}</span></div>
                     <div class="data">
                         <label class="btn btn--blue" for="attachbtn">
                             <input type="file" multiple id="attachbtn" style="display:none;" @change="changeFiles">
-                            <div>Add</div>
+                            <div>{{ $t('lang88') }}</div>
                         </label>
                         <div v-show="attached_files.length === 0">
-                            <span>No attached file.</span>
+                            <span>{{ $t('lang87') }}</span>
                         </div>
                         <div v-for="file in attached_files" :key="file.name">
                             <img src="/assets/images/icon/file.png"/>
@@ -63,7 +62,7 @@
                                     <img class="caution" src="/assets/images/icon/caution.png"/>
                                     <img class="warning" src="/assets/images/icon/warning.png"/>
                                 </div> -->
-                                <p> You can upload only jpg, png, gif, doc, and pdf files within 00mb. </p>
+                                <p> {{ $t('lang113') }} </p>
                             </div>
                             <!-- <div class="file_list">
                                 <div>
@@ -88,8 +87,8 @@
             </div>
 
             <div class="btnbox-wrap n-flex">
-                <button type="reset" class="btn btn--gray" @click="goPage('/inquiry')">Cancel</button>
-                <button type="submit" class="btn btn--submit" @click="submitInquiry">Submit</button>
+                <button type="reset" class="btn btn--gray" @click="goPage('/inquiry')">{{ $t('lang89') }}</button>
+                <button type="submit" class="btn btn--submit" @click="submitInquiry">{{ $t('lang90') }}</button>
             </div>
         </div>
     </div>

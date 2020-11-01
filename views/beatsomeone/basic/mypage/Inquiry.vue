@@ -4,7 +4,7 @@
             <div class="title-content">
                 <div class="title">
                     <div>{{$t('support1')}}</div>
-                    <button class="btn btn--submit" @click="goInquiryenroll">To ask question</button>
+                    <button class="btn btn--submit" @click="goInquiryenroll">{{ $t('lang78') }}</button>
                 </div>
                 <p>
                     Total <span>{{ total_rows }}</span> cases.
@@ -15,10 +15,10 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board inquirylist">
                 <div class="tab nowrap">
-                    <div class="index">No</div>
-                    <div class="subject">Title</div>
-                    <div class="date">Date</div>
-                    <div class="action">Status</div>
+                    <div class="index">{{ $t('lang79') }}</div>
+                    <div class="subject">{{ $t('lang80') }}</div>
+                    <div class="date">{{ $t('lang81') }}</div>
+                    <div class="action">{{ $t('lang82') }}</div>
                 </div>
             </div>
         </div>

@@ -12,17 +12,17 @@
 
             <div class="box" style="padding-bottom:50px;">
                 <div class="row">
-                    <div class="type"><span>Title</span></div>
+                    <div class="type"><span>{{ $t('lang83') }}</span></div>
                     <div class="data">
                         <div class="input_wrap col">
                             <input class="inputbox" type="text" v-model="post_title"
-                                   placeholder="Please enter your title about problem..."/>
+                                   :placeholder="$t('lang91')"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="type"><span>Writer</span></div>
+                    <div class="type"><span>{{ $t('lang84') }}</span></div>
                     <div class="data">
                         <div class="group_title" :class="group_title">{{$t(group_title)}}</div>
                         <div v-if="group_title === 'SELLER'" class="seller_class" :class="seller_class">{{$t(seller_class)}}</div>
@@ -31,19 +31,19 @@
                 </div>
 
                 <div class="row">
-                    <div class="type"><span>Bio</span></div>
+                    <div class="type"><span>{{ $t('lang85') }}</span></div>
                     <div class="data">
                         <textarea class="firstname" v-model="post_content" type="text"
-                                  placeholder="Please decribe your problem detaily..." style="height:360px"/>
+                                  :placeholder="$t('lang92')" style="height:360px"/>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="type"><span>Attachment</span></div>
+                    <div class="type"><span>{{ $t('lang86') }}</span></div>
                     <div class="data">
                         <div>
                             <div v-show="attached_files.length === 0">
-                                <span>No attached file.</span>
+                                <span>{{ $t('lang87') }}</span>
                             </div>
                             <div v-for="file in attached_files" :key="file.name">
                                 <img src="/assets/images/icon/file.png"/>
@@ -55,20 +55,20 @@
                                     <img class="warning" src="/assets/images/icon/warning.png"/>
                                 </div>
                                 <span>
-                                    {{$t('noteChangeEmailMsg')}}
+                                    {{ $t('lang113') }}
                                 </span>
                             </div>
                         </div>
                         <label class="btn btn--blue" for="attachbtn">
                             <input type="file" multiple id="attachbtn" style="display:none;" @change="changeFiles">
-                            <div>Attach</div>
+                            <div>{{ $t('lang88') }}</div>
                         </label>
                     </div>
                 </div>
             </div>
             <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-                <button class="btn btn--gray" @click="goPage('inquiry')">Cancel</button>
-                <button type="submit" class="btn btn--submit" @click="submitInquiry">Submit</button>
+                <button class="btn btn--gray" @click="goPage('inquiry')">{{ $t('lang89') }}</button>
+                <button type="submit" class="btn btn--submit" @click="submitInquiry">{{ $t('lang90') }}</button>
             </div>
         </div>
     </div>

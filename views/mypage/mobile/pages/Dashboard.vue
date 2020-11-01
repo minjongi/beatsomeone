@@ -53,7 +53,7 @@
         </div>
         <div class="container-fluid mb-5" v-if="isSeller">
             <h5 class="mb-3 title">
-                Product details
+              {{ $t('lang53') }}
                 <a href="javascript:;" @click="$router.push('/list_item')" class="float-right mr-2">
                     <span>more <i class="fal fa-chevron-right"></i></span>
                 </a>
@@ -61,15 +61,15 @@
             <div class="split-board row">
                 <div class="item col text-center">
                     <h3 class="text-primary">{{ total_product_count }}</h3>
-                    <p>Total</p>
+                    <p>{{ $t('lang54') }}</p>
                 </div>
                 <div class="item col text-center">
                     <h3 class="text-danger">{{ selling_product_count }}</h3>
-                    <p>Selling</p>
+                    <p>{{ $t('lang55') }}</p>
                 </div>
                 <div class="item col text-center">
                     <h3 class="text-success">{{ pending_product_count }}</h3>
-                    <p>Pending</p>
+                    <p>{{ $t('lang56') }}</p>
                 </div>
             </div>
         </div>
@@ -152,7 +152,7 @@
                 </ul>
             </div>
             <div class="empty-content recent" v-else>
-                <span>No messages</span>
+                <span>{{ $t('lang50') }}</span>
             </div>
         </div>
         <div class="mb-5">
@@ -179,7 +179,7 @@
                 </ul>
             </div>
             <div class="empty-content recent" v-else>
-                <span>No questions</span>
+                <span>{{ $t('lang51') }}</span>
             </div>
         </div>
     </div>

@@ -25,7 +25,7 @@
                 </ul>
             </div>
             <div v-else>
-                <h3 style="text-align: center">No questions</h3>
+                <h3 style="text-align: center">{{ $t('lang51') }}</h3>
             </div>
         </div>
 

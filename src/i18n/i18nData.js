@@ -532,7 +532,7 @@ export default {
         dashboard_Recently_notexists: '기간만료 예정 내역이 없습니다',
         upgrade: '업그레이드',
         dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다',
-        successfullyRegistered: '회원가입이 완료 되었습니다.',
+        successfullyRegistered: '회원가입이 완료 되었습니다!',
         saleDate: '판매일시',
         saleProduct: '판매내역',
         saleTotalPrice: '총 판매금액',
@@ -598,6 +598,10 @@ export default {
         lang107: '트위터',
         lang108: '페이스북',
         lang109: '링크복사',
+        lang110: '기본 가입은 완료되였으며, 결제 후 회원등급이 적용됩니다.',
+        lang111: '대기중',
+        lang112: '답변완료',
+        lang113: 'jpg, png, gif, doc 및 pdf 파일만 업로드 할 수 있습니다',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1130,8 +1134,8 @@ export default {
         dashboard_profilemod_save_ok: 'Personal information has been modified.',
         dashboard_ExpiredSoon_notexists: 'No products are expected to expire',
         upgrade: 'Upgrade',
-        dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다',
-        successfullyRegistered: 'your membership has been completed',
+        dashboard_RecentlyListen_notexists: 'No recent checks',
+        successfullyRegistered: 'Your membership has been completed!',
         saleDate: '판매일시',
         saleProduct: '판매내역',
         saleTotalPrice: '총 판매금액',
@@ -1197,5 +1201,9 @@ export default {
         lang107: 'Twitter',
         lang108: 'Facebook',
         lang109: 'CopyLink',
+        lang110: 'The basic subscription has been completed, and membership level is applied after payment.',
+        lang111: 'Wait',
+        lang112: 'Answer Complete',
+        lang113: 'You can upload only jpg, png, gif, doc, and pdf files',
     } // en
 }

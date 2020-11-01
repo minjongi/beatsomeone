@@ -65,7 +65,7 @@
             </div>
             <div class="col-6" v-if="isSeller">
                 <h5 class="mb-3 title">
-                    Product details
+                  {{ $t('lang53') }}
                     <a href="javascript:;" @click="$router.push('/list_item')" class="float-right mr-2">
                         <span>more <i class="fal fa-chevron-right"></i></span>
                     </a>
@@ -166,7 +166,7 @@
                     </ul>
                 </div>
                 <div class="empty-content recent" v-else>
-                    <span>No messages</span>
+                    <span>{{ $t('lang50') }}</span>
                 </div>
             </div>
             <div class="col-6">
@@ -193,7 +193,7 @@
                     </ul>
                 </div>
                 <div class="empty-content recent" v-else>
-                    <span>No questions</span>
+                    <span>{{ $t('lang51') }}</span>
                 </div>
             </div>
         </div>

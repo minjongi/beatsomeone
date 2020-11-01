@@ -14,7 +14,7 @@
 
             <div class="search-wrap">
                 <div class="input_wrap line round">
-                    <input type="text" placeholder="enter your word...">
+                    <input type="text" :placeholder="$t('lang99') + '...'">
                     <img src="/assets/images/icon/searchicon.png"/>
                 </div>
             </div>

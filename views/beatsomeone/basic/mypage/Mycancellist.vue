@@ -4,7 +4,7 @@
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:64px;">
                     <div @click="goRoute('mybilling')">{{$t('orderHistory')}} ({{ total_order_rows }})</div>
-                    <div class="active">Cancellation / Refund History({{ total_cancel_rows }})</div>
+                    <div class="active">{{ $t('lang57') }}({{ total_cancel_rows }})</div>
                 </div>
             </div>
         </div>
@@ -59,11 +59,11 @@
         <div class="row" style="margin-bottom:20px;">
             <div class="main__media board mybillinglist">
                 <div class="tab nowrap">
-                    <div class="index">No</div>
-                    <div class="date">Date</div>
-                    <div class="product">Product</div>
-                    <div class="totalprice">Total price</div>
-                    <div class="status">Status</div>
+                    <div class="index">{{ $t('lang67') }}</div>
+                    <div class="date">{{ $t('lang68') }}</div>
+                    <div class="product">{{ $t('lang69') }}</div>
+                    <div class="totalprice">{{ $t('lang70') }}</div>
+                    <div class="status">{{ $t('lang71') }}</div>
                 </div>
             </div>
         </div>

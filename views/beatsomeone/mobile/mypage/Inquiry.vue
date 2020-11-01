@@ -12,7 +12,7 @@
         </div>
 
         <div class="row" style="margin-bottom:20px;">
-            <button class="btn btn--submit" @click="goInquiryEnroll">To ask question</button>
+            <button class="btn btn--submit" @click="goInquiryEnroll">{{ $t('lang78') }}</button>
         </div>
 
         <div class="row">
@@ -22,10 +22,10 @@
                         <div class="n-flex setween">
                             <span class="subject">{{ inquiry.post_title }}</span>
                             <span class="action yellow" v-if="inquiry.replies.list.length === 0">
-                                Wait...
+                                {{ $t('lang111') }}...
                             </span>
                             <span class="action blue" v-else>
-                                Answer Complete...
+                                {{ $t('lang112') }}...
                             </span>
                         </div>
                     </li>

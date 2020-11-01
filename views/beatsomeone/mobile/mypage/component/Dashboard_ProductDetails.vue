@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <h4 class="title">
-            Product details
+          {{ $t('lang53') }}
         </h4>
         <div class="n-flex splitboard">
             <div class="blue">{{ data.total_product_count }}<span>Total</span></div>

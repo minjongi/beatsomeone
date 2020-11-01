@@ -4272,7 +4272,7 @@ class Register extends CB_Controller
         if (!preg_match("/^([a-z0-9_])+$/i", $userid)) {
             $result = array(
                 'result' => 'no',
-                'reason' => '아이디는 숫자, 알파벳, _ 만 입력가능합니다',
+                'reason' => lang('lang103'),
             );
             exit(json_encode($result));
         }
@@ -4346,7 +4346,7 @@ class Register extends CB_Controller
         if ($count > 0) {
             $result = array(
                 'result' => 'no',
-                'reason' => '이미 사용중인 이메일입니다',
+                'reason' => lang('lang105'),
             );
             exit(json_encode($result));
         }
@@ -4354,7 +4354,7 @@ class Register extends CB_Controller
         if ($this->_mem_email_check($email) === false) {
             $result = array(
                 'result' => 'no',
-                'reason' => '이메일 주소를 정확하게 입력 해주세요',
+                'reason' => lang('lang105'),
             );
             exit(json_encode($result));
         }

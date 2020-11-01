@@ -105,7 +105,7 @@
                                 alert(this.$t('successfullyRegistered'));
                                 window.location.href = '/';
                             } else {
-                                alert('기본 가입은 완료되였으며, 결제 후 회원등급이 적용됩니다.');
+                                alert(this.$t('lang110'));
                                 window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
                             }
                         })

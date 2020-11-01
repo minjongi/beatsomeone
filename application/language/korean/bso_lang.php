@@ -554,3 +554,7 @@ $lang['lang106'] = '구매하기';
 $lang['lang107'] = '트위터';
 $lang['lang108'] = '페이스북';
 $lang['lang109'] = '링크복사';
+$lang['lang110'] = '기본 가입은 완료되였으며, 결제 후 회원등급이 적용됩니다.';
+$lang['lang111'] = '대기중';
+$lang['lang112'] = '답변완료';
+$lang['lang113'] = 'jpg, png, gif, doc 및 pdf 파일만 업로드 할 수 있습니다';

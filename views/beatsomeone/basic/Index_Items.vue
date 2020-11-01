@@ -46,7 +46,7 @@
                 <div class="wave"></div>
             </div>
             <div class="col buybtn">
-                <button @click="addCart">구매하기</button>
+                <button @click="addCart">{{ $t('lang106') }}</button>
             </div>
             <div class="col utils" v-if="false">
                 <a :href="`/cmallact/download_sample/${item.cde_id}`" class="download">{{ $t('download') }}</a>
@@ -55,7 +55,7 @@
                 <button>
                     {{ $t('share') }}
                     <span class="tooltip">
-                      <a @click="clickShare('twitter')">Twitter</a><a @click="clickShare('facebook')">Facebook</a><a @click="copyLinkToClipboard()">CopyLink</a>
+                      <a @click="clickShare('twitter')">{{ $t('lang107') }}</a><a @click="clickShare('facebook')">{{ $t('lang108') }}</a><a @click="copyLinkToClipboard()">{{ $t('lang109') }}</a>
                     </span>
                 </button>
             </div>
