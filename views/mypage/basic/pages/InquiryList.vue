@@ -8,17 +8,17 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <button class="btn btn-warning font-weight-bold" @click="goInquiryenroll">To ask question</button>
+                <button class="btn btn-warning font-weight-bold" @click="goInquiryenroll">{{ $t('lang78') }}</button>
             </div>
         </div>
         <div>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Status</th>
+                    <th>{{ $t('lang79') }}</th>
+                    <th>{{ $t('lang80') }}</th>
+                    <th>{{ $t('lang81') }}</th>
+                    <th>{{ $t('lang82') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,8 +29,8 @@
                         {{ inquiry.post_datetime }}
                     </td>
                     <td>
-                        <span class="text-warning" v-if="inquiry.replies.list.length === 0">Wait...</span>
-                        <span class="text-secondary" v-else>Answer Complete...</span>
+                        <span class="text-warning" v-if="inquiry.replies.list.length === 0">{{ $t('lang111') }}...</span>
+                        <span class="text-secondary" v-else>{{ $t('lang112') }}...</span>
                     </td>
                 </tr>
                 </tbody>

@@ -6,7 +6,7 @@
                     <div>FAQ</div>
                 </div>
                 <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
-                    <input type="text" placeholder="enter your word..." style="font-size:16px;">
+                    <input type="text" :placeholder="$t('lang99') + '...'" style="font-size:16px;">
                     <img src="/assets/images/icon/searchicon.png" style="margin:10px;" @click="searchItems"/>
                 </div>
             </div>

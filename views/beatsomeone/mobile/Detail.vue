@@ -21,9 +21,9 @@
                             </div>
                             <div style="font-size: 12px; margin-top: 10px">
                                 <span class="fa fa-share-alt"></span>
-                                <span class="share pointer" @click="clickShare('twitter')">Twitter</span> /
-                                <span class="pointer" @click="clickShare('facebook')">Facebook</span> /
-                                <span class="pointer" @click="copyLinkToClipboard">CopyLink</span>
+                                <span class="share pointer" @click="clickShare('twitter')">{{ $t('lang107') }}</span> /
+                                <span class="pointer" @click="clickShare('facebook')">{{ $t('lang108') }}</span> /
+                                <span class="pointer" @click="copyLinkToClipboard">{{ $t('lang109') }}</span>
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">

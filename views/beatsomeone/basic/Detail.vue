@@ -34,9 +34,9 @@
                                     <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.cit_review_count }}</span>
                                     <div class="share">
                                          <span>{{ item.cit_share_count }}</span> /
-                                        <span class="share pointer" @click="clickShare('twitter')">Twitter</span> /
-                                        <span class="share pointer" @click="clickShare('facebook')">Facebook</span> /
-                                        <span class="share pointer" @click="copyLinkToClipboard">CopyLink</span>
+                                        <span class="share pointer" @click="clickShare('twitter')">{{ $t('lang107') }}</span> /
+                                        <span class="share pointer" @click="clickShare('facebook')">{{ $t('lang108') }}</span> /
+                                        <span class="share pointer" @click="copyLinkToClipboard">{{ $t('lang109') }}</span>
                                     </div>
                                 </div>
                             </div>

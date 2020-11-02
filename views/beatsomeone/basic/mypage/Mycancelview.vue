@@ -72,30 +72,30 @@
                         <div>{{ $t(paymentMethod) }}</div>
                     </div>
                     <div>
-                        <div class="title">Paid</div>
+                        <div class="title">{{ $t('lang72') }}</div>
                         <div class="yellow">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</div>
                     </div>
                     <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);" v-if="order.cor_cancel_datetime">
-                        <div class="title">Refund request</div>
+                        <div class="title">{{ $t('lang73') }}</div>
                         <div style="opacity:.7; font-weight:lighter;">{{ order.cor_cancel_datetime }}</div>
                     </div>
                     <div v-if="order.cor_refund_datetime">
-                        <div class="title">Refund complete</div>
+                        <div class="title">{{ $t('lang74') }}</div>
                         <div style="opacity:.7; font-weight:lighter;">{{ order.cor_refund_datetime }}</div>
                     </div>
                     <div>
-                        <div class="title">Request Reason</div>
+                        <div class="title">{{ $t('lang75') }}</div>
                         <div style="opacity:.7; font-weight:300;">{{ order.cor_memo || '' }}</div>
                     </div>
                     <div>
                         <div style="opacity:.7; font-weight:300;">{{ order.cor_admin_memo }}</div>
                     </div>
                     <div style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3);">
-                        <div class="title">Refund</div>
+                        <div class="title">{{ $t('lang76') }}</div>
                         <div class="red">{{ formatPr(order.cor_pg, order.cor_refund_price) }}</div>
                     </div>
                     <div>
-                        <div class="title">Refund Points</div>
+                        <div class="title">{{ $t('lang77') }}</div>
                         <div class="red">{{ order.cor_refund_point }} P</div>
                     </div>
                 </div>

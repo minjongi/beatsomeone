@@ -3,7 +3,7 @@
     <div class="profile">
       <label for="avatar_file" class="file-wrapper">
         <i class="fa fa-camera"></i>
-        <input type="file" id="avatar_file" accept="image/*" :name="uploadFieldName" :disabled="isAvatarSaving" v-on:change="avatarChange($event.target.name, $event.target.files)">
+        <input type="file" id="avatar_file" :name="uploadFieldName" :disabled="isAvatarSaving" v-on:change="avatarChange($event.target.name, $event.target.files)">
       </label>
       <div class="portrait">
         <div class="avatar">

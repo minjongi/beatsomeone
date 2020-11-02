@@ -49,8 +49,7 @@
                                 </div>
                             </div>
                             <p class="desc">
-                                <img src="/assets/images/icon/info_blue.png">If the download period has expired, the
-                                purchased bit cannot be downloaded
+                                <img src="/assets/images/icon/info_blue.png">{{ $t("lang58") }}
                             </p>
                         </div>
 

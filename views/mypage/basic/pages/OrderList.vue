@@ -6,7 +6,7 @@
                     <a class="nav-link active" href="javascript:;" data-toggle="pill" data-target="#order-pane">{{$t('orderHistory')}} ({{ total_rows }})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:;" data-toggle="pill" data-target="#cancel-pane">Cancellation / Refund History ({{ total_refund_rows }})</a>
+                    <a class="nav-link" href="javascript:;" data-toggle="pill" data-target="#cancel-pane">{{ $t('lang57') }} ({{ total_refund_rows }})</a>
                 </li>
             </ul>
         </div>

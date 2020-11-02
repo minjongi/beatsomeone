@@ -10,7 +10,7 @@
         </ul>
         <div>
             <div class="p-3">
-                <button class="btn btn-block btn-warning font-weight-bold" @click="goInquiryenroll">To ask question</button>
+                <button class="btn btn-block btn-warning font-weight-bold" @click="goInquiryenroll">{{ $t('lang78') }}</button>
             </div>
             <div class="mb-3">
                 <ul class="list-group">
@@ -18,8 +18,8 @@
                         <div class="d-flex">
                             <div>{{ inquiry.post_title }}</div>
                             <div class="text-center ml-auto w-25">
-                                <span class="text-warning" v-if="inquiry.replies.list.length === 0">Wait...</span>
-                                <span class="text-secondary" v-else>Answer Complete...</span>
+                                <span class="text-warning" v-if="inquiry.replies.list.length === 0">{{ $t('lang111') }}...</span>
+                                <span class="text-secondary" v-else>{{ $t('lang112') }}...</span>
                             </div>
                         </div>
                     </li>

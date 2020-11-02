@@ -17,21 +17,21 @@
         <div class="row" style="margin-bottom:30px;">
             <div class="content-header">
                 <div class="n-flex column">
-                    <h4 class="category">Title</h4>
+                    <h4 class="category">{{ $t('lang93') }}</h4>
                     <h3 class="body" style="word-break: break-all;">{{ post.post_title }}</h3>
                 </div>
 
                 <div class="n-flex">
-                    <span class="category">Status</span>
-                    <div class="body action" v-if="replies.length > 0">Answer Complete...</div>
-                    <div class="body action active" v-else>Wait...</div>
+                    <span class="category">{{ $t('lang94') }}</span>
+                    <div class="body action" v-if="replies.length > 0">{{ $t('lang112') }}...</div>
+                    <div class="body action active" v-else>{{ $t('lang111') }}...</div>
                 </div>
                 <div class="n-flex">
-                    <span class="category">Date</span>
+                    <span class="category">{{ $t('lang95') }}</span>
                     <span class="body">{{ post.post_datetime }}</span>
                 </div>
                 <div class="n-flex column">
-                    <div class="category">Attachment</div>
+                    <div class="category">{{ $t('lang96') }}</div>
                     <div class="flie_list">
                         <button class="btn--file" v-for="file in files" v-bind:key="file.pfi_id" @click="downloadAxios(file)">
                             <img src="/assets/images/icon/file.png"/>
@@ -80,8 +80,8 @@
 
         <div class="row">
             <div>
-                <button class="btn btn--gray" style="margin-bottom: 16px;" @click="goPage('/inquiry')">Back</button>
-                 <button type="submit" class="btn btn--submit" @click="goInquirymod">Edit</button>
+                <button class="btn btn--gray" style="margin-bottom: 16px;" @click="goPage('/inquiry')">{{ $t('back') }}</button>
+                 <button type="submit" class="btn btn--submit" @click="goInquirymod">{{ $t('lang98') }}</button>
             </div>
         </div>
 

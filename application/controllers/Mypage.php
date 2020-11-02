@@ -3192,7 +3192,7 @@ class Mypage extends CB_Controller
                     }
                 }
                 $this->output->set_output(json_encode([
-                    'message' => 'Success',
+                    'message' => lang('lang48'),
                 ]));
             }
         }

@@ -12,32 +12,32 @@
             <div class="card-body">
                 <form id="write-form">
                     <div class="form-group row">
-                        <label class="col-form-label col-4">{{ $t('title') }}</label>
+                        <label class="col-form-label col-4">{{ $t('lang83') }}</label>
                         <div class="col-8">
                             <input v-model="post_title" class="form-control" :class="post_title_invalid ? 'is-invalid' : ''" type="text"
-                                   placeholder="Please enter your title about problem..."/>
+                                   :placeholder="$t('lang91')"/>
                         </div>
                     </div>
                     <div class="form-group align-items-center row" v-show="member_group_name.includes('seller')">
-                        <label class="col-form-label col-4">Writer</label>
+                        <label class="col-form-label col-4">{{ $t('lang84') }}</label>
                         <div class="col-8">
                             <span class="mr-3 badge" :class="{'badge-success': member_group_name === 'seller_free', 'badge-primary': member_group_name === 'seller_platinum', 'badge-warning': member_group_name === 'seller_master'}">{{ $t(member_group_name) }}</span>
                             <span class="username">{{ member.mem_firstname + ' ' + member.mem_lastname }}</span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-form-label col-4">{{ $t('content') }}</label>
+                        <label class="col-form-label col-4">{{ $t('lang85') }}</label>
                         <div class="col-8">
-                            <textarea v-model="post_content" class="form-control" :class="post_content_invalid ? 'is-invalid' : ''" rows="10" placeholder="Please decribe your problem detaily..."></textarea>
+                            <textarea v-model="post_content" class="form-control" :class="post_content_invalid ? 'is-invalid' : ''" rows="10" :placeholder="$t('lang92')"></textarea>
                         </div>
                     </div>
                     <div class="form-group row" v-show="board_info.use_upload_file === '1'">
-                        <label class="col-form-label col-4">Attachment</label>
+                        <label class="col-form-label col-4">{{ $t('lang86') }}</label>
                         <div class="col-8">
                             <div class="d-flex">
                                 <div>
                                     <div v-show="attached_files.length === 0">
-                                        <span>No attached file.</span>
+                                        <span>{{ $t('lang87') }}</span>
                                     </div>
                                     <div v-for="file in attached_files" :key="file.name">
                                         <img src="/assets/images/icon/file.png"/>
@@ -50,7 +50,7 @@
                                 <div class="ml-auto">
                                     <label class="btn btn-primary">
                                         <input type="file" style="display:none;" multiple v-on:change="changeFiles">
-                                        Attach
+                                        {{ $t('lang88') }}
                                     </label>
                                 </div>
                             </div>
@@ -60,8 +60,8 @@
             </div>
         </div>
         <div class="text-center">
-            <button class="btn btn-lg btn-secondary px-5 mr-4" form="write-form" type="reset">Cancel</button>
-            <button class="btn btn-lg btn-primary px-5" type="button" v-on:click="submitInquiry">Submit</button>
+            <button class="btn btn-lg btn-secondary px-5 mr-4" form="write-form" type="reset">{{ $t('lang89') }}</button>
+            <button class="btn btn-lg btn-primary px-5" type="button" v-on:click="submitInquiry">{{ $t('lang90') }}</button>
         </div>
     </div>
 </template>

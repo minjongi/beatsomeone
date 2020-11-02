@@ -180,8 +180,7 @@ export default {
             this.$t("shortcut") +
             "</a>";
       } else if (this.order.status === "order") {
-        this.descNoti =
-            "If the download period has , the purchased bit cannot be downloaded";
+        this.descNoti = this.$t("lang58")
       }
     },
     toggleRefundModalOpen() {

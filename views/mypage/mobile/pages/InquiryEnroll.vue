@@ -11,41 +11,41 @@
         <div class="container-fluid">
             <form id="write-form">
                 <div class="form-group">
-                    <label>{{ $t('title') }}</label>
+                    <label>{{ $t('lang83') }}</label>
                     <input v-model="post_title" class="form-control" :class="post_title_invalid ? 'is-invalid' : ''" type="text"
-                           placeholder="Please enter your title about problem..."/>
+                           :placeholder="$t('lang91')"/>
                 </div>
                 <div class="form-group" v-show="member_group_name.includes('seller')">
-                    <label>Writer</label>
+                    <label>{{ $t('lang84') }}</label>
                     <div>
                         <span class="mr-3 badge" :class="{'badge-success': member_group_name === 'seller_free', 'badge-primary': member_group_name === 'seller_platinum', 'badge-warning': member_group_name === 'seller_master'}">{{ $t(member_group_name) }}</span>
                         <span class="username">{{ member.mem_firstname + ' ' + member.mem_lastname }}</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>{{ $t('content') }}</label>
-                    <textarea v-model="post_content" class="form-control" :class="post_content_invalid ? 'is-invalid' : ''" rows="10" placeholder="Please decribe your problem detaily..."></textarea>
+                    <label>{{ $t('lang85') }}</label>
+                    <textarea v-model="post_content" class="form-control" :class="post_content_invalid ? 'is-invalid' : ''" rows="10" :placeholder="$t('lang92')"></textarea>
                 </div>
                 <div class="form-group" v-show="board_info.use_upload_file === '1'">
-                    <label>Attachment</label>
+                    <label>{{ $t('lang86') }}</label>
                     <div>
                         <div class="d-flex">
                             <div>
                                 <div v-show="attached_files.length === 0">
-                                    <span>No attached file.</span>
+                                    <span>{{ $t('lang87') }}</span>
                                 </div>
                                 <div v-for="file in attached_files" :key="file.name">
                                     <img src="/assets/images/icon/file.png"/>
                                     <span>{{ file.name }}</span>
                                 </div>
                                 <small class="text-secondary">
-                                    You can upload only jpg, png, gif, doc, and pdf files within {{ board_info.upload_file_max_size }}MB
+                                    {{ $t('lang113') }} {{ board_info.upload_file_max_size }}MB
                                 </small>
                             </div>
                             <div class="ml-auto">
                                 <label class="btn btn-primary">
                                     <input type="file" style="display:none;" multiple v-on:change="changeFiles">
-                                    Attach
+                                  {{ $t('lang88') }}
                                 </label>
                             </div>
                         </div>
@@ -53,8 +53,8 @@
                 </div>
             </form>
             <div class="text-center mb-4">
-                <button class="btn btn-lg btn-secondary px-5 mr-4" form="write-form" type="reset">Cancel</button>
-                <button class="btn btn-lg btn-primary px-5" type="button" v-on:click="submitInquiry">Submit</button>
+                <button class="btn btn-lg btn-secondary px-5 mr-4" form="write-form" type="reset">{{ $t('lang89') }}</button>
+                <button class="btn btn-lg btn-primary px-5" type="button" v-on:click="submitInquiry">{{ $t('lang90') }}</button>
             </div>
         </div>
     </div>

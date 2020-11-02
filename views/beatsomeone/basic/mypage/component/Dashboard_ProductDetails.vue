@@ -1,7 +1,7 @@
 <template>
     <div class="title-content">
         <div class="title">
-            <div>Product details</div>
+            <div>{{ $t('lang53') }}</div>
             <button class="btn btn--glass" onclick='location.href = "/mypage#/list_item"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div class="splitboard">

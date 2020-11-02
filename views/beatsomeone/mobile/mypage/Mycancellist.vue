@@ -4,7 +4,7 @@
             <div class="main__media board inquirylist">
                 <div class="tab n-flex" style="height:48px; font-size: 12px;">
                     <div @click="goPage('/mybilling')">{{$t('orderHistory')}} ({{total_order_rows}})</div>
-                    <div class="active">Cancellation / Refund History({{total_cancel_rows}})</div>
+                    <div class="active">{{ $t('lang57') }}({{total_cancel_rows}})</div>
                 </div>
             </div>
         </div>

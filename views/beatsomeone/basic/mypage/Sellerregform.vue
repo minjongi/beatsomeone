@@ -107,12 +107,12 @@
                     </th>
                     <th>
                         <p> MARKETPLACE PLAN<br /> </p>
-                        <h2><span>$</span>9.99<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                        <h2><span>$</span>9.99<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                         <a href="#" class="btn btn--start" @click="doNext('Marketplace')">업그레이드</a>
                     </th>
                     <th>
                         <p> PRO PAGE<br />PLAN<br /> </p>
-                        <h2><span>$</span>19.99<em>/{{ billTerm === 'monthly' ? 'mo' : 'yr'}}</em></h2>
+                        <h2><span>$</span>19.99<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                         <a href="#" class="btn btn--start" @click="doNext('Pro Page')">업그레이드</a>
                     </th>
                 </tr>

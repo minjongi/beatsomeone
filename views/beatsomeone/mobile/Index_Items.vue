@@ -55,8 +55,8 @@
             <div class="col more">
                 <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">{{ $t('more') }}</button>
                 <span class="tooltip">
-          <a @click="clickShare('twitter')">Twitter</a><a @click="clickShare('facebook')">Facebook</a><a
-                    @click="copyLinkToClipboard()">CopyLink</a>
+          <a @click="clickShare('twitter')">{{ $t('lang107') }}</a><a @click="clickShare('facebook')">{{ $t('lang108') }}</a><a
+                    @click="copyLinkToClipboard()">{{ $t('lang109') }}</a>
         </span>
             </div>
         </div>

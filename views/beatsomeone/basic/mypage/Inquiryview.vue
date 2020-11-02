@@ -14,24 +14,24 @@
                 <div class="content-header">
                     <div>
                         <div>
-                            <div class="category">Title</div>
+                            <div class="category">{{ $t('lang93') }}</div>
                             <div class="body" style="word-break: break-all;">{{ post.post_title }}</div>
                         </div>
                     </div>
 
                     <div>
                         <div>
-                            <div class="category">Status</div>
-                            <div class="body action active" v-if="replies.length > 0">Answer Complete...</div>
-                            <div class="body action active" v-else>Wait...</div>
+                            <div class="category">{{ $t('lang94') }}</div>
+                            <div class="body action active" v-if="replies.length > 0">{{ $t('lang112') }}...</div>
+                            <div class="body action active" v-else>{{ $t('lang111') }}...</div>
                         </div>
                         <div>
-                            <div class="category">Date</div>
+                            <div class="category">{{ $t('lang95') }}</div>
                             <div class="body">{{ post.post_datetime }}</div>
                         </div>
                     </div>
                     <div>
-                        <div class="category">Attachment</div>
+                        <div class="category">{{ $t('lang96') }}</div>
                         <div class="flie_list">
                             <button class="btn--file" v-for="file in files" v-bind:key="file.pfi_id" @click="downloadAxios(file)">
                                 <img src="/assets/images/icon/file.png"/>
@@ -79,8 +79,8 @@
             </div>
 
             <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
-                <button class="btn btn--gray" @click="goInquiryList">Cancel</button>
-                <button class="btn btn--submit" @click="goInquirymod">Edit</button>
+                <button class="btn btn--gray" @click="goInquiryList">{{ $t('back') }}</button>
+                <button class="btn btn--submit" @click="goInquirymod">{{ $t('lang98') }}</button>
             </div>
         </div>
     </div>

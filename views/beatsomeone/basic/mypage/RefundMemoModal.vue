@@ -11,19 +11,15 @@
                                 <img src="/assets/images/icon/check-circle.png"/>
                             </div>
                             <div>
-                                <div class="title">Your refund request has been completed.</div>
-                                <div
-                                    class="desc"
-                                >Please let us know the reason for the refund and we will process it after
-                                    confirmation.
-                                </div>
+                                <div class="title">{{ $t('lang60') }}</div>
+                                <div class="desc">{{ $t('lang61') }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="type">
-                        <span>Reason *</span>
+                        <span>{{ $t('lang62') }} *</span>
                     </div>
                     <div class="" style="display: block; width: 250px;">
                         <v-select v-model="reason" :placeholder="$t('select')" :clearable="false" :searchable="false"  :options="listReasons">
@@ -33,7 +29,7 @@
 
                 <div class="row">
                     <div class="type">
-                        <span>Description *</span>
+                        <span>{{ $t('lang63') }} *</span>
                     </div>
                     <div class="data">
                     <textarea class="firstname" type="text" v-model="description"
@@ -48,7 +44,7 @@
                         class="btn btn--yellow"
                         style="width:208px"
                         @click="doComplete"
-                    >Request Complete
+                    >{{ $t('lang66') }}
                     </button>
                 </div>
             </div>
@@ -69,8 +65,8 @@ export default {
             reason: '',
             description: '',
             listReasons: [
-                'Selecting the wrong beat',
-                'No intention to purchase'
+                this.$t('lang64'),
+                this.$t('lang65')
             ]
         }
     },
