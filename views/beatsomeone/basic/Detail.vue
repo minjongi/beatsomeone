@@ -63,7 +63,6 @@
                     <div class="detail__player">
                         <button class="detail__player-controller"></button>
                         <div id="detail__player-wave">
-                            <!-- wave 들어가는 부분-->
                         </div>
                     </div>
                     <div class="detail__comment">
@@ -121,6 +120,7 @@
     import MainPlayer from "@/vue/common/MainPlayer";
     import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
     import axios from 'axios';
+    import WaveSurfer from 'wavesurfer.js'
 
     export default {
         components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
@@ -203,7 +203,7 @@
 
             const playbtn = document.querySelector(".detail__player-controller");
 
-            this.music = window.WaveSurfer.create({
+            this.music = WaveSurfer.create({
                 container: document.querySelector("#detail__player-wave"),
                 waveColor: "#696969",
                 progressColor: "#c3ac45",

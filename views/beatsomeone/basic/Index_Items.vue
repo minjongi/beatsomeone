@@ -36,7 +36,7 @@
             </div>
 
             <div class="col genre">
-              <span v-for="(t,i) in hashtag" :key="i"><button @click="clickHash(t)" v-hover="'active'">{{ truncate(t, 15) }}</button></span>
+              <span v-for="(t,i) in hashtag" :key="i" v-if="t"><button @click="clickHash(t)" v-hover="'active'">{{ truncate(t, 15) }}</button></span>
             </div>
             <div class="col playbtn">
                 <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
@@ -171,7 +171,14 @@
         },
         methods: {
             truncate(str, n) {
-                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+                if (this.byteSize(str) === str.length) { // 영문
+                    return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+                } else { // 한글
+                    return (this.byteSize(str) / 3 > n / 2) ? str.substr(0, n / 2 - 1) + '...' : str;
+                }
+            },
+            byteSize(str) {
+                return new Blob([str]).size;
             },
             stop() {
                 if (this.ws) {
@@ -270,8 +277,8 @@
                         desynchronized: false,
                     },
                 });
-                if (item.preview_cde_id) {
-                    this.ws.load(`/cmallact/download_sample/${item.preview_cde_id}`);
+                if (item.detail && item.detail.PREVIEW) {
+                    this.ws.load(`/cmallact/download_sample/${item.detail.PREVIEW.cde_id}`);
                 }
 
                 this.ws.on("play", () => {
