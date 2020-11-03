@@ -168,6 +168,9 @@
             } else if (this.item.cit_type3 === '1') {
                 this.$set(this.item, 'is_new', true);
             }
+            if (!this.ws) {
+                this.setAudioInstance(this.item);
+            }
         },
         methods: {
             truncate(str, n) {

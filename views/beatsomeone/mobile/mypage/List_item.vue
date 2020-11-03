@@ -266,7 +266,7 @@
                                                     >재생
                                                     </button>
                                                     <span class="timer">
-                          <span data-v-27fa6da0 class="current">0:00 /</span>
+                          <span class="current">0:00 /</span>
                           <span class="duration">0:00</span>
                         </span>
                                                 </div>
@@ -480,7 +480,6 @@ export default {
                     {}
                 );
 
-                console.log(data);
                 this.myProduct_list = data;
                 if (this.myProduct_list.length == 0) {
                     this.showDelete = false;
@@ -867,9 +866,9 @@ export default {
                 });
             }
 
-            if (item.preview_cde_id) {
+            if (item.detail.PREVIEW) {
                 this.wavesurfer.load(
-                    `/cmallact/download_sample/${item.preview_cde_id}`
+                    `/cmallact/download_sample/${item.detail.PREVIEW.cde_id}`
                 );
             }
 

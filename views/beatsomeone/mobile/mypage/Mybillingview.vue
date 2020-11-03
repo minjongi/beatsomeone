@@ -78,8 +78,8 @@
           </div>
         </div>
       </div>
-      <p class="desc">
-        <img src="/assets/images/icon/info_blue.png"/>
+      <p class="desc" style="margin-top: 10px; font-size: 10px;">
+        <img src="/assets/images/icon/info_blue.png" style="height: 12px;"/>
         <span v-html="descNoti"></span>
       </p>
     </div>

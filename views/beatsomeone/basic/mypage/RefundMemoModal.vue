@@ -40,6 +40,13 @@
 
                 <div class="btnbox" style="text-align:center;">
                     <button
+                        type="button"
+                        class="btn btn--gray"
+                        style="width:208px; margin-right: 16px;"
+                        @click="dismissModal"
+                    >{{ $t('lang89') }}
+                    </button>
+                    <button
                         type="submit"
                         class="btn btn--yellow"
                         style="width:208px"

@@ -36,7 +36,8 @@
 
   .col {
     &.name {
-      width: 480px !important;
+      width: 370px !important;
+      min-width: 370px;
       figure {
         margin: 0;
       }

@@ -990,6 +990,7 @@ export default {
         text-overflow: ellipsis;
         overflow: hidden;
         color: rgba(white, 0.3);
+        left: 50px;
 
         span {
             color: rgba(white, 0.3);

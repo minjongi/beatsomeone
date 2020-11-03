@@ -11,7 +11,7 @@
                             </button>
                         </div>
                         <div class="detail__music-info">
-                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ truncate(item.cit_name, 15) }}</h2>
+                            <h2 class="title" style="font-weight: 600;" v-if="item.cit_name">{{ truncate(item.cit_name, 15) }}</h2>
 <!--                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>-->
                             <div class="state" v-if="item">
                                 <span class="state-singer" v-if="item">{{ item.mem_nickname }}</span>
@@ -52,8 +52,7 @@
                                 <div class="player__progress">
                                     <div id="progress-container">
                                         <input type="range" class="amplitude-song-slider" step=".1"/>
-                                        <progress id="song-played-progress" class="amplitude-song-played-progress"
-                                                  data-amplitude-song-index="0"></progress>
+                                        <progress id="song-played-progress" class="amplitude-song-played-progress"></progress>
                                         <progress id="song-buffered-progress" class="amplitude-buffered-progress"
                                                   data-amplitude-song-index="0"></progress>
                                     </div>
@@ -151,26 +150,50 @@
                 return this.member !== false;
             }
         },
-        created() {
-            let params = window.location.pathname.split('/');
-            let cit_key = params[1] === 'beatsomeone' ? params[3] : params[2];
-            console.log(params);
-            axios.get(`/item/ajax/${cit_key}`)
-                .then(res => res.data)
-                .then(data => {
-                    console.log(data);
-                    this.item = data;
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-            console.log(cit_key);
-        },
         mounted() {
             this.member = window.member;
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).id;
+
+            let params = window.location.pathname.split('/');
+            let cit_key = params[1] === 'beatsomeone' ? params[3] : params[2];
+            // console.log(params);
+            axios.get(`/item/ajax/${cit_key}`)
+                .then(res => res.data)
+                .then(data => {
+                    this.item = data;
+                    if (this.item.detail.PREVIEW) {
+                        Amplitude.init({
+                            "songs": [{
+                                "name": this.item.cit_name,
+                                "artist": this.item.musician,
+                                "url": `/cmallact/download_sample/${this.item.detail.PREVIEW.cde_id}`,
+                            }],
+                            debug: true,
+                            callbacks: {
+                                play: () => {
+                                    if (this.isIncreaseMusicCount === false) {
+                                        this.increaseMusicCount()
+                                        this.isIncreaseMusicCount = true
+                                    }
+                                    // console.log("MAIN played")
+                                    //EventBus.$emit('index_items_stop_all_played', {'_uid':this._uid,'item':this.item});
+                                    EventBus.$emit('stop_main_player', {'_uid': this._uid, 'item': this.item});
+                                },
+                                initialized: () => {
+                                    //this.increaseMusicCount();
+                                }
+                            },
+                            waveforms: {
+                                sample_rate: 3000
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                })
 
             EventBus.$on('player_request_start', r => {
 
@@ -222,61 +245,6 @@
             //     hideScrollbar: true,
             //     height: 90
             // });
-
-
-        },
-        watch: {
-            item: function (n) {
-                if (n) {
-                    log.debug({
-                        'watch detail': n,
-                    })
-                    //this.music.load(`/cmallact/download_sample/${n[0].cde_id}`);
-                    this.$nextTick(function () {
-                        this.player = Amplitude.init({
-                            "songs": [{
-                                "name": n.cit_name,
-                                "artist": n.musician,
-                                "url": `/cmallact/download_sample/${n.detail.PREVIEW.cde_id}`,
-                            }],
-                            callbacks: {
-                                play: () => {
-                                    if (this.isIncreaseMusicCount === false) {
-                                        this.increaseMusicCount()
-                                        this.isIncreaseMusicCount = true
-                                    }
-                                    // console.log("MAIN played")
-                                    //EventBus.$emit('index_items_stop_all_played', {'_uid':this._uid,'item':this.item});
-                                    EventBus.$emit('stop_main_player', {'_uid': this._uid, 'item': this.item});
-                                },
-                                initialized: () => {
-                                    //this.increaseMusicCount();
-                                }
-                            },
-                            waveforms: {
-                                sample_rate: 3000
-                            }
-                        });
-                    });
-
-                }
-            },
-            // item : function(n){
-            //     if(n) {
-            //         this.$nextTick(function() {
-            //             const playbtn = document.querySelector(".btn-play");
-            //             playbtn.addEventListener("click", () => {
-            //                 this.music.playPause();
-            //             });
-            //             this.music.on("play", () => {
-            //                 playbtn.classList.add("playing");
-            //             });
-            //             this.music.on("pause", () => {
-            //                 playbtn.classList.remove("playing");
-            //             });
-            //         });
-            //     }
-            // },
 
         },
         methods: {

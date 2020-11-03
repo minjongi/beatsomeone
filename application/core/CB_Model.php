@@ -115,7 +115,7 @@ class CB_Model extends CI_Model
 	}
 
 
-	public function _get_list_common($select = '', $join = '', $limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
+	public function _get_list_common($select = '', $join = '', $limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR', $group_by = '')
 	{
 		if (empty($findex) OR ! in_array($findex, $this->allow_order_field)) {
 			$findex = $this->primary_key;
@@ -223,6 +223,9 @@ class CB_Model extends CI_Model
 		if ($limit) {
 			$this->db->limit($limit, $offset);
 		}
+		if ($group_by) {
+		    $this->db->group_by($group_by);
+        }
 		$qry = $this->db->get();
 		$result['list'] = $qry->result_array();
 

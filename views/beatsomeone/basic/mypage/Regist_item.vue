@@ -894,6 +894,26 @@ $vs-controls-color: white;
     color: white;
   }
 
+/* width */
+.vs__dropdown-menu::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.vs__dropdown-menu::-webkit-scrollbar-track {
+    background: none;
+}
+
+/* Handle */
+.vs__dropdown-menu::-webkit-scrollbar-thumb {
+    background: #414349;
+}
+
+/* Handle on hover */
+.vs__dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #414349;
+}
+
   .vs__dropdown-menu {
     margin-top: 3px;
     background: #303136;
