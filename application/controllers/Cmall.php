@@ -524,6 +524,10 @@ class Cmall extends CB_Controller
         $detail_items = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $data));
         $detail = array();
         foreach ($detail_items as $detail_item) {
+            if (!empty($data['cit_freebeat'])) {
+                $detail_item['cde_price'] = 0;
+                $detail_item['cde_price_d'] = 0;
+            }
             $detail[$detail_item['cde_title']] = $detail_item;
         }
         $data['detail'] = $detail;

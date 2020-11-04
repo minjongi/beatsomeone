@@ -41,7 +41,6 @@ class BeatsomeoneApi extends CB_Controller
 	// 메인페이지 목록 조회
     public function main_list($genre = '')
     {
-
         $this->load->model(array('Beatsomeone_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
 
         // DB Querying (장르별 Top 5)
