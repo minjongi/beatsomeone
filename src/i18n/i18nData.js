@@ -602,6 +602,11 @@ export default {
         lang111: '대기중',
         lang112: '답변완료',
         lang113: 'jpg, png, gif, doc 및 pdf 파일만 업로드 할 수 있습니다',
+        lang114: '사용할 수 없는 파일입니다',
+        lang115: '제한사항',
+        lang116: '사용가능 파일형식 : jpg, jpeg, png, gif',
+        lang117: '파일 용량 2MB 이하',
+        lang118: '파일 크기 1000 x 1000 이하',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1205,5 +1210,10 @@ export default {
         lang111: 'Wait',
         lang112: 'Answer Complete',
         lang113: 'You can upload only jpg, png, gif, doc, and pdf files',
+        lang114: 'This file cannot be used',
+        lang115: 'Restrictions',
+        lang116: 'Available file formats: jpg, jpeg, png, gif',
+        lang117: 'File size less than 2MB',
+        lang118: 'File size less than 1000 x 1000',
     } // en
 }

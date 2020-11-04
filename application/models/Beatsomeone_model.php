@@ -43,6 +43,7 @@ class Beatsomeone_model extends CB_Model
 
         $where['cit_status'] = 1;
         $this->db->where('cit_start_datetime <= now()');
+        $this->db->where('(cit_lease_license_use = 1 or cit_mastering_license_use = 1)');
 
         $genre = element('genre', $config);
         $genreWhere = [];
@@ -143,6 +144,7 @@ class Beatsomeone_model extends CB_Model
     {
         $where['cit_status'] = 1;
         $this->db->where('cit_start_datetime <= now()');
+        $this->db->where('(cit_lease_license_use = 1 or cit_mastering_license_use = 1)');
 
         $limit = element('limit', $config) ? element('limit', $config) : 4;
 
@@ -228,6 +230,7 @@ class Beatsomeone_model extends CB_Model
 
         $where['cit_status'] = 1;
         $this->db->where('cit_start_datetime <= now()');
+        $this->db->where('(cit_lease_license_use = 1 or cit_mastering_license_use = 1)');
 
         if (!empty($brandMemId)) {
             $where['cb_cmall_item.mem_id'] = $brandMemId;
@@ -326,6 +329,7 @@ class Beatsomeone_model extends CB_Model
         $where['cit_status'] = 1;
         $where['cmall_item.cit_type1'] = 1;
         $this->db->where('cit_start_datetime <= now()');
+        $this->db->where('(cit_lease_license_use = 1 or cit_mastering_license_use = 1)');
 
         // search
         if ($search) {
