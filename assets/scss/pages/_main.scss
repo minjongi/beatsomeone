@@ -890,6 +890,10 @@ section[class*='section'] {
                     margin-right: 20px;
                 }
             }
+
+            figcaption {
+                width: calc(100% - 120px) !important;
+            }
         }
 
         .option {
@@ -2881,10 +2885,6 @@ textarea {
 
     .status:last-child {
         margin: 0 !important;
-    }
-
-    .pointer {
-        width: calc(100% - 120px) !important;
     }
 }
 
