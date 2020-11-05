@@ -2882,6 +2882,10 @@ textarea {
     .status:last-child {
         margin: 0 !important;
     }
+
+    .pointer {
+        width: calc(100% - 120px) !important;
+    }
 }
 
 .set_complete {
