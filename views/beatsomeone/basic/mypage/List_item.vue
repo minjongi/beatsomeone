@@ -729,6 +729,7 @@ export default {
             let rst = "";
             let tags = hashTag.split(",");
             for (let i in tags) {
+                console.log(i);
                 if (i.trim()) {
                     rst =
                         rst +
