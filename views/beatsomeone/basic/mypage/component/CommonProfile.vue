@@ -94,9 +94,15 @@ export default {
             this.avatarStatus = AVATAR_SUCCESS;
           })
           .catch(err => {
+            alert(
+                this.$t('lang114') + "\n" +
+                this.$t('lang115') + "\n" +
+                this.$t('lang116') + "\n" +
+                this.$t('lang117') + "\n" +
+                this.$t('lang118')
+            )
             this.avatarStatus = AVATAR_FAILED;
           });
-
     },
     avatarChange(fieldName, fileList) {
       const formData = new FormData();
