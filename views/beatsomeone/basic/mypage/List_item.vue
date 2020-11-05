@@ -728,16 +728,15 @@ export default {
         calcTag: function (hashTag) {
             let rst = "";
             let tags = hashTag.split(",");
-            for (let i in tags) {
-                console.log(i);
-                if (i.trim()) {
+            tags.forEach(tag => {
+                if (tag.trim()) {
                     rst =
                         rst +
                         "<span><button >" +
-                        this.removeReg(tags[i]) +
+                        this.removeReg(tag) +
                         "</button></span>";
                 }
-            }
+            })
             return rst;
         },
         calcFuncTotalCnt() {
