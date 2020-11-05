@@ -729,11 +729,13 @@ export default {
             let rst = "";
             let tags = hashTag.split(",");
             for (let i in tags) {
-                rst =
-                    rst +
-                    "<span><button >" +
-                    this.removeReg(tags[i]) +
-                    "</button></span>";
+                if (i.trim()) {
+                    rst =
+                        rst +
+                        "<span><button >" +
+                        this.removeReg(tags[i]) +
+                        "</button></span>";
+                }
             }
             return rst;
         },
