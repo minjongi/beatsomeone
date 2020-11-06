@@ -52,7 +52,7 @@
 
     import { EventBus } from '*/src/eventbus';
     import $ from "jquery";
-    import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap.min.js';
+    import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap.js';
 
     export default {
 
