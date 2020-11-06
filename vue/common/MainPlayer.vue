@@ -81,7 +81,7 @@
                     id: r.item.cit_id,
                     name : r.item.cit_name,
                     artist: r.item.mem_nickname,
-                    url: `/cmallact/download_sample/${r.item.cde_id}`,
+                    url: `/cmallact/download_sample/${r.item.detail.PREVIEW.cde_id}`,
                     cover_art_url: `/uploads/cmallitem/${r.item.cit_file_1}`,
                     isNew : true,
                     ws: r.ws,
