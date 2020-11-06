@@ -66,12 +66,12 @@
 </template>
 
 <script>
-    import {EventBus} from "*/src/eventbus";
-    import $ from "jquery";
-    import WaveSurfer from "wavesurfer.js";
-    import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
+import {EventBus} from "*/src/eventbus";
+import $ from "jquery";
+import WaveSurfer from "wavesurfer.js";
+import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
-    export default {
+export default {
         components: {
             PurchaseTypeSelector,
         },
@@ -233,8 +233,7 @@
                 this.purchaseTypeSelectorPopup = true;
             },
             selectItem(i) {
-                const path = `/detail/${i.cit_key}`;
-                window.location.href = path;
+                window.location.href = `/detail/${i.cit_key}`;
             },
             playAudio(i) {
                 // 재생 시작
@@ -332,8 +331,7 @@
             },
             // 해쉬 클릭
             clickHash(h) {
-                const path = `/beatsomeone/sublist?search=${h}`;
-                window.location.href = path;
+                window.location.href = `/beatsomeone/sublist?search=${h}`;
             },
             // 공유 클릭
             clickShare(sns) {

@@ -69,9 +69,10 @@
         created() {
 
             EventBus.$on('player_request_start',r=> {
-                log.debug({
-                    'ON MAIN : player_request_start':r
-                });
+                // log.debug({
+                //     'ON MAIN : player_request_start':r
+                // });
+                console.log(r);
                 if(!r.item) return;
 
                 const i = {
