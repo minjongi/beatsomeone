@@ -52,7 +52,8 @@
 
     import { EventBus } from '*/src/eventbus';
     import $ from "jquery";
-    import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap.js';
+    // import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap.js';
+    import WaveSurfer from 'wavesurfer.js'
 
     export default {
 
@@ -133,7 +134,7 @@
                 if(this.prevWs && this.prevWs.getActivePlugins().minimap) {
                     this.prevWs.destroyPlugin('minimap');
                 }
-                ws.addPlugin(MinimapPlugin.create({
+                ws.addPlugin(WaveSurfer.minimap.create({
                     container: '#minimap',
                 })).initPlugin('minimap');
 
