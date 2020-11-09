@@ -68,7 +68,7 @@
             </div>
             <div class="btnbox col" style="width:50%; margin:30px auto 100px;">
                 <button class="btn btn--gray" @click="goPage('inquiry')">{{ $t('lang89') }}</button>
-                <button type="submit" class="btn btn--submit" @click="submitInquiry">{{ $t('lang90') }}</button>
+                <button type="submit" class="btn btn--submit" ref="doSubmit" @click="submitInquiry">{{ $t('lang90') }}</button>
             </div>
         </div>
     </div>
@@ -181,6 +181,8 @@
                 }
                 if (this.is_submit === false) {
                     this.is_submit = true;
+                    this.$refs.doSubmit.disabled = true;
+                    this.$refs.doSubmit.innerHTML = "Processing...";
                     if (this.post_id) {
                         formData.append('post_id', this.post_id);
                         axios.post(`/modify/${this.post_id}`, formData, {
@@ -194,7 +196,9 @@
                                 this.$router.push({path: '/inquiry'})
                             })
                             .catch(error => {
-                                console.log(error);
+                                this.is_submit = false;
+                                this.$refs.doSubmit.disabled = false;
+                                this.$refs.doSubmit.innerHTML = this.$t('lang90');
                             });
                     } else {
                         axios.post('/write/support', formData, {
@@ -208,7 +212,9 @@
                                 this.$router.push({path: '/inquiry'})
                             })
                             .catch(error => {
-                                console.log(error);
+                                this.is_submit = false;
+                                this.$refs.doSubmit.disabled = false;
+                                this.$refs.doSubmit.innerHTML = this.$t('lang90');
                             });
                     }
                 }

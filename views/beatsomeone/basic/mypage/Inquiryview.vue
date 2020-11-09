@@ -48,7 +48,7 @@
                     <ul>
                         <li class="playList__itembox">
                             <div class="playList__item playList__item--title nowrap question stay">
-                                <div class="row">
+                                <div class="row" style="width: 100%;">
                                     <div class="mark">Q</div>
                                     <div class="answer" style="word-break: break-all;" v-html="post.post_content">
                                     </div>

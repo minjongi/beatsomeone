@@ -205,8 +205,9 @@
                 visibility: hidden;
                 overflow: hidden;
                 height: 0;
+                max-height: 0;
                 margin-left: 38px;
-                transition: height 0.3s ease;
+                transition: max-height 0.3s ease;
 
                 > div {
                     line-height: 2em;
@@ -271,13 +272,14 @@
 
                 .option_item {
                     visibility: visible;
+                    height: auto;
 
                     &.basic {
-                        height: 200px;
+                        max-height: 200px;
                     }
 
                     &.unlimited {
-                        height: 275px;
+                        max-height: 275px;
                     }
                 }
             }

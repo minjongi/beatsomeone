@@ -32,7 +32,7 @@
                         <span>{{ $t('lang63') }} *</span>
                     </div>
                     <div class="data">
-                    <textarea style="width: 100%;" rows="4" class="firstname" type="text" v-model="description"
+                    <textarea style="width: 100%; color: white" rows="4" class="firstname" type="text" v-model="description"
                               placeholder="Write your description for refund requesting..."></textarea>
                     </div>
                     <div></div>
@@ -40,9 +40,16 @@
 
                 <div class="btnbox" style="text-align:center;">
                     <button
+                        type="button"
+                        class="btn btn--gray"
+                        style="width:45%"
+                        @click="dismissModal"
+                    >{{ $t('lang89') }}
+                    </button>
+                    <button
                         type="submit"
                         class="btn btn--yellow"
-                        style="width:100%"
+                        style="width:45%"
                         @click="doComplete"
                     >{{ $t('lang66') }}
                     </button>

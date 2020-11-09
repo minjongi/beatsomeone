@@ -5,7 +5,7 @@
             <img v-if="!info.mem_photo" src="/assets/images/portrait.png" alt="">
         </div>
         <div class="information__user">
-            <h2 class="information__username">{{ info.mem_username }}</h2>
+            <h2 class="information__username">{{ info.mem_userid }}</h2>
             <p class="information__description" v-html="info.mem_profile_content"></p>
             <p class="information__description" v-html="info.cit_content"></p>
 

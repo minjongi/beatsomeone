@@ -161,7 +161,6 @@ import $ from "jquery";
 export default {
   props: ["purchaseTypeSelectorPopup", "item"],
   mounted() {
-    console.log(this.item);
   },
   data: function () {
     return {};

@@ -728,13 +728,15 @@ export default {
         calcTag: function (hashTag) {
             let rst = "";
             let tags = hashTag.split(",");
-            for (let i in tags) {
-                rst =
-                    rst +
-                    "<span><button >" +
-                    this.removeReg(tags[i]) +
-                    "</button></span>";
-            }
+            tags.forEach(tag => {
+                if (tag.trim()) {
+                    rst =
+                        rst +
+                        "<span><button >" +
+                        this.removeReg(tag) +
+                        "</button></span>";
+                }
+            })
             return rst;
         },
         calcFuncTotalCnt() {
@@ -990,6 +992,7 @@ export default {
         text-overflow: ellipsis;
         overflow: hidden;
         color: rgba(white, 0.3);
+        left: 50px;
 
         span {
             color: rgba(white, 0.3);

@@ -52,7 +52,7 @@
 
     import { EventBus } from '*/src/eventbus';
     import $ from "jquery";
-    import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap.min.js';
+    import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap.js';
 
     export default {
 
@@ -69,9 +69,10 @@
         created() {
 
             EventBus.$on('player_request_start',r=> {
-                log.debug({
-                    'ON MAIN : player_request_start':r
-                });
+                // log.debug({
+                //     'ON MAIN : player_request_start':r
+                // });
+                console.log(r);
                 if(!r.item) return;
 
                 const i = {
@@ -80,7 +81,7 @@
                     id: r.item.cit_id,
                     name : r.item.cit_name,
                     artist: r.item.mem_nickname,
-                    url: `/cmallact/download_sample/${r.item.cde_id}`,
+                    url: `/cmallact/download_sample/${r.item.detail.PREVIEW.cde_id}`,
                     cover_art_url: `/uploads/cmallitem/${r.item.cit_file_1}`,
                     isNew : true,
                     ws: r.ws,

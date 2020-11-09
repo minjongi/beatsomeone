@@ -34,7 +34,6 @@ class Cmall_item_show_history_model extends CB_Model
                 'type' => 'left'
             ],
         ];
-        $result = $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
-        return $result;
+        return $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop, 'cmall_item.cit_id');
     }
 }

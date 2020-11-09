@@ -119,7 +119,7 @@
                             <div class="date">
                                 {{ item.cor_datetime }}
                             </div>
-                            <div class="col name">
+                            <div class="col cover">
                                 <figure>
                                     <span class="playList__cover">
                                         <img :src="'/uploads/cmallitem/' + item.cit_file_1" v-if="item.cit_file_1" alt="">

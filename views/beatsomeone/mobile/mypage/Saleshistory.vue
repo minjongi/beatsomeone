@@ -92,16 +92,16 @@
             </div>
 
             <div class="tabmenu">
-                <div :class="{ 'active': search_tabmenu_idx === 1 }" @click="goTabMenu(1)">{{ $t('total1') }}
+                <div :class="{ 'active': status === '' }" @click="goTabMenu('')">{{ $t('total1') }}
                     ({{ calcTotalCnt }})
                 </div>
-                <div :class="{ 'active': search_tabmenu_idx === 2 }" @click="goTabMenu(2)">{{ $t('wait') }}
+                <div :class="{ 'active': status === 'deposit' }" @click="goTabMenu('deposit')">{{ $t('wait') }}
                     ({{ calcWaitCnt }})
                 </div>
-                <div :class="{ 'active': search_tabmenu_idx === 3 }" @click="goTabMenu(3)">{{ $t('payComplete1') }}
+                <div :class="{ 'active': status === 'order' }" @click="goTabMenu('order')">{{ $t('payComplete1') }}
                     ({{ calcCompleteCnt }})
                 </div>
-                <div :class="{ 'active': search_tabmenu_idx === 4 }" @click="goTabMenu(4)">{{ $t('refundComplete') }}
+                <div :class="{ 'active': status === 'cancel' }" @click="goTabMenu('cancel')">{{ $t('refundComplete') }}
                     ({{ calcRefundCnt }})
                 </div>
             </div>
@@ -237,6 +237,7 @@ export default {
             page: 1,
             forder:'desc',
             is_download: '',
+            status: ''
         };
     },
     mounted() {
@@ -264,7 +265,7 @@ export default {
     filters: {},
     methods: {
         fetchData() {
-            axios.get(`/cmall/ajax_salehistory?start_date=${this.start_date}&end_date=${this.end_date}&page=${this.page}&forder=${this.forder}&is_download=${this.is_download}`)
+            axios.get(`/cmall/ajax_salehistory?start_date=${this.start_date}&end_date=${this.end_date}&page=${this.page}&status=${this.status}&forder=${this.forder}&is_download=${this.is_download}`)
                 .then(res => res.data)
                 .then(data => {
                     this.waiting_funds = data.waiting_funds;
@@ -374,27 +375,29 @@ export default {
                 }
             });
         },
-        goTabMenu: function (menu) {
-            this.ajaxSalesList().then(() => {
-                let list = [];
-                Object.assign(list, this.mySalesList);
-                if (menu == 1) {
-                    this.mySalesList = list;
-                    this.search_tabmenu_idx = 1;
-                } else if (menu == 2) {
-                    let rst = list.filter(item => item.cor_status === '0');
-                    this.mySalesList = rst;
-                    this.search_tabmenu_idx = 2;
-                } else if (menu == 3) {
-                    let rst = list.filter(item => item.cor_status === '1');
-                    this.mySalesList = rst;
-                    this.search_tabmenu_idx = 3;
-                } else if (menu == 4) {
-                    let rst = list.filter(item => item.cor_status === '2');
-                    this.mySalesList = rst;
-                    this.search_tabmenu_idx = 4;
-                }
-            });
+        goTabMenu: function (status) {
+            this.status = status;
+            this.fetchData();
+            // this.ajaxSalesList().then(() => {
+            //     let list = [];
+            //     Object.assign(list, this.mySalesList);
+            //     if (menu == 1) {
+            //         this.mySalesList = list;
+            //         this.search_tabmenu_idx = 1;
+            //     } else if (menu == 2) {
+            //         let rst = list.filter(item => item.cor_status === '0');
+            //         this.mySalesList = rst;
+            //         this.search_tabmenu_idx = 2;
+            //     } else if (menu == 3) {
+            //         let rst = list.filter(item => item.cor_status === '1');
+            //         this.mySalesList = rst;
+            //         this.search_tabmenu_idx = 3;
+            //     } else if (menu == 4) {
+            //         let rst = list.filter(item => item.cor_status === '2');
+            //         this.mySalesList = rst;
+            //         this.search_tabmenu_idx = 4;
+            //     }
+            // });
         },
         goStartDate: function (e) {
             console.log(e.target.value);

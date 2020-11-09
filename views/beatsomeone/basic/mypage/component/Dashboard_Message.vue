@@ -5,9 +5,9 @@
             <button class="btn btn--glass" onclick='location.href = "/mypage#/message"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div>
-            <div v-if="data.length === 0">
+            <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 16px;">
               {{ $t('lang50') }}
-            </div>
+            </p>
             <div class="playList" v-else>
                 <ul>
                     <li class="playList__itembox" v-for="(message,index) in data" :key="index">
@@ -15,7 +15,7 @@
                             <div class="col name">
                                 <figure>
                                     <span class="playList__cover profile">
-                                        <img v-if="message.mem_photo" :src="message.mem_photo" :alt="message.mem_name">
+                                        <img v-if="message.mem_photo" :src="message.mem_photo" :alt="message.mem_nicname">
                                         <img v-else src="/assets/images/portrait.png">
                                     </span>
                                     <figcaption class="pointer" onclick='location.href = `/mypage#/message/`'>

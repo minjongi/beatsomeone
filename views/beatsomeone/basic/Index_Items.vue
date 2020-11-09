@@ -36,7 +36,7 @@
             </div>
 
             <div class="col genre">
-              <span v-for="(t,i) in hashtag" :key="i"><button @click="clickHash(t)" v-hover="'active'">{{ t }}</button></span>
+              <span v-for="(t,i) in hashtag" :key="i" v-if="t.trim()"><button @click="clickHash(t)" v-hover="'active'">{{ truncate(t, 15) }}</button></span>
             </div>
             <div class="col playbtn">
                 <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
@@ -66,12 +66,12 @@
 </template>
 
 <script>
-    import {EventBus} from "*/src/eventbus";
-    import $ from "jquery";
-    import WaveSurfer from "wavesurfer.js";
-    import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
+import {EventBus} from "*/src/eventbus";
+import $ from "jquery";
+import WaveSurfer from "wavesurfer.js";
+import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
 
-    export default {
+export default {
         components: {
             PurchaseTypeSelector,
         },
@@ -168,10 +168,20 @@
             } else if (this.item.cit_type3 === '1') {
                 this.$set(this.item, 'is_new', true);
             }
+            if (!this.ws) {
+                this.setAudioInstance(this.item);
+            }
         },
         methods: {
             truncate(str, n) {
-                return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+                if (this.byteSize(str) === str.length) { // 영문
+                    return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+                } else { // 한글
+                    return (this.byteSize(str) / 3 > n / 2) ? str.substr(0, n / 2 - 1) + '...' : str;
+                }
+            },
+            byteSize(str) {
+                return new Blob([str]).size;
             },
             stop() {
                 if (this.ws) {
@@ -223,8 +233,7 @@
                 this.purchaseTypeSelectorPopup = true;
             },
             selectItem(i) {
-                const path = `/detail/${i.cit_key}`;
-                window.location.href = path;
+                window.location.href = `/detail/${i.cit_key}`;
             },
             playAudio(i) {
                 // 재생 시작
@@ -270,8 +279,8 @@
                         desynchronized: false,
                     },
                 });
-                if (item.preview_cde_id) {
-                    this.ws.load(`/cmallact/download_sample/${item.preview_cde_id}`);
+                if (item.detail && item.detail.PREVIEW) {
+                    this.ws.load(`/cmallact/download_sample/${item.detail.PREVIEW.cde_id}`);
                 }
 
                 this.ws.on("play", () => {
@@ -322,8 +331,7 @@
             },
             // 해쉬 클릭
             clickHash(h) {
-                const path = `/beatsomeone/sublist?search=${h}`;
-                window.location.href = path;
+                window.location.href = `/beatsomeone/sublist?search=${h}`;
             },
             // 공유 클릭
             clickShare(sns) {
