@@ -50,7 +50,7 @@
                             <div class="playList__item playList__item--title nowrap question stay">
                                 <div class="row" style="width: 100%;">
                                     <div class="mark">Q</div>
-                                    <div class="answer" style="word-break: break-all;" v-html="post.post_content">
+                                    <div class="answer" style="word-break: break-all;" v-html="contentToHtml(post.post_content)">
                                     </div>
                                 </div>
                             </div>
@@ -122,6 +122,7 @@
                 .then(res => res.data)
                 .then(data => {
                     this.post = data.post;
+
                     this.files = data.file;
                     this.replies = data.post.replies.list;
 
@@ -179,6 +180,18 @@
                     })
                     .catch((error) => console.error(error));
                 console.log(file);
+            },
+            contentToHtml(post_content) {
+                if (post_content) {
+                    var paragraphs = post_content.split('\n');
+                    var html = "";
+                    paragraphs.forEach(paragraph => {
+                        html += `<p>${paragraph}</p>`;
+                    });
+                    return html;
+                } else {
+                    return ""
+                }
             }
         },
     }
