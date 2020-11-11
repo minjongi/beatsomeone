@@ -57,16 +57,16 @@
                         </li>
                         <li class="playList__itembox" v-for="comment in comments" v-bind:key="comment.cmt_id">
                             <div class="playList__item playList__item--title nowrap question">
-                                <div class="row">
+                                <div class="row" style="width: 100%;">
                                     <div class="mark"></div>
-                                    <div class="answer" v-html="comment.cmt_content">
+                                    <div class="answer" v-html="contentToHtml(comment.cmt_content)">
                                     </div>
                                 </div>
                             </div>
                         </li>
                         <li class="playList__itembox" v-for="reply in replies" v-bind:key="reply.post_id">
                             <div class="playList__item playList__item--title nowrap question complete">
-                                <div class="row">
+                                <div class="row" style="width: 100%;">
                                     <div class="mark">{{ reply.post_reply }}</div>
                                     <div class="answer" v-html="reply.post_content">
                                     </div>
