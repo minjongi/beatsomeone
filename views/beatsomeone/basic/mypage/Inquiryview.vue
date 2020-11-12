@@ -50,23 +50,23 @@
                             <div class="playList__item playList__item--title nowrap question stay">
                                 <div class="row" style="width: 100%;">
                                     <div class="mark">Q</div>
-                                    <div class="answer" style="word-break: break-all;" v-html="post.post_content">
+                                    <div class="answer" style="word-break: break-all;" v-html="contentToHtml(post.post_content)">
                                     </div>
                                 </div>
                             </div>
                         </li>
                         <li class="playList__itembox" v-for="comment in comments" v-bind:key="comment.cmt_id">
                             <div class="playList__item playList__item--title nowrap question">
-                                <div class="row">
+                                <div class="row" style="width: 100%;">
                                     <div class="mark"></div>
-                                    <div class="answer" v-html="comment.cmt_content">
+                                    <div class="answer" v-html="contentToHtml(comment.cmt_content)">
                                     </div>
                                 </div>
                             </div>
                         </li>
                         <li class="playList__itembox" v-for="reply in replies" v-bind:key="reply.post_id">
                             <div class="playList__item playList__item--title nowrap question complete">
-                                <div class="row">
+                                <div class="row" style="width: 100%;">
                                     <div class="mark">{{ reply.post_reply }}</div>
                                     <div class="answer" v-html="reply.post_content">
                                     </div>
@@ -122,6 +122,7 @@
                 .then(res => res.data)
                 .then(data => {
                     this.post = data.post;
+
                     this.files = data.file;
                     this.replies = data.post.replies.list;
 
@@ -179,6 +180,18 @@
                     })
                     .catch((error) => console.error(error));
                 console.log(file);
+            },
+            contentToHtml(post_content) {
+                if (post_content) {
+                    var paragraphs = post_content.split('\n');
+                    var html = "";
+                    paragraphs.forEach(paragraph => {
+                        html += `<p>${paragraph}</p>`;
+                    });
+                    return html;
+                } else {
+                    return ""
+                }
             }
         },
     }

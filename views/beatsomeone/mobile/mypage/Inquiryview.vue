@@ -50,7 +50,7 @@
                         <div class="playList__item playList__item--title nowrap question stay" style="min-height: 60px;">
                             <div class="row">
                                 <div class="mark">Q</div>
-                                <div class="answer" style="word-break: break-all;" v-html="post.post_content">
+                                <div class="answer" style="word-break: break-all;" v-html="contentToHtml(post.post_content)">
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                         <div class="playList__item playList__item--title nowrap question">
                             <div class="row">
                                 <div class="mark"></div>
-                                <div class="answer" style="word-break: break-all;" v-html="comment.cmt_content">
+                                <div class="answer" style="word-break: break-all;" v-html="contentToHtml(comment.cmt_content)">
                                 </div>
                             </div>
                         </div>
@@ -181,6 +181,18 @@
                     })
                     .catch((error) => console.error(error));
                 console.log(file);
+            },
+            contentToHtml(post_content) {
+                if (post_content) {
+                    var paragraphs = post_content.split('\n');
+                    var html = "";
+                    paragraphs.forEach(paragraph => {
+                        html += `<p>${paragraph}</p>`;
+                    });
+                    return html;
+                } else {
+                    return ""
+                }
             }
         },
     }
