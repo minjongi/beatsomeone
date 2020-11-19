@@ -280,7 +280,7 @@
                                 </figure>
                             </div>
                             <div class="col n-option">
-                                <div v-if="item.detail.LEASE">
+                                <div v-if="item.detail.LEASE && item.cit_lease_license_use === '1'">
                                     <div class="feature">
                                         <div class="listen">
                                             <div class="playbtn">
@@ -322,7 +322,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div v-if="item.detail.STEM">
+                                <div v-if="item.detail.STEM && item.cit_mastering_license_use === '1'">
                                     <div class="feature">
                                         <div class="listen">
                                             <div class="playbtn">

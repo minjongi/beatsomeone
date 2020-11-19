@@ -1093,4 +1093,11 @@ class Beatsomeone_model extends CB_Model
         $qry = $this->db->get('member_membership_purchase_log');
         return $qry->row_array()['totalCount'];
     }
+
+    public function set_extrincs($citId, $extrincs)
+    {
+        return $this->db->where('cit_id', $citId)
+            ->set('extrincs', $extrincs)
+            ->update('cmall_item');
+    }
 }

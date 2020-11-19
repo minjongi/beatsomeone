@@ -601,6 +601,8 @@ class BeatsomeoneApi extends CB_Controller
 
         $result = $this->Beatsomeone_model->merge_item($form);
 
+        $this->blockchainMint($result);
+
         // Reponse
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -1814,5 +1816,55 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode([
             'content' => $result
         ]));
+    }
+
+    private function blockchainMint($citId = 0)
+    {
+        $this->load->library('Blockchain');
+        $this->load->model('Beatsomeone_model');
+
+        $itemInfo = $result = $this->Beatsomeone_model->get_item(['cit_id' => $citId]);
+        if (empty($itemInfo)) {
+            return;
+        }
+
+        $callResult = $this->blockchain->call($citId);
+        $callResult = json_decode($callResult, true);
+        if (!empty($callResult['output'])) {
+            return;
+        }
+
+        $tokenString = [
+            'general_infomation' => [
+                'title' => $itemInfo->cit_name,
+                'tags' => $itemInfo->hashTag,
+                'track_type' => $itemInfo->trackType,
+                'release_date' => $itemInfo->cit_start_datetime,
+                'url_of_your_track' => 'https://beatsomeone.com/detail/' . $itemInfo->cit_key
+            ],
+            'selling_preferences' => [
+                'is_the_music_copyright_officially_registered_beat' => empty($itemInfo->cit_officially_registered) ? 'N' : 'Y',
+                'basic_lease_license_price' => $itemInfo->cde_price_d,
+                'basic_lease_license_inventory_quantity' => $itemInfo->cde_quantity,
+                'mastering_license_price' => $itemInfo->cde_price_d_2,
+                'include_copyright_transfer' => empty($itemInfo->cit_include_copyright_transfer) ? 'N' : 'Y',
+                'mastering_license_inventory_quantity' => $itemInfo->cde_quantity_2
+            ],
+            'track_details' => [
+                'primary_genre' => $itemInfo->genre,
+                'subgenre' => $itemInfo->subgenre,
+                'primary_mood' => $itemInfo->moods,
+                'description' => strip_tags(str_replace(PHP_EOL, ' ', $itemInfo->cit_content)),
+                'bpm' => $itemInfo->bpm
+            ]
+        ];
+
+        $result = $this->blockchain->mint($citId, $tokenString);
+        $result = json_decode($result, true);
+
+        if (empty($result['extrincs'])) {
+            return;
+        }
+        $this->Beatsomeone_model->set_extrincs($citId, $result['extrincs']);
     }
 }
