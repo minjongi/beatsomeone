@@ -13,7 +13,7 @@
                     {{ $t('currencySymbol') }}{{ $i18n.locale === 'en' ? Number(data.total_sale_funds).toLocaleString() : Number(data.total_sale_funds_d).toLocaleString() }}
                     <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? Number(data.total_sale_funds - data.total_last_sale_funds).toLocaleString() : Number(data.total_sale_funds_d - data.total_last_sale_funds_d).toLocaleString() }}{{ (data.total_sale_funds_d - data.total_last_sale_funds_d) > 0 ? '▲' : '▼' }})</div>
                     <span>{{$t('estimatedSalesAmount')}}
-                        <button class="button" style="position: relative">
+                        <button class="button" style="position: relative; cursor: default;">
                             <img src="/assets/images/icon/tip.png"/>
                             <span data-v-27fa6da0="" class="tooltip">
                                 <p>
