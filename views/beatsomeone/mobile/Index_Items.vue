@@ -13,7 +13,7 @@
             <div class="col name">
                 <figure>
                     <div class="playList__cover" @click="selectItem(item)">
-                        <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
+                        <img :src="'/uploads/cmallitem/' + item.thumb" alt/>
                         <i v-if="item.is_new" class="label new">N</i>
                     </div>
 
