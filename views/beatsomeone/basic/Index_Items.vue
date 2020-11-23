@@ -79,7 +79,8 @@ export default {
             "item",
             "hideFav",
             "showCheck",
-            "value"
+            "value",
+            'disabledWave'
         ],
         data: function () {
             return {
@@ -168,7 +169,7 @@ export default {
             } else if (this.item.cit_type3 === '1') {
                 this.$set(this.item, 'is_new', true);
             }
-            if (!this.ws) {
+            if (!this.disabledWave && !this.ws) {
                 this.setAudioInstance(this.item);
             }
         },

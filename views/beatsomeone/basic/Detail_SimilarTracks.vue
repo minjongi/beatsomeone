@@ -8,7 +8,7 @@
                     v-on:before-enter="beforeEnter"
                     v-on:enter="enter"
                     v-on:leave="leave">
-            <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_id"></Index_Items>
+            <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_id" :disabledWave="true"></Index_Items>
             </transition-group>
         </ul>
         <div v-if="busy">

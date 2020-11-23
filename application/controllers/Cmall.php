@@ -512,7 +512,7 @@ class Cmall extends CB_Controller
             $this->output->set_status_header('404');
             return false;
         }
-        if (!element('cit_status', $data)) {
+        if (!element('cit_status', $data) && !element('view_permission_type', $data)) {
             $this->output->set_status_header('400');
             $this->output->set_output(json_encode([
                 'message' => '이 상품은 현재 판매하지 않습니다'
