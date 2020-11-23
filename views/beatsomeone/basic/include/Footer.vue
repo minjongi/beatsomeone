@@ -49,10 +49,10 @@
               <li>
                 <a href="http://dumdum.kr" target="_blank">{{ $t('aboutUs') }}</a>
               </li>
-              <li>
-                <a href="http://scan.beatsomeone.com" target="_blank">Blockchain Explorer</a>
-              </li>
             </ul>
+          </div>
+          <div class="row">
+            <a href="http://scan.beatsomeone.com" target="_blank">beatsomeone Blockchain Monitoring System</a>
           </div>
           <!--
                     <div class="row">

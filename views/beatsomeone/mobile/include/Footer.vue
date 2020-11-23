@@ -36,7 +36,7 @@
                 </div>
                 -->
                 <div class="footer__appLink">
-                  <a href="http://scan.beatsomeone.com" target="_blank" style="color:#ffffff;font-size:10px;">Blockchain Explorer</a>
+                  <a href="http://scan.beatsomeone.com" target="_blank" style="color:#ffffff;font-size:10px;">beatsomeone Blockchain Mornitoring System</a>
                 </div>
                 <p class="footer__copyright">
                     서울특별시 마포구 와우산로1길 3-2, 3층(상수동, 스페이스 어반)<br/>
