@@ -12,8 +12,8 @@
         <div>
             <div class="splitboard">
                 <div class="blue">
-                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'en' ? Number(data.total_sale_funds).toLocaleString() : Number(data.total_sale_funds_d).toLocaleString() }}
-                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? Number(data.total_sale_funds - data.total_last_sale_funds).toLocaleString() : Number(data.total_sale_funds_d - data.total_last_sale_funds_d).toLocaleString() }}{{ (data.total_sale_funds_d - data.total_last_sale_funds_d) > 0 ? '▲' : '▼' }})</div>
+                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? data.total_sale_funds.toFixed(0) : data.total_sale_funds_d.toFixed(2) }}
+                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (data.total_sale_funds - data.total_last_sale_funds).toFixed(0) : (data.total_sale_funds_d - data.total_last_sale_funds_d).toFixed(2) }}{{ (data.total_sale_funds_d - data.total_last_sale_funds_d) > 0 ? '▲' : '▼' }})</div>
                     <span>
                     {{$t('estimatedSalesAmount')}}
                     <button class="button active">
@@ -25,8 +25,8 @@
                 </span>
                 </div>
                 <div class="blue">
-                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? Number(data.total_settle_funds).toLocaleString() : Number(data.total_settle_funds_d).toLocaleString() }}
-                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (data.total_settle_funds - data.total_last_settle_funds) : (data.total_settle_funds_d - data.total_last_settle_funds_d)}}{{ (data.total_settle_funds - data.total_last_settle_funds) > 0 ? '▲' : '▼' }})</div>
+                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? data.total_settle_funds.toFixed(0) : data.total_settle_funds_d.toFixed(2) }}
+                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (data.total_settle_funds - data.total_last_settle_funds).toFixed(0) : (data.total_settle_funds_d - data.total_last_settle_funds_d).toFixed(2) }}{{ (data.total_settle_funds - data.total_last_settle_funds) > 0 ? '▲' : '▼' }})</div>
                     <span>
                     {{$t('estimatedSettlementAmount')}}
                     <button class="button">
@@ -38,8 +38,8 @@
                 </span>
                 </div>
                 <div class="red">
-                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? data.total_last_settle_funds : data.total_last_settle_funds_d }}
-                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (data.total_last_settle_funds - data.total_lastlast_settle_funds) : (data.total_lastlast_settle_funds - data.total_lastlast_settle_funds_d) }}{{ (data.total_lastlast_settle_funds - data.total_lastlast_settle_funds_d) > 0 ? '▲' : '▼' }})</div>
+                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? data.total_last_settle_funds.toFixed(0) : data.total_last_settle_funds_d.toFixed(2) }}
+                    <div class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (data.total_last_settle_funds - data.total_lastlast_settle_funds).toFixed(0) : (data.total_lastlast_settle_funds - data.total_lastlast_settle_funds_d).toFixed(2) }}{{ (data.total_lastlast_settle_funds - data.total_lastlast_settle_funds_d) > 0 ? '▲' : '▼' }})</div>
                     <span>
                     {{$t('lastMonthSettlementAmount')}}
                     <button class="button">
