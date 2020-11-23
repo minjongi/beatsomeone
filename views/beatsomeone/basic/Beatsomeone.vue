@@ -97,7 +97,7 @@
                                          class="trending__slide-item albumItem" @click="goToDetail(i.cit_key)">
 
                                         <button class="albumItem__cover">
-                                            <img :src="'/uploads/cmallitem/' + i.cit_file_1" :alt="i.cit_name"/>
+                                            <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                                         </button>
                                         <a class="albumItem__link">
                                             <h4 class="albumItem__title">{{ i.cit_name }}</h4>

@@ -13,7 +13,7 @@
 
             <div class="col name">
                 <figure>
-                    <span class="playList__cover"><img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/><i class="label new" v-show="item.is_new === true">N</i></span>
+                    <span class="playList__cover"><img :src="'/uploads/cmallitem/' + item.thumb" alt/><i class="label new" v-show="item.is_new === true">N</i></span>
                     <figcaption class="pointer" @click="selectItem(item)">
                         <h3 class="playList__title">{{ truncate(item.cit_name, 30) }}</h3>
                         <span class="playList__by">by {{ item.mem_nickname }}</span>

@@ -35,6 +35,9 @@
                     /></a>
                 </div>
                 -->
+                <div class="footer__appLink">
+                  <a href="http://scan.beatsomeone.com" target="_blank" style="color:#ffffff;font-size:10px;">Blockchain Explorer</a>
+                </div>
                 <p class="footer__copyright">
                     서울특별시 마포구 와우산로1길 3-2, 3층(상수동, 스페이스 어반)<br/>
                     대표이사 김용환  |  사업자등록번호 112-86-01117  |  제2019-서울마포-2779호<br/>

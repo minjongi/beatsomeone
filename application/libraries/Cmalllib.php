@@ -1337,4 +1337,22 @@ class Cmalllib extends CI_Controller
 			}
 		}
 	}
+
+    public function make_thumb($path = '', $filename = '', $width = 54, $height = 54, $marker = 'thumb')
+    {
+        $this->CI->load->library('image_lib');
+
+        $config['image_library'] = 'gd';
+        $config['source_image'] = $path . $filename;
+        $config['create_thumb'] = true;
+        $config['maintain_ratio'] = true;
+        $config['width'] = $width;
+        $config['height'] = $height;
+        $config['thumb_marker'] = '_' . $marker;
+
+        $this->CI->image_lib->initialize($config);
+        $this->CI->image_lib->resize();
+
+        return cover_thumb_name($filename, $marker);
+    }
 }

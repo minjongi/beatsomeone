@@ -537,3 +537,11 @@ if ( ! function_exists('is_animated_gif')) {
 		return $count > 1;
 	}
 }
+
+if ( ! function_exists('cover_thumb_name')) {
+    function cover_thumb_name ($filename, $marker)
+    {
+        $fileInfo = explode('.', $filename);
+        return $fileInfo[0] . '_' . $marker . '.' . $fileInfo[1];
+    }
+}

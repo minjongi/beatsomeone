@@ -54,6 +54,7 @@ class BeatsomeoneApi extends CB_Controller
         );
         $result = $this->Beatsomeone_model->get_main_list($config);
         foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name(element('cit_file_1', $val), 'list');
             $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
             $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
             $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
@@ -116,6 +117,9 @@ class BeatsomeoneApi extends CB_Controller
             'limit' => '10',
         );
         $result = $this->Cmall_item_model->get_latest($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], '200');
+        }
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -159,6 +163,7 @@ class BeatsomeoneApi extends CB_Controller
 
         $result = $this->Beatsomeone_model->get_sublist_list($config);
         foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], 'list');
             $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
             $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
             $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
@@ -190,6 +195,10 @@ class BeatsomeoneApi extends CB_Controller
         );
         $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
         $result = $this->filterFreebeat($result);
+
+        foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], '200');
+        }
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -263,6 +272,7 @@ class BeatsomeoneApi extends CB_Controller
                 $details2[$detail['cde_title']] = $detail;
             }
             $similar_products[$idx]['detail'] = $details2;
+            $similar_products[$idx]['thumb'] = cover_thumb_name($product['cit_file_1'], 'list');
         }
 
         $this->output->set_content_type('text/json');
@@ -634,6 +644,9 @@ class BeatsomeoneApi extends CB_Controller
         }
 
         $result = $this->upload_file('cmallitem', 'gif|jpg|png');
+
+        $result['thumb'] = $this->cmalllib->make_thumb(APPPATH . '../uploads/cmallitem/', $result['filename'], 54, 54);
+        $this->cmalllib->make_thumb(APPPATH . '../uploads/cmallitem/', $result['filename'], 200, 200, '200');
 
         // Reponse
         $this->output->set_content_type('text/json');
