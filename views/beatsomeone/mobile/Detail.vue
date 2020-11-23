@@ -168,7 +168,7 @@
                             "songs": [{
                                 "name": this.item.cit_name,
                                 "artist": this.item.musician,
-                                "url": `/cmallact/download_sample/${this.item.detail.PREVIEW.cde_id}`,
+                                "url": `/cmallact/listen_preview/${this.item.detail.PREVIEW.cde_id}`,
                             }],
                             debug: true,
                             callbacks: {

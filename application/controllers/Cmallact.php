@@ -313,6 +313,36 @@ class Cmallact extends CB_Controller
         }
     }
 
+    /**
+     * 미리듣기 음원 연결
+     */
+    public function listen_preview($cde_id = 0)
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_admin_cmall_itemdownload_download';
+        $this->load->event($eventname);
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('before', $eventname);
+
+        $cde_id = (int)$cde_id;
+        if (empty($cde_id) or $cde_id < 1) {
+            show_404();
+        }
+
+        $this->load->model(array('Cmall_item_detail_model'));
+
+        $file = $this->Cmall_item_detail_model->get_one($cde_id);
+
+        if (!element('cde_id', $file)) {
+            show_404();
+        }
+
+        // 이벤트가 존재하면 실행합니다
+        Events::trigger('after', $eventname);
+
+        redirect(site_url(config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $file)));
+    }
 
     /**
      * 상품 첨부파일 샘플 다운로드 하기
