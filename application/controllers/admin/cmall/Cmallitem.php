@@ -1119,6 +1119,7 @@ class Cmallitem extends CB_Controller
 
         $this->load->library('excel/Spreadsheet_Excel_Reader');
 
+        $this->spreadsheet_excel_reader->setOutputEncoding('UTF-8');
         $this->spreadsheet_excel_reader->read($file);
         $sheets = $this->spreadsheet_excel_reader->sheets[0];
 
@@ -1130,7 +1131,6 @@ class Cmallitem extends CB_Controller
         $audioFilePath = 'bso/';
         $fieldList = [
             'mem_id', //회원고유번호
-            'mem_userid', //회원아이디
             'cit_name', //트랙명
             'hashTag', //태그(최대10개)
             'trackType', //트랙유형
@@ -1161,29 +1161,29 @@ class Cmallitem extends CB_Controller
             }
 
             $itemData['licenseLeaseUseYn'] = 1;
-            $itemData['licenseStemUseYn'] = 1;
+            $itemData['licenseStemUseYn'] = empty($itemData['licenseStemPriceKRW']) ? 0 : 1;
             $itemData['licenseStemQuantity'] = 1;
             $itemData['ip'] = $this->input->ip_address();
 
             $itemData['cit_start_datetime'] = date('Y-m-d H:i:s', strtotime($itemData['cit_start_datetime']));
 
             $itemData['artwork'] = [
-                'filename' => $imgFilePath . $itemData['artwork'],
+                'filename' => empty($itemData['artwork']) ? '' : $imgFilePath . $itemData['artwork'],
                 'originname' => $itemData['artwork']
             ];
 
             $itemData['unTaggedFile'] = [
-                'filename' => $audioFilePath . $itemData['unTaggedFile'],
+                'filename' => empty($itemData['unTaggedFile']) ? '' : $audioFilePath . $itemData['unTaggedFile'],
                 'originname' => $itemData['unTaggedFile']
             ];
 
             $itemData['stemFile'] = [
-                'filename' => $audioFilePath . $itemData['stemFile'],
+                'filename' => empty($itemData['stemFile']) ? '' : $audioFilePath . $itemData['stemFile'],
                 'originname' => $itemData['stemFile']
             ];
 
             $itemData['previewFile'] = [
-                'filename' => $audioFilePath . $itemData['previewFile'],
+                'filename' => empty($itemData['previewFile']) ? '' : $audioFilePath . $itemData['previewFile'],
                 'originname' => $itemData['previewFile']
             ];
 
