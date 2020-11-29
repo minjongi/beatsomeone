@@ -280,8 +280,9 @@ export default {
                         desynchronized: false,
                     },
                 });
+
                 if (item.detail && item.detail.PREVIEW) {
-                    this.ws.load(`/cmallact/download_sample/${item.detail.PREVIEW.cde_id}`);
+                    this.ws.load(`/cmallact/download_sample/${item.detail.PREVIEW.cde_id}`, item.waveform, true);
                 }
 
                 this.ws.on("play", () => {
