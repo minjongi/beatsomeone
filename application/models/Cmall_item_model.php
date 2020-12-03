@@ -101,6 +101,9 @@ class Cmall_item_model extends CB_Model
         if (element('cit_type4', $config)) {
             $where['cit_type4'] = 1;
         }
+        if (element('cit_type5', $config)) {
+            $where['cit_type5'] = 1;
+        }
         $limit = element('limit', $config) ? element('limit', $config) : 4;
 
         $this->db->select('cmall_item.*, member.mem_nickname');
@@ -346,5 +349,13 @@ class Cmall_item_model extends CB_Model
         $result = $this->db->get();
         $re = $result->row_array();
         return $re['cnt'];
+    }
+
+    public function update_waveform($cit_id, $waveform)
+    {
+        $this->db->where('cit_id', $cit_id);
+        $this->db->set('waveform', $waveform);
+        $result = $this->db->update($this->_table);
+        return $result;
     }
 }
