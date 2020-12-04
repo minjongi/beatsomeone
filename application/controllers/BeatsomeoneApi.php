@@ -611,8 +611,7 @@ class BeatsomeoneApi extends CB_Controller
         log_message('debug',print_r($form,true));
 
         $result = $this->Beatsomeone_model->merge_item($form);
-
-        $this->blockchainMint($result);
+//        $this->blockchainMint($result);
 
         // Reponse
         $this->output->set_content_type('text/json');
