@@ -643,7 +643,7 @@ class BeatsomeoneApi extends CB_Controller
             return;
         }
 
-        $result = $this->upload_file('cmallitem', 'gif|jpg|png');
+        $result = $this->upload_file('cmallitem', 'gif|jpg|png|jpeg');
 
         $result['thumb'] = $this->cmalllib->make_thumb(APPPATH . '../uploads/cmallitem/', $result['filename'], 54, 54, 'list');
         $this->cmalllib->make_thumb(APPPATH . '../uploads/cmallitem/', $result['filename'], 200, 200, '200');
