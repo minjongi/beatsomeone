@@ -35,6 +35,7 @@ module.exports = {
             upgrade: ['./views/beatsomeone/basic/mypage/upgrade.js'],
             purchase: ['./views/register/basic/purchase.js'],
             brand_list: ['./views/beatsomeone/basic/brand/list.js'],
+            event: ['./views/beatsomeone/basic/event/event.js'],
 
             m_beatsomeone: ['./views/beatsomeone/mobile/beatsomeone.js'],
             m_detail: ['./views/beatsomeone/mobile/detail.js'],
@@ -58,6 +59,7 @@ module.exports = {
             m_upgrade: ['./views/beatsomeone/mobile/mypage/upgrade.js'],
             m_purchase: ['./views/register/mobile/purchase.js'],
             m_brand_list: ['./views/beatsomeone/mobile/brand/list.js'],
+            m_event: ['./views/beatsomeone/mobile/event/event.js'],
 
             admin_cmallitem_write: ['./views/admin/basic/cmall/cmallitem/write.js'],
         },

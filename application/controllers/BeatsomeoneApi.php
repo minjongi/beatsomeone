@@ -166,6 +166,7 @@ class BeatsomeoneApi extends CB_Controller
         foreach ($result as $key => $val) {
             $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], 'list');
             $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+            $result[$key]['waveform'] = json_decode(element('waveform', $val), true);
             $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
             $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
             foreach ($itemdetails as $itemdetail) {
