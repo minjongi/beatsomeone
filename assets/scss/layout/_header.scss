@@ -63,6 +63,7 @@
   }
 
   .event-top {
+    display: block;
     text-align:center;
     background-color: #000000;
     width: 100%;
@@ -70,4 +71,8 @@
       max-width: 100%;
     }
   }
+}
+
+.event-header {
+  padding-bottom: 80px;
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="noti-popup" ref="noti-popup" v-if="popup">
+        <div id="noti-popup" ref="noti-popup" v-if="popup && $i18n.locale !== 'en'">
           <div class="noti-content">
             <div style="position: absolute;right: 5px;width: 30px;height: 30px;margin-top: 8px;" @click="closePopup"></div>
             <div style="background-color: #000000">
