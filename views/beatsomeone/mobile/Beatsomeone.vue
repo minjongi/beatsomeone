@@ -4,10 +4,10 @@
           <div class="noti-content">
             <div style="position: absolute;right: 5px;width: 30px;height: 30px;margin-top: 8px;" @click="closePopup"></div>
             <div style="background-color: #000000">
-              <img src="/assets_m/images/event/20201207/1.png" style="max-width:100%;display:block;">
+              <img src="/assets_m/images/event/20201207/1.png" style="display:block;">
             </div>
             <div>
-              <img src="/assets_m/images/event/20201207/2.png" style="max-width:100%;display:block;" @click="goEvent">
+              <img src="/assets_m/images/event/20201207/2.png" style="display:block;" @click="goEvent">
             </div>
           </div>
         </div>

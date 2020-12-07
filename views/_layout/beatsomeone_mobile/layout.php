@@ -140,12 +140,12 @@
           left: 50%;
           transform: translate(-50%, -50%);
           z-index: 10001;
-          max-width: 400px;
+          max-width: 300px;
           width: 100%;
       }
 
       .noti-content img {
-          max-width: 400px;
+          max-width: 300px;
           width: 100%;
           margin: 0;
           padding: 0;
