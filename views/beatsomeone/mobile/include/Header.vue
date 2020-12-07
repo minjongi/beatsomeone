@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <header class="header">
             <div class="wrap">
@@ -9,7 +8,6 @@
                 <div class="header__btnbox">
                     <a href="javascript:;" class="header__locale" v-if="!isShowSearchBox" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                     <input type="text"
-
                            v-if="isShowSearchBox"
                            v-model="searchText"
                            @keyup.enter="enterClicked()"
@@ -86,7 +84,8 @@
                 isOpen: false,
                 isShowSearchBox: false,
                 member_group_name: '',
-                banner_content: ''
+                banner_content: '',
+                popup: true
             };
         },
         created() {
