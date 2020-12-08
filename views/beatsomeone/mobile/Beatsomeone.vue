@@ -1,5 +1,16 @@
 <template>
     <div>
+        <div id="noti-popup" ref="noti-popup" v-if="popup && $i18n.locale !== 'en'">
+          <div class="noti-content">
+            <div style="position: absolute;right: 5px;width: 30px;height: 30px;margin-top: 8px;" @click="closePopup"></div>
+            <div style="background-color: #000000">
+              <img src="/assets_m/images/event/20201207/1.png" style="display:block;">
+            </div>
+            <div>
+              <img src="/assets_m/images/event/20201207/2.png" style="display:block;" @click="goEvent">
+            </div>
+          </div>
+        </div>
         <div class="wrapper">
             <Header :is-login="isLogin"></Header>
             <div class="container">
@@ -180,7 +191,8 @@
                 listGenre: ["All Genre"].concat(window.genre), // .concat(["Free Beats"])
                 videoBGPath: "",
                 member: false,
-                member_group_name: ''
+                member_group_name: '',
+                popup: true
             };
         },
         created() {
@@ -254,6 +266,12 @@
             },
         },
         methods: {
+            goEvent() {
+              location.href = '/event'
+            },
+            closePopup() {
+              this.popup = false
+            },
             endVideoBG() {
                 const idx = Math.floor(Math.random() * 6) + 1;
                 this.videoBGPath = "/uploads/data/bgvideo/mobile/bg" + idx + ".mp4";

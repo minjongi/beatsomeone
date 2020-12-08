@@ -49,7 +49,7 @@
                     <th><a href="<?php echo element('mem_id', element('sort', $view)); ?>">번호</a></th>
                     <th><a href="<?php echo element('mem_id', element('sort', $view)); ?>">아이디</a></th>
                     <th><a href="<?php echo element('mem_username', element('sort', $view)); ?>">실명</a></th>
-                    <th><a href="<?php echo element('mem_userid', element('sort', $view)); ?>">닉네임</a></th>
+                    <th><a href="<?php echo element('mem_nickname', element('sort', $view)); ?>">닉네임</a></th>
                     <th><a href="<?php echo element('mem_email', element('sort', $view)); ?>">이메일</a></th>
                     <?php if ($this->cbconfig->item('use_selfcert')) { ?>
                         <th>본인인증</th>

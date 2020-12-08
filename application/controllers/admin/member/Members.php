@@ -134,8 +134,8 @@ class Members extends CB_Controller
                     }
                 }
                 $result['list'][$key]['display_name'] = display_username(
-                    element('mem_userid', $val),
-                    element('mem_userid', $val),
+                    element('mem_nickname', $val),
+                    element('mem_nickname', $val),
                     element('mem_icon', $val)
                 );
                 $result['list'][$key]['meta'] = $this->Member_meta_model->get_all_meta(element('mem_id', $val));
@@ -611,7 +611,7 @@ class Members extends CB_Controller
             $mem_is_admin = $this->input->post('mem_is_admin') ? 1 : 0;
 
             $updatedata = array(
-                'mem_userid' => $this->input->post('mem_nickname', null, ''),
+//                'mem_userid' => $this->input->post('mem_nickname', null, ''),
                 'mem_email' => $this->input->post('mem_email', null, ''),
                 'mem_username' => $this->input->post('mem_username', null, ''),
                 'mem_firstname' => $this->input->post('mem_firstname', null, ''),
