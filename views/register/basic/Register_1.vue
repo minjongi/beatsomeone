@@ -6,16 +6,16 @@
         <div class="login accounts__defaultLayout">
             <div class="accounts__case">
                 <label for="listen " class="case case--listen">
-                    <input type="radio" name="case" id="listen " hidden @click="currentUserType = 'buyer'"/>
-                    <div>
+                    <input type="radio" name="case" id="listen" hidden :checked="currentUserType == 'buyer'"/>
+                    <div @click="currentUserType = 'buyer'">
                         <span class="icon"></span>
                         <p>{{ $t ('listenAndBuyMusic1') }}<br/>{{ $t ('listenAndBuyMusic2') }}</p>
                     </div>
                 </label>
 
                 <label for="monetize" class="case case--monetize">
-                    <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'seller'"/>
-                    <div>
+                    <input type="radio" name="case" id="monetize" hidden :checked="currentUserType == 'seller'"/>
+                    <div @click="currentUserType = 'seller'">
                         <span class="icon"></span>
                         <p>{{ $t('monetizeMyMusic1') }}<br/>{{ $t('monetizeMyMusic2') }}</p>
                     </div>
@@ -31,9 +31,9 @@
                 <label for="yearly" @click="billTerm = 'yearly'">
                     <input type="radio" id="yearly" hidden name="bill"/>
                     <span>
-                            {{ $t('billYearly') }}
-                            <em>{{ disBill }}{{ $t('savepercent') }}</em>
-                        </span>
+                        {{ $t('billYearly') }}
+                        <em>{{ disBill }}{{ $t('savepercent') }}</em>
+                    </span>
                 </label>
             </div>
         </div>
@@ -52,22 +52,21 @@
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerFree)">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
-                            정기구독일반
+                            {{ $t('subcribe_common') }} 
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ? sellerPlatinumGroup.mgr_monthly_cost_d : sellerPlatinumGroup.mgr_monthly_cost_w) :
-                            ($i18n.locale === 'en' ? sellerPlatinumGroup.mgr_year_cost_d : sellerPlatinumGroup.mgr_year_cost_w) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('getStarted') }}</a>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}</h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
-                            정기구독크리에이터
+                            {{ $t('subcribe_creater') }}
                         </p>
-                       <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ? sellerMasterGroup.mgr_monthly_cost_d : sellerMasterGroup.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? sellerMasterGroup.mgr_year_cost_d : sellerMasterGroup.mgr_year_cost_w) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerMasterGroup)">{{ $t('getStarted') }}</a>
+                       <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}</h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
                     </th>
                 </tr>
                 </thead>
@@ -254,7 +253,7 @@
         data: function () {
             return {
                 userType: ['buyer', 'seller'],
-                currentUserType: null,
+                currentUserType: 'buyer',
                 billTerm: 'monthly',
                 listPlan: null,
                 planName: 'free',
@@ -263,7 +262,9 @@
                 sellerFreeGroup: {},
                 sellerPlatinumGroup: {},
                 sellerMasterGroup: {},
-                selectedGroup: {}
+                selectedGroup: {},
+                subscribedCommon: {},
+                subscribedCreater: {},
             }
         },
         filters: {
@@ -281,23 +282,23 @@
              
         },
         created() {
-            this.currentUserType = this.userType[1];
+            this.currentUserType = localStorage.getItem("UserOffer");
             this.fetchData();
         },
         mounted() {
             var bg = document.querySelector(".accounts__switch-bg");
             // 월간
-            document.getElementById("monthly").addEventListener("change", function () {
-                if (this.checked === true) {
-                    bg.classList.remove("right");
-                }
-            });
-            // 연간
-            document.getElementById("yearly").addEventListener("change", function () {
-                if (this.checked === true) {
-                    bg.classList.add("right");
-                }
-            });
+            // document.getElementById("monthly").addEventListener("change", function () {
+            //     if (this.checked === true) {
+            //         bg.classList.remove("right");
+            //     }
+            // });
+            // // 연간
+            // document.getElementById("yearly").addEventListener("change", function () {
+            //     if (this.checked === true) {
+            //         bg.classList.add("right");
+            //     }
+            // });
             localStorage.clear();
         },
         watch: {
@@ -321,6 +322,8 @@
                             }
                         });
                     });
+                }else{
+                    this.billTerm = 'monthly';
                 }
             }
         },
@@ -337,6 +340,7 @@
                     .then(res => res.data)
                     .then(data => {
                         let list = Object.values(data);
+                        console.log('this is list__________', list);
                         list.forEach(item => {
                             if (item.mgr_title === 'buyer') {
                                 this.buyerGroup = item;
@@ -346,6 +350,10 @@
                                 this.sellerPlatinumGroup = item;
                             } else if (item.mgr_title === 'seller_master') {
                                 this.sellerMasterGroup = item;
+                            } else if (item.mgr_title === 'subcribe_common'){
+                                this.subscribedCommon = item;
+                            } else if (item.mgr_title === 'subcribe_creater'){
+                                this.subscribedCreater = item;
                             }
                         });
                     })

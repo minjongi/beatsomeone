@@ -415,7 +415,7 @@
                         }
                         case 'startBuyer': {
                             url = '/register';
-                            window.member_group_name = 'buyer';
+                            localStorage.setItem("UserOffer", "buyer");
                             break;
                         }
                     }
@@ -423,6 +423,7 @@
                 // 비로그인시
                 else {
                     url = '/register';
+                    localStorage.setItem("UserOffer", "buyer");
                 }
 
                 console.log('this is startSelling', o, this.member);

@@ -8,16 +8,16 @@
             <form action="">
                 <div class="accounts__case">
                     <label for="listen " class="case case--listen">
-                        <input type="radio" name="case" id="listen " hidden  @click="currentUserType = 'buyer'"/>
-                        <div>
+                        <input type="radio" name="case" id="listen " hidden :checked="currentUserType == 'buyer'"/>
+                        <div @click="currentUserType = 'buyer'">
                             <span class="icon"></span>
                             <p>{{ $t ('listenAndBuyMusic1') }}<br />{{ $t ('listenAndBuyMusic2') }}</p>
                         </div>
                     </label>
 
                     <label for="monetize" class="case case--monetize">
-                        <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'seller'"/>
-                        <div>
+                        <input type="radio" name="case" id="monetize" hidden :checked="currentUserType == 'seller'"/>
+                        <div @click="currentUserType = 'seller'">
                             <span class="icon"></span>
                             <p>{{ $t('monetizeMyMusic1') }}<br />{{ $t('monetizeMyMusic2') }}</p>
                         </div>
@@ -309,7 +309,9 @@
                 sellerFreeGroup: {},
                 sellerPlatinumGroup: {},
                 sellerMasterGroup: {},
-                selectedGroup: {}
+                selectedGroup: {},
+                subscribedCommon: {},
+                subscribedCreater: {}
             }
         },
         filters: {
@@ -325,10 +327,12 @@
             },
         },
         created() {
-            this.currentUserType = this.userType[1];
+            this.currentUserType = localStorage.getItem("UserOffer");
             this.fetchData();
         },
+        
         mounted() {
+            
         },
         watch: {
             currentUserType(n) {
@@ -350,6 +354,8 @@
                             }
                         });
                     });
+                }else{
+                     this.billTerm = 'monthly';
                 }
             }
         },
@@ -366,6 +372,7 @@
                     .then(res => res.data)
                     .then(data => {
                         let list = Object.values(data);
+                        console.log('this is list__________', list);
                         list.forEach(item => {
                             if (item.mgr_title === 'buyer') {
                                 this.buyerGroup = item;
@@ -375,6 +382,10 @@
                                 this.sellerPlatinumGroup = item;
                             } else if (item.mgr_title === 'seller_master') {
                                 this.sellerMasterGroup = item;
+                            } else if (item.mgr_title === 'subcribe_common'){
+                                this.subscribedCommon = item;
+                            } else if (item.mgr_title === 'subcribe_creater'){
+                                this.subscribedCreater = item;
                             }
                         });
                     })
