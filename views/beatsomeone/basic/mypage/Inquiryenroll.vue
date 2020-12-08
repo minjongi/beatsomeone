@@ -26,6 +26,7 @@
                     <div class="data">
                         <div class="group_title" :class="group_title">{{$t(group_title)}}</div>
                         <div v-if="group_title === 'SELLER'" class="seller_class" :class="seller_class">{{$t(seller_class)}}</div>
+                        <div class="groupType_subscribe" :class="groupType_subscribe">{{$t(groupType_subscribe)}}</div>
                         <div class="username">{{ member.mem_nickname }}</div>
                     </div>
                 </div>
@@ -134,12 +135,22 @@
             seller_class() {
                 if (this.member_group_name.includes('seller')) {
                     let names = this.member_group_name.split('_')
+                    names = names[1].split(',');
                     console.log(names);
-                    return names[1];
+                    return names[0];
                 } else {
                     return ''
                 }
-            }
+            },
+            groupType_subscribe() {
+                if (this.member_group_name.includes('subscribe_common')) {
+                    return 'subscribe_common';
+                } else if (this.member_group_name.includes('subscribe_creater')) {
+                    return 'subscribe_creater';
+                } else {
+                    return ''
+                }
+            },
         },
         created() {
             axios.get('/board_info/support')

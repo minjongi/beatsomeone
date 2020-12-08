@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="type"><span>{{$t('userGroup')}}</span></div>
                 <div class="data">
-                   <div class="group_title" :class="groupType">{{ groupType }}</div>
+                   <div class="group_title" :class="groupType">{{ groupType }} &nbsp;&nbsp; {{ $t(groupType_subscribe) }}</div>
                 </div>
             </div>
 
@@ -132,6 +132,15 @@
                     return 'SELLER';
                 } else {
                     return 'CUSTOMER';
+                }
+            },
+            groupType_subscribe() {
+                if (this.member_group_name.includes('subscribe_common')) {
+                    return 'subscribe_common';
+                } else if (this.member_group_name.includes('subscribe_creater')) {
+                    return 'subscribe_creater';
+                } else {
+                    return ''
                 }
             },
             sellerClass: function() {

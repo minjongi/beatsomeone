@@ -30,7 +30,10 @@
 
                   <div class="parchase-btnbox">
                     <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;">
-                      <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
+                      <span v-if="item.cit_type5 === '0'">{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
+                      <span v-if="item.cit_type5 === '1'">
+                        {{ formatPrice(0, 0, true) }}(구독 잔여 {{10-item.detail.STEM.cde_download}})
+                      </span>
                     </a>
                   </div>
                 </div>

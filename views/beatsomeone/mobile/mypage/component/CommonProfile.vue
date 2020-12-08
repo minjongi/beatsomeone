@@ -10,8 +10,9 @@
           <img :src="member.mem_photo ? member.mem_photo : '/assets/images/portrait.png'">
         </div>
         <div class="info">
-          <div class="group">
-            <div class="group_title" :class="groupType">{{$t(groupType)}}</div>
+          <div class="group" style="margin-bottom: 10px;">
+            <span class="group_title" style="margin-right: 5px;" :class="groupType">{{$t(groupType)}}</span>
+            <span v-if="groupType_subscribe !=''" class="group_title" style="margin-left: 5px;" :class="groupType_subscribe">{{$t(groupType_subscribe)}}</span>
           </div>
           <div class="username">
             {{ member.mem_nickname }}
@@ -59,6 +60,13 @@ export default {
         return 'seller';
       } else {
         return 'customer';
+      }
+    },
+    groupType_subscribe() {
+      if (this.member_group_name.includes('subscribe')) {
+        return 'subscribe';
+      } else {
+        return '';
       }
     },
     memBio() {

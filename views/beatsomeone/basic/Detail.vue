@@ -20,14 +20,17 @@
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a href="javascript:;" class="buy" v-if="item" @click="addCart">
-                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
+                                        <span v-if="item.cit_type5 === '0' && item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
                                             {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                         </span>
-                                        <span v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
+                                        <span v-if="item.cit_type5 === '0' && item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
-                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1'">
+                                        <span v-if="item.cit_type5 === '0' && item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1'">
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
+                                        </span>
+                                        <span v-if="item.cit_type5 === '1'">
+                                            {{ formatPrice(0, 0, true) }}(구독 잔여 {{10-item.detail.STEM.cde_download}})
                                         </span>
                                     </a>
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
@@ -165,6 +168,7 @@
                 .then(res => res.data)
                 .then(data => {
                     this.item = data;
+                    console.log('this is important', this.item);
                 })
                 .catch(error => {
                     console.error(error);

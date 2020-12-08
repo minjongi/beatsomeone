@@ -348,6 +348,10 @@ section[class*='section'] {
     &.seller {
         background: #ff4848;
     }
+
+    &.subscribe {
+        background: #ffda2a;
+    }
 }
 
 .username {
@@ -1657,7 +1661,8 @@ ul.menu li {
         }
 
         .group_title,
-        .seller_class {
+        .seller_class,
+        .groupType_subscribe {
             width: auto;
             margin: auto 0;
             margin-right: 16px;
@@ -1689,7 +1694,10 @@ ul.menu li {
             min-width: max-content;
             color: #ffda2a;
         }
-
+        .groupType_subscribe {
+            min-width: max-content;
+            color: rgba(255, 255, 255, 1);
+        }
         .sns {
             display: flex;
             flex-direction: column;

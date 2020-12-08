@@ -46,10 +46,10 @@ class Register extends CB_Controller
      */
     public function index()
     {
-        $check_login = $this->member->is_member();
-        if ($check_login) {
-            redirect('/mypage/upgrade');
-        }
+        // $check_login = $this->member->is_member();
+        // if ($check_login) {
+        //     redirect('/mypage/upgrade');
+        // }
 
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_register_index';
@@ -4208,6 +4208,9 @@ class Register extends CB_Controller
                     $deletewhere = array(
                         'mem_id' => $mem_id,
                     );
+
+                    // 현재 이미 있는 그룹을 다지우는데 ....
+
                     $this->Member_group_member_model->delete_where($deletewhere);
                     $mginsert = array(
                         'mgr_id' => $member_group['mgr_id'],
