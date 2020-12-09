@@ -210,7 +210,24 @@ class Login extends CB_Controller
 					redirect('membermodify/password_modify');
 				}
 			}
-
+			$this->load->model(array('Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model'));
+			$member_group = $this->Member_group_member_model->get_with_group(element('mem_id', $userinfo));
+			for ($i = 0; $i < count($member_group); $i++) {
+				if ($member_group[$i]['mgr_id'] > 4) {
+					$res_membership_purchase_log = $this->Beatsomeone_model->get_membership_purchase_log(array(
+						'mem_id' => element('mem_id', $userinfo),
+						'mgr_title' => $member_group[$i]['mgr_title'],
+					));
+					if (isset($res_membership_purchase_log) && isset($res_membership_purchase_log[0])) {
+						$end_date = $res_membership_purchase_log[0]['end_date'];
+						if (strtotime($end_date) < time()) {
+							// 구독사용이 만료되였습니다.
+							redirect("/register/purchase?mgr_id=".$member_group[$i]['mgr_id']."&billTerm=monthly&repurchase=1");
+							return;
+						}
+					}
+				}
+			}
 			$url_after_login = $this->cbconfig->item('url_after_login');
 			if ($url_after_login) {
 				$url_after_login = site_url($url_after_login);

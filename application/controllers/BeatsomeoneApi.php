@@ -845,6 +845,19 @@ class BeatsomeoneApi extends CB_Controller
                 );
                 return $return;
             }
+            // 무료구매
+            elseif ($this->input->post('stype') === 'free'
+                && $this->input->post('chk_detail')
+                && is_array($this->input->post('chk_detail'))
+                && $this->input->post('detail_qty')) {
+                $return = $this->cmalllib->freeBuy(
+                    $mem_id,
+                    $cit_id,
+                    $this->input->post('chk_detail'),
+                    $this->input->post('detail_qty')
+                );
+                return $return;
+            }
             //  장바구니 금액 합산
             elseif ($this->input->post('stype') === 'get_cart_sum') {
                 $vs = $this->cmalllib->get_my_cart(1000);

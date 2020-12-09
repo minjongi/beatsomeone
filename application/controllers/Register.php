@@ -4251,6 +4251,69 @@ class Register extends CB_Controller
     }
 
 
+    public function ajax_repurchase()
+    {
+        $this->output->set_content_type('text/json');
+
+        required_user_login();
+
+        $mem_id = $this->member->item('mem_id');
+
+        $this->load->model(array('Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model'));
+
+        $member_group = $this->Member_group_model->item($this->input->post('mgr_id'));
+        $amount = (int)$member_group['mgr_monthly_cost_w'];
+        $amount_d = (float)$member_group['mgr_monthly_cost_d'];
+        $termDays = '30';
+
+        $paypalData = $_POST["paypal_data"];
+
+        if (empty($paypalData)) {
+            $this->output->set_status_header('400');
+            return false;
+        }
+
+        $params['raw_data'] = $paypalData;
+        $paypalData = json_decode($paypalData, true);
+        $params['id'] = $paypalData['id'];
+        $params['create_time'] = $paypalData['create_time'];
+        $params['update_time'] = $paypalData['update_time'];
+        $params['state'] = $paypalData['state'];
+        $params['intent'] = $paypalData['intent'];
+        $params['payment_method'] = $paypalData['payer']['payment_method'];
+        $params['email'] = $paypalData['payer']['payer_info']['email'];
+        $params['first_name'] = $paypalData['payer']['payer_info']['first_name'];
+        $params['last_name'] = $paypalData['payer']['payer_info']['last_name'];
+        $params['payer_id'] = $paypalData['payer']['payer_info']['payer_id'];
+        $params['invoice_number'] = $paypalData['transactions'][0]['invoice_number'];
+        $params['amount'] = $paypalData['transactions'][0]['amount']['total'];
+        $params['currency'] = $paypalData['transactions'][0]['amount']['currency'];
+        $params['links'] = $paypalData['links']['href'];
+
+        $this->Cmall_order_model->paypal_log_insert($params);
+
+        if ((float)$paypalData['transactions'][0]['amount']['total'] == $amount_d) {
+            $startDate = date('Y-m-d');
+            $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
+            $params = [
+                'mem_id' => $mem_id,
+                'bill_term' => $billTerm,
+                'plan' => $member_group['mgr_description'],
+                'plan_name' => $member_group['mgr_title'],
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'pay_method' => $pg,
+                'amount' => $amount_d
+            ];
+            $this->Beatsomeone_model->insert_membership_purchase_log($params);
+        }
+
+        $this->output->set_output(json_encode([
+            'message' => lang('lang48'),
+        ]));
+        return true;
+    }
+
     public function ajax_userid_check()
     {
         // 이벤트 라이브러리를 로딩합니다

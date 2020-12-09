@@ -181,6 +181,48 @@ class Cmalllib extends CI_Controller
 		return $cit_id;
 	}
 
+	public function freeBuy($mem_id = 0, $cit_id = 0, $detail_array = '', $qty_array = '')
+	{
+		$mem_id = (int) $mem_id;
+		if (empty($mem_id) OR $mem_id < 1) {
+			return;
+		}
+		$cit_id = (int) $cit_id;
+		if (empty($cit_id) OR $cit_id < 1) {
+			return;
+		}
+		if (empty($detail_array)) {
+			return;
+		}
+
+		$this->CI->load->model(array('Cmall_cart_model', 'Cmall_item_detail_model'));
+
+
+		if ($detail_array && is_array($detail_array)) {
+			foreach ($detail_array as $cde_id) {
+				$detail = $this->CI->Cmall_item_detail_model->get_one($cde_id, 'cit_id');
+				if ( ! element('cit_id', $detail) OR (int) element('cit_id', $detail) !== $cit_id) {
+					return;
+				}
+				if ( ! element($cde_id, $qty_array)) {
+					return;
+				}
+			}
+			foreach ($detail_array as $cde_id) {
+				$insertdata = array(
+					'mem_id' => $mem_id,
+					'cit_id' => $cit_id,
+					'cde_id' => $cde_id,
+					'cct_count' => element($cde_id, $qty_array),
+					'cct_order' => 2,
+					'cct_datetime' => cdate('Y-m-d H:i:s'),
+					'cct_ip' => $this->CI->input->ip_address(),
+				);
+				$cct_id = $this->CI->Cmall_cart_model->insert($insertdata);
+			}
+		}
+		return $cit_id;
+	}
 
 	public function cart_to_order($mem_id = 0, $cit_id_array = '')
 	{

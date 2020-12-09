@@ -69,6 +69,8 @@
         methods: {
             doNext(type) {
                 if (type === 'email') {
+                    let userInfo = this.$store.getters.getUserInfo;
+                    console.log(userInfo.group.mgr_id);
                     this.$router.push('/3');
                 }
             },

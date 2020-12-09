@@ -29,9 +29,11 @@
                   </div>
 
                   <div class="parchase-btnbox">
-                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;">
-                      <span v-if="item.cit_type5 === '0'">{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
-                      <span v-if="item.cit_type5 === '1'">
+                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="item.cit_type5 === '0' || (item.cit_type5 === '1' && item.detail.STEM.cde_download >= 10)">
+                      <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
+                    </a>
+                    <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="item.cit_type5 === '1' && item.detail.STEM.cde_download < 10">
+                      <span>
                         {{ formatPrice(0, 0, true) }}(구독 잔여 {{10-item.detail.STEM.cde_download}})
                       </span>
                     </a>
@@ -201,6 +203,24 @@ export default {
             money: Number(item_detail.cde_price),
             money_d: Number(item_detail.cde_price_d)
           });
+          this.close();
+        }
+      });
+    },
+    freeBuy(item_detail) {
+      let detail_qty = {};
+      detail_qty[item_detail.cde_id] = 1;
+      Http.post(`/beatsomeoneApi/itemAction`, {
+        stype: "free",
+        cit_id: this.item.cit_id,
+        chk_detail: [item_detail.cde_id],
+        detail_qty: detail_qty,
+      }).then((r) => {
+        if (!r) {
+          log.debug("장바구니 담기 실패");
+        } else {
+          log.debug("장바구니 담기 성공");
+          alert(this.$t("inMyShoppingCart"));
           this.close();
         }
       });
