@@ -318,8 +318,10 @@
                     let product_cds = [];
                     let product_nms = [];
                     this.orderProducts.forEach(item => {
-                        this.good_mny_d += (+item.detail[0].cde_price_d);
-                        this.good_mny += (+item.detail[0].cde_price);
+                        if (item.detail[0].isfree == 0) {
+                            this.good_mny_d += (+item.detail[0].cde_price_d);
+                            this.good_mny += (+item.detail[0].cde_price);
+                        }
                         product_cds.push(item.cit_key);
                         product_nms.push(item.cit_name);
                         if (item.cit_type3 === '0') {
