@@ -21,19 +21,34 @@
                 </figure>
 
                 <div class="tags">
-                    <div>
-                        <!-- <button style="color:#3873d3;" v-if="item.cit_freebeat === '1'">{{ $t('lang1') }}</button> -->
-                        <!-- <button style="color:#ffda2a;" v-if="item.cit_org_content === '1'">{{ $t('lang2') }}</button> -->
-                        <img style="margin-left: 5px;" v-if="item.cit_freebeat === '1'" src="/assets/images/icon/icon_1.png"/> 
-                        <img style="margin-left: 5px;" v-if="item.cit_type5 === '1'" src="/assets/images/icon/icon_2.png"/> 
-                        <img style="margin-left: 5px;" v-if="item.cit_officially_registered === '1'" src="/assets/images/icon/icon_3.png"/> 
-                        <img style="margin-left: 5px;" v-if="item.cit_include_copyright_transfer === '1'" src="/assets/images/icon/icon_4.png"/> 
-                        <img style="margin-left: 5px;" v-if="item.cit_org_content === '1'" src="/assets/images/icon/icon_5.png"/> 
-                    </div>
-                    <!-- <div>
-                        <button style="color:#fff;" v-if="item.cit_officially_registered === '1'">{{ $t('lang3') }}
-                        </button>
-                    </div> -->
+                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_freebeat === '1'" src="/assets/images/icon/icon_1.png"/> 
+                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_type5 === '1'" src="/assets/images/icon/icon_2.png"/> 
+                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_officially_registered === '1'" src="/assets/images/icon/icon_3.png"/> 
+                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_include_copyright_transfer === '1'" src="/assets/images/icon/icon_4.png"/> 
+                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_org_content === '1'" src="/assets/images/icon/icon_5.png"/> 
+                        <div class="tooltip">
+                            <div>
+                                <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
+                                <span> 무료비트 다운로드 기능</span>
+                            </div>    
+                            <div>
+                                <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
+                                <span> 정기구독회원 다운로드 기능</span>
+                            </div>  
+                            <div>
+                                <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
+                                <span> 정식으로 저작권 등록된 음원</span>
+                            </div>  
+                            <div>
+                                <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
+                                <span> 음성 또는 가창이 포함된 음원</span>
+                            </div>  
+                            <div>
+                                <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
+                                <span> 비트 썸원 오리지널 음원</span>
+                            </div>  
+                        </div>
+             
                 </div>
                 <!-- 서브리스트 토글 버튼 -->
                 <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>

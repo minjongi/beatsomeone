@@ -21,8 +21,8 @@ Vue.prototype.$log = console.log.bind(console);
 
 const router = new VueRouter({
     routes: [
-        {path: '/', component: Register_2},
-        {path: '/2', component: Register_1},
+        {path: '/',  component: Register_1},
+        {path: '/2', component: Register_2},
         {path: '/3', component: Register_3},
         {path: '/4', component: Register_4},
         {path: '/5', component: Register_5},

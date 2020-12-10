@@ -56,14 +56,14 @@
                     </th>
                     <th>
                         <p>
-                            {{ $t('subscribe_common') }} 
+                            {{ $t('subcribe_common') }} 
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}</h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
-                            {{ $t('subscribe_creater') }}
+                            {{ $t('subcribe_creater') }}
                         </p>
                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}</h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
@@ -75,7 +75,7 @@
                     <td>{{ $t('downloadBackgroundMusic') }}</td>
                     <td> <span class="check">1</span></td>
                     <td>20건</td>
-                    <td>30건</td>
+                    <td>10건</td>
                 </tr>
                 <tr>
                     <td>{{ $t('freeBeatDownload') }}</td>
@@ -350,9 +350,9 @@
                                 this.sellerPlatinumGroup = item;
                             } else if (item.mgr_title === 'seller_master') {
                                 this.sellerMasterGroup = item;
-                            } else if (item.mgr_title === 'subscribe_common'){
+                            } else if (item.mgr_title === 'subcribe_common'){
                                 this.subscribedCommon = item;
-                            } else if (item.mgr_title === 'subscribe_creater'){
+                            } else if (item.mgr_title === 'subcribe_creater'){
                                 this.subscribedCreater = item;
                             }
                         });

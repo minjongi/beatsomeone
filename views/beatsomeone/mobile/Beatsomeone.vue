@@ -47,6 +47,14 @@
                                     </button>
                                 </div>
                             </div>
+                            <div class="icon__group">
+                                <i class="far fa-question-circle" style="color: #ffffff; width: 10px; margin-right: 5px;"></i>
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_1.png"/> 
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_2.png"/> 
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_3.png"/> 
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_4.png"/> 
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_5.png"/> 
+                            </div>
                             <div class="playList">
                                 <transition-group
                                         name="staggered-fade"
@@ -69,6 +77,15 @@
                         </div>
                     </section>
                     <section class="main__section2">
+                        <header class="main__section2-title-login">
+                            <h1>
+                                {{ $t('backgroundMusicMessage1') }}<br/>
+                                {{ $t('backgroundMusicMessage2') }}
+                            </h1>
+                            <a class="startSelling" @click="moveAction('startBuyer')">
+                                {{ $t('buyerLogin') }}
+                            </a>
+                        </header>
                         <header class="main__section2-title">
                             <div class="wrap">
                                 <h1>
@@ -359,6 +376,11 @@
                             }
                             break;
                         }
+                        case 'startBuyer': {
+                            url = '/register';
+                            localStorage.setItem("UserOffer", "buyer");
+                            break;
+                        }
                     }
                 }
                 // 비로그인시
@@ -396,5 +418,11 @@
     .main__section2 {
         background: url("/assets_m/images/main-section2-visual.png") no-repeat center top;
         background-size: cover !important;
+    }
+    .icon__group{
+        display: flex;
+        justify-content: flex-end;
+        padding: 15px;
+        background-color: black;
     }
 </style>

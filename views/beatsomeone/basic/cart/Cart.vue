@@ -211,7 +211,6 @@ export default {
                 axios.post('/cmall/ajax_orderstart', formData)
                     .then(res => res.data)
                     .then(data => {
-                        console.log("&&&&-------------", data);
                         window.location.href = '/cmall/billing';
                     })
                     .catch(error => {

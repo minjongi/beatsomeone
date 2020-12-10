@@ -51,6 +51,12 @@
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
             </button>
+            <button data-target="plan-subcribe_common" @click="plan = 'subcribe_common'" :class="{'active':this.plan === 'subcribe_common'}" v-if="!isMusician">
+                {{ $t('subcribe_common') }}
+            </button>
+             <button data-target="plan-subcribe_creater" @click="plan = 'subcribe_creater'" :class="{'active':this.plan === 'subcribe_creater'}" v-if="!isMusician">
+                {{ $t('subcribe_creater') }}
+            </button>
         </div>
 
         <div class="accounts__plan-case" id="plan-free"  v-if="!isMusician && plan === 'free'">
@@ -288,6 +294,130 @@
             </table>
         </div>
 
+        <div class="accounts__plan-case" id="plan-subcribe_common"  v-if="!isMusician && plan === 'subcribe_common'">
+            <div class="accounts__plan-header">
+                <div class="left">
+                    <p>
+                        {{ $t('subcribe_common') }}
+                    </p>
+                    <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
+                </div>
+                <div class="right">
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                </div>
+            </div>
+            <table>
+                <colgroup>
+                    <col width="" />
+                    <col width="120" />
+                </colgroup>
+                <tbody>
+
+                <tr>
+                    <td>배경음악 음원 다운로드</td>
+                    <td>20건</td>
+                </tr>
+                <tr>
+                    <td>무료비트 다운로드</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>구매 음원 파일 저장</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>구매 음원 라이센스 저장</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>미리듣기 스트리밍 서비스</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+<!--                <tfoot>-->
+                <tr>
+                    <td colspan="2">
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                    </td>
+                </tr>
+<!--                </tfoot>-->
+                </tbody>
+            </table> 
+        </div>
+
+        <div class="accounts__plan-case" id="plan-subcribe_creater"  v-if="!isMusician && plan === 'subcribe_creater'">
+            <div class="accounts__plan-header">
+                <div class="left">
+                    <p>
+                        {{ $t('subcribe_creater') }}
+                    </p>
+                    <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
+                </div>
+                <div class="right">
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                </div>
+            </div>
+            <table>
+                <colgroup>
+                    <col width="" />
+                    <col width="120" />
+                </colgroup>
+                <tbody>
+
+                <tr>
+                    <td>배경음악 음원 다운로드</td>
+                    <td>10건</td>
+                </tr>
+                <tr>
+                    <td>무료비트 다운로드</td>
+                    <td>
+                        
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>구매 음원 파일 저장</td>
+                    <td>
+                        
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>구매 음원 라이센스 저장</td>
+                    <td>
+                       
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>미리듣기 스트리밍 서비스</td>
+                    <td>
+                      
+                    </td>
+
+                </tr>
+<!--                <tfoot>-->
+                <tr>
+                    <td colspan="2">
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                    </td>
+                </tr>
+<!--                </tfoot>-->
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </template>
 
@@ -382,9 +512,9 @@
                                 this.sellerPlatinumGroup = item;
                             } else if (item.mgr_title === 'seller_master') {
                                 this.sellerMasterGroup = item;
-                            } else if (item.mgr_title === 'subscribe_common'){
+                            } else if (item.mgr_title === 'subcribe_common'){
                                 this.subscribedCommon = item;
-                            } else if (item.mgr_title === 'subscribe_creater'){
+                            } else if (item.mgr_title === 'subcribe_creater'){
                                 this.subscribedCreater = item;
                             }
                         });

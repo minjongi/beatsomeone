@@ -168,38 +168,74 @@
             }
 
             .tags {
+                @include textIndet;
                 padding-right: 15px;
-                width: 155px;
-                flex: none;
-
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                cursor: pointer;
+                position: relative;
+                overflow: initial;
+                transition: 0.3s ease;
+                
                 div {
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-end;
+                    margin-bottom: 5px;
 
-                    &:first-child {
-                        margin-bottom: 5px;
-                    }
                 }
-
-                button {
-                    height: 20px;
-                    padding: 0 8px;
-                    border: 1px solid #fff;
-                    opacity: 0.3;
-                    transition: all 0.3s;
-                    font-size: 10px;
-                    border-radius: 2em;
-
-                    & + button {
-                        margin-left: 5px;
+                .tooltip {
+                    z-index: 100;
+                    bottom: 15px;
+                    width: 190px;
+                    background: #2b2c30;
+                    padding: 10px;
+                    border-style: solid;
+                    border-color: #ffffff;
+                    border-width: 1px;
+                    a {
+                        display: block;
+                        height: 0;
+                        line-height: 40px;
+                        overflow: hidden;
+                        color: #9ea1a8;
+                        transition: all 0.5s;
+                        border-bottom: 1px solid #1b1a1f;
+            
+                        &:last-child {
+                            border-bottom: 0;
+                        }
+            
+                        &:hover {
+                            color: $color-white;
+                            background: #1c1d22;
+                        }
                     }
-
-                    &:hover {
-                        opacity: 1;
+            
+                    &:after {
+                        content: '';
+                        display: block;
+                        @include position($bottom: -10px, $left: 50%);
+                        transform: translateX(-50%);
+                        width: 0;
+                        height: 0;
+                        border-top: 5px solid #2b2c30;
+                        border-bottom: 5px solid transparent;
+                        border-left: 5px solid transparent;
+                        border-right: 5px solid transparent;
                     }
                 }
             }
+            &:hover {
+                opacity: 1;
+            }
+        
+            &:hover .tooltip {
+                opacity: 1;
+                bottom: 30px;
+        
+                a {
+                    height: 40px;
+                }
+            }  
         }
 
         .genre {
