@@ -332,7 +332,7 @@
                 })
             },
             moveMore() {
-                const path = `/beatsomeone/sublist?genre=${this.currentGenre}`
+                const path = `/beatsomeone/sublist?genre=${encodeURIComponent(this.currentGenre)}`
                 window.location.href = path
             },
             selectItem(i) {
