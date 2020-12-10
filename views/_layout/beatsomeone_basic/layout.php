@@ -19,8 +19,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
     <meta property="og:description" content="<?php echo html_escape(element('og_description', $layout)); ?>"/>
     <meta property="og:title" content="<?php echo html_escape(element('og_title', $layout)); ?>"/>
-    <meta name="google-site-verification" content="pPR362aUUyUSslTQZ6CFwin4pnEKB_FBM4838hUd4q4" />
-  
+
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
