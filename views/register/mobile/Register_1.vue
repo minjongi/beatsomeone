@@ -382,9 +382,9 @@
                                 this.sellerPlatinumGroup = item;
                             } else if (item.mgr_title === 'seller_master') {
                                 this.sellerMasterGroup = item;
-                            } else if (item.mgr_title === 'subcribe_common'){
+                            } else if (item.mgr_title === 'subscribe_common'){
                                 this.subscribedCommon = item;
-                            } else if (item.mgr_title === 'subcribe_creater'){
+                            } else if (item.mgr_title === 'subscribe_creater'){
                                 this.subscribedCreater = item;
                             }
                         });
