@@ -23,17 +23,7 @@
                     <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
-
-                    <!-- <a href="/register" class="sale_signup" v-if="!isLogin" @click="signUpClick('seller')">
-                       
-                    </a>               -->
-                    <button>
-                        {{ $t('saleSignup') }}
-                        <span class="tooltip">
-                            <a @click="clickShare('twitter')">{{ $t('lang107') }}</a><a @click="clickShare('facebook')">{{ $t('lang108') }}</a><a @click="copyLinkToClipboard()">{{ $t('lang109') }}</a>
-                        </span>
-                    </button>    
-                    
+                    <a href="/register" class="sale_signup" v-if="!isLogin" data-toggle="tooltip" data-placement="bottom" title="Hooray!" @click="signUpClick('seller')">{{ $t('saleSignup') }}</a>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
                     <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </nav>
@@ -47,6 +37,7 @@
     import Vuecookies from 'vue-cookies';
     import axios from 'axios';
     import { mapGetters, mapActions } from 'vuex';
+
     export default {
         name: 'Header',
         data: function () {
@@ -139,39 +130,5 @@
     .smtm9-top img {
         max-width: 100%;
     }
-    .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-    }
 
-    .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -60px;
-    }
-
-    .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black transparent transparent transparent;
-    }
-
-    .tooltip:hover .tooltiptext {
-    visibility: visible;
-    }
 </style>
