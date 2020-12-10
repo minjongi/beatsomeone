@@ -574,6 +574,8 @@ class Cmallitem extends CB_Controller
 					if ($this->upload->do_upload('cit_file_' . $k)) {
 						$img = $this->upload->data();
 						$cit_file[$k] = cdate('Y') . '/' . cdate('m') . '/' . element('file_name', $img);
+                        $this->cmalllib->make_thumb(APPPATH . '../uploads/cmallitem/', $cit_file[$k], 54, 54, 'list');
+                        $this->cmalllib->make_thumb(APPPATH . '../uploads/cmallitem/', $cit_file[$k], 200, 200, '200');
 					} else {
 						$file_error = $this->upload->display_errors();
 						break;
