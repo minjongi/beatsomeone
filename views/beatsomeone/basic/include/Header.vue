@@ -23,7 +23,12 @@
                     <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
-                    <a href="/register" class="sale_signup" v-if="!isLogin" data-toggle="tooltip" data-placement="bottom" title="Hooray!" @click="signUpClick('seller')">{{ $t('saleSignup') }}</a>
+                    <button>
+                         <a href="/register" class="sale_signup" v-if="!isLogin" @click="signUpClick('seller')">{{ $t('saleSignup') }}</a>
+                        <span class="tooltip">
+                            수익 100%청산
+                        </span>
+                    </button>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
                     <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </nav>

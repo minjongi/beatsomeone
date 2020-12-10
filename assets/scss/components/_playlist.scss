@@ -168,74 +168,59 @@
             }
 
             .tags {
-                @include textIndet;
                 padding-right: 15px;
                 display: flex;
-                align-items: center;
                 justify-content: flex-end;
                 cursor: pointer;
                 position: relative;
                 overflow: initial;
                 transition: 0.3s ease;
                 
-                div {
-                    margin-bottom: 5px;
-
-                }
-                .tooltip {
-                    z-index: 100;
-                    bottom: 15px;
-                    width: 190px;
-                    background: #2b2c30;
-                    padding: 10px;
-                    border-style: solid;
-                    border-color: #ffffff;
-                    border-width: 1px;
-                    a {
-                        display: block;
-                        height: 0;
-                        line-height: 40px;
-                        overflow: hidden;
-                        color: #9ea1a8;
-                        transition: all 0.5s;
-                        border-bottom: 1px solid #1b1a1f;
-            
-                        &:last-child {
-                            border-bottom: 0;
+                button {
+                    cursor: pointer;
+                    transition: 0.3s ease;
+    
+                    .tooltip {
+                        bottom: 15px;
+                        width: 190px;
+                        padding: 10px 10px 5px 10px;
+                        text-align: left;
+                        background: #2b2c30;   
+                        // border-style: solid;
+                        // border-color: #ffffff;
+                        // border-width: 1px;
+                        div{
+                            margin-bottom: 5px;
                         }
-            
-                        &:hover {
-                            color: $color-white;
-                            background: #1c1d22;
+                        &:after {
+                            content: '';
+                            display: block;
+                            @include position($bottom: -10px, $left: 50%);
+                            transform: translateX(-50%);
+                            width: 0;
+                            height: 0;
+                            border-top: 5px solid #2b2c30;
+                            border-bottom: 5px solid transparent;
+                            border-left: 5px solid transparent;
+                            border-right: 5px solid transparent;
                         }
                     }
-            
-                    &:after {
-                        content: '';
-                        display: block;
-                        @include position($bottom: -10px, $left: 50%);
-                        transform: translateX(-50%);
-                        width: 0;
-                        height: 0;
-                        border-top: 5px solid #2b2c30;
-                        border-bottom: 5px solid transparent;
-                        border-left: 5px solid transparent;
-                        border-right: 5px solid transparent;
+    
+                    &:hover {
+                        opacity: 1;
+                    }
+    
+                    &:hover .tooltip {
+                        opacity: 1;
+                        bottom: 30px;
+    
+                        a {
+                            height: 40px;
+                        }
                     }
                 }
             }
-            &:hover {
-                opacity: 1;
-            }
-        
-            &:hover .tooltip {
-                opacity: 1;
-                bottom: 30px;
-        
-                a {
-                    height: 40px;
-                }
-            }  
+            
         }
 
         .genre {

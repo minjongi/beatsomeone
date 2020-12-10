@@ -48,7 +48,31 @@
                                 </div>
                             </div>
                             <div class="icon__group">
-                                <i class="far fa-question-circle" style="color: #ffffff; width: 10px; margin-right: 5px;"></i>
+                                <button>
+                                    <i class="far fa-question-circle" style="color: #ffffff; width: 10px; margin-right: 5px;"></i>
+                                    <span class="tooltip">
+                                        <div>
+                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
+                                            <span> 무료비트 다운로드 기능</span>
+                                        </div>    
+                                        <div>
+                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
+                                            <span> 정기구독회원 다운로드 기능</span>
+                                        </div>  
+                                        <div>
+                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
+                                            <span> 정식으로 저작권 등록된 음원</span>
+                                        </div>  
+                                        <div>
+                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
+                                            <span> 음성 또는 가창이 포함된 음원</span>
+                                        </div>  
+                                        <div>
+                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
+                                            <span> 비트 썸원 오리지널 음원</span>
+                                        </div>  
+                                    </span>
+                                </button>
                                 <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_1.png"/> 
                                 <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_2.png"/> 
                                 <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_3.png"/> 
@@ -406,7 +430,7 @@
     @import "/assets_m/plugins/slick/slick.css";
     @import "/assets_m/plugins/rangeSlider/css/ion.rangeSlider.min.css";
 </style>
-<style scope="scope" lang="css">
+<style scope="scope" lang="scss">
     .playList .playList__item {
         display: flex !important;
     }
@@ -419,10 +443,61 @@
         background: url("/assets_m/images/main-section2-visual.png") no-repeat center top;
         background-size: cover !important;
     }
+    .more_shared {
+            text-align: center;
+            padding: 0 30px 0 0;
+        }
     .icon__group{
-        display: flex;
-        justify-content: flex-end;
-        padding: 15px;
-        background-color: black;
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    background-color: black;
+    button {
+      cursor: pointer;
+      position: relative;
+      width: 20px;
+      height: 20px;
+      overflow: initial;
+      transition: 0.3s ease;
+  
+      .tooltip {
+            bottom: 15px;
+            width: 190px;
+            background: #2b2c30;
+            color: #ffffff;
+            padding: 10px 10px 5px 10px;
+            text-align: left;
+        div{
+            margin-bottom : 5px;
+        }
+        &:after {
+            content: '';
+            display: block;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-top: 5px solid #2b2c30;
+            border-bottom: 5px solid transparent;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            position: absolute;
+        }
     }
+  
+      &:hover {
+          opacity: 1;
+      }
+  
+      &:hover .tooltip {
+          opacity: 1;
+          bottom: 30px;
+  
+          a {
+              height: 40px;
+          }
+      }
+    }
+  }
 </style>

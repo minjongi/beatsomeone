@@ -65,47 +65,28 @@
     }
     button {
       cursor: pointer;
-      @include textIndet;
-      width: 20px;
-      height: 20px;
-      position: relative;
-      overflow: initial;
-      opacity: 0.3;
       transition: 0.3s ease;
-
+      position: relative;
       .tooltip {
-          bottom: 15px;
-          width: 130px;
-          background: #2b2c30;
-
-          a {
-              display: block;
-              height: 0;
-              line-height: 40px;
-              overflow: hidden;
-              color: #9ea1a8;
-              transition: all 0.5s;
-              border-bottom: 1px solid #1b1a1f;
-
-              &:last-child {
-                  border-bottom: 0;
-              }
-
-              &:hover {
-                  color: $color-white;
-                  background: #1c1d22;
-              }
+          position: absolute;
+          width: 100px;
+          background:#129292;   
+          bottom: -36px !important;
+          // border-style: solid;
+          // border-color: #ffffff;
+          // border-width: 1px;
+          div{
+              margin-bottom: 5px;
           }
-
           &:after {
               content: '';
               display: block;
-              @include position($bottom: -10px, $left: 50%);
+              @include position($bottom: 24px, $left: 50%);
               transform: translateX(-50%);
               width: 0;
               height: 0;
-              border-top: 5px solid #2b2c30;
-              border-bottom: 5px solid transparent;
+              border-top: 5px solid transparent;
+              border-bottom: 5px solid #129292;
               border-left: 5px solid transparent;
               border-right: 5px solid transparent;
           }
