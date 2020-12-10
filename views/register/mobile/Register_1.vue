@@ -51,11 +51,11 @@
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
             </button>
-            <button data-target="plan-subcribe_common" @click="plan = 'subcribe_common'" :class="{'active':this.plan === 'subcribe_common'}" v-if="!isMusician">
-                {{ $t('subcribe_common') }}
+            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician">
+                {{ $t('subscribe_common') }}
             </button>
-             <button data-target="plan-subcribe_creater" @click="plan = 'subcribe_creater'" :class="{'active':this.plan === 'subcribe_creater'}" v-if="!isMusician">
-                {{ $t('subcribe_creater') }}
+             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician">
+                {{ $t('subscribe_creater') }}
             </button>
         </div>
 
@@ -294,11 +294,11 @@
             </table>
         </div>
 
-        <div class="accounts__plan-case" id="plan-subcribe_common"  v-if="!isMusician && plan === 'subcribe_common'">
+        <div class="accounts__plan-case" id="plan-subscribe_common"  v-if="!isMusician && plan === 'subscribe_common'">
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        {{ $t('subcribe_common') }}
+                        {{ $t('subscribe_common') }}
                     </p>
                     <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
                 </div>
@@ -356,11 +356,11 @@
             </table> 
         </div>
 
-        <div class="accounts__plan-case" id="plan-subcribe_creater"  v-if="!isMusician && plan === 'subcribe_creater'">
+        <div class="accounts__plan-case" id="plan-subscribe_creater"  v-if="!isMusician && plan === 'subscribe_creater'">
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        {{ $t('subcribe_creater') }}
+                        {{ $t('subscribe_creater') }}
                     </p>
                     <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
                 </div>
@@ -512,9 +512,9 @@
                                 this.sellerPlatinumGroup = item;
                             } else if (item.mgr_title === 'seller_master') {
                                 this.sellerMasterGroup = item;
-                            } else if (item.mgr_title === 'subcribe_common'){
+                            } else if (item.mgr_title === 'subscribe_common'){
                                 this.subscribedCommon = item;
-                            } else if (item.mgr_title === 'subcribe_creater'){
+                            } else if (item.mgr_title === 'subscribe_creater'){
                                 this.subscribedCreater = item;
                             }
                         });
