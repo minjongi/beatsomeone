@@ -186,16 +186,33 @@
                         padding: 10px 10px 5px 10px;
                         text-align: left;
                         background: #2b2c30;   
+                        color: #9ea1a8;
+                        border: 1px solid #9ea1a8;
                         // border-style: solid;
                         // border-color: #ffffff;
                         // border-width: 1px;
                         div{
                             margin-bottom: 5px;
                         }
-                        &:after {
-                            content: '';
+                        &:before {
+                            content: "";
                             display: block;
-                            @include position($bottom: -10px, $left: 50%);
+                            position: absolute;
+                            left: 50%;
+                            bottom: -7px;
+                            transform: translateX(-50%);
+                            width: 0;
+                            height: 0;
+                            border-top: 6px solid  #9ea1a8;
+                            border-left: 6px solid transparent;
+                            border-right: 6px solid transparent;
+                        }
+                        &:after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            left: 50%;
+                            bottom: -10px;
                             transform: translateX(-50%);
                             width: 0;
                             height: 0;

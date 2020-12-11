@@ -20,14 +20,16 @@
                     </figcaption>
                 </figure>
 
-                <div class="tags">
+                <div class="tags" v-if="item.cit_freebeat === '1' || item.cit_type5 === '1' || item.cit_officially_registered === '1' || item.cit_include_copyright_transfer === '1' || item.cit_org_content === '1'">
                     <button>
-                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_freebeat === '1'" src="/assets/images/icon/icon_1.png"/> 
-                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_type5 === '1'" src="/assets/images/icon/icon_2.png"/> 
-                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_officially_registered === '1'" src="/assets/images/icon/icon_3.png"/> 
-                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_include_copyright_transfer === '1'" src="/assets/images/icon/icon_4.png"/> 
-                        <img style="margin-left: 5px; width:15px;" v-if="item.cit_org_content === '1'" src="/assets/images/icon/icon_5.png"/> 
-                        <span class="tooltip">
+                        <div @mouseover="hovered = true" @mouseleave="hovered = false">
+                            <img style="margin-left: 5px; width:15px;" v-if="item.cit_freebeat === '1'" src="/assets/images/icon/icon_1.png"/> 
+                            <img style="margin-left: 5px; width:15px;" v-if="item.cit_type5 === '1'" src="/assets/images/icon/icon_2.png"/> 
+                            <img style="margin-left: 5px; width:15px;" v-if="item.cit_officially_registered === '1'" src="/assets/images/icon/icon_3.png"/> 
+                            <img style="margin-left: 5px; width:15px;" v-if="item.cit_include_copyright_transfer === '1'" src="/assets/images/icon/icon_4.png"/> 
+                            <img style="margin-left: 5px; width:15px;" v-if="item.cit_org_content === '1'" src="/assets/images/icon/icon_5.png"/>    
+                        </div>
+                        <span class="tooltip" v-if="hovered">
                             <div>
                                 <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
                                 <span> 무료비트 다운로드 기능</span>
@@ -110,6 +112,8 @@ export default {
                 isPlay: false,
                 isReady: false,
                 purchaseTypeSelectorPopup: false,
+                tooltipToggle: false,
+                hovered: false
             };
         },
         computed: {
@@ -238,6 +242,9 @@ export default {
                         }
                     }
                 );
+            },
+            imageMouseOver(){
+                this.tooltipToggle = !this.tooltipToggle;
             },
             addCart() {
                 // this.item.detail = {

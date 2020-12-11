@@ -47,38 +47,55 @@
                                     </button>
                                 </div>
                             </div>
+
+                            <!-- <div class="col more">
+                                <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">{{ $t('more') }}</button>
+                                <span class="tooltip">
+                                    <a @click="clickShare('twitter')">{{ $t('lang107') }}</a><a @click="clickShare('facebook')">{{ $t('lang108') }}</a><a
+                                            @click="copyLinkToClipboard()">{{ $t('lang109') }}</a>
+                                </span>
+                            </div> -->
+
                             <div class="icon__group">
-                                <button>
+                                <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">
                                     <i class="far fa-question-circle" style="color: #ffffff; width: 10px; margin-right: 5px;"></i>
-                                    <span class="tooltip">
-                                        <div>
-                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
-                                            <span> 무료비트 다운로드 기능</span>
-                                        </div>    
-                                        <div>
-                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
-                                            <span> 정기구독회원 다운로드 기능</span>
-                                        </div>  
-                                        <div>
-                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
-                                            <span> 정식으로 저작권 등록된 음원</span>
-                                        </div>  
-                                        <div>
-                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
-                                            <span> 음성 또는 가창이 포함된 음원</span>
-                                        </div>  
-                                        <div>
-                                            <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
-                                            <span> 비트 썸원 오리지널 음원</span>
-                                        </div>  
-                                    </span>
                                 </button>
+                                <span class="tooltip">
+                                    <div>
+                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
+                                        <span> 무료비트 다운로드 기능</span>
+                                    </div>    
+                                    <div>
+                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
+                                        <span> 정기구독회원 다운로드 기능</span>
+                                    </div>  
+                                    <div>
+                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
+                                        <span> 정식으로 저작권 등록된 음원</span>
+                                    </div>  
+                                    <div>
+                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
+                                        <span> 음성 또는 가창이 포함된 음원</span>
+                                    </div>  
+                                    <div>
+                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
+                                        <span> 비트 썸원 오리지널 음원</span>
+                                    </div>  
+                                </span>
+                                
                                 <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_1.png"/> 
                                 <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_2.png"/> 
                                 <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_3.png"/> 
                                 <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_4.png"/> 
                                 <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_5.png"/> 
                             </div>
+                            <!-- <div class="col more">
+                <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">{{ $t('more') }}</button>
+                <span class="tooltip">
+                    <a @click="clickShare('twitter')">{{ $t('lang107') }}</a><a @click="clickShare('facebook')">{{ $t('lang108') }}</a><a
+                            @click="copyLinkToClipboard()">{{ $t('lang109') }}</a>
+                </span>
+            </div> -->
                             <div class="playList">
                                 <transition-group
                                         name="staggered-fade"
@@ -101,14 +118,16 @@
                         </div>
                     </section>
                     <section class="main__section2">
-                        <header class="main__section2-title-login">
-                            <h1>
-                                {{ $t('backgroundMusicMessage1') }}<br/>
-                                {{ $t('backgroundMusicMessage2') }}
-                            </h1>
-                            <a class="startSelling" @click="moveAction('startBuyer')">
-                                {{ $t('buyerLogin') }}
-                            </a>
+                        <header class="main__section2-title">
+                            <div class="wrap">
+                                <h1>
+                                    {{ $t('backgroundMusicMessage1') }}<br/>
+                                    {{ $t('backgroundMusicMessage2') }}
+                                </h1>
+                                <a class="startSelling" @click="moveAction('startBuyer')">
+                                    {{ $t('buyerLogin') }}
+                                </a>
+                            </div>
                         </header>
                         <header class="main__section2-title">
                             <div class="wrap">
@@ -233,7 +252,8 @@
                 videoBGPath: "",
                 member: false,
                 member_group_name: '',
-                popup: true
+                popup: true,
+                isOpenSubmenu: false
             };
         },
         created() {
@@ -417,7 +437,10 @@
             },
             goToDetail(cit_key) {
                 window.location.href = '/detail/' + cit_key;
-            }
+            },
+            openSubmenu() {
+                this.isOpenSubmenu = !this.isOpenSubmenu;
+            },
         },
     };
 </script>
@@ -447,57 +470,82 @@
             text-align: center;
             padding: 0 30px 0 0;
         }
-    .icon__group{
-    display: flex;
-    justify-content: flex-end;
-    padding: 15px;
-    background-color: black;
-    button {
-      cursor: pointer;
-      position: relative;
-      width: 20px;
-      height: 20px;
-      overflow: initial;
-      transition: 0.3s ease;
-  
-      .tooltip {
+
+
+    .icon__group {
+         
+        display: flex;
+        justify-content: flex-end;
+        padding: 15px;
+        background-color: black;
+        .tooltip {
             bottom: 15px;
-            width: 190px;
+            width: 100px;
             background: #2b2c30;
-            color: #ffffff;
+            left: auto;
+            right: 33px;
+            transform: none;
+            visibility: hidden;
+            width: 190px;
             padding: 10px 10px 5px 10px;
-            text-align: left;
-        div{
-            margin-bottom : 5px;
+            color: #9ea1a8;
+            border: 1px solid #9ea1a8;
+            &:before {
+                content: "";
+                display: block;
+                position: absolute;
+                left: 50%;
+                bottom: -7px;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-top: 6px solid  #9ea1a8;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+            }
+            &:after {
+                content: "";
+                display: block;
+                position: absolute;
+                left: 50%;
+                bottom: -10px;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-top: 5px solid #2b2c30;
+                border-bottom: 5px solid transparent;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+            }
+            div {
+                margin-bottom: 5px;
+            }
         }
-        &:after {
-            content: '';
-            display: block;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-top: 5px solid #2b2c30;
-            border-bottom: 5px solid transparent;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            position: absolute;
+
+        button {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            position: relative;
+            overflow: initial;
+            opacity: .3;
+            transition: all .3s;
+
+            &.js-active {
+                opacity: 1;
+            }
+
+            &.js-active + .tooltip {
+                opacity: 1;
+                bottom: 461px;
+                visibility: initial;
+
+                a {
+                    height: 40px;
+                }
+            }
         }
+        
     }
   
-      &:hover {
-          opacity: 1;
-      }
-  
-      &:hover .tooltip {
-          opacity: 1;
-          bottom: 30px;
-  
-          a {
-              height: 40px;
-          }
-      }
-    }
-  }
 </style>

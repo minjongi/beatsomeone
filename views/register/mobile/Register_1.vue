@@ -300,7 +300,7 @@
                     <p>
                         {{ $t('subscribe_common') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }} <em>/mo</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
@@ -362,7 +362,7 @@
                     <p>
                         {{ $t('subscribe_creater') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}<em>/mo</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
@@ -382,28 +382,28 @@
                 <tr>
                     <td>무료비트 다운로드</td>
                     <td>
-                        
+                        <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
                     <td>구매 음원 파일 저장</td>
                     <td>
-                        
+                        <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
                     <td>구매 음원 라이센스 저장</td>
                     <td>
-                       
+                        <span class="check">O</span>
                     </td>
 
                 </tr>
                 <tr>
                     <td>미리듣기 스트리밍 서비스</td>
                     <td>
-                      
+                       <span class="check">O</span>
                     </td>
 
                 </tr>

@@ -85,7 +85,9 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td></td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{ $t('storePurchaseMusicFiles') }}</td>
@@ -95,7 +97,9 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td></td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{ $t('purchaseSoundSourceLicenseStorage') }}</td>
@@ -105,7 +109,9 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td></td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{ $t('previewStreamingService') }}</td>
@@ -115,7 +121,9 @@
                      <td>
                         <span class="check">O</span>
                     </td>
-                    <td></td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
                 </tr>
                 <!--                    <tfoot>-->
                 <tr>
