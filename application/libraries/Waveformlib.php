@@ -34,7 +34,12 @@ class Waveformlib
             return null;
         }
 
-        $waveform = new Waveform(config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $file));
+        $filePath = config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $file);
+        if( !file_exists($filePath) ) {
+            return null;
+        }
+
+        $waveform = new Waveform($filePath);
         $data = $waveform->getWaveformData($width);
 
         return json_encode($data['lines1']);
