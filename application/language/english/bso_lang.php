@@ -22,6 +22,7 @@ $lang['trackImage'] = 'Artwork';
 $lang['audiofilesForDownload'] = 'AUDIOFILES FOR DOWNLOAD';
 $lang['audiofilesForStreaming'] = 'ADD FOR SOUNDTAG OR SIGNATURESOUND';
 $lang['billMonthly'] = 'Bill monthly';
+$lang['monthly'] = '/mo';
 $lang['billYearly'] = 'Bill yearly';
 $lang['bpmDesc'] = 'BPM(Beats per minute)';
 $lang['browseBeats'] = 'BROWSE BEATS';

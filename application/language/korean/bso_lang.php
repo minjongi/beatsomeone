@@ -22,6 +22,7 @@ $lang['trackImage'] = '트랙 표지 이미지';
 $lang['audiofilesForDownload'] = '다운로드용 오디오 파일';
 $lang['audiofilesForStreaming'] = '미리듣기용 사운드태그 파일 추가';
 $lang['billMonthly'] = '1개월 결제';
+$lang['monthly'] = '/1개월';
 $lang['billYearly'] = '1년 결제';
 $lang['bpmDesc'] = 'BPM(Beats per minute)';
 $lang['browseBeats'] = '원하는 비트를 찾아보세요';

@@ -34,7 +34,7 @@
                     </a>
                     <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="is_subscriber && item.cit_type5 === '1' && item.detail.STEM.cde_download < 10">
                       <span>
-                        {{ formatPrice(0, 0, true) }}(구독 잔여 {{10-item.detail.STEM.cde_download}})
+                        {{ formatPrice(0, 0, true) }} (구독 잔여 {{10-item.detail.STEM.cde_download}})
                       </span>
                     </a>
                   </div>

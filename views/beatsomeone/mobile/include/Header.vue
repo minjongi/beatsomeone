@@ -49,8 +49,8 @@
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
-                    <button>
-                        <a href="/register" class="sale_signup" v-if="!isLogin" @click="signUpClick('seller')">{{ $t('saleSignup') }}</a>
+                    <button v-if="!isLogin">
+                        <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('saleSignup') }}</a>
                         <span class="tooltip">
                              수익 100%청산
                         </span>

@@ -62,23 +62,23 @@
                                 </button>
                                 <span class="tooltip">
                                     <div>
-                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
                                         <span> 무료비트 다운로드 기능</span>
                                     </div>    
                                     <div>
-                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
                                         <span> 정기구독회원 다운로드 기능</span>
                                     </div>  
                                     <div>
-                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
                                         <span> 정식으로 저작권 등록된 음원</span>
                                     </div>  
                                     <div>
-                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
                                         <span> 음성 또는 가창이 포함된 음원</span>
                                     </div>  
                                     <div>
-                                        <img style="margin-left: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
                                         <span> 비트 썸원 오리지널 음원</span>
                                     </div>  
                                 </span>
@@ -118,7 +118,7 @@
                         </div>
                     </section>
                     <section class="main__section2">
-                        <header class="main__section2-title">
+                        <header class="main__section2-title1">
                             <div class="wrap">
                                 <h1>
                                     {{ $t('backgroundMusicMessage1') }}<br/>
@@ -477,13 +477,14 @@
         display: flex;
         justify-content: flex-end;
         padding: 15px;
+        position: relative;
         background-color: black;
         .tooltip {
             bottom: 15px;
             width: 100px;
             background: #2b2c30;
             left: auto;
-            right: 33px;
+            right: 34px;
             transform: none;
             visibility: hidden;
             width: 190px;
@@ -525,7 +526,7 @@
         button {
             cursor: pointer;
             width: 20px;
-            height: 20px;
+            height: 16px;
             position: relative;
             overflow: initial;
             opacity: .3;
@@ -537,7 +538,7 @@
 
             &.js-active + .tooltip {
                 opacity: 1;
-                bottom: 461px;
+                bottom: 44px;
                 visibility: initial;
 
                 a {

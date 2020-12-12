@@ -52,21 +52,21 @@
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerFree)">{{ $t('getStarted') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext('buyerFree')">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
                             {{ $t('subscribe_common') }} 
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}</h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext('subscribedCommon')">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
                             {{ $t('subscribe_creater') }}
                         </p>
-                       <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}</h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
+                       <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext('subscribedCreater')">{{ $t('getStarted') }}</a>
                     </th>
                 </tr>
                 </thead>

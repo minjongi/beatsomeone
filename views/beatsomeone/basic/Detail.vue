@@ -30,7 +30,7 @@
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                         <span v-if="item.cit_type5 === '1'">
-                                            {{ formatPrice(0, 0, true) }}(구독 잔여 {{10-item.detail.STEM.cde_download}})
+                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{10-item.detail.STEM.cde_download}})
                                         </span>
                                     </a>
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->

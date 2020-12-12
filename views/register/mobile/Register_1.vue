@@ -65,7 +65,7 @@
                     <p>
                         {{ $t('free') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> 0</h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
@@ -300,7 +300,7 @@
                     <p>
                         {{ $t('subscribe_common') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }} <em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>/mo</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
