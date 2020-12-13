@@ -30,7 +30,7 @@
                 <div class="col-sm-10 form-inline">
                     <input type="hidden" name="seller_mem_userid" value="<?php echo set_value('seller_mem_userid', element('seller_mem_userid', element('data', $view))); ?>"/>
                     <?php
-                    echo element('seller_mem_userid', element('data', $view)) . ' / ';
+                    echo element('mem_userid', element('sellerInfo', element('data', $view))) . ' / ';
                     echo element('mem_email', element('sellerInfo', element('data', $view))) . ' / ';
                     echo element('mem_username', element('sellerInfo', element('data', $view)));
                     ?>
