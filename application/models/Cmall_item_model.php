@@ -285,7 +285,7 @@ class Cmall_item_model extends CB_Model
 //                'type' => 'left'
 //            ],
         ];
-        $select = 'cmall_item.*, mem_username as seller_mem_username';
+        $select = 'cmall_item.*, mem_username as seller_mem_userid, mem_username as seller_mem_username, mem_nickname as seller_mem_nickname';
 
         return $this->_get_list_common($select, $join, $limit, $offset, $where, $like, $findex, $forder, $sfield, $skeyword, $sop);
     }
