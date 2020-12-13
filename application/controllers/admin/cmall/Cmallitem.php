@@ -270,8 +270,7 @@ class Cmallitem extends CB_Controller
             );
 			$relation = $this->Cmall_item_relation_model->get_relation_list($rconfig);
             $getdata['relation'] = $relation;
-
-            $getdata['sellerInfo'] = $this->Member_model->get_by_userid(element('seller_mem_userid', $getdata));
+            $getdata['sellerInfo'] = $this->Member_model->get_by_memid(element('mem_id', $getdata));
 		} else {
 			// 기본값 설정
 			$getdata['cit_key'] = time();
