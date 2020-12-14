@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div id="noti-popup" ref="noti-popup" v-if="popup && $i18n.locale !== 'en'">
-          <div class="noti-content">
-            <div style="position: absolute;right: 5px;width: 30px;height: 30px;margin-top: 8px;" @click="closePopup"></div>
-            <div style="background-color: #000000">
-              <img src="/assets_m/images/event/20201207/1.png" style="display:block;">
-            </div>
-            <div>
-              <img src="/assets_m/images/event/20201207/2.png" style="display:block;" @click="goEvent">
-            </div>
-          </div>
-        </div>
+<!--        <div id="noti-popup" ref="noti-popup" v-if="popup && $i18n.locale !== 'en'">-->
+<!--          <div class="noti-content">-->
+<!--            <div style="position: absolute;right: 5px;width: 30px;height: 30px;margin-top: 8px;" @click="closePopup"></div>-->
+<!--            <div style="background-color: #000000">-->
+<!--              <img src="/assets_m/images/event/20201207/1.png" style="display:block;">-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <img src="/assets_m/images/event/20201207/2.png" style="display:block;" @click="goEvent">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="wrapper">
             <Header :is-login="isLogin"></Header>
             <div class="container">

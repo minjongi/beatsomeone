@@ -1,9 +1,10 @@
 <template>
-  <div :class="$i18n.locale !== 'en' ? 'event-header' : ''">
+  <div>
     <header class="header">
-      <div class="event-top" v-if="$i18n.locale !== 'en'">
-        <a href="/event"><img src="/assets/images/event/20201207.png"></a>
-      </div>
+<!--      :class="$i18n.locale !== 'en' ? 'event-header' : ''"-->
+<!--      <div class="event-top" v-if="$i18n.locale !== 'en'"> -->
+<!--        <a href="/event"><img src="/assets/images/event/20201207.png"></a>-->
+<!--      </div>-->
       <div class="wrap">
         <h1 class="header__logo">
           <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
