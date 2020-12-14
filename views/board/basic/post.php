@@ -334,7 +334,7 @@ if (element('syntax_highlighter', element('board', $view)) OR element('comment_s
 		</div>
 	<?php } ?>
 
-	<div class="clearfix"></div>
+  <div class="clearfix"></div>
 
 	<?php if (element('tag', element('post', $view))) { ?>
 		<div class="tags mt20">
@@ -345,7 +345,21 @@ if (element('syntax_highlighter', element('board', $view)) OR element('comment_s
 		</div>
 	<?php } ?>
 
-	<?php
+  <?php if(element('total_rows', element('replies', element('post', $view))) > 0) { ?>
+    <div style="margin-bottom:20px;">
+      <h3>답변</h3>
+      <?php foreach (element('list', element('replies', element('post', $view))) as $reply) { ?>
+      <div class="contents-view" style="border-bottom: 1px solid #DCDCDC;">
+        <div id="post-content"><?php echo element('post_content', $reply); ?></div>
+        <div class="mt20">
+          <a href="/post/<?php echo element('post_id', $reply); ?>" class="btn btn-primary btn-sm">수정</a>
+        </div>
+      </div>
+      <?php } ?>
+    </div>
+  <?php } ?>
+
+  <?php
 	if ( ! element('post_hide_comment', element('post', $view))) {
 	?>
 		<div id="viewcomment"></div>
