@@ -30,6 +30,39 @@
                             </swiper>
                         </div>
                     </div>
+                    <div class="icon__group_sub">
+                        <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">
+                            <i class="far fa-question-circle" style="color: #ffffff; width: 10px; margin-right: 5px;"></i>
+                        </button>
+                        <span class="tooltip">
+                            <div>
+                                <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
+                                <span> 무료비트 다운로드 기능</span>
+                            </div>    
+                            <div>
+                                <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
+                                <span> 정기구독회원 다운로드 기능</span>
+                            </div>  
+                            <div>
+                                <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
+                                <span> 정식으로 저작권 등록된 음원</span>
+                            </div>  
+                            <div>
+                                <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
+                                <span> 음성 또는 가창이 포함된 음원</span>
+                            </div>  
+                            <div>
+                                <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
+                                <span> 비트 썸원 오리지널 음원</span>
+                            </div>  
+                        </span>
+                        
+                        <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_1.png"/> 
+                        <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_2.png"/> 
+                        <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_3.png"/> 
+                        <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_4.png"/> 
+                        <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_5.png"/> 
+                    </div>
                     <div class="row">
                         <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
                             <transition-group
@@ -225,7 +258,8 @@ export default {
                     delay: 2500,
                     disableOnInteraction: false
                 },
-            }
+            },
+            isOpenSubmenu: false
         }
     },
     watch: {
@@ -449,7 +483,8 @@ export default {
                 bpmTo: this.param.currentBpmTo,
                 moods: this.param.currentMoods,
                 trackType: this.param.currentTrackType,
-                search: this.param.search
+                search: this.param.search,
+                
             }
             Http.post(`/beatsomeoneApi/sublist_list`, p).then(r => {
                 this.list = this.list.concat(r);
@@ -505,38 +540,104 @@ export default {
                     {complete: done}
                 )
             }, delay)
-        }
+        },
+        openSubmenu() {
+            this.isOpenSubmenu = !this.isOpenSubmenu;
+        },
     },
 
 }
 
 </script>
 
-<style lang="scss">
+
+
+<style lang="scss" scope="scope">
 @import '@/assets_m/scss/App.scss';
 @import "~swiper/swiper.scss";
-</style>
-
-<style lang="css">
-@import '/assets/plugins/slick/slick.css';
-@import '/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css';
-
-.playList .playList__item {
-    display: flex !important;
-}
-
-</style>
-
-<style lang="css" scope="scope">
 html, body {
     background: #111214;
 }
-
+.playList .playList__item {
+    display: flex !important;
+}
 .sub .playList .playList__item > div {
     margin-bottom: 0 !important;
 }
 
 .playList .playList__itembox {
   height: 70px !important;
+}
+.icon__group_sub {  
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    position: relative;
+    background-color: black;
+    .tooltip {
+        bottom: 15px;
+        width: 100px;
+        background: #2b2c30;
+        left: auto;
+        right: 34px;
+        transform: none;
+        visibility: hidden;
+        width: 190px;
+        padding: 10px 10px 5px 10px;
+        color: #9ea1a8;
+        border: 1px solid #9ea1a8;
+        &:before {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: -7px;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-top: 6px solid  #9ea1a8;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+        }
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-top: 5px solid #2b2c30;
+            border-bottom: 5px solid transparent;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+        }
+        div {
+            margin-bottom: 5px;
+        }
+    }
+    button {
+        cursor: pointer;
+        width: 20px;
+        height: 16px;
+        position: relative;
+        overflow: initial;
+        opacity: .3;
+        transition: all .3s;
+        &.js-active {
+            opacity: 1;
+        }
+
+        &.js-active + .tooltip {
+            opacity: 1;
+            bottom: 44px;
+            visibility: initial;
+
+            a {
+                height: 40px;
+            }
+        }
+    }
 }
 </style>

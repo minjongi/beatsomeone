@@ -24,11 +24,12 @@
         <div class="list-group">
             <div class="form-group list-group-item">
                 <div class="col-sm-1">순서변경</div>
-                <div class="col-sm-3">그룹명</div>
+                <div class="col-sm-2">그룹명</div>
                 <div class="col-sm-1">월금액</div>
                 <div class="col-sm-1">연금액</div>
                 <div class="col-sm-1">할인율 & 수수료</div>
                 <div class="col-sm-1">업로드 트랙 제한</div>
+                <div class="col-sm-1">다운로드 트랙 제한</div>
                 <div class="col-sm-1">메시지 채팅 기능</div>
                 <div class="col-sm-1">기본그룹</div>
                 <div class="col-sm-1">회원수</div>
@@ -47,7 +48,7 @@
                                 <input type="hidden" name="mgr_id[<?php echo element('mgr_id', $result); ?>]"
                                        value="<?php echo element('mgr_id', $result); ?>"/>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label>그룹명</label>
                                 <input type="text" class="form-control"
                                        name="mgr_title[<?php echo element('mgr_id', $result); ?>]"
@@ -112,6 +113,17 @@
                                        value="<?php echo html_escape(element('mgr_year_upload_limit', $result)); ?>"/>
                             </div>
 
+                            <div class="col-sm-1">
+                                <label>월 트랙개수</label>
+                                <input type="text" class="form-control"
+                                       name="mgr_monthly_download_limit[<?php echo element('mgr_id', $result); ?>]"
+                                       value="<?php echo html_escape(element('mgr_monthly_download_limit', $result)); ?>"/>
+                                <label>연 트랙개수</label>
+                                <input type="text" class="form-control"
+                                       name="mgr_year_download_limit[<?php echo element('mgr_id', $result); ?>]"
+                                       value="<?php echo html_escape(element('mgr_year_download_limit', $result)); ?>"/>
+                            </div>
+                            
                             <div class="col-sm-1">
                                 <label>월 메시지</label>
                                 <input type="text" class="form-control"
@@ -188,6 +200,12 @@
                     '<input type="text" class="form-control" name="mgr_monthly_upload_limit[]" />' +
                     '<label>연 트랙개수</label>' +
                     '<input type="text" class="form-control" name="mgr_year_upload_limit[]" />' +
+                '</div>' +
+                '<div class="col-sm-1">' +
+                    '<label>월 트랙개수</label>' +
+                    '<input type="text" class="form-control" name="mgr_monthly_download_limit[]" />' +
+                    '<label>연 트랙개수</label>' +
+                    '<input type="text" class="form-control" name="mgr_year_download_limit[]" />' +
                 '</div>' +
                 '<div class="col-sm-1">' +
                     '<label>월 메시지</label>' +

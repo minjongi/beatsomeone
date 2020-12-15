@@ -470,8 +470,6 @@
             text-align: center;
             padding: 0 30px 0 0;
         }
-
-
     .icon__group {
          
         display: flex;
@@ -546,7 +544,6 @@
                 }
             }
         }
-        
     }
   
 </style>

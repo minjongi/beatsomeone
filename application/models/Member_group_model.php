@@ -90,6 +90,8 @@ class Member_group_model extends CB_Model
                         'mgr_commission' => $data['mgr_commission'][$key],
                         'mgr_monthly_upload_limit' => $data['mgr_monthly_upload_limit'][$key],
                         'mgr_year_upload_limit' => $data['mgr_year_upload_limit'][$key],
+                        'mgr_monthly_download_limit' => $data['mgr_monthly_download_limit'][$key],
+                        'mgr_year_download_limit' => $data['mgr_year_download_limit'][$key],
                         'mgr_monthly_msg_limit' => $data['mgr_monthly_msg_limit'][$key],
                         'mgr_year_msg_limit' => $data['mgr_year_msg_limit'][$key],
 					);
@@ -111,6 +113,8 @@ class Member_group_model extends CB_Model
                         'mgr_commission' => $data['mgr_commission'][$key],
                         'mgr_monthly_upload_limit' => $data['mgr_monthly_upload_limit'][$key],
                         'mgr_year_upload_limit' => $data['mgr_year_upload_limit'][$key],
+                        'mgr_monthly_download_limit' => $data['mgr_monthly_download_limit'][$key],
+                        'mgr_year_download_limit' => $data['mgr_year_download_limit'][$key],
                         'mgr_monthly_msg_limit' => $data['mgr_monthly_msg_limit'][$key],
                         'mgr_year_msg_limit' => $data['mgr_year_msg_limit'][$key],
 					);

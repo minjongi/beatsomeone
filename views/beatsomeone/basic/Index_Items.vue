@@ -19,7 +19,6 @@
                         <span class="playList__by">by {{ item.mem_nickname }}</span>
                     </figcaption>
                 </figure>
-
                 <div class="tags" v-if="item.cit_freebeat === '1' || item.cit_type5 === '1' || item.cit_officially_registered === '1' || item.cit_include_copyright_transfer === '1' || item.cit_org_content === '1'">
                     <button>
                         <div @mouseover="hovered = true" @mouseleave="hovered = false">
@@ -55,9 +54,7 @@
                 </div>
                 <!-- 서브리스트 토글 버튼 -->
                 <button class="toggle-subList" v-if="item.subPlayList && item.subPlayList.length > 0"></button>
-
             </div>
-
             <div class="col genre">
               <span v-for="(t,i) in hashtag" :key="i" v-if="t.trim()"><button @click="clickHash(t)" v-hover="'active'">{{ truncate(t, 15) }}</button></span>
             </div>

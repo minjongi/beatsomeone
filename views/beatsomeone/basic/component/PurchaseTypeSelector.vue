@@ -29,10 +29,10 @@
                   </div>
 
                   <div class="parchase-btnbox">
-                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="is_subscriber == false || item.cit_type5 === '0' || (item.cit_type5 === '1' && item.detail.STEM.cde_download >= 10)">
+                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="item.cit_type5 !== '1' || item.detail.STEM.cde_download >= 10">
                       <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
                     </a>
-                    <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="is_subscriber && item.cit_type5 === '1' && item.detail.STEM.cde_download < 10">
+                    <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="item.cit_type5 === '1' && item.detail.STEM.cde_download < 10">
                       <span>
                         {{ formatPrice(0, 0, true) }} (구독 잔여 {{10-item.detail.STEM.cde_download}})
                       </span>

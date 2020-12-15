@@ -46,11 +46,14 @@
                                     </div>
                                     <div class="detail">{{ $t('lang24') }}</div>
                                 </div>
-                                <div
+                                <div  v-if="item.cit_type5 !== '1'"
                                     class="price"
                                 >{{
                                         formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d)
                                     }}
+                                </div>
+                                <div v-if="item.cit_type5 === '1'">
+                                    {{ formatPrice(0, 0, true) }}
                                 </div>
                             </button>
                             <ParchaseComponent :item="item"
