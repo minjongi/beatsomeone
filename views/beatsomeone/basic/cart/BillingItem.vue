@@ -46,7 +46,7 @@
                                     class="price 11221122"
                                 >{{
                                         formatPrice(product.detail[0].cde_price,
-                                            product.detail[0].cde_price_d, true)
+                                            product.detail[0].cde_price_d, product.isfree)
                                     }}
                                 </div>
                             </button>
@@ -82,7 +82,7 @@
                                     v-if="product.detail[0].cit_mastering_license_use === '1'"
                                 >{{
                                         formatPrice(product.detail[0].cde_price,
-                                            product.detail[0].cde_price_d, true)
+                                            product.detail[0].cde_price_d, product.isfree)
                                     }}
                                 </div>
                             </button>
@@ -127,24 +127,31 @@ export default {
             }
             return rst;
         },
-        formatPrice: function (kr, en, symbol) {
-            if (!symbol) {
-                if (this.$i18n.locale === "en") {
-                    return en;
-                } else {
-                    return kr;
-                }
-            }
+        formatPrice: function (kr, en, isfree = '0') {
             if (this.$i18n.locale === "en") {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
+                if (isfree == '1') {
+                    return (
+                        "$ " +
+                        Number(0).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    );
+                } {
+                    return (
+                        "$ " +
+                        Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    );
+                }
             } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
+                if (isfree == '1') {
+                    return (
+                        "₩ " +
+                        Number(0).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                    );
+                } else {
+                    return (
+                        "₩ " +
+                        Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                    );
+                }
             }
         },
         toggleButton: function (e) {
