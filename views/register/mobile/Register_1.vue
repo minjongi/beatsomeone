@@ -42,7 +42,7 @@
         </div>
 
         <div class="tab accounts__tab">
-            <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}">
+            <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}" style="padding: 0 9px !important;">
                 {{ $t('free') }}
             </button>
             <button data-target="plan-marketplace" @click="plan = 'marketplace'" :class="{'active':this.plan === 'marketplace'}" v-if="isMusician">
@@ -50,11 +50,11 @@
             </button>
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
-            </button>
-            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician">
+            </button> 
+            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician"  style="padding: 0 9px !important;">
                 {{ $t('subscribe_common') }}
             </button>
-             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician">
+             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician"  style="padding: 0 9px !important;">
                 {{ $t('subscribe_creater') }}
             </button>
         </div>

@@ -60,18 +60,20 @@
         border-left: 0;
       }
     }
-    .sale_signup:hover{
+    .sale_signup{
       border-bottom: 1px solid #bcbcbc !important;
     }
     button {
       cursor: pointer;
       transition: 0.3s ease;
       position: relative;
+      opacity: 1;
       .tooltip {
           position: absolute;
           width: 100px;
           background:#129292;   
           bottom: -36px !important;
+          opacity: 1;
           // border-style: solid;
           // border-color: #ffffff;
           // border-width: 1px;
@@ -92,18 +94,18 @@
           }
       }
 
-      &:hover {
-          opacity: 1;
-      }
+      // &:hover {
+      //     opacity: 1;
+      // }
 
-      &:hover .tooltip {
-          opacity: 1;
-          bottom: 30px;
+      // &:hover .tooltip {
+      //     opacity: 1;
+      //     bottom: 30px;
 
-          a {
-              height: 40px;
-          }
-      }
+      //     a {
+      //         height: 40px;
+      //     }
+      // }
     }
   }
 
