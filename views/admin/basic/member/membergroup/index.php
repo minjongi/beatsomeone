@@ -113,13 +113,13 @@
                                        value="<?php echo html_escape(element('mgr_year_upload_limit', $result)); ?>"/>
                             </div>
 
-                            <div class="col-sm-1">
+                            <div class="col-sm-1">                            
                                 <label>월 트랙개수</label>
-                                <input type="text" class="form-control"
+                                <input type="text" class="form-control" <?php if (gettype(strpos(element('mgr_title', $result),"subscribe")) == 'boolean') echo 'disabled'; else echo ''; ?>
                                        name="mgr_monthly_download_limit[<?php echo element('mgr_id', $result); ?>]"
                                        value="<?php echo html_escape(element('mgr_monthly_download_limit', $result)); ?>"/>
                                 <label>연 트랙개수</label>
-                                <input type="text" class="form-control"
+                                <input type="text" class="form-control" <?php if (gettype(strpos(element('mgr_title', $result),"subscribe")) == 'boolean') echo 'disabled'; else echo ''; ?>
                                        name="mgr_year_download_limit[<?php echo element('mgr_id', $result); ?>]"
                                        value="<?php echo html_escape(element('mgr_year_download_limit', $result)); ?>"/>
                             </div>

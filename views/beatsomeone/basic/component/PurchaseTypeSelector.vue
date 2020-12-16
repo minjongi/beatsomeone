@@ -32,6 +32,7 @@
                     <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="item.cit_type5 !== '1' || item.detail.STEM.cde_download >= 10">
                       <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
                     </a>
+                    <!-- {{member}}, {{member_group_name}} -->
                     <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="item.cit_type5 === '1' && item.detail.STEM.cde_download < 10">
                       <span>
                         {{ formatPrice(0, 0, true) }} (구독 잔여 {{10-item.detail.STEM.cde_download}})
@@ -167,12 +168,14 @@ export default {
   props: ["purchaseTypeSelectorPopup", "item"],
   mounted() {
     this.member_group_name = window.member_group_name;
+    this.member = window.member;
     if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
   },
   data: function () {
     return {
       member_group_name: '',
       is_subscriber: false,
+      member:{}
     };
   },
   computed: {
