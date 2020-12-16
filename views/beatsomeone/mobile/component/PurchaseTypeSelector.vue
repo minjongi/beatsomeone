@@ -218,6 +218,24 @@ export default {
                 }
             });
         },
+        freeBuy(item_detail) {
+        let detail_qty = {};
+        detail_qty[item_detail.cde_id] = 1;
+        Http.post(`/beatsomeoneApi/itemAction`, {
+            stype: "free",
+            cit_id: this.item.cit_id,
+            chk_detail: [item_detail.cde_id],
+            detail_qty: detail_qty,
+        }).then((r) => {
+            if (!r) {
+            log.debug("장바구니 담기 실패");
+            } else {
+            log.debug("장바구니 담기 성공");
+            alert(this.$t("inMyShoppingCart"));
+            this.close();
+            }
+        });
+        },        
         close() {
             this.$emit("update:purchaseTypeSelectorPopup", false);
         },

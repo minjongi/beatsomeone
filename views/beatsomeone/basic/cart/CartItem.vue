@@ -46,14 +46,10 @@
                                     </div>
                                     <div class="detail">{{ $t('lang24') }}</div>
                                 </div>
-                                <div  v-if="item.cit_type5 !== '1'"
-                                    class="price"
-                                >{{
-                                        formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d)
+                                <div class="price"
+                                >   {{
+                                        formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, item.isfree)
                                     }}
-                                </div>
-                                <div v-if="item.cit_type5 === '1'">
-                                    {{ formatPrice(0, 0, true) }}
                                 </div>
                             </button>
                             <ParchaseComponent :item="item"
@@ -81,8 +77,8 @@
                                 </div>
                                 <div
                                     class="price"
-                                >{{
-                                        formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d)
+                                >{{ 
+                                        formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, item.isfree)
                                     }}
                                 </div>
                             </button>
@@ -92,14 +88,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="col feature">
-                                      <div class="price" v-if="item.detail[0].cit_lease_license_use === '1'">
-                                          {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d) }}
-                                      </div>
-                                      <div class="price" v-if="item.detail[0].cit_mastering_license_use === '1'" >
-                                          {{ formatPrice(item.detail[0].cde_price_2, item.detail[0].cde_price_d_2) }}
-                                      </div>
-            </div>-->
+
             <div class="col edit">
                 <button
                     class="btn btn--blue round"
@@ -152,17 +141,31 @@ export default {
             }
             return rst;
         },
-        formatPrice: function (kr, en) {
+        formatPrice: function (kr, en, isfree = '0') {
             if (this.$i18n.locale === "en") {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
+                if (isfree == '1') {
+                    return (
+                        "$ " +
+                        Number(0).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    );
+                } {
+                    return (
+                        "$ " +
+                        Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    );
+                }
             } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
+                if (isfree == '1') {
+                    return (
+                        "₩ " +
+                        Number(0).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                    );
+                } else {
+                    return (
+                        "₩ " +
+                        Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                    );
+                }
             }
         },
         goBuy: function () {

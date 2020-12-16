@@ -132,6 +132,10 @@ Beat Someone
 
 	*		alter table cb_cmall_item ADD cit_type5 TINYINT default 0 NOT NULL;
 	*		ALTER TABLE cb_cmall_cart ADD isfree INT NOT null DEFAULT 0;
+
+	*		alter table cb_member_group ADD mgr_monthly_download_limit int;
+	*		alter table cb_member_group ADD mgr_year_download_limit int;
+
 ## 환경설정
 * 뮤지션 회원 추가정보 (계좌)
     * 환경설정 - 회원가입설정 - 가입폼 관리 (추가)
