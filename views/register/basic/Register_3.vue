@@ -254,6 +254,7 @@
             doNext(type) {
                 if(this.doValidation()) {
                     let userInfo = this.$store.getters.getUserInfo;
+                    console.log("3333333333", userInfo);
                     userInfo.mem_userid = this.user.username;
                     userInfo.mem_email = this.user.email;
                     userInfo.mem_password = this.user.password;
