@@ -20,18 +20,11 @@
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a href="javascript:;" class="buy" v-if="item" @click="addCart">
-                                        <span v-if="item.cit_type5 === '0' && item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
-                                            {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
+                                        <span v-if="is_subscriber && item.cit_type5 === '1' && item.detail.STEM.cde_download < subscribed">
+                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{subscribed-item.detail.STEM.cde_download}})
                                         </span>
-                                        <span v-if="item.cit_type5 === '0' && item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
+                                        <span v-else>
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
-                                        </span>
-                                        <span v-if="item.cit_type5 === '0' && item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1'">
-                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
-                                        </span>
-                                        <span v-if="item.cit_type5 === '1'">
-                                            {{member}} 
-                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{10-item.detail.STEM.cde_download}})
                                         </span>
                                     </a>
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
@@ -136,7 +129,8 @@
                 currentTab: 1,
                 purchaseTypeSelectorPopup: false,
                 isIncreaseMusicCount: false,
-                member: false,
+                is_subscriber: false,
+                subscribed: 0
             };
         },
         computed: {
@@ -176,7 +170,9 @@
                 })
         },
         mounted() {
-            this.member = window.member;
+            this.fetchData();
+            if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
+
             EventBus.$on("player_request_start", (r) => {
                 log.debug({
                     "DETAIL : player_request_start": r,
@@ -247,6 +243,27 @@
             },
         },
         methods: {
+            
+            fetchData() {
+                axios.get('/membergroup')
+                    .then(res => res.data)
+                    .then(data => {
+                        let list = Object.values(data);
+                        list.forEach(item => {
+                            console.log('this is aaaa', window.member_group_name ,item.mgr_id, item );
+                            if (window.member_group_name == 'subscribe_common' && item.mgr_id == 5){
+                                this.subscribed = item.mgr_monthly_download_limit;
+                            }
+                            if (window.member_group_name == 'subscribe_creater'&& item.mgr_id == 6){
+                                this.subscribed = item.mgr_monthly_download_limit;
+                            }
+                            
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+                },
             // 탭 선택
             selectTab(t) {
                 this.currentTab = t.id;

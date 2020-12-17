@@ -27,15 +27,13 @@
                       {{$t('lang24')}}
                     </p>
                   </div>
-
                   <div class="parchase-btnbox">
-                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="item.cit_type5 !== '1' || item.detail.STEM.cde_download >= 10">
+                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="!is_subscriber || item.cit_type5 !== '1' || item.detail.STEM.cde_download >= subscribed">
                       <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
                     </a>
-                    <!-- {{member}}, {{member_group_name}} -->
-                    <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="item.cit_type5 === '1' && item.detail.STEM.cde_download < 10">
+                    <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="is_subscriber && item.cit_type5 === '1' && item.detail.STEM.cde_download < subscribed">
                       <span>
-                        {{ formatPrice(0, 0, true) }} (구독 잔여 {{10-item.detail.STEM.cde_download}})
+                        {{ formatPrice(0, 0, true) }} (구독 잔여 {{subscribed-item.detail.STEM.cde_download}})
                       </span>
                     </a>
                   </div>
@@ -163,19 +161,18 @@
 <script>
 import {EventBus} from "*/src/eventbus";
 import $ from "jquery";
-
+import axios from 'axios';
 export default {
   props: ["purchaseTypeSelectorPopup", "item"],
   mounted() {
-    this.member_group_name = window.member_group_name;
-    this.member = window.member;
+    // this.member_group_name = window.member_group_name;
+    this.fetchData();
     if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
   },
   data: function () {
     return {
-      member_group_name: '',
       is_subscriber: false,
-      member:{}
+      subscribed: 0
     };
   },
   computed: {
@@ -186,6 +183,28 @@ export default {
     },
   },
   methods: {
+
+    fetchData() {
+      axios.get('/membergroup')
+          .then(res => res.data)
+          .then(data => {
+              let list = Object.values(data);
+              list.forEach(item => {
+                  console.log('this is aaaa', window.member_group_name ,item.mgr_id, item );
+                  if (window.member_group_name == 'subscribe_common' && item.mgr_id == 5){
+                      this.subscribed = item.mgr_monthly_download_limit;
+                  }
+                  if (window.member_group_name == 'subscribe_creater'&& item.mgr_id == 6){
+                      this.subscribed = item.mgr_monthly_download_limit;
+                  }
+                
+              });
+          })
+          .catch(error => {
+              console.error(error);
+          })
+    },
+
     openDesc(id) {
       this.$refs["purchaseBtn" + id].classList.toggle("active");
       this.$refs["purchaseDesc" + id].style.display =

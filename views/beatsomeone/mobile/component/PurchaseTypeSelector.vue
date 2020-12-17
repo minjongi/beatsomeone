@@ -24,11 +24,11 @@
                                     <div class="parchase-btnbox">
                                         <a class="buy waves-effect" @click="addCart(item.detail.LEASE)"
                                            href="javascript:;">
-                                            <span v-if="item.cit_type5 === '0'">{{
-                                                    formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true)
-                                                }}</span>
-                                            <span v-if="item.cit_type5 === '1'">
-                                                {{ formatPrice(0, 0, true) }} (구독 잔여 {{10-item.detail.STEM.cde_download}})
+                                            <span v-if="is_subscriber && item.cit_type5 === '1' && item.detail.STEM.cde_download < 10">
+                                                {{ formatPrice(0, 0, true) }} (구독 잔여 {{subscribed-item.detail.STEM.cde_download}})
+                                            </span>
+                                            <span v-else>
+                                                {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                             </span>
                                         </a>
                                     </div>
@@ -168,13 +168,21 @@
 <script>
 import {EventBus} from "*/src/eventbus";
 import $ from "jquery";
-
+import axios from 'axios';
 export default {
     props: ["purchaseTypeSelectorPopup", "item"],
     data: function () {
-        return {};
+        return {
+            is_subscriber: false,
+            member: {},
+            member_group_name: ''
+        };
     },
     mounted() {
+        this.fetchData();
+        this.member_group_name = window.member_group_name;
+        this.member = window.member;
+        if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
     },
     watch: {
         item: function (n) {
@@ -188,6 +196,26 @@ export default {
         },
     },
     methods: {
+        fetchData() {
+                axios.get('/membergroup')
+                    .then(res => res.data)
+                    .then(data => {
+                        let list = Object.values(data);
+                        list.forEach(item => {
+                            console.log('this is aaaa', window.member_group_name ,item.mgr_id, item );
+                            if (window.member_group_name == 'subscribe_common' && item.mgr_id == 5){
+                                this.subscribed = item.mgr_monthly_download_limit;
+                            }
+                            if (window.member_group_name == 'subscribe_creater'&& item.mgr_id == 6){
+                                this.subscribed = item.mgr_monthly_download_limit;
+                            }
+                            
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+                },
         openDesc(id) {
             this.$refs["purchaseDropdown" + id].blur()
             this.$refs["purchaseBtn" + id].classList.toggle("active");

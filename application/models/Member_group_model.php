@@ -36,16 +36,16 @@ class Member_group_model extends CB_Model
 
 	public function get_all_group()
 	{
-		$cachename = $this->cache_name;
-		if ( ! $result = $this->cache->get($cachename)) {
-			$result = array();
-			$res = $this->get($primary_value = '', $select = '', $where = '', $limit = '', $offset = 0, $findex = 'mgr_order', $forder = 'ASC');
-			if ($res && is_array($res)) {
-				foreach ($res as $val) {
-					$result[$val['mgr_id']] = $val;
-				}
+		// $cachename = $this->cache_name;
+		// if ( ! $result = $this->cache->get($cachename)) {
+		// 	$this->cache->save($cachename, $result, $this->cache_time);
+		// }
+		$result = array();
+		$res = $this->get($primary_value = '', $select = '', $where = '', $limit = '', $offset = 0, $findex = 'mgr_order', $forder = 'ASC');
+		if ($res && is_array($res)) {
+			foreach ($res as $val) {
+				$result[$val['mgr_id']] = $val;
 			}
-			$this->cache->save($cachename, $result, $this->cache_time);
 		}
 		return $result;
 	}
