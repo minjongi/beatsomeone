@@ -81,9 +81,10 @@
                 social_popup.onbeforeunload = this.socialConnected
             },
             socialConnected() {
-                let userInfo = this.$store.getters.getUserInfo;
+                // let userInfo = this.$store.getters.getUserInfo;
                 // window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
-                this.$router.push('/3');
+                window.location.href = `/register#/3`;
+                // this.$router.push('/3');
             }
         },
     }
