@@ -356,7 +356,6 @@ class Social extends CB_Controller
 
             // 이벤트가 존재하면 실행합니다
             Events::trigger('after', $eventname);
-
             $this->_common_login('google', $google_id);
 
         } else {
@@ -790,7 +789,7 @@ class Social extends CB_Controller
                 if ($url_after_login) {
                     echo 'window.opener.document.location.href = "' . $url_after_login . '";';
                 } else {
-                    echo 'window.opener.location.reload();';
+                    echo 'window.opener.location.href=`/register#/3`;';
                 }
                 echo '</script>';
                 exit;
@@ -1133,11 +1132,13 @@ class Social extends CB_Controller
                 Events::trigger('common_login_after', $eventname);
 
                 echo '<meta http-equiv="content-type" content="text/html; charset=' . config_item('charset') . '">';
-                echo '<script type="text/javascript"> window.close();';
+                echo '<script type="text/javascript">';
+                echo 'window.opener.location.href=`/register#/3`;';
+                echo 'window.close();';
 //				if ($url_after_login) {
 //					echo 'window.opener.document.location.href = "' . $url_after_login . '";';
 //				} else {
-                echo 'window.opener.location.reload();';
+//                    echo 'window.opener.location.href=`/register#/3`;';
 //				}
                 echo '</script>';
                 exit;

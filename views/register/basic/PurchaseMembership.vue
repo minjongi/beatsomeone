@@ -87,6 +87,7 @@
                         <button type="button" class="btn btn--submit" @click="payAllat">
                             {{ $t('checkout') }}
                         </button>
+                        <!-- :action="func(info.group.mgr_id)"" -->
                         <form name="fm1" method="POST" action="/pg/allat/proc">
                             <input type="text" name="allat_shop_id" v-model="allatForm.shop_id" maxlength="20"/>
                             <!--주문번호-->
@@ -210,6 +211,7 @@ export default {
                     this.pg_paypal_env = 'production';
                     this.$set(this.allatForm, 'test_yn', 'N');
                 }
+                console.log("&&&&&&&&&&&", data.allat_shop_id_fix);
                 this.$set(this.allatForm, 'shop_id', data.allat_shop_id);
                 this.isEmptyPaypal = Object.keys(this.paypal).length === 0;
             })

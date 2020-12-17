@@ -197,6 +197,12 @@ class Cmalllib extends CI_Controller
 
 		$this->CI->load->model(array('Cmall_cart_model', 'Cmall_item_detail_model'));
 
+		$deletewhere = array(
+			'mem_id' => $mem_id,
+			'cit_id' => $cit_id,
+			'cct_cart' => 1,
+		);
+		$this->CI->Cmall_cart_model->delete_where($deletewhere);
 
 		if ($detail_array && is_array($detail_array)) {
 			foreach ($detail_array as $cde_id) {
@@ -215,7 +221,6 @@ class Cmalllib extends CI_Controller
 					'cde_id' => $cde_id,
 					'cct_count' => element($cde_id, $qty_array),
 					'cct_cart' => 1,
-					'cct_order' => 2,
 					'isfree' => 1,
 					'cct_datetime' => cdate('Y-m-d H:i:s'),
 					'cct_ip' => $this->CI->input->ip_address(),
@@ -250,25 +255,20 @@ class Cmalllib extends CI_Controller
 					'mem_id' => $mem_id,
 					'cit_id' => $cit_id,
 				);
-				$tmp = $this->CI->Cmall_cart_model->get_cart_detail($mem_id, $cit_id);
-				var_dump($tmp);
-				if ($tmp['cct_order'] == 2) {
-					$this->CI->Cmall_cart_model->change_cart_order($mem_id, $cit_id);
-				} else {
-					$result = $this->CI->Cmall_cart_model->get('', '', $where);
-					if ($result) {
-						foreach ($result as $value) {
-							$insertdata = array(
-								'mem_id' => $mem_id,
-								'cit_id' => $cit_id,
-								'cde_id' => element('cde_id', $value),
-								'cct_count' => element('cct_count', $value),
-								'cct_order' => 1,
-								'cct_datetime' => cdate('Y-m-d H:i:s'),
-								'cct_ip' => $this->CI->input->ip_address(),
-							);
-							$cct_id = $this->CI->Cmall_cart_model->insert($insertdata);
-						}
+				$result = $this->CI->Cmall_cart_model->get('', '', $where);
+				if ($result) {
+					foreach ($result as $value) {
+						$insertdata = array(
+							'mem_id' => $mem_id,
+							'cit_id' => $cit_id,
+							'cde_id' => element('cde_id', $value),
+							'cct_count' => element('cct_count', $value),
+							'cct_order' => 1,
+							'cct_datetime' => cdate('Y-m-d H:i:s'),
+							'cct_ip' => $this->CI->input->ip_address(),
+							'isfree' => element('isfree', $value),
+						);
+						$cct_id = $this->CI->Cmall_cart_model->insert($insertdata);
 					}
 				}
 			}

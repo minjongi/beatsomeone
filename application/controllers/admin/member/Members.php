@@ -882,7 +882,10 @@ class Members extends CB_Controller
                 array(
                     'key' => 'gender',
                     'text' => '성별',
-                    'value' => (element('gender', $data) === 'male' ? '남성' : '여성'),
+                    'value' => (
+                        (element('gender', $data) === 'male' || element('gender', $data) === 'M' || element('gender', $data) === 'm') ? '남성' : 
+                        ((element('gender', $data) === 'female' || element('gender', $data) === 'F' || element('gender', $data) === 'f') ? '여성' : '')
+                    ),
                 ),
                 array(
                     'key' => 'locale',
@@ -980,7 +983,10 @@ class Members extends CB_Controller
                 array(
                     'key' => 'gender',
                     'text' => '성별',
-                    'value' => (element('gender', $data) === 'male' ? '남성' : '여성'),
+                    'value' => (
+                        (element('gender', $data) === 'male' || element('gender', $data) === 'M' || element('gender', $data) === 'm') ? '남성' : 
+                        ((element('gender', $data) === 'female' || element('gender', $data) === 'F' || element('gender', $data) === 'f') ? '여성' : '')
+                    ),
                 ),
                 array(
                     'key' => 'locale',
@@ -1034,7 +1040,10 @@ class Members extends CB_Controller
                 array(
                     'key' => 'gender',
                     'text' => '성별',
-                    'value' => (element('gender', $data) === 'F' ? '여성' : '남성'),
+                    'value' => (
+                        (element('gender', $data) === 'male' || element('gender', $data) === 'M' || element('gender', $data) === 'm') ? '남성' : 
+                        ((element('gender', $data) === 'female' || element('gender', $data) === 'F' || element('gender', $data) === 'f') ? '여성' : '')
+                    ),
                 ),
                 array(
                     'key' => 'birthday',
