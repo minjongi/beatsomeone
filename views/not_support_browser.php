@@ -132,20 +132,15 @@
   <script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/473604360/?random=1608183477828&amp;cv=9&amp;fst=1608183477828&amp;num=1&amp;bg=ffffff&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=376635471&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_his=1&amp;u_tz=540&amp;u_java=false&amp;u_nplug=3&amp;u_nmime=4&amp;gtm=2oabu0&amp;sendb=1&amp;ig=1&amp;data=event%3Dgtag.config&amp;frm=0&amp;url=https%3A%2F%2Fmvp.beatsomeone.com%2Fregister%2Fterms&amp;ref=https%3A%2F%2Fmvp.beatsomeone.com%2Fregister%2Fterms&amp;tiba=%EB%B9%84%ED%8A%B8%EC%8D%B8%EC%9B%90%20%3A%3A%20beatsomeone&amp;hn=www.googleadservices.com&amp;async=1&amp;rfmt=3&amp;fmt=4"></script>
 
   <style type="text/css">
-      /*html, body {*/
-      /*    width: 100%;*/
-      /*    height: 100%;*/
-      /*    margin: 0;*/
-      /*    padding: 0;*/
-      /*}*/
-
       .container {
-          padding-top: 135px;
+          padding-top: 100px;
       }
       .not-support-browser {
-          max-width: 672px;
+          max-width: 378px;
           margin:0 auto;
-          background-color: rgba(255, 218, 42, 0.8);
+      }
+      .footer {
+          margin-top: 0;
       }
   </style>
 </head>
@@ -158,7 +153,7 @@
   </header>
   <div class="container">
     <div class="not-support-browser">
-      <img src="/assets/images/not_support_browser.png">
+      <img src="/assets/images/not_support_browser.png?v=1">
     </div>
   </div>
   <footer class="footer">
