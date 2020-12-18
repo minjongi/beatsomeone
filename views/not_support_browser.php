@@ -153,7 +153,7 @@
   </header>
   <div class="container">
     <div class="not-support-browser">
-      <img src="/assets/images/not_support_browser.png?v=1">
+      <img src="/assets/images/not_support_browser.png?v=2">
     </div>
   </div>
   <footer class="footer">
