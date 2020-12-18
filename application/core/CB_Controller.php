@@ -94,10 +94,10 @@ class CB_Controller extends CI_Controller
 		}
 
         $segments = $this->uri->segments;
-        if ($segments[1] . '/' . $segments[2] !== 'beatsomeone/notsupport') {
+        if ($segments[1] !== 'notsupport' && $segments[1] . '/' . $segments[2] !== 'beatsomeone/notsupport') {
             $browserName = $this->getBrowser();
             if ($browserName === 'MSIE' || $browserName === 'Trident') {
-                redirect('beatsomeone/notsupport');
+                redirect('notsupport');
             }
         }
 	}
