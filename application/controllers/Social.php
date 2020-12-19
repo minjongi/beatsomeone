@@ -532,7 +532,8 @@ class Social extends CB_Controller
             log_message("info", "result=" . print_r($result, true));
             $json = json_decode($result, true);
             log_message("info", "json=" . print_r($json, true));
-
+            var_dump($json);
+            exit();
             $kakao_id = element('id', $json);
             $nickname = element('nickname', element('properties', $json));
             $profile_image = element('profile_image', element('properties', $json));

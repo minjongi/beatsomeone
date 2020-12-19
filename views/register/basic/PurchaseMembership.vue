@@ -88,7 +88,7 @@
                             {{ $t('checkout') }}
                         </button>
                         <!-- :action="func(info.group.mgr_id)"" -->
-                        <form name="fm1" method="POST" action="/pg/allat/proc">
+                        <form name="fm1" method="POST" action="/pg/allat/proc" v-if="mgr_id < 5 ">
                             <input type="text" name="allat_shop_id" v-model="allatForm.shop_id" maxlength="20"/>
                             <!--주문번호-->
                             <input type="text" name="allat_order_no" v-model="allatForm.order_no" maxlength="70"/>
@@ -128,6 +128,36 @@
                             <input type="hidden" name="allat_vbank_yn" v-model="allatForm.vbank_yn" maxlength="1"/>
                             <input type="hidden" name="allat_encode_type" value="U"/>
                         </form>
+                        <form name="fm1" method="POST" action="/pg/allat/proc2" >
+                            <input type="text" name="allat_shop_id" value="allat_fixtest77" maxlength="20"/>
+                            <!--주문번호-->
+                            <input type="text" name="allat_order_no" v-model="allatForm.order_no" maxlength="70"/>
+                            <!--승인금액-->
+                            <input type="hidden" name="allat_amt" v-model="allatForm.amt" maxlength="10"/>
+                            <!--회원ID-->
+                            <input type="hidden" name="allat_pmember_id" v-model="allatForm.pmember_id" maxlength="20"/>
+                            <!--상품코드-->
+                            <input type="hidden" name="allat_product_cd" v-model="allatForm.product_cd" maxlength="1000" />
+                            <!--상품명-->
+                            <input type="hidden" name="allat_product_nm" v-model="allatForm.product_nm" maxlength="1000" />
+                            <!--결제자성명-->
+                            <input type="hidden" name="allat_buyer_nm" v-model="allatForm.buyer_nm" maxlength="20"/>
+                            <!--수취인성명-->
+                            <input type="hidden" name="allat_recp_nm" v-model="allatForm.recp_nm" maxlength="20"/>
+                            <!--수취인주소-->
+                            <input type="hidden" name="allat_recp_addr" v-model="allatForm.recp_addr" maxlength="120"/>
+                            <!--인증정보수신URL-->
+                            <input type="hidden" name="shop_receive_url" v-model="allatForm.shop_receive_url" size="19"/>
+                            <!--주문정보암호화필드-->
+                            <input type="hidden" name="allat_enc_data" value/>
+                            <!--테스트 여부-->
+                            <input type="hidden" name="allat_test_yn" v-model="allatForm.test_yn" maxlength="1"/>
+                            <input type="hidden" name="allat_card_yn" v-model="allatForm.card_yn" maxlength="1"/>
+                            <input type="hidden" name="allat_bank_yn" v-model="allatForm.bank_yn" maxlength="1"/>
+                            <input type="hidden" name="allat_vbank_yn" v-model="allatForm.vbank_yn" maxlength="1"/>
+                            
+                            <input type="hidden" name="allat_encode_type" value="U"/>
+                        </form>
                         <p>
                             {{ $t('refundPolicyMsg') }}
                         </p>
@@ -152,6 +182,7 @@ export default {
     data: function () {
         return {
             info: {},
+            mgr_id: 0,
             unique_id: '',
             use_pg_test: 0,
             pg_paypal_env: '',
@@ -194,6 +225,7 @@ export default {
     mounted() {
         this.info = window.member;
         const urlParams = new URLSearchParams(window.location.search);
+        this.mgr_id = Number(urlParams.get('mgr_id'));
         const billTerm = urlParams.get('billTerm');
         this.$set(this.info, 'billTerm', billTerm);
         this.$set(this.info, 'group', window.selectedGroup);
@@ -212,7 +244,12 @@ export default {
                     this.$set(this.allatForm, 'test_yn', 'N');
                 }
                 console.log("&&&&&&&&&&&", data.allat_shop_id_fix);
-                this.$set(this.allatForm, 'shop_id', data.allat_shop_id);
+                if (this.mgr_id < 5) {
+                    this.$set(this.allatForm, 'shop_id', data.allat_shop_id);
+                } else {
+                    this.$set(this.allatForm, 'shop_id', 'allat_fixtest77');
+                    this.$set(this.allatForm, 'shop_receive_url', '/pg/allat/proc2');
+                }
                 this.isEmptyPaypal = Object.keys(this.paypal).length === 0;
             })
             .catch(error => {
