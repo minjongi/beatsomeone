@@ -219,7 +219,7 @@ export default {
         this.amount_w = this.info.billTerm === 'monthly' ? (this.info.group.mgr_monthly_cost_w) : (this.info.group.mgr_year_cost_w);
         let now = Date.now();
         this.orderNo = now.toString();
-        let recpAddr = this.userInfo.mem_address1 || this.userInfo.mem_email || this.userInfo.mem_id
+        let recpAddr = this.info.mem_address1 || this.info.mem_email || this.info.mem_id
         this.$set(this.allatForm, 'product_cd', this.info.group.mgr_title);
         this.$set(this.allatForm, 'product_nm', this.info.group.mgr_description);
         this.$set(this.allatForm, 'pmember_id', this.info.mem_userid);
