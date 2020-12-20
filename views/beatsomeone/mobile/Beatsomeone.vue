@@ -273,8 +273,8 @@
               this.popup = false
             },
             endVideoBG() {
-                const idx = Math.floor(Math.random() * 6) + 1;
-                this.videoBGPath = "/uploads/data/bgvideo/mobile/bg" + idx + ".mp4";
+                const idx = Math.floor(Math.random() * 5) + 1;
+                this.videoBGPath = '/assets_m/video/mainbg/' + idx + '.mp4';
                 this.$refs.videoBG.src = this.videoBGPath;
                 this.$refs.videoBG.play();
             },

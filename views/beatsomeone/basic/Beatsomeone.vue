@@ -6,13 +6,9 @@
         <div class="container">
             <div class="main">
                 <section class="main__section1">
-                    <div id="videoBG">
-                      <iframe
-                              :src="videoBGPath"
-                              frameborder="0"
-                              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                              allowfullscreen ref="youtube-bg"></iframe>
-                    </div>
+                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted @ended="endVideoBG" ref="videoBG">
+                        <source src="" type="video/mp4">
+                    </video>
                     <div class="filter"></div>
                     <div class="wrap">
                         <header class="main__section1-title">
@@ -203,7 +199,6 @@
                     bpm: {t: 'BPM', v: null},
                 },
                 videoBGPath: '',
-                videoBGIdx: 0,
                 member: null,
                 member_group_name: ''
             }
@@ -312,23 +307,10 @@
         },
         methods: {
             endVideoBG() {
-                let key = [
-                      'kONxRaItaXE',
-                      'nWWhE7PuDzo',
-                      'A5iXLN-cFzQ',
-                      '9YNQTGwqrLE',
-                      'jGPz_xy6z1I',
-                      '6F_eOdXlyEI'
-                    ],
-                    time = [27, 14, 5, 13, 10, 19],
-                    idx
-
-                while (this.videoBGIdx === idx) {
-                  idx = Math.floor(Math.random() * 6)
-                }
-                this.videoBGIdx = idx
-                this.videoBGPath = 'https://www.youtube-nocookie.com/embed/' + key[idx] + '?loop=1&mute=1&autoplay=1&autohide=1&modestbranding=0&rel=0&showinfo=0&controls=0&disablekb=1&enablejsapi=1&iv_load_policy=3&origin=https://beatsomeone.com&widgetid=1'
-                setTimeout(this.endVideoBG, time[idx] * 1000)
+                const idx = Math.floor(Math.random() * 5) + 1
+                this.videoBGPath = '/assets/video/mainbg/' + idx + '.mp4'
+                this.$refs.videoBG.src = this.videoBGPath
+                this.$refs.videoBG.play()
             },
             doSlide() {
                 // 메인 trend Slider
