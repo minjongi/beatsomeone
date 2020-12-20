@@ -109,12 +109,16 @@
             let now = Date.now();
             this.allat_order_no = now.toString();
             this.allat_amt = this.amount_w;
-            this.allat_pmember_id = this.info.username;
+            this.allat_pmember_id = this.info.mem_id;
             this.allat_product_cd = this.group.mgr_title;
             this.allat_product_nm = this.group.mgr_description;
-            this.allat_buyer_nm = (!!this.info.firstname && !!this.info.lastname) ? this.info.firstname + ' ' + this.info.lastname : this.info.username;
+            let buyerNm = this.info.firstname + ' ' + this.info.lastname;
+            if (!buyerNm.trim()) {
+              buyerNm = this.member.mem_nickname || this.member.mem_id;
+            }
+            this.allat_buyer_nm = buyerNm;
             this.allat_recp_nm = this.allat_buyer_nm;
-            this.allat_recp_addr = this.info.location || this.info.email || this.info.mem_id;
+            this.allat_recp_addr = this.info.mem_address1 || this.info.email || this.info.mem_id;
             if (this.payMethod === 1) {
                 this.allat_card_yn = 'Y';
                 this.allat_bank_yn = 'N';

@@ -343,10 +343,9 @@
                 })
             this.member = window.member;
             this.mem_point = (+this.member.mem_point);
-            console.log(this.mem_point);
             let mem_name = this.member.mem_firstname + ' ' + this.member.mem_lastname;
             if (!mem_name.trim()) {
-                mem_name = this.member.mem_nickname;
+                mem_name = this.member.mem_nickname || this.member.mem_id;
             }
             this.$set(this.allatForm, 'buyer_nm', mem_name);
             this.$set(this.allatForm, 'pmember_id', this.member.mem_userid);
