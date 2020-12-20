@@ -352,7 +352,7 @@
             this.$set(this.allatForm, 'pmember_id', this.member.mem_userid);
             let address = this.member.mem_address1 + ' ' + this.member.mem_address2 + ' ' + this.member.mem_address3 + ' ' + this.member.mem_address4;
             if (!address.trim()) {
-                address = this.member.mem_email;
+                address = this.member.mem_email || this.member.mem_id;
             }
             this.$set(this.allatForm, 'recp_addr', address);
             this.$set(this.allatForm, 'recp_nm', mem_name);

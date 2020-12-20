@@ -114,7 +114,7 @@
             this.allat_product_nm = this.group.mgr_description;
             this.allat_buyer_nm = (!!this.info.firstname && !!this.info.lastname) ? this.info.firstname + ' ' + this.info.lastname : this.info.username;
             this.allat_recp_nm = this.allat_buyer_nm;
-            this.allat_recp_addr = this.info.location || this.info.email;
+            this.allat_recp_addr = this.info.location || this.info.email || this.info.mem_id;
             if (this.payMethod === 1) {
                 this.allat_card_yn = 'Y';
                 this.allat_bank_yn = 'N';
