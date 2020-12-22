@@ -387,6 +387,7 @@
             procFreebeatPay: function () {
                 let formData2 = new FormData();
                 formData2.append('pay_type', 'free');
+                formData2.append('cor_pg', (this.$i18n.locale === "en" ? 'paypal' : 'allat'));
                 formData2.append('unique_id', this.unique_id);
                 formData2.append('good_mny', 0);
                 formData2.append('cor_point', this.cor_point);

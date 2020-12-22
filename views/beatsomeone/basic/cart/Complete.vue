@@ -115,13 +115,16 @@ export default {
     },
     methods: {
         formatPrice: function (price) {
-            if (this.order.cor_pg === 'paypal') {
+            if (this.$i18n.locale === "en") {
                 return '$ ' + Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
-            } else if (this.order.cor_pg === 'allat') {
+            } else
+            //  else if (this.order.cor_pg === 'allat') 
+            {
                 return '₩ ' + Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
-            } else {
-                return Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
             }
+            //  else {
+            //     return Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+            // }
         },
         goMain: function (e) {
             window.location.href = '/';

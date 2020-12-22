@@ -18,6 +18,7 @@
           </div>
           <div>
             <div class="title">{{ $t('status') }}</div>
+            {{order.cor_status}}
             <div v-if="order.cor_status === '1'" :class="{'green': downloadStatus === 1, 'blue': downloadStatus === 0}">
               {{ $t('orderComplete') }}
             </div>

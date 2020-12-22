@@ -290,7 +290,6 @@ class Cmallorder extends CB_Controller
             // 이벤트가 존재하면 실행합니다
             $view['view']['event']['formruntrue'] = Events::trigger('formruntrue', $eventname);
             $pcase = $this->input->post('pcase');
-
             if ($pcase === 'product') {
                 $cor_status = $this->input->post('cor_status');
                 $pg = $order['cor_pg'];
@@ -333,205 +332,233 @@ class Cmallorder extends CB_Controller
                     $this->Cmall_order_model->update('', $updatedata, $where);
                     $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='deposit' WHERE cor_id=?", [$cor_id]);
                 } elseif ($cor_status == '2') {
-                    if ($pg == 'allat') {
-                        // 올앳관련 함수 Include
-                        //----------------------
-                        include(FCPATH . 'plugin/pg/allat/allatutil.php');
+                    $paytype = $order['cor_pay_type'];
+                    
+        
+                    if ($paytype == 'FREE') {
+                        $origin_cor_status = $order['cor_status'];
+                        $dt = new DateTime();
+                        $kstTimezone = new DateTimeZone('Asia/Seoul');
+                        $dt->setTimezone($kstTimezone);
+                        $create_time = $dt->format("Y-m-d H:i:s");
+                        $updatedata = array();
+                        $updatedata['status'] = 'cancel';
+                        $updatedata['cor_refund_datetime'] = $create_time;
+                        if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                            $updatedata['cor_cancel_datetime'] = $create_time;
+                            $updatedata['cor_refund_price'] = 0;
+                            $updatedata['cor_refund_point'] = 0;
+                            $updatedata['cor_status'] = 2;
+                        }
+                        $where = array(
+                            'cor_id' => $cor_id,
+                        );
+                        $this->Cmall_order_model->update('', $updatedata, $where);
 
-                        //Request Value Define
-                        //----------------------
-                        /*
-                        $at_cross_key = "가맹점 CrossKey";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
-                        $at_shop_id   = "가맹점 ShopId";       //설정필요
-                        */
+                        if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                            $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
+                        }
+                    } else {
+                        if ($pg == 'allat') {
+                            // 올앳관련 함수 Include
+                            //----------------------
+                            include(FCPATH . 'plugin/pg/allat/allatutil.php');
 
-                        //------------------------ Test Code ---------------------
-                        $at_cross_key = $_POST["test_cross_key"];
-                        $at_shop_id = $_POST["allat_shop_id"];
-                        //--------------------------------------------------------
+                            //Request Value Define
+                            //----------------------
+                            /*
+                            $at_cross_key = "가맹점 CrossKey";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+                            $at_shop_id   = "가맹점 ShopId";       //설정필요
+                            */
 
-                        // 요청 데이터 설정
-                        //----------------------
-                        $at_data   = "allat_shop_id=".$at_shop_id.
-                            "&allat_enc_data=".$_POST["allat_enc_data"].
-                            "&allat_cross_key=".$at_cross_key;
+                            //------------------------ Test Code ---------------------
+                            $at_cross_key = $_POST["test_cross_key"];
+                            $at_shop_id = $_POST["allat_shop_id"];
+                            //--------------------------------------------------------
+
+                            // 요청 데이터 설정
+                            //----------------------
+                            $at_data   = "allat_shop_id=".$at_shop_id.
+                                "&allat_enc_data=".$_POST["allat_enc_data"].
+                                "&allat_cross_key=".$at_cross_key;
 
 
-                        // 올앳 결제 서버와 통신 : CancelReq->통신함수, $at_txt->결과값
-                        //----------------------------------------------------------------
-                        // PHP5 이상만 SSL 사용가능
-                        $at_txt = CancelReq($at_data,"SSL");
-                        // $at_txt = CancelReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
-                        // 이 부분에서 로그를 남기는 것이 좋습니다.
-                        // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
+                            // 올앳 결제 서버와 통신 : CancelReq->통신함수, $at_txt->결과값
+                            //----------------------------------------------------------------
+                            // PHP5 이상만 SSL 사용가능
+                            $at_txt = CancelReq($at_data,"SSL");
+                            // $at_txt = CancelReq($at_data, "NOSSL"); // PHP5 이하버전일 경우
+                            // 이 부분에서 로그를 남기는 것이 좋습니다.
+                            // (올앳 결제 서버와 통신 후에 로그를 남기면, 통신에러시 빠른 원인파악이 가능합니다.)
 
-                        // 결과값
-                        //----------------------------------------------------------------
-                        $REPLYCD     = getValue("reply_cd",$at_txt);	//결과코드
-                        $REPLYMSG    = getValue("reply_msg",$at_txt);	//결과 메세지
+                            // 결과값
+                            //----------------------------------------------------------------
+                            $REPLYCD     = getValue("reply_cd",$at_txt);	//결과코드
+                            $REPLYMSG    = getValue("reply_msg",$at_txt);	//결과 메세지
 
-                        // 결과값 처리
-                        //--------------------------------------------------------------------------
-                        // 결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
-                        // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
-                        // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
-                        //--------------------------------------------------------------------------
-                        if( strcmp($REPLYCD,"0000") == 0 || strcmp($REPLYCD,"0001") == 0 ){
-                            // reply_cd "0000" 일때만 성공
-                            $CANCEL_YMDHMS=getValue("cancel_ymdhms",$at_txt);
-                            $PART_CANCEL_FLAG=getValue("part_cancel_flag",$at_txt);
-                            $REMAIN_AMT=getValue("remain_amt",$at_txt);
-                            $PAY_TYPE=getValue("pay_type",$at_txt);
+                            // 결과값 처리
+                            //--------------------------------------------------------------------------
+                            // 결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
+                            // 실제 결제   : allat_test_yn=N 일 경우 reply_cd=0000 이면 정상
+                            // 테스트 결제 : allat_test_yn=Y 일 경우 reply_cd=0001 이면 정상
+                            //--------------------------------------------------------------------------
+                            if( strcmp($REPLYCD,"0000") == 0 || strcmp($REPLYCD,"0001") == 0 ){
+                                // reply_cd "0000" 일때만 성공
+                                $CANCEL_YMDHMS=getValue("cancel_ymdhms",$at_txt);
+                                $PART_CANCEL_FLAG=getValue("part_cancel_flag",$at_txt);
+                                $REMAIN_AMT=getValue("remain_amt",$at_txt);
+                                $PAY_TYPE=getValue("pay_type",$at_txt);
 
-//                        echo "결과코드		: ".$REPLYCD."<br>";
-//                        echo "결과메세지		: ".$REPLYMSG."<br>";
-//                        echo "취소날짜		: ".$CANCEL_YMDHMS."<br>";
-//                        echo "취소구분		: ".$PART_CANCEL_FLAG."<br>";
-//                        echo "잔액			: ".$REMAIN_AMT."<br>";
-//                        echo "거래방식구분	: ".$PAY_TYPE."<br>";
+    //                        echo "결과코드		: ".$REPLYCD."<br>";
+    //                        echo "결과메세지		: ".$REPLYMSG."<br>";
+    //                        echo "취소날짜		: ".$CANCEL_YMDHMS."<br>";
+    //                        echo "취소구분		: ".$PART_CANCEL_FLAG."<br>";
+    //                        echo "잔액			: ".$REMAIN_AMT."<br>";
+    //                        echo "거래방식구분	: ".$PAY_TYPE."<br>";
 
-                            $params = array();
-                            $params['REPLYCD'] = $REPLYCD;
-                            $params['REPLYMSG'] = $REPLYMSG;
-                            $params['ORDER_NO'] = $cor_id;
-                            $params['AMT'] = $this->input->post('allat_amt');
-                            $params['PAY_TYPE'] = $PAY_TYPE;
-                            $params['APPROVAL_YMDHMS'] = $CANCEL_YMDHMS;
-                            $params['REPLYCD'] = $REPLYCD;
-                            $params['REPLYMSG'] = $REPLYMSG;
-                            $params['SAVE_AMT'] = $REMAIN_AMT;
-                            $params['PARTCANCEL_YN'] = $PART_CANCEL_FLAG;
-                            $params['RAW_DATA'] = $at_txt;
+                                $params = array();
+                                $params['REPLYCD'] = $REPLYCD;
+                                $params['REPLYMSG'] = $REPLYMSG;
+                                $params['ORDER_NO'] = $cor_id;
+                                $params['AMT'] = $this->input->post('allat_amt');
+                                $params['PAY_TYPE'] = $PAY_TYPE;
+                                $params['APPROVAL_YMDHMS'] = $CANCEL_YMDHMS;
+                                $params['REPLYCD'] = $REPLYCD;
+                                $params['REPLYMSG'] = $REPLYMSG;
+                                $params['SAVE_AMT'] = $REMAIN_AMT;
+                                $params['PARTCANCEL_YN'] = $PART_CANCEL_FLAG;
+                                $params['RAW_DATA'] = $at_txt;
 
-                            $this->Cmall_order_model->allat_log_insert($params);
+                                $this->Cmall_order_model->allat_log_insert($params);
+
+                                $origin_cor_status = $order['cor_status'];
+
+                                $refund_price = intval($this->input->post('allat_amt'));
+                                $refund_point = intval($order['cor_point']);
+                                $refund_datetime = DateTime::createFromFormat("YmdHis", $CANCEL_YMDHMS);
+
+                                $updatedata = array();
+                                $updatedata['status'] = 'cancel';
+                                $updatedata['cor_refund_datetime'] = $refund_datetime->format("Y-m-d H:i:s");
+                                if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                    $updatedata['cor_cancel_datetime'] = $refund_datetime->format("Y-m-d H:i:s");
+                                    $updatedata['cor_refund_price'] = $refund_price;
+                                    $updatedata['cor_refund_point'] = $refund_point;
+                                    $updatedata['cor_status'] = 2;
+                                }
+
+                                $where = array(
+                                    'cor_id' => $cor_id,
+                                );
+                                $this->Cmall_order_model->update('', $updatedata, $where);
+
+                                if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                    $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
+                                }
+
+                                if ($refund_point > 0) {
+                                    $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                                        $order['mem_id'],
+                                        cdate('Y-m-d H:i:s'),
+                                        cdate('Y-m-d H:i:s') . ' 주문취소',
+                                        $refund_point,
+                                        'refund',
+                                        $order['mem_id'],
+                                        $order['mem_id'] . '-' . $cor_id
+                                    ]);
+                                    $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
+                                }
+                            } else {
+                                // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
+                                // reply_msg 가 실패에 대한 메세지
+    //                        echo "결과코드		: ".$REPLYCD."<br>";
+    //                        echo "결과메세지		: ".$REPLYMSG."<br>";
+                                alert($REPLYCD . ':' . $REPLYMSG);
+                            }
+                        } elseif ($pg == 'paypal') {
+                            $is_test = $order['is_test'];
+                            $sql = "SELECT * FROM cb_paypal_log WHERE invoice_number=?";
+                            $paypal_log = $this->db->query($sql, [$cor_id])->row_array();
+                            $pay_id = $paypal_log['id'];
+
+                            $refund_price = floatval($order['cor_refund_price']);
+                            $refund_point = intval($order['cor_refund_point']);
 
                             $origin_cor_status = $order['cor_status'];
-
-                            $refund_price = intval($this->input->post('allat_amt'));
-                            $refund_point = intval($order['cor_point']);
-                            $refund_datetime = DateTime::createFromFormat("YmdHis", $CANCEL_YMDHMS);
-
-                            $updatedata = array();
-                            $updatedata['status'] = 'cancel';
-                            $updatedata['cor_refund_datetime'] = $refund_datetime->format("Y-m-d H:i:s");
                             if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
-                                $updatedata['cor_cancel_datetime'] = $refund_datetime->format("Y-m-d H:i:s");
-                                $updatedata['cor_refund_price'] = $refund_price;
-                                $updatedata['cor_refund_point'] = $refund_point;
-                                $updatedata['cor_status'] = 2;
+                                $refund_price = floatval($order['cor_total_money']) - intval($order['cor_point']);
+                                $refund_point = intval($order['cor_point']);
                             }
 
-                            $where = array(
-                                'cor_id' => $cor_id,
-                            );
-                            $this->Cmall_order_model->update('', $updatedata, $where);
+                            try {
+                                $apiContext = $this->_get_paypal_api_context($is_test);
+                                $payment = Payment::get($pay_id, $apiContext);
+                                $transaction = $payment->getTransactions()[0];
+                                $relatedResource = $transaction->getRelatedResources()[0];
+                                $sale = $relatedResource->getSale();
+                                $sale_id = $sale->getId();
 
-                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
-                                $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
+                                $amt = new Amount();
+                                $amt->setCurrency('USD')->setTotal($refund_price);
+                                $refundRequest = new RefundRequest();
+                                $refundRequest->setAmount($amt);
+                                $sale = new Sale();
+                                $sale->setId($sale_id);
+
+                                $refundedSale = $sale->refundSale($refundRequest, $apiContext);
+                                $params = array();
+
+                                $params['id'] = $refundedSale->getId();
+                                $params['create_time'] = $refundedSale->getCreateTime();
+                                $params['update_time'] = $refundedSale->getUpdateTime();
+                                $params['state'] = $refundedSale->getState();
+                                $params['invoice_number'] = $refundedSale->getInvoiceNumber();
+                                $params['amount'] = $refundedSale->getAmount()->getTotal();
+                                $params['currency'] = $refundedSale->getAmount()->getCurrency();
+                                $params['links'] = json_encode($refundedSale->getLinks());
+
+                                $this->Cmall_order_model->paypal_log_insert($params);
+
+                                $dt = new DateTime($refundedSale->getCreateTime());
+                                $kstTimezone = new DateTimeZone('Asia/Seoul');
+                                $dt->setTimezone($kstTimezone);
+                                $create_time = $dt->format("Y-m-d H:i:s");
+
+                                $updatedata = array();
+                                $updatedata['status'] = 'cancel';
+                                $updatedata['cor_refund_datetime'] = $create_time;
+                                if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                    $updatedata['cor_cancel_datetime'] = $create_time;
+                                    $updatedata['cor_refund_price'] = $refund_price;
+                                    $updatedata['cor_refund_point'] = $refund_point;
+                                    $updatedata['cor_status'] = 2;
+                                }
+
+                                $where = array(
+                                    'cor_id' => $cor_id,
+                                );
+                                $this->Cmall_order_model->update('', $updatedata, $where);
+
+                                if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                    $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
+                                }
+
+                                if ($refund_point > 0) {
+                                    $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                                        $order['mem_id'],
+                                        cdate('Y-m-d H:i:s'),
+                                        cdate('Y-m-d H:i:s') . ' 주문취소',
+                                        $refund_point,
+                                        'refund',
+                                        $order['mem_id'],
+                                        $order['mem_id'] . '-' . $cor_id
+                                    ]);
+                                    $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
+                                }
+
+                            } catch (Exception $exception) {
+                                log_message('error', $exception->getMessage());
                             }
-
-                            if ($refund_point > 0) {
-                                $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
-                                    $order['mem_id'],
-                                    cdate('Y-m-d H:i:s'),
-                                    cdate('Y-m-d H:i:s') . ' 주문취소',
-                                    $refund_point,
-                                    'refund',
-                                    $order['mem_id'],
-                                    $order['mem_id'] . '-' . $cor_id
-                                ]);
-                                $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
-                            }
-                        } else {
-                            // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
-                            // reply_msg 가 실패에 대한 메세지
-//                        echo "결과코드		: ".$REPLYCD."<br>";
-//                        echo "결과메세지		: ".$REPLYMSG."<br>";
-                            alert($REPLYCD . ':' . $REPLYMSG);
-                        }
-                    } elseif ($pg == 'paypal') {
-                        $is_test = $order['is_test'];
-                        $sql = "SELECT * FROM cb_paypal_log WHERE invoice_number=?";
-                        $paypal_log = $this->db->query($sql, [$cor_id])->row_array();
-                        $pay_id = $paypal_log['id'];
-
-                        $refund_price = floatval($order['cor_refund_price']);
-                        $refund_point = intval($order['cor_refund_point']);
-
-                        $origin_cor_status = $order['cor_status'];
-                        if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
-                            $refund_price = floatval($order['cor_total_money']) - intval($order['cor_point']);
-                            $refund_point = intval($order['cor_point']);
-                        }
-
-                        try {
-                            $apiContext = $this->_get_paypal_api_context($is_test);
-                            $payment = Payment::get($pay_id, $apiContext);
-                            $transaction = $payment->getTransactions()[0];
-                            $relatedResource = $transaction->getRelatedResources()[0];
-                            $sale = $relatedResource->getSale();
-                            $sale_id = $sale->getId();
-
-                            $amt = new Amount();
-                            $amt->setCurrency('USD')->setTotal($refund_price);
-                            $refundRequest = new RefundRequest();
-                            $refundRequest->setAmount($amt);
-                            $sale = new Sale();
-                            $sale->setId($sale_id);
-
-                            $refundedSale = $sale->refundSale($refundRequest, $apiContext);
-                            $params = array();
-
-                            $params['id'] = $refundedSale->getId();
-                            $params['create_time'] = $refundedSale->getCreateTime();
-                            $params['update_time'] = $refundedSale->getUpdateTime();
-                            $params['state'] = $refundedSale->getState();
-                            $params['invoice_number'] = $refundedSale->getInvoiceNumber();
-                            $params['amount'] = $refundedSale->getAmount()->getTotal();
-                            $params['currency'] = $refundedSale->getAmount()->getCurrency();
-                            $params['links'] = json_encode($refundedSale->getLinks());
-
-                            $this->Cmall_order_model->paypal_log_insert($params);
-
-                            $dt = new DateTime($refundedSale->getCreateTime());
-                            $kstTimezone = new DateTimeZone('Asia/Seoul');
-                            $dt->setTimezone($kstTimezone);
-                            $create_time = $dt->format("Y-m-d H:i:s");
-
-                            $updatedata = array();
-                            $updatedata['status'] = 'cancel';
-                            $updatedata['cor_refund_datetime'] = $create_time;
-                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
-                                $updatedata['cor_cancel_datetime'] = $create_time;
-                                $updatedata['cor_refund_price'] = $refund_price;
-                                $updatedata['cor_refund_point'] = $refund_point;
-                                $updatedata['cor_status'] = 2;
-                            }
-
-                            $where = array(
-                                'cor_id' => $cor_id,
-                            );
-                            $this->Cmall_order_model->update('', $updatedata, $where);
-
-                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
-                                $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
-                            }
-
-                            if ($refund_point > 0) {
-                                $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
-                                    $order['mem_id'],
-                                    cdate('Y-m-d H:i:s'),
-                                    cdate('Y-m-d H:i:s') . ' 주문취소',
-                                    $refund_point,
-                                    'refund',
-                                    $order['mem_id'],
-                                    $order['mem_id'] . '-' . $cor_id
-                                ]);
-                                $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
-                            }
-
-                        } catch (Exception $exception) {
-                            log_message('error', $exception->getMessage());
                         }
                     }
                 }
@@ -608,6 +635,10 @@ class Cmallorder extends CB_Controller
         $this->layout = element('layout_skin_file', element('layout', $view));
         $this->view = element('view_skin_file', element('layout', $view));
 
+    }
+
+    public function ajax_cancelorder() {
+        // return json_encode([]);
     }
 
     public function _get_paypal_api_context($is_test)

@@ -2407,6 +2407,12 @@ class Cmall extends CB_Controller
 
             // 이벤트가 존재하면 실행합니다
             Events::trigger('step2', $eventname);
+        } else {
+            $insertdata['cor_status'] = 1; // free페이인 경우에 결제완성으로 만들어야 한다.
+            $create_time = $dt->format("Y-m-d H:i:s");
+            $insertdata['cor_approve_datetime'] = $create_time; // 승인 시간도 필요된다.
+            $insertdata['cor_pg'] = $this->input->post('cor_pg');
+            $insertdata['cor_pay_type'] = 'FREE';
         }
         // 정보 입력
         $cor_id = $this->session->userdata('unique_id');

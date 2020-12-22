@@ -87,11 +87,10 @@ export default {
             return rst;
         },
         formatPrice: function (kr, en) {
-            if (this.pg === 'paypal') {
+            if (this.$i18n.locale === "en") {
                 return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
-            } else if (this.pg === 'allat') {
-                return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
-            } else {
+            }
+            else {
                 return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
             }
         },
