@@ -78,7 +78,7 @@
                 }
                 let social_popup = window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
                 social_popup.onbeforeunload = this.socialConnected
-                console.log('OK2');
+                window.gtag_report_conversion()
             },
             socialConnected() {
                 console.log('OK3');

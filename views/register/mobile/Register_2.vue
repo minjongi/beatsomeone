@@ -77,6 +77,7 @@
                     return false;
                 }
                 window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
+                window.gtag_report_conversion()
             },
         },
     }

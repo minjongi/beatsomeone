@@ -47,13 +47,27 @@
                 </p>
             </div>
         </div>
+        <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en'">
+          <div class="close" @click="closeFooterBanner"></div>
+          <a href="http://wdmastering.com/" target="_blank"><img src="/assets_m/images/banner/wdmastering.png"></a>
+        </div>
     </footer>
 </template>
 
 <script>
-    export default {
-        name: 'Footer'
+export default {
+  name: 'Footer',
+  data: function () {
+    return {
+      footerBanner: true
     }
+  },
+  methods: {
+    closeFooterBanner() {
+      this.footerBanner = false
+    },
+  },
+}
 </script>
 
 <style scoped="scoped">
