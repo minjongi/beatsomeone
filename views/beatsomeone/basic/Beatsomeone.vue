@@ -151,10 +151,10 @@
                             </a>
                         </div>
                     </div>
-                    <Footer></Footer>
                 </section>
             </div>
         </div>
+        <Footer></Footer>
     </div>
 </template>
 
