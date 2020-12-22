@@ -245,6 +245,7 @@ export default {
                     ws: this.ws,
                 });
                 this.start();
+                this.increaseMusicCount();
             }
             // 중지
             else {
@@ -289,7 +290,6 @@ export default {
                 if (el) {
                     el.classList.add("playing");
                 }
-                this.increaseMusicCount();
             });
 
             this.ws.on("audioprocess", (e) => {
