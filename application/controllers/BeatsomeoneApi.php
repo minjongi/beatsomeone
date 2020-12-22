@@ -95,9 +95,6 @@ class BeatsomeoneApi extends CB_Controller
         );
 
         $result = 0;
-
-        var_dump($this->session->userdata('cmall_item_detail_id_' . element('cde_id', $config)));
-
         if (!$this->session->userdata('cmall_item_detail_id_' . element('cde_id', $config))) {
             $this->session->set_userdata(
                 'cmall_item_detail_id_' . element('cde_id', $config),
