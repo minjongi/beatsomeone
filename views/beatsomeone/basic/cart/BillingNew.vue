@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="playList productList cart">
                                 <ul>
-                                    <BillingItem v-for="(product, i) in orderProducts" :key="product.cct_id" :product="product" />
+                                    <BillingItem v-for="(product) in orderProducts" :key="product.cct_id" :product="product" />
                                 </ul>
                             </div>
                         </div>

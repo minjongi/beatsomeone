@@ -2409,6 +2409,9 @@ class Cmall extends CB_Controller
             Events::trigger('step2', $eventname);
         } else {
             $insertdata['cor_status'] = 1; // free페이인 경우에 결제완성으로 만들어야 한다.
+            $dt = new DateTime();
+            $kstTimezone = new DateTimeZone('Asia/Seoul');
+            $dt->setTimezone($kstTimezone);
             $create_time = $dt->format("Y-m-d H:i:s");
             $insertdata['cor_approve_datetime'] = $create_time; // 승인 시간도 필요된다.
             $insertdata['cor_pg'] = $this->input->post('cor_pg');
