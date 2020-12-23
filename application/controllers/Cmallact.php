@@ -739,7 +739,12 @@ class Cmallact extends CB_Controller
         $totalCnt = 0;
         $items = $this->Cmall_item_model->all_item($offset, $limit);
         foreach ($items as $key => $val) {
-            $info = $this->waveformlib->setFilePath($val['cit_id'])->getAudioInfo();
+            try {
+                $info = $this->waveformlib->setFilePath($val['cit_id'])->getAudioInfo();
+            } catch(Exception $e) {
+                print_r($e);
+            }
+
             if (empty($info)) {
                 continue;
             }
