@@ -68,7 +68,14 @@ class Waveformlib
             return null;
         }
 
-        return new Mp3Info($this->filePath);
+        $audio = null;
+        try {
+            $audio = new Mp3Info($this->filePath);
+        } catch(Exception $e) {
+            log_message('error', print_r($e, true));
+        }
+
+        return $audio;
     }
 
     /**
@@ -85,13 +92,7 @@ class Waveformlib
         $waveform = $this->getWaveform($width);
         $waveformData = empty($waveform['lines1']) ? null : json_encode($waveform['lines1']);
 
-        $audio = [];
-        try {
-            $audio = $this->getAudioInfo();
-        } catch(Exception $e) {
-            print_r($e);
-        }
-
+        $audio = $this->getAudioInfo();
         $duration = empty($audio->duration) ? 0 : intval($audio->duration);
 
         $this->CI->Cmall_item_model->update_preview_info($cit_id, $waveformData, $duration);
