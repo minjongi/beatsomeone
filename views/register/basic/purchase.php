@@ -6,7 +6,7 @@ $a = $_SERVER['QUERY_STRING'];
 $b = explode('&', $a)[0];
 $c = explode('=', $b)[1];
 if (intval($c) > 4) {
-    $this->managelayout->add_js('http://tx.allatpay.com/common/NonAllatPayREPlus.js');
+    $this->managelayout->add_js('https://tx.allatpay.com/common/NonAllatPayREPlus.js');
     $this->managelayout->add_script("
         function result_submit(result_cd,result_msg,enc_data) {
             Allat_Plus_Close();
