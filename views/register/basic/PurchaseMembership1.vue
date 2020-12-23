@@ -168,7 +168,7 @@ export default {
                 recp_nm: "",
                 recp_addr: "",
                 shop_receive_url: window.allat_shop_receive_url,
-                test_yn: "Y",
+                test_yn: "N",
                 card_yn: "Y",
                 bank_yn: "N",
                 vbank_yn: "N",
@@ -198,7 +198,7 @@ export default {
                     this.$set(this.allatForm, 'test_yn', 'Y');
                 } else {
                     this.pg_paypal_env = 'production';
-                    this.$set(this.allatForm, 'test_yn', 'Y');
+                    this.$set(this.allatForm, 'test_yn', 'N');
                 }
                 this.$set(this.allatForm, 'shop_id', data.allat_shop_id);
                 this.isEmptyPaypal = Object.keys(this.paypal).length === 0;

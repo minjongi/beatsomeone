@@ -135,6 +135,9 @@ class Allat extends CB_Controller
             // reply_msg 는 실패에 대한 메세지
             echo "결과코드  : ".$REPLYCD."<br>";
             echo "결과메세지: ".$REPLYMSG."<br>";
+            echo "인증키	: ".$FIX_KEY."<br>";
+            echo "인증일	: ".$APPLY_YMD."<br>";
+            var_dump($at_txt);
         }    
     }
 }
