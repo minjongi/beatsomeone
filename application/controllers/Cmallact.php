@@ -724,30 +724,4 @@ class Cmallact extends CB_Controller
         );
         exit(json_encode($result));
     }
-
-    /**
-     * 미리듣기 음원 연결
-     */
-    public function test()
-    {
-        $this->load->model(array('Cmall_item_model'));
-        $this->load->library('Waveformlib');
-
-        $offset = $this->input->get('offset');
-        $limit = $this->input->get('limit');
-
-        $totalCnt = 0;
-        $items = $this->Cmall_item_model->all_item($offset, $limit);
-        foreach ($items as $key => $val) {
-            $info = $this->waveformlib->setFilePath($val['cit_id'])->getAudioInfo();
-
-            if (empty($info)) {
-                continue;
-            }
-
-            $this->Cmall_item_model->update_duration($val['cit_id'], $info->duration);
-            $totalCnt++;
-        }
-        echo $totalCnt . '건 처리';
-    }
 }
