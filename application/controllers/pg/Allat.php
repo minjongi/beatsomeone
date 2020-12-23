@@ -32,7 +32,6 @@ class Allat extends CB_Controller
 
     public function proc()
     {
-
         $result_cd  = $_POST["allat_result_cd"];
         $result_msg = $_POST["allat_result_msg"];
         $enc_data   = $_POST["allat_enc_data"];
@@ -90,7 +89,7 @@ class Allat extends CB_Controller
             $FIX_KEY	= getValue("fix_key",$at_txt);
             $APPLY_YMD	= getValue("apply_ymd",$at_txt);
             $REGISTRY_NO = getValue("registry_no", $at_txt);
-            echo "카드가 정확히등록되였습니다.";
+            echo "카드가 정확히 등록되였습니다.";
             echo "카드키	: ".$FIX_KEY."<br>";
             echo "인증일	: ".$APPLY_YMD."<br>";
 
@@ -236,10 +235,14 @@ class Allat extends CB_Controller
                     'mem_id' => $mem_id,
                 );
                 $this->Member_group_member_model->delete_where($deletewhere);
-                if ($_POST["allat_product_cd"] == "subscribe_common") $mgrid = 5;
-                if ($_POST["allat_product_cd"] == "subscribe_creater") $mgrid = 6;
+                if ($_POST["allat_product_cd"] == "subscribe_common") {
+                    $mgrid = 5;
+                }
+                if ($_POST["allat_product_cd"] == "subscribe_creater") {
+                    $mgrid = 6;
+                }
                 $mginsert = array(
-                    'mgr_id' => $mgrid],
+                    'mgr_id' => $mgrid,
                     'mem_id' => $mem_id,
                     'mgm_datetime' => cdate('Y-m-d H:i:s'),
                 );
@@ -264,7 +267,7 @@ class Allat extends CB_Controller
                     'mem_id',
                     $mem_id
                 );
-                echo "결제정보가 정확히 등록되였습니다.<br/>"
+                echo "결제정보가 정확히 등록되였습니다.<br/>";
                 var_dump($params);
             }else{
                 // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
