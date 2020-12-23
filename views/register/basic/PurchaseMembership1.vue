@@ -97,6 +97,8 @@
                             <input type="hidden" name="allat_pmember_id" v-model="allatForm.pmember_id" maxlength="20"/>
                             <!--상품명-->
                             <input type="hidden" name="allat_product_nm" v-model="allatForm.product_nm" maxlength="1000" />
+                            <!--상품코드-->
+                            <input type="hidden" name="allat_product_cd" v-model="allatForm.product_cd" maxlength="1000" />
                             
                             <!--결제자성명-->
                             <input type="hidden" name="allat_buyer_nm" v-model="allatForm.buyer_nm" maxlength="20"/>
@@ -104,7 +106,10 @@
                             <input type="hidden" name="allat_recp_nm" v-model="allatForm.recp_nm" maxlength="20"/>
                             <!--수취인주소-->
                             <input type="hidden" name="allat_recp_addr" v-model="allatForm.recp_addr" maxlength="120"/>
-                            <!--인증정보수신URL    value="https://beatsomeone.com/pg/allat/proc"  -->
+                            <!--이메일-->
+                            <input type="hidden" name="allat_email_addr" v-model="allatForm.email_addr" maxlength="120"/>
+
+                            <!--인증정보수신URL  -->
                             <input type="hidden" name="shop_receive_url"  v-model="allatForm.shop_receive_url" size="19"/>
                             <!--주문정보암호화필드-->
                             <input type="hidden" name="allat_enc_data" value/>
@@ -167,6 +172,7 @@ export default {
                 buyer_nm: "",
                 recp_nm: "",
                 recp_addr: "",
+                email_addr: "",
                 shop_receive_url: window.allat_shop_receive_url,
                 test_yn: "N",
                 card_yn: "Y",
@@ -216,6 +222,7 @@ export default {
         this.$set(this.allatForm, 'buyer_nm', this.info.mem_userid);
         this.$set(this.allatForm, 'recp_nm', this.info.mem_userid);
         this.$set(this.allatForm, 'recp_addr', this.info.mem_address1 ? this.info.mem_address1 : this.info.mem_email);
+        this.$set(this.allatForm, 'recp_addr', this.info.mem_email);
         this.$set(this.allatForm, 'order_no', now.toString());
         this.$set(this.allatForm, 'amt', (+this.amount_w));
     },
