@@ -14,11 +14,11 @@ if (intval($c) > 4) {
                 alert(result_cd + ' +: ' + result_msg);
             } else {
                 alert(result_cd + ' +: ' + result_msg);
-                fm.allat_enc_data.value = enc_data;
-                fm.action = 'https://qa.beatsomeone.com/pg/allat/subscribe';
-                fm.method = 'post';
-                fm.target = '_self';
-                fm.submit();
+                fm1.allat_enc_data.value = enc_data;
+                fm1.action = 'https://qa.beatsomeone.com/pg/allat/subscribe';
+                fm1.method = 'post';
+                fm1.target = '_self';
+                fm1.submit();
             }
         }
     
