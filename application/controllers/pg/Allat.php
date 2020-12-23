@@ -92,6 +92,7 @@ class Allat extends CB_Controller
             echo "결과메세지	: ".$REPLYMSG."<br>";
             echo "인증키	: ".$FIX_KEY."<br>";
             echo "인증일	: ".$APPLY_YMD."<br>";
+            var_dump($at_txt);
             // $mem_id = $this->member->item('mem_id');
 
             // $this->load->model(array('Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model'));
