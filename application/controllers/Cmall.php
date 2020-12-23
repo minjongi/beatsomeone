@@ -2413,6 +2413,7 @@ class Cmall extends CB_Controller
             $kstTimezone = new DateTimeZone('Asia/Seoul');
             $dt->setTimezone($kstTimezone);
             $create_time = $dt->format("Y-m-d H:i:s");
+            $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
             $insertdata['cor_approve_datetime'] = $create_time; // 승인 시간도 필요된다.
             $insertdata['cor_pg'] = $this->input->post('cor_pg');
             $insertdata['cor_pay_type'] = 'FREE';
