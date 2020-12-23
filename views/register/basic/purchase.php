@@ -1,6 +1,29 @@
 <?php
 $this->managelayout->add_css('/dist/purchase.css');
 $this->managelayout->add_js('/dist/purchase.js');
+
+$a = $_SERVER['QUERY_STRING'];
+$b = explode('&', $a)[0];
+$c = explode('=', $b)[1];
+if (intval($c) > 4) {
+    $this->managelayout->add_js('http://tx.allatpay.com/common/NonAllatPayREPlus.js');
+    $this->managelayout->add_script("
+        function result_submit(result_cd,result_msg,enc_data) {
+            Allat_Plus_Close();
+            if(result_cd != '0000') {
+                alert(result_cd + ' +: ' + result_msg);
+            } else {
+                alert(result_cd + ' +: ' + result_msg);
+                fm.allat_enc_data.value = enc_data;
+                fm.action = 'https://qa.beatsomeone.com/pg/allat/subscribe';
+                fm.method = 'post';
+                fm.target = '_self';
+                fm.submit();
+            }
+        }
+    
+    ");
+}
 ?>
 
 <script charset="euc-kr" src="https://tx.allatpay.com/common/NonAllatPayRE.js"></script>

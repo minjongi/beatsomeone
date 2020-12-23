@@ -83,9 +83,9 @@
             },
             socialConnected() {
                 console.log('OK3');
-                //let userInfo = this.$store.getters.getUserInfo;
-                // window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
-                window.location.href = `/register#/3`;
+                let userInfo = this.$store.getters.getUserInfo;
+                window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
+                //window.location.href = `/register#/3`;
                 //this.$router.push('/3');
             }
         },

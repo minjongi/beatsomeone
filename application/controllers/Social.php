@@ -356,6 +356,7 @@ class Social extends CB_Controller
 
             // 이벤트가 존재하면 실행합니다
             Events::trigger('after', $eventname);
+
             $this->_common_login('google', $google_id);
 
         } else {
@@ -532,7 +533,7 @@ class Social extends CB_Controller
             log_message("info", "result=" . print_r($result, true));
             $json = json_decode($result, true);
             log_message("info", "json=" . print_r($json, true));
-            
+
             $kakao_id = element('id', $json);
             $nickname = element('nickname', element('properties', $json));
             $profile_image = element('profile_image', element('properties', $json));
@@ -789,7 +790,7 @@ class Social extends CB_Controller
                 if ($url_after_login) {
                     echo 'window.opener.document.location.href = "' . $url_after_login . '";';
                 } else {
-                    echo 'window.opener.location.href=`/register#/3`;';
+                    echo 'window.opener.location.reload();';
                 }
                 echo '</script>';
                 exit;
@@ -1132,13 +1133,11 @@ class Social extends CB_Controller
                 Events::trigger('common_login_after', $eventname);
 
                 echo '<meta http-equiv="content-type" content="text/html; charset=' . config_item('charset') . '">';
-                echo '<script type="text/javascript">';
-                echo 'window.opener.location.href=`/register#/3`;';
-                echo 'window.close();';
+                echo '<script type="text/javascript"> window.close();';
 //				if ($url_after_login) {
 //					echo 'window.opener.document.location.href = "' . $url_after_login . '";';
 //				} else {
-//                    echo 'window.opener.location.href=`/register#/3`;';
+                echo 'window.opener.location.reload();';
 //				}
                 echo '</script>';
                 exit;

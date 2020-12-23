@@ -429,11 +429,6 @@ class Register extends CB_Controller
             'rules' => 'trim|required|min_length[' . $password_length . ']|callback__mem_password_check',
             'description' => $password_description,
         );
-//        $configbasic['mem_password_re'] = array(
-//            'field' => 'mem_password_re',
-//            'label' => '패스워드 확인',
-//            'rules' => 'trim|required|min_length[' . $password_length . ']|matches[mem_password]',
-//        );
         if (!$selfcert_username) {
             $configbasic['mem_username'] = array(
                 'field' => 'mem_username',
@@ -612,19 +607,7 @@ class Register extends CB_Controller
             }
         }
 
-//        if ($this->cbconfig->item('use_recaptcha')) {
-//            $config[] = array(
-//                'field' => 'g-recaptcha-response',
-//                'label' => '자동등록방지문자',
-//                'rules' => 'trim|required|callback__check_recaptcha',
-//            );
-//        } else {
-//            $config[] = array(
-//                'field' => 'captcha_key',
-//                'label' => '자동등록방지문자',
-//                'rules' => 'trim|required|callback__check_captcha',
-//            );
-//        }
+
         $this->form_validation->set_rules($config);
 
         $form_validation = $this->form_validation->run();
@@ -795,13 +778,7 @@ class Register extends CB_Controller
             } else if (isset($form['mem_sex']['use']) && $form['mem_sex']['use']) {
                 $insertdata['mem_sex'] = $this->input->post('mem_sex', null, '');
             }
-//            if (isset($form['mem_address']['use']) && $form['mem_address']['use']) {
-//                $insertdata['mem_zipcode'] = $this->input->post('mem_zipcode', null, '');
-//                $insertdata['mem_address1'] = $this->input->post('mem_address1', null, '');
-//                $insertdata['mem_address2'] = $this->input->post('mem_address2', null, '');
-//                $insertdata['mem_address3'] = $this->input->post('mem_address3', null, '');
-//                $insertdata['mem_address4'] = $this->input->post('mem_address4', null, '');
-//            }
+
             $insertdata['mem_address1'] = $this->input->post('mem_address1');
             $insertdata['mem_receive_email'] = $this->input->post('mem_receive_email') ? 1 : 0;
             if ($this->cbconfig->item('use_note')) {
@@ -814,9 +791,7 @@ class Register extends CB_Controller
             $insertdata['mem_register_datetime'] = cdate('Y-m-d H:i:s');
             $insertdata['mem_register_ip'] = $this->input->ip_address();
             $metadata['meta_change_pw_datetime'] = cdate('Y-m-d H:i:s');
-//            if (isset($form['mem_profile_content']['use']) && $form['mem_profile_content']['use']) {
             $insertdata['mem_profile_content'] = $this->input->post('mem_profile_content', null, '');
-//            }
 
             if ($this->cbconfig->item('use_register_email_auth')) {
                 $insertdata['mem_email_cert'] = 0;
