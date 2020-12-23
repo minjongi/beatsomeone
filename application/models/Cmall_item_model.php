@@ -355,4 +355,28 @@ class Cmall_item_model extends CB_Model
         $result = $this->db->update($this->_table);
         return $result;
     }
+
+    public function update_duration($cit_id, $duration)
+    {
+        $this->db->where('cit_id', $cit_id);
+        $this->db->set('duration', $duration);
+        $result = $this->db->update($this->_table);
+        return $result;
+    }
+
+    public function update_preview_info($cit_id, $waveform, $duration)
+    {
+        $this->db->where('cit_id', $cit_id);
+        $this->db->set('waveform', $waveform);
+        $this->db->set('duration', $duration);
+        $result = $this->db->update($this->_table);
+        return $result;
+    }
+
+    public function all_item()
+    {
+        $this->db->select('*');
+        $qry = $this->db->get($this->_table);
+        return $qry->result_array();
+    }
 }

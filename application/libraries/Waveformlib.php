@@ -3,10 +3,12 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use maximal\audio\Waveform;
+use wapmorgan\Mp3Info\Mp3Info;
 
 class Waveformlib
 {
     private $CI;
+    private $filePath;
 
     /**
      * This is a static class, do not instantiate it
@@ -21,28 +23,52 @@ class Waveformlib
     /**
      * 웨이브폼 생성
      */
-    public function getWaveform($cit_id = 0, $width = 200)
+    public function setFilePath($cit_id = 0)
     {
         $cit_id = (int)$cit_id;
         if (empty($cit_id)) {
-            return null;
+            return $this;
         }
 
         $this->CI->load->model(array('Cmall_item_detail_model'));
         $file = $this->CI->Cmall_item_detail_model->preview_by_cit_id($cit_id);
         if (empty(element('cde_id', $file))) {
-            return null;
+            return $this;
         }
 
         $filePath = config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $file);
-        if( !file_exists($filePath) ) {
+        if (!file_exists($filePath)) {
+            return $this;
+        }
+
+        $this->filePath = $filePath;
+
+        return $this;
+    }
+
+    /**
+     * 웨이브폼 생성
+     */
+    public function getWaveform($width = 200)
+    {
+        if (empty($this->filePath)) {
             return null;
         }
 
-        $waveform = new Waveform($filePath);
-        $data = $waveform->getWaveformData($width);
+        $waveform = new Waveform($this->filePath);
+        return $waveform->getWaveformData($width);
+    }
 
-        return json_encode($data['lines1']);
+    /**
+     * 웨이브폼 생성
+     */
+    public function getAudioInfo()
+    {
+        if (empty($this->filePath)) {
+            return null;
+        }
+
+        return new Mp3Info($this->filePath);
     }
 
     /**
@@ -53,7 +79,15 @@ class Waveformlib
     public function setWaveform($cit_id = 0, $width = 200)
     {
         $this->CI->load->model(array('Cmall_item_model'));
-        $waveform = $this->getWaveform($cit_id, $width);
-        $this->CI->Cmall_item_model->update_waveform($cit_id, $waveform);
+
+        $this->setFilePath($cit_id);
+
+        $waveform = $this->getWaveform($width);
+        $waveformData = empty($waveform['lines1']) ? null : json_encode($waveform['lines1']);
+
+        $audio = $this->getAudioInfo();
+        $duration = empty($audio->duration) ? 0 : intval($audio->duration);
+
+        $this->CI->Cmall_item_model->update_preview_info($cit_id, $waveformData, $duration);
     }
 }
