@@ -57,7 +57,7 @@ class Allat extends CB_Controller
 
     public function subscribe()
     {
-        //$this->load->model(array('Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model'));
+        $this->load->model(array('Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model'));
         include(FCPATH . 'plugin/pg/allat/subscribe/allatutil.php');
         $at_cross_key = "11e9e1458ad968ccbc4db73c16c1341f";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/helpinfo/hi_install_guide.jsp#shop]
         $at_shop_id   = "dumdumfix";        //설정필요
