@@ -85,7 +85,13 @@ class Waveformlib
         $waveform = $this->getWaveform($width);
         $waveformData = empty($waveform['lines1']) ? null : json_encode($waveform['lines1']);
 
-        $audio = $this->getAudioInfo();
+        $audio = [];
+        try {
+            $audio = $this->getAudioInfo();
+        } catch(Exception $e) {
+            print_r($e);
+        }
+
         $duration = empty($audio->duration) ? 0 : intval($audio->duration);
 
         $this->CI->Cmall_item_model->update_preview_info($cit_id, $waveformData, $duration);
