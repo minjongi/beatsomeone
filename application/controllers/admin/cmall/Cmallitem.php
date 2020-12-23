@@ -946,6 +946,9 @@ class Cmallitem extends CB_Controller
 					}
 				}
 			}
+
+			$changedPreviewFile = false;
+            $fileTitle = $this->input->post('cde_title_update');
 			if ($uploadfiledata2 && is_array($uploadfiledata2) && count($uploadfiledata2) > 0) {
 				foreach ($uploadfiledata2 as $pkey => $pval) {
 					if ($pval) {
@@ -961,6 +964,10 @@ class Cmallitem extends CB_Controller
 							'cde_ip' => $this->input->ip_address(),
 						);
 						$this->Cmall_item_detail_model->update($pkey, $fileupdate);
+
+                        if ($fileTitle[$pkey] === 'PREVIEW') {
+                            $changedPreviewFile = true;
+                        }
 					}
 				}
 			}
@@ -983,8 +990,13 @@ class Cmallitem extends CB_Controller
 				}
 			}
 
-            $this->load->library('Waveformlib');
-            $this->waveformlib->setWaveform($pid);
+            $duration = $this->input->post('duration', null, '');
+            if ($changedPreviewFile) {
+                $this->load->library('Waveformlib');
+                $this->waveformlib->setWaveform($pid, 200, $duration);
+            } else if (!empty($duration)) {
+                $this->{$this->modelname}->update_duration($pid, $duration);
+            }
 
 			// 이벤트가 존재하면 실행합니다
 			Events::trigger('after', $eventname);

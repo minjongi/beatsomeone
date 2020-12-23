@@ -219,6 +219,16 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">미리듣기 재생시간</label>
+          <div class="col-sm-10 form-inline">
+            <?= element('duration', element('data', $view)) ?>초
+            (<?= floor(element('duration', element('data', $view)) / 60) ?>분 <?= floor(element('duration', element('data', $view)) % 60) ?>초)
+            <br/>
+            수동으로 입력하려면 입력해 주세요<br/>
+            <input type="text" class="form-control" name="duration" value=""/> 초
+          </div>
+        </div>
         <div class="box-table-header">
             <h4><a data-toggle="collapse" href="#cmalltab3" aria-expanded="true" aria-controls="cmalltab3">트랙 정보</a></h4>
             <a data-toggle="collapse" href="#cmalltab3" aria-expanded="true" aria-controls="cmalltab3"><i class="fa fa-chevron-up pull-right"></i></a>

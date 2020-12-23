@@ -126,7 +126,11 @@ export default {
             let min = Math.floor(value / 60),
                 sec = Math.floor(value % 60)
 
-            return (min || '0') + ':' + (sec || '00')
+            if (sec < 10) {
+              sec = '0' + sec;
+            }
+
+            return (min || '0') + ':' + sec
           }
         },
         mounted() {

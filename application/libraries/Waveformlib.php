@@ -83,7 +83,7 @@ class Waveformlib
      * @param int $cit_id
      * @param int $width
      */
-    public function setWaveform($cit_id = 0, $width = 200)
+    public function setWaveform($cit_id = 0, $width = 200, $duration = 0)
     {
         $this->CI->load->model(array('Cmall_item_model'));
 
@@ -92,8 +92,10 @@ class Waveformlib
         $waveform = $this->getWaveform($width);
         $waveformData = empty($waveform['lines1']) ? null : json_encode($waveform['lines1']);
 
-        $audio = $this->getAudioInfo();
-        $duration = empty($audio->duration) ? 0 : intval($audio->duration);
+        if (empty($duration)) {
+            $audio = $this->getAudioInfo();
+            $duration = empty($audio->duration) ? 0 : intval($audio->duration);
+        }
 
         $this->CI->Cmall_item_model->update_preview_info($cit_id, $waveformData, $duration);
     }
