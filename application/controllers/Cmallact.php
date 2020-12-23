@@ -740,8 +740,7 @@ class Cmallact extends CB_Controller
             if (empty($info)) {
                 continue;
             }
-            echo $info->duration . '<br>';
-//            $this->Cmall_item_model->update_duration($val['cit_id'], $info->duration);
+            $this->Cmall_item_model->update_duration($val['cit_id'], $info->duration);
             $totalCnt++;
         }
         echo $totalCnt . '건 처리';
