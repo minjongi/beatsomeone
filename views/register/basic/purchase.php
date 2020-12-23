@@ -24,7 +24,7 @@ if (intval($c) > 4) {
     
     ");
 } else {
-    $this->managelayout->add_js('https://tx.allatpay.com/common/NonAllatPayREPlus.js');
+    $this->managelayout->add_js('https://tx.allatpay.com/common/NonAllatPayRE.js');
     $this->managelayout->add_script("
         function result_submit(result_cd, result_msg, enc_data) {
             var index = vm.$children[0].$children.findIndex(x => x.$vnode.tag.includes('PurchaseMembership'));
