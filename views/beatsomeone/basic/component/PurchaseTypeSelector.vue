@@ -28,12 +28,12 @@
                     </p>
                   </div>
                   <div class="parchase-btnbox">
-                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="!is_subscriber || item.cit_type5 !== '1' || item.detail.STEM.cde_download >= subscribed">
+                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="!is_subscriber || item.cit_type5 !== '1'">
                       <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
                     </a>
-                    <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="is_subscriber && item.cit_type5 === '1' && item.detail.STEM.cde_download < subscribed">
+                    <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="is_subscriber && item.cit_type5 === '1'">
                       <span>
-                        {{ formatPrice(0, 0, true) }} (구독 잔여 {{subscribed-item.detail.STEM.cde_download}})
+                        {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
                       </span>
                     </a>
                   </div>
@@ -166,13 +166,13 @@ export default {
   props: ["purchaseTypeSelectorPopup", "item"],
   mounted() {
     // this.member_group_name = window.member_group_name;
-    this.fetchData();
+    this.remainDownloadNumber();
     if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
   },
   data: function () {
     return {
       is_subscriber: false,
-      subscribed: 0
+      remain_download_num: 0
     };
   },
   computed: {
@@ -184,25 +184,15 @@ export default {
   },
   methods: {
 
-    fetchData() {
-      axios.get('/membergroup')
-          .then(res => res.data)
-          .then(data => {
-              let list = Object.values(data);
-              list.forEach(item => {
-                  console.log('this is aaaa', window.member_group_name ,item.mgr_id, item );
-                  if (window.member_group_name == 'subscribe_common' && item.mgr_id == 5){
-                      this.subscribed = item.mgr_monthly_download_limit;
-                  }
-                  if (window.member_group_name == 'subscribe_creater'&& item.mgr_id == 6){
-                      this.subscribed = item.mgr_monthly_download_limit;
-                  }
+    remainDownloadNumber() {
+        axios.get('/membermodify/mem_remain_downloads_get')
+            .then(res=>{
                 
-              });
-          })
-          .catch(error => {
-              console.error(error);
-          })
+                this.remain_download_num = res.data;
+            })   
+            .catch(error => {
+                console.error(error);
+            })
     },
 
     openDesc(id) {

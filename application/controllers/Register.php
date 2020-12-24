@@ -46,10 +46,11 @@ class Register extends CB_Controller
      */
     public function index()
     {
-        // $check_login = $this->member->is_member();
-        // if ($check_login) {
-        //     redirect('/mypage/upgrade');
-        // }
+        $check_login = $this->member->is_member();
+        if ($check_login) {
+            // redirect('/mypage/upgrade');
+            redirect('/');
+        }
 
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_register_index';

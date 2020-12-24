@@ -10,6 +10,7 @@
                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
                             </button>
                         </div>
+
                         <div class="detail__music-info">
                             <h2 class="title" style="font-weight: 600;" v-if="item.cit_name">{{ truncate(item.cit_name, 15) }}</h2>
 <!--                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>-->
@@ -27,18 +28,17 @@
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="#" class="buy"
-                                       @click="addCart">
-                                        <a href="javascript:;" class="buy" v-if="item" @click="addCart">
-                                        <span v-if="is_subscriber && item.cit_type5 === '1' && item.detail.STEM.cde_download < subscribed">
-                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{subscribed-item.detail.STEM.cde_download}})
+                                    <a class="buy waves-effect free" @click="freeBuy(item.detail.LEASE)" href="javascript:;" 
+                                        v-if="is_subscriber && item.cit_type5 === '1' && remain_download_num > 0">
+                                        <span>
+                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
                                         </span>
-                                        <span v-else>
+                                    </a>
+                                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
+                                        <span>
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                     </a>
-                                    </a>
-
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
             }
         },
         mounted() {
-            this.fetchData();
+            this.remainDownloadNumber();
             this.member = window.member;
             this.member_group_name = window.member_group_name;
             this.currentTab = _.find(this.tabs, e => {
@@ -251,26 +251,16 @@
 
         },
         methods: {
-            fetchData() {
-                axios.get('/membergroup')
-                    .then(res => res.data)
-                    .then(data => {
-                        let list = Object.values(data);
-                        list.forEach(item => {
-                            console.log('this is aaaa', window.member_group_name ,item.mgr_id, item );
-                            if (window.member_group_name == 'subscribe_common' && item.mgr_id == 5){
-                                this.subscribed = item.mgr_monthly_download_limit;
-                            }
-                            if (window.member_group_name == 'subscribe_creater'&& item.mgr_id == 6){
-                                this.subscribed = item.mgr_monthly_download_limit;
-                            }
-                            
-                        });
-                    })
+            remainDownloadNumber() {
+                axios.get('/membermodify/mem_remain_downloads_get')
+                    .then(res=>{
+                        
+                        this.remain_download_num = res.data;
+                    })   
                     .catch(error => {
                         console.error(error);
                     })
-                },
+            },
             stop() {
                 Amplitude.pause();
                 var bg = document.querySelector(".btn-play");
@@ -325,6 +315,25 @@
             addCart() {
                 this.purchaseTypeSelectorPopup = true;
             },
+
+            freeBuy(item_detail) {
+                let detail_qty = {};
+                detail_qty[item_detail.cde_id] = 1;
+                Http.post(`/beatsomeoneApi/itemAction`, {
+                    stype: "free",
+                    cit_id: this.item.cit_id,
+                    chk_detail: [item_detail.cde_id],
+                    detail_qty: detail_qty,
+                }).then((r) => {
+                    if (!r) {
+                    log.debug("장바구니 담기 실패");
+                    } else {
+                    log.debug("장바구니 담기 성공");
+                    alert(this.$t("inMyShoppingCart"));
+                    this.close();
+                    }
+                });
+            },      
             // 다운로드 증가
             increaseMusicCount() {
                 Http.post(`/beatsomeoneApi/increase_music_count`, {cde_id: this.item.cde_id}).then(r => {

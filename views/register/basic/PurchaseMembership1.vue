@@ -61,11 +61,6 @@
                                            v-model="payMethod"/>
                                     <span></span> {{ $t('creditCard') }}
                                 </label>
-                                <label for="type2" class="radio">
-                                    <input type="radio" id="type2" hidden name="payments" v-bind:value="2"
-                                           v-model="payMethod"/>
-                                    <span></span> {{ $t('realtimeBankTransfer') }}
-                                </label>
                             </div>
                         </div>
                         <div class="row" style="display:none;" id="okpromo">

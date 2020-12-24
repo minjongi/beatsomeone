@@ -17,14 +17,18 @@
                                 <span class="registed">{{ item.cit_start_datetime }}</span>
                                 <div class="etc" v-if="!!item.info_content" v-html="item.info_content"></div>
                             </div>
+
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="javascript:;" class="buy" v-if="item" @click="addCart">
-                                        <span v-if="is_subscriber && item.cit_type5 === '1' && item.detail.STEM.cde_download < subscribed">
-                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{subscribed-item.detail.STEM.cde_download}})
+                                    <a class="buy waves-effect free" @click="freeBuy(item.detail.LEASE)" href="javascript:;" 
+                                        v-if="is_subscriber && item.cit_type5 === '1' && remain_download_num > 0">
+                                        <span>
+                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
                                         </span>
-                                        <span v-else>
-                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
+                                    </a>
+                                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
+                                        <span>
+                                            <!-- {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }} -->
                                         </span>
                                     </a>
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
@@ -130,7 +134,7 @@
                 purchaseTypeSelectorPopup: false,
                 isIncreaseMusicCount: false,
                 is_subscriber: false,
-                subscribed: 0
+                remain_download_num: 0
             };
         },
         computed: {
@@ -170,7 +174,7 @@
                 })
         },
         mounted() {
-            this.fetchData();
+            this.remainDownloadNumber();
             if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
 
             EventBus.$on("player_request_start", (r) => {
@@ -243,28 +247,16 @@
             },
         },
         methods: {
-            
-            fetchData() {
-                axios.get('/membergroup')
-                    .then(res => res.data)
-                    .then(data => {
-                        let list = Object.values(data);
-                        list.forEach(item => {
-                            console.log('this is aaaa', window.member_group_name ,item.mgr_id, item );
-                            if (window.member_group_name == 'subscribe_common' && item.mgr_id == 5){
-                                this.subscribed = item.mgr_monthly_download_limit;
-                            }
-                            if (window.member_group_name == 'subscribe_creater'&& item.mgr_id == 6){
-                                this.subscribed = item.mgr_monthly_download_limit;
-                            }
-                            
-                        });
-                    })
+            remainDownloadNumber() {
+                axios.get('/membermodify/mem_remain_downloads_get')
+                    .then(res=>{
+                        
+                        this.remain_download_num = res.data;
+                    })   
                     .catch(error => {
                         console.error(error);
                     })
-                },
-            // 탭 선택
+            },
             selectTab(t) {
                 this.currentTab = t.id;
                 this.$router.push({path: t.path, params: {item: this.item}});
@@ -307,6 +299,24 @@
             addCart() {
                 this.purchaseTypeSelectorPopup = true;
             },
+            freeBuy(item_detail) {
+                let detail_qty = {};
+                detail_qty[item_detail.cde_id] = 1;
+                Http.post(`/beatsomeoneApi/itemAction`, {
+                    stype: "free",
+                    cit_id: this.item.cit_id,
+                    chk_detail: [item_detail.cde_id],
+                    detail_qty: detail_qty,
+                }).then((r) => {
+                    if (!r) {
+                    log.debug("장바구니 담기 실패");
+                    } else {
+                    log.debug("장바구니 담기 성공");
+                    alert(this.$t("inMyShoppingCart"));
+                    this.close();
+                    }
+                });
+            },      
             // 공유 클릭
             clickShare(sns) {
                 Http.post(`/beatsomeoneApi/increase_item_share_count`, {

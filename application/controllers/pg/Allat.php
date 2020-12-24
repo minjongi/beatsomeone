@@ -102,9 +102,9 @@ class Allat extends CB_Controller
             $at_fix_key        = $FIX_KEY;   //카드키(최대 24자)
             $at_sell_mm        = "01";   //할부개월값(최대  2자)
             $at_amt            = $_POST["allat_amt"];   //금액(최대 10자)
-            $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
-            $at_registry_no    = $REGISTRY_NO;   //주민번호(최대 13자리)           : szBusinessType=0 일경우
-            $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
+            // $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
+            // $at_registry_no    = $REGISTRY_NO;   //주민번호(최대 13자리)           : szBusinessType=0 일경우
+            // $at_biz_no         = "";   //사업자번호(최대 20자리)         : szBusinessType=1 일경우
             $at_shop_member_id = $_POST["allat_pmember_id"];   //회원ID(최대 20자)               : 쇼핑몰회원ID
             $at_order_no       = $_POST["allat_order_no"];   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
             $at_product_cd     = $_POST["allat_product_cd"];   //상품코드(최대 1000자)           : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
@@ -117,18 +117,18 @@ class Allat extends CB_Controller
             $at_buyer_ip       = "Unknown";   //결제자 IP(최대15자) - BuyerIp를 넣을수 없다면 "Unknown"으로 세팅
             $at_email_addr     = $_POST['allat_email_addr'];   //결제자 이메일 주소(50자)
             $at_bonus_yn       = "N";   //보너스포인트 사용여부(최대1자)  : 사용(Y), 사용않음(N)
-            $at_gender         = "";   //구매자 성별(최대 1자)           : 남자(M)/여자(F)
-            $at_birth_ymd      = "";   //구매자의 생년월일(최대 8자)     : YYYYMMDD형식
+            // $at_gender         = "";   //구매자 성별(최대 1자)           : 남자(M)/여자(F)
+            // $at_birth_ymd      = "";   //구매자의 생년월일(최대 8자)     : YYYYMMDD형식
         
             $at_enc = setValue($at_enc,"allat_card_key"         ,   $at_fix_key        );
             $at_enc = setValue($at_enc,"allat_sell_mm"          ,   $at_sell_mm        );
             $at_enc = setValue($at_enc,"allat_amt"              ,   $at_amt            );
-            $at_enc = setValue($at_enc,"allat_business_type"    ,   $at_business_type  );
-            if( strcmp($at_business_type,"0") == 0 ){
-                $at_enc = setValue($at_enc,"allat_registry_no"  ,   $at_registry_no    );
-            }else{
-                $at_enc = setValue($at_enc,"allat_biz_no"       ,   $at_biz_no         );
-            }
+            // $at_enc = setValue($at_enc,"allat_business_type"    ,   $at_business_type  );
+            // if( strcmp($at_business_type,"0") == 0 ){
+            //     $at_enc = setValue($at_enc,"allat_registry_no"  ,   $at_registry_no    );
+            // }else{
+            //     $at_enc = setValue($at_enc,"allat_biz_no"       ,   $at_biz_no         );
+            // }
             $at_enc = setValue($at_enc,"allat_shop_id"          ,   $at_shop_id        );
             $at_enc = setValue($at_enc,"allat_shop_member_id"   ,   $at_shop_member_id );
             $at_enc = setValue($at_enc,"allat_order_no"         ,   $at_order_no       );
@@ -142,8 +142,8 @@ class Allat extends CB_Controller
             $at_enc = setValue($at_enc,"allat_user_ip"          ,   $at_buyer_ip       );
             $at_enc = setValue($at_enc,"allat_email_addr"       ,   $at_email_addr     );
             $at_enc = setValue($at_enc,"allat_bonus_yn"         ,   $at_bonus_yn       );
-            $at_enc = setValue($at_enc,"allat_gender"           ,   $at_gender         );
-            $at_enc = setValue($at_enc,"allat_birth_ymd"        ,   $at_birth_ymd      );
+            // $at_enc = setValue($at_enc,"allat_gender"           ,   $at_gender         );
+            // $at_enc = setValue($at_enc,"allat_birth_ymd"        ,   $at_birth_ymd      );
             $at_enc = setValue($at_enc,"allat_pay_type"         ,   "FIX"              );  //수정금지(결제방식 정의)
             $at_enc = setValue($at_enc,"allat_test_yn"          ,   "N"                );  //테스트 :Y, 서비스 :N
             $at_enc = setValue($at_enc,"allat_opt_pin"          ,   "NOUSE"            );  //수정금지(올앳 참조 필드)

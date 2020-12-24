@@ -52,7 +52,7 @@
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerFree)">{{ $t('getStarted') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </th>
                     <th>
                         <p>
@@ -273,6 +273,7 @@
                 selectedGroup: {},
                 subscribedCommon: {},
                 subscribedCreater: {},
+                buyerFree: {},
             }
         },
         filters: {

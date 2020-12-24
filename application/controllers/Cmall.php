@@ -2417,6 +2417,7 @@ class Cmall extends CB_Controller
             $insertdata['cor_approve_datetime'] = $create_time; // 승인 시간도 필요된다.
             $insertdata['cor_pg'] = $this->input->post('cor_pg');
             $insertdata['cor_pay_type'] = 'FREE';
+
         }
         // 정보 입력
         $cor_id = $this->session->userdata('unique_id');
@@ -2462,6 +2463,13 @@ class Cmall extends CB_Controller
                     } else {
                         $item_point = 0;
                     }
+                    if (intval(element('isfree', $val)) == 1) {
+                        $tmpdata = array();
+                        $tmpdata['mem_remain_downloads'] = (int) $this->member->item('mem_remain_downloads');
+                        $tmpdata['mem_remain_downloads'] = $tmpdata['mem_remain_downloads'] - 1;
+                        $this->Member_model->update($mem_id, $tmpdata);
+                    }
+
                     $member_group = $this->Member_group_member_model->get_with_group($item_detail['mem_id']);
 
                     $insertdetail = array(

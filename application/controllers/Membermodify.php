@@ -3238,4 +3238,37 @@ class Membermodify extends CB_Controller
 		}
 		return true;
 	}
+	public function mem_remain_downloads_get()
+	{
+		// 이벤트 라이브러리를 로딩합니다
+		$eventname = 'event_mem_remain_downloads_get';
+		$this->load->event($eventname);
+
+		/**
+		 * 로그인이 필요한 페이지입니다
+		 */
+		required_user_login();
+		$mem_remain_downloads = (int) $this->member->item('mem_remain_downloads');
+		echo $mem_remain_downloads;
+		return;
+	}
+	public function mem_remain_downloads_set()
+	{
+		// 이벤트 라이브러리를 로딩합니다
+		$eventname = 'event_mem_remain_downloads_get';
+		$this->load->event($eventname);
+
+		/**
+		 * 로그인이 필요한 페이지입니다
+		 */
+		required_user_login();
+		$updatedata = array();
+		$updatedata['mem_remain_downloads'] = $_GET['value'];
+		//$this->input->post('mem_remain_downloads');
+		$mem_id = (int) $this->member->item('mem_id');
+		$this->Member_model->update($mem_id, $updatedata);
+		$mem_remain_downloads = (int) $this->member->item('mem_remain_downloads');
+		var_dump ($mem_remain_downloads);
+		return $mem_remain_downloads;
+	}
 }
