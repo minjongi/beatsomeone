@@ -272,7 +272,7 @@
 
             this.member = window.member;
             this.member_group_name = window.member_group_name;
-
+            console.log("&&&&&&&&&&&&", window.member_group_name);
             console.log(this.$store.getters.getCartSum);
         },
         computed: {

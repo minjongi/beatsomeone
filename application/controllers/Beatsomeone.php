@@ -235,6 +235,28 @@ class Beatsomeone extends CB_Controller
         }
 
 
+        $member = $this->member->get_member();
+        $view['view']['member'] = $member;
+
+        $view['view']['member_group_name'] = '';
+        if ($member) {
+            $member_group = $this->member->group();
+            if ($member_group && is_array($member_group)) {
+
+                $this->load->model('Member_group_model');
+
+                foreach ($member_group as $gkey => $gval) {
+                    $item = $this->Member_group_model->item(element('mgr_id', $gval));
+                    if ($view['view']['member_group_name']) {
+                        $view['view']['member_group_name'] .= ', ';
+                    }
+                    $view['view']['member_group_name'] .= element('mgr_title', $item);
+                }
+            }
+        }
+
+
+
         /**
          * 레이아웃을 정의합니다
          */

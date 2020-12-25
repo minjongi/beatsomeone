@@ -28,7 +28,7 @@
                                     </a>
                                     <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
                                         <span>
-                                            <!-- {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }} -->
+                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                     </a>
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
@@ -134,6 +134,7 @@
                 purchaseTypeSelectorPopup: false,
                 isIncreaseMusicCount: false,
                 is_subscriber: false,
+                member_group_name: '',
                 remain_download_num: 0
             };
         },
@@ -175,6 +176,8 @@
         },
         mounted() {
             this.remainDownloadNumber();
+            this.member_group_name = window.member_group_name;
+            console.log("&*&*&*&*&*&*", window.member_group_name);
             if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
 
             EventBus.$on("player_request_start", (r) => {
