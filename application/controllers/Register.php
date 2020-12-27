@@ -48,8 +48,15 @@ class Register extends CB_Controller
     {
         $check_login = $this->member->is_member();
         if ($check_login) {
-            // redirect('/mypage/upgrade');
-            redirect('/');
+            if ($this->member->item('mem_username') == "") {
+                $updatedata1 = array();
+                $updatedata1['mem_username'] = "*";
+                $mem_id1 = (int) $this->member->item('mem_id');
+                $this->Member_model->update($mem_id1, $updatedata1);        
+                redirect('/register#/7');
+            } else if ($this->member->item('mem_username') != "*") {
+                redirect('/'); 
+            }
         }
 
         // 이벤트 라이브러리를 로딩합니다
@@ -1248,6 +1255,437 @@ class Register extends CB_Controller
             $this->output->set_output(json_encode($result, JSON_UNESCAPED_UNICODE));
             return true;
         }
+    }
+
+
+    /**
+     * 회원가입 폼 페이지입니다
+     */
+    public function snsform()
+    {
+        // 이벤트 라이브러리를 로딩합니다
+        $eventname = 'event_register_form';
+        $this->load->event($eventname);
+
+        $form_data = $this->input->post();
+        // var_dump($form_data); exit();
+        // if ($this->member->is_member() && !($this->member->is_admin() === 'super' && $this->uri->segment(1) === config_item('uri_segment_admin'))) {
+        //     redirect();
+        // }
+
+        $view = array();
+        $view['view'] = array();
+
+        // 이벤트가 존재하면 실행합니다
+        $view['view']['event']['before'] = Events::trigger('before', $eventname);
+
+
+        $selfcert_phone = $selfcert_username = $selfcert_birthday = $selfcert_sex = '';
+        $selfcert_meta = '';
+
+
+            /**
+             * 유효성 검사를 통과한 경우입니다.
+             * 즉 데이터의 insert 나 update 의 process 처리가 필요한 상황입니다
+             */
+            $this->load->model('Beatsomeone_model');
+
+            // 이벤트가 존재하면 실행합니다
+            $view['view']['event']['formruntrue'] = Events::trigger('formruntrue', $eventname);
+
+            $mem_level = (int)$this->cbconfig->item('register_level');
+            $updatedata = array();
+            $metadata = array();
+
+            $updatedata['mem_username'] = $this->input->post('mem_username');
+            $updatedata['mem_nickname'] = $this->input->post('mem_nickname');
+            // $updatedata['meta_nickname_datetime'] = cdate('Y-m-d H:i:s');
+            $updatedata['mem_level'] = $mem_level;
+            $updatedata['mem_firstname'] = $this->input->post('mem_firstname');
+            $updatedata['mem_lastname'] = $this->input->post('mem_lastname');
+            $updatedata['mem_type'] = $this->input->post('mem_type');
+
+            $updatedata['mem_address1'] = $this->input->post('mem_address1');
+            // $updatedata['mem_register_datetime'] = cdate('Y-m-d H:i:s');
+            // $updatedata['mem_register_ip'] = $this->input->ip_address();
+            $updatedata['mem_profile_content'] = $this->input->post('mem_profile_content', null, '');
+
+            $mem_id = $this->member->item('mem_id');
+            // $mem_id = $this->Member_model->insert($insertdata);
+            $this->Member_model->update($mem_id, $updatedata);
+
+            if ($mem_id == 0) {
+                $this->output->set_content_type('text/json');
+                $this->output->set_status_header('400');
+                $result = [
+                    'message' => 'Not Registered',
+                ];
+                $this->output->set_output(json_encode($result));
+                return false;
+            }
+
+            $levelhistoryinsert = array(
+                'mem_id' => $mem_id,
+                'mlh_from' => 0,
+                'mlh_to' => $mem_level,
+                'mlh_datetime' => cdate('Y-m-d H:i:s'),
+                'mlh_reason' => '회원가입',
+                'mlh_ip' => $this->input->ip_address(),
+            );
+            $this->load->model('Member_level_history_model');
+            $this->Member_level_history_model->insert($levelhistoryinsert);
+
+            $this->load->model('Member_group_model');
+            $allgroup = $this->Member_group_model->get_all_group();
+            $mgr_id = $this->input->post('mgr_id');
+            if ($allgroup && is_array($allgroup)) {
+                $this->load->model('Member_group_member_model');
+                $member_group = $this->db->query("SELECT * FROM cb_member_group WHERE mgr_id=?", [$mgr_id])->row_array();
+                if ($member_group['mgr_title'] == 'buyer' || $member_group['mgr_title'] == 'seller_free') {
+                    $gminsert = array(
+                        'mgr_id' => $mgr_id,
+                        'mem_id' => $mem_id,
+                        'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                    );
+                    $this->Member_group_member_model->insert($gminsert);
+                } else {
+                    foreach ($allgroup as $gkey => $gval) {
+                        if (element('mgr_is_default', $gval)) {
+                            $gminsert = array(
+                                'mgr_id' => element('mgr_id', $gval),
+                                'mem_id' => $mem_id,
+                                'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                            );
+                            $this->Member_group_member_model->insert($gminsert);
+                        }
+                    }
+                }
+            }
+
+            $this->point->insert_point(
+                $mem_id,
+                $this->cbconfig->item('point_register'),
+                '회원가입을 축하합니다',
+                'member',
+                $mem_id,
+                '회원가입'
+            );
+
+            // $searchconfig = array(
+            //     '{홈페이지명}',
+            //     '{회사명}',
+            //     '{홈페이지주소}',
+            //     '{회원아이디}',
+            //     '{회원닉네임}',
+            //     '{회원실명}',
+            //     '{회원이메일}',
+            //     '{메일수신여부}',
+            //     '{쪽지수신여부}',
+            //     '{문자수신여부}',
+            //     '{회원아이피}',
+            // );
+            // $mem_userid = $this->input->post('mem_userid', null, '');
+            // $mem_nickname = $this->input->post('mem_nickname', null, '');
+            // $mem_username = $selfcert_username ? $selfcert_username : $this->input->post('mem_username', null, '');
+            // $mem_email = $this->input->post('mem_email', null, '');
+            // $receive_email = $this->input->post('mem_receive_email') ? '동의' : '거부';
+            // $receive_note = $this->input->post('mem_use_note') ? '동의' : '거부';
+            // $receive_sms = $this->input->post('mem_receive_sms') ? '동의' : '거부';
+            // $replaceconfig = array(
+            //     $this->cbconfig->item('site_title'),
+            //     $this->cbconfig->item('company_name'),
+            //     site_url(),
+            //     $mem_userid,
+            //     $mem_nickname,
+            //     $mem_username,
+            //     $mem_email,
+            //     $receive_email,
+            //     $receive_note,
+            //     $receive_sms,
+            //     $this->input->ip_address(),
+            // );
+            // $replaceconfig_escape = array(
+            //     html_escape($this->cbconfig->item('site_title')),
+            //     html_escape($this->cbconfig->item('company_name')),
+            //     site_url(),
+            //     html_escape($mem_userid),
+            //     html_escape($mem_nickname),
+            //     html_escape($mem_username),
+            //     html_escape($mem_email),
+            //     $receive_email,
+            //     $receive_note,
+            //     $receive_sms,
+            //     $this->input->ip_address(),
+            // );
+
+            $result = array();
+
+            if (!$this->cbconfig->item('use_register_email_auth')) {
+                if (($this->cbconfig->item('send_email_register_user') && $this->input->post('mem_receive_email'))
+                    or $this->cbconfig->item('send_email_register_alluser')) {
+                    $title = str_replace(
+                        $searchconfig,
+                        $replaceconfig,
+                        $this->cbconfig->item('send_email_register_user_title')
+                    );
+                    $content = str_replace(
+                        $searchconfig,
+                        $replaceconfig_escape,
+                        $this->cbconfig->item('send_email_register_user_content')
+                    );
+                    $this->email->from($this->cbconfig->item('webmaster_email'), $this->cbconfig->item('webmaster_name'));
+                    $this->email->to($this->input->post('mem_email'));
+                    $this->email->subject($title);
+                    $this->email->message($content);
+                    $this->email->send();
+                }
+            } else {
+                $vericode = array('$', '/', '.');
+                $verificationcode = str_replace(
+                    $vericode,
+                    '',
+                    password_hash($mem_id . '-' . $this->input->post('mem_email') . '-' . random_string('alnum', 10), PASSWORD_BCRYPT)
+                );
+
+                $beforeauthdata = array(
+                    'mem_id' => $mem_id,
+                    'mae_type' => 1,
+                );
+                $this->Member_auth_email_model->delete_where($beforeauthdata);
+                $authdata = array(
+                    'mem_id' => $mem_id,
+                    'mae_key' => $verificationcode,
+                    'mae_type' => 1,
+                    'mae_generate_datetime' => cdate('Y-m-d H:i:s'),
+                );
+                $this->Member_auth_email_model->insert($authdata);
+
+                $verify_url = site_url('verify/confirmemail?user=' . $this->input->post('mem_userid') . '&code=' . $verificationcode);
+
+                $title = str_replace(
+                    $searchconfig,
+                    $replaceconfig,
+                    $this->cbconfig->item('send_email_register_user_verifytitle')
+                );
+                $content = str_replace(
+                    $searchconfig,
+                    $replaceconfig_escape,
+                    $this->cbconfig->item('send_email_register_user_verifycontent')
+                );
+
+                $title = str_replace('{메일인증주소}', $verify_url, $title);
+                $content = str_replace('{메일인증주소}', $verify_url, $content);
+
+                $email_auth_message = $this->input->post('mem_email') . '로 인증메일이 발송되었습니다. <br />발송된 인증메일을 확인하신 후에 사이트 이용이 가능합니다';
+//                $result['email_auth_message'] = $email_auth_message;
+
+                // Load PHPMailer library
+                $this->load->library('phpmailer_lib');
+
+                // PHPMailer object
+                $mail = $this->phpmailer_lib->load();
+
+
+                $mail->setFrom($this->cbconfig->item('webmaster_email'), $this->cbconfig->item('webmaster_name'));
+                $mail->addReplyTo($this->cbconfig->item('webmaster_email'), $this->cbconfig->item('webmaster_name'));
+
+                // Add a recipient
+                $mail->addAddress($this->input->post('mem_email'));
+
+                // Email subject
+                $mail->Subject = $title;
+
+                // Set email format to HTML
+                $mail->isHTML(true);
+
+                // Email body content
+                $mailContent = $content;
+                $mail->Body = $mailContent;
+
+                // Send email
+                if (!$mail->send()) {
+                    $result['email_auth_message'] = '이메일을 발송하지 못하였습니다. 메일 설정을 확인하여주세요';
+                } else {
+                    $result['email_auth_message'] = $email_auth_message;
+                }
+            }
+
+            $emailsendlistadmin = array();
+            $notesendlistadmin = array();
+            $smssendlistadmin = array();
+            $notesendlistuser = array();
+            $smssendlistuser = array();
+
+            $superadminlist = '';
+            if ($this->cbconfig->item('send_email_register_admin')
+                or $this->cbconfig->item('send_note_register_admin')
+                or $this->cbconfig->item('send_sms_register_admin')) {
+                $mselect = 'mem_id, mem_email, mem_nickname, mem_phone';
+                $superadminlist = $this->Member_model->get_superadmin_list($mselect);
+            }
+
+            if ($this->cbconfig->item('send_email_register_admin') && $superadminlist) {
+                foreach ($superadminlist as $key => $value) {
+                    $emailsendlistadmin[$value['mem_id']] = $value;
+                }
+            }
+            if ($this->cbconfig->item('send_note_register_admin') && $superadminlist) {
+                foreach ($superadminlist as $key => $value) {
+                    $notesendlistadmin[$value['mem_id']] = $value;
+                }
+            }
+            if (($this->cbconfig->item('send_note_register_user') && $this->input->post('mem_use_note'))) {
+                $notesendlistuser['mem_id'] = $mem_id;
+            }
+            if ($this->cbconfig->item('send_sms_register_admin') && $superadminlist) {
+                foreach ($superadminlist as $key => $value) {
+                    $smssendlistadmin[$value['mem_id']] = $value;
+                }
+            }
+            if (($this->cbconfig->item('send_sms_register_user') && $this->input->post('mem_receive_sms'))
+                or $this->cbconfig->item('send_sms_register_alluser')) {
+                if ($selfcert_phone or $this->input->post('mem_phone')) {
+                    $smssendlistuser['mem_id'] = $mem_id;
+                    $smssendlistuser['mem_nickname'] = $this->input->post('mem_nickname');
+                    $smssendlistuser['mem_phone'] = $selfcert_phone ? $selfcert_phone : $this->input->post('mem_phone');
+                }
+            }
+
+            if ($emailsendlistadmin) {
+                $title = str_replace(
+                    $searchconfig,
+                    $replaceconfig,
+                    $this->cbconfig->item('send_email_register_admin_title')
+                );
+                $content = str_replace(
+                    $searchconfig,
+                    $replaceconfig_escape,
+                    $this->cbconfig->item('send_email_register_admin_content')
+                );
+                foreach ($emailsendlistadmin as $akey => $aval) {
+                    $this->email->clear(true);
+                    $this->email->from($this->cbconfig->item('webmaster_email'), $this->cbconfig->item('webmaster_name'));
+                    $this->email->to(element('mem_email', $aval));
+                    $this->email->subject($title);
+                    $this->email->message($content);
+                    $this->email->send();
+                }
+            }
+            if ($notesendlistadmin) {
+                $title = str_replace(
+                    $searchconfig,
+                    $replaceconfig,
+                    $this->cbconfig->item('send_note_register_admin_title')
+                );
+                $content = str_replace(
+                    $searchconfig,
+                    $replaceconfig_escape,
+                    $this->cbconfig->item('send_note_register_admin_content')
+                );
+                foreach ($notesendlistadmin as $akey => $aval) {
+                    $note_result = $this->notelib->send_note(
+                        $sender = 0,
+                        $receiver = element('mem_id', $aval),
+                        $title,
+                        $content,
+                        1
+                    );
+                }
+            }
+            if ($notesendlistuser && element('mem_id', $notesendlistuser)) {
+                $title = str_replace(
+                    $searchconfig,
+                    $replaceconfig,
+                    $this->cbconfig->item('send_note_register_user_title')
+                );
+                $content = str_replace(
+                    $searchconfig,
+                    $replaceconfig_escape,
+                    $this->cbconfig->item('send_note_register_user_content')
+                );
+                $note_result = $this->notelib->send_note(
+                    $sender = 0,
+                    $receiver = element('mem_id', $notesendlistuser),
+                    $title,
+                    $content,
+                    1
+                );
+            }
+            if ($smssendlistadmin) {
+                if (file_exists(APPPATH . 'libraries/Smslib.php')) {
+                    $this->load->library(array('smslib'));
+                    $content = str_replace(
+                        $searchconfig,
+                        $replaceconfig,
+                        $this->cbconfig->item('send_sms_register_admin_content')
+                    );
+                    $sender = array(
+                        'phone' => $this->cbconfig->item('sms_admin_phone'),
+                    );
+                    $receiver = array();
+                    foreach ($smssendlistadmin as $akey => $aval) {
+                        $receiver[] = array(
+                            'mem_id' => element('mem_id', $aval),
+                            'name' => element('mem_nickname', $aval),
+                            'phone' => element('mem_phone', $aval),
+                        );
+                    }
+                    $smsresult = $this->smslib->send($receiver, $sender, $content, $date = '', '회원가입알림');
+                }
+            }
+            if ($smssendlistuser) {
+                if (file_exists(APPPATH . 'libraries/Smslib.php')) {
+                    $this->load->library(array('smslib'));
+                    $content = str_replace(
+                        $searchconfig,
+                        $replaceconfig,
+                        $this->cbconfig->item('send_sms_register_user_content')
+                    );
+                    $sender = array(
+                        'phone' => $this->cbconfig->item('sms_admin_phone'),
+                    );
+                    $receiver = array();
+                    $receiver[] = $smssendlistuser;
+                    $smsresult = $this->smslib->send($receiver, $sender, $content, $date = '', '회원가입알림');
+                }
+            }
+
+            $member_register_data = array(
+                'mem_id' => $mem_id,
+                'mrg_ip' => $this->input->ip_address(),
+                'mrg_datetime' => cdate('Y-m-d H:i:s'),
+                'mrg_useragent' => $this->agent->agent_string(),
+                'mrg_referer' => $this->session->userdata('site_referer'),
+            );
+            $recommended = '';
+            if ($this->input->post('mem_recommend')) {
+                $recommended = $this->Member_model->get_by_userid($this->input->post('mem_recommend'), 'mem_id');
+                if (element('mem_id', $recommended)) {
+                    $member_register_data['mrg_recommend_mem_id'] = element('mem_id', $recommended);
+                } else {
+                    $recommended['mem_id'] = 0;
+                }
+            }
+            $this->load->model('Member_register_model');
+            $this->Member_register_model->insert($member_register_data);
+
+            $this->session->set_flashdata(
+                'nickname',
+                $this->input->post('mem_nickname')
+            );
+
+//            if (!$this->cbconfig->item('use_register_email_auth')) {
+                $this->session->set_userdata(
+                    'mem_id',
+                    $mem_id
+                );
+//            }
+            $this->session->unset_userdata('selfcertinfo');
+
+            $this->output->set_content_type('text/json');
+            $result['message'] = 'Registered';
+            $this->output->set_output(json_encode($result, JSON_UNESCAPED_UNICODE));
+            return true;
     }
 
 

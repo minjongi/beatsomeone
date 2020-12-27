@@ -13,6 +13,7 @@ import Register_2 from "./Register_2";
 import Register_3 from "./Register_3";
 import Register_4 from "./Register_4";
 import Register_5 from "./Register_5";
+import Register_7 from "./Register_7";
 import PurchaseMembership from "./PurchaseMembership";
 
 Vue.use(VueRouter);
@@ -28,6 +29,7 @@ const router = new VueRouter({
         {path: '/3', component: Register_3},
         {path: '/4', component: Register_4},
         {path: '/5', component: Register_5},
+        {path: '/7', component: Register_7},
     ],
     scrollBehavior(to, from, savedPosition) {
         return {x: 0, y: 0}

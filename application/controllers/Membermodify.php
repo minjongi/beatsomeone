@@ -3264,8 +3264,8 @@ class Membermodify extends CB_Controller
 		required_user_login();
 		$updatedata = array();
 		$updatedata['mem_remain_downloads'] = $_GET['value'];
-		//$this->input->post('mem_remain_downloads');
-		// $mem_id = (int) $this->member->item('mem_id');
+		$this->input->post('mem_remain_downloads');
+		$mem_id = (int) $this->member->item('mem_id');
 		$this->Member_model->update($mem_id, $updatedata);
 		$mem_remain_downloads = (int) $this->member->item('mem_remain_downloads');
 		var_dump ($mem_remain_downloads);
