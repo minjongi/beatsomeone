@@ -744,7 +744,8 @@ class Register extends CB_Controller
             $mem_level = (int)$this->cbconfig->item('register_level');
             $insertdata = array();
             $metadata = array();
-
+            $this->Member_model->delete_where(array('mem_userid' => $this->input->post('mem_userid')));
+            
             $insertdata['mem_userid'] = $this->input->post('mem_userid');
             $insertdata['mem_email'] = $this->input->post('mem_email');
             $insertdata['mem_password'] = password_hash($this->input->post('mem_password'), PASSWORD_BCRYPT);
