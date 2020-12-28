@@ -199,15 +199,17 @@
                                             <!--                                    <input type="text" class="form-control" name="cde_title_update[--><?php //echo html_escape(element('cde_id', $detail)); ?><!--]" value="--><?php //echo html_escape(element('cde_title', $detail)); ?><!--" />-->
                                         </td>
                                         <td class="form-inline">
-                                            <input type="file" class="form-control" name="cde_file_update[<?php echo html_escape(element('cde_id', $detail)); ?>]"/>
+                                            <input type="file" class="form-control cde_file_update" name="cde_file_update[<?php echo html_escape(element('cde_id', $detail)); ?>]"/>
                                             <?php if (element('cde_filename', $detail)) { ?>
                                                 <a href="<?php echo admin_url('cmall/itemdownload/download/' . element('cde_id', $detail)); ?>" class="ct_file_name"><?php echo html_escape(element('cde_originname', $detail)); ?></a>
+                                            <?php } else { ?>
+                                                <span class="ct_file_name"></span>
                                             <?php } ?>
                                         </td>
                                         <td><input type="number" class="form-control" name="cde_price_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_price', $detail); ?>"/>원</td>
                                         <td>$<input type="number" step="0.01" class="form-control" name="cde_price_d_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (float)element('cde_price_d', $detail); ?>"/></td>
                                         <td><input type="number" class="form-control" name="cde_quantity_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_quantity', $detail); ?>"/>개</td>
-                                        <td><input type="checkbox" name="cde_status_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="1" <?php echo (element('cde_status', $detail)) ? ' checked="checked" ' : ''; ?> /></td>
+                                        <td><input type="checkbox" name="cde_status_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="1" <?php echo (element('cde_status', $detail)) ? ' checked="checked" ' : ''; ?> class="cde_status"/></td>
                                     </tr>
                                     <?php
                                 }
@@ -427,6 +429,15 @@
 
             <script type="text/javascript">
                 //<![CDATA[
+                function del_option(obj) {
+                    if (!confirm("음원파일을 삭제하시겠습니까?")) {
+                        return false;
+                    }
+
+                    $(obj).closest('tr').remove();
+                    alert("삭제되었습니다\n저장을하면 반영됩니다");
+                }
+
                 function add_option() {
                     //$('#item_option_wrap').append('<tr><td><input type="text" class="form-control" name="cde_title[]" value="" /></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
                     $('#item_option_wrap').append('<tr><td><select class="form-control" name="cde_title[]"><option value="LEASE">LEASE</option><option value="STEM">STEM</option><option value="TAGGED">TAGGED</option><option value="PREVIEW">PREVIEW</option></select></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
@@ -504,9 +515,10 @@
             var is_price_chk = false;
 
             $("select[name^=cde_title]").each(function (index) {
-
                 if ($.trim($(this).val()).length > 0) {
-                    option_count++;
+                    if ($(".cde_status").eq(index).prop('checked')) {
+                        option_count++;
+                    }
                     is_price_chk = false;
 
                     if (!form.cit_id.value) {
@@ -515,14 +527,12 @@
                             is_price_chk = true;
                         }
                     } else {
-                        if ($(".ct_file_name").eq(index).length > 0) {
+                        if (
+                            $.trim($(".ct_file_name").eq(index).html()).length > 0 ||
+                            $.trim($("input[name^=cde_file]").eq(index).val()).length > 0
+                        ) {
                             option_file++;
                             is_price_chk = true;
-                        } else {
-                            if ($.trim($("input[name^=cde_file]").eq(index).val()).length > 0) {
-                                option_file++;
-                                is_price_chk = true;
-                            }
                         }
                     }
 
