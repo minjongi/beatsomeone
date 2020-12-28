@@ -20,13 +20,13 @@
 
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a class="buy waves-effect free" @click="freeBuy(item.detail.LEASE)" href="javascript:;" 
+                                    <a class="buy waves-effect free" @click="addCart" href="javascript:;" 
                                         v-if="is_subscriber && item.cit_type5 === '1' && remain_download_num > 0">
                                         <span>
                                             {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
                                         </span>
                                     </a>
-                                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
+                                    <a class="buy waves-effect" @click="addCart" href="javascript:;" v-else>
                                         <span>
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
