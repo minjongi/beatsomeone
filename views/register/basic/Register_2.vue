@@ -77,6 +77,7 @@
                 if (social_type !== 'facebook' && social_type !== 'twitter' && social_type !== 'google' && social_type !== 'naver' && social_type !== 'kakao') {
                     return false;
                 }
+                localStorage.setItem('social_type', social_type);
                 let social_popup = window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
                 social_popup.onbeforeunload = this.socialConnected
                 console.log('OK2');

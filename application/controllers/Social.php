@@ -798,6 +798,7 @@ class Social extends CB_Controller
             } else {
                 // 비회원이 소셜로그인을 처음 진행하는 상황
 
+
                 if ($this->cbconfig->item('use_register_block')) {
                     alert_close('현재 이 사이트는 회원가입이 금지되어 있습니다.');
                 }
@@ -815,6 +816,24 @@ class Social extends CB_Controller
                 }
 
                 log_message('debug', print_r($socialdata));
+
+
+                $url_after_login = "/register#/7?code=".$social_id;
+                if ($url_after_login) {
+                    $url_after_login = site_url($url_after_login);
+                }
+                echo '<meta http-equiv="content-type" content="text/html; charset=' . config_item('charset') . '">';
+                echo '<script type="text/javascript"> window.close();';
+                if ($url_after_login) {
+                    echo 'window.opener.document.location.href = "' . $url_after_login . '";';
+                } else {
+                    echo 'window.opener.location.reload();';
+                }
+                echo '</script>';
+        
+                exit();
+
+
 
                 $nickname = '';
                 $user_id = '';

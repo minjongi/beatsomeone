@@ -48,15 +48,7 @@ class Register extends CB_Controller
     {
         $check_login = $this->member->is_member();
         if ($check_login) {
-            if ($this->member->item('mem_username') == "") {
-                $updatedata1 = array();
-                $updatedata1['mem_username'] = "*";
-                $mem_id1 = (int) $this->member->item('mem_id');
-                $this->Member_model->update($mem_id1, $updatedata1);        
-                redirect('/register#/7');
-            } else if ($this->member->item('mem_username') != "*") {
-                redirect('/'); 
-            }
+            redirect('/'); 
         }
 
         // 이벤트 라이브러리를 로딩합니다
@@ -756,7 +748,7 @@ class Register extends CB_Controller
             $insertdata['mem_userid'] = $this->input->post('mem_userid');
             $insertdata['mem_email'] = $this->input->post('mem_email');
             $insertdata['mem_password'] = password_hash($this->input->post('mem_password'), PASSWORD_BCRYPT);
-            $insertdata['mem_nickname'] = $this->input->post('mem_userid');
+            $insertdata['mem_nickname'] = $this->input->post('mem_nickname');
             $metadata['meta_nickname_datetime'] = cdate('Y-m-d H:i:s');
             $insertdata['mem_level'] = $mem_level;
             $insertdata['mem_firstname'] = $this->input->post('mem_firstname');
@@ -827,7 +819,17 @@ class Register extends CB_Controller
                 $this->output->set_output(json_encode($result));
                 return false;
             }
-
+            if (substr($this->input->post('mem_userid'), 'social') === false) {
+            } else {
+                $social_id = $this->input->post('mem_userid');
+                $social_type = $this->input->post('mem_social_type');
+                $metadata = array(
+                    $social_type . '_id' => $social_id,
+                );
+                $this->load->model('Social_meta_model');
+                $this->Social_meta_model
+                    ->save($mem_id, $metadata);
+            }
             if ($selfcert_meta) {
                 foreach ($selfcert_meta as $certkey => $certvalue) {
                     $metadata[$certkey] = $certvalue;

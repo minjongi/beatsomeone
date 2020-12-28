@@ -30,30 +30,12 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                {{ $t('yourEmail') }} <span class="required">*</span>
+                                {{ $t('firstName') }}
                             </p>
                             <div class="input">
-                                <input
-                                        type="email" v-model="user.email" v-on:blur="validateEmail"
-                                        :placeholder="$t('typeYourEmail')"
-                                        required
-                                />
-                            </div>
-                            <div v-if="errorValidEmail" class="errortext">
-                                {{ errorValidEmail }}
-                            </div>
-                        </label>
-                    </div>
-                    <div class="row">
-                        <label for="">
-                            <p class="form-title">
-                                {{ $t('password') }} <span class="required">*</span>
-                            </p>
-                            <div class="input">
-                                <input
-                                        type="password"  v-model="user.password"
-                                        :placeholder="$t('typeYourPassword')"
-                                        required
+                                <input v-model="user.firstname"
+                                        type="text"
+                                        :placeholder="$t('firstName')"
                                 />
                             </div>
                         </label>
@@ -61,62 +43,44 @@
                     <div class="row">
                         <label for="">
                             <p class="form-title">
-                                {{ $t('passwordVerify') }} <span class="required">*</span>
+                                {{ $t('lastName') }}
                             </p>
                             <div class="input">
-                                <input
-                                        type="password" v-model="passwordVerify"
-                                        :placeholder="$t('typeYourPasswordAgain')"
-                                        required
+                                <input v-model="user.lastname"
+                                        type="text"
+                                        :placeholder="$t('lastName')"
                                 />
                             </div>
                         </label>
                     </div>
-<!--                    <div class="row" v-if="isMusician">-->
-<!--                        <label for="">-->
-<!--                            <p class="form-title">-->
-<!--                                Your Bank-->
-<!--                                <span class="required">*</span>-->
-<!--                            </p>-->
-<!--                            <div class="input">-->
-<!--                                <input-->
-<!--                                        type="text" v-model="user.mem_musician_bank"-->
-<!--                                        placeholder="Set a Bank"-->
-<!--                                        required-->
-<!--                                />-->
-<!--                            </div>-->
-<!--                        </label>-->
-<!--                    </div>-->
-<!--                    <div class="row" v-if="isMusician">-->
-<!--                        <label for="">-->
-<!--                            <p class="form-title">-->
-<!--                                Your Bank Account-->
-<!--                                <span class="required">*</span>-->
-<!--                            </p>-->
-<!--                            <div class="input">-->
-<!--                                <input-->
-<!--                                        type="text" v-model="user.mem_musician_account"-->
-<!--                                        placeholder="Set a BankAccount"-->
-<!--                                        required-->
-<!--                                />-->
-<!--                            </div>-->
-<!--                        </label>-->
-<!--                    </div>-->
-<!--                    <div class="row" v-if="isMusician">-->
-<!--                        <label for="">-->
-<!--                            <p class="form-title">-->
-<!--                                Your Bank Accounts Owner Name-->
-<!--                                <span class="required">*</span>-->
-<!--                            </p>-->
-<!--                            <div class="input">-->
-<!--                                <input-->
-<!--                                        type="text" v-model="user.mem_musician_account_nm"-->
-<!--                                        placeholder="Set a BankAccount Owner Name"-->
-<!--                                        required-->
-<!--                                />-->
-<!--                            </div>-->
-<!--                        </label>-->
-<!--                    </div>-->
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                {{ $t('cityOfResidenceState') }}
+                            </p>
+                            <div class="input">
+                                <input  v-model="user.location"
+                                        type="text"
+                                        :placeholder="$t('cityOfResidenceState')"
+                                />
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="row">
+                        <label for="">
+                            <p class="form-title">
+                                {{ $t('introYourself') }} <span class="required">*</span>
+                            </p>
+                            <div class="input">
+                                <input
+                                        type="text" v-model="user.introduce"
+                                        :placeholder="$t('introYourself')"
+                                />
+                            </div>
+                        </label>
+                    </div>
+
                     <div class="row">
                         <p class="form-title">{{ $t('userType') }}</p>
                         <div class="accounts__check">
@@ -162,6 +126,7 @@
 <script>
 
     import { EventBus } from '*/src/eventbus';
+    import axios from "axios";
 
 
     export default {
@@ -184,7 +149,10 @@
 
         },
         mounted() {
-
+            const urlParams = new URLSearchParams(window.location.search);
+            console.log("*--------------*", window.location.href.split('=')[1]);
+            const code = urlParams.get('code');
+            console.log("*****************", code);
 
         },
         watch: {
@@ -197,46 +165,6 @@
                     alert(this.$t('enterUserAccount'));
                     return false;
                 }
-
-                if(this.errorValidUserId) {
-                    alert(this.errorValidUserId);
-                    return false;
-                }
-                if(this.errorValidEmail) {
-                    alert(this.errorValidEmail);
-                    return false;
-                }
-
-                if(!this.user.email) {
-                    alert(this.$t('typeYourEmail'));
-                    return false;
-                }
-
-                if(!this.user.password) {
-                    alert(this.$t('typeYourPassword'));
-                    return false;
-                }
-
-                if(this.user.password !== this.passwordVerify) {
-                    alert(this.$t('enterSamePassword'));
-                    return false;
-                }
-
-                // if(this.isMusician && !this.user.mem_musician_bank) {
-                //     alert('은행을 입력해 주세요');
-                //     return false;
-                // }
-                //
-                // if(this.isMusician && !this.user.mem_musician_account) {
-                //     alert('계좌번호를 입력해 주세요');
-                //     return false;
-                // }
-                //
-                // if(this.isMusician && !this.user.mem_musician_account_nm) {
-                //     alert('계좌주를 입력해 주세요');
-                //     return false;
-                // }
-
 
                 if(!this.user.type) {
                     alert(this.$t('chooseYourType'));
@@ -253,15 +181,49 @@
             },
             doNext(type) {
                 if(this.doValidation()) {
-                    let userInfo = this.$store.getters.getUserInfo;
-                    console.log("3333333333", userInfo);
-                    userInfo.mem_userid = this.user.username;
-                    userInfo.mem_email = this.user.email;
-                    userInfo.mem_password = this.user.password;
-                    userInfo.mem_type = this.user.type;
-                    this.$store.dispatch('setUserInfo', userInfo);
+                    // let userInfo = this.$store.getters.getUserInfo;
+                    let userInfo = this.user;
+                    console.log(this.user);
 
-                    this.$router.push({path: '/8?code=' + window.location.href.split('=')[1]});
+                    let mgrId = Number(localStorage.getItem('mgr_id'));
+                    
+                    let billTerm = localStorage.getItem('bill_term');
+
+                    let formData = new FormData();
+                    formData.append('mem_username', userInfo.username);
+                    formData.append('mem_nickname', userInfo.username);
+                    formData.append('mem_firstname', userInfo.firstname || '');
+                    formData.append('mem_lastname', userInfo.lastname || '');
+                    formData.append('mem_address1', userInfo.location || '');
+                    formData.append('mem_profile_content', userInfo.introduce);
+                    formData.append('mem_type', userInfo.type);
+                    formData.append('mgr_id', mgrId);
+
+                    console.log("----------->", formData)
+                    axios.post('/register/snsform', formData)
+                    .then(res => {
+                        console.log(res);
+                        console.log(mgrId);
+                            if (mgrId === 0 || mgrId === 1) {
+                                alert(this.$t('successfullyRegistered'));
+                                window.location.href = '/';
+                            } else {
+                                alert(this.$t('lang110'));
+                                window.location.href = `/register/purchase?mgr_id=${mgrId}&billTerm=${billTerm}`;
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        })
+
+
+                    // console.log("3333333333", userInfo);
+                    // userInfo.mem_userid = this.user.username;
+                    // userInfo.mem_email = this.user.email;
+                    // userInfo.mem_password = this.user.password;
+                    // userInfo.mem_type = this.user.type;
+                    // this.$store.dispatch('setUserInfo', userInfo);
+                    // this.$router.push({path: '/4'});
                 }
 
             },
