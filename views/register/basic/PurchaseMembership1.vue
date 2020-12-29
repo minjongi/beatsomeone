@@ -211,7 +211,7 @@ export default {
         this.orderNo = now.toString();
         this.$set(this.allatForm, 'product_cd', this.info.group.mgr_title);
         this.$set(this.allatForm, 'product_nm', this.info.group.mgr_description);
-        this.$set(this.allatForm, 'pmember_id', this.info.mem_userid);
+        this.$set(this.allatForm, 'pmember_id', this.info.mem_id);
         this.$set(this.allatForm, 'buyer_nm', this.info.mem_userid);
         this.$set(this.allatForm, 'recp_nm', this.info.mem_userid);
         this.$set(this.allatForm, 'recp_addr', this.info.mem_address1 ? this.info.mem_address1 : this.info.mem_email);

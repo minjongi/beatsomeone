@@ -12,7 +12,6 @@ if (intval($c) > 4) {
             if(result_cd != '0000') {
                 alert(result_cd + ' +: ' + result_msg);
             } else {
-                alert(result_cd + ' +: ' + result_msg);
                 fm1.allat_enc_data.value = enc_data;
                 fm1.action = 'https://qa.beatsomeone.com/pg/allat/subscribe';
                 fm1.method = 'post';

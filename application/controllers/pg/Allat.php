@@ -108,7 +108,7 @@ class Allat extends CB_Controller
             $at_shop_member_id = $_POST["allat_pmember_id"];   //회원ID(최대 20자)               : 쇼핑몰회원ID
             $at_order_no       = $_POST["allat_order_no"];   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
             $at_product_cd     = $_POST["allat_product_cd"];   //상품코드(최대 1000자)           : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
-            $at_product_nm     = $_POST["allat_product_nm"];   //상품명(최대 1000자)             : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
+            $at_product_nm     = $_POST["allat_product_cd"];   //상품명(최대 1000자)             : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
             $at_cardcert_yn    = $_POST['allat_card_yn'];   //카드인증여부(최대 1자)          : 인증(Y),인증사용않음(N),인증만사용(X)
             $at_zerofee_yn     = "N";   //일반/무이자 할부 사용 여부(최대 1자) : 일반(N), 무이자 할부(Y)
             $at_buyer_nm       = $_POST['allat_buyer_nm'];   //결제자성명(최대 20자)
@@ -259,7 +259,8 @@ class Allat extends CB_Controller
                     'start_date' => $startDate,
                     'end_date' => $endDate,
                     'pay_method' => "allat",
-                    'amount' => $_POST['allat_amt']
+                    'amount' => $_POST['allat_amt'],
+                    'card_key' => $FIX_KEY
                 ];
                 $this->Beatsomeone_model->insert_membership_purchase_log($params);
 
@@ -267,8 +268,16 @@ class Allat extends CB_Controller
                     'mem_id',
                     $mem_id
                 );
+
+                $downloaddata = array();
+                $downloaddata['mem_remain_downloads'] = $member_group[$i]['mgr_monthly_download_limit'];
+                $this->Member_model->update($mem_id, $downloaddata);
+
                 echo "결제정보가 정확히 등록되였습니다.<br/>";
-                var_dump($params);
+                echo '<script type="text/javascript">';
+                echo 'window.location.href="/";';
+                echo '</script>';
+
             }else{
                 // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
                 // reply_msg 는 실패에 대한 메세지
