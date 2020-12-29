@@ -324,6 +324,7 @@ class Register extends CB_Controller
 
         $form_data = $this->input->post();
 
+
         if ($this->member->is_member() && !($this->member->is_admin() === 'super' && $this->uri->segment(1) === config_item('uri_segment_admin'))) {
             redirect();
         }
@@ -746,7 +747,7 @@ class Register extends CB_Controller
             $metadata = array();
             // $this->Member_model->delete_where(array('mem_userid' => $this->input->post('mem_userid')));
 
-            $insertdata['mem_userid'] = $this->input->post('mem_nickname');
+            $insertdata['mem_userid'] = $this->input->post('mem_userid');
             $insertdata['mem_email'] = $this->input->post('mem_email');
             $insertdata['mem_password'] = password_hash($this->input->post('mem_password'), PASSWORD_BCRYPT);
             $insertdata['mem_nickname'] = $this->input->post('mem_nickname');
@@ -755,6 +756,7 @@ class Register extends CB_Controller
             $insertdata['mem_firstname'] = $this->input->post('mem_firstname');
             $insertdata['mem_lastname'] = $this->input->post('mem_lastname');
             $insertdata['mem_type'] = $this->input->post('mem_type');
+
 
             if ($selfcert_username) {
                 $insertdata['mem_username'] = $selfcert_username;
@@ -820,9 +822,9 @@ class Register extends CB_Controller
                 $this->output->set_output(json_encode($result));
                 return false;
             }
-            if (strpos($this->input->post('mem_userid'), 'social') !== false ) {
+            if (strpos($this->input->post('social_id'), 'social') !== false ) {
                 $this->load->model('Social_meta_model');
-                $social_id = explode('_', $this->input->post('mem_userid'));
+                $social_id = explode('_', $this->input->post('social_id'));
                 $social_type = $this->input->post('mem_social_type');
                 $this->Social_meta_model->delete_where(array('smt_value' => $social_id));
                 // $data111 = array(

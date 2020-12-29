@@ -93,7 +93,8 @@
                     let billTerm = localStorage.getItem('bill_term');
                     let social_type = localStorage.getItem('social_type');
 
-                    formData.append('mem_userid', socialid);
+                    formData.append('social_id', socialid);
+                    formData.append('mem_userid', userInfo.mem_userid);
                     formData.append('mem_nickname', userInfo.mem_userid);
                     formData.append('mem_email', userInfo.mem_email);
                     formData.append('mem_password', userInfo.mem_password);
