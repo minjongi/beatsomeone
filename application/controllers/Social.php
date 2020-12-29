@@ -413,7 +413,7 @@ class Social extends CB_Controller
                 $this->session->unset_userdata('naver_access_token');
                 alert_close('이름 정보를 확인할 수 없어 로그인할 수 없습니다');
             }
-
+            $naver_id = explode('@', $email);
             $socialdata = array(
                 'email' => $email,
                 'nickname' => $nickname,
@@ -421,22 +421,22 @@ class Social extends CB_Controller
                 'age' => $age,
                 'gender' => $gender,
                 //'id' => $id,
-                'id' => $email,
+                'id' => $id[0],
                 'name' => $name,
                 'birthday' => $birthday,
                 'update_datetime' => cdate('Y-m-d H:i:s'),
                 'ip_address' => $this->input->ip_address(),
             );
-            //$this->Social_model->save('naver', $naver_id, $socialdata);
-            $this->Social_model->save('naver', $email, $socialdata);
+            $this->Social_model->save('naver', $naver_id, $socialdata);
+            // $this->Social_model->save('naver', $email, $socialdata);
 
             log_message("info", "socialdata=" . print_r($socialdata, true));
 
             // 이벤트가 존재하면 실행합니다
             Events::trigger('after', $eventname);
 
-            //$this->_common_login('naver', $naver_id);
-            $this->_common_login('naver', $email);
+            $this->_common_login('naver', $naver_id);
+            // $this->_common_login('naver', $email);
         }
 
         if ($this->input->get('code')) {
