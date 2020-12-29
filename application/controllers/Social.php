@@ -413,15 +413,15 @@ class Social extends CB_Controller
                 $this->session->unset_userdata('naver_access_token');
                 alert_close('이름 정보를 확인할 수 없어 로그인할 수 없습니다');
             }
-            $naver_id = explode('@', $email);
+            $tmpid = explode('@', $email);
+            $naver_id = $tmpid[0];
             $socialdata = array(
                 'email' => $email,
                 'nickname' => $nickname,
                 'profile_image' => $profile_image,
                 'age' => $age,
                 'gender' => $gender,
-                //'id' => $id,
-                'id' => $id[0],
+                'id' => $naver_id,
                 'name' => $name,
                 'birthday' => $birthday,
                 'update_datetime' => cdate('Y-m-d H:i:s'),
