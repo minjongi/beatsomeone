@@ -270,7 +270,9 @@ class Allat extends CB_Controller
                 );
 
                 $downloaddata = array();
-                $downloaddata['mem_remain_downloads'] = $member_group[$i]['mgr_monthly_download_limit'];
+                $gitem = $this->Member_group_model->item($mgrid);
+                $gdownload = element('mgr_monthly_download_limit', $gitem);
+                $downloaddata['mem_remain_downloads'] = intval($gdownload);
                 $this->Member_model->update($mem_id, $downloaddata);
 
                 // echo "결제정보가 정확히 등록되였습니다.<br/>";
@@ -408,5 +410,13 @@ class Allat extends CB_Controller
             echo "결과메세지: ".$REPLYMSG."<br>";
             var_dump($at_txt);
         }
+    }
+    public function test()
+    {
+        $mgrid = 5;
+        $this->load->model(array('Member_group_model'));
+        $gitem = $this->Member_group_model->item($mgrid);
+        $gdownload = element('mgr_monthly_download_limit', $gitem);
+        var_dump($gdownload);
     }
 }
