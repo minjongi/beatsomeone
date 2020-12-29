@@ -820,16 +820,16 @@ class Register extends CB_Controller
                 $this->output->set_output(json_encode($result));
                 return false;
             }
-            if (substr($this->input->post('mem_userid'), 'social') === false) {
-            } else {
-                $social_id = $this->input->post('mem_userid');
-                $social_type = $this->input->post('mem_social_type');
-                $data111 = array(
-                    $social_type . '_id' => $social_id,
-                );
+            if (strpos($this->input->post('mem_userid'), 'social') !== false ) {
                 $this->load->model('Social_meta_model');
+                $social_id = explode('_', $this->input->post('mem_userid'));
+                $social_type = $this->input->post('mem_social_type');
+                $this->Social_meta_model->delete_where(array('smt_value' => $social_id));
+                // $data111 = array(
+                //     $social_type . '_id' => $social_id[1],
+                // );
                 $this->Social_meta_model
-                    ->save($mem_id, $data111);
+                    ->add_meta($mem_id, $social_type . '_id', $social_id[1]);
             }
             if ($selfcert_meta) {
                 foreach ($selfcert_meta as $certkey => $certvalue) {
