@@ -113,8 +113,6 @@
                             <!--테스트 여부-->
                             <input type="hidden" name="allat_test_yn" v-model="allatForm.test_yn" maxlength="1"/>
                             <input type="hidden" name="allat_card_yn" v-model="allatForm.card_yn" maxlength="1"/>
-                            <input type="hidden" name="allat_bank_yn" v-model="allatForm.bank_yn" maxlength="1"/>
-                            <input type="hidden" name="allat_vbank_yn" v-model="allatForm.vbank_yn" maxlength="1"/>
                             <input type="hidden" name="allat_encode_type" value="U"/>
                         </form>
                         <p>
@@ -170,7 +168,7 @@ export default {
                 email_addr: "",
                 shop_receive_url: window.allat_shop_receive_url,
                 test_yn: "N",
-                card_yn: "Y",
+                card_yn: "N",
                 bank_yn: "N",
                 vbank_yn: "N",
                 encode_type: "U",
@@ -325,7 +323,7 @@ export default {
     watch: {
         payMethod: function (val) {
             if (val === 1) { // 신용카드
-                this.$set(this.allatForm, 'card_yn', 'Y');
+                this.$set(this.allatForm, 'card_yn', 'N');
                 this.$set(this.allatForm, 'bank_yn', 'N');
             } else if (val === 2) { // 실시간 계좌이체
                 this.$set(this.allatForm, 'card_yn', 'N');
