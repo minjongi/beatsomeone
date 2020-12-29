@@ -1071,7 +1071,8 @@ class Beatsomeone_model extends CB_Model
             'start_date' => $params['start_date'],
             'end_date' => $params['end_date'],
             'pay_method' => $params['pay_method'],
-            'amount' => $params['amount']
+            'amount' => $params['amount'],
+            'card_key' => $params['card_key']
         ];
         $this->db->insert('cb_member_membership_purchase_log', $data);
     }

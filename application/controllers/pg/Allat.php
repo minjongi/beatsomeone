@@ -57,7 +57,7 @@ class Allat extends CB_Controller
 
     public function subscribe()
     {
-        $this->load->model(array('Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model'));
+        $this->load->model(array('Member_model', 'Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model'));
         include(FCPATH . 'plugin/pg/allat/subscribe/allatutil.php');
         $at_cross_key = "11e9e1458ad968ccbc4db73c16c1341f";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/helpinfo/hi_install_guide.jsp#shop]
         $at_shop_id   = "dumdumfix";        //설정필요
@@ -89,9 +89,9 @@ class Allat extends CB_Controller
             $FIX_KEY	= getValue("fix_key",$at_txt);
             $APPLY_YMD	= getValue("apply_ymd",$at_txt);
             $REGISTRY_NO = getValue("registry_no", $at_txt);
-            echo "카드가 정확히 등록되였습니다.";
-            echo "카드키	: ".$FIX_KEY."<br>";
-            echo "인증일	: ".$APPLY_YMD."<br>";
+            // echo "카드가 정확히 등록되였습니다.";
+            // echo "카드키	: ".$FIX_KEY."<br>";
+            // echo "인증일	: ".$APPLY_YMD."<br>";
 
             $at_enc       = "";
             $at_data      = "";
@@ -273,7 +273,7 @@ class Allat extends CB_Controller
                 $downloaddata['mem_remain_downloads'] = $member_group[$i]['mgr_monthly_download_limit'];
                 $this->Member_model->update($mem_id, $downloaddata);
 
-                echo "결제정보가 정확히 등록되였습니다.<br/>";
+                // echo "결제정보가 정확히 등록되였습니다.<br/>";
                 echo '<script type="text/javascript">';
                 echo 'window.location.href="/";';
                 echo '</script>';
