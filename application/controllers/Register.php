@@ -745,7 +745,7 @@ class Register extends CB_Controller
             $insertdata = array();
             $metadata = array();
             $this->Member_model->delete_where(array('mem_userid' => $this->input->post('mem_userid')));
-            
+
             $insertdata['mem_userid'] = $this->input->post('mem_userid');
             $insertdata['mem_email'] = $this->input->post('mem_email');
             $insertdata['mem_password'] = password_hash($this->input->post('mem_password'), PASSWORD_BCRYPT);
@@ -824,12 +824,12 @@ class Register extends CB_Controller
             } else {
                 $social_id = $this->input->post('mem_userid');
                 $social_type = $this->input->post('mem_social_type');
-                $metadata = array(
+                $data111 = array(
                     $social_type . '_id' => $social_id,
                 );
                 $this->load->model('Social_meta_model');
                 $this->Social_meta_model
-                    ->save($mem_id, $metadata);
+                    ->save($mem_id, $data111);
             }
             if ($selfcert_meta) {
                 foreach ($selfcert_meta as $certkey => $certvalue) {
