@@ -60,7 +60,7 @@
             </div>
             <div class="col playbtn">
                 <button class="btn-play" @click="playAudio(item)" :data-action="'playAction' + item.cit_id ">재생</button>
-                <span class="timer"><span class="current">0:00 /</span><span class="duration">0:00</span></span>
+                <span class="timer"><span class="current">0:00 /</span><span class="duration">{{ item.duration | minSecDuration }}</span></span>
             </div>
             <div class="col spectrum">
                 <div class="wave"></div>
@@ -142,6 +142,18 @@ export default {
                     el.removeEventListener("mouseleave");
                 },
             },
+        },
+        filters: {
+          minSecDuration: function (value) {
+            let min = Math.floor(value / 60),
+                sec = Math.floor(value % 60)
+
+            if (sec < 10) {
+              sec = '0' + sec;
+            }
+
+            return (min || '0') + ':' + sec
+          }
         },
         mounted() {
             EventBus.$on("index_items_open_submenu", (r) => {
@@ -274,6 +286,7 @@ export default {
                         ws: this.ws,
                     });
                     this.start();
+                    this.increaseMusicCount();
                 }
                 // 중지
                 else {
@@ -315,7 +328,6 @@ export default {
                     if (el) {
                         el.classList.add("playing");
                     }
-                    this.increaseMusicCount();
                 });
 
                 this.ws.on("audioprocess", (e) => {

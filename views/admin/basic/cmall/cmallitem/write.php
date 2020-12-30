@@ -30,7 +30,7 @@
                 <div class="col-sm-10 form-inline">
                     <input type="hidden" name="seller_mem_userid" value="<?php echo set_value('seller_mem_userid', element('seller_mem_userid', element('data', $view))); ?>"/>
                     <?php
-                    echo element('seller_mem_userid', element('data', $view)) . ' / ';
+                    echo element('mem_userid', element('sellerInfo', element('data', $view))) . ' / ';
                     echo element('mem_email', element('sellerInfo', element('data', $view))) . ' / ';
                     echo element('mem_username', element('sellerInfo', element('data', $view)));
                     ?>
@@ -199,15 +199,17 @@
                                             <!--                                    <input type="text" class="form-control" name="cde_title_update[--><?php //echo html_escape(element('cde_id', $detail)); ?><!--]" value="--><?php //echo html_escape(element('cde_title', $detail)); ?><!--" />-->
                                         </td>
                                         <td class="form-inline">
-                                            <input type="file" class="form-control" name="cde_file_update[<?php echo html_escape(element('cde_id', $detail)); ?>]"/>
+                                            <input type="file" class="form-control cde_file_update" name="cde_file_update[<?php echo html_escape(element('cde_id', $detail)); ?>]"/>
                                             <?php if (element('cde_filename', $detail)) { ?>
                                                 <a href="<?php echo admin_url('cmall/itemdownload/download/' . element('cde_id', $detail)); ?>" class="ct_file_name"><?php echo html_escape(element('cde_originname', $detail)); ?></a>
+                                            <?php } else { ?>
+                                                <span class="ct_file_name"></span>
                                             <?php } ?>
                                         </td>
                                         <td><input type="number" class="form-control" name="cde_price_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_price', $detail); ?>"/>원</td>
                                         <td>$<input type="number" step="0.01" class="form-control" name="cde_price_d_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (float)element('cde_price_d', $detail); ?>"/></td>
                                         <td><input type="number" class="form-control" name="cde_quantity_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_quantity', $detail); ?>"/>개</td>
-                                        <td><input type="checkbox" name="cde_status_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="1" <?php echo (element('cde_status', $detail)) ? ' checked="checked" ' : ''; ?> /></td>
+                                        <td><input type="checkbox" name="cde_status_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="1" <?php echo (element('cde_status', $detail)) ? ' checked="checked" ' : ''; ?> class="cde_status"/></td>
                                     </tr>
                                     <?php
                                 }
@@ -218,6 +220,16 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">미리듣기 재생시간</label>
+          <div class="col-sm-10 form-inline">
+            <?= element('duration', element('data', $view)) ?>초
+            (<?= floor(element('duration', element('data', $view)) / 60) ?>분 <?= floor(element('duration', element('data', $view)) % 60) ?>초)
+            <br/>
+            수동으로 입력하려면 입력해 주세요<br/>
+            <input type="text" class="form-control" name="duration" value=""/> 초
+          </div>
         </div>
         <div class="box-table-header">
             <h4><a data-toggle="collapse" href="#cmalltab3" aria-expanded="true" aria-controls="cmalltab3">트랙 정보</a></h4>
@@ -420,6 +432,15 @@
 
             <script type="text/javascript">
                 //<![CDATA[
+                function del_option(obj) {
+                    if (!confirm("음원파일을 삭제하시겠습니까?")) {
+                        return false;
+                    }
+
+                    $(obj).closest('tr').remove();
+                    alert("삭제되었습니다\n저장을하면 반영됩니다");
+                }
+
                 function add_option() {
                     //$('#item_option_wrap').append('<tr><td><input type="text" class="form-control" name="cde_title[]" value="" /></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
                     $('#item_option_wrap').append('<tr><td><select class="form-control" name="cde_title[]"><option value="LEASE">LEASE</option><option value="STEM">STEM</option><option value="TAGGED">TAGGED</option><option value="PREVIEW">PREVIEW</option></select></td><td class="form-inline"><input type="file" class="form-control" name="cde_file[]" /></td><td><input type="number" class="form-control" name="cde_price[]" value="0" />원</td><td><input type="checkbox" name="cde_status[]" value="1" checked="checked" /></td></tr>');
@@ -497,9 +518,10 @@
             var is_price_chk = false;
 
             $("select[name^=cde_title]").each(function (index) {
-
                 if ($.trim($(this).val()).length > 0) {
-                    option_count++;
+                    if ($(".cde_status").eq(index).prop('checked')) {
+                        option_count++;
+                    }
                     is_price_chk = false;
 
                     if (!form.cit_id.value) {
@@ -508,14 +530,12 @@
                             is_price_chk = true;
                         }
                     } else {
-                        if ($(".ct_file_name").eq(index).length > 0) {
+                        if (
+                            $.trim($(".ct_file_name").eq(index).html()).length > 0 ||
+                            $.trim($("input[name^=cde_file]").eq(index).val()).length > 0
+                        ) {
                             option_file++;
                             is_price_chk = true;
-                        } else {
-                            if ($.trim($("input[name^=cde_file]").eq(index).val()).length > 0) {
-                                option_file++;
-                                is_price_chk = true;
-                            }
                         }
                     }
 

@@ -5,7 +5,7 @@
         </div>
         <div class="login accounts__defaultLayout">
             <div class="accounts__case">
-                <label for="listen " class="case case--listen">
+                <label for="listen" class="case case--listen">
                     <input type="radio" name="case" id="listen" hidden :checked="currentUserType == 'buyer'"/>
                     <div @click="currentUserType = 'buyer'">
                         <span class="icon"></span>
@@ -56,7 +56,7 @@
                     </th>
                     <th>
                         <p>
-                            {{ $t('subscribe_common') }} 
+                            {{ $t('subscribe_common') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
@@ -208,7 +208,7 @@
                         {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="false">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         10<br>(1{{ $t('month') }})
@@ -284,11 +284,11 @@
             }
         },
         computed: {
-            
+
             isMusician: function () {
                 return this.currentUserType === this.userType[1];
             },
-             
+
         },
         created() {
             this.currentUserType = localStorage.getItem("UserOffer");

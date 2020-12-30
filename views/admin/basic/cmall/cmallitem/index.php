@@ -69,7 +69,7 @@
 								<?php } ?>
 							</td>
 							<td><?php echo html_escape(element('cit_name', $result)); ?></td>
-                            <td><?php echo html_escape(element('seller_mem_userid', element('meta', $result))); ?></td>
+                            <td><?php echo html_escape(element('seller_mem_nickname', $result)); ?></td>
                             <td><?php echo implode(', ', (element('detail_file', $result))); ?></td>
                             <td><?php echo implode('<br>', (element('detail_info', $result))); ?></td>
                             <td><?php echo element('info_content_1', element('meta', $result)) .' / ' . element('info_content_4', element('meta', $result)) ?></td>

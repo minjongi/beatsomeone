@@ -2678,4 +2678,9 @@ class Beatsomeone extends CB_Controller
             }
         }
     }
+
+    public function notsupport()
+    {
+        $this->load->view('not_support_browser');
+    }
 }

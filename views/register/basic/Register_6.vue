@@ -353,9 +353,13 @@
                 this.allatForm.pmember_id = this.userInfo.mem_id
                 this.allatForm.product_nm = this.$parent.info.plan + ' ' + this.$parent.info.planName + ' ' + this.$parent.info.billTerm
                 this.allatForm.product_cd = this.allatForm.product_nm.replace(/ /gi, "")
-                this.allatForm.buyer_nm = (!!this.userInfo.mem_firstname && !!this.userInfo.mem_lastname) ? this.userInfo.mem_firstname + ' ' + this.userInfo.mem_lastname : this.userInfo.mem_nickname
+                let buyerNm = this.userInfo.mem_firstname + ' ' + this.userInfo.mem_lastname
+                if (!buyerNm.trim()) {
+                  buyerNm = this.userInfo.mem_nickname || this.userInfo.mem_id;
+                }
+                this.allatForm.buyer_nm = buyerNm
                 this.allatForm.recp_nm = this.allatForm.buyer_nm
-                this.allatForm.recp_addr = this.userInfo.mem_address1 || this.userInfo.mem_email
+                this.allatForm.recp_addr = this.userInfo.mem_address1 || this.userInfo.mem_email || this.userInfo.mem_id
 
                 Http.post(
                     '/beatsomeoneApi/set_session_order_price', {price: this.allatForm.amt}

@@ -219,12 +219,17 @@ export default {
         this.amount_w = this.info.billTerm === 'monthly' ? (this.info.group.mgr_monthly_cost_w) : (this.info.group.mgr_year_cost_w);
         let now = Date.now();
         this.orderNo = now.toString();
+        let recpAddr = this.info.mem_address1 || this.info.mem_email || this.info.mem_id
+        let buyerNm = this.info.firstname + ' ' + this.info.lastname;
+        if (!buyerNm.trim()) {
+          buyerNm = this.member.mem_nickname || this.member.mem_id;
+        }
         this.$set(this.allatForm, 'product_cd', this.info.group.mgr_title);
         this.$set(this.allatForm, 'product_nm', this.info.group.mgr_description);
-        this.$set(this.allatForm, 'pmember_id', this.info.mem_userid);
-        this.$set(this.allatForm, 'buyer_nm', this.info.mem_userid);
+        this.$set(this.allatForm, 'pmember_id', this.info.mem_id);
+        this.$set(this.allatForm, 'buyer_nm', buyerNm);
         this.$set(this.allatForm, 'recp_nm', this.info.mem_userid);
-        this.$set(this.allatForm, 'recp_addr', this.info.mem_address1 ? this.info.mem_address1 : this.info.mem_email);
+        this.$set(this.allatForm, 'recp_addr', recpAddr);
         this.$set(this.allatForm, 'order_no', now.toString());
         this.$set(this.allatForm, 'amt', (+this.amount_w));
     },

@@ -1,8 +1,10 @@
 <template>
+  <div>
     <header class="header">
-        <div class="smtm9-top" v-if="false">
-            <a href="/smtm9"><img src="/assets/images/event/smtm9/top.jpg"></a>
-        </div>
+<!--      :class="$i18n.locale !== 'en' ? 'event-header' : ''"-->
+<!--      <div class="event-top" v-if="$i18n.locale !== 'en'"> -->
+<!--        <a href="/event"><img src="/assets/images/event/20201207.png"></a>-->
+<!--      </div>-->
         <div class="wrap">
             <h1 class="header__logo">
                 <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
@@ -35,6 +37,7 @@
             </div>
         </div>
     </header>
+  </div>
 </template>
 
 <script>
@@ -82,7 +85,7 @@
             isLogin () {
                 return this.member !== false;
             },
-           
+
         },
         methods: {
             updateCartSum() {
@@ -125,15 +128,4 @@
     .header .header__nav a {
         cursor: pointer !important;
     }
-
-    .smtm9-top {
-        text-align:center;
-        background-color: #000000;
-        width: 100%;
-    }
-
-    .smtm9-top img {
-        max-width: 100%;
-    }
-
 </style>

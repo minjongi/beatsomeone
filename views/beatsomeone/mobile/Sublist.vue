@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper sublist-wrap">
         <Header :is-login="isLogin"/>
         <div class="container sub">
             <div class="sublist">
