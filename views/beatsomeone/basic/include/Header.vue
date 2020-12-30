@@ -35,6 +35,7 @@
             </div>
         </div>
     </header>
+  </div>
 </template>
 
 <script>
@@ -82,7 +83,7 @@
             isLogin () {
                 return this.member !== false;
             },
-           
+
         },
         methods: {
             updateCartSum() {
@@ -125,15 +126,4 @@
     .header .header__nav a {
         cursor: pointer !important;
     }
-
-    .smtm9-top {
-        text-align:center;
-        background-color: #000000;
-        width: 100%;
-    }
-
-    .smtm9-top img {
-        max-width: 100%;
-    }
-
 </style>

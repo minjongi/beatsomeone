@@ -409,7 +409,7 @@
                                 url = '/mypage/upgrade';
                             }
                             break;
-                        
+
                         }
                         case 'startBuyer': {
                             url = '/register';
