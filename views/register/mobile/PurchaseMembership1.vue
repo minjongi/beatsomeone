@@ -76,7 +76,7 @@
                         <button type="button" class="btn btn--submit" @click="payAllat">
                             {{ $t('checkout') }}
                         </button>
-                        <form name="fm1" method="POST" action="/pg/allat/subscribe">
+                        <form name="fm1" method="POST" action="/pg/allat/subscribeM">
                             <input type="text" name="allat_shop_id" value="dumdumfix" maxlength="20"/>
                             <!--주문번호-->
                             <input type="text" name="allat_order_no" v-model="allatForm.order_no" maxlength="70"/>
@@ -98,7 +98,7 @@
                             <!--이메일-->
                             <input type="hidden" name="allat_email_addr" v-model="allatForm.email_addr" maxlength="120"/>
                             <!--생년월일-->
-                            <input type="hidden" name="allat_registry_no" v-model="allatForm.recp_nm" size="19" maxlength=6>
+                            <input type="hidden" name="allat_registry_no" value="890401" size="19" maxlength=6>
 
                             <!--인증정보수신URL  -->
                             <input type="hidden" name="shop_receive_url"  v-model="allatForm.shop_receive_url" size="19"/>

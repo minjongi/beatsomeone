@@ -98,13 +98,13 @@ export default {
                 formData.append('mem_profile_content', userInfo.mem_profile_content);
                 formData.append('mem_type', userInfo.mem_type);
                 formData.append('mgr_id', userInfo.group.mgr_id);
-
+                // console.log(formData);
                 axios.post('/register/form', formData)
                     .then(res => res.data)
                     .then(data => {
-                        window.gtag_report_conversion()
+                        // window.gtag_report_conversion()
 
-                        if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
+                        if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free' || group.mgr_title === 'buyerFree') {
                             alert(this.$t('successfullyRegistered'));
                             window.location.href = '/';
                         } else {
