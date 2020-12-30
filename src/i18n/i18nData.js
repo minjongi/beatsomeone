@@ -619,6 +619,7 @@ export default {
         lang139: '*1년 결제 시에만 해당됨',
         lang140: '없음',
         lang141: 'Antares Auto-Tune Artist 플러그인',
+        lang142: '판매자 가입 이벤트에 응모 되었습니다.',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1235,5 +1236,6 @@ export default {
         lang139: '*Please select the 1-year purchase option',
         lang140: 'None',
         lang141: 'Antares Auto-Tune Artist Plug-in',
+        lang142: 'You have been applied for a seller registration event',
     } // en
 }

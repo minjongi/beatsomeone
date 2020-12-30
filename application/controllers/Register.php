@@ -4663,12 +4663,17 @@ class Register extends CB_Controller
             }
         }
 
+        if ($billTerm == 'yearly' && $member_group['mgr_title'] == 'seller_master') {
+            $message = lang('lang142');
+        } else {
+            $message = lang('lang48');
+        }
+
         $this->output->set_output(json_encode([
-            'message' => lang('lang48'),
+            'message' => $message, // lang('lang48'),
         ]));
         return true;
     }
-
 
     public function ajax_repurchase()
     {
