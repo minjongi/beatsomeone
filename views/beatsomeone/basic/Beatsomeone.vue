@@ -1,83 +1,94 @@
 <template>
-    <div class="wrapper">
-        <Header :is-login="isLogin"></Header>
+  <div class="wrapper">
+    <div v-if="popup">
+      <div class="noti-wrap"></div>
+      <div class="noti-content">
+        <div>
+          <a href="/event"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/1.png'"></a>
+        </div>
+        <div>
+          <img :src="'/assets/images/event/201230/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
+        </div>
+      </div>
+    </div>
+    <Header :is-login="isLogin"></Header>
 
-        <main-player></main-player>
-        <div class="container">
-            <div class="main">
-                <section class="main__section1">
-                    <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted @ended="endVideoBG" ref="videoBG">
-                        <source src="" type="video/mp4">
-                    </video>
-                    <div class="filter"></div>
-                    <div class="wrap">
-                        <header class="main__section1-title">
-                            <h1>{{ $t('MainTitleMsg') }}</h1>
-                            <p>
-                                {{ $t('findingMusicMsg') }}<br/>
-                                {{ $t('mainMsg2') }}
-                            </p>
-                        </header>
-                        <div class="main__media">
-                            <div class="tab">
-                                <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}"
-                                        @click="currentGenre = g">
-                                    {{ listGenreName[i] }}
-                                </button>
-                            </div>
-                            <div class="filter">
-                                <label for="voice" class="switch">
-                                    {{ $t('voice') }}
-                                    <input type="checkbox" hidden id="voice" v-model="param.voice"/>
-                                    <span></span>
-                                </label>
-                                <div class="custom-select ">
-                                    <button class="selected-option">
-                                        {{ listSortParamName }}
-                                    </button>
-                                    <div class="options">
-                                        <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o">
-                                            {{ listSortName[i] }}
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="custom-select ">
-                                    <button class="selected-option">
-                                        {{ param.bpm.t }}
-                                    </button>
-                                    <div class="options">
-                                        <button class="option" data-value="" v-for="(o,i) in listBpm" :key="i"
-                                                @click="param.bpm = o">
-                                            {{ o.t }}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="playList">
-                                <!-- 아래 템플릿 문자열로 붙임 -->
-                                <transition-group
-                                        name="staggered-fade"
-                                        tag="ul"
-                                        v-bind:css="false"
-                                        v-on:before-enter="beforeEnter"
-                                        v-on:enter="enter"
-                                        v-on:leave="leave">
-                                    <template v-for="item in list">
-                                        <KeepAliveGlobal :key="item.cit_key">
-                                            <Index_Items :item="item" :key="item.cit_key"></Index_Items>
-                                        </KeepAliveGlobal>
-                                    </template>
-                                </transition-group>
-                                <div class="playList__btnbox">
-                                    <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="main__section2">
-                    <div class="filter reverse"></div>
-                    <div class="wrap">
+    <main-player></main-player>
+    <div class="container">
+      <div class="main">
+        <section class="main__section1">
+          <video id="videoBG" poster="/assets/images/main-section1-visual.png" autoplay muted @ended="endVideoBG" ref="videoBG">
+            <source src="" type="video/mp4">
+          </video>
+          <div class="filter"></div>
+          <div class="wrap">
+            <header class="main__section1-title">
+              <h1>{{ $t('MainTitleMsg') }}</h1>
+              <p>
+                {{ $t('findingMusicMsg') }}<br/>
+                {{ $t('mainMsg2') }}
+              </p>
+            </header>
+            <div class="main__media">
+              <div class="tab">
+                <button v-for="(g, i) in listGenre" :key="g" :class="{active:currentGenre === g}"
+                        @click="currentGenre = g">
+                  {{ listGenreName[i] }}
+                </button>
+              </div>
+              <div class="filter">
+                <label for="voice" class="switch">
+                  {{ $t('voice') }}
+                  <input type="checkbox" hidden id="voice" v-model="param.voice"/>
+                  <span></span>
+                </label>
+                <div class="custom-select ">
+                  <button class="selected-option">
+                    {{ listSortParamName }}
+                  </button>
+                  <div class="options">
+                    <button class="option" data-value="" v-for="(o,i) in listSort" :key="i" @click="param.sort = o">
+                      {{ listSortName[i] }}
+                    </button>
+                  </div>
+                </div>
+                <div class="custom-select ">
+                  <button class="selected-option">
+                    {{ param.bpm.t }}
+                  </button>
+                  <div class="options">
+                    <button class="option" data-value="" v-for="(o,i) in listBpm" :key="i"
+                            @click="param.bpm = o">
+                      {{ o.t }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="playList">
+                <!-- 아래 템플릿 문자열로 붙임 -->
+                <transition-group
+                    name="staggered-fade"
+                    tag="ul"
+                    v-bind:css="false"
+                    v-on:before-enter="beforeEnter"
+                    v-on:enter="enter"
+                    v-on:leave="leave">
+                  <template v-for="item in list">
+                    <KeepAliveGlobal :key="item.cit_key">
+                      <Index_Items :item="item" :key="item.cit_key"></Index_Items>
+                    </KeepAliveGlobal>
+                  </template>
+                </transition-group>
+                <div class="playList__btnbox">
+                  <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="main__section2">
+          <div class="filter reverse"></div>
+          <div class="wrap">
                         <header class="main__section2-title-login">
                             <h1>
                                 {{ $t('backgroundMusicMessage1') }}<br/>
@@ -87,84 +98,84 @@
                                 {{ $t('buyerLogin') }}
                             </a>
                         </header>
-                        <header class="main__section2-title">
-                            <h1>
-                                {{ $t('bitTradingMessage1') }}<br/>
-                                {{ $t('bitTradingMessage2') }}
-                            </h1>
-                            <a class="startSelling" @click="moveAction('startSelling')">
-                                {{ $t('lendOrSellMyBeat') }}
-                            </a>
-                        </header>
-                        <!-- 트렌딜 슬라이드 부분 -->
-                        <div class="trending">
-                            <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
-                            <div class="trending__slider">
-                                <div class="slider">
-                                    <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
-                                    <div v-for="(i,index) in listTrending" :key="index"
-                                         class="trending__slide-item albumItem" @click="goToDetail(i.cit_key)">
+            <header class="main__section2-title">
+              <h1>
+                {{ $t('bitTradingMessage1') }}<br/>
+                {{ $t('bitTradingMessage2') }}
+              </h1>
+              <a class="startSelling" @click="moveAction('startSelling')">
+                {{ $t('lendOrSellMyBeat') }}
+              </a>
+            </header>
+            <!-- 트렌딜 슬라이드 부분 -->
+            <div class="trending">
+              <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
+              <div class="trending__slider">
+                <div class="slider">
+                  <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
+                  <div v-for="(i,index) in listTrending" :key="index"
+                       class="trending__slide-item albumItem" @click="goToDetail(i.cit_key)">
 
-                                        <button class="albumItem__cover">
-                                            <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
-                                        </button>
-                                        <a class="albumItem__link">
-                                            <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                                            <p class="albumItem__singer">{{ i.mem_nickname }}</p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 트렌드 슬라이드 끝 -->
-                        <!-- 제휴 업체 로그 이미지  -->
-                        <div class="alliance" @click="selectItem">
-                            <img src="@/assets/images/alliance1.png" alt="" href="#" style="opacity: .3"/>
-                        </div>
-                        <!-- 제휴업체 로그 이미지 끝 -->
-                        <div class="testimonials">
-                            <article class="testimonials__title">
-                                <h1>{{ $t('testimonials') }}</h1>
-                                <p>{{ $t('bestTeamMember') }}</p>
-                            </article>
-                            <article class="testimonials__lists">
-                                <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
-                                    <a :href="'/video#/' + post.post_id">
-                                        <div class="img">
-                                            <img
-                                                    :src="'/uploads/post/' + post.files[0].pfi_filename"
-                                                    alt=""
-                                            />
-                                            <button class="card--testimonials_play"></button>
-                                        </div>
-                                        <figcaption>
-                                            <h3>{{ post.dp_title || post.post_title }}</h3>
-                                            <p>{{ post.dp_sub_title || post.post_nickname }}</p>
-                                        </figcaption>
-                                    </a>
-                                </figure>
-                            </article>
-                            <div class="testimonials__btnbox">
-                                <a class="startSelling" @click="moveAction('startSelling')">{{ $t('startSelling') }}</a>
-                                <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
-                            </div>
-                        </div>
-                        <div class="main__desc">
-                            <h1>
-                                {{ $t('musicWorldMsg1') }}<br/>
-                                {{ $t('musicWorldMsg2') }}<br/>
-                                {{ $t('areYouReady') }}
-                            </h1>
-                            <a class="startSelling" @click="moveAction('startSelling')">
-                                {{ $t('trustOurTeamMsg') }}
-                            </a>
-                        </div>
-                    </div>
-                </section>
+                    <button class="albumItem__cover">
+                      <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
+                    </button>
+                    <a class="albumItem__link">
+                      <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                      <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-        <Footer></Footer>
+            <!-- 트렌드 슬라이드 끝 -->
+            <!-- 제휴 업체 로그 이미지  -->
+            <div class="alliance" @click="selectItem">
+              <img src="@/assets/images/alliance1.png" alt="" href="#" style="opacity: .3"/>
+            </div>
+            <!-- 제휴업체 로그 이미지 끝 -->
+            <div class="testimonials">
+              <article class="testimonials__title">
+                <h1>{{ $t('testimonials') }}</h1>
+                <p>{{ $t('bestTeamMember') }}</p>
+              </article>
+              <article class="testimonials__lists">
+                <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
+                  <a :href="'/video#/' + post.post_id">
+                    <div class="img">
+                      <img
+                          :src="'/uploads/post/' + post.files[0].pfi_filename"
+                          alt=""
+                      />
+                      <button class="card--testimonials_play"></button>
+                    </div>
+                    <figcaption>
+                      <h3>{{ post.dp_title || post.post_title }}</h3>
+                      <p>{{ post.dp_sub_title || post.post_nickname }}</p>
+                    </figcaption>
+                  </a>
+                </figure>
+              </article>
+              <div class="testimonials__btnbox">
+                <a class="startSelling" @click="moveAction('startSelling')">{{ $t('startSelling') }}</a>
+                <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
+              </div>
+            </div>
+            <div class="main__desc">
+              <h1>
+                {{ $t('musicWorldMsg1') }}<br/>
+                {{ $t('musicWorldMsg2') }}<br/>
+                {{ $t('areYouReady') }}
+              </h1>
+              <a class="startSelling" @click="moveAction('startSelling')">
+                {{ $t('trustOurTeamMsg') }}
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
+    <Footer></Footer>
+  </div>
 </template>
 
 <script>
@@ -180,6 +191,7 @@
     import Velocity from 'velocity-animate'
     import MainPlayer from "@/vue/common/MainPlayer"
     import KeepAliveGlobal from 'vue-keep-alive-global'
+    import Vuecookies from 'vue-cookies'
 
     export default {
         name: 'Index',
@@ -209,7 +221,8 @@
                 },
                 videoBGPath: '',
                 member: null,
-                member_group_name: ''
+                member_group_name: '',
+                popup: false
             }
         },
         mounted() {
@@ -272,6 +285,10 @@
 
             this.member = window.member;
             this.member_group_name = window.member_group_name;
+
+            if (Vuecookies.get('popup-close') !== 'Y') {
+              this.openPopup()
+            }
         },
         computed: {
             listSortParamName() {
@@ -315,6 +332,21 @@
             }
         },
         methods: {
+            openPopup() {
+              this.popup = true
+              document.body.style.overflow = 'hidden'
+              setTimeout(function () {
+                window.scrollTo(0, 0)
+              }, 1000)
+
+            },
+            closePopup(isForever) {
+              if (isForever) {
+                Vuecookies.set('popup-close', 'Y', '1d')
+              }
+              document.body.style.overflow = ''
+              this.popup = false
+            },
             endVideoBG() {
                 const idx = Math.floor(Math.random() * 5) + 1
                 this.videoBGPath = '/assets/video/mainbg/' + idx + '.mp4'

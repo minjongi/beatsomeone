@@ -1,5 +1,6 @@
 <template>
-    <header class="header event-header">
+  <div class="event-header">
+    <header class="header">
       <div class="event-top">
         <a href="/event"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/bn.jpg'"></a>
       </div>
@@ -35,6 +36,7 @@
             </div>
         </div>
     </header>
+  </div>
 </template>
 
 <script>
