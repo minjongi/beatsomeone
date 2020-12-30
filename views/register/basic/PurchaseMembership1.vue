@@ -215,7 +215,7 @@ export default {
         this.$set(this.allatForm, 'buyer_nm', this.info.mem_userid);
         this.$set(this.allatForm, 'recp_nm', this.info.mem_userid);
         this.$set(this.allatForm, 'recp_addr', this.info.mem_address1 ? this.info.mem_address1 : this.info.mem_email);
-        this.$set(this.allatForm, 'recp_addr', this.info.mem_email);
+        this.$set(this.allatForm, 'email_addr', this.info.mem_email);
         this.$set(this.allatForm, 'order_no', now.toString());
         this.$set(this.allatForm, 'amt', (+this.amount_w));
     },
