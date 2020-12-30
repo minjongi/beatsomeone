@@ -1,5 +1,4 @@
 <template>
-  <div>
     <header class="header event-header">
       <div class="event-top">
         <a href="/event"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/bn.jpg'"></a>
