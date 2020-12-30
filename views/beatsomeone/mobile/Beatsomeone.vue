@@ -332,9 +332,6 @@
             },
         },
         methods: {
-            goEvent() {
-              location.href = '/event'
-            },
             closePopup(isForever) {
               if (isForever) {
                 Vuecookies.set('popup-close', 'Y', '1d')

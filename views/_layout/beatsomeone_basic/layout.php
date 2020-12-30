@@ -125,21 +125,25 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
             z-index: 10000;
             opacity: 0.7;
         }
+
         .noti-content {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10001;
-            max-width:400px;
-            width:100%;
+            max-width: 400px;
+            width: 100%;
         }
+
         .noti-content img {
-            max-width:400px;
-            width:100%;
-            margin:0;
-            padding:0;
-            border:0;
+            display: block;
+            float:left;
+            max-width: 400px;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            border: 0;
         }
     </style>
 </head>
