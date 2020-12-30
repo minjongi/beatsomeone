@@ -242,27 +242,26 @@
                 });
             },
             payAllat: function (e) {
-                window.Allat_Plus_Fix(document.fm1, "0", "0");
-                // window.Allat_Mobile_Approval(document.fm1,0,0);
+                window.Allat_Mobile_Fix(document.fm1,"0","0");
             },
-            procCompletePay: function (result_cd, result_msg, enc_data) {
-                window.Allat_Mobile_Close();
+            // procCompletePay: function (result_cd, result_msg, enc_data) {
+            //     window.Allat_Mobile_Close();
 
-                if (result_cd !== "0000" && result_cd !== "0001") {
-                    window.setTimeout(function () {
-                        alert(result_cd + " : " + result_msg);
-                    }, 1000);
-                } else {
-                    this.$set(this.allatForm, 'enc_data', enc_data);
-                    document.fm1.allat_enc_data.value = enc_data;
+            //     if (result_cd !== "0000" && result_cd !== "0001") {
+            //         window.setTimeout(function () {
+            //             alert(result_cd + " : " + result_msg);
+            //         }, 1000);
+            //     } else {
+            //         this.$set(this.allatForm, 'enc_data', enc_data);
+            //         document.fm1.allat_enc_data.value = enc_data;
 
-                    let formData = new FormData(document.fm1);
-                    formData.append('mgr_id', this.info.group.mgr_id);
-                    formData.append('pg', 'allat');
-                    formData.append('bill_term', this.info.billTerm);
-                    this.registerSeller(formData);
-                }
-            },
+            //         let formData = new FormData(document.fm1);
+            //         formData.append('mgr_id', this.info.group.mgr_id);
+            //         formData.append('pg', 'allat');
+            //         formData.append('bill_term', this.info.billTerm);
+            //         this.registerSeller(formData);
+            //     }
+            // },
             paypalAuthorized: function (data) {
             },
             paypalCompleted: function (data) {
