@@ -76,7 +76,7 @@
                         <button type="button" class="btn btn--submit" @click="payAllat">
                             {{ $t('checkout') }}
                         </button>
-                        <form name="fm1" method="POST" action="/pg/allat/subscribe">
+                        <form name="fm1" method="POST" action="/pg/allat/subscribeM">
                             <input type="text" name="allat_shop_id" value="dumdumfix" maxlength="20"/>
                             <!--주문번호-->
                             <input type="text" name="allat_order_no" v-model="allatForm.order_no" maxlength="70"/>
@@ -97,6 +97,8 @@
                             <input type="hidden" name="allat_recp_addr" v-model="allatForm.recp_addr" maxlength="120"/>
                             <!--이메일-->
                             <input type="hidden" name="allat_email_addr" v-model="allatForm.email_addr" maxlength="120"/>
+                            <!--생년월일-->
+                            <input type="hidden" name="allat_registry_no" v-model="allatForm.birthday" size="19" maxlength=6>
 
                             <!--인증정보수신URL  -->
                             <input type="hidden" name="shop_receive_url"  v-model="allatForm.shop_receive_url" size="19"/>
@@ -163,6 +165,7 @@
                     recp_addr: "",
                     email_addr: "",
                     shop_receive_url: window.allat_shop_receive_url,
+                    birthday: "111111",
                     test_yn: "N",
                     card_yn: "N",
                     bank_yn: "N",
@@ -250,6 +253,8 @@
                 });
             },
             payAllat: function (e) {
+                let birthday = prompt("생년월일(6자리)을 입력해주세요.");
+                this.$set(this.allatForm, 'birthday', birthday);
                 window.Allat_Mobile_Fix(document.fm1,"0","0");
             },
             // procCompletePay: function (result_cd, result_msg, enc_data) {

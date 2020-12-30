@@ -98,7 +98,7 @@ export default {
                 formData.append('mem_profile_content', userInfo.mem_profile_content);
                 formData.append('mem_type', userInfo.mem_type);
                 formData.append('mgr_id', userInfo.group.mgr_id);
-
+                // console.log(formData);
                 axios.post('/register/form', formData)
                     .then(res => res.data)
                     .then(data => {
