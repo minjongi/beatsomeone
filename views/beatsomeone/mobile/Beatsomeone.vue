@@ -118,7 +118,7 @@
                         </div>
                     </section>
                     <section class="main__section2">
-                        <header class="main__section2-title1">
+                        <header class="main__section2-title1" v-if="false">
                             <div class="wrap">
                                 <h1>
                                     {{ $t('backgroundMusicMessage1') }}<br/>
