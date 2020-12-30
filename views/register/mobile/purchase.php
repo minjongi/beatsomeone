@@ -23,7 +23,8 @@ if (intval($c) > 4) {
 } else {
     $this->managelayout->add_script("
         function result_submit(result_cd, result_msg, enc_data) {
-            vm."."$"."children[0].procCompletePay(result_cd, result_msg, enc_data);
+            var index = vm."."$"."children[0]."."$"."children.findIndex(x => x."."$"."vnode.tag.includes('PurchaseMembership'));
+            vm."."$"."children[0]."."$"."children[index].procCompletePay(result_cd, result_msg, enc_data);
         }
     ");
 }
