@@ -25,8 +25,8 @@ if (intval($c) > 4) {
     $this->managelayout->add_js('https://tx.allatpay.com/common/AllatPayM.js');
     $this->managelayout->add_script("
         function result_submit(result_cd, result_msg, enc_data) {
-            var index = vm.$children[0].$children.findIndex(x => x.$vnode.tag.includes('PurchaseMembership'));
-            vm.$children[0].$children[index].procCompletePay(result_cd, result_msg, enc_data);
+            var index = vm."."$"."children[0]."."$"."children.findIndex(x => x."."$"."vnode.tag.includes('PurchaseMembership'));
+            vm."."$"."children[0]."."$"."children[index].procCompletePay(result_cd, result_msg, enc_data);
         }
     ");
 }
