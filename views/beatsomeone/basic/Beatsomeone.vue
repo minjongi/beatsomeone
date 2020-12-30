@@ -160,10 +160,10 @@
                             </a>
                         </div>
                     </div>
-                    <Footer></Footer>
                 </section>
             </div>
         </div>
+        <Footer></Footer>
     </div>
 </template>
 
@@ -272,8 +272,6 @@
 
             this.member = window.member;
             this.member_group_name = window.member_group_name;
-            console.log("&&&&&&&&&&&&", window.member_group_name);
-            console.log(this.$store.getters.getCartSum);
         },
         computed: {
             listSortParamName() {
@@ -318,8 +316,8 @@
         },
         methods: {
             endVideoBG() {
-                const idx = Math.floor(Math.random() * 6) + 1
-                this.videoBGPath = '/uploads/data/bgvideo/pc/202006/bg' + idx + '.mp4'
+                const idx = Math.floor(Math.random() * 5) + 1
+                this.videoBGPath = '/assets/video/mainbg/' + idx + '.mp4'
                 this.$refs.videoBG.src = this.videoBGPath
                 this.$refs.videoBG.play()
             },

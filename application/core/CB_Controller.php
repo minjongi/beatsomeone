@@ -92,6 +92,14 @@ class CB_Controller extends CI_Controller
 		if (config_item('enable_profiler') === true) {
 			$this->output->enable_profiler(TRUE);
 		}
+
+        $segments = $this->uri->segments;
+        if ($segments[1] !== 'notsupport' && $segments[1] . '/' . $segments[2] !== 'beatsomeone/notsupport') {
+            $browserName = $this->getBrowser();
+            if ($browserName === 'MSIE' || $browserName === 'Trident') {
+                redirect('notsupport');
+            }
+        }
 	}
 
 	/* --------------------------------------------------------------
@@ -206,4 +214,18 @@ class CB_Controller extends CI_Controller
 			$this->load->helper($helper);
 		}
 	}
+
+    private function getBrowser() {
+        $broswerList = array('MSIE', 'Chrome', 'Firefox', 'iPhone', 'iPad', 'Android', 'PPC', 'Safari', 'Trident', 'none');
+        $browserName = 'none';
+
+        foreach ($broswerList as $userBrowser){
+            if($userBrowser === 'none') {break;}
+            if(strpos($_SERVER['HTTP_USER_AGENT'], $userBrowser)) {
+                $browserName = $userBrowser;
+                break;
+            }
+        }
+        return $browserName;
+    }
 }

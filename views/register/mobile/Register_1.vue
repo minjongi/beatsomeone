@@ -156,7 +156,7 @@
                         {{ sellerFreeGroup.mgr_commission }}%
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="false">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         10<br>(1{{ $t('month') }})
@@ -214,7 +214,7 @@
                         {{ sellerPlatinumGroup.mgr_commission }}%
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="false">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         20
@@ -271,7 +271,7 @@
                         {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="false">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         {{ $t('unlimited') }}

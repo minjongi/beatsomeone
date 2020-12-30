@@ -91,3 +91,4 @@ $route[config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmal
 
 $route['brandshop/(:any)'] = "brandshop/shop/$1";
 $route['detail/(:any)'] = "beatsomeone/detail/$1";
+$route['notsupport'] = "beatsomeone/notsupport";

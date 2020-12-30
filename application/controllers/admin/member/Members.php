@@ -611,7 +611,7 @@ class Members extends CB_Controller
             $mem_is_admin = $this->input->post('mem_is_admin') ? 1 : 0;
 
             $updatedata = array(
-//                'mem_userid' => $this->input->post('mem_nickname', null, ''),
+                'mem_userid' => $this->input->post('mem_nickname', null, ''),
                 'mem_email' => $this->input->post('mem_email', null, ''),
                 'mem_username' => $this->input->post('mem_username', null, ''),
                 'mem_firstname' => $this->input->post('mem_firstname', null, ''),
@@ -636,6 +636,15 @@ class Members extends CB_Controller
                 'mem_profile_content' => $this->input->post('mem_profile_content', null, ''),
                 'mem_adminmemo' => $this->input->post('mem_adminmemo', null, ''),
             );
+
+            $mem_id = $this->input->post($primary_key);
+            $dupChk = $this->{$this->modelname}->get_by_userid($updatedata['mem_userid']);
+            if (
+                (empty($mem_id) && !empty($dupChk['mem_id'])) ||
+                (!empty($mem_id) && !empty($dupChk['mem_id']) && $mem_id != $dupChk['mem_id'])
+            ){
+                alert('이미 사용중인 아이디 입니다');
+            }
 
             $metadata = array();
 

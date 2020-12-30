@@ -102,6 +102,8 @@ export default {
                 axios.post('/register/form', formData)
                     .then(res => res.data)
                     .then(data => {
+                        window.gtag_report_conversion()
+
                         if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
                             alert(this.$t('successfullyRegistered'));
                             window.location.href = '/';

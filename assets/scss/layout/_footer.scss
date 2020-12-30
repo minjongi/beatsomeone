@@ -182,3 +182,10 @@
   75%{background-color: rgba(255, 255, 255, 1);}
   100%{background-color: rgba(255, 255, 255, .2);}
 }
+
+.footer-banner {
+  position: fixed;
+  right: 10px;
+  bottom: 100px;
+  z-index: 100000;
+}

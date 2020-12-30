@@ -16,7 +16,8 @@
 		"paypal/paypal-checkout-sdk": "^1.0",
 		"paypal/rest-api-sdk-php": "^1.14",
 		"maltyxx/debugbar": "^1.0",
-		"maximal/audio-waveform": "~1.0"
+		"maximal/audio-waveform": "~1.0",
+		"wapmorgan/mp3info": "^0.0.5"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

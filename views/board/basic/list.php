@@ -178,6 +178,11 @@
 					<?php if (element('is_admin', $view)) { ?><th scope="row"><input type="checkbox" name="chk_post_id[]" value="<?php echo element('post_id', $result); ?>" /></th><?php } ?>
 					<td><?php echo element('num', $result); ?></td>
 					<td>
+            <?php if (empty(element('total_rows', element('replies', $result)))) { ?>
+              <span class="label label-danger" style="margin-left:<?php echo strlen(element('post_reply', $result)) * 10; ?>px">[미답변]</span>
+            <?php } else { ?>
+              <span class="label label-primary" style="margin-left:<?php echo strlen(element('post_reply', $result)) * 10; ?>px">[답변완료]</span>
+            <?php } ?>  
 						<?php if (element('category', $result)) { ?><a href="<?php echo board_url(element('brd_key', element('board', element('list', $view)))); ?>?category_id=<?php echo html_escape(element('bca_key', element('category', $result))); ?>"><span class="label label-default"><?php echo html_escape(element('bca_value', element('category', $result))); ?></span></a><?php } ?>
 						<?php if (element('post_reply', $result)) { ?><span class="label label-primary" style="margin-left:<?php echo strlen(element('post_reply', $result)) * 10; ?>px">Re</span><?php } ?>
 						<a href="<?php echo element('post_url', $result); ?>" style="

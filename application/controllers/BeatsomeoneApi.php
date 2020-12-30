@@ -96,11 +96,21 @@ class BeatsomeoneApi extends CB_Controller
 
         $result = 0;
         if (!$this->session->userdata('cmall_item_detail_id_' . element('cde_id', $config))) {
-            $result = $this->Beatsomeone_model->increase_download_count($config);
             $this->session->set_userdata(
                 'cmall_item_detail_id_' . element('cde_id', $config),
                 '1'
             );
+
+            $result = $this->Beatsomeone_model->increase_download_count($config);
+            $insertdata = array(
+                'cde_id' => element('cde_id', $config),
+                'mem_id' => $this->member->item('mem_id'),
+                'cdo_datetime' => cdate('Y-m-d H:i:s'),
+                'cdo_ip' => $this->input->ip_address(),
+                'cdo_useragent' => $this->agent->agent_string(),
+            );
+            $this->load->model(array('Cmall_download_log_model'));
+            $this->Cmall_download_log_model->insert($insertdata);
         }
 
         $this->output->set_content_type('text/json');
