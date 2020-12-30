@@ -54,14 +54,14 @@
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </th>
-                    <th>
+                    <th v-if="false">
                         <p>
                             {{ $t('subscribe_common') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
                     </th>
-                    <th>
+                    <th v-if="false">
                         <p>
                             {{ $t('subscribe_creater') }}
                         </p>
@@ -82,10 +82,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <span class="check">O</span>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -94,10 +94,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <span class="check">O</span>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -106,10 +106,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <span class="check">O</span>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -118,10 +118,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                     <td>
+                     <td v-if="false">
                         <span class="check">O</span>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -131,10 +131,10 @@
                     <td>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
@@ -297,10 +297,8 @@
 
         },
         created() {
-            localStorage.setItem("UserOffer", "seller");
-            localStorage.setItem('bill_term', 'yearly');
-            this.billTerm = localStorage.getItem("bill_term")
-            this.currentUserType = localStorage.getItem("UserOffer")
+            this.billTerm = localStorage.getItem("bill_term") || this.billTerm
+            this.currentUserType = localStorage.getItem("UserOffer") || this.currentUserType
             this.fetchData();
         },
         mounted() {
@@ -324,6 +322,7 @@
                 console.log('this si currentUserType_______', n);
                 this.plan = 'free';
                 if (n === 'seller') {
+                    this.billTerm = 'yearly'
                     this.$nextTick(function () {
                         var bg = document.querySelector(".accounts__switch-bg");
                         // 월간

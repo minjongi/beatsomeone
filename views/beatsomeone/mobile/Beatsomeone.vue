@@ -220,6 +220,10 @@
                 </div>
             </div>
         </div>
+        <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en'">
+          <div class="close" @click="closeFooterBanner"></div>
+          <a href="http://wdmastering.com/" target="_blank"><img src="/assets_m/images/banner/wdmastering.png"></a>
+        </div>
         <main-player></main-player>
     </div>
 </template>
@@ -254,7 +258,8 @@
                 member: false,
                 member_group_name: '',
                 popup: false,
-                isOpenSubmenu: false
+                isOpenSubmenu: false,
+                footerBanner: true
             };
         },
         created() {
@@ -445,6 +450,9 @@
             },
             openSubmenu() {
                 this.isOpenSubmenu = !this.isOpenSubmenu;
+            },
+            closeFooterBanner() {
+              this.footerBanner = false
             },
         },
     };

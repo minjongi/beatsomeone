@@ -51,10 +51,10 @@
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
             </button> 
-            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician"  style="padding: 0 9px !important;">
+            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician && false"  style="padding: 0 9px !important;">
                 {{ $t('subscribe_common') }}
             </button>
-             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician"  style="padding: 0 9px !important;">
+             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician && false"  style="padding: 0 9px !important;">
                 {{ $t('subscribe_creater') }}
             </button>
         </div>
@@ -141,6 +141,10 @@
                 </colgroup>
                 <tbody>
                 <tr>
+                  <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
+                  <td>{{ $t('lang140') }}</td>
+                </tr>
+                <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
                 </tr>
@@ -198,6 +202,10 @@
                     <col width="120" />
                 </colgroup>
                 <tbody>
+                <tr>
+                  <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
+                  <td>{{ $t('lang140') }}</td>
+                </tr>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>{{ $t('unlimited') }}</td>
@@ -259,7 +267,6 @@
                   <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
                   <td>{{ $t('lang141') }}</td>
                 </tr>
-
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>{{ $t('unlimited') }}</td>
@@ -434,8 +441,8 @@
         data: function () {
             return {
                 userType: ['buyer', 'seller'],
-                currentUserType: 'seller',
-                billTerm: 'yearly',
+                currentUserType: 'buyer',
+                billTerm: 'monthly',
                 listPlan: null,
                 planName: 'free',
                 plan: 'free',
@@ -462,14 +469,10 @@
             },
         },
         created() {
-            localStorage.setItem("UserOffer", "seller");
-            localStorage.setItem('bill_term', 'yearly');
-            this.plan = 'pro'
-            this.billTerm = localStorage.getItem("bill_term")
-            this.currentUserType = localStorage.getItem("UserOffer")
+            this.billTerm = localStorage.getItem("bill_term") || this.billTerm
+            this.currentUserType = localStorage.getItem("UserOffer") || this.currentUserType
             this.fetchData();
         },
-        
         mounted() {
             
         },
@@ -477,7 +480,8 @@
             currentUserType(n) {
                 this.plan = 'free';
                 if (n === 'seller') {
-                    this.billTerm = 'monthly';
+                    this.plan = 'pro';
+                    this.billTerm = 'yearly';
                     this.$nextTick(function () {
                         var bg = document.querySelector(".accounts__switch-bg");
                         // 월간

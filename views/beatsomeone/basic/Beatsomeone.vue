@@ -171,10 +171,13 @@
               </a>
             </div>
           </div>
+          <Footer :mainPage="true"></Footer>
         </section>
       </div>
     </div>
-    <Footer></Footer>
+    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en' && !mainPage">
+      <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
+    </div>
   </div>
 </template>
 
@@ -222,7 +225,8 @@
                 videoBGPath: '',
                 member: null,
                 member_group_name: '',
-                popup: false
+                popup: false,
+                footerBanner: true
             }
         },
         mounted() {
@@ -462,8 +466,10 @@
             },
             goToDetail(cit_key) {
                 window.location.href = '/detail/' + cit_key;
-            }
-
+            },
+            closeFooterBanner() {
+              this.footerBanner = false
+            },
         },
 
     }
