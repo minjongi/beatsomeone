@@ -50,11 +50,6 @@ class Event extends CB_Controller
         $eventname = 'event_cmall_index';
         $this->load->event($eventname);
 
-        /**
-         * 로그인이 필요한 페이지입니다
-         */
-        required_user_login();
-
         $view = array();
         $view['view'] = array();
 

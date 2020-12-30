@@ -1,16 +1,16 @@
 <template>
     <div>
-<!--        <div id="noti-popup" ref="noti-popup" v-if="popup && $i18n.locale !== 'en'">-->
-<!--          <div class="noti-content">-->
-<!--            <div style="position: absolute;right: 5px;width: 30px;height: 30px;margin-top: 8px;" @click="closePopup"></div>-->
-<!--            <div style="background-color: #000000">-->
-<!--              <img src="/assets_m/images/event/20201207/1.png" style="display:block;">-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <img src="/assets_m/images/event/20201207/2.png" style="display:block;" @click="goEvent">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div v-if="popup">
+          <div class="noti-wrap"></div>
+          <div class="noti-content">
+            <div>
+              <a href="/event"><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/1.png'"></a>
+            </div>
+            <div>
+              <img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
+            </div>
+          </div>
+        </div>
         <div class="wrapper">
             <Header :is-login="isLogin"></Header>
             <div class="container">
@@ -62,32 +62,32 @@
                                 </button>
                                 <span class="tooltip">
                                     <div>
-                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/>
                                         <span> 무료비트 다운로드 기능</span>
-                                    </div>    
+                                    </div>
                                     <div>
-                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/>
                                         <span> 정기구독회원 다운로드 기능</span>
-                                    </div>  
+                                    </div>
                                     <div>
-                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/>
                                         <span> 정식으로 저작권 등록된 음원</span>
-                                    </div>  
+                                    </div>
                                     <div>
-                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/>
                                         <span> 음성 또는 가창이 포함된 음원</span>
-                                    </div>  
+                                    </div>
                                     <div>
-                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
+                                        <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/>
                                         <span> 비트 썸원 오리지널 음원</span>
-                                    </div>  
+                                    </div>
                                 </span>
-                                
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_1.png"/> 
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_2.png"/> 
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_3.png"/> 
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_4.png"/> 
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_5.png"/> 
+
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_1.png"/>
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_2.png"/>
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_3.png"/>
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_4.png"/>
+                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_5.png"/>
                             </div>
                             <!-- <div class="col more">
                 <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">{{ $t('more') }}</button>
@@ -235,6 +235,7 @@
     import Velocity from "velocity-animate";
     import MainPlayer from "@/vue/common/MobileMainPlayer";
     import KeepAliveGlobal from "vue-keep-alive-global";
+    import Vuecookies from 'vue-cookies'
 
     export default {
         name: "Index",
@@ -252,7 +253,7 @@
                 videoBGPath: "",
                 member: false,
                 member_group_name: '',
-                popup: true,
+                popup: false,
                 isOpenSubmenu: false
             };
         },
@@ -265,6 +266,10 @@
 
             // Testimonials List
             this.getTestimonialsList();
+
+            if (Vuecookies.get('popup-close') !== 'Y') {
+              this.popup = true
+            }
         },
         mounted() {
             // 메인페이지: 서브 앨범 슬라이드 이벤트
@@ -330,7 +335,10 @@
             goEvent() {
               location.href = '/event'
             },
-            closePopup() {
+            closePopup(isForever) {
+              if (isForever) {
+                Vuecookies.set('popup-close', 'Y', '1d')
+              }
               this.popup = false
             },
             endVideoBG() {
@@ -471,7 +479,7 @@
             padding: 0 30px 0 0;
         }
     .icon__group {
-         
+
         display: flex;
         justify-content: flex-end;
         padding: 15px;
@@ -545,5 +553,5 @@
             }
         }
     }
-  
+
 </style>
