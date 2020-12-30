@@ -24,13 +24,13 @@
                     </label>
                 </div>
                 <div class="accounts__switch" v-if="isMusician">
-                    <span class="accounts__switch-bg"></span>
+                    <span class="accounts__switch-bg right"></span>
                     <label for="monthly" @click="billTerm = 'monthly'">
-                        <input type="radio" id="monthly" hidden name="bill" checked />
+                        <input type="radio" id="monthly" hidden name="bill"/>
                         <span>{{ $t('billMonthly') }}</span>
                     </label>
                     <label for="yearly" @click="billTerm = 'yearly'">
-                        <input type="radio" id="yearly" hidden name="bill" />
+                        <input type="radio" id="yearly" hidden name="bill" checked/>
                         <span>
                             {{ $t('billYearly') }}
                             <em>{{ disBill }}{{ $t('savepercent') }}</em>
@@ -248,6 +248,10 @@
                 </colgroup>
                 <tbody>
                 <tr>
+                  <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
+                  <td>{{ $t('lang141') }}</td>
+                </tr>
+                <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>{{ $t('unlimited') }}</td>
                 </tr>
@@ -298,10 +302,10 @@
             return {
                 userType: ['buyer', 'seller'],
                 currentUserType: null,
-                billTerm: 'monthly',
+                billTerm: 'yearly',
                 listPlan: null,
-                planName: 'free',
-                plan: 'free',
+                planName: 'master',
+                plan: 'pro',
                 disBill: 10,
                 buyerGroup: {},
                 sellerFreeGroup: {},
@@ -331,9 +335,9 @@
         },
         watch: {
             currentUserType(n) {
-                this.plan = 'free';
+                // this.plan = 'free';
                 if (n === 'seller') {
-                    this.billTerm = 'monthly';
+                    // this.billTerm = 'monthly';
                     this.$nextTick(function () {
                         var bg = document.querySelector(".accounts__switch-bg");
                         // 월간

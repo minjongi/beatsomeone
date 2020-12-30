@@ -181,10 +181,38 @@
             },
         },
         created() {
+            if (window.location.href.split('?')[1] === 't=pr#/3') {
+              localStorage.setItem("UserOffer", "seller");
+              localStorage.setItem('mgr_id', 4);
+              localStorage.setItem('bill_term', 'yearly');
 
+              this.$store.dispatch('setUserInfo', {
+                group: {
+                  mgr_commission: "0",
+                  mgr_datetime: "2020-12-18 11:51:57",
+                  mgr_description: "판매자(Master)",
+                  mgr_id: "4",
+                  mgr_is_default: "0",
+                  mgr_monthly_cost_d: "2.04",
+                  mgr_monthly_cost_w: "300",
+                  mgr_monthly_discount: "0",
+                  mgr_monthly_download_limit: null,
+                  mgr_monthly_msg_limit: "0",
+                  mgr_monthly_upload_limit: "0",
+                  mgr_order: "4",
+                  mgr_title: "seller_master",
+                  mgr_year_cost_d: "2.00",
+                  mgr_year_cost_w: "1000",
+                  mgr_year_discount: "0",
+                  mgr_year_download_limit: null,
+                  mgr_year_msg_limit: "0",
+                  mgr_year_upload_limit: "0"
+                },
+                billTerm: 'yearly',
+              })
+            }
         },
         mounted() {
-
 
         },
         watch: {
@@ -254,6 +282,7 @@
             doNext(type) {
                 if(this.doValidation()) {
                     let userInfo = this.$store.getters.getUserInfo;
+                    console.log("3333333333", userInfo);
                     userInfo.mem_userid = this.user.username;
                     userInfo.mem_email = this.user.email;
                     userInfo.mem_password = this.user.password;

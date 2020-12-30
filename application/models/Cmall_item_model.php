@@ -101,6 +101,9 @@ class Cmall_item_model extends CB_Model
         if (element('cit_type4', $config)) {
             $where['cit_type4'] = 1;
         }
+        if (element('cit_type5', $config)) {
+            $where['cit_type5'] = 1;
+        }
         $limit = element('limit', $config) ? element('limit', $config) : 4;
 
         $this->db->select('cmall_item.*, member.mem_nickname');

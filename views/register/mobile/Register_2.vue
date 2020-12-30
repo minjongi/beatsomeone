@@ -69,16 +69,25 @@
         methods: {
             doNext(type) {
                 if (type === 'email') {
-                    this.$router.push('/2');
+                    this.$router.push('/3');
                 }
             },
             social_connect_on(social_type) {
                 if (social_type !== 'facebook' && social_type !== 'twitter' && social_type !== 'google' && social_type !== 'naver' && social_type !== 'kakao') {
                     return false;
                 }
-                window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
-                window.gtag_report_conversion()
+                localStorage.setItem('social_type', social_type);
+                // window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
+                let social_popup = window.open('/social/' + social_type + '_login', social_type + '-on', 'width=600,height=600');
+                // social_popup.onbeforeunload = this.socialConnected
+                // window.gtag_report_conversion()
             },
+            socialConnected() {
+                // let userInfo = this.$store.getters.getUserInfo;
+                // window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
+                window.location.href = `/register#/3`;
+                // this.$router.push('/3');
+            }
         },
     }
 

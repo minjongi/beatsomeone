@@ -101,9 +101,9 @@
                     axios.post('/register/form', formData)
                         .then(res => res.data)
                         .then(data => {
-                            window.gtag_report_conversion()
-
-                            if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
+                            console.log('this is data_______', data);
+                            // window.gtag_report_conversion()
+                            if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free' || group.mgr_title === 'buyerFree') {
                                 alert(this.$t('successfullyRegistered'));
                                 window.location.href = '/';
                             } else {

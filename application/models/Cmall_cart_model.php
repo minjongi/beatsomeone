@@ -61,7 +61,21 @@ class Cmall_cart_model extends CB_Model
 		return $result;
 	}
 
+	public function change_cart_order($mem_id = 0, $cit_id = 0)
+	{
+		$mem_id = (int) $mem_id;
+		if (empty($mem_id) OR $mem_id < 1) {
+			return;
+		}
+		$cit_id = (int) $cit_id;
+		if (empty($cit_id) OR $cit_id < 1) {
+			return;
+		}
+		$this->db->where(array('cit_id' => $cit_id));
+		$this->db->where(array('mem_id' => $mem_id));
+		$this->db->update('cmall_cart', array('cct_order' => 1));
 
+	}
 	public function get_cart_detail($mem_id = 0, $cit_id = 0)
 	{
 		$mem_id = (int) $mem_id;
@@ -73,7 +87,7 @@ class Cmall_cart_model extends CB_Model
 			return;
 		}
 
-		$this->db->select('cmall_item_detail.*, cmall_cart.cct_count, cct_datetime');
+		$this->db->select('cmall_item_detail.*, cmall_cart.cct_count, cct_datetime, isfree, cct_order');
 		$this->db->join('cmall_item_detail', 'cmall_item_detail.cde_id = cmall_cart.cde_id', 'inner');
 		$this->db->where(array('cmall_cart.cit_id' => $cit_id));
 		$this->db->where(array('cmall_cart.mem_id' => $mem_id));

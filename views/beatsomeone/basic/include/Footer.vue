@@ -116,7 +116,7 @@
         </p>
       </div>
     </div>
-    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en'">
+    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en' && !mainPage">
       <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
     </div>
   </footer>
@@ -125,6 +125,12 @@
 <script>
 export default {
   name: 'Footer',
+  props: {
+    mainPage: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: function () {
     return {
       footerBanner: true

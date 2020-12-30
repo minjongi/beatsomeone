@@ -16,6 +16,7 @@
                 </label>
             </div>
             <div class="accounts__plan-price" v-if="info.group">
+   
                 <h2>
                     <span>{{
                             $t('currencySymbol')
@@ -115,8 +116,7 @@
                             <!--수취인주소-->
                             <input type="hidden" name="allat_recp_addr" v-model="allatForm.recp_addr" maxlength="120"/>
                             <!--인증정보수신URL-->
-                            <input type="hidden" name="shop_receive_url" v-model="allatForm.shop_receive_url"
-                                   size="19"/>
+                            <input type="hidden" name="shop_receive_url" v-model="allatForm.shop_receive_url" size="19"/>
                             <!--주문정보암호화필드-->
                             <input type="hidden" name="allat_enc_data" value/>
                             <!--테스트 여부-->
@@ -297,7 +297,15 @@ export default {
             formData.append('mgr_id', this.info.group.mgr_id);
             formData.append('pg', 'paypal');
             formData.append('paypal_data', JSON.stringify(data));
-            this.registerSeller(formData);
+            const urlParams = new URLSearchParams(window.location.search);
+            const repurchase = urlParams.get('repurchase');
+            if (repurchase === "1") {
+                // 재충진
+                this.repurchaseSubscribe(formData);
+                console.log("OK");
+            } else {
+                this.registerSeller(formData);
+            }
         },
         paypalCancelled: function (data) {
             alert('결제를 취소하셨습니다')
@@ -306,7 +314,18 @@ export default {
             axios.post('/register/ajax_purchase', formData)
                 .then(res => res.data)
                 .then(data => {
-                    alert(this.$t('successfullyRegistered'));
+                    alert(data.message);
+                    window.location.href = '/mypage';
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        },
+        repurchaseSubscribe: function (formData) {
+            axios.post('/register/ajax_repurchase', formData)
+                .then(res => res.data)
+                .then(data => {
+                    alert(this.$t('successfullyRepurchase'));
                     window.location.href = '/mypage';
                 })
                 .catch(error => {

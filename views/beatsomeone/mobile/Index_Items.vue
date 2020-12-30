@@ -29,8 +29,8 @@
                         <div class="playList__bottom-info">
                             <span class="playList__by">by {{ item.mem_nickname }}</span>
 
-                            <div class="tags">
-                                <button v-if="item.cit_freebeat === '1'" style="color:#3873d3;">{{
+                            <div class="">
+                                <!-- <button v-if="item.cit_freebeat === '1'" style="color:#3873d3;">{{
                                         $t('lang1')
                                     }}
                                 </button>
@@ -41,7 +41,15 @@
                                 <button v-if="item.cit_officially_registered === '1'" style="color:#fff;">{{
                                         $t('lang3')
                                     }}
-                                </button>
+                                </button> -->
+                                <img style="margin-right: 5px; width:10px;" v-if="item.cit_freebeat === '1'" src="/assets/images/icon/icon_1.png"/> 
+                                <img style="margin-right: 5px; width:10px;" v-if="item.cit_type5 === '1'" src="/assets/images/icon/icon_2.png"/> 
+                                <img style="margin-right: 5px; width:10px;" v-if="item.cit_officially_registered === '1'" src="/assets/images/icon/icon_3.png"/> 
+                                <img style="margin-right: 5px; width:10px;" v-if="item.cit_include_copyright_transfer === '1'" src="/assets/images/icon/icon_4.png"/> 
+                                <img style="margin-right: 5px; width:10px;" v-if="item.cit_org_content === '1'" src="/assets/images/icon/icon_5.png"/> 
+                            </div>
+                            <div>
+                                
                             </div>
                         </div>
                     </figcaption>
@@ -49,15 +57,15 @@
             </div>
             <div class="col buybtn">
                 <button @click="addCart">
-                    <i class="fa fa-shopping-cart" style="color: white; opacity: 0.3"></i>
+                    <i class="fa fa-shopping-cart" style="color: #ffda2a;"></i>
                 </button>
             </div>
             <div class="col more">
                 <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">{{ $t('more') }}</button>
                 <span class="tooltip">
-          <a @click="clickShare('twitter')">{{ $t('lang107') }}</a><a @click="clickShare('facebook')">{{ $t('lang108') }}</a><a
-                    @click="copyLinkToClipboard()">{{ $t('lang109') }}</a>
-        </span>
+                    <a @click="clickShare('twitter')">{{ $t('lang107') }}</a><a @click="clickShare('facebook')">{{ $t('lang108') }}</a><a
+                            @click="copyLinkToClipboard()">{{ $t('lang109') }}</a>
+                </span>
             </div>
         </div>
         <PurchaseTypeSelector :item="item"

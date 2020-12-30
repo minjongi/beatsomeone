@@ -66,7 +66,8 @@
                                                 </div>
                                                 <div class="edit" style="text-align: right">
                                                     <div class="price 11221122" style="font-size: 12px;">
-                                                        {{ formatPrice(product.detail[0].cde_price, product.detail[0].cde_price_d, true) }}
+                                                        {{ product.isfree == '0' ? formatPrice(product.detail[0].cde_price, product.detail[0].cde_price_d, true) :
+                                                            formatPrice(0, 0, true) }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -298,7 +299,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" v-if="!freebeatPay">
                             <div class="btnbox n-flex" v-if="currentLocale === 'ko'">
                                 <button class="btn btn--gray" @click="goBack">{{ $t('back') }}</button>
                                 <button type="submit" class="btn btn--submit" @click="goPay">{{ $t('pay') }}</button>
@@ -321,6 +322,12 @@
                                 <div>
                                     <button class="btn btn--gray" @click="goBack">{{ $t('back') }}</button>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row" v-else>
+                            <div class="btnbox n-flex">
+                                <button class="btn btn--gray" @click="goBack">{{ $t('back') }}</button>
+                                <button type="submit" class="btn btn--submit" @click="procFreebeatPay">{{ $t('pay') }}</button>
                             </div>
                         </div>
                     </div>
@@ -476,8 +483,10 @@ export default {
                 let product_cds = [];
                 let product_nms = [];
                 this.orderProducts.forEach(item => {
-                    this.good_mny_d += (+item.detail[0].cde_price_d);
-                    this.good_mny += (+item.detail[0].cde_price);
+                    if (item.isfree == 0) {
+                        this.good_mny_d += (+item.detail[0].cde_price_d);
+                        this.good_mny += (+item.detail[0].cde_price);
+                    }
                     product_cds.push(item.cit_key);
                     product_nms.push(item.cit_name);
                     if (item.cit_type3 === '0') {
@@ -489,6 +498,9 @@ export default {
                         this.$set(item, 'is_new', true);
                     }
                 });
+                if (this.good_mny_d == 0) {
+                    this.freebeatPay = true;
+                }
                 this.unique_id = data.unique_id;
                 this.good_name = data.good_name;
                 this.$set(this.allatForm, 'product_cd', product_cds.join('||'))
@@ -563,6 +575,27 @@ export default {
             } else {
                 //
             }
+        },
+        procFreebeatPay: function () {
+            let formData2 = new FormData();
+            formData2.append('pay_type', 'free');
+            formData2.append('cor_pg', (this.$i18n.locale === "en" ? 'paypal' : 'allat'));
+            formData2.append('unique_id', this.unique_id);
+            formData2.append('good_mny', 0);
+            formData2.append('cor_point', this.cor_point);
+            formData2.append('mem_realname', this.member.mem_lastname + this.member.mem_firstname);
+            axios.post('/cmall/ajax_orderupdate', formData2)
+                .then(res => res.data)
+                .then(data => {
+                    window.location.href = "/cmall/complete/" + this.unique_id;
+                })
+                .catch(error => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                    console.error(error);
+                });
+
         },
 
         goBack: function () {

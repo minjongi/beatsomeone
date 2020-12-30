@@ -22,11 +22,16 @@
                             <div class="purchase-info">
                                 <div class="purchase-headern">
                                     <div class="parchase-btnbox">
-                                        <a class="buy waves-effect" @click="addCart(item.detail.LEASE)"
-                                           href="javascript:;">
-                                            <span>{{
-                                                    formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true)
-                                                }}</span>
+                                        <a class="buy waves-effect free" @click="freeBuy(item.detail.LEASE)" href="javascript:;" 
+                                            v-if="is_subscriber && item.cit_type5 === '1' && remain_download_num > 0">
+                                            <span>
+                                                {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
+                                            </span>
+                                        </a>
+                                        <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
+                                            <span>
+                                                {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
+                                            </span>
                                         </a>
                                     </div>
                                     <div>
@@ -165,13 +170,23 @@
 <script>
 import {EventBus} from "*/src/eventbus";
 import $ from "jquery";
-
+import axios from 'axios';
 export default {
     props: ["purchaseTypeSelectorPopup", "item"],
     data: function () {
-        return {};
+        return {
+            is_subscriber: false,
+            member: {},
+            member_group_name: '',
+            remain_download_num: 0
+        };
     },
     mounted() {
+        // this.fetchData();
+        this.remainDownloadNumber();
+        this.member_group_name = window.member_group_name;
+        this.member = window.member;
+        if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
     },
     watch: {
         item: function (n) {
@@ -185,6 +200,16 @@ export default {
         },
     },
     methods: {
+        remainDownloadNumber() {
+            axios.get('/membermodify/mem_remain_downloads_get')
+                .then(res=>{
+                    
+                    this.remain_download_num = res.data;
+                })   
+                .catch(error => {
+                    console.error(error);
+                })
+        },
         openDesc(id) {
             this.$refs["purchaseDropdown" + id].blur()
             this.$refs["purchaseBtn" + id].classList.toggle("active");
@@ -215,6 +240,24 @@ export default {
                 }
             });
         },
+        freeBuy(item_detail) {
+            let detail_qty = {};
+            detail_qty[item_detail.cde_id] = 1;
+            Http.post(`/beatsomeoneApi/itemAction`, {
+                stype: "free",
+                cit_id: this.item.cit_id,
+                chk_detail: [item_detail.cde_id],
+                detail_qty: detail_qty,
+            }).then((r) => {
+                if (!r) {
+                log.debug("장바구니 담기 실패");
+                } else {
+                log.debug("장바구니 담기 성공");
+                alert(this.$t("inMyShoppingCart"));
+                this.close();
+                }
+            });
+        },        
         close() {
             this.$emit("update:purchaseTypeSelectorPopup", false);
         },

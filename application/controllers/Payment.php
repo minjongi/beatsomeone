@@ -2180,6 +2180,8 @@ class Payment extends CB_Controller
             'sandbox' => $this->cbconfig->item('pg_paypal_sandbox_id'),
             'allat_crosskey' => $this->cbconfig->item('pg_allat_crosskey'),
             'allat_shop_id' => $this->cbconfig->item('pg_allat_shop_id'),
+            'allat_crosskey_fix' => $this->cbconfig->item('pg_allat_crosskey_fix'),
+            'allat_shop_id_fix' => $this->cbconfig->item('pg_allat_shop_id_fix'),
             'use_pg_test' => $this->cbconfig->item('use_pg_test')
         ];
         $this->output->set_content_type('text/json');

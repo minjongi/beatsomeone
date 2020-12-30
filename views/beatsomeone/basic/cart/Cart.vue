@@ -122,8 +122,10 @@ export default {
                 this.$set(item, 'is_selected', val);
                 if (val === true) {
                     this.cntSelectedItems++;
-                    this.totalPriceKr += (+item.detail[0].cde_price);
-                    this.totalPriceEn += (+item.detail[0].cde_price_d);
+                    if (item.detail[0].isfree == 0) {
+                        this.totalPriceKr += (+item.detail[0].cde_price);
+                        this.totalPriceEn += (+item.detail[0].cde_price_d);
+                    }
                 }
             })
         },
@@ -136,8 +138,10 @@ export default {
                 items.forEach(item => {
                     if (item.is_selected === true) {
                         this.cntSelectedItems++;
-                        this.totalPriceKr += (+item.detail[0].cde_price);
-                        this.totalPriceEn += (+item.detail[0].cde_price_d);
+                        if (item.detail[0].isfree == 0) {
+                            this.totalPriceKr += (+item.detail[0].cde_price);
+                            this.totalPriceEn += (+item.detail[0].cde_price_d);
+                        }
                     }
                 })
                 this.checkedAll = items.length !== 0 && this.cntSelectedItems === items.length;
@@ -207,6 +211,7 @@ export default {
                 axios.post('/cmall/ajax_orderstart', formData)
                     .then(res => res.data)
                     .then(data => {
+                        console.log("&&&&-------------", data);
                         window.location.href = '/cmall/billing';
                     })
                     .catch(error => {

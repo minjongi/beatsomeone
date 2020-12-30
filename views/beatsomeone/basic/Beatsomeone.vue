@@ -89,6 +89,15 @@
         <section class="main__section2">
           <div class="filter reverse"></div>
           <div class="wrap">
+                        <header class="main__section2-title-login" v-if="false">
+                            <h1>
+                                {{ $t('backgroundMusicMessage1') }}<br/>
+                                {{ $t('backgroundMusicMessage2') }}
+                            </h1>
+                            <a class="startSelling" @click="moveAction('startBuyer')">
+                                {{ $t('buyerLogin') }}
+                            </a>
+                        </header>
             <header class="main__section2-title">
               <h1>
                 {{ $t('bitTradingMessage1') }}<br/>
@@ -162,10 +171,13 @@
               </a>
             </div>
           </div>
+          <Footer :mainPage="true"></Footer>
         </section>
       </div>
     </div>
-    <Footer></Footer>
+    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en' && !mainPage">
+      <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
+    </div>
   </div>
 </template>
 
@@ -213,7 +225,8 @@
                 videoBGPath: '',
                 member: null,
                 member_group_name: '',
-                popup: false
+                popup: false,
+                footerBanner: true
             }
         },
         mounted() {
@@ -432,21 +445,31 @@
                                 url = '/mypage/upgrade';
                             }
                             break;
+
+                        }
+                        case 'startBuyer': {
+                            url = '/register';
+                            localStorage.setItem("UserOffer", "buyer");
+                            break;
                         }
                     }
                 }
                 // 비로그인시
                 else {
                     url = '/register';
+                    localStorage.setItem("UserOffer", "buyer");
                 }
 
+                console.log('this is startSelling', o, this.member);
                 // 이동
                 window.location.href = url;
             },
             goToDetail(cit_key) {
                 window.location.href = '/detail/' + cit_key;
-            }
-
+            },
+            closeFooterBanner() {
+              this.footerBanner = false
+            },
         },
 
     }

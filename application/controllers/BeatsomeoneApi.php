@@ -768,7 +768,6 @@ class BeatsomeoneApi extends CB_Controller
                     ->get_cart_detail($mem_id, element('cit_id', $val));
             }
         }
-
 //        log_message('debug','$result : '. print_r($result,true));
 //
 //        $vs = $this->cmalllib->get_my_cart(1000);
@@ -776,12 +775,14 @@ class BeatsomeoneApi extends CB_Controller
         $s_d = 0;
         foreach($result as $v) {
 //            log_message('debug','ITEM : '. print_r($v,true));
-            $s += element('cit_price', $v);
+            if (element('isfree', $v) != "1") {
+                $s += element('cit_price', $v);
 
-            foreach (element('detail', $v) as $d) {
-                $s += element('cde_price', $d);
-                $s_d += element('cde_price_d', $d);
-//                log_message('debug','DETAIL : '. print_r($d,true));
+                foreach (element('detail', $v) as $d) {
+                    $s += element('cde_price', $d);
+                    $s_d += element('cde_price_d', $d);
+    //                log_message('debug','DETAIL : '. print_r($d,true));
+                }
             }
         }
         echo json_encode([
@@ -848,6 +849,19 @@ class BeatsomeoneApi extends CB_Controller
                 && is_array($this->input->post('chk_detail'))
                 && $this->input->post('detail_qty')) {
                 $return = $this->cmalllib->addorder(
+                    $mem_id,
+                    $cit_id,
+                    $this->input->post('chk_detail'),
+                    $this->input->post('detail_qty')
+                );
+                return $return;
+            }
+            // 무료구매
+            elseif ($this->input->post('stype') === 'free'
+                && $this->input->post('chk_detail')
+                && is_array($this->input->post('chk_detail'))
+                && $this->input->post('detail_qty')) {
+                $return = $this->cmalllib->freeBuy(
                     $mem_id,
                     $cit_id,
                     $this->input->post('chk_detail'),

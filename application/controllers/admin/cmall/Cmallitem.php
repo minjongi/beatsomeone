@@ -317,6 +317,11 @@ class Cmallitem extends CB_Controller
 				'rules' => 'trim|numeric',
 			),
 			array(
+				'field' => 'cit_type5',
+				'label' => '정기구독',
+				'rules' => 'trim|numeric',
+			),
+			array(
 				'field' => 'cit_type4',
 				'label' => '할인',
 				'rules' => 'trim|numeric',
@@ -809,6 +814,7 @@ class Cmallitem extends CB_Controller
 			$cit_type2 = $this->input->post('cit_type2') ? $this->input->post('cit_type2') : 0;
 			$cit_type3 = $this->input->post('cit_type3') ? $this->input->post('cit_type3') : 0;
 			$cit_type4 = $this->input->post('cit_type4') ? $this->input->post('cit_type4') : 0;
+			$cit_type5 = $this->input->post('cit_type5') ? $this->input->post('cit_type5') : 0;
 			$cit_status = $this->input->post('cit_status') ? 1 : 0;
 			$content_type = $this->cbconfig->item('use_cmall_product_dhtml') ? 1 : 0;
 			$cit_price = $this->input->post('cit_price') ? $this->input->post('cit_price') : 0;
@@ -822,6 +828,7 @@ class Cmallitem extends CB_Controller
 				'cit_type2' => $cit_type2,
 				'cit_type3' => $cit_type3,
 				'cit_type4' => $cit_type4,
+				'cit_type5' => $cit_type5,
 				'cit_status' => $cit_status,
 				'cit_summary' => $this->input->post('cit_summary', null, ''),
 				'cit_content' => $this->input->post('cit_content', null, ''),

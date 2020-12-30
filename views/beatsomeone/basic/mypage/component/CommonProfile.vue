@@ -11,8 +11,9 @@
         </div>
       </div>
       <div class="info">
-        <div class="group">
-          <div class="group_title" :class="groupType">{{$t(groupType)}}</div>
+        <div class="group" style="margin-bottom: 10px;">
+          <span class="group_title" style="margin-right: 5px;" :class="groupType">{{$t(groupType)}}</span>
+          <span v-if="groupType_subscribe !=''" class="group_title ml10" style="margin-left: 5px;" :class="groupType_subscribe">{{$t(groupType_subscribe)}}</span>
         </div>
         <div class="username">
           {{ member.mem_nickname }}
@@ -60,6 +61,13 @@ export default {
         return 'customer';
       }
     },
+    groupType_subscribe() {
+      if (this.member_group_name.includes('subscribe')) {
+        return 'subscribe';
+      } else {
+        return '';
+      }
+    },
     isAvatarSaving() {
       return this.avatarStatus === AVATAR_SAVING;
     },
@@ -78,6 +86,7 @@ export default {
   mounted() {
     this.member = window.member;
     this.member_group_name = window.member_group_name;
+    
   },
   methods: {
     uploadAvatar(formData) {

@@ -22,17 +22,17 @@
                 </label>
             </div>
             <div class="accounts__switch" v-if="isMusician">
-                <span class="accounts__switch-bg"></span>
+                <span class="accounts__switch-bg right"></span>
                 <label for="monthly" @click="selectBillTerm('monthly')">
-                    <input type="radio" id="monthly" hidden name="bill" checked/>
+                    <input type="radio" id="monthly" hidden name="bill"/>
                     <span>{{ $t('billMonthly') }}</span>
                 </label>
-                <label for="yearly" @click="selectBillTerm('year')">
-                    <input type="radio" id="yearly" hidden name="bill"/>
+                <label for="yearly" @click="selectBillTerm('yearly')">
+                    <input type="radio" id="yearly" hidden name="bill" checked/>
                     <span>
-                            {{ $t('billYearly') }}
-                            <em>{{ disBill }}{{ $t('savepercent') }}</em>
-                        </span>
+                        {{ $t('billYearly') }}
+                        <em>{{ disBill }}{{ $t('savepercent') }}</em>
+                    </span>
                 </label>
             </div>
         </div>
@@ -135,6 +135,12 @@
                 </thead>
                 <tbody>
                 <tr>
+                  <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
+                  <td>{{ $t('lang140') }}</td>
+                  <td>{{ $t('lang140') }}</td>
+                  <td>{{ $t('lang141') }}</td>
+                </tr>
+                <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
                     <td>{{ $t('unlimited') }}</td>
@@ -218,7 +224,7 @@
             return {
                 userType: ['buyer', 'seller'],
                 currentUserType: null,
-                billTerm: 'monthly',
+                billTerm: 'yearly',
                 listPlan: null,
                 planName: 'free',
                 disBill: 10,
@@ -265,7 +271,7 @@
             currentUserType(n) {
                 this.plan = 'free';
                 if (n === 'seller') {
-                    this.billTerm = 'monthly';
+                    // this.billTerm = 'monthly';
                     this.$nextTick(function () {
                         var bg = document.querySelector(".accounts__switch-bg");
                         // 월간
