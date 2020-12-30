@@ -4679,7 +4679,7 @@ class Register extends CB_Controller
         }
 
         $this->output->set_output(json_encode([
-            'message' => $message, // lang('lang48'),
+            'message' => $message,
         ]));
         return true;
     }
