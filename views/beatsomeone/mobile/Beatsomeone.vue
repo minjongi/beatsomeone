@@ -280,12 +280,6 @@
               }
               this.popup = false
             },
-            setCookie(cname, cvalue, exdays) {
-              var d = new Date();
-              d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-              var expires = "expires=" + d.toUTCString();
-              document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            },
             endVideoBG() {
                 const idx = Math.floor(Math.random() * 5) + 1;
                 this.videoBGPath = '/assets_m/video/mainbg/' + idx + '.mp4';
