@@ -3,7 +3,19 @@
         <div class="wrapper">
             <Header :is-login="isLogin"></Header>
             <div class="container sub event-content">
-              <div class="typeform-widget" data-url="https://form.typeform.com/to/X17k6U4F?typeform-medium=embed-snippet"></div>
+
+              <div><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/p1_1.png'"></div>
+              <div style="position: relative;">
+                <div style="position: absolute;margin: 0 auto;">
+                  <iframe style="width:86vw;height:48vw;margin: 0 7vw;" src="https://www.youtube.com/embed/d7tfADQU3J0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/p1_2.png'">
+              </div>
+              <div><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/p1_3.png'"></div>
+              <div><a href="/register"><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/p2.png'"></a></div>
+              <div><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/p3.png'"></div>
+              <div><a href="/register"><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/p4.png'"></a></div>
+              <div><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/p5.png'"></div>
             </div>
             <Footer />
         </div>
@@ -46,8 +58,9 @@
     .event-content {
         text-align:center;
     }
-    .typeform-widget {
-      width: 100%;
-      height: 500px;
+    .event-content img {
+      margin: 0 auto;
+      max-width:100%;
+      display: block;
     }
 </style>
