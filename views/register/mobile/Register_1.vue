@@ -25,13 +25,13 @@
                 </div>
 
                 <div class="accounts__switch" v-if="isMusician">
-                    <span class="accounts__switch-bg"></span>
+                    <span class="accounts__switch-bg" :class="billTerm == 'yearly' ? 'right' : ''"></span>
                     <label for="monthly" @click="billTerm = 'monthly'">
-                        <input type="radio" id="monthly" hidden name="bill" />
+                        <input type="radio" id="monthly" hidden name="bill" :checked="billTerm == 'monthly'"/>
                         <span>{{ $t('billMonthly') }}</span>
                     </label>
                     <label for="yearly" @click="billTerm = 'yearly'">
-                        <input type="radio" id="yearly" hidden name="bill"  checked/>
+                        <input type="radio" id="yearly" hidden name="bill" :checked="billTerm == 'yearly'"/>
                         <span>
                             {{ $t('billYearly') }}
                             <em>{{ disBill }}{{ $t('savepercent') }}</em>
@@ -462,7 +462,11 @@
             },
         },
         created() {
-            this.currentUserType = localStorage.getItem("UserOffer");
+            localStorage.setItem("UserOffer", "seller");
+            localStorage.setItem('bill_term', 'yearly');
+            this.plan = 'pro'
+            this.billTerm = localStorage.getItem("bill_term")
+            this.currentUserType = localStorage.getItem("UserOffer")
             this.fetchData();
         },
         

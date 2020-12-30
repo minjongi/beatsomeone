@@ -18,7 +18,7 @@ class Register extends CB_Controller
     /**
      * 모델을 로딩합니다
      */
-    protected $models = array('Member_meta', 'Member_auth_email', 'Promo', 'Member');
+    protected $models = array('Member_meta', 'Member_auth_email', 'Promo', 'Member', 'Member_group_member');
 
     /**
      * 헬퍼를 로딩합니다
@@ -48,7 +48,16 @@ class Register extends CB_Controller
     {
         $check_login = $this->member->is_member();
         if ($check_login) {
-            redirect('/'); 
+            $t = $this->input->get('t');
+            if ($t == 'pr') {
+                $member_group = $this->Member_group_member_model->get_with_group($this->member->item('mem_id'))[0];
+                if ($member_group['mgr_id'] == 4) {
+                    alert(lang('lang143'), '/');
+                } else {
+                    redirect('/mypage/upgrade');
+                }
+            }
+            redirect('/');
         }
 
         // 이벤트 라이브러리를 로딩합니다

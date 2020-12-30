@@ -6,9 +6,9 @@
             <iframe width="650" height="365" src="https://www.youtube.com/embed/d7tfADQU3J0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p1.png'"></div>
-          <div><a href="/register"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p2.png'"></a></div>
+          <div><a href="/register?t=pr#/3"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p2.png'"></a></div>
           <div><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p3.png'"></div>
-          <div><a href="/register"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p4.png'"></a></div>
+          <div><a href="/register?t=pr#/3"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p4.png'"></a></div>
           <div><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p5.png'"></div>
         </div>
         <Footer />
