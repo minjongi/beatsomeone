@@ -30,7 +30,7 @@
                                         </a>
                                         <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
                                             <span>
-                                                {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
+                                                {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                             </span>
                                         </a>
                                     </div>
