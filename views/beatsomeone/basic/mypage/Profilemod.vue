@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="type"><span>{{$t('userGroup')}}</span></div>
                 <div class="data">
-                   <div class="group_title">{{ $t(groupType) }}</div>
+                   <div class="group_title">{{ $t(groupType) }} &nbsp;&nbsp; {{ $t(groupType_subscribe) }}</div>
                 </div>
             </div>
             <div class="row" v-if="isSeller">
@@ -124,6 +124,15 @@
                     return 'seller';
                 }
                 return null;
+            },
+            groupType_subscribe() {
+                if (this.member_group_name.includes('subscribe_common')) {
+                    return 'subscribe_common';
+                } else if (this.member_group_name.includes('subscribe_creater')) {
+                    return 'subscribe_creater';
+                } else {
+                    return ''
+                }
             },
             sellerClass: function() {
                 if (this.member_group_name.includes('seller')) {

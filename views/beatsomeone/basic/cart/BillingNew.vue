@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="playList productList cart">
                                 <ul>
-                                    <BillingItem v-for="(product, i) in orderProducts" :key="product.cct_id" :product="product" />
+                                    <BillingItem v-for="(product) in orderProducts" :key="product.cct_id" :product="product" />
                                 </ul>
                             </div>
                         </div>
@@ -313,13 +313,16 @@
                 .then(res => res.data)
                 .then(data => {
                     this.orderProducts = data.data;
+                    console.log("&&&&&&&&", data.unique_id);
                     this.good_mny = 0;
                     this.good_mny_d = 0;
                     let product_cds = [];
                     let product_nms = [];
                     this.orderProducts.forEach(item => {
-                        this.good_mny_d += (+item.detail[0].cde_price_d);
-                        this.good_mny += (+item.detail[0].cde_price);
+                        if (item.isfree == 0) {
+                            this.good_mny_d += (+item.detail[0].cde_price_d);
+                            this.good_mny += (+item.detail[0].cde_price);
+                        }
                         product_cds.push(item.cit_key);
                         product_nms.push(item.cit_name);
                         if (item.cit_type3 === '0') {
@@ -331,6 +334,9 @@
                             this.$set(item, 'is_new', true);
                         }
                     });
+                    if (this.good_mny_d == 0) {
+                        this.freebeatPay = true;
+                    }
                     this.unique_id = data.unique_id;
                     this.good_name = data.good_name;
                     this.$set(this.allatForm, 'product_cd', product_cds.join('||'))
@@ -376,6 +382,27 @@
                         Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
                     );
                 }
+            },
+            procFreebeatPay: function () {
+                let formData2 = new FormData();
+                formData2.append('pay_type', 'free');
+                formData2.append('cor_pg', (this.$i18n.locale === "en" ? 'paypal' : 'allat'));
+                formData2.append('unique_id', this.unique_id);
+                formData2.append('good_mny', 0);
+                formData2.append('cor_point', this.cor_point);
+                formData2.append('mem_realname', this.member.mem_lastname + this.member.mem_firstname);
+                axios.post('/cmall/ajax_orderupdate', formData2)
+                    .then(res => res.data)
+                    .then(data => {
+                        window.location.href = "/cmall/complete/" + this.unique_id;
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                        console.error(error);
+                    });
+
             },
             goBack: function () {
                 window.location.href = "/cmall/cart";

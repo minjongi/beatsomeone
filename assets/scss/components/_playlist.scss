@@ -168,38 +168,76 @@
             }
 
             .tags {
-                padding-right: 15px;
-                width: 155px;
-                flex: none;
-
-                div {
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-end;
-
-                    &:first-child {
-                        margin-bottom: 5px;
-                    }
-                }
-
+                // padding-right: 15px;
+                display: flex;
+                justify-content: flex-end;
+                cursor: pointer;
+                position: relative;
+                overflow: initial;
+                transition: 0.3s ease;
+                
                 button {
-                    height: 20px;
-                    padding: 0 8px;
-                    border: 1px solid #fff;
-                    opacity: 0.3;
-                    transition: all 0.3s;
-                    font-size: 10px;
-                    border-radius: 2em;
-
-                    & + button {
-                        margin-left: 5px;
+                    cursor: pointer;
+                    transition: 0.3s ease;
+    
+                    .tooltip {
+                        bottom: 15px;
+                        width: 190px;
+                        padding: 10px 10px 5px 10px;
+                        text-align: left;
+                        background: #2b2c30;   
+                        color: #9ea1a8;
+                        border: 1px solid #9ea1a8;
+                        // border-style: solid;
+                        // border-color: #ffffff;
+                        // border-width: 1px;
+                        div{
+                            margin-bottom: 5px;
+                        }
+                        &:before {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            left: 50%;
+                            bottom: -7px;
+                            transform: translateX(-50%);
+                            width: 0;
+                            height: 0;
+                            border-top: 6px solid  #9ea1a8;
+                            border-left: 6px solid transparent;
+                            border-right: 6px solid transparent;
+                        }
+                        &:after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            left: 50%;
+                            bottom: -10px;
+                            transform: translateX(-50%);
+                            width: 0;
+                            height: 0;
+                            border-top: 5px solid #2b2c30;
+                            border-bottom: 5px solid transparent;
+                            border-left: 5px solid transparent;
+                            border-right: 5px solid transparent;
+                        }
                     }
-
+    
                     &:hover {
                         opacity: 1;
                     }
+    
+                    &:hover .tooltip {
+                        opacity: 1;
+                        bottom: 30px;
+    
+                        a {
+                            height: 40px;
+                        }
+                    }
                 }
             }
+            
         }
 
         .genre {
@@ -554,18 +592,21 @@
 
             button {
                 cursor: pointer;
-                background: url(/assets/images/icon/cart.png) no-repeat 12px center;
+                background: url(/assets/images/icon/cart_y.png) no-repeat 12px center;
                 font-size: 15px;
-                border: 1px solid #fff;
-                color: #fff;
+                border: 1px solid #ffda2a;
+                color: #ffda2a;
                 padding: 10px 15px 5px 40px;
                 line-height: 20px;
                 border-radius: 2em;
                 margin: 2px;
-                opacity: 0.3;
+                border-color: #ffda2a;
+                // opacity: 0.3;
 
                 &:hover {
                     opacity: 1;
+                    color: #1b1b1f;
+                    background: url(/assets/images/icon/cart_b.png) no-repeat 12px center #ffda2a;
                 }
             }
         }

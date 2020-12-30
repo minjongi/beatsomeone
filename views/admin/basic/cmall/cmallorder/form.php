@@ -439,16 +439,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $('.change-status').on('click', function () {
         var status = $(this).data('status');
         var pg = $('#cor_pg').val();
-
         $('#cor_status').val(status);
-
         if (status == 2) {
             if (confirm("결제를 취소하시겠습니까?\n\n한번 취소한 결제는 다시 복구할 수 없습니다.")) {
                 // console.log(pg);
-                if (pg == 'paypal') {
+                if ("<?php echo element('cor_pay_type', $result) ?>" == "FREE") {
                     $('#frmorderform').submit();
-                } else if (pg == 'allat') {
-                    Allat_Plus_Api(document.fm);
+                    // let formData1 = new FormData();
+                    // formData1.append('free', 'cancel');
+                    // formData1.append('cor_id', '<?php echo element('cor_id', $result); ?>');
+                    // formData1.append('cor_id', '<?php echo current_full_url(); ?>');
+                    // formData1.append('mem_id', '<?php echo element('mem_id', $result); ?>');
+                    // fetch('/admin/cmall/cmallorder/ajax_cancelorder', {
+                    //     method: 'POST',
+                    //     body: formData1
+                    // }).then(res => {
+                    //     console.log(res);
+                    // });
+  
+                } else {
+                    if (pg == 'paypal') {
+                        $('#frmorderform').submit();
+                    } else if (pg == 'allat') {
+                        Allat_Plus_Api(document.fm);
+                    }
                 }
             }
         } else {

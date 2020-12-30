@@ -78,6 +78,15 @@
                 <section class="main__section2">
                     <div class="filter reverse"></div>
                     <div class="wrap">
+                        <header class="main__section2-title-login">
+                            <h1>
+                                {{ $t('backgroundMusicMessage1') }}<br/>
+                                {{ $t('backgroundMusicMessage2') }}
+                            </h1>
+                            <a class="startSelling" @click="moveAction('startBuyer')">
+                                {{ $t('buyerLogin') }}
+                            </a>
+                        </header>
                         <header class="main__section2-title">
                             <h1>
                                 {{ $t('bitTradingMessage1') }}<br/>
@@ -400,14 +409,22 @@
                                 url = '/mypage/upgrade';
                             }
                             break;
+
+                        }
+                        case 'startBuyer': {
+                            url = '/register';
+                            localStorage.setItem("UserOffer", "buyer");
+                            break;
                         }
                     }
                 }
                 // 비로그인시
                 else {
                     url = '/register';
+                    localStorage.setItem("UserOffer", "buyer");
                 }
 
+                console.log('this is startSelling', o, this.member);
                 // 이동
                 window.location.href = url;
             },

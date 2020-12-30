@@ -10,6 +10,7 @@
                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
                             </button>
                         </div>
+
                         <div class="detail__music-info">
                             <h2 class="title" style="font-weight: 600;" v-if="item.cit_name">{{ truncate(item.cit_name, 15) }}</h2>
 <!--                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>-->
@@ -27,8 +28,13 @@
                             </div>
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
-                                    <a href="#" class="buy"
-                                       @click="addCart">
+                                    <a class="buy waves-effect free" @click="addCart" href="javascript:;" 
+                                        v-if="is_subscriber && item.cit_type5 === '1' && remain_download_num > 0">
+                                        <span>
+                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
+                                        </span>
+                                    </a>
+                                    <a class="buy waves-effect" @click="addCart" href="javascript:;" v-else>
                                         <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
                                             {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                         </span>
@@ -39,7 +45,6 @@
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                     </a>
-
                                 </div>
                             </div>
                         </div>
@@ -130,6 +135,7 @@
                 isIncreaseMusicCount: false,
                 purchaseTypeSelectorPopup: false,
                 member: false,
+                is_subscriber: false
             }
         },
         computed: {
@@ -151,12 +157,15 @@
             }
         },
         mounted() {
+            this.remainDownloadNumber();
             this.member = window.member;
+            this.member_group_name = window.member_group_name;
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).id;
+            if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
 
-            let params = window.location.pathname.split('/');
+            let params = window.location.pathname.split('/');   
             let cit_key = params[1] === 'beatsomeone' ? params[3] : params[2];
             // console.log(params);
             axios.get(`/item/ajax/${cit_key}`)
@@ -248,6 +257,16 @@
 
         },
         methods: {
+            remainDownloadNumber() {
+                axios.get('/membermodify/mem_remain_downloads_get')
+                    .then(res=>{
+                        
+                        this.remain_download_num = res.data;
+                    })   
+                    .catch(error => {
+                        console.error(error);
+                    })
+            },
             stop() {
                 Amplitude.pause();
                 var bg = document.querySelector(".btn-play");
@@ -302,6 +321,25 @@
             addCart() {
                 this.purchaseTypeSelectorPopup = true;
             },
+
+            freeBuy(item_detail) {
+                let detail_qty = {};
+                detail_qty[item_detail.cde_id] = 1;
+                Http.post(`/beatsomeoneApi/itemAction`, {
+                    stype: "free",
+                    cit_id: this.item.cit_id,
+                    chk_detail: [item_detail.cde_id],
+                    detail_qty: detail_qty,
+                }).then((r) => {
+                    if (!r) {
+                    log.debug("장바구니 담기 실패");
+                    } else {
+                    log.debug("장바구니 담기 성공");
+                    alert(this.$t("inMyShoppingCart"));
+                    this.close();
+                    }
+                });
+            },      
             // 다운로드 증가
             increaseMusicCount() {
                 Http.post(`/beatsomeoneApi/increase_music_count`, {cde_id: this.item.cde_id}).then(r => {

@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <header class="header">
             <div class="wrap">
@@ -8,6 +9,7 @@
                 <div class="header__btnbox">
                     <a href="javascript:;" class="header__locale" v-if="!isShowSearchBox" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                     <input type="text"
+
                            v-if="isShowSearchBox"
                            v-model="searchText"
                            @keyup.enter="enterClicked()"
@@ -46,7 +48,13 @@
                     <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
-                    <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
+                    <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
+                    <button v-if="!isLogin">
+                        <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('saleSignup') }}</a>
+                        <span class="tooltip">
+                             수익 100%청산
+                        </span>
+                    </button>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">
                         {{ $t('cart')}}<br>
                         ({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})
@@ -84,8 +92,7 @@
                 isOpen: false,
                 isShowSearchBox: false,
                 member_group_name: '',
-                banner_content: '',
-                popup: true
+                banner_content: ''
             };
         },
         created() {
@@ -194,6 +201,9 @@
                 // 이동
                 window.location.href = url;
             },
+            signUpClick(state) {
+                localStorage.setItem("UserOffer", state);
+            }
         },
     }
 

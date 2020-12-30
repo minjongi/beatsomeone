@@ -37,7 +37,27 @@
   .main__section2 {
     background: url('/assets_m/images/main-section2-visual.png') no-repeat center top;
     background-size: 100% auto;
+    .main__section2-title1 {
+      padding: 60px 0 80px;
+      text-align: center;
 
+      h1 {
+        @include titleFont(
+                $display: 1,
+                $letterSpacing: -0.045em,
+                $style: italic
+        );
+        margin-bottom: 20px;
+        word-break: keep-all;
+        line-height: 1.25em;
+      }
+
+      a {
+        @include borderLikeButton($padding: 10px 20px);
+        color: #fff;
+        font-size: 12px;
+      }
+    }
     .main__section2-title {
       padding: 60px 0 140px;
       text-align: center;
@@ -57,6 +77,26 @@
         @include borderLikeButton($padding: 10px 20px);
         color: #fff;
         font-size: 12px;
+      }
+    }
+    .main__section2-title-login {
+      padding: 130px 0 0;
+      text-align: center;
+
+      h1 {
+          @include titleFont(
+                  $display: 1,
+                  $letterSpacing: -0.045em,
+                  $style: italic
+          );
+          margin-bottom: 50px;
+          line-height: 1.25em !important;
+      }
+
+      a {
+          @include borderLikeButton();
+          color: #fff;
+          font-size: 14px;
       }
     }
   }

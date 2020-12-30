@@ -176,13 +176,12 @@ export default {
             return (str.length > n) ? str.substr(0, n-1) + '...' : str;
         },
         formatPrice: function (kr, en) {
-            if (this.pg === 'paypal') {
+            if (this.$i18n.locale === "en") {//this.pg === 'paypal'
                 return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
-            } else if (this.pg === 'allat') {
-                return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
-            } else {
+            } else { // if (this.pg === 'allat')
                 return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
             }
+
         },
         toggleButton: function (e) {
             if (

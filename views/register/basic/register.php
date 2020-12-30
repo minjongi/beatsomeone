@@ -8,8 +8,11 @@ $this->managelayout->add_script('window.vm.$children[0].$data.isLogin = ' . ($th
 //    $this->managelayout->add_script('window.vm.$children[0].$data.info = ' . json_encode($getData));
 //    $this->managelayout->add_script('window.vm.$children[0].goPurchase()');
 //}
+
 ?>
+
 <script charset="euc-kr" src="https://tx.allatpay.com/common/NonAllatPayRE.js"></script>
+<script language=JavaScript charset='euc-kr' src="https://tx.allatpay.com/common/NonAllatPayREPlus.js"></script>
 <script>
     window.allat_shop_receive_url = '<?= site_url('pg/allat/proc') ?>';
 </script>

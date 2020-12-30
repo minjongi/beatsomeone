@@ -5,31 +5,37 @@
 <!--      <div class="event-top" v-if="$i18n.locale !== 'en'"> -->
 <!--        <a href="/event"><img src="/assets/images/event/20201207.png"></a>-->
 <!--      </div>-->
-      <div class="wrap">
-        <h1 class="header__logo">
-          <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
-        </h1>
-        <div class="header__gnb">
-          <div class="header__search">
-            <div>
-              <input type="text" v-model="searchText" @keyup.enter="search"/>
-              <button @click="search"></button>
+        <div class="wrap">
+            <h1 class="header__logo">
+                <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
+            </h1>
+            <div class="header__gnb">
+                <div class="header__search">
+                    <div>
+                        <input type="text" v-model="searchText" @keyup.enter="search"/>
+                        <button @click="search"></button>
+                    </div>
+                </div>
+                <nav class="header__nav">
+                    <a href=""></a>
+                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
+                    <a v-if="isCustomer" href="">{{ $t('freeBeats') }}</a>
+                    <a v-if="isSeller" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                    <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
+                    <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
+                    <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
+                    <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
+                    <button v-if="!isLogin">
+                         <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('saleSignup') }}</a>
+                        <span class="tooltip">
+                            수익 100%청산
+                        </span>
+                    </button>
+                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
+                    <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                </nav>
             </div>
-          </div>
-          <nav class="header__nav">
-            <a href=""></a>
-            <a href="/mypage/favorites">{{ $t('favorite') }}</a>
-            <a v-if="isCustomer" href="">{{ $t('freeBeats') }}</a>
-            <a v-if="isSeller" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
-            <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
-            <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
-            <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
-            <a href="/register" v-if="!isLogin">{{ $t('signup') }}</a>
-            <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
-            <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
-          </nav>
         </div>
-      </div>
     </header>
   </div>
 </template>
@@ -38,6 +44,7 @@
     import { EventBus } from '*/src/eventbus';
     import Vuecookies from 'vue-cookies';
     import axios from 'axios';
+    import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: 'Header',
@@ -77,7 +84,8 @@
             },
             isLogin () {
                 return this.member !== false;
-            }
+            },
+
         },
         methods: {
             updateCartSum() {
@@ -107,12 +115,16 @@
                 Vuecookies.set('locale', locale)
                 this.$i18n.locale = locale
             },
+            signUpClick(state) {
+                localStorage.setItem("UserOffer", state);
+            }
         },
     }
 
 </script>
 
-<style scoped="scoped" lang="css">
+<style scoped="scoped">
+
     .header .header__nav a {
         cursor: pointer !important;
     }

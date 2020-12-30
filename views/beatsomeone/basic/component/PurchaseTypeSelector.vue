@@ -27,10 +27,14 @@
                       {{$t('lang24')}}
                     </p>
                   </div>
-
                   <div class="parchase-btnbox">
-                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;">
+                    <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-if="!is_subscriber || item.cit_type5 !== '1'">
                       <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
+                    </a>
+                    <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="is_subscriber && item.cit_type5 === '1'">
+                      <span>
+                        {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
+                      </span>
                     </a>
                   </div>
                 </div>
@@ -157,13 +161,19 @@
 <script>
 import {EventBus} from "*/src/eventbus";
 import $ from "jquery";
-
+import axios from 'axios';
 export default {
   props: ["purchaseTypeSelectorPopup", "item"],
   mounted() {
+    // this.member_group_name = window.member_group_name;
+    this.remainDownloadNumber();
+    if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
   },
   data: function () {
-    return {};
+    return {
+      is_subscriber: false,
+      remain_download_num: 0
+    };
   },
   computed: {
     albumThumb() {
@@ -173,6 +183,18 @@ export default {
     },
   },
   methods: {
+
+    remainDownloadNumber() {
+        axios.get('/membermodify/mem_remain_downloads_get')
+            .then(res=>{
+                
+                this.remain_download_num = res.data;
+            })   
+            .catch(error => {
+                console.error(error);
+            })
+    },
+
     openDesc(id) {
       this.$refs["purchaseBtn" + id].classList.toggle("active");
       this.$refs["purchaseDesc" + id].style.display =
@@ -198,6 +220,24 @@ export default {
             money: Number(item_detail.cde_price),
             money_d: Number(item_detail.cde_price_d)
           });
+          this.close();
+        }
+      });
+    },
+    freeBuy(item_detail) {
+      let detail_qty = {};
+      detail_qty[item_detail.cde_id] = 1;
+      Http.post(`/beatsomeoneApi/itemAction`, {
+        stype: "free",
+        cit_id: this.item.cit_id,
+        chk_detail: [item_detail.cde_id],
+        detail_qty: detail_qty,
+      }).then((r) => {
+        if (!r) {
+          log.debug("장바구니 담기 실패");
+        } else {
+          log.debug("장바구니 담기 성공");
+          alert(this.$t("inMyShoppingCart"));
           this.close();
         }
       });

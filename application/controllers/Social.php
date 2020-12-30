@@ -413,30 +413,30 @@ class Social extends CB_Controller
                 $this->session->unset_userdata('naver_access_token');
                 alert_close('이름 정보를 확인할 수 없어 로그인할 수 없습니다');
             }
-
+            $tmpid = explode('@', $email);
+            $naver_id = $tmpid[0];
             $socialdata = array(
                 'email' => $email,
                 'nickname' => $nickname,
                 'profile_image' => $profile_image,
                 'age' => $age,
                 'gender' => $gender,
-                //'id' => $id,
-                'id' => $email,
+                'id' => $naver_id,
                 'name' => $name,
                 'birthday' => $birthday,
                 'update_datetime' => cdate('Y-m-d H:i:s'),
                 'ip_address' => $this->input->ip_address(),
             );
-            //$this->Social_model->save('naver', $naver_id, $socialdata);
-            $this->Social_model->save('naver', $email, $socialdata);
+            $this->Social_model->save('naver', $naver_id, $socialdata);
+            // $this->Social_model->save('naver', $email, $socialdata);
 
             log_message("info", "socialdata=" . print_r($socialdata, true));
 
             // 이벤트가 존재하면 실행합니다
             Events::trigger('after', $eventname);
 
-            //$this->_common_login('naver', $naver_id);
-            $this->_common_login('naver', $email);
+            $this->_common_login('naver', $naver_id);
+            // $this->_common_login('naver', $email);
         }
 
         if ($this->input->get('code')) {
@@ -798,6 +798,7 @@ class Social extends CB_Controller
             } else {
                 // 비회원이 소셜로그인을 처음 진행하는 상황
 
+
                 if ($this->cbconfig->item('use_register_block')) {
                     alert_close('현재 이 사이트는 회원가입이 금지되어 있습니다.');
                 }
@@ -815,6 +816,24 @@ class Social extends CB_Controller
                 }
 
                 log_message('debug', print_r($socialdata));
+
+
+                $url_after_login = "/register#/7?code=".$social_id;
+                if ($url_after_login) {
+                    $url_after_login = site_url($url_after_login);
+                }
+                echo '<meta http-equiv="content-type" content="text/html; charset=' . config_item('charset') . '">';
+                echo '<script type="text/javascript"> window.close();';
+                if ($url_after_login) {
+                    echo 'window.opener.document.location.href = "' . $url_after_login . '";';
+                } else {
+                    echo 'window.opener.location.reload();';
+                }
+                echo '</script>';
+        
+                exit();
+
+
 
                 $nickname = '';
                 $user_id = '';
@@ -1134,11 +1153,11 @@ class Social extends CB_Controller
 
                 echo '<meta http-equiv="content-type" content="text/html; charset=' . config_item('charset') . '">';
                 echo '<script type="text/javascript"> window.close();';
-//				if ($url_after_login) {
-//					echo 'window.opener.document.location.href = "' . $url_after_login . '";';
-//				} else {
-                echo 'window.opener.location.reload();';
-//				}
+				if ($url_after_login) {
+					echo 'window.opener.document.location.href = "' . $url_after_login . '";';
+				} else {
+                    echo 'window.opener.location.reload();';
+				}
                 echo '</script>';
                 exit;
             }

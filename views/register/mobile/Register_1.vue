@@ -8,16 +8,16 @@
             <form action="">
                 <div class="accounts__case">
                     <label for="listen " class="case case--listen">
-                        <input type="radio" name="case" id="listen " hidden  @click="currentUserType = 'buyer'"/>
-                        <div>
+                        <input type="radio" name="case" id="listen " hidden :checked="currentUserType == 'buyer'"/>
+                        <div @click="currentUserType = 'buyer'">
                             <span class="icon"></span>
                             <p>{{ $t ('listenAndBuyMusic1') }}<br />{{ $t ('listenAndBuyMusic2') }}</p>
                         </div>
                     </label>
 
                     <label for="monetize" class="case case--monetize">
-                        <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'seller'"/>
-                        <div>
+                        <input type="radio" name="case" id="monetize" hidden :checked="currentUserType == 'seller'"/>
+                        <div @click="currentUserType = 'seller'">
                             <span class="icon"></span>
                             <p>{{ $t('monetizeMyMusic1') }}<br />{{ $t('monetizeMyMusic2') }}</p>
                         </div>
@@ -42,7 +42,7 @@
         </div>
 
         <div class="tab accounts__tab">
-            <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}">
+            <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}" style="padding: 0 9px !important;">
                 {{ $t('free') }}
             </button>
             <button data-target="plan-marketplace" @click="plan = 'marketplace'" :class="{'active':this.plan === 'marketplace'}" v-if="isMusician">
@@ -50,6 +50,12 @@
             </button>
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
+            </button> 
+            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician"  style="padding: 0 9px !important;">
+                {{ $t('subscribe_common') }}
+            </button>
+             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician"  style="padding: 0 9px !important;">
+                {{ $t('subscribe_creater') }}
             </button>
         </div>
 
@@ -59,7 +65,7 @@
                     <p>
                         {{ $t('free') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> 0</h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
@@ -73,7 +79,7 @@
                 <tbody>
 
                 <tr>
-                    <td>개인 메시지(채팅) 기능</td>
+                    <td>배경음악 음원 다운로드</td>
                     <td>{{ $t('unlimited') }}</td>
                 </tr>
                 <tr>
@@ -288,6 +294,130 @@
             </table>
         </div>
 
+        <div class="accounts__plan-case" id="plan-subscribe_common"  v-if="!isMusician && plan === 'subscribe_common'">
+            <div class="accounts__plan-header">
+                <div class="left">
+                    <p>
+                        {{ $t('subscribe_common') }}
+                    </p>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>/mo</em></h2>
+                </div>
+                <div class="right">
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
+                </div>
+            </div>
+            <table>
+                <colgroup>
+                    <col width="" />
+                    <col width="120" />
+                </colgroup>
+                <tbody>
+
+                <tr>
+                    <td>배경음악 음원 다운로드</td>
+                    <td>20건</td>
+                </tr>
+                <tr>
+                    <td>무료비트 다운로드</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>구매 음원 파일 저장</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>구매 음원 라이센스 저장</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>미리듣기 스트리밍 서비스</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+<!--                <tfoot>-->
+                <tr>
+                    <td colspan="2">
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                    </td>
+                </tr>
+<!--                </tfoot>-->
+                </tbody>
+            </table> 
+        </div>
+
+        <div class="accounts__plan-case" id="plan-subscribe_creater"  v-if="!isMusician && plan === 'subscribe_creater'">
+            <div class="accounts__plan-header">
+                <div class="left">
+                    <p>
+                        {{ $t('subscribe_creater') }}
+                    </p>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}<em>/mo</em></h2>
+                </div>
+                <div class="right">
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
+                </div>
+            </div>
+            <table>
+                <colgroup>
+                    <col width="" />
+                    <col width="120" />
+                </colgroup>
+                <tbody>
+
+                <tr>
+                    <td>배경음악 음원 다운로드</td>
+                    <td>10건</td>
+                </tr>
+                <tr>
+                    <td>무료비트 다운로드</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>구매 음원 파일 저장</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>구매 음원 라이센스 저장</td>
+                    <td>
+                        <span class="check">O</span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>미리듣기 스트리밍 서비스</td>
+                    <td>
+                       <span class="check">O</span>
+                    </td>
+
+                </tr>
+<!--                <tfoot>-->
+                <tr>
+                    <td colspan="2">
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                    </td>
+                </tr>
+<!--                </tfoot>-->
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </template>
 
@@ -309,7 +439,9 @@
                 sellerFreeGroup: {},
                 sellerPlatinumGroup: {},
                 sellerMasterGroup: {},
-                selectedGroup: {}
+                selectedGroup: {},
+                subscribedCommon: {},
+                subscribedCreater: {}
             }
         },
         filters: {
@@ -325,10 +457,12 @@
             },
         },
         created() {
-            this.currentUserType = this.userType[1];
+            this.currentUserType = localStorage.getItem("UserOffer");
             this.fetchData();
         },
+        
         mounted() {
+            
         },
         watch: {
             currentUserType(n) {
@@ -350,6 +484,8 @@
                             }
                         });
                     });
+                }else{
+                     this.billTerm = 'monthly';
                 }
             }
         },
@@ -359,13 +495,17 @@
                     group: group,
                     billTerm: this.billTerm,
                 })
-                this.$router.push('/3');
+                localStorage.setItem('mgr_id', group.mgr_id);
+                localStorage.setItem('bill_term', this.billTerm);
+
+                this.$router.push('/2');
             },
             fetchData() {
                 axios.get('/membergroup')
                     .then(res => res.data)
                     .then(data => {
                         let list = Object.values(data);
+                        console.log('this is list__________', list);
                         list.forEach(item => {
                             if (item.mgr_title === 'buyer') {
                                 this.buyerGroup = item;
@@ -375,6 +515,10 @@
                                 this.sellerPlatinumGroup = item;
                             } else if (item.mgr_title === 'seller_master') {
                                 this.sellerMasterGroup = item;
+                            } else if (item.mgr_title === 'subscribe_common'){
+                                this.subscribedCommon = item;
+                            } else if (item.mgr_title === 'subscribe_creater'){
+                                this.subscribedCreater = item;
                             }
                         });
                     })

@@ -37,6 +37,7 @@
   .header__locale {
     color: #fff;
   }
+  
 }
 
 
@@ -92,6 +93,51 @@
       margin-bottom: 40px;
       width: 100%;
       text-align: center;
+    }
+    button {
+      cursor: pointer;
+      transition: 0.3s ease;
+      position: relative;
+      opacity: 1;
+      .tooltip {
+          position: absolute;
+          width: 100px;
+          background:#129292;   
+          bottom: -36px !important;
+          color: #ffffff;
+          opacity: 1;
+          // border-style: solid;
+          // border-color: #ffffff;
+          // border-width: 1px;
+          div{
+              margin-bottom: 5px;
+          }
+          &:after {
+              content: '';
+              display: block;
+              @include position($bottom: 24px, $left: 50%);
+              transform: translateX(-50%);
+              width: 0;
+              height: 0;
+              border-top: 5px solid transparent;
+              border-bottom: 5px solid #129292;
+              border-left: 5px solid transparent;
+              border-right: 5px solid transparent;
+          }
+      }
+
+      // &:hover {
+      //     opacity: 1;
+      // }
+
+      // &:hover .tooltip {
+      //     opacity: 1;
+      //     bottom: 30px;
+
+      //     a {
+      //         height: 40px;
+      //     }
+      // }
     }
   }
   .gnb__banner {

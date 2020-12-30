@@ -714,15 +714,22 @@ class Members extends CB_Controller
                     'mem_id' => $mem_id,
                 );
                 $this->Member_group_member_model->delete_where($deletewhere);
-                if ($this->input->post('member_group')) {
-                    foreach ($this->input->post('member_group') as $gkey => $gval) {
+                if ($this->input->post('member_group0')) {
+                    $mginsert = array(
+                        'mgr_id' => $this->input->post('member_group0'),
+                        'mem_id' => $mem_id,
+                        'mgm_datetime' => cdate('Y-m-d H:i:s'),
+                    );
+                    $this->Member_group_member_model->insert($mginsert);
+                }
+                if ($this->input->post('member_group1')) {
+                    if ($this->input->post('member_group1') != "0")
                         $mginsert = array(
-                            'mgr_id' => $gval,
+                            'mgr_id' => $this->input->post('member_group1'),
                             'mem_id' => $mem_id,
                             'mgm_datetime' => cdate('Y-m-d H:i:s'),
                         );
                         $this->Member_group_member_model->insert($mginsert);
-                    }
                 }
                 $extradata = array();
                 if ($form && is_array($form)) {
@@ -884,7 +891,10 @@ class Members extends CB_Controller
                 array(
                     'key' => 'gender',
                     'text' => '성별',
-                    'value' => (element('gender', $data) === 'male' ? '남성' : '여성'),
+                    'value' => (
+                        (element('gender', $data) === 'male' || element('gender', $data) === 'M' || element('gender', $data) === 'm') ? '남성' : 
+                        ((element('gender', $data) === 'female' || element('gender', $data) === 'F' || element('gender', $data) === 'f') ? '여성' : '')
+                    ),
                 ),
                 array(
                     'key' => 'locale',
@@ -982,7 +992,10 @@ class Members extends CB_Controller
                 array(
                     'key' => 'gender',
                     'text' => '성별',
-                    'value' => (element('gender', $data) === 'male' ? '남성' : '여성'),
+                    'value' => (
+                        (element('gender', $data) === 'male' || element('gender', $data) === 'M' || element('gender', $data) === 'm') ? '남성' : 
+                        ((element('gender', $data) === 'female' || element('gender', $data) === 'F' || element('gender', $data) === 'f') ? '여성' : '')
+                    ),
                 ),
                 array(
                     'key' => 'locale',
@@ -1036,7 +1049,10 @@ class Members extends CB_Controller
                 array(
                     'key' => 'gender',
                     'text' => '성별',
-                    'value' => (element('gender', $data) === 'F' ? '여성' : '남성'),
+                    'value' => (
+                        (element('gender', $data) === 'male' || element('gender', $data) === 'M' || element('gender', $data) === 'm') ? '남성' : 
+                        ((element('gender', $data) === 'female' || element('gender', $data) === 'F' || element('gender', $data) === 'f') ? '여성' : '')
+                    ),
                 ),
                 array(
                     'key' => 'birthday',
