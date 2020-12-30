@@ -151,6 +151,8 @@
       }
 
       .noti-content img {
+          display: block;
+          float:left;
           max-width: 300px;
           width: 100%;
           margin: 0;

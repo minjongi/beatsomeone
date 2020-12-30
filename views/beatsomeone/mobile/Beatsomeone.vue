@@ -1,16 +1,16 @@
 <template>
     <div>
-<!--        <div id="noti-popup" ref="noti-popup" v-if="popup && $i18n.locale !== 'en'">-->
-<!--          <div class="noti-content">-->
-<!--            <div style="position: absolute;right: 5px;width: 30px;height: 30px;margin-top: 8px;" @click="closePopup"></div>-->
-<!--            <div style="background-color: #000000">-->
-<!--              <img src="/assets_m/images/event/20201207/1.png" style="display:block;">-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <img src="/assets_m/images/event/20201207/2.png" style="display:block;" @click="goEvent">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div v-if="popup">
+          <div class="noti-wrap"></div>
+          <div class="noti-content">
+            <div>
+              <a href="/event"><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/1.png'"></a>
+            </div>
+            <div>
+              <img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
+            </div>
+          </div>
+        </div>
         <div class="wrapper">
             <Header :is-login="isLogin"></Header>
             <div class="container">
@@ -175,6 +175,7 @@
     import Velocity from "velocity-animate";
     import MainPlayer from "@/vue/common/MobileMainPlayer";
     import KeepAliveGlobal from "vue-keep-alive-global";
+    import Vuecookies from 'vue-cookies'
 
     export default {
         name: "Index",
@@ -192,7 +193,7 @@
                 videoBGPath: "",
                 member: false,
                 member_group_name: '',
-                popup: true
+                popup: false
             };
         },
         created() {
@@ -204,6 +205,10 @@
 
             // Testimonials List
             this.getTestimonialsList();
+
+            if (Vuecookies.get('popup-close') !== 'Y') {
+              this.popup = true
+            }
         },
         mounted() {
             // 메인페이지: 서브 앨범 슬라이드 이벤트
@@ -269,8 +274,17 @@
             goEvent() {
               location.href = '/event'
             },
-            closePopup() {
+            closePopup(isForever) {
+              if (isForever) {
+                Vuecookies.set('popup-close', 'Y', '1d')
+              }
               this.popup = false
+            },
+            setCookie(cname, cvalue, exdays) {
+              var d = new Date();
+              d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+              var expires = "expires=" + d.toUTCString();
+              document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
             },
             endVideoBG() {
                 const idx = Math.floor(Math.random() * 5) + 1;
