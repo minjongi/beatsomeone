@@ -25,11 +25,11 @@
             <div class="accounts__switch" v-if="isMusician">
                 <span class="accounts__switch-bg"></span>
                 <label for="monthly" @click="billTerm = 'monthly'">
-                    <input type="radio" id="monthly" hidden name="bill" checked/>
+                    <input type="radio" id="monthly" hidden name="bill"/>
                     <span>{{ $t('billMonthly') }}</span>
                 </label>
                 <label for="yearly" @click="billTerm = 'yearly'">
-                    <input type="radio" id="yearly" hidden name="bill"/>
+                    <input type="radio" id="yearly" hidden name="bill" checked/>
                     <span>
                         {{ $t('billYearly') }}
                         <em>{{ disBill }}{{ $t('savepercent') }}</em>
@@ -71,7 +71,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr v-if="false">
                     <td>{{ $t('downloadBackgroundMusic') }}</td>
                     <td> <span class="check">1</span></td>
                     <td>20건</td>
@@ -179,6 +179,12 @@
                 </thead>
                 <tbody>
                 <tr>
+                  <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
+                  <td>{{ $t('lang140') }}</td>
+                  <td>{{ $t('lang140') }}</td>
+                  <td>{{ $t('lang141') }}</td>
+                </tr>
+                <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
                     <td>{{ $t('unlimited') }}</td>
@@ -261,8 +267,8 @@
         data: function () {
             return {
                 userType: ['buyer', 'seller'],
-                currentUserType: 'buyer',
-                billTerm: 'monthly',
+                currentUserType: 'seller',
+                billTerm: 'yearly',
                 listPlan: null,
                 planName: 'free',
                 disBill: 10,

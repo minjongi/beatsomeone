@@ -27,11 +27,11 @@
                 <div class="accounts__switch" v-if="isMusician">
                     <span class="accounts__switch-bg"></span>
                     <label for="monthly" @click="billTerm = 'monthly'">
-                        <input type="radio" id="monthly" hidden name="bill" checked />
+                        <input type="radio" id="monthly" hidden name="bill" />
                         <span>{{ $t('billMonthly') }}</span>
                     </label>
                     <label for="yearly" @click="billTerm = 'yearly'">
-                        <input type="radio" id="yearly" hidden name="bill" />
+                        <input type="radio" id="yearly" hidden name="bill"  checked/>
                         <span>
                             {{ $t('billYearly') }}
                             <em>{{ disBill }}{{ $t('savepercent') }}</em>
@@ -78,7 +78,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr>
+                <tr v-if="false">
                     <td>배경음악 음원 다운로드</td>
                     <td>{{ $t('unlimited') }}</td>
                 </tr>
@@ -256,6 +256,11 @@
                 </colgroup>
                 <tbody>
                 <tr>
+                  <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
+                  <td>{{ $t('lang141') }}</td>
+                </tr>
+
+                <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>{{ $t('unlimited') }}</td>
                 </tr>
@@ -313,7 +318,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr>
+                <tr v-if="false">
                     <td>배경음악 음원 다운로드</td>
                     <td>20건</td>
                 </tr>
@@ -375,7 +380,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr>
+                <tr v-if="false">
                     <td>배경음악 음원 다운로드</td>
                     <td>10건</td>
                 </tr>
@@ -429,8 +434,8 @@
         data: function () {
             return {
                 userType: ['buyer', 'seller'],
-                currentUserType: null,
-                billTerm: 'monthly',
+                currentUserType: 'seller',
+                billTerm: 'yearly',
                 listPlan: null,
                 planName: 'free',
                 plan: 'free',

@@ -89,7 +89,7 @@
         <section class="main__section2">
           <div class="filter reverse"></div>
           <div class="wrap">
-                        <header class="main__section2-title-login">
+                        <header class="main__section2-title-login" v-if="false">
                             <h1>
                                 {{ $t('backgroundMusicMessage1') }}<br/>
                                 {{ $t('backgroundMusicMessage2') }}

@@ -615,6 +615,10 @@ export default {
         lang116: '사용가능 파일형식 : jpg, jpeg, png, gif',
         lang117: '파일 용량 2MB 이하',
         lang118: '파일 크기 1000 x 1000 이하',
+        lang138: '증정 프로모션',
+        lang139: '*1년 결제 시에만 해당됨',
+        lang140: '없음',
+        lang141: 'Antares Auto-Tune Artist 플러그인',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1227,5 +1231,9 @@ export default {
         lang116: 'Available file formats: jpg, jpeg, png, gif',
         lang117: 'File size less than 2MB',
         lang118: 'File size less than 1000 x 1000',
+        lang138: 'Gift promotion',
+        lang139: '*Please select the 1-year purchase option',
+        lang140: 'None',
+        lang141: 'Antares Auto-Tune Artist Plug-in',
     } // en
 }
