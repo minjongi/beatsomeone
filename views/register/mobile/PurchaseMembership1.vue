@@ -97,6 +97,8 @@
                             <input type="hidden" name="allat_recp_addr" v-model="allatForm.recp_addr" maxlength="120"/>
                             <!--이메일-->
                             <input type="hidden" name="allat_email_addr" v-model="allatForm.email_addr" maxlength="120"/>
+                            <!--생년월일-->
+                            <input type="hidden" name="allat_registry_no" v-model="allatForm.recp_nm" size="19" maxlength=6>
 
                             <!--인증정보수신URL  -->
                             <input type="hidden" name="shop_receive_url"  v-model="allatForm.shop_receive_url" size="19"/>
