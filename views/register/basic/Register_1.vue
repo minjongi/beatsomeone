@@ -271,7 +271,7 @@
                 billTerm: 'monthly',
                 listPlan: null,
                 planName: 'free',
-                disBill: 10,
+                disBill: 17,
                 buyerGroup: {},
                 sellerFreeGroup: {},
                 sellerPlatinumGroup: {},

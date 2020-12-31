@@ -180,7 +180,7 @@
             },
         },
         created() {
-          if (window.location.href.split('?')[1] === 't=pr#/3') {
+          if (window.location.search === '?t=pr') {
             localStorage.setItem("UserOffer", "seller");
             localStorage.setItem('mgr_id', 4);
             localStorage.setItem('bill_term', 'yearly');

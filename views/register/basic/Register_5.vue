@@ -37,8 +37,8 @@
                     </div>
                 </div>
                 <div class="accounts__btnbox">
-                    <button type="button" class="btn btn--submit" @click="doNext">
-                        {{ $t('signup') }}
+                    <button type="button" class="btn btn--submit" @click="doNext" ref="btnSubmit">
+                        {{ btnSubmitTit }}
                     </button>
                 </div>
         </div>
@@ -53,6 +53,7 @@
         data: function() {
             return {
                 user: {},
+                btnSubmitTitCode: 'signup'
             }
         },
         computed: {
@@ -61,6 +62,9 @@
             },
             isMusician: function() {
                 return this.$parent.info.userType === 'musician';
+            },
+            btnSubmitTit: function() {
+                return this.$t(this.btnSubmitTitCode)
             },
         },
         created() {
@@ -83,7 +87,16 @@
             },
             doNext() {
                 if(this.doValidation()) {
+                    this.btnSubmitTitCode = 'lang145'
+                    this.$refs['btnSubmit'].disabled = true;
+
                     let userInfo = this.$store.getters.getUserInfo;
+                    if (!userInfo.group) {
+                      alert(this.$t('lang144'))
+                      window.location.href = '/register'
+                      return
+                    }
+
                     userInfo.mem_profile_content = this.user.introduce;
                     const group = userInfo.group;
                     let formData = new FormData();
@@ -101,17 +114,21 @@
                     axios.post('/register/form', formData)
                         .then(res => res.data)
                         .then(data => {
-                            console.log('this is data_______', data);
-                            // window.gtag_report_conversion()
+                            window.gtag_report_conversion()
                             if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free' || group.mgr_title === 'buyerFree') {
-                                alert(this.$t('successfullyRegistered'));
-                                window.location.href = '/';
-                            } else {
-                                alert(this.$t('lang110'));
-                                window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
+                                alert(this.$t('successfullyRegistered'))
+                                window.location.href = '/'
+                                return
                             }
+
+                            alert(this.$t('lang110'))
+                            window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`
                         })
                         .catch(error => {
+                            this.btnSubmitTitCode = 'signup'
+                            this.$refs['btnSubmit'].disabled = false;
+
+                            alert(this.$t('lang144'))
                             console.error(error);
                         })
                 }

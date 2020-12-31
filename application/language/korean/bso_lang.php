@@ -577,3 +577,5 @@ $lang['lang140'] = '없음';
 $lang['lang141'] = 'Antares Auto-Tune Artist 플러그인';
 $lang['lang142'] = '판매자 가입 이벤트에 응모 되었습니다.';
 $lang['lang143'] = '이벤트 대상자가 아닙니다';
+$lang['lang144'] = '오류가 발생하였습니다';
+$lang['lang145'] = '처리중...';

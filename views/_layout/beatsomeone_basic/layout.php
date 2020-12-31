@@ -267,4 +267,3 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 <?php echo $this->managelayout->display_script(); ?>
 
 </html>
-
