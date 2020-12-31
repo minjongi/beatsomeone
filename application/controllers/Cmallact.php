@@ -197,7 +197,7 @@ class Cmallact extends CB_Controller
 		// 이벤트가 존재하면 실행합니다
 		Events::trigger('before', $eventname);
 
-		$this->load->model(array('Cmall_item_model', 'Cmall_item_detail_model', 'Cmall_order_model'));
+		$this->load->model(array('Cmall_item_model', 'Cmall_item_detail_model', 'Cmall_order_model', 'Member_model'));
 
 		$itemdetail = $this->Cmall_item_detail_model->get_one($cde_id);
 		$item = $this->Cmall_item_model->get_one(element('cit_id', $itemdetail));
@@ -260,6 +260,14 @@ class Cmallact extends CB_Controller
 			$this->load->model(array('Cmall_download_log_model'));
 			$this->Cmall_download_log_model->insert($insertdata);
 		}
+
+        if (element('cor_pay_type', $order) == 'FREE') {
+            $tmpdata = array();
+            $tmpdata['mem_remain_downloads'] = (int) $this->member->item('mem_remain_downloads');
+            $tmpdata['mem_remain_downloads'] = $tmpdata['mem_remain_downloads'] - 1;
+            $this->Member_model->update($mem_id, $tmpdata);
+        }
+
 
 		// 이벤트가 존재하면 실행합니다
 		Events::trigger('after', $eventname);
