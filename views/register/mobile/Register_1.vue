@@ -51,10 +51,10 @@
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
             </button> 
-            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician && false"  style="padding: 0 9px !important;">
+            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician && true"  style="padding: 0 9px !important;">
                 {{ $t('subscribe_common') }}
             </button>
-             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician && false"  style="padding: 0 9px !important;">
+             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician && true"  style="padding: 0 9px !important;">
                 {{ $t('subscribe_creater') }}
             </button>
         </div>
