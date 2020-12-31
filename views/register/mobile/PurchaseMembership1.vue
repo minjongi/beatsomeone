@@ -253,15 +253,12 @@
                 });
             },
             payAllat: function (e) {
-                let birthday = "";
-                while (birthday.length != 6) {
-                    birthday = prompt("생년월일(6자리)을 입력해주세요.");
+                if (document.fm1.allat_registry_no.value.length != 6) {
+                    let birthday = prompt("생년월일(6자리)을 입력해주세요.");
                     this.$set(this.allatForm, 'birthday', birthday);
-                    if (birthday.length == 6) {
-                        document.fm1.birthday.value = birthday;
-                        window.Allat_Mobile_Fix(document.fm1,"0","0");
-                        break;
-                    }
+                }
+                if (document.fm1.allat_registry_no.value.length == 6) {
+                    window.Allat_Mobile_Fix(document.fm1,"0","0");
                 }
             },
             // procCompletePay: function (result_cd, result_msg, enc_data) {
