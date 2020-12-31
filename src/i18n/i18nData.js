@@ -625,6 +625,7 @@ export default {
         lang145: '처리중...',
         lang146: '사용할 수 없는 이메일 입니다',
         lang147: '사용 가능한 이메일입니다',
+        lang148: '닉네임은 3~12자리 및 영문, 숫자, 언더바(_)만 가능합니다',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1247,5 +1248,6 @@ export default {
         lang145: 'Processing...',
         lang146: 'Email unavailable',
         lang147: 'Email is available',
+        lang148: 'Please enter the username within 3 to 12 characters in numbers, alphabets, and underbars',
     } // en
 }

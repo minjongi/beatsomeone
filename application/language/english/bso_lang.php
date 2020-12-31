@@ -577,3 +577,4 @@ $lang['lang144'] = 'An error has occurred';
 $lang['lang145'] = 'Processing...';
 $lang['lang146'] = 'Email unavailable';
 $lang['lang147'] = 'Email is available';
+$lang['lang147'] = 'Please enter the username within 3 to 12 characters in numbers, alphabets, and underbars';

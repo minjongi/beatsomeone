@@ -226,6 +226,11 @@
                     return false;
                 }
 
+                if(this.user.username.length < 3) {
+                  alert(this.$t('lang148'));
+                  return false;
+                }
+
                 if(this.errorValidUserId) {
                     alert(this.errorValidUserId);
                     return false;
@@ -243,6 +248,11 @@
                 if(!this.user.password) {
                     alert(this.$t('typeYourPassword'));
                     return false;
+                }
+
+                if(this.user.password.length < 4) {
+                  alert(this.$t('passwordCharactersMsg'));
+                  return false;
                 }
 
                 if(this.user.password !== this.passwordVerify) {
