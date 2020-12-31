@@ -623,6 +623,8 @@ export default {
         lang143: '이벤트 대상자가 아닙니다',
         lang144: '오류가 발생하였습니다',
         lang145: '처리중...',
+        lang146: '사용할 수 없는 이메일 입니다',
+        lang147: '사용 가능한 이메일입니다',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1243,5 +1245,7 @@ export default {
         lang143: 'You are not eligible for the event.',
         lang144: 'An error has occurred',
         lang145: 'Processing...',
+        lang146: 'Email unavailable',
+        lang147: 'Email is available',
     } // en
 }

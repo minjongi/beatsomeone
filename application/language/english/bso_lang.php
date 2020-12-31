@@ -575,3 +575,5 @@ $lang['lang142'] = 'You have been applied for a seller registration event';
 $lang['lang143'] = 'You are not eligible for the event.';
 $lang['lang144'] = 'An error has occurred';
 $lang['lang145'] = 'Processing...';
+$lang['lang146'] = 'Email unavailable';
+$lang['lang147'] = 'Email is available';

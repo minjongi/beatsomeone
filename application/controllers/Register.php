@@ -4821,10 +4821,19 @@ class Register extends CB_Controller
         Events::trigger('before', $eventname);
 
         $email = trim($this->input->post('email'));
+
         if (empty($email)) {
             $result = array(
                 'result' => 'no',
                 'reason' => '이메일값이 넘어오지 않았습니다',
+            );
+            exit(json_encode($result));
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $result = array(
+                'result' => 'no',
+                'reason' => lang('lang146'),
             );
             exit(json_encode($result));
         }
@@ -4853,7 +4862,7 @@ class Register extends CB_Controller
         if ($this->_mem_email_check($email) === false) {
             $result = array(
                 'result' => 'no',
-                'reason' => lang('lang105'),
+                'reason' => lang('lang146'),
             );
             exit(json_encode($result));
         }
@@ -4863,7 +4872,7 @@ class Register extends CB_Controller
 
         $result = array(
             'result' => 'available',
-            'reason' => '사용 가능한 이메일입니다',
+            'reason' => lang('lang147'),
         );
         exit(json_encode($result));
     }
