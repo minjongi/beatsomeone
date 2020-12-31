@@ -175,7 +175,7 @@
         </section>
       </div>
     </div>
-    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en' && !mainPage">
+    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en'">
       <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
     </div>
   </div>
