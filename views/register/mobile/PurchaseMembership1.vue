@@ -165,7 +165,7 @@
                     recp_addr: "",
                     email_addr: "",
                     shop_receive_url: window.allat_shop_receive_url,
-                    birthday: "111111",
+                    birthday: "",
                     test_yn: "N",
                     card_yn: "N",
                     bank_yn: "N",
@@ -253,9 +253,15 @@
                 });
             },
             payAllat: function (e) {
-                let birthday = prompt("생년월일(6자리)을 입력해주세요.");
-                this.$set(this.allatForm, 'birthday', birthday);
-                window.Allat_Mobile_Fix(document.fm1,"0","0");
+                let birthday = "";
+                while (birthday.length != 6) {
+                    birthday = prompt("생년월일(6자리)을 입력해주세요.");
+                    this.$set(this.allatForm, 'birthday', birthday);
+                    if (birthday.length == 6) {
+                        document.fm1.birthday.value = birthday;
+                        window.Allat_Mobile_Fix(document.fm1,"0","0");
+                    }
+                }
             },
             // procCompletePay: function (result_cd, result_msg, enc_data) {
             //     window.Allat_Mobile_Close();
