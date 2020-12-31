@@ -260,6 +260,7 @@
                     if (birthday.length == 6) {
                         document.fm1.birthday.value = birthday;
                         window.Allat_Mobile_Fix(document.fm1,"0","0");
+                        break;
                     }
                 }
             },
