@@ -31,23 +31,23 @@
                         <span class="tooltip" v-if="hovered">
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
-                                <span> 무료비트 다운로드 기능</span>
+                                <span> {{ $t('lang121') }}</span>
                             </div>    
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
-                                <span> 정기구독회원 다운로드 기능</span>
+                                <span> {{ $t('lang122') }}</span>
                             </div>  
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
-                                <span> 정식으로 저작권 등록된 음원</span>
+                                <span> {{ $t('lang123') }}</span>
                             </div>  
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
-                                <span> 음성 또는 가창이 포함된 음원</span>
+                                <span> {{ $t('lang124') }}</span>
                             </div>  
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
-                                <span> 비트 썸원 오리지널 음원</span>
+                                <span> {{ $t('lang125') }}</span>
                             </div>  
                         </span>
                     </button>

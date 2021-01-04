@@ -626,6 +626,11 @@ export default {
         lang146: '사용할 수 없는 이메일 입니다',
         lang147: '사용 가능한 이메일입니다',
         lang148: '닉네임은 3~12자리 및 영문, 숫자, 언더바(_)만 가능합니다',
+        lang121: '무료 다운로드 기능',
+        lang122: '정기구독 회원 전용 음원',
+        lang123: '정식 저작권 등록된 음원',
+        lang124: '음성 또는 가창이 포함된 음원',
+        lang125: '비트썸원 오리지널 음원',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1249,5 +1254,10 @@ export default {
         lang146: 'Email unavailable',
         lang147: 'Email is available',
         lang148: 'Please enter the username within 3 to 12 characters in numbers, alphabets, and underbars',
+        lang121: 'Free download',
+        lang122: 'Monthly Plan only',
+        lang123: 'Music Copyright Activated',
+        lang124: 'Sound source with voice',
+        lang125: 'Beatsomeone Original',
     } // en
 }
