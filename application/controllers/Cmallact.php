@@ -264,7 +264,7 @@ class Cmallact extends CB_Controller
             $tmpdata = array();
             $tmpdata['mem_remain_downloads'] = (int) $this->member->item('mem_remain_downloads');
             $tmpdata['mem_remain_downloads'] = $tmpdata['mem_remain_downloads'] - 1;
-            $this->Member_model->update($mem_id, $tmpdata);
+            $this->Member_model->update($this->member->item('mem_id'), $tmpdata);
         }
 
 
