@@ -157,7 +157,7 @@ class Cmall_order_model extends CB_Model
 			return;
 		}
 
-		$this->db->select('cmall_order.cor_id, cmall_order.cor_approve_datetime, cmall_order.cor_status, cmall_order_detail.cod_id');
+		$this->db->select('cmall_order.cor_id, cmall_order.cor_approve_datetime, cmall_order.cor_status, cmall_order_detail.cod_id, cmall_order.cor_pay_type');
 		$this->db->join('cmall_order_detail', 'cmall_order.cor_id = cmall_order_detail.cor_id', 'inner');
 		$where = array(
 			'cmall_order.mem_id' => $mem_id,

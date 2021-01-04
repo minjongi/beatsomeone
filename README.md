@@ -131,10 +131,15 @@ Beat Someone
 		VALUES (6, 'subscribe_creater', 0, '2020-12-03 01:38:00', 6, '정기구독(크리에이터)', 9.00, 9900, 0.00, 0, 0, 0, 0, 0, 0, 0, 0);
 
 	*		alter table cb_cmall_item ADD cit_type5 TINYINT default 0 NOT NULL;
-	*		ALTER TABLE cb_cmall_cart ADD isfree INT NOT null DEFAULT 0;
+	*		alter table cb_cmall_cart ADD isfree INT NOT null DEFAULT 0;
 
 	*		alter table cb_member_group ADD mgr_monthly_download_limit int;
 	*		alter table cb_member_group ADD mgr_year_download_limit int;
+
+	*		alter table cb_member ADD mem_remain_downloads int;
+	*		alter table cb_member_membership_purchase_log ADD card_key varchar(50);
+
+
 
 ## 환경설정
 * 뮤지션 회원 추가정보 (계좌)

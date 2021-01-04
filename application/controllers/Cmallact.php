@@ -214,7 +214,7 @@ class Cmallact extends CB_Controller
 		}
 
 		$order = $this->Cmall_order_model
-			->is_ordered_item_detail($this->member->item('mem_id'), $cor_id, $cde_id);
+            ->is_ordered_item_detail($this->member->item('mem_id'), $cor_id, $cde_id);
 		if ( ! element('cor_id', $order) OR preg_replace('/[^0-9]/', '', element('cor_id', $order)) != $cor_id) {
             $this->output->set_status_header('400');
             $this->output->set_output(json_encode([
@@ -241,7 +241,6 @@ class Cmallact extends CB_Controller
             ]));
             return false;
         }
-
 		if ( ! $this->session->userdata('cmall_download_item_' . element('cor_id', $order) . '_' . element('cde_id', $itemdetail))) {
 			$this->session->set_userdata(
                 'cmall_download_item_' . element('cor_id', $order) . '_' . element('cde_id', $itemdetail),
