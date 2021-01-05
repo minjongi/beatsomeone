@@ -148,16 +148,21 @@ export default {
                 url: `/cmallact/download/${this.cor_id}/${item.cde_id}`,
                 responseType: "blob",
             })
-                .then((response) => {
-                    const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/mp3'}));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', item.cde_originname);
-                    document.body.appendChild(link);
-                    link.click();
-                    this.$set(this.item.item, 'possible_refund', 0);
-                })
-                .catch((error) => console.error(error));
+            .then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/mp3'}));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', item.cde_originname);
+                document.body.appendChild(link);
+                link.click();
+                this.$set(this.item.item, 'possible_refund', 0);
+            })
+            .catch((error) => {
+                if (error.message == "Request failed with status code 405") {
+                    alert('이번달 다운로드 횟수가 모두 소진 되었습니다.');
+                }
+                console.error(error)
+            });
         },
         caclLeftDay: function (orderDate) {
             var tDate = new Date(orderDate);

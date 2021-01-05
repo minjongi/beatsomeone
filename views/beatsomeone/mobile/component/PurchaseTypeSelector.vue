@@ -23,15 +23,16 @@
                                 <div class="purchase-headern">
                                     <div class="parchase-btnbox">
                                         <a class="buy waves-effect free" @click="freeBuy(item.detail.LEASE)" href="javascript:;" 
-                                            v-if="is_subscriber && item.cit_type5 === '1' && remain_download_num > 0">
+                                            v-if="is_subscriber && item.cit_type5 === '1' && remainDownloadNumber() > 0">
                                             <span>
-                                                {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
+                                                {{ formatPrice(0, 0, true) }} (구독 잔여 {{remainDownloadNumber()}})
                                             </span>
                                         </a>
                                         <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
                                             <span>
                                                 {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                             </span>
+                                            <span v-if="is_subscriber && item.cit_type5 == '1'"> (구독 잔여 {{ remainDownloadNumber() }})</span>
                                         </a>
                                     </div>
                                     <div>
@@ -202,6 +203,7 @@ export default {
     methods: {
         remainDownloadNumber() {
             this.remain_download_num = localStorage.getItem("remain_download_num");
+            return this.remain_download_num;
             // axios.get('/membermodify/mem_remain_downloads_get')
             //     .then(res=>{
                     
