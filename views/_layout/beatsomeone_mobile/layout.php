@@ -16,8 +16,8 @@
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
   <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
-  <meta property="og:description" content="<?php echo html_escape(element('og_description', $layout)); ?>"/>
-  <meta property="og:title" content="<?php echo html_escape(element('og_title', $layout)); ?>"/>
+  <meta property="og:description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"/>
+  <meta property="og:title" content="<?php echo html_escape(element('page_title', $layout)); ?>"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
