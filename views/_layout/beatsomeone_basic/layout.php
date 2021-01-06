@@ -9,7 +9,6 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta name="viewport" content="width=1420">
     <title><?php echo html_escape(element('page_title', $layout)); ?></title>
     <?php if (element('meta_description', $layout)) { ?><meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
-    <?php if (element('meta_keywords', $layout)) { ?><meta name="keywords" content="<?php echo html_escape(element('meta_keywords', $layout)); ?>"><?php } ?>
     <?php if (element('meta_author', $layout)) { ?><meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
     <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
     <?php if (element('canonical', $view)) { ?><link rel="canonical" href="<?php echo element('canonical', $view); ?>" /><?php } ?>
@@ -17,7 +16,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
-    <meta property="og:description" content="<?php echo html_escape(element('og_description', $layout)); ?>"/>
+    <meta property="og:description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"/>
     <meta property="og:title" content="<?php echo html_escape(element('og_title', $layout)); ?>"/>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

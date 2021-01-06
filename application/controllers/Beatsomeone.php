@@ -81,7 +81,7 @@ class Beatsomeone extends CB_Controller
         }
 
 
-        $view['view']['canonical'] = site_url('beatsomeone');
+        $view['view']['canonical'] = site_url();
 
         $member = $this->member->get_member();
         $view['view']['member'] = $member;
@@ -142,6 +142,10 @@ class Beatsomeone extends CB_Controller
             'meta_keywords' => $meta_keywords,
             'meta_author' => $meta_author,
             'page_name' => $page_name,
+            'og_title' => $page_title,
+            'og_url' => $view['view']['canonical'],
+            'og_description' => $meta_description,
+            'og_image' => site_url() . '/assets/images/logo.png',
         );
 
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
@@ -205,6 +209,7 @@ class Beatsomeone extends CB_Controller
             $detailItem[] = 'STEM';
         }
 
+        $view['view']['canonical'] = site_url('detail/' . $view['view']['item']['cit_key'] . '#/');
         $view['view']['item']['detail'] = [];
         foreach ($detail as $detailKey => $detailVal) {
             if (in_array($detailVal['cde_title'], $detailItem)) {
@@ -255,8 +260,6 @@ class Beatsomeone extends CB_Controller
             }
         }
 
-
-
         /**
          * 레이아웃을 정의합니다
          */
@@ -273,14 +276,15 @@ class Beatsomeone extends CB_Controller
             $this->cbconfig->item('cmall_name'),
         );
 
-        $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
-        $meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
+//        $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
+//        $meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
         $meta_keywords = str_replace($searchconfig, $replaceconfig, $meta_keywords);
         $meta_author = str_replace($searchconfig, $replaceconfig, $meta_author);
         $page_name = str_replace($searchconfig, $replaceconfig, $page_name);
 
         // 타이틀 정의
         $page_title = 'Beatsomeone - ' . $view['view']['item']['cit_name'] . ' (' . $view['view']['item']['member']['mem_nickname'] . ')';
+        $meta_description = $page_title;
 
         $layoutconfig = array(
             'path' => 'beatsomeone',
@@ -298,8 +302,8 @@ class Beatsomeone extends CB_Controller
             'meta_author' => $meta_author,
             'page_name' => $page_name,
             'og_title' => $page_title,
-            'og_url' => site_url() . 'detail/' . $view['view']['item']['cit_key'],
-            'og_description' => $page_title,
+            'og_url' => $view['view']['canonical'],
+            'og_description' => $meta_description,
             'og_image' => site_url() . 'uploads/cmallitem/' . $view['view']['item']['cit_file_1'],
         );
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());

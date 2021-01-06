@@ -7,8 +7,6 @@
   <title><?php echo html_escape(element('page_title', $layout)); ?></title>
     <?php if (element('meta_description', $layout)) { ?>
       <meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
-    <?php if (element('meta_keywords', $layout)) { ?>
-      <meta name="keywords" content="<?php echo html_escape(element('meta_keywords', $layout)); ?>"><?php } ?>
     <?php if (element('meta_author', $layout)) { ?>
       <meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
     <?php if (element('favicon', $layout)) { ?>
