@@ -11,35 +11,29 @@
                 </label>
             </div>
             <div class="col name">
-                <figure>
-                    <div class="playList__cover" @click="selectItem(item)">
-                        <img :src="'/uploads/cmallitem/' + item.thumb" alt/>
-                        <i v-if="item.is_new" class="label new">N</i>
-                    </div>
-
-                    <button
-                        :data-action="'playAction' + item.cit_id "
-                        class="btn-play"
-                        @click="playAudio(item)"
-                    >재생
-                    </button>
-                    <div class="wave"></div>
-                    <a :href="'/detail/' + item.cit_key + '#/'">
-                    <figcaption>
-                      <h3 class="playList__title">{{ subName }}</h3>
-                      <div class="playList__bottom-info">
-                        <span class="playList__by">by {{ item.mem_nickname }}</span>
-                        <div class="">
-                          <img style="margin-right: 5px; width:10px;" v-if="item.cit_freebeat === '1'" src="/assets/images/icon/icon_1.png"/>
-                          <img style="margin-right: 5px; width:10px;" v-if="item.cit_type5 === '1'" src="/assets/images/icon/icon_2.png"/>
-                          <img style="margin-right: 5px; width:10px;" v-if="item.cit_officially_registered === '1'" src="/assets/images/icon/icon_3.png"/>
-                          <img style="margin-right: 5px; width:10px;" v-if="item.cit_include_copyright_transfer === '1'" src="/assets/images/icon/icon_4.png"/>
-                          <img style="margin-right: 5px; width:10px;" v-if="item.cit_org_content === '1'" src="/assets/images/icon/icon_5.png"/>
-                        </div>
+              <figure>
+                <div class="playList__cover" @click="selectItem(item)">
+                  <img :src="'/uploads/cmallitem/' + item.thumb" alt/>
+                  <i v-if="item.is_new" class="label new">N</i>
+                </div>
+                <button :data-action="'playAction' + item.cit_id " class="btn-play" @click="playAudio(item)">재생</button>
+                <div class="wave"></div>
+                <a :href="'/detail/' + item.cit_key + '#/'">
+                  <figcaption>
+                    <h3 class="playList__title">{{ subName }}</h3>
+                    <div class="playList__bottom-info">
+                      <span class="playList__by">by {{ item.mem_nickname }}</span>
+                      <div class="">
+                        <img style="margin-right: 5px; width:10px;" v-if="item.cit_freebeat === '1'" src="/assets/images/icon/icon_1.png"/>
+                        <img style="margin-right: 5px; width:10px;" v-if="item.cit_type5 === '1'" src="/assets/images/icon/icon_2.png"/>
+                        <img style="margin-right: 5px; width:10px;" v-if="item.cit_officially_registered === '1'" src="/assets/images/icon/icon_3.png"/>
+                        <img style="margin-right: 5px; width:10px;" v-if="item.cit_include_copyright_transfer === '1'" src="/assets/images/icon/icon_4.png"/>
+                        <img style="margin-right: 5px; width:10px;" v-if="item.cit_org_content === '1'" src="/assets/images/icon/icon_5.png"/>
                       </div>
-                    </figcaption>
-                  </a>
-                </figure>
+                    </div>
+                  </figcaption>
+                </a>
+              </figure>
             </div>
             <div class="col buybtn">
                 <button @click="addCart">

@@ -100,7 +100,8 @@
 
                 figcaption {
                     flex: 1;
-                    max-width: calc(100% - 95px);
+                    width: calc(100vw - 260px);
+                    max-width: calc(100vw - 260px);
 
                     .playList__title {
                         @include ellipsis;
