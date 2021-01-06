@@ -17,7 +17,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
     <meta property="og:description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"/>
-    <meta property="og:title" content="<?php echo html_escape(element('og_title', $layout)); ?>"/>
+    <meta property="og:title" content="<?php echo html_escape(element('page_title', $layout)); ?>"/>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
