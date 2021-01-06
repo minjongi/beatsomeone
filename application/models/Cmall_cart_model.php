@@ -152,7 +152,7 @@ class Cmall_cart_model extends CB_Model
 			return;
 		}
 
-		$this->db->select('cmall_item_detail.*, cmall_cart.cct_count, cct_datetime, cmall_item.cit_freebeat, cmall_item.cit_lease_license_use, cmall_item.cit_mastering_license_use');
+		$this->db->select('cmall_item_detail.*, cmall_cart.cct_count, cct_datetime, cmall_item.cit_freebeat, cmall_item.cit_lease_license_use, cmall_item.cit_mastering_license_use, cmall_cart.isfree');
 		$this->db->join('cmall_item_detail', 'cmall_item_detail.cde_id = cmall_cart.cde_id', 'inner');
         $this->db->join('cmall_item', 'cmall_item.cit_id = cmall_item_detail.cit_id', 'inner');
 		$this->db->where(array('cmall_cart.cit_id' => $cit_id));

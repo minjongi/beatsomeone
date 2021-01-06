@@ -2153,9 +2153,10 @@ class Cmall extends CB_Controller
                     if (!empty($details)) {
                         foreach ((array)$details as $detail) {
                             if (empty($detail)) continue;
-
-                            $item_cct_price += intval(element('cde_price', $detail));
-                            $item_cct_price_d += (float)element('cde_price_d', $detail) * element('cct_count', $detail);
+                            if (intval(element('isfree', $detail)) != 1) {
+                                $item_cct_price += intval(element('cde_price', $detail));
+                                $item_cct_price_d += (float)element('cde_price_d', $detail) * element('cct_count', $detail);
+                            }
                         }
                     }
 
