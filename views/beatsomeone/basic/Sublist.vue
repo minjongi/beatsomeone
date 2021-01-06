@@ -140,18 +140,15 @@
                 </div>
               </h2>
               <div class="topFive" v-if="!param.search">
-                <div
-                  class="trending__slide-item albumItem"
-                  v-for="(i,index) in listTop5"
-                  :key="index"
-                  @click="selectItem(i)"
-                >
-                  <button class="albumItem__cover">
-                    <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name" />
-                  </button>
-                  <a href="javascript:;" class="albumItem__link">
-                    <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                    <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                <div class="trending__slide-item albumItem" v-for="(i,index) in listTop5" :key="index">
+                  <a :href="`/detail/${i.cit_key}#/`">
+                    <button class="albumItem__cover">
+                      <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name" />
+                    </button>
+                    <a href="javascript:;" class="albumItem__link">
+                      <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                      <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                    </a>
                   </a>
                 </div>
               </div>

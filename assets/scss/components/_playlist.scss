@@ -124,6 +124,7 @@
                         @include ellipsis;
                         font-size: 14px;
                         font-weight: 600;
+                        color: #fff;
                     }
 
                     .playList__by {
@@ -132,9 +133,10 @@
                         opacity: 0.3;
                         margin-top: 5px;
                         display: block;
+                        color: #fff;
 
                         &.date {
-                            font-size: 10;
+                            font-size: 10PX;
                             margin-top: 10px;
                         }
                     }

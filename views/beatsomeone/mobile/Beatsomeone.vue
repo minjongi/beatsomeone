@@ -112,7 +112,7 @@
                                     </template>
                                 </transition-group>
                                 <div class="playList__btnbox">
-                                    <a class="playList__more pointer" @click="moveMore">{{ $t('mainMore') }}</a>
+                                    <a class="playList__more pointer" :href="moreList">{{ $t('mainMore') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                                     {{ $t('lang126') }}<br/>
                                     {{ $t('lang127') }}
                                 </h1>
-                                <a class="startSelling" @click="moveAction('startBuyer')">
+                                <a class="startSelling" :href="moveStartBuyer">
                                     {{ $t('buyerLogin') }}
                                 </a>
                             </div>
@@ -136,7 +136,7 @@
                                     <br/>
                                     {{ $t('bitTradingMessage2') }}
                                 </h1>
-                                <a @click="moveAction('startSelling')">{{ $t('lendOrSellMyBeat') }}</a>
+                                <a :href="moveStartSelling">{{ $t('lendOrSellMyBeat') }}</a>
                             </div>
                         </header>
                         <!-- 트렌딜 슬라이드 부분 -->
@@ -144,20 +144,17 @@
                             <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
                             <div class="trending__slider">
                                 <div class="slider">
-                                    <div
-                                            class="trending__slide-item albumItem"
-                                            v-for="(i,index) in listTrending"
-                                            :key="index"
-                                            @click="goToDetail(i.cit_key)"
-                                    >
+                                    <div class="trending__slide-item albumItem" v-for="(i,index) in listTrending" :key="index">
+                                      <a :href="'/detail/' + i.cit_key + '#/'">
                                         <button class="albumItem__cover">
-                                            <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
+                                          <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                                         </button>
-                                        <a href="javascript:;" class="albumItem__link">
-                                            <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                                            <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                                        <a class="albumItem__link">
+                                          <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                                          <p class="albumItem__singer">{{ i.mem_nickname }}</p>
                                         </a>
-                                    </div>
+                                      </a>
+                                  </div>
                                 </div>
                             </div>
                             <!-- 트렌드 슬라이드 끝 -->
@@ -196,11 +193,8 @@
                                         </figure>
                                     </article>
                                     <div class="testimonials__btnbox">
-                                        <a @click="moveAction('startSelling')">{{ $t('startSelling') }}</a>
-                                        <a
-                                                href="/beatsomeone/sublist?genre=All%20Genre"
-                                                class="beats"
-                                        >{{ $t('browseBeats') }}</a>
+                                        <a :href="moveStartSelling">{{ $t('startSelling') }}</a>
+                                        <a href="/beatsomeone/sublist" class="beats">{{ $t('browseBeats') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -212,7 +206,7 @@
                                     <br/>
                                     {{ $t('areYouReady') }}
                                 </h1>
-                                <a @click="moveAction('startSelling')">{{ $t('trustOurTeamMsg') }}</a>
+                                <a :href="moveStartSelling">{{ $t('trustOurTeamMsg') }}</a>
                             </div>
                         </div>
                         <Footer></Footer>
@@ -335,6 +329,29 @@
 
                 return list;
             },
+            moreList() {
+              return '/beatsomeone/sublist?genre=' + encodeURIComponent(this.currentGenre)
+            },
+            moveStartBuyer() {
+              localStorage.setItem("UserOffer", "buyer")
+              return '/register'
+            },
+            moveStartSelling() {
+              let url = '/register';
+              if (!this.member) {
+                localStorage.setItem("UserOffer", "seller")
+                return url
+              }
+
+              if (this.member_group_name === 'buyer') {
+                url = '/mypage/upgrade'
+              } else if (this.member_group_name.includes('seller')) {
+                url = '/mypage/regist_item'
+              } else {
+                url = '/mypage/upgrade'
+              }
+              return url
+            },
         },
         methods: {
             closePopup(isForever) {
@@ -362,10 +379,6 @@
                     arrows: false,
                     dots: true,
                 });
-            },
-            moveMore() {
-                const path = `/beatsomeone/sublist?genre=${this.currentGenre}`;
-                window.location.href = path;
             },
             selectItem(i) {
                 const path = `/detail/${i}`;
@@ -414,39 +427,6 @@
                         {complete: done}
                     );
                 }, delay);
-            },
-            moveAction(o) {
-                let url = null;
-                // 로그인시
-                if (this.userInfo) {
-                    switch (o) {
-                        case "startSelling": {
-                            if (this.member_group_name === 'buyer') {
-                                url = '/mypage/upgrade';
-                            } else if (this.member_group_name.includes('seller')) {
-                                url = '/mypage/regist_item';
-                            } else {
-                                url = '/mypage/upgrade';
-                            }
-                            break;
-                        }
-                        case 'startBuyer': {
-                            url = '/register';
-                            localStorage.setItem("UserOffer", "buyer");
-                            break;
-                        }
-                    }
-                }
-                // 비로그인시
-                else {
-                    url = "/register";
-                }
-
-                // 이동
-                window.location.href = url;
-            },
-            goToDetail(cit_key) {
-                window.location.href = '/detail/' + cit_key;
             },
             openSubmenu() {
                 this.isOpenSubmenu = !this.isOpenSubmenu;

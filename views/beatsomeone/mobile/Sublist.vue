@@ -17,14 +17,16 @@
                         <div class="topFive" v-if="!param.search">
                             <swiper :options="swiperOption1">
                                 <swiper-slide v-for="(i,index) in listTop5" :key="index">
-                                    <div class="trending__slide-item albumItem" @click="selectItem(i)">
+                                    <div class="trending__slide-item albumItem">
+                                      <a :href="`/detail/${i.cit_key}#/`">
                                         <button class="albumItem__cover">
-                                            <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
+                                          <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                                         </button>
                                         <a class="albumItem__link">
-                                            <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                                            <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                                          <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                                          <p class="albumItem__singer">{{ i.mem_nickname }}</p>
                                         </a>
+                                      </a>
                                     </div>
                                 </swiper-slide>
                             </swiper>
