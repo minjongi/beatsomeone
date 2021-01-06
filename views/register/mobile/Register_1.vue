@@ -52,10 +52,10 @@
                 {{ $t('master') }}
             </button> 
             <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician && false"  style="padding: 0 9px !important;">
-                {{ $t('subscribe_common') }}
+                {{ $t('lang128') }}
             </button>
              <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician && false"  style="padding: 0 9px !important;">
-                {{ $t('subscribe_creater') }}
+                {{ $t('lang129') }}
             </button>
         </div>
 
@@ -79,7 +79,7 @@
                 <tbody>
 
                 <tr v-if="false">
-                    <td>배경음악 음원 다운로드</td>
+                    <td>{{ $t('lang130') }}</td>
                     <td>{{ $t('unlimited') }}</td>
                 </tr>
                 <tr>
@@ -310,7 +310,7 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        {{ $t('subscribe_common') }}
+                        {{ $t('lang128') }}
                     </p>
                     <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>/mo</em></h2>
                 </div>
@@ -326,7 +326,7 @@
                 <tbody>
 
                 <tr v-if="false">
-                    <td>배경음악 음원 다운로드</td>
+                    <td>{{ $t('lang130') }}</td>
                     <td>20건</td>
                 </tr>
                 <tr>
@@ -372,7 +372,7 @@
             <div class="accounts__plan-header">
                 <div class="left">
                     <p>
-                        {{ $t('subscribe_creater') }}
+                        {{ $t('lang129') }}
                     </p>
                     <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}<em>/mo</em></h2>
                 </div>
@@ -388,7 +388,7 @@
                 <tbody>
 
                 <tr v-if="false">
-                    <td>배경음악 음원 다운로드</td>
+                    <td>{{ $t('lang130') }}</td>
                     <td>10건</td>
                 </tr>
                 <tr>

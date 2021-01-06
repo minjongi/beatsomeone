@@ -50,9 +50,9 @@
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
                     <button v-if="!isLogin">
-                        <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('saleSignup') }}</a>
+                        <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('lang119') }}</a>
                         <span class="tooltip">
-                             수익 100%청산
+                             {{ $t('lang120') }}
                         </span>
                     </button>
                     <a href="/cmall/cart" class="header__cart" v-if="isLogin">

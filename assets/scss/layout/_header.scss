@@ -72,10 +72,12 @@
       opacity: 1;
       .tooltip {
           position: absolute;
-          width: 100px;
+          width: auto;
+          padding: 0 10px;
           background:#129292;   
           bottom: -36px !important;
           opacity: 1;
+          white-space: nowrap;
           // border-style: solid;
           // border-color: #ffffff;
           // border-width: 1px;

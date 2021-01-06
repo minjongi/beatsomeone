@@ -121,8 +121,8 @@
                         <header class="main__section2-title1" v-if="false">
                             <div class="wrap">
                                 <h1>
-                                    {{ $t('backgroundMusicMessage1') }}<br/>
-                                    {{ $t('backgroundMusicMessage2') }}
+                                    {{ $t('lang126') }}<br/>
+                                    {{ $t('lang127') }}
                                 </h1>
                                 <a class="startSelling" @click="moveAction('startBuyer')">
                                     {{ $t('buyerLogin') }}
