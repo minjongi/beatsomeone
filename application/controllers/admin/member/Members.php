@@ -1291,6 +1291,7 @@ class Members extends CB_Controller
      */
     public function bulk_registration()
     {
+        set_time_limit(0);
         $file = $_FILES['bulk']['tmp_name'];
 
         if (empty($file)) {
@@ -1308,8 +1309,6 @@ class Members extends CB_Controller
         $this->load->model('Beatsomeone_model','Beatsomeone_model');
         $this->load->model('Member_model','Member_model');
 
-        $imgFilePath = 'bso/';
-        $audioFilePath = 'bso/';
         $fieldList = [
             'mem_id', //고유아이디
             'mem_lastname', //성
