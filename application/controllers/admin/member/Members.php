@@ -1405,13 +1405,22 @@ class Members extends CB_Controller
         );
         $this->Member_level_history_model->insert($levelhistoryinsert);
 
-        $mgr_id = empty($data['mgr_id']) ? 1 : $data['mgr_id'];
+        $mgr_id = (empty($data['mgr_id']) || !in_array($data['mgr_id'], [1, 2, 3, 4])) ? 1 : $data['mgr_id'];
         $gminsert = array(
             'mgr_id' => $mgr_id,
             'mem_id' => $mem_id,
             'mgm_datetime' => cdate('Y-m-d H:i:s'),
         );
         $this->Member_group_member_model->insert($gminsert);
+
+        if (!empty($data['subscribe']) && in_array($data['subscribe'], [5, 6])) {
+            $gminsert = array(
+                'mgr_id' => $data['subscribe'],
+                'mem_id' => $mem_id,
+                'mgm_datetime' => cdate('Y-m-d H:i:s'),
+            );
+            $this->Member_group_member_model->insert($gminsert);
+        }
 
         return true;
     }
