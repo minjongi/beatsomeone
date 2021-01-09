@@ -2312,30 +2312,7 @@ class Cmall extends CB_Controller
                         $insertdata['cor_app_no'] = $CASH_BILL_NO;
                     }
 
-    //                echo "결과코드              : " . $REPLYCD . "<br>";
-    //                echo "결과메세지            : " . $REPLYMSG . "<br>";
-    //                echo "주문번호              : " . $ORDER_NO . "<br>";
-    //                echo "승인금액              : " . $AMT . "<br>";
-    //                echo "지불수단              : " . $PAY_TYPE . "<br>";
-    //                echo "승인일시              : " . $APPROVAL_YMDHMS . "<br>";
-    //                echo "거래일련번호          : " . $SEQ_NO . "<br>";
-    //                echo "에스크로 적용 여부    : " . $ESCROW_YN . "<br>";
-    //                echo "=============== 신용 카드 ===============================<br>";
-    //                echo "승인번호              : " . $APPROVAL_NO . "<br>";
-    //                echo "카드ID                : " . $CARD_ID . "<br>";
-    //                echo "카드명                : " . $CARD_NM . "<br>";
-    //                echo "할부개월              : " . $SELL_MM . "<br>";
-    //                echo "무이자여부            : " . $ZEROFEE_YN . "<br>";   //무이자(Y),일시불(N)
-    //                echo "인증여부              : " . $CERT_YN . "<br>";      //인증(Y),미인증(N)
-    //                echo "직가맹여부            : " . $CONTRACT_YN . "<br>";  //3자가맹점(Y),대표가맹점(N)
-    //                echo "세이브 결제 금액      : " . $SAVE_AMT . "<br>";
-    //                echo "포인트할인 결제 금액  : " . $CARD_POINTDC_AMT . "<br>";
-    //                echo "=============== 계좌 이체 / 가상계좌 ====================<br>";
-    //                echo "은행ID                : " . $BANK_ID . "<br>";
-    //                echo "은행명                : " . $BANK_NM . "<br>";
-    //                echo "현금영수증 일련 번호  : " . $CASH_BILL_NO . "<br>";
-    //
-    //                echo "부분취소가능여부 : " . $PARTCANCEL_YN . "<br>";
+
 
                 } else {
                     $this->output->set_status_header('400');
@@ -2481,7 +2458,8 @@ class Cmall extends CB_Controller
                         'cod_count' => element('cct_count', $val),
                         'cod_status' => $od_status,
                         'cod_point' => $item_point,
-                        'cod_seller_usertype' => element('mgr_id', $member_group[0])
+                        'cod_seller_usertype' => element('mgr_id', $member_group[0]),
+                        'is_free' => intval(element('isfree', $val))
                     );
                     $this->Cmall_order_detail_model->insert($insertdetail);
                     $deletewhere = array(

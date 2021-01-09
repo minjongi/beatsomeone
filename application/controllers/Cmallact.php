@@ -241,18 +241,23 @@ class Cmallact extends CB_Controller
             ]));
             return false;
         }
-        if (element('cor_pay_type', $order) == 'FREE') {
-            $tmpdata = array();
-            $tmpdata['mem_remain_downloads'] = (int) $this->member->item('mem_remain_downloads');
-            $tmpdata['mem_remain_downloads'] = $tmpdata['mem_remain_downloads'] - 1;
-            if ($tmpdata['mem_remain_downloads'] < 0) {
-                $this->output->set_status_header('405');
-                $this->output->set_output(json_encode([
-                    'message' => 'Remain download count is zero'
-                ]));
-                return;
-            } else {
-                $this->Member_model->update($this->member->item('mem_id'), $tmpdata);
+        $this->load->model(array('Cmall_download_log_model'));
+        if (element('cor_pay_type', $order) == 'FREE' || intval(element('is_free', $order)) == 1) {
+            if ($this->Cmall_download_log_model->count_by(
+                array( 'cor_id' => element('cor_id', $order) )
+            ) == 0) {
+                $tmpdata = array();
+                $tmpdata['mem_remain_downloads'] = (int) $this->member->item('mem_remain_downloads');
+                $tmpdata['mem_remain_downloads'] = $tmpdata['mem_remain_downloads'] - 1;
+                if ($tmpdata['mem_remain_downloads'] < 0) {
+                    $this->output->set_status_header('405');
+                    $this->output->set_output(json_encode([
+                        'message' => 'Remain download count is zero'
+                    ]));
+                    return;
+                } else {
+                    $this->Member_model->update($this->member->item('mem_id'), $tmpdata);
+                }
             }
         }
 		if ( ! $this->session->userdata('cmall_download_item_' . element('cor_id', $order) . '_' . element('cde_id', $itemdetail))) {
@@ -270,7 +275,6 @@ class Cmallact extends CB_Controller
 				'cdo_ip' => $this->input->ip_address(),
 				'cdo_useragent' => $this->agent->agent_string(),
 			);
-			$this->load->model(array('Cmall_download_log_model'));
 			$this->Cmall_download_log_model->insert($insertdata);
 		}
 

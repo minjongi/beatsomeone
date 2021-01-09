@@ -138,6 +138,7 @@ Beat Someone
 
 	*		alter table cb_member ADD mem_remain_downloads int;
 	*		alter table cb_member_membership_purchase_log ADD card_key varchar(50);
+	*		alter table cb_cmall_order_detail ADD is_free INT NOT null DEFAULT 0;
 
 
 
