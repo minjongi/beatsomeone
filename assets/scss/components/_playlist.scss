@@ -78,14 +78,14 @@
 
         .name {
             // padding: 0 20px;
-            width: 435px;
+            width: 425px;
             @include flex();
 
             figure {
                 @include flex();
                 margin-right: 1em;
                 flex: 1;
-                width: calc(100% - 160px);
+                width: calc(100% - 170px);
 
                 .playList__cover {
                     width: 55px;
@@ -417,7 +417,7 @@
 
         .more_shared {
             text-align: center;
-            padding: 0 30px 0 0;
+            padding: 0 10px 0 0;
 
             button {
                 cursor: pointer;
