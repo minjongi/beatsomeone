@@ -41,7 +41,7 @@
       padding: 60px 0 80px;
       text-align: center;
 
-      h1 {
+      h2 {
         @include titleFont(
                 $display: 1,
                 $letterSpacing: -0.045em,
@@ -62,7 +62,7 @@
       padding: 60px 0 140px;
       text-align: center;
 
-      h1 {
+      h2 {
         @include titleFont(
                 $display: 1,
                 $letterSpacing: -0.045em,
@@ -83,7 +83,7 @@
       padding: 130px 0 0;
       text-align: center;
 
-      h1 {
+      h2 {
           @include titleFont(
                   $display: 1,
                   $letterSpacing: -0.045em,
@@ -168,7 +168,7 @@
       text-align: center;
       margin-bottom: 40px;
 
-      h1 {
+      h2 {
         @include titleFont(
                 $display: 2,
                 $letterSpacing: -0.02em,
@@ -217,7 +217,7 @@
     text-align: center;
     margin-top: 60px;
 
-    h1 {
+    h2 {
       @include titleFont($display: 3, $style: italic, $letterSpacing: -0.045em);
       line-height: 1.25em;
       word-break: keep-all;

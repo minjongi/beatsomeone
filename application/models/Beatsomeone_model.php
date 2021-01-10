@@ -1115,4 +1115,10 @@ class Beatsomeone_model extends CB_Model
             ->set('extrincs', $extrincs)
             ->update('cmall_item');
     }
+
+    public function get_mint_target()
+    {
+        $sql = "SELECT cit_id FROM cb_cmall_item WHERE extrincs = '' OR extrincs IS NULL ORDER BY cit_id ASC ";
+        return $this->db->query($sql)->result_array();
+    }
 }

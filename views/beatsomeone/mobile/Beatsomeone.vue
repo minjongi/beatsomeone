@@ -120,10 +120,10 @@
                     <section class="main__section2">
                         <header class="main__section2-title1" v-if="false">
                             <div class="wrap">
-                                <h1>
+                                <h2>
                                     {{ $t('lang126') }}<br/>
                                     {{ $t('lang127') }}
-                                </h1>
+                                </h2>
                                 <a class="startSelling" :href="moveStartBuyer">
                                     {{ $t('buyerLogin') }}
                                 </a>
@@ -131,11 +131,11 @@
                         </header>
                         <header class="main__section2-title">
                             <div class="wrap">
-                                <h1>
+                                <h2>
                                     {{ $t('bitTradingMessage1') }}
                                     <br/>
                                     {{ $t('bitTradingMessage2') }}
-                                </h1>
+                                </h2>
                                 <a :href="moveStartSelling">{{ $t('lendOrSellMyBeat') }}</a>
                             </div>
                         </header>
@@ -166,7 +166,7 @@
                             <div class="testimonials">
                                 <div class="wrap">
                                     <article class="testimonials__title">
-                                        <h1>{{ $t('testimonials') }}</h1>
+                                        <h2>{{ $t('testimonials') }}</h2>
                                         <p>{{ $t('bestTeamMember') }}</p>
                                     </article>
                                     <article class="testimonials__lists">
@@ -199,13 +199,13 @@
                                 </div>
                             </div>
                             <div class="main__desc">
-                                <h1>
+                                <h2>
                                     {{ $t('musicWorldMsg1') }}
                                     <br/>
                                     {{ $t('musicWorldMsg2') }}
                                     <br/>
                                     {{ $t('areYouReady') }}
-                                </h1>
+                                </h2>
                                 <a :href="moveStartSelling">{{ $t('trustOurTeamMsg') }}</a>
                             </div>
                         </div>
@@ -361,7 +361,7 @@
               this.popup = false
             },
             endVideoBG() {
-                const idx = Math.floor(Math.random() * 5) + 1;
+                const idx = Math.floor(Math.random() * 4) + 1;
                 this.videoBGPath = '/assets_m/video/mainbg/' + idx + '.mp4';
                 this.$refs.videoBG.src = this.videoBGPath;
                 this.$refs.videoBG.play();

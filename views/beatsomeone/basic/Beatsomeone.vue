@@ -90,19 +90,19 @@
           <div class="filter reverse"></div>
           <div class="wrap">
             <header class="main__section2-title-login" v-if="false">
-                <h1>
+                <h2>
                     {{ $t('backgroundMusicMessage1') }}<br/>
                     {{ $t('backgroundMusicMessage2') }}
-                </h1>
+                </h2>
                 <a class="startSelling" :href="moveStartBuyer">
                     {{ $t('buyerLogin') }}
                 </a>
             </header>
             <header class="main__section2-title">
-              <h1>
+              <h2>
                 {{ $t('bitTradingMessage1') }}<br/>
                 {{ $t('bitTradingMessage2') }}
-              </h1>
+              </h2>
               <a class="startSelling" :href="moveStartSelling">
                 {{ $t('lendOrSellMyBeat') }}
               </a>
@@ -135,7 +135,7 @@
             <!-- 제휴업체 로그 이미지 끝 -->
             <div class="testimonials">
               <article class="testimonials__title">
-                <h1>{{ $t('testimonials') }}</h1>
+                <h2>{{ $t('testimonials') }}</h2>
                 <p>{{ $t('bestTeamMember') }}</p>
               </article>
               <article class="testimonials__lists">
@@ -158,11 +158,11 @@
               </div>
             </div>
             <div class="main__desc">
-              <h1>
+              <h2>
                 {{ $t('musicWorldMsg1') }}<br/>
                 {{ $t('musicWorldMsg2') }}<br/>
                 {{ $t('areYouReady') }}
-              </h1>
+              </h2>
               <a class="startSelling" :href="moveStartSelling">
                 {{ $t('trustOurTeamMsg') }}
               </a>
@@ -372,7 +372,7 @@
               this.popup = false
             },
             endVideoBG() {
-                const idx = Math.floor(Math.random() * 5) + 1
+                const idx = Math.floor(Math.random() * 4) + 1
                 this.videoBGPath = '/assets/video/mainbg/' + idx + '.mp4'
                 this.$refs.videoBG.src = this.videoBGPath
                 this.$refs.videoBG.play()
