@@ -4,10 +4,10 @@
       <div class="noti-wrap"></div>
       <div class="noti-content">
         <div>
-          <a href="/event"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/1.png'"></a>
+          <a href="/event"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/1.png'"></a>
         </div>
         <div>
-          <img :src="'/assets/images/event/201230/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
+          <img :src="'/assets/images/event/210110/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
         </div>
       </div>
     </div>

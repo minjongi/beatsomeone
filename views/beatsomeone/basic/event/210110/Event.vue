@@ -2,11 +2,14 @@
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
         <div class="container sub event-content" style="position: relative;">
-          <div><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p1.png'"></div>
-          <div><a href="/register?t=pr#/3"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p2.png'"></a></div>
-          <div><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p3.png'"></div>
-          <div><a href="/register?t=pr#/3"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p4.png'"></a></div>
-          <div><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p5.png'"></div>
+          <div style="position: absolute;left: 50%;margin-left: -325px;" :style="$i18n.locale === 'ko' ? 'top: 1110px;' : 'top: 1060px;'">
+            <iframe width="650" height="365" src="https://www.youtube.com/embed/d7tfADQU3J0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p1.png'"></div>
+          <div><a href="/register?t=pr#/3"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p2.png'"></a></div>
+          <div><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p3.png'"></div>
+          <div><a href="/register?t=pr#/3"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p4.png'"></a></div>
+          <div><img :src="'/assets/images/event/201230/' + $i18n.locale + '/p5.png'"></div>
         </div>
         <Footer />
     </div>
