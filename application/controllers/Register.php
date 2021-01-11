@@ -4699,6 +4699,11 @@ class Register extends CB_Controller
         $amount_d = (float)$member_group['mgr_monthly_cost_d'];
         $termDays = '30';
 
+        $downloaddata = array();
+        $gdownload = element('mgr_monthly_download_limit', $member_group);
+        $downloaddata['mem_remain_downloads'] = intval($gdownload);
+        $this->Member_model->update($mem_id, $downloaddata);
+
         $paypalData = $_POST["paypal_data"];
 
         if (empty($paypalData)) {

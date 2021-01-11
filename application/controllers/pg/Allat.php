@@ -277,7 +277,8 @@ class Allat extends CB_Controller
 
                 // echo "결제정보가 정확히 등록되였습니다.<br/>";
                 echo '<script type="text/javascript">';
-                echo 'window.location.href="/";';
+                echo 'alert("회원가입이 완료 되었습니다.");';
+                echo 'window.location.href="/mypage";';
                 echo '</script>';
 
             }else{
@@ -517,7 +518,8 @@ class Allat extends CB_Controller
 
                 // echo "결제정보가 정확히 등록되였습니다.<br/>";
                 echo '<script type="text/javascript">';
-                echo 'window.location.href="/";';
+                echo 'alert("회원가입이 완료 되었습니다.");';
+                echo 'window.location.href="/mypage";';
                 echo '</script>';
 
             }else{
