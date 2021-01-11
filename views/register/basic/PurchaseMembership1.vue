@@ -302,6 +302,7 @@ export default {
                 .then(res => res.data)
                 .then(data => {
                     alert(this.$t('successfullyRegistered'));
+                    localStorage.setItem('remain_download_num', this.info.group.mgr_monthly_download_limit);
                     window.location.href = '/mypage';
                 })
                 .catch(error => {
@@ -313,6 +314,7 @@ export default {
                 .then(res => res.data)
                 .then(data => {
                     alert(this.$t('successfullyRepurchase'));
+                    localStorage.setItem('remain_download_num', this.info.group.mgr_monthly_download_limit);
                     window.location.href = '/mypage';
                 })
                 .catch(error => {
