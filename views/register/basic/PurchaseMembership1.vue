@@ -303,7 +303,8 @@ export default {
                 .then(data => {
                     alert(this.$t('successfullyRegistered'));
                     localStorage.setItem('remain_download_num', this.info.group.mgr_monthly_download_limit);
-                    alert("** remain_download_num: " + localStorage.setItem('remain_download_num'));
+                    console.log("** remain_download_num: ", localStorage.getItem('remain_download_num'));
+                    alert("** remain_download_num: " + localStorage.getItem('remain_download_num'));
                     window.location.href = '/mypage';
                 })
                 .catch(error => {
@@ -316,7 +317,8 @@ export default {
                 .then(data => {
                     alert(this.$t('successfullyRepurchase'));
                     localStorage.setItem('remain_download_num', this.info.group.mgr_monthly_download_limit);
-                    alert("*** remain_download_num: " + localStorage.setItem('remain_download_num'));
+                    console.log("*** remain_download_num: ", localStorage.getItem('remain_download_num'));
+                    alert("*** remain_download_num: " + localStorage.getItem('remain_download_num'));
                     window.location.href = '/mypage';
                 })
                 .catch(error => {
