@@ -304,8 +304,11 @@ export default {
                     alert(this.$t('successfullyRegistered'));
                     localStorage.setItem('remain_download_num', this.info.group.mgr_monthly_download_limit);
                     console.log("** remain_download_num: ", localStorage.getItem('remain_download_num'));
-                    alert("** remain_download_num: " + localStorage.getItem('remain_download_num'));
-                    window.location.href = '/mypage';
+                    let tData = new FormData(); tData.append('value', this.info.group.mgr_monthly_download_limit);
+                    axios.post('/membermodify/mem_remain_downloads_set', tData)
+                    .then(res=>{
+                        window.location.href = '/mypage';
+                    });
                 })
                 .catch(error => {
                     console.error(error);
@@ -318,8 +321,11 @@ export default {
                     alert(this.$t('successfullyRepurchase'));
                     localStorage.setItem('remain_download_num', this.info.group.mgr_monthly_download_limit);
                     console.log("*** remain_download_num: ", localStorage.getItem('remain_download_num'));
-                    alert("*** remain_download_num: " + localStorage.getItem('remain_download_num'));
-                    window.location.href = '/mypage';
+                    let tData = new FormData(); tData.append('value', this.info.group.mgr_monthly_download_limit);
+                    axios.post('/membermodify/mem_remain_downloads_set', tData)
+                    .then(res=>{
+                        window.location.href = '/mypage';
+                    });
                 })
                 .catch(error => {
                     console.error(error);

@@ -297,7 +297,11 @@
                     .then(res => res.data)
                     .then(data => {
                         alert(data.message);
-                        window.location.href = '/mypage';
+                        let tData = new FormData(); tData.append('value', this.info.group.mgr_monthly_download_limit);
+                        axios.post('/membermodify/mem_remain_downloads_set', tData)
+                        .then(res=>{
+                            window.location.href = '/mypage';
+                        });
                     })
                     .catch(error => {
                         console.error(error);
