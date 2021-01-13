@@ -254,7 +254,7 @@
             },
             payAllat: function (e) {
                 if (document.fm1.allat_registry_no.value.length != 6) {
-                    let birthday = prompt("생년월일(6자리)을 입력해주세요.");
+                    let birthday = prompt("생년월일(6자리)를 입력 후 한번 더 [결제하기]를 터치 해주세요.");
                     this.$set(this.allatForm, 'birthday', birthday);
                 }
                 if (document.fm1.allat_registry_no.value.length == 6) {
