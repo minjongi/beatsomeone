@@ -4842,7 +4842,7 @@ class Register extends CB_Controller
             && $this->member->item('mem_email') === $email) {
             $result = array(
                 'result' => 'available',
-                'reason' => '사용 가능한 이메일입니다',
+                'reason' => lang('lang147'),
             );
             exit(json_encode($result));
         }

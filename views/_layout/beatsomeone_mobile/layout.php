@@ -30,7 +30,7 @@
         {
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "<?php echo html_escape(element('page_title', $layout)); ?>",
+            "name": "beatsomeone",
             "url": "https://beatsomeone.com",
             "sameAs": [
                 "https://www.instagram.com/beatsomeone",

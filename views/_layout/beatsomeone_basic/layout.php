@@ -29,7 +29,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
         {
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "<?php echo html_escape(element('page_title', $layout)); ?>",
+            "name": "beatsomeone",
             "url": "https://beatsomeone.com",
             "sameAs": [
                 "https://www.instagram.com/beatsomeone",
