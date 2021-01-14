@@ -145,7 +145,6 @@ class Beatsomeone extends CB_Controller
             'og_title' => $page_title,
             'og_url' => $view['view']['canonical'],
             'og_description' => $meta_description,
-            'og_image' => site_url() . '/assets/images/logo.png',
         );
 
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());

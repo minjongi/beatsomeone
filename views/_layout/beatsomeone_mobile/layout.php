@@ -209,6 +209,7 @@
 </script>
 
 <!-- Channel Plugin Scripts -->
+<?php if (empty($disabledChannelTalk)) { ?>
 <script>
     (function() {
         var w = window;
@@ -249,6 +250,7 @@
         "pluginKey": "77c3af61-3be5-4527-a3f7-5d5afcc3da38"
     });
 </script>
+<?php } ?>
 <!-- End Channel Plugin -->
 
 <!-- Event snippet for 회원 가입 완료한 사용자 (30일) conversion page

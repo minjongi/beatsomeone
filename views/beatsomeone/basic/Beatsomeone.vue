@@ -168,7 +168,7 @@
               </a>
             </div>
           </div>
-          <Footer :mainPage="true"></Footer>
+          <Footer :footerBannerDisabled="true"></Footer>
         </section>
       </div>
     </div>

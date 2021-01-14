@@ -841,6 +841,7 @@ class Cmall extends CB_Controller
         );
 
 
+        $view['disabledChannelTalk'] = true;
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
@@ -1165,7 +1166,7 @@ class Cmall extends CB_Controller
             'page_name' => $page_name,
         );
 
-
+        $view['disabledChannelTalk'] = true;
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));

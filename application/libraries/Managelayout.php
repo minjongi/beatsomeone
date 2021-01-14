@@ -150,7 +150,7 @@ class Managelayout extends CI_Controller
         $data['og_title'] = element('og_title', $config) ?? $page_title;
         $data['og_description'] = element('og_description', $config) ?? $meta_description;
         $data['og_url'] = element('og_url', $config);
-        $data['og_image'] = element('og_image', $config);
+        $data['og_image'] = element('og_image', $config) ?? site_url() . '/assets/images/common/thumb_sns.png';
 
 		$layoutdirname = $device_view_type === 'mobile' ? element('mobile_layout_dir', $config) : element('layout_dir', $config);
 		if (empty($layoutdirname)) {
