@@ -23,7 +23,7 @@ foreach ($genre as $key => $val) {
     <div class="event-header">
         <header class="header">
             <div class="event-top">
-                <a href="/event"><img src="/assets/images/event/210110/<?= $this->config->item('locale');?>/bn.jpg'"></a>
+                <a href="/event"><img src="/assets/images/event/210110/<?= $this->config->item('locale');?>/bn.jpg"></a>
             </div>
             <div class="wrap">
                 <h1 class="header__logo">
