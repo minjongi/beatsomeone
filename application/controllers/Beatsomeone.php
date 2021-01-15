@@ -147,6 +147,10 @@ class Beatsomeone extends CB_Controller
             'og_description' => $meta_description,
         );
 
+        $view['seoViewData']['main_list'] = $this->main_list();
+        $view['seoViewData']['main_trending_list'] = $this->main_trending_list();
+        $view['seoViewData']['main_testimonials_list'] = $this->main_testimonials_list();
+        $view['seoView'] = 'beatsomeone/basic/beatsomeone_seo';
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $view['layout']['facebook_app_id'] = $facebook_app_id;
         $this->data = $view;
@@ -2685,5 +2689,74 @@ class Beatsomeone extends CB_Controller
     public function notsupport()
     {
         $this->load->view('not_support_browser');
+    }
+
+
+    // 메인페이지 목록 조회
+    public function main_list($genre = '')
+    {
+        $this->load->model(array('Beatsomeone_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
+
+        // DB Querying (장르별 Top 5)
+        $config = array(
+            'cit_type1' => '1',
+            'limit' => '20',
+            'genre' => urldecode($genre),
+            'bpm' => $this->input->get('bpm'),
+            'sort' => $this->input->get('sort'),
+            'voice' => $this->input->get('voice'),
+        );
+        $result = $this->Beatsomeone_model->get_main_list($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name(element('cit_file_1', $val), 'list');
+            $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+            $result[$key]['waveform'] = json_decode(element('waveform', $val), true);
+            $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
+            $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+            foreach ($itemdetails as $itemdetail) {
+                $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+            }
+        }
+        return $this->filterFreebeat($result);
+    }
+
+    public function filterFreebeat($list) {
+        foreach ($list as $key => $val) {
+            if ($val['cit_freebeat'] == 1) {
+                $list[$key]['cde_price'] = 0;
+                $list[$key]['cde_price_d'] = 0;
+                $list[$key]['cde_price_2'] = 0;
+                $list[$key]['cde_price_d_2'] = 0;
+            }
+        }
+        return $list;
+    }
+
+    public function main_trending_list()
+    {
+        $this->load->model('Cmall_item_model');
+
+        $config = array(
+            'cit_type2' => '1',
+            'limit' => '10',
+        );
+        $result = $this->Cmall_item_model->get_latest($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], '200');
+        }
+
+        return $result;
+    }
+
+    public function main_testimonials_list()
+    {
+
+        $this->load->model('Post_model');
+
+        // DB Querying (Trending)
+        $config = array(
+            'limit' => '3',
+        );
+        return $this->Post_model->get_testimonial_list($config);
     }
 }
