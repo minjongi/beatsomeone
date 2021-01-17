@@ -504,12 +504,13 @@
         },
         methods: {
             doNext(group) {
+                let billTerm = this.currentUserType === 'buyer' ? 'monthly' : this.billTerm
                 this.$store.dispatch('setUserInfo', {
                     group: group,
-                    billTerm: this.billTerm,
+                    billTerm: billTerm
                 })
                 localStorage.setItem('mgr_id', group.mgr_id);
-                localStorage.setItem('bill_term', (this.currentUserType === 'buyer' ? 'monthly' : this.billTerm))
+                localStorage.setItem('bill_term', billTerm)
 
                 this.$router.push('/2');
             },
