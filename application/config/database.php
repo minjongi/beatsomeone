@@ -83,9 +83,9 @@ $query_builder = TRUE;
 */
 $db['default'] = array(
 	//'dsn'	=> 'mysql:host=localhost;dbname=yourdatabasenamehere',
-    'hostname' => '106.10.55.130', //db-41sh7.pub-cdb.ntruss.com',
-    'username' => 'dumdum', //'beatsomeone',
-    'password' => 'Dumdum2020!!', //'dumdum20201!',
+    'hostname' => 'db-41sh7.pub-cdb.ntruss.com',
+    'username' => 'beatsomeone',
+    'password' => 'dumdum20201!',
     'database' => 'beatsomeone',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => 'cb_',

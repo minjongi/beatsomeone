@@ -20,7 +20,7 @@
                         <img src="/assets/images/icon/tip.png"/>
                     </button>
                     <div class="tooltip" style="display:none;">
-                        <p>Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day. </p>
+                        <p>{{ $t('lang149') }}</p>
                     </div>
                 </span>
                 </div>
@@ -33,7 +33,7 @@
                         <img src="/assets/images/icon/tip.png"/>
                     </button>
                     <span class="tooltip" style="display:none;">
-                        <p> Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month. </p>
+                        <p>{{ $t('lang150') }}</p>
                     </span>
                 </span>
                 </div>
@@ -46,7 +46,7 @@
                         <img src="/assets/images/icon/tip.png"/>
                     </button>
                     <span class="tooltip" style="display:none;">
-                        <p> Displays the amount settled last month. </p>
+                        <p> {{  $t('lang151') }} </p>
                     </span>
                 </span>
                 </div>

@@ -593,6 +593,11 @@ export default {
         lang146: '사용할 수 없는 이메일 입니다',
         lang147: '사용 가능한 이메일입니다',
         lang148: '닉네임은 4~12자리 및 영문, 숫자, 언더바(_)만 가능합니다.',
+        lang149: 'Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day.',
+        lang150: 'Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month.',
+        lang151: 'Displays the amount settled last month.',
+        subscribe_common: '정기구독일반',
+        subscribe_creater: '정기구독크리에이터',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1187,5 +1192,10 @@ export default {
         lang146: 'Email unavailable',
         lang147: 'Email is available',
         lang148: 'Please enter the username within 4 to 12 characters in numbers, alphabets, and underbars.',
+        lang149: 'Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day.',
+        lang150: 'Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month.',
+        lang151: 'Displays the amount settled last month.',
+        subscribe_common: 'Subscribed Common',
+        subscribe_creater: 'Subscribed Creater',
     } // en
 }

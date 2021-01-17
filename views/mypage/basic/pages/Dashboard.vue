@@ -12,21 +12,21 @@
                         <h3>{{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? total_sale_funds : total_sale_funds_d }}</h3>
                         <p class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (total_sale_funds - total_last_sale_funds) : (total_sale_funds_d - total_last_sale_funds_d) }})</p>
                         <p class="text-secondary">
-                            {{$t('estimatedSalesAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Displays the estimated amount of sales of the bit sold so far, starting from the current month. The exact sales amount can be confirmed on the last day."></span>
+                            {{$t('estimatedSalesAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" :title="$t('lang149')"></span>
                         </p>
                     </div>
                     <div class="item col text-center text-primary">
                         <h3>{{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? total_settle_funds : total_settle_funds_d }}</h3>
                         <p class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (total_settle_funds - total_last_settle_funds) : (total_settle_funds_d - total_last_settle_funds_d) }})</p>
                         <p class="text-secondary">
-                            {{$t('estimatedSettlementAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Displays the estimated settlement amount, deducted from the fee, based on the amount sold so far from the current month. The exact settlement amount can be checked between 20-25 days of the following month."></span>
+                            {{$t('estimatedSettlementAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" :title="$t('lang150')"></span>
                         </p>
                     </div>
                     <div class="item col text-center text-danger">
                         <h3>{{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? total_last_settle_funds : total_last_settle_funds_d }}</h3>
                         <p class="change">({{$t('change')}} {{ $i18n.locale === 'ko' ? (total_last_settle_funds - total_lastlast_settle_funds) : (total_lastlast_settle_funds - total_lastlast_settle_funds_d) }})</p>
                         <p class="text-secondary">
-                            {{$t('lastMonthSettlementAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Displays the amount settled last month."></span>
+                            {{$t('lastMonthSettlementAmount')}} <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" :title="$t('lang151')"></span>
                         </p>
                     </div>
                 </div>

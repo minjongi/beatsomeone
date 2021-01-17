@@ -347,10 +347,9 @@
                     group: group,
                     billTerm: this.billTerm,
                 })
-                console.log("!!!!!!!", group);
-                localStorage.setItem('mgr_id', group.mgr_id);
-                localStorage.setItem('bill_term', this.billTerm);
-                this.$router.push('/2');
+                localStorage.setItem('mgr_id', group.mgr_id)
+                localStorage.setItem('bill_term', (this.currentUserType === 'buyer' ? 'monthly' : this.billTerm))
+                this.$router.push('/2')
             },
             fetchData() {
                 axios.get('/membergroup')

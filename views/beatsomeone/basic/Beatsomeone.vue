@@ -227,7 +227,7 @@
             }
         },
         mounted() {
-          
+
             // 메인페이지: 서브 앨범 슬라이드 이벤트
             $(".toggle-subList").on("click", function () {
                 var itemLength = $(this)
