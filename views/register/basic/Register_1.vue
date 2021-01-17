@@ -54,14 +54,14 @@
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </th>
-                    <th v-if="false">
+                    <th v-if="true">
                         <p>
                             {{ $t('lang128') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
                     </th>
-                    <th v-if="false">
+                    <th v-if="true">
                         <p>
                             {{ $t('lang129') }}
                         </p>
@@ -71,7 +71,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-if="false">
+                <tr v-if="true">
                     <td>{{ $t('downloadBackgroundMusic') }}</td>
                     <td> <span class="check">1</span></td>
                     <td>20건</td>

@@ -446,7 +446,7 @@
                 listPlan: null,
                 planName: 'free',
                 plan: 'free',
-                disBill: 17,
+                disBill: 10,
                 buyerGroup: {},
                 sellerFreeGroup: {},
                 sellerPlatinumGroup: {},

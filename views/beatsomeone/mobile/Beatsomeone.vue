@@ -226,6 +226,7 @@
     require("@/assets_m/js/function");
 
     import $ from "jquery";
+    import axios from 'axios';
     import Header from "./include/Header";
     import Footer from "./include/Footer";
     import Index_Items from "./Index_Items";
@@ -309,6 +310,9 @@
 
             this.member = window.member;
             this.member_group_name = window.member_group_name;
+            if (this.member_group_name) {
+                this.remainDownloadNumber();
+            }
         },
         watch: {
             // 장르가 변경될 때
@@ -322,7 +326,6 @@
             listGenreName() {
                 let list = [],
                     _self = this;
-
                 this.listGenre.forEach(function (val) {
                     list.push(_self.$t("genre" + window.genLangCode(val)));
                 });
@@ -354,6 +357,14 @@
             },
         },
         methods: {
+            remainDownloadNumber() {
+                axios.get('/membermodify/mem_remain_downloads_get')
+                .then(res=>{
+                    console.log('remain_download_num', res.data);
+                    localStorage.setItem('remain_download_num', res.data);
+                });
+            },
+
             closePopup(isForever) {
               if (isForever) {
                 Vuecookies.set('popup-close', 'Y', '1d')

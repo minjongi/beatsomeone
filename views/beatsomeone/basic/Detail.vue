@@ -257,9 +257,10 @@
         },
         methods: {
             remainDownloadNumber() {
+                this.remain_download_num = localStorage.getItem("remain_download_num");
                 // axios.get('/membermodify/mem_remain_downloads_get')
                 //     .then(res=>{
-                //
+
                 //         this.remain_download_num = res.data;
                 //     })
                 //     .catch(error => {

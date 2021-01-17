@@ -165,7 +165,7 @@
                     recp_addr: "",
                     email_addr: "",
                     shop_receive_url: window.allat_shop_receive_url,
-                    birthday: "111111",
+                    birthday: "",
                     test_yn: "N",
                     card_yn: "N",
                     bank_yn: "N",
@@ -253,9 +253,13 @@
                 });
             },
             payAllat: function (e) {
-                let birthday = prompt("생년월일(6자리)을 입력해주세요.");
-                this.$set(this.allatForm, 'birthday', birthday);
-                window.Allat_Mobile_Fix(document.fm1,"0","0");
+                if (document.fm1.allat_registry_no.value.length != 6) {
+                    let birthday = prompt("생년월일(6자리)를 입력 후 한번 더 [결제하기]를 터치 해주세요.");
+                    this.$set(this.allatForm, 'birthday', birthday);
+                }
+                if (document.fm1.allat_registry_no.value.length == 6) {
+                    window.Allat_Mobile_Fix(document.fm1,"0","0");
+                }
             },
             // procCompletePay: function (result_cd, result_msg, enc_data) {
             //     window.Allat_Mobile_Close();
@@ -293,7 +297,11 @@
                     .then(res => res.data)
                     .then(data => {
                         alert(data.message);
-                        window.location.href = '/mypage';
+                        let tData = new FormData(); tData.append('value', this.info.group.mgr_monthly_download_limit);
+                        axios.post('/membermodify/mem_remain_downloads_set', tData)
+                        .then(res=>{
+                            window.location.href = '/mypage';
+                        });
                     })
                     .catch(error => {
                         console.error(error);

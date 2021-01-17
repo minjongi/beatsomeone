@@ -197,7 +197,7 @@ class Cmallact extends CB_Controller
 		// 이벤트가 존재하면 실행합니다
 		Events::trigger('before', $eventname);
 
-		$this->load->model(array('Cmall_item_model', 'Cmall_item_detail_model', 'Cmall_order_model'));
+		$this->load->model(array('Cmall_item_model', 'Cmall_item_detail_model', 'Cmall_order_model', 'Member_model'));
 
 		$itemdetail = $this->Cmall_item_detail_model->get_one($cde_id);
 		$item = $this->Cmall_item_model->get_one(element('cit_id', $itemdetail));
@@ -214,7 +214,7 @@ class Cmallact extends CB_Controller
 		}
 
 		$order = $this->Cmall_order_model
-			->is_ordered_item_detail($this->member->item('mem_id'), $cor_id, $cde_id);
+            ->is_ordered_item_detail($this->member->item('mem_id'), $cor_id, $cde_id);
 		if ( ! element('cor_id', $order) OR preg_replace('/[^0-9]/', '', element('cor_id', $order)) != $cor_id) {
             $this->output->set_status_header('400');
             $this->output->set_output(json_encode([
@@ -241,7 +241,27 @@ class Cmallact extends CB_Controller
             ]));
             return false;
         }
-
+        $this->load->model(array('Cmall_download_log_model'));
+        if (element('cor_pay_type', $order) == 'FREE' || intval(element('is_free', $order)) == 1) {
+            if ($this->Cmall_download_log_model->count_by(
+                array( 'cor_id' => element('cor_id', $order),
+                    'cit_id' => element('cit_id', $itemdetail)
+                 )
+            ) == 0) {
+                $tmpdata = array();
+                $tmpdata['mem_remain_downloads'] = (int) $this->member->item('mem_remain_downloads');
+                $tmpdata['mem_remain_downloads'] = $tmpdata['mem_remain_downloads'] - 1;
+                if ($tmpdata['mem_remain_downloads'] < 0) {
+                    $this->output->set_status_header('405');
+                    $this->output->set_output(json_encode([
+                        'message' => 'Remain download count is zero'
+                    ]));
+                    return;
+                } else {
+                    $this->Member_model->update($this->member->item('mem_id'), $tmpdata);
+                }
+            }
+        }
 		if ( ! $this->session->userdata('cmall_download_item_' . element('cor_id', $order) . '_' . element('cde_id', $itemdetail))) {
 			$this->session->set_userdata(
                 'cmall_download_item_' . element('cor_id', $order) . '_' . element('cde_id', $itemdetail),
@@ -257,9 +277,10 @@ class Cmallact extends CB_Controller
 				'cdo_ip' => $this->input->ip_address(),
 				'cdo_useragent' => $this->agent->agent_string(),
 			);
-			$this->load->model(array('Cmall_download_log_model'));
 			$this->Cmall_download_log_model->insert($insertdata);
 		}
+
+
 
 		// 이벤트가 존재하면 실행합니다
 		Events::trigger('after', $eventname);

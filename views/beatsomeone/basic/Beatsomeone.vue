@@ -227,6 +227,7 @@
             }
         },
         mounted() {
+          
             // 메인페이지: 서브 앨범 슬라이드 이벤트
             $(".toggle-subList").on("click", function () {
                 var itemLength = $(this)
@@ -286,7 +287,9 @@
 
             this.member = window.member;
             this.member_group_name = window.member_group_name;
-
+            if (this.member_group_name) {
+              this.remainDownloadNumber();
+            }
             if (Vuecookies.get('popup-close') !== 'Y') {
               this.openPopup()
             }
@@ -356,6 +359,14 @@
             }
         },
         methods: {
+            remainDownloadNumber() {
+              axios.get('/membermodify/mem_remain_downloads_get')
+              .then(res=>{
+                console.log('remain_download_num', res.data);
+                localStorage.setItem('remain_download_num', res.data);
+              });
+            },
+
             openPopup() {
               this.popup = true
               document.body.style.overflow = 'hidden'

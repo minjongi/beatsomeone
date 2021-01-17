@@ -302,7 +302,13 @@ export default {
                 .then(res => res.data)
                 .then(data => {
                     alert(this.$t('successfullyRegistered'));
-                    window.location.href = '/mypage';
+                    localStorage.setItem('remain_download_num', this.info.group.mgr_monthly_download_limit);
+                    console.log("** remain_download_num: ", localStorage.getItem('remain_download_num'));
+                    let tData = new FormData(); tData.append('value', this.info.group.mgr_monthly_download_limit);
+                    axios.post('/membermodify/mem_remain_downloads_set', tData)
+                    .then(res=>{
+                        window.location.href = '/mypage';
+                    });
                 })
                 .catch(error => {
                     console.error(error);
@@ -313,7 +319,13 @@ export default {
                 .then(res => res.data)
                 .then(data => {
                     alert(this.$t('successfullyRepurchase'));
-                    window.location.href = '/mypage';
+                    localStorage.setItem('remain_download_num', this.info.group.mgr_monthly_download_limit);
+                    console.log("*** remain_download_num: ", localStorage.getItem('remain_download_num'));
+                    let tData = new FormData(); tData.append('value', this.info.group.mgr_monthly_download_limit);
+                    axios.post('/membermodify/mem_remain_downloads_set', tData)
+                    .then(res=>{
+                        window.location.href = '/mypage';
+                    });
                 })
                 .catch(error => {
                     console.error(error);
