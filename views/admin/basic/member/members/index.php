@@ -1,5 +1,13 @@
 <div class="box">
     <div class="box-table">
+        <div style="margin-bottom: 20px;">
+            <form action="/admin/member/members/bulk_registration" name="bulk-reg" id="bulk-reg" method="post" enctype="multipart/form-data">
+                <div style="display: inline-block">대량등록 : </div>
+                <div style="display: inline-block;border: 1px solid #DCDCDC;"><input type="file" name="bulk"></div>
+                <div style="display: inline-block"><input type="submit" value="등록하기"></div>
+                <div style="display: inline-block;margin-left: 5px;"><a href="/assets/data/member_reg_sample.xls" target="_blank">[샘플다운로드]</a></div>
+            </form>
+        </div>
         <?php
         $memUserType = [
             1 => '일반회원',

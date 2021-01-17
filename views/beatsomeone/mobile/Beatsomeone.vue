@@ -4,10 +4,10 @@
           <div class="noti-wrap"></div>
           <div class="noti-content">
             <div>
-              <a href="/event"><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/1.png'"></a>
+              <a href="/event"><img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/1.png?v=1'"></a>
             </div>
             <div>
-              <img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/201230/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
+              <img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/2.png?v=1'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/3.png?v=1'" @click="closePopup()" style="width:50%;">
             </div>
           </div>
         </div>
@@ -63,23 +63,23 @@
                                 <span class="tooltip">
                                     <div>
                                         <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/>
-                                        <span> 무료비트 다운로드 기능</span>
+                                        <span> {{ $t('lang121') }}</span>
                                     </div>
                                     <div>
                                         <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/>
-                                        <span> 정기구독회원 다운로드 기능</span>
+                                        <span> {{ $t('lang122') }}</span>
                                     </div>
                                     <div>
                                         <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/>
-                                        <span> 정식으로 저작권 등록된 음원</span>
+                                        <span> {{ $t('lang123') }}</span>
                                     </div>
                                     <div>
                                         <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/>
-                                        <span> 음성 또는 가창이 포함된 음원</span>
+                                        <span> {{ $t('lang124') }}</span>
                                     </div>
                                     <div>
                                         <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/>
-                                        <span> 비트 썸원 오리지널 음원</span>
+                                        <span> {{ $t('lang125') }}</span>
                                     </div>
                                 </span>
 
@@ -112,7 +112,7 @@
                                     </template>
                                 </transition-group>
                                 <div class="playList__btnbox">
-                                    <a class="playList__more pointer" @click="moveMore">{{ $t('mainMore') }}</a>
+                                    <a class="playList__more pointer" :href="moreList">{{ $t('mainMore') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -120,23 +120,23 @@
                     <section class="main__section2">
                         <header class="main__section2-title1" v-if="false">
                             <div class="wrap">
-                                <h1>
-                                    {{ $t('backgroundMusicMessage1') }}<br/>
-                                    {{ $t('backgroundMusicMessage2') }}
-                                </h1>
-                                <a class="startSelling" @click="moveAction('startBuyer')">
+                                <h2>
+                                    {{ $t('lang126') }}<br/>
+                                    {{ $t('lang127') }}
+                                </h2>
+                                <a class="startSelling" :href="moveStartBuyer">
                                     {{ $t('buyerLogin') }}
                                 </a>
                             </div>
                         </header>
                         <header class="main__section2-title">
                             <div class="wrap">
-                                <h1>
+                                <h2>
                                     {{ $t('bitTradingMessage1') }}
                                     <br/>
                                     {{ $t('bitTradingMessage2') }}
-                                </h1>
-                                <a @click="moveAction('startSelling')">{{ $t('lendOrSellMyBeat') }}</a>
+                                </h2>
+                                <a :href="moveStartSelling">{{ $t('lendOrSellMyBeat') }}</a>
                             </div>
                         </header>
                         <!-- 트렌딜 슬라이드 부분 -->
@@ -144,20 +144,17 @@
                             <h2 class="trending__title">{{ $t('trendingMusic') }}</h2>
                             <div class="trending__slider">
                                 <div class="slider">
-                                    <div
-                                            class="trending__slide-item albumItem"
-                                            v-for="(i,index) in listTrending"
-                                            :key="index"
-                                            @click="goToDetail(i.cit_key)"
-                                    >
+                                    <div class="trending__slide-item albumItem" v-for="(i,index) in listTrending" :key="index">
+                                      <a :href="'/detail/' + i.cit_key + '#/'">
                                         <button class="albumItem__cover">
-                                            <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
+                                          <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                                         </button>
-                                        <a href="javascript:;" class="albumItem__link">
-                                            <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                                            <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                                        <a class="albumItem__link">
+                                          <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                                          <p class="albumItem__singer">{{ i.mem_nickname }}</p>
                                         </a>
-                                    </div>
+                                      </a>
+                                  </div>
                                 </div>
                             </div>
                             <!-- 트렌드 슬라이드 끝 -->
@@ -169,7 +166,7 @@
                             <div class="testimonials">
                                 <div class="wrap">
                                     <article class="testimonials__title">
-                                        <h1>{{ $t('testimonials') }}</h1>
+                                        <h2>{{ $t('testimonials') }}</h2>
                                         <p>{{ $t('bestTeamMember') }}</p>
                                     </article>
                                     <article class="testimonials__lists">
@@ -196,23 +193,20 @@
                                         </figure>
                                     </article>
                                     <div class="testimonials__btnbox">
-                                        <a @click="moveAction('startSelling')">{{ $t('startSelling') }}</a>
-                                        <a
-                                                href="/beatsomeone/sublist?genre=All%20Genre"
-                                                class="beats"
-                                        >{{ $t('browseBeats') }}</a>
+                                        <a :href="moveStartSelling">{{ $t('startSelling') }}</a>
+                                        <a href="/beatsomeone/sublist" class="beats">{{ $t('browseBeats') }}</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="main__desc">
-                                <h1>
+                                <h2>
                                     {{ $t('musicWorldMsg1') }}
                                     <br/>
                                     {{ $t('musicWorldMsg2') }}
                                     <br/>
                                     {{ $t('areYouReady') }}
-                                </h1>
-                                <a @click="moveAction('startSelling')">{{ $t('trustOurTeamMsg') }}</a>
+                                </h2>
+                                <a :href="moveStartSelling">{{ $t('trustOurTeamMsg') }}</a>
                             </div>
                         </div>
                         <Footer></Footer>
@@ -338,6 +332,29 @@
 
                 return list;
             },
+            moreList() {
+              return '/beatsomeone/sublist?genre=' + encodeURIComponent(this.currentGenre)
+            },
+            moveStartBuyer() {
+              localStorage.setItem("UserOffer", "buyer")
+              return '/register'
+            },
+            moveStartSelling() {
+              let url = '/register';
+              if (!this.member) {
+                localStorage.setItem("UserOffer", "seller")
+                return url
+              }
+
+              if (this.member_group_name === 'buyer') {
+                url = '/mypage/upgrade'
+              } else if (this.member_group_name.includes('seller')) {
+                url = '/mypage/regist_item'
+              } else {
+                url = '/mypage/upgrade'
+              }
+              return url
+            },
         },
         methods: {
             remainDownloadNumber() {
@@ -355,7 +372,7 @@
               this.popup = false
             },
             endVideoBG() {
-                const idx = Math.floor(Math.random() * 5) + 1;
+                const idx = Math.floor(Math.random() * 4) + 1;
                 this.videoBGPath = '/assets_m/video/mainbg/' + idx + '.mp4';
                 this.$refs.videoBG.src = this.videoBGPath;
                 this.$refs.videoBG.play();
@@ -373,10 +390,6 @@
                     arrows: false,
                     dots: true,
                 });
-            },
-            moveMore() {
-                const path = `/beatsomeone/sublist?genre=${this.currentGenre}`;
-                window.location.href = path;
             },
             selectItem(i) {
                 const path = `/detail/${i}`;
@@ -425,39 +438,6 @@
                         {complete: done}
                     );
                 }, delay);
-            },
-            moveAction(o) {
-                let url = null;
-                // 로그인시
-                if (this.userInfo) {
-                    switch (o) {
-                        case "startSelling": {
-                            if (this.member_group_name === 'buyer') {
-                                url = '/mypage/upgrade';
-                            } else if (this.member_group_name.includes('seller')) {
-                                url = '/mypage/regist_item';
-                            } else {
-                                url = '/mypage/upgrade';
-                            }
-                            break;
-                        }
-                        case 'startBuyer': {
-                            url = '/register';
-                            localStorage.setItem("UserOffer", "buyer");
-                            break;
-                        }
-                    }
-                }
-                // 비로그인시
-                else {
-                    url = "/register";
-                }
-
-                // 이동
-                window.location.href = url;
-            },
-            goToDetail(cit_key) {
-                window.location.href = '/detail/' + cit_key;
             },
             openSubmenu() {
                 this.isOpenSubmenu = !this.isOpenSubmenu;

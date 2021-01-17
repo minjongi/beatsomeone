@@ -98,10 +98,10 @@
             <div class="main__media board mybillinglist saleshistory">
                 <div class="tab nowrap">
                     <div class="index">{{ $t('orderNumber') }}</div>
-                    <div class="date">{{ $t('saleDate') }}</div>
+                    <div class="date">{{ $t('lang100') }}</div>
                     <div class="cover">{{ $t('cover') }}</div>
-                    <div class="product">{{ $t('saleProduct') }}</div>
-                    <div class="totalprice">{{ $t('saleTotalPrice') }}</div>
+                    <div class="product">{{ $t('lang101') }}</div>
+                    <div class="totalprice">{{ $t('lang102') }}</div>
                     <div class="status">{{ $t('status') }}</div>
                     <div class="user">{{ $t('buyer') }}</div>
                     <div class="download">{{ $t('expirePeriod') }}</div>

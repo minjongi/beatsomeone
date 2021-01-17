@@ -139,6 +139,7 @@ $validLocale = ['ko' => 'korean', 'en' => 'english'];
 $locale = $_COOKIE['locale'] ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
 $locale = array_key_exists($locale, $validLocale) ? $locale : 'ko';
 $config['language'] = $validLocale[$locale] ?? 'korean';
+$config['locale'] = empty($validLocale[$locale]) ? $locale : 'ko';
 //$config['language'] = 'korean';
 
 /*

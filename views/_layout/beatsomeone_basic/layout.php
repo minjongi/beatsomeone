@@ -9,7 +9,6 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta name="viewport" content="width=1420">
     <title><?php echo html_escape(element('page_title', $layout)); ?></title>
     <?php if (element('meta_description', $layout)) { ?><meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
-    <?php if (element('meta_keywords', $layout)) { ?><meta name="keywords" content="<?php echo html_escape(element('meta_keywords', $layout)); ?>"><?php } ?>
     <?php if (element('meta_author', $layout)) { ?><meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
     <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
     <?php if (element('canonical', $view)) { ?><link rel="canonical" href="<?php echo element('canonical', $view); ?>" /><?php } ?>
@@ -17,8 +16,8 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
-    <meta property="og:description" content="<?php echo html_escape(element('og_description', $layout)); ?>"/>
-    <meta property="og:title" content="<?php echo html_escape(element('og_title', $layout)); ?>"/>
+    <meta property="og:description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"/>
+    <meta property="og:title" content="<?php echo html_escape(element('page_title', $layout)); ?>"/>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -30,7 +29,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
         {
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "<?php echo html_escape(element('page_title', $layout)); ?>",
+            "name": "beatsomeone",
             "url": "https://beatsomeone.com",
             "sameAs": [
                 "https://www.instagram.com/beatsomeone",
@@ -173,7 +172,14 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     </div>
 <?php } */ ?>
 <div id="app">
-    <?php if (isset($yield))echo $yield; ?>
+    <?php
+    if (!empty($seoView)) {
+        $this->load->view($seoView);
+    }
+    ?>
+    <?php if (isset($yield)) {
+        echo $yield;
+    } ?>
 </div>
 
 </body>
@@ -203,6 +209,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
 </script>
 
 <!-- Channel Plugin Scripts -->
+<?php if (empty($disabledChannelTalk)) { ?>
 <script>
     (function() {
         var w = window;
@@ -243,6 +250,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
         "pluginKey": "77c3af61-3be5-4527-a3f7-5d5afcc3da38"
     });
 </script>
+<?php } ?>
 <!-- End Channel Plugin -->
 
 <!-- Event snippet for 회원 가입 완료한 사용자 (30일) conversion page
@@ -267,4 +275,3 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 <?php echo $this->managelayout->display_script(); ?>
 
 </html>
-

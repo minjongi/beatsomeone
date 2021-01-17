@@ -17,14 +17,16 @@
                         <div class="topFive" v-if="!param.search">
                             <swiper :options="swiperOption1">
                                 <swiper-slide v-for="(i,index) in listTop5" :key="index">
-                                    <div class="trending__slide-item albumItem" @click="selectItem(i)">
+                                    <div class="trending__slide-item albumItem">
+                                      <a :href="`/detail/${i.cit_key}#/`">
                                         <button class="albumItem__cover">
-                                            <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
+                                          <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                                         </button>
                                         <a class="albumItem__link">
-                                            <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                                            <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                                          <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                                          <p class="albumItem__singer">{{ i.mem_nickname }}</p>
                                         </a>
+                                      </a>
                                     </div>
                                 </swiper-slide>
                             </swiper>
@@ -37,23 +39,23 @@
                         <span class="tooltip">
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
-                                <span> 무료비트 다운로드 기능</span>
+                                <span> {{ $t('lang121') }}</span>
                             </div>    
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
-                                <span> 정기구독회원 다운로드 기능</span>
+                                <span> {{ $t('lang122') }}</span>
                             </div>  
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
-                                <span> 정식으로 저작권 등록된 음원</span>
+                                <span> {{ $t('lang123') }}</span>
                             </div>  
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
-                                <span> 음성 또는 가창이 포함된 음원</span>
+                                <span> {{ $t('lang124') }}</span>
                             </div>  
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
-                                <span> 비트 썸원 오리지널 음원</span>
+                                <span> {{ $t('lang125') }}</span>
                             </div>  
                         </span>
                         

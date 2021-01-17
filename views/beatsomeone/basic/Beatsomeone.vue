@@ -4,10 +4,10 @@
       <div class="noti-wrap"></div>
       <div class="noti-content">
         <div>
-          <a href="/event"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/1.png'"></a>
+          <a href="/event"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/1.png?v=1'"></a>
         </div>
         <div>
-          <img :src="'/assets/images/event/201230/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets/images/event/201230/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
+          <img :src="'/assets/images/event/210110/' + $i18n.locale + '/2.png?v=1'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/3.png?v=1'" @click="closePopup()" style="width:50%;">
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
                   </template>
                 </transition-group>
                 <div class="playList__btnbox">
-                  <a class="playList__more" @click="moveMore" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
+                  <a class="playList__more" :href="moreList" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
                 </div>
               </div>
             </div>
@@ -89,21 +89,21 @@
         <section class="main__section2">
           <div class="filter reverse"></div>
           <div class="wrap">
-                        <header class="main__section2-title-login" v-if="false">
-                            <h1>
-                                {{ $t('backgroundMusicMessage1') }}<br/>
-                                {{ $t('backgroundMusicMessage2') }}
-                            </h1>
-                            <a class="startSelling" @click="moveAction('startBuyer')">
-                                {{ $t('buyerLogin') }}
-                            </a>
-                        </header>
+            <header class="main__section2-title-login" v-if="false">
+                <h2>
+                    {{ $t('backgroundMusicMessage1') }}<br/>
+                    {{ $t('backgroundMusicMessage2') }}
+                </h2>
+                <a class="startSelling" :href="moveStartBuyer">
+                    {{ $t('buyerLogin') }}
+                </a>
+            </header>
             <header class="main__section2-title">
-              <h1>
+              <h2>
                 {{ $t('bitTradingMessage1') }}<br/>
                 {{ $t('bitTradingMessage2') }}
-              </h1>
-              <a class="startSelling" @click="moveAction('startSelling')">
+              </h2>
+              <a class="startSelling" :href="moveStartSelling">
                 {{ $t('lendOrSellMyBeat') }}
               </a>
             </header>
@@ -113,15 +113,15 @@
               <div class="trending__slider">
                 <div class="slider">
                   <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
-                  <div v-for="(i,index) in listTrending" :key="index"
-                       class="trending__slide-item albumItem" @click="goToDetail(i.cit_key)">
-
-                    <button class="albumItem__cover">
-                      <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
-                    </button>
-                    <a class="albumItem__link">
-                      <h4 class="albumItem__title">{{ i.cit_name }}</h4>
-                      <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                  <div v-for="(i,index) in listTrending" :key="index" class="trending__slide-item albumItem">
+                    <a :href="'/detail/' + i.cit_key + '#/'">
+                      <button class="albumItem__cover">
+                        <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
+                      </button>
+                      <a class="albumItem__link">
+                        <h4 class="albumItem__title">{{ i.cit_name }}</h4>
+                        <p class="albumItem__singer">{{ i.mem_nickname }}</p>
+                      </a>
                     </a>
                   </div>
                 </div>
@@ -135,17 +135,14 @@
             <!-- 제휴업체 로그 이미지 끝 -->
             <div class="testimonials">
               <article class="testimonials__title">
-                <h1>{{ $t('testimonials') }}</h1>
+                <h2>{{ $t('testimonials') }}</h2>
                 <p>{{ $t('bestTeamMember') }}</p>
               </article>
               <article class="testimonials__lists">
                 <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
                   <a :href="'/video#/' + post.post_id">
                     <div class="img">
-                      <img
-                          :src="'/uploads/post/' + post.files[0].pfi_filename"
-                          alt=""
-                      />
+                      <img :src="'/uploads/post/' + post.files[0].pfi_filename" alt=""/>
                       <button class="card--testimonials_play"></button>
                     </div>
                     <figcaption>
@@ -156,26 +153,26 @@
                 </figure>
               </article>
               <div class="testimonials__btnbox">
-                <a class="startSelling" @click="moveAction('startSelling')">{{ $t('startSelling') }}</a>
-                <a href="/beatsomeone/sublist?genre=All%20Genre" class="beats">{{ $t('browseBeats') }}</a>
+                <a class="startSelling" :href="moveStartSelling">{{ $t('startSelling') }}</a>
+                <a href="/beatsomeone/sublist" class="beats">{{ $t('browseBeats') }}</a>
               </div>
             </div>
             <div class="main__desc">
-              <h1>
+              <h2>
                 {{ $t('musicWorldMsg1') }}<br/>
                 {{ $t('musicWorldMsg2') }}<br/>
                 {{ $t('areYouReady') }}
-              </h1>
-              <a class="startSelling" @click="moveAction('startSelling')">
+              </h2>
+              <a class="startSelling" :href="moveStartSelling">
                 {{ $t('trustOurTeamMsg') }}
               </a>
             </div>
           </div>
-          <Footer :mainPage="true"></Footer>
+          <Footer :footerBannerDisabled="true"></Footer>
         </section>
       </div>
     </div>
-    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en' && !mainPage">
+    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en'">
       <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
     </div>
   </div>
@@ -321,7 +318,30 @@
                 })
 
                 return list
-            }
+            },
+            moreList() {
+              return '/beatsomeone/sublist?genre=' + encodeURIComponent(this.currentGenre)
+            },
+            moveStartBuyer() {
+              localStorage.setItem("UserOffer", "buyer")
+              return '/register'
+            },
+            moveStartSelling() {
+              let url = '/register';
+              if (!this.member) {
+                localStorage.setItem("UserOffer", "seller")
+                return url
+              }
+
+              if (this.member_group_name === 'buyer') {
+                url = '/mypage/upgrade'
+              } else if (this.member_group_name.includes('seller')) {
+                url = '/mypage/regist_item'
+              } else {
+                url = '/mypage/upgrade'
+              }
+              return url
+            },
         },
         watch: {
             // 장르가 변경될 때
@@ -363,7 +383,7 @@
               this.popup = false
             },
             endVideoBG() {
-                const idx = Math.floor(Math.random() * 5) + 1
+                const idx = Math.floor(Math.random() * 4) + 1
                 this.videoBGPath = '/assets/video/mainbg/' + idx + '.mp4'
                 this.$refs.videoBG.src = this.videoBGPath
                 this.$refs.videoBG.play()
@@ -384,10 +404,6 @@
                     // arrows: true,
                     // dots: true
                 })
-            },
-            moveMore() {
-                const path = `/beatsomeone/sublist?genre=${encodeURIComponent(this.currentGenre)}`
-                window.location.href = path
             },
             selectItem(i) {
                 if (typeof (i) !== 'string') return
@@ -441,39 +457,6 @@
                         {complete: done}
                     )
                 }, delay)
-            },
-            moveAction(o) {
-                let url = null;
-                // 로그인시
-                if(this.member) {
-                    switch(o) {
-                        case 'startSelling': {
-                            if (this.member_group_name === 'buyer') {
-                                url = '/mypage/upgrade';
-                            } else if (this.member_group_name.includes('seller')) {
-                                url = '/mypage/regist_item';
-                            } else {
-                                url = '/mypage/upgrade';
-                            }
-                            break;
-
-                        }
-                        case 'startBuyer': {
-                            url = '/register';
-                            localStorage.setItem("UserOffer", "buyer");
-                            break;
-                        }
-                    }
-                }
-                // 비로그인시
-                else {
-                    url = '/register';
-                    localStorage.setItem("UserOffer", "buyer");
-                }
-
-                console.log('this is startSelling', o, this.member);
-                // 이동
-                window.location.href = url;
             },
             goToDetail(cit_key) {
                 window.location.href = '/detail/' + cit_key;

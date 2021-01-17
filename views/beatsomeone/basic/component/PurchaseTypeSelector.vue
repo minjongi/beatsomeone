@@ -188,9 +188,9 @@ export default {
       this.remain_download_num = Number(localStorage.getItem("remain_download_num"));
       return this.remain_download_num;
         // axios.get('/membermodify/mem_remain_downloads_get')
-        //     .then(res=>{                
+        //     .then(res=>{
         //         this.remain_download_num = res.data;
-        //     })   
+        //     })
         //     .catch(error => {
         //         console.error(error);
         //     })

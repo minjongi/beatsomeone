@@ -449,7 +449,7 @@ class Register extends CB_Controller
         $configbasic['mem_nickname'] = array(
             'field' => 'mem_nickname',
             'label' => '닉네임',
-            'rules' => 'trim|required|min_length[2]|max_length[20]|callback__mem_nickname_check',
+            'rules' => 'trim|required|alphanumunder|min_length[3]|max_length[20]|callback__mem_nickname_check',
             'description' => '공백없이 한글, 영문, 숫자만 입력 가능 2글자 이상' . $nickname_description,
         );
         $configbasic['mem_email'] = array(
@@ -4821,6 +4821,7 @@ class Register extends CB_Controller
         Events::trigger('before', $eventname);
 
         $email = trim($this->input->post('email'));
+
         if (empty($email)) {
             $result = array(
                 'result' => 'no',
@@ -4829,11 +4830,19 @@ class Register extends CB_Controller
             exit(json_encode($result));
         }
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $result = array(
+                'result' => 'no',
+                'reason' => lang('lang146'),
+            );
+            exit(json_encode($result));
+        }
+
         if ($this->member->item('mem_email')
             && $this->member->item('mem_email') === $email) {
             $result = array(
                 'result' => 'available',
-                'reason' => '사용 가능한 이메일입니다',
+                'reason' => lang('lang147'),
             );
             exit(json_encode($result));
         }
@@ -4853,7 +4862,7 @@ class Register extends CB_Controller
         if ($this->_mem_email_check($email) === false) {
             $result = array(
                 'result' => 'no',
-                'reason' => lang('lang105'),
+                'reason' => lang('lang146'),
             );
             exit(json_encode($result));
         }
@@ -4863,7 +4872,7 @@ class Register extends CB_Controller
 
         $result = array(
             'result' => 'available',
-            'reason' => '사용 가능한 이메일입니다',
+            'reason' => lang('lang147'),
         );
         exit(json_encode($result));
     }
@@ -5036,14 +5045,14 @@ class Register extends CB_Controller
      */
     public function _mem_nickname_check($str)
     {
-        $this->load->helper('chkstring');
-        if (chkstring($str, _HANGUL_ + _ALPHABETIC_ + _NUMERIC_) === false) {
-            $this->form_validation->set_message(
-                '_mem_nickname_check',
-                '닉네임은 공백없이 한글, 영문, 숫자만 입력 가능합니다'
-            );
-            return false;
-        }
+//        $this->load->helper('chkstring');
+//        if (chkstring($str, _HANGUL_ + _ALPHABETIC_ + _NUMERIC_) === false) {
+//            $this->form_validation->set_message(
+//                '_mem_nickname_check',
+//                '닉네임은 공백없이 한글, 영문, 숫자만 입력 가능합니다'
+//            );
+//            return false;
+//        }
 
         if (preg_match("/[\,]?{$str}/i", $this->cbconfig->item('denied_nickname_list'))) {
             $this->form_validation->set_message(

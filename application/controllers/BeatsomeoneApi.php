@@ -1899,10 +1899,22 @@ class BeatsomeoneApi extends CB_Controller
 
         $result = $this->blockchain->mint($citId, $tokenString);
         $result = json_decode($result, true);
-
         if (empty($result['extrincs'])) {
             return;
         }
         $this->Beatsomeone_model->set_extrincs($citId, $result['extrincs']);
+    }
+
+    public function blockchainMintDaemon()
+    {
+        set_time_limit(0);
+
+        $this->load->model('Beatsomeone_model');
+        $items = $this->Beatsomeone_model->get_mint_target();
+
+        foreach ($items as $val) {
+            echo $val['cit_id'] . PHP_EOL;
+            $this->blockchainMint($val['cit_id']);
+        }
     }
 }

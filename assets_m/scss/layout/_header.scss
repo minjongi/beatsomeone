@@ -101,7 +101,9 @@
       opacity: 1;
       .tooltip {
           position: absolute;
-          width: 100px;
+          white-space: nowrap;
+          padding: 0 10px;
+          //width: 100px;
           background:#129292;   
           bottom: -36px !important;
           color: #ffffff;

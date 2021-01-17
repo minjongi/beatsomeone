@@ -14,10 +14,12 @@
             <div class="col name">
                 <figure>
                     <span class="playList__cover"><img :src="'/uploads/cmallitem/' + item.thumb" alt/><i class="label new" v-show="item.is_new === true">N</i></span>
-                    <figcaption class="pointer" @click="selectItem(item)">
+                    <a :href="'/detail/' + item.cit_key + '#/'">
+                      <figcaption class="pointer">
                         <h3 class="playList__title">{{ truncate(item.cit_name, 30) }}</h3>
                         <span class="playList__by">by {{ item.mem_nickname }}</span>
-                    </figcaption>
+                      </figcaption>
+                    </a>
                 </figure>
                 <div class="tags" v-if="item.cit_freebeat === '1' || item.cit_type5 === '1' || item.cit_officially_registered === '1' || item.cit_include_copyright_transfer === '1' || item.cit_org_content === '1'">
                     <button>
@@ -31,23 +33,23 @@
                         <span class="tooltip" v-if="hovered">
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_1.png"/> 
-                                <span> 무료비트 다운로드 기능</span>
-                            </div>    
+                                <span> {{ $t('lang121') }}</span>
+                            </div>
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_2.png"/> 
-                                <span> 정기구독회원 다운로드 기능</span>
+                                <span> {{ $t('lang122') }}</span>
                             </div>  
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_3.png"/> 
-                                <span> 정식으로 저작권 등록된 음원</span>
+                                <span> {{ $t('lang123') }}</span>
                             </div>  
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_4.png"/> 
-                                <span> 음성 또는 가창이 포함된 음원</span>
-                            </div>  
+                                <span> {{ $t('lang124') }}</span>
+                            </div>
                             <div>
                                 <img style="margin-right: 5px; width:15px;" src="/assets/images/icon/icon_5.png"/> 
-                                <span> 비트 썸원 오리지널 음원</span>
+                                <span> {{ $t('lang125') }}</span>
                             </div>  
                         </span>
                     </button>
@@ -269,9 +271,6 @@ export default {
                 //     },
                 // };
                 this.purchaseTypeSelectorPopup = true;
-            },
-            selectItem(i) {
-                window.location.href = `/detail/${i.cit_key}`;
             },
             playAudio(i) {
                 // 재생 시작

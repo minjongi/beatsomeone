@@ -17,7 +17,7 @@
             </div>
 
             <div class="accounts__social">
-                <h2>{{ $t('snsLogin') }}</h2>
+                <h2>{{ $t('lang137') }}</h2>
                 <a href="javascript:;" @click="social_connect_on('facebook')"><img
                         src="@/assets/images/accounts-facebook.png"
                         :alt="$t('loginFacebook')"
@@ -83,6 +83,7 @@
                 // window.gtag_report_conversion()
             },
             socialConnected() {
+                window.gtag_report_conversion()
                 // let userInfo = this.$store.getters.getUserInfo;
                 // window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
                 window.location.href = `/register#/3`;

@@ -1285,4 +1285,143 @@ class Members extends CB_Controller
         }
         return true;
     }
+
+    /**
+     * 대량등록
+     */
+    public function bulk_registration()
+    {
+        set_time_limit(0);
+        $file = $_FILES['bulk']['tmp_name'];
+
+        if (empty($file)) {
+            alert('파일을 선택해 주세요', site_url('admin/cmall/cmallitem'));
+            return;
+        }
+
+        $this->load->library('excel/Spreadsheet_Excel_Reader');
+
+        $this->spreadsheet_excel_reader->setOutputEncoding('UTF-8');
+        $this->spreadsheet_excel_reader->read($file);
+        $sheets = $this->spreadsheet_excel_reader->sheets[0];
+
+        // Load Module
+        $this->load->model('Beatsomeone_model','Beatsomeone_model');
+        $this->load->model('Member_model','Member_model');
+
+        $fieldList = [
+            'mem_id', //고유아이디
+            'mem_lastname', //성
+            'mem_firstname', //이름
+            'mem_nickname', //닉네임
+            'mem_email', //이메일
+            'mem_register_date', //가입일
+            'mem_register_time', //가입시간
+            'mem_lastlogin_date', //최근로그인
+            'mem_lastlogin_time', //최근로그인시간
+            'mgr_id', //회원그룹
+            'mem_level', //회원레벨
+            'subscribe', //정기구독
+            'mem_type', //유저타입
+            'mem_password', //비밀번호
+        ];
+
+        $totalCount = 0;
+        $successCount = 0;
+        $failData = [];
+        for ($i = 2; $i <= $sheets['numRows']; $i++) {
+            $itemData =[];
+            foreach ($fieldList as $filedKey => $filedName) {
+                $itemData[$filedName] = empty($sheets['cells'][$i][$filedKey + 1]) ? '' : $sheets['cells'][$i][$filedKey + 1];
+            }
+
+            $itemData['mem_userid'] = $itemData['mem_nickname'];
+            $itemData['mem_register_datetime'] = date('Y-m-d H:i:s', strtotime($itemData['mem_register_date'] . ' ' . $itemData['mem_register_time']));
+            $itemData['mem_lastlogin_datetime'] = date('Y-m-d H:i:s', strtotime($itemData['mem_lastlogin_date'] . ' ' . $itemData['mem_lastlogin_time']));
+
+            if ($this->reg_member($itemData)) {
+                $successCount++;
+            } else {
+                $failData[] = $itemData;
+            }
+            $totalCount++;
+        }
+
+        if (empty($failData)) {
+            alert('총 ' . $successCount . '건 등록되었습니다', site_url('admin/member/members'));
+        }
+
+        echo '총 ' . $totalCount . '건 중 ' . $successCount . '건 등록되었습니다<br>' . PHP_EOL;
+        echo '실패 데이터<br>' . PHP_EOL;
+        foreach ($failData as $val) {
+            echo $val['mem_nickname'] . '<br>' . PHP_EOL;
+        }
+        echo '<a href="/admin/member/members">되돌아가기</a>';
+    }
+
+    public function reg_member($data) {
+        if (empty($data['mem_userid']) || empty($data['mem_nickname'])) {
+            return false;
+        }
+
+        $this->load->model('Beatsomeone_model');
+        $this->load->model('Member_level_history_model');
+
+        $insertdata = [];
+        $insertdata['mem_userid'] = $data['mem_userid'];
+        $insertdata['mem_nickname'] = $data['mem_nickname'];
+        $data['mem_password'] = empty($data['mem_password']) ? 'beatsomeone' : $data['mem_password'];
+        $insertdata['mem_password'] = password_hash($data['mem_password'], PASSWORD_BCRYPT);
+        $insertdata['mem_email'] = empty($data['mem_email']) ? '' : $data['mem_email'];
+        $insertdata['mem_level'] = empty($data['mem_level']) ? '' : $data['mem_level'];
+        $insertdata['mem_firstname'] = empty($data['mem_firstname']) ? '' : $data['mem_firstname'];
+        $insertdata['mem_lastname'] = empty($data['mem_lastname']) ? '' : $data['mem_lastname'];
+        $insertdata['mem_type'] = empty($data['mem_type']) ? '' : $data['mem_type'];
+        $insertdata['mem_username'] = empty($data['mem_username']) ? '' : $data['mem_username'];
+        $insertdata['mem_address1'] = empty($data['mem_address1']) ? '' : $data['mem_address1'];
+        $insertdata['mem_receive_email'] = empty($data['mem_receive_email']) ? 0 : 1;
+        $insertdata['mem_register_datetime'] = empty($data['mem_register_datetime']) ? cdate('Y-m-d H:i:s') : $data['mem_register_datetime'];
+        $insertdata['mem_register_ip'] = $this->input->ip_address();
+        $insertdata['mem_lastlogin_datetime'] = empty($data['mem_lastlogin_datetime']) ? null : $data['mem_lastlogin_datetime'];
+        $insertdata['mem_lastlogin_ip'] = empty($data['mem_lastlogin_ip']) ? $this->input->ip_address() : $data['mem_lastlogin_ip'];
+        $mem_id = $this->Member_model->insert($insertdata);
+
+        if (empty($mem_id)) {
+            return false;
+        }
+
+        $metadata = [];
+        $metadata['meta_nickname_datetime'] = cdate('Y-m-d H:i:s');
+        $metadata['meta_change_pw_datetime'] = cdate('Y-m-d H:i:s');
+        $this->Member_meta_model->save($mem_id, $metadata);
+
+        $levelhistoryinsert = array(
+            'mem_id' => $mem_id,
+            'mlh_from' => 0,
+            'mlh_to' => $insertdata['mem_level'],
+            'mlh_datetime' => cdate('Y-m-d H:i:s'),
+            'mlh_reason' => '회원가입',
+            'mlh_ip' => $this->input->ip_address(),
+        );
+        $this->Member_level_history_model->insert($levelhistoryinsert);
+
+        $mgr_id = (empty($data['mgr_id']) || !in_array($data['mgr_id'], [1, 2, 3, 4])) ? 1 : $data['mgr_id'];
+        $gminsert = array(
+            'mgr_id' => $mgr_id,
+            'mem_id' => $mem_id,
+            'mgm_datetime' => cdate('Y-m-d H:i:s'),
+        );
+        $this->Member_group_member_model->insert($gminsert);
+
+        if (!empty($data['subscribe']) && in_array($data['subscribe'], [5, 6])) {
+            $gminsert = array(
+                'mgr_id' => $data['subscribe'],
+                'mem_id' => $mem_id,
+                'mgm_datetime' => cdate('Y-m-d H:i:s'),
+            );
+            $this->Member_group_member_model->insert($gminsert);
+        }
+
+        return true;
+    }
 }
