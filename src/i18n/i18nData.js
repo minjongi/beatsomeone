@@ -598,6 +598,7 @@ export default {
         lang151: 'Displays the amount settled last month.',
         subscribe_common: '정기구독일반',
         subscribe_creater: '정기구독크리에이터',
+        downloadBackgroundMusic: '배경음악 음원 다운로드',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1197,5 +1198,6 @@ export default {
         lang151: 'Displays the amount settled last month.',
         subscribe_common: 'Subscribed Common',
         subscribe_creater: 'Subscribed Creater',
+        downloadBackgroundMusic: 'Background Music Download',
     } // en
 }

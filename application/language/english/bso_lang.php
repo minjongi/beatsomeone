@@ -598,3 +598,4 @@ $lang['lang150'] = 'Displays the estimated settlement amount, deducted from the 
 $lang['lang151'] = 'Displays the amount settled last month.';
 $lang['subscribe_common'] = 'Subscribed Common';
 $lang['subscribe_creater'] = 'Subscribed Creater';
+$lang['downloadBackgroundMusic'] = 'Background Music Download';

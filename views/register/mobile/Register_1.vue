@@ -51,10 +51,10 @@
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
             </button> 
-            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician && false"  style="padding: 0 9px !important;">
+            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician && test"  style="padding: 0 9px !important;">
                 {{ $t('lang128') }}
             </button>
-             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician && false"  style="padding: 0 9px !important;">
+             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician && test"  style="padding: 0 9px !important;">
                 {{ $t('lang129') }}
             </button>
         </div>
@@ -78,7 +78,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr v-if="false">
+                <tr v-if="test">
                     <td>{{ $t('lang130') }}</td>
                     <td>{{ $t('unlimited') }}</td>
                 </tr>
@@ -160,7 +160,7 @@
                         {{ sellerFreeGroup.mgr_commission }}%
                     </td>
                 </tr>
-                <tr v-if="false">
+                <tr v-if="test">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         10<br>(1{{ $t('month') }})
@@ -222,7 +222,7 @@
                         {{ sellerPlatinumGroup.mgr_commission }}%
                     </td>
                 </tr>
-                <tr v-if="false">
+                <tr v-if="test">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         20
@@ -283,7 +283,7 @@
                         {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
                     </td>
                 </tr>
-                <tr v-if="false">
+                <tr v-if="test">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         {{ $t('unlimited') }}
@@ -325,7 +325,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr v-if="false">
+                <tr v-if="test">
                     <td>{{ $t('lang130') }}</td>
                     <td>20건</td>
                 </tr>
@@ -387,7 +387,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr v-if="false">
+                <tr v-if="test">
                     <td>{{ $t('lang130') }}</td>
                     <td>10건</td>
                 </tr>
@@ -453,7 +453,8 @@
                 sellerMasterGroup: {},
                 selectedGroup: {},
                 subscribedCommon: {},
-                subscribedCreater: {}
+                subscribedCreater: {},
+                test: false
             }
         },
         filters: {
@@ -472,6 +473,10 @@
             this.billTerm = localStorage.getItem("bill_term") || this.billTerm
             this.currentUserType = localStorage.getItem("UserOffer") || this.currentUserType
             this.fetchData();
+
+            if (window.location.search === '?t=1') {
+              this.test = true
+            }
         },
         mounted() {
             

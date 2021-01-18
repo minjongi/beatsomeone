@@ -54,14 +54,14 @@
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </th>
-                    <th v-if="true">
+                    <th v-if="test">
                         <p>
                             {{ $t('lang128') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
                     </th>
-                    <th v-if="true">
+                    <th v-if="test">
                         <p>
                             {{ $t('lang129') }}
                         </p>
@@ -71,7 +71,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-if="true">
+                <tr v-if="test">
                     <td>{{ $t('downloadBackgroundMusic') }}</td>
                     <td> <span class="check">1</span></td>
                     <td>20건</td>
@@ -82,10 +82,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <span class="check">O</span>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -94,10 +94,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <span class="check">O</span>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -106,10 +106,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <span class="check">O</span>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -118,10 +118,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                     <td v-if="false">
+                     <td v-if="test">
                         <span class="check">O</span>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -131,10 +131,10 @@
                     <td>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
-                    <td v-if="false">
+                    <td v-if="test">
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
@@ -214,7 +214,7 @@
                         {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
                     </td>
                 </tr>
-                <tr v-if="false">
+                <tr v-if="test">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         10<br>(1{{ $t('month') }})
@@ -280,6 +280,7 @@
                 subscribedCommon: {},
                 subscribedCreater: {},
                 buyerFree: {},
+                test: false
             }
         },
         filters: {
@@ -300,6 +301,10 @@
             this.billTerm = localStorage.getItem("bill_term") || this.billTerm
             this.currentUserType = localStorage.getItem("UserOffer") || this.currentUserType
             this.fetchData();
+
+            if (window.location.search === '?t=1') {
+              this.test = true
+            }
         },
         mounted() {
             var bg = document.querySelector(".accounts__switch-bg");
