@@ -599,6 +599,7 @@ export default {
         subscribe_common: '정기구독일반',
         subscribe_creater: '정기구독크리에이터',
         downloadBackgroundMusic: '배경음악 음원 다운로드',
+        allowedCharLength100: '최대 100자까지 가능',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1199,5 +1200,6 @@ export default {
         subscribe_common: 'Subscribed Common',
         subscribe_creater: 'Subscribed Creater',
         downloadBackgroundMusic: 'Background Music Download',
+        allowedCharLength100: 'You can enter up to 200 characters',
     } // en
 }

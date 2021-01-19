@@ -35,13 +35,10 @@
                                         </span>
                                     </a>
                                     <a class="buy waves-effect" @click="addCart" href="javascript:;" v-else>
-                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
+                                        <span v-if="item.cit_lease_license_use === '1'">
                                             {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                         </span>
                                         <span v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
-                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
-                                        </span>
-                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1'">
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                     </a>

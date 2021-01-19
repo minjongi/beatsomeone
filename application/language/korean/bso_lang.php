@@ -599,3 +599,4 @@ $lang['lang151'] = 'Displays the amount settled last month.';
 $lang['subscribe_common'] = '정기구독일반';
 $lang['subscribe_creater'] = '정기구독크리에이터';
 $lang['downloadBackgroundMusic'] = '배경음악 음원 다운로드';
+$lang['allowedCharLength100'] = '최대 100자까지 가능';
