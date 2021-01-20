@@ -600,3 +600,5 @@ $lang['subscribe_common'] = '정기구독일반';
 $lang['subscribe_creater'] = '정기구독크리에이터';
 $lang['downloadBackgroundMusic'] = '배경음악 음원 다운로드';
 $lang['allowedCharLength100'] = '최대 100자까지 가능';
+$lang['successfullyRegistered'] = '회원가입이 완료 되었습니다!';
+$lang['dashboard_ExpiredSoon_noexists'] = '만료 예정인 비트가 없습니다.';

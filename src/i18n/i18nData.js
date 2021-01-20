@@ -600,6 +600,8 @@ export default {
         subscribe_creater: '정기구독크리에이터',
         downloadBackgroundMusic: '배경음악 음원 다운로드',
         allowedCharLength100: '최대 100자까지 가능',
+        successfullyRegistered: '회원가입이 완료 되었습니다!',
+        dashboard_ExpiredSoon_noexists: '만료 예정인 비트가 없습니다.',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1201,5 +1203,7 @@ export default {
         subscribe_creater: 'Subscribed Creater',
         downloadBackgroundMusic: 'Background Music Download',
         allowedCharLength100: 'You can enter up to 200 characters',
+        successfullyRegistered: 'Your membership has been completed!',
+        dashboard_ExpiredSoon_noexists: 'No expired items exists.',
     } // en
 }

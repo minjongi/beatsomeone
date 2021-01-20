@@ -600,3 +600,5 @@ $lang['subscribe_common'] = 'Subscribed Common';
 $lang['subscribe_creater'] = 'Subscribed Creater';
 $lang['downloadBackgroundMusic'] = 'Background Music Download';
 $lang['allowedCharLength100'] = 'You can enter up to 200 characters';
+$lang['successfullyRegistered'] = 'Your membership has been completed!';
+$lang['dashboard_ExpiredSoon_noexists'] = 'No expired items exists.';

@@ -196,8 +196,7 @@
                             </div>
                             <div>
                                 <div class="btnbox col">
-                                    <button class="btn btn--gray" @click="goGMTBtn('Cancel')">{{ $t('cancel2') }}
-                                    </button>
+                                    <button class="btn btn--gray" @click="goGMTBtn('Cancel')">{{ $t('cancel2') }}</button>
                                     <button
                                         type="submit"
                                         class="btn btn--submit"
@@ -211,7 +210,7 @@
                 </div>
                 <div class="sort">
                     <div class="custom-select custom-select-dropdown">
-                        <button class="selected-option">{{ dateType }}</button>
+                        <button class="selected-option">{{ $t(dateTypeI18nCode) }}</button>
                         <div class="options">
                             <button
                                 v-show="dateType === 'Launch Date'"
@@ -471,6 +470,14 @@ export default {
             this.calcPendingCnt = this.calcFuncPendingCnt();
         });
         this.ajaxUserInfo();
+    },
+    computed: {
+      dateTypeI18nCode() {
+        if (this.dateType === "Launch Date") {
+          return 'launchDate'
+        }
+        return 'registerDate'
+      }
     },
     methods: {
         async ajaxItemList() {
