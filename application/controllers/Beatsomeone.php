@@ -150,7 +150,8 @@ class Beatsomeone extends CB_Controller
         $view['seoViewData']['main_list'] = $this->main_list();
         $view['seoViewData']['main_trending_list'] = $this->main_trending_list();
         $view['seoViewData']['main_testimonials_list'] = $this->main_testimonials_list();
-        $view['seoView'] = 'beatsomeone/basic/beatsomeone_seo';
+        $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/beatsomeone_seo' : 'beatsomeone/basic/beatsomeone_seo';
+
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $view['layout']['facebook_app_id'] = $facebook_app_id;
         $this->data = $view;
@@ -309,6 +310,11 @@ class Beatsomeone extends CB_Controller
             'og_description' => $meta_description,
             'og_image' => site_url() . 'uploads/cmallitem/' . $view['view']['item']['cit_file_1'],
         );
+
+        $view['seoViewData']['detail_similartracks_list'] = $this->detail_similartracks_list($view['view']['item']['cit_id']);
+        $view['seoViewData']['hashTag'] = explode(',', $view['view']['item']['hashTag']);
+        $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/detail_seo' : 'beatsomeone/basic/detail_seo';
+
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
@@ -409,6 +415,11 @@ class Beatsomeone extends CB_Controller
             'meta_author' => $meta_author,
             'page_name' => $page_name,
         );
+
+        $view['seoViewData']['sublist_top_list'] = $this->sublist_top_list();
+        $view['seoViewData']['sublist_list'] = $this->sublist_list();
+        $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/sublist_seo' : 'beatsomeone/basic/sublist_seo';
+
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
         $this->layout = element('layout_skin_file', element('layout', $view));
@@ -2758,5 +2769,106 @@ class Beatsomeone extends CB_Controller
             'limit' => '3',
         );
         return $this->Post_model->get_testimonial_list($config);
+    }
+
+    public function sublist_top_list()
+    {
+        $this->load->model('Beatsomeone_model');
+
+        $config = array(
+            'sort' =>  $this->input->get('sort') ,
+            'search' =>  $this->input->get('search') ,
+            'genre' =>  $this->input->get('genre') ,
+            'subgenre' =>  $this->input->get('subgenre') ,
+            'bpmFr' =>  $this->input->get('bpmFr') ,
+            'bpmTo' =>  $this->input->get('bpmTo') ,
+            'moods' =>  $this->input->get('moods') ,
+            'trackType' =>  $this->input->get('trackType') ,
+            'limit' => $this->input->get('limit') ?? 5,
+        );
+        $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
+        $result = $this->filterFreebeat($result);
+
+        foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], '200');
+        }
+
+        return $result;
+    }
+
+    // sublist 목록 조회
+    public function sublist_list()
+    {
+        $this->load->model(array('Beatsomeone_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
+
+        $config = array(
+            'limit' =>  $this->input->get('limit') ?? 10,
+            'offset' =>  $this->input->get('offset') ,
+            'sort' =>  $this->input->get('sort') ,
+            'search' =>  $this->input->get('search') ,
+            'genre' =>  $this->input->get('genre') ,
+            'subgenre' =>  $this->input->get('subgenre') ,
+            'bpmFr' =>  $this->input->get('bpmFr') ,
+            'bpmTo' =>  $this->input->get('bpmTo') ,
+            'moods' =>  $this->input->get('moods') ,
+            'trackType' =>  $this->input->get('trackType') ,
+            'mem_id' => $this->member->item('mem_id'),
+            'brand_mem_id' => $this->input->post('brand_mem_id'),
+        );
+
+        $result = $this->Beatsomeone_model->get_sublist_list($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], 'list');
+            $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+            $result[$key]['waveform'] = json_decode(element('waveform', $val), true);
+            $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
+            $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+            foreach ($itemdetails as $itemdetail) {
+                $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+            }
+        }
+        return $this->filterFreebeat($result);
+    }
+
+    // detail similar tracks 조회
+    public function detail_similartracks_list($cit_id = '')
+    {
+        $mem_id = $this->member->item('mem_id') | 0;
+
+        $sql = "SELECT *
+        FROM cb_cmall_item cci
+            LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id WHERE cci.cit_id = ?";
+        $product = $this->db->query($sql, [$cit_id])->row_array();
+        $hash_tag_string = $product['cim_value'];
+        $hash_tags = explode(",", $hash_tag_string);
+        $where = "";
+        foreach ($hash_tags as $idx => $hash_tag) {
+            if ($idx == 0) {
+                $where = "(cim_value LIKE '%,".$hash_tag. ",%' OR cim_value LIKE '".$hash_tag. ",%' OR cim_value LIKE '%,".$hash_tag. "')";
+            } else {
+                $where .= " OR (cim_value LIKE '%,".$hash_tag. ",%' OR cim_value LIKE '".$hash_tag. ",%' OR cim_value LIKE '%,".$hash_tag. "')";
+            }
+        }
+        $where = "WHERE (".$where.") AND cci.cit_id != ?";
+
+        $sql = "SELECT cci.*, cm.mem_nickname, ccim.cim_value as hashTag, IF(cwi_id > 0, TRUE, FALSE) as is_wish
+                FROM cb_cmall_item cci
+                    LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id
+                    LEFT JOIN cb_cmall_wishlist ccw on cci.cit_id = ccw.cit_id AND ccw.mem_id = ?
+                    LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
+                     " . $where;
+        $similar_products = $this->db->query($sql, [$mem_id, $cit_id])->result_array();
+        foreach ($similar_products as $idx => $product) {
+            $sql_detail = "SELECT * FROM cb_cmall_item_detail WHERE cit_id = ?";
+            $details = $this->db->query($sql_detail, [$product['cit_id']])->result_array();
+            $details2 = array();
+            foreach ($details as $idx2 => $detail) {
+                $details2[$detail['cde_title']] = $detail;
+            }
+            $similar_products[$idx]['detail'] = $details2;
+            $similar_products[$idx]['thumb'] = cover_thumb_name($product['cit_file_1'], 'list');
+        }
+
+        return $similar_products;
     }
 }

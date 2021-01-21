@@ -172,11 +172,9 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     </div>
 <?php } */ ?>
 <div id="app">
-    <?php
-    if (!empty($seoView)) {
+    <?php if (!empty($seoView)) {
         $this->load->view($seoView);
-    }
-    ?>
+    } ?>
     <?php if (isset($yield)) {
         echo $yield;
     } ?>

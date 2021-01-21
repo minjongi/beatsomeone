@@ -179,7 +179,12 @@
 <?php } ?>
 
 <div id="app">
-    <?php if (isset($yield)) echo $yield; ?>
+    <?php if (!empty($seoView)) {
+        $this->load->view($seoView);
+    } ?>
+    <?php if (isset($yield)) {
+        echo $yield;
+    } ?>
 </div>
 
 </body>

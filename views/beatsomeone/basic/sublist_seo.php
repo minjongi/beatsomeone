@@ -1,5 +1,4 @@
 <?php
-
 $genre = [
     'All Genre',
     'Hip hop',
@@ -20,48 +19,196 @@ $genreName = [];
 foreach ($genre as $key => $val) {
     $genreName[$key] = lang('genre' . str_replace('&', '', str_replace('-', '', str_replace(' ', '', $val))));
 }
+
+$moods = [
+    'Angry',
+    'Annoyed',
+    'Anxious',
+    'Bouncy',
+    'Calm',
+    'Chill',
+    'Confident',
+    'Crazy',
+    'Dark',
+    'Depressed',
+    'Dirty',
+    'Dope',
+    'Energetic',
+    'Enraged',
+    'Evil',
+    'Giddy',
+    'Gloomy',
+    'Groovy',
+    'Happy',
+    'Hyper',
+    'Kitsch',
+    'Lazy',
+    'Lo-fi',
+    'Lonely',
+    'Loved',
+    'Majestic',
+    'Mellow',
+    'Peaceful',
+    'Rebellious',
+    'Relaxed',
+    'Sad',
+    'Sensual',
+    'Scared',
+    'Soulful',
+];
+
+$moodsName = [];
+foreach ($moods as $key => $val) {
+    $moodsName[$key] = lang('moods' . str_replace('&', '', str_replace('-', '', str_replace(' ', '', $val))));
+}
+
+$trackType = [
+    'Beats',
+    'Beats with chorus',
+    'Vocals',
+    'Song reference',
+    'Songs'
+];
+
+$trackTypeName = [];
+foreach ($trackType as $key => $val) {
+    $trackTypeName[$key] = lang('trackType' . str_replace('&', '', str_replace('-', '', str_replace(' ', '', $val))));
+}
 ?>
 <div class="wrapper">
     <?php $this->load->view('beatsomeone/basic/include/header_seo') ?>
-    <div class="container">
-        <div class="main">
-            <section class="main__section1">
-                <div class="filter"></div>
-                <div class="wrap">
-                    <header class="main__section1-title">
-                        <h1><?= lang('MainTitleMsg') ?></h1>
-                        <p>
-                            <?= lang('findingMusicMsg') ?><br/>
-                            <?= lang('mainMsg2') ?>
-                        </p>
-                    </header>
-                    <div class="main__media">
-                        <div class="tab">
-                            <?php foreach ($genre as $key => $val) { ?>
-                                <a href="/beatsomeone/sublist?genre=<?= urlencode($val) ?>">
-                                    <button><?= $genreName[$key] ?></button>
+    <div class="container sub">
+        <div class="sublist">
+            <div class="wrap">
+                <div class="sublist__filter">
+                    <div class="row">
+                        <div class="filter">
+                            <h2 class="filter__title"><?= lang('filter') ?></h2>
+                            <div class="filter__content">
+                                <ul class="filter__list">
+                                    <?php foreach ($genre as $key => $val) { ?>
+                                        <li class="filter__item">
+                                            <label class="checkbox">
+                                                <input type="radio" name="filter" hidden/>
+                                                <?= $genreName[$key] ?>
+                                            </label>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="filter">
+                            <h2 class="filter__title"><?= lang('subGenres') ?></h2>
+                            <div class="filter__content" style="display: none;">
+                                <ul class="filter__list">
+                                    <?php foreach ($genre as $key => $val) { ?>
+                                        <li class="filter__item">
+                                            <label class="checkbox">
+                                                <input type="radio" name="filter" hidden/>
+                                                <?= $genreName[$key] ?>
+                                            </label>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="filter">
+                            <h2 class="filter__title folded">BPM</h2>
+                            <div class="filter__content" style="display: none;">
+                                <div class="bpmRange">
+                                    <input type="text" />
+                                </div>
+                                <div class="bpmRangeInfo">
+                                    <input type="text" readonly id="bpm-start" v-model="param.currentBpmFr" />
+                                    <span>-</span>
+                                    <input type="text" readonly id="bpm-end" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="filter">
+                            <h2 class="filter__title folded"><?= lang('moods') ?></h2>
+                            <div class="filter__content" style="display: none;">
+                                <ul class="filter__list">
+                                    <?php foreach ($moods as $key => $val) { ?>
+                                        <li class="filter__item">
+                                            <label class="checkbox">
+                                                <input type="radio" name="filter" hidden/>
+                                                <?= $moodsName[$key] ?>
+                                            </label>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="filter">
+                            <h2 class="filter__title folded"><?= lang('trackType') ?></h2>
+                            <div class="filter__content" style="display: none;">
+                                <ul class="filter__list">
+                                    <?php foreach ($trackType as $key => $val) { ?>
+                                        <li class="filter__item">
+                                            <label class="checkbox">
+                                                <input type="radio" name="filter" hidden/>
+                                                <?= $trackTypeName[$key] ?>
+                                            </label>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sublist__content">
+                    <div class="row">
+                        <?php if (!empty($seoViewData['search'])) { ?>
+                            <h1 class="section-title"><?= lang('searchResultsFor') ?> '{{ param.search }}'</h1>
+                        <?php } else { ?>
+                            <h2 class="section-title">
+                                <?php if (empty($seoViewData['search'])) { ?>
+                                    <span>TOP</span>
+                                    <span class="number">5</span>
+                                <?php } ?>
+                                <div class="sort">
+                                    <span><?= lang('sortBy') ?></span>
+                                    <div class="custom-select">
+                                        <button class="selected-option"><?= lang('sortBy') ?></button>
+                                    </div>
+                                </div>
+                            </h2>
+                        <?php } ?>
+                        <?php if (empty($seoViewData['search'])) { ?>
+                        <div class="topFive">
+                            <?php foreach ($seoViewData['sublist_top_list'] as $val) { ?>
+                            <div class="trending__slide-item albumItem">
+                                <a href="/detail/<?= $val['cit_key'] ?>#/">
+                                    <button class="albumItem__cover">
+                                        <img src="/uploads/cmallitem/<?= $val['thumb'] ?>" alt="<?= $val['cit_name'] ?>"/>
+                                    </button>
+                                    <a class="albumItem__link">
+                                        <h4 class="albumItem__title"><?= $val['cit_name'] ?></h4>
+                                        <p class="albumItem__singer"><?= $val['mem_nickname'] ?></p>
+                                    </a>
                                 </a>
+                            </div>
                             <?php } ?>
                         </div>
-                        <div class="filter">
-                            <label for="voice" class="switch">
-                                <?= lang('voice') ?>
-                                <input type="checkbox" hidden id="voice"/>
-                                <span></span>
-                            </label>
-                            <div class="custom-select ">
-                                <button class="selected-option">
-                                    <?= lang('sortItemSortBy') ?>
-                                </button>
-                            </div>
-                            <div class="custom-select ">
-                                <button class="selected-option">
-                                    BPM
-                                </button>
-                            </div>
-                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="row">
+                        <?php if (empty($seoViewData['search'])) { ?>
+                            <h2 class="section-title"><?= lang('playList') ?></h2>
+                        <?php } else { ?>
+                            <h2 class="section-title">SEARCH RESULTS</h2>
+                        <?php } ?>
                         <div class="playList">
-                            <?php foreach ($seoViewData['main_list'] as $item) { ?>
+                            <?php foreach ($seoViewData['sublist_list'] as $item) { ?>
                                 <li class="playList__itembox">
                                     <div class="playList__item playList__item--title">
                                         <div class="col favorite">
@@ -91,7 +238,7 @@ foreach ($genre as $key => $val) {
                                                             <?php if($item['cit_freebeat'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_1.png"/><?php } ?>
                                                             <?php if($item['cit_type5'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_2.png"/><?php } ?>
                                                             <?php if($item['cit_officially_registered'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_3.png"/><?php } ?>
-                                                            <?php if($item['voice'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_4.png"/><?php } ?>
+                                                            <?php if($item['cit_include_copyright_transfer'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_4.png"/><?php } ?>
                                                             <?php if($item['cit_org_content'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_5.png"/><?php } ?>
                                                         </div>
                                                         <span class="tooltip">
@@ -169,103 +316,11 @@ foreach ($genre as $key => $val) {
                                     </div>
                                 </li>
                             <?php } ?>
-                            <div class="playList__btnbox">
-                                <a class="playList__more" href="/beatsomeone/sublist"><?= lang('mainMore') ?></a>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section class="main__section2">
-                <div class="filter reverse"></div>
-                <div class="wrap">
-                    <header class="main__section2-title-login" v-if="false">
-                        <h2>
-                            <?= lang('backgroundMusicMessage1') ?><br/>
-                            <?= lang('backgroundMusicMessage2') ?>
-                        </h2>
-                        <a class="startSelling" href="/register">
-                            <?= lang('buyerLogin') ?>
-                        </a>
-                    </header>
-                    <header class="main__section2-title">
-                        <h2>
-                            <?= lang('bitTradingMessage1') ?><br/>
-                            <?= lang('bitTradingMessage2') ?>
-                        </h2>
-                        <a class="startSelling" href="/register">
-                            <?= lang('lendOrSellMyBeat') ?>
-                        </a>
-                    </header>
-                    <!-- 트렌딜 슬라이드 부분 -->
-                    <div class="trending">
-                        <h2 class="trending__title"><?= lang('trendingMusic') ?></h2>
-                        <div class="trending__slider">
-                            <div class="slider">
-                                <?php foreach ($seoViewData['main_trending_list'] as $item) { ?>
-                                    <div class="trending__slide-item albumItem">
-                                        <a href="/detail/<?= $item['cit_key'] ?>#/">
-                                            <button class="albumItem__cover">
-                                                <img src="/uploads/cmallitem/<?= $item['thumb'] ?>" alt="<?= $item['cit_name'] ?>"/>
-                                            </button>
-                                            <a class="albumItem__link">
-                                                <h4 class="albumItem__title"><?= $item['cit_name'] ?></h4>
-                                                <p class="albumItem__singer"><?= $item['mem_nickname'] ?></p>
-                                            </a>
-                                        </a>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 트렌드 슬라이드 끝 -->
-                    <!-- 제휴 업체 로그 이미지  -->
-                    <div class="alliance">
-                        <img src="/assets/images/alliance1.png" alt="" href="#" style="opacity: .3"/>
-                    </div>
-                    <!-- 제휴업체 로그 이미지 끝 -->
-                    <div class="testimonials">
-                        <article class="testimonials__title">
-                            <h2><?= lang('testimonials') ?></h2>
-                            <p><?= lang('bestTeamMember') ?></p>
-                        </article>
-                        <article class="testimonials__lists">
-                            <?php foreach ($seoViewData['main_testimonials_list'] as $post) { ?>
-                                <figure class="card card--testimonials">
-                                    <a href="/video#/<?= $post['post_id'] ?>">
-                                        <div class="img">
-                                            <img src="/uploads/post/<?= $post['post']['files'][0]['pfi_filename'] ?>" alt=""/>
-                                            <button class="card--testimonials_play"></button>
-                                        </div>
-                                        <figcaption>
-                                            <h3><?= $post['post']['dp_title'] ?? $post['post_title'] ?></h3>
-                                            <p><?= $post['post']['dp_sub_title'] ?? $post['post_nickname'] ?></p>
-                                        </figcaption>
-                                    </a>
-                                </figure>
-                            <?php } ?>
-                        </article>
-                        <div class="testimonials__btnbox">
-                            <a class="startSelling" href="/register"><?= lang('startSelling') ?></a>
-                            <a href="/beatsomeone/sublist" class="beats"><?= lang('browseBeats') ?></a>
-                        </div>
-                    </div>
-                    <div class="main__desc">
-                        <h2>
-                            <?= lang('musicWorldMsg1') ?><br/>
-                            <?= lang('musicWorldMsg2') ?><br/>
-                            <?= lang('areYouReady') ?>
-                        </h2>
-                        <a class="startSelling" href="/register">
-                            <?= lang('trustOurTeamMsg') ?>
-                        </a>
-                    </div>
-                </div>
-                <?php $this->load->view('beatsomeone/basic/include/footer_seo') ?>
-            </section>
+            </div>
         </div>
     </div>
-    <div class="footer-banner">
-        <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
-    </div>
+    <?php $this->load->view('beatsomeone/basic/include/footer_seo') ?>
 </div>

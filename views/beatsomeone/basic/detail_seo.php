@@ -1,67 +1,89 @@
-<?php
-
-$genre = [
-    'All Genre',
-    'Hip hop',
-    'K-pop',
-    'Pop',
-    'R&B',
-    'Dance',
-    'Rock',
-    'Electronic',
-    'Jazz',
-    'Acoustic',
-    'Indie',
-    'Reggae',
-    'World',
-];
-
-$genreName = [];
-foreach ($genre as $key => $val) {
-    $genreName[$key] = lang('genre' . str_replace('&', '', str_replace('-', '', str_replace(' ', '', $val))));
-}
-?>
 <div class="wrapper">
     <?php $this->load->view('beatsomeone/basic/include/header_seo') ?>
-    <div class="container">
-        <div class="main">
-            <section class="main__section1">
-                <div class="filter"></div>
-                <div class="wrap">
-                    <header class="main__section1-title">
-                        <h1><?= lang('MainTitleMsg') ?></h1>
-                        <p>
-                            <?= lang('findingMusicMsg') ?><br/>
-                            <?= lang('mainMsg2') ?>
-                        </p>
-                    </header>
-                    <div class="main__media">
-                        <div class="tab">
-                            <?php foreach ($genre as $key => $val) { ?>
-                                <a href="/beatsomeone/sublist?genre=<?= urlencode($val) ?>">
-                                    <button><?= $genreName[$key] ?></button>
+    <div class="container detail">
+        <div class="detail__header">
+            <div class="wrap">
+                <div class="detail__music">
+                    <div class="detail__music-img">
+                        <img src="/uploads/cmallitem/<?= $item['cit_file_1'] ?>" alt/>
+                    </div>
+                    <div class="detail__music-info">
+                        <h2 class="title"><?= $item['cit_name'] ?></h2>
+                        <p class="singer"><?= $item['mem_nickname'] ?></p>
+                        <div class="state">
+                            <span class="registed"><?= $item['cit_start_datetime'] ?></span>
+                            <div class="etc"><?= $item['info_content'] ?></div>
+                        </div>
+                        <div class="utils">
+                            <div class="utils__info">
+                                <a class="buy waves-effect">
+                                    <span>
+                                    <?php
+                                    if ($item['cit_lease_license_use'] == '1') {
+                                        $this->config->item('locale') == 'ko' ? $item['detail']['LEASE']['cde_price'] : $item['detail']['LEASE']['cde_price_d'];
+                                    } else {
+                                        $this->config->item('locale') == 'ko' ? $item['detail']['STEM']['cde_price'] : $item['detail']['STEM']['cde_price_d'];
+                                    }
+                                    ?>
+                                    </span>
                                 </a>
-                            <?php } ?>
-                        </div>
-                        <div class="filter">
-                            <label for="voice" class="switch">
-                                <?= lang('voice') ?>
-                                <input type="checkbox" hidden id="voice"/>
-                                <span></span>
-                            </label>
-                            <div class="custom-select ">
-                                <button class="selected-option">
-                                    <?= lang('sortItemSortBy') ?>
-                                </button>
-                            </div>
-                            <div class="custom-select ">
-                                <button class="selected-option">
-                                    BPM
-                                </button>
+                                <span class="talk pointer"><?= $item['cit_review_count'] ?></span>
+                                <div class="share">
+                                    <span><?= $item['cit_share_count'] ?></span> /
+                                    <span class="share pointer"><?= lang('lang107') ?></span> /
+                                    <span class="share pointer"><?= lang('lang108') ?></span> /
+                                    <span class="share pointer"><?= lang('lang109') ?></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="playList">
-                            <?php foreach ($seoViewData['main_list'] as $item) { ?>
+                        <div class="utils" v-if="item" style="margin-top: 10px;">
+                            <div class="tags">
+                                <?php if($item['cit_freebeat'] == '1') { ?>
+                                    <button style="color:#3873d3;"><?= lang('lang1') ?></button>
+                                <?php } ?>
+                                <?php if($item['cit_org_content'] == '1') { ?>
+                                    <button style="color:#ffda2a;"><?= lang('lang2') ?></button>
+                                <?php } ?>
+                                <?php if($item['cit_officially_registered'] == '1') { ?>
+                                    <button style="color:#fff;"><?= lang('lang3') ?></button>
+                                <?php } ?>
+                            </div>
+                            <div class="category" style="width: 100%;">
+                                <?php foreach($seoViewData['hashtag'] as $val) { ?>
+                                    <span class="pointer"><?= $val ?>></span>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail__player">
+                    <button class="detail__player-controller"></button>
+                    <div id="detail__player-wave">
+                    </div>
+                </div>
+                <div class="detail__comment">
+                    <form action>
+                        <div class="commentForm">
+                            <a href class="comment__user"></a>
+                            <input type="text" placeholder="<?= lang('writeComment') ?>" id="comment" maxlength="200"/>
+                            <span id="commentLength">0/200</span>
+                            <button><?= lang('send') ?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="detail__body">
+            <div class="wrap">
+                <div class="tab">
+                    <button><?= lang('similarTrack') ?></button>
+                    <button><?= lang('comments') ?></button>
+                    <button><?= lang('information') ?></button>
+                </div>
+                <div class="detail__content">
+                    <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false"  v-if="list">
+                        <ul id="playList__list" class="playList__list">
+                            <?php foreach ($seoViewData['detail_similartracks_list'] as $item) { ?>
                                 <li class="playList__itembox">
                                     <div class="playList__item playList__item--title">
                                         <div class="col favorite">
@@ -91,7 +113,7 @@ foreach ($genre as $key => $val) {
                                                             <?php if($item['cit_freebeat'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_1.png"/><?php } ?>
                                                             <?php if($item['cit_type5'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_2.png"/><?php } ?>
                                                             <?php if($item['cit_officially_registered'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_3.png"/><?php } ?>
-                                                            <?php if($item['voice'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_4.png"/><?php } ?>
+                                                            <?php if($item['cit_include_copyright_transfer'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_4.png"/><?php } ?>
                                                             <?php if($item['cit_org_content'] == '1') { ?><img style="margin: 0 5px; width:15px;" src="/assets/images/icon/icon_5.png"/><?php } ?>
                                                         </div>
                                                         <span class="tooltip">
@@ -169,103 +191,11 @@ foreach ($genre as $key => $val) {
                                     </div>
                                 </li>
                             <?php } ?>
-                            <div class="playList__btnbox">
-                                <a class="playList__more" href="/beatsomeone/sublist"><?= lang('mainMore') ?></a>
-                            </div>
-                        </div>
+                        </ul>
                     </div>
                 </div>
-            </section>
-            <section class="main__section2">
-                <div class="filter reverse"></div>
-                <div class="wrap">
-                    <header class="main__section2-title-login" v-if="false">
-                        <h2>
-                            <?= lang('backgroundMusicMessage1') ?><br/>
-                            <?= lang('backgroundMusicMessage2') ?>
-                        </h2>
-                        <a class="startSelling" href="/register">
-                            <?= lang('buyerLogin') ?>
-                        </a>
-                    </header>
-                    <header class="main__section2-title">
-                        <h2>
-                            <?= lang('bitTradingMessage1') ?><br/>
-                            <?= lang('bitTradingMessage2') ?>
-                        </h2>
-                        <a class="startSelling" href="/register">
-                            <?= lang('lendOrSellMyBeat') ?>
-                        </a>
-                    </header>
-                    <!-- 트렌딜 슬라이드 부분 -->
-                    <div class="trending">
-                        <h2 class="trending__title"><?= lang('trendingMusic') ?></h2>
-                        <div class="trending__slider">
-                            <div class="slider">
-                                <?php foreach ($seoViewData['main_trending_list'] as $item) { ?>
-                                    <div class="trending__slide-item albumItem">
-                                        <a href="/detail/<?= $item['cit_key'] ?>#/">
-                                            <button class="albumItem__cover">
-                                                <img src="/uploads/cmallitem/<?= $item['thumb'] ?>" alt="<?= $item['cit_name'] ?>"/>
-                                            </button>
-                                            <a class="albumItem__link">
-                                                <h4 class="albumItem__title"><?= $item['cit_name'] ?></h4>
-                                                <p class="albumItem__singer"><?= $item['mem_nickname'] ?></p>
-                                            </a>
-                                        </a>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 트렌드 슬라이드 끝 -->
-                    <!-- 제휴 업체 로그 이미지  -->
-                    <div class="alliance">
-                        <img src="/assets/images/alliance1.png" alt="" href="#" style="opacity: .3"/>
-                    </div>
-                    <!-- 제휴업체 로그 이미지 끝 -->
-                    <div class="testimonials">
-                        <article class="testimonials__title">
-                            <h2><?= lang('testimonials') ?></h2>
-                            <p><?= lang('bestTeamMember') ?></p>
-                        </article>
-                        <article class="testimonials__lists">
-                            <?php foreach ($seoViewData['main_testimonials_list'] as $post) { ?>
-                                <figure class="card card--testimonials">
-                                    <a href="/video#/<?= $post['post_id'] ?>">
-                                        <div class="img">
-                                            <img src="/uploads/post/<?= $post['post']['files'][0]['pfi_filename'] ?>" alt=""/>
-                                            <button class="card--testimonials_play"></button>
-                                        </div>
-                                        <figcaption>
-                                            <h3><?= $post['post']['dp_title'] ?? $post['post_title'] ?></h3>
-                                            <p><?= $post['post']['dp_sub_title'] ?? $post['post_nickname'] ?></p>
-                                        </figcaption>
-                                    </a>
-                                </figure>
-                            <?php } ?>
-                        </article>
-                        <div class="testimonials__btnbox">
-                            <a class="startSelling" href="/register"><?= lang('startSelling') ?></a>
-                            <a href="/beatsomeone/sublist" class="beats"><?= lang('browseBeats') ?></a>
-                        </div>
-                    </div>
-                    <div class="main__desc">
-                        <h2>
-                            <?= lang('musicWorldMsg1') ?><br/>
-                            <?= lang('musicWorldMsg2') ?><br/>
-                            <?= lang('areYouReady') ?>
-                        </h2>
-                        <a class="startSelling" href="/register">
-                            <?= lang('trustOurTeamMsg') ?>
-                        </a>
-                    </div>
-                </div>
-                <?php $this->load->view('beatsomeone/basic/include/footer_seo') ?>
-            </section>
+            </div>
         </div>
     </div>
-    <div class="footer-banner">
-        <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
-    </div>
+    <?php $this->load->view('beatsomeone/basic/include/footer_seo') ?>
 </div>
