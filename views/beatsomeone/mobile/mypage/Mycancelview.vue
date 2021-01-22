@@ -99,7 +99,7 @@
             </div>
             <p class="desc">
                 <img data-v-6049000a="" src="/assets/images/icon/info_blue.png">
-                <span>{{$t('depositWaitingStateSupportCaseMenuMsg')}} <a href="/mypage#/inquiry/">{{$t('shortcut')}}</a></span>
+                <span>{{$t('depositWaitingStateSupportCaseMenuMsg')}} <a :href="helper.langUrl($i18n.locale, '/mypage#/inquiry/')">{{$t('shortcut')}}</a></span>
             </p>
         </div>
 

@@ -397,7 +397,7 @@ export default {
     },
     selectItem(i) {
       const path = `/detail/${i.cit_key}`;
-      window.location.href = path;
+      window.location.href = this.helper.langUrl(this.$i18n.locale, path);
     },
     getList() {
       const p = {

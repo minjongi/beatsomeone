@@ -64,10 +64,10 @@
                 </div>
 
                 <div class="accounts__etc">
-                    {{ $t('dontHaveAccount') }} <a href="/register">{{ $t('signup') }}</a>
+                    {{ $t('dontHaveAccount') }} <a :href="helper.langUrl($i18n.locale, '/register')">{{ $t('signup') }}</a>
                 </div>
                 <div class="accounts__etc">
-                    {{ $t('forgotYourAccount') }} <a href="/findaccount">{{ $t('findAccount') }}</a>
+                    {{ $t('forgotYourAccount') }} <a :href="helper.langUrl($i18n.locale, '/findaccount')">{{ $t('findAccount') }}</a>
                 </div>
             </div>
         </div>

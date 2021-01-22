@@ -444,7 +444,7 @@
         </div>
       </section>
       <div class="registered__btnbox">
-        <a href="/mypage#/list_item" class="btn btn--list waves-effect">{{ $t('list') }}</a>
+        <a :href="helper.langUrl($i18n.locale, '/mypage#/list_item')" class="btn btn--list waves-effect">{{ $t('list') }}</a>
         <button
           type="submit"
           class="btn btn--save waves-effect"
@@ -709,7 +709,7 @@ export default {
       Http.get("/beatsomeoneApi/chk_product_reg_limit").then((r) => {
         if (r.data.status !== "possible") {
           alert(this.$t(r.data.msgCode));
-          window.location.href = "/";
+          window.location.href = this.helper.langUrl(this.$i18n.locale, "/");
         }
       });
     },
@@ -848,13 +848,13 @@ export default {
             });
             if (!this.cit_id) {
               if (confirm(this.$t("registerAdditionalMusic"))) {
-                window.location.href = "/mypage/regist_item/";
+                window.location.href = this.helper.langUrl(this.$i18n.locale, "/mypage/regist_item/");
               } else {
-                window.location.href = "/";
+                window.location.href = this.helper.langUrl(this.$i18n.locale, "/");
               }
             } else {
               alert(this.$t("itIsChanged"));
-              window.location.href = "/mypage/regist_item/" + r.data;
+              window.location.href = this.helper.langUrl(this.$i18n.locale, "/mypage/regist_item/" + r.data);
             }
           },
           (e) => {

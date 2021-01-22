@@ -2,7 +2,7 @@
     <div class="title-content">
         <h4 class="title">
             <span>{{$t('supportCase')}}</span>
-            <a class="more" href="/mypage#/inquiry">more <img src="/assets/images/icon/chevron-right.png"/></a>
+            <a class="more" :href="helper.langUrl($i18n.locale, '/mypage#/inquiry')">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
         <div>
             <div class="playList" v-if="data.length > 0">

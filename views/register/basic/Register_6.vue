@@ -386,7 +386,7 @@
                             return
                         } else {
                             alert("결제가 완료되었습니다.")
-                            window.location.href = '/mypage'
+                            window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage')
                         }
                     })
                 }
@@ -398,7 +398,7 @@
                         return
                     } else {
                         alert("결제가 완료되었습니다.")
-                        window.location.href = '/mypage'
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage')
                     }
                 })
             },
@@ -445,7 +445,7 @@
                         return
                     } else {
                         alert("결제가 완료되었습니다.")
-                        window.location.href = '/mypage'
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage')
                     }
                 })
             },
@@ -454,7 +454,7 @@
             },
 
             goBack: function (e) {
-                window.location.href = '/cmall/cart'
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/cmall/cart')
             },
 
             localePrice(price) {

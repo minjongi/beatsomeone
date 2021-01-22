@@ -10,7 +10,7 @@
             <router-link to="/list_item" class="nav-link">{{$t('productList')}}</router-link>
         </li>
         <li class="nav-item" v-if="member_group_name.includes('seller')">
-            <a href="/mypage/regist_item" class="nav-link">{{$t('registrationOfBeat')}}</a>
+            <a :href="helper.langUrl($i18n.locale, '/mypage/regist_item')" class="nav-link">{{$t('registrationOfBeat')}}</a>
         </li>
         <li class="nav-item">
             <router-link to="/orders" class="nav-link">{{$t('orderHistory')}}</router-link>
@@ -25,7 +25,7 @@
             <router-link to="/settlement" class="nav-link">{{$t('settlementHistory')}}</router-link>
         </li>
         <li class="nav-item" v-if="member_group_name === 'buyer'">
-            <a href="/mypage/upgrade" class="nav-link">{{$t('sellerRegister')}}</a>
+            <a :href="helper.langUrl($i18n.locale, '/mypage/upgrade')" class="nav-link">{{$t('sellerRegister')}}</a>
         </li>
         <li class="nav-item">
             <router-link to="/inquiry" class="nav-link">{{$t('support1')}}</router-link>

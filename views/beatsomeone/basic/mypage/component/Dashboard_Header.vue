@@ -27,9 +27,9 @@
         methods: {
             startSelling() {
                 if (this.member_group_name === 'buyer') {
-                    window.location.href = '/mypage/upgrade';
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade');
                 } else if (this.member_group_name.includes('seller')) {
-                    window.location.href = '/mypage/regist_item';
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/regist_item');
                 }
             }
         },

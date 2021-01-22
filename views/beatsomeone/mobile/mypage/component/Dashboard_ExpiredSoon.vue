@@ -2,7 +2,7 @@
     <div class="title-content">
         <h4 class="title">
             {{ $t('expiredSoon') }}
-            <a class="more" href="/mypage#/mybilling">more <img src="/assets/images/icon/chevron-right.png"/></a>
+            <a class="more" :href="helper.langUrl($i18n.locale, '/mypage#/mybilling')">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
 
         <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 12px;">

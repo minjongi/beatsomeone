@@ -36,7 +36,7 @@
         },
         methods: {
             goPage: function (page) {
-                window.location.href = '/mypage/' + page
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/' + page)
             },
             goRoute: function (page) {
                 this.current = page
@@ -54,7 +54,7 @@
                 this.$router.push({path: p})
             },
             goUpgrade() {
-                window.location.href = '/mypage/upgrade'
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade')
             },
             parseRoute(r) {
                 let p = null;

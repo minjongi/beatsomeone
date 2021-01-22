@@ -14,7 +14,7 @@
             <div class="col name">
                 <figure>
                     <span class="playList__cover"><img :src="'/uploads/cmallitem/' + item.thumb" alt/><i class="label new" v-show="item.is_new === true">N</i></span>
-                    <a :href="'/detail/' + item.cit_key + '#/'">
+                    <a :href="helper.langUrl($i18n.locale, '/detail/' + item.cit_key + '#/')">
                       <figcaption class="pointer">
                         <h3 class="playList__title">{{ truncate(item.cit_name, 30) }}</h3>
                         <span class="playList__by">by {{ item.mem_nickname }}</span>
@@ -369,7 +369,7 @@ export default {
             },
             // 해쉬 클릭
             clickHash(h) {
-                window.location.href = `/beatsomeone/sublist?search=${h}`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/beatsomeone/sublist?search=${h}`);
             },
             // 공유 클릭
             clickShare(sns) {

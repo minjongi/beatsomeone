@@ -36,13 +36,13 @@
               </li>
               <li>
                 <a
-                  href="/register/terms"
+                  :href="helper.langUrl($i18n.locale, '/register/terms')"
                   target="_blank"
                 >{{ $t('termsOfService') }}</a>
               </li>
               <li>
                 <a
-                  href="/register/policy"
+                  :href="helper.langUrl($i18n.locale, '/register/policy')"
                   target="_blank"
                 >{{ $t('privacyPolicy') }}</a>
               </li>

@@ -24,7 +24,7 @@
                         <div class="row">
                             <label for="">
                                 <p class="form-title">{{ $t('password') }}
-                                    <a href="/findaccount">{{ $t('forgotYourAccount') }}</a>
+                                    <a :href="helper.langUrl($i18n.locale, '/findaccount')">{{ $t('forgotYourAccount') }}</a>
                                 </p>
                                 <div class="input">
                                     <input type="password" name="mem_password" :placeholder="$t('typeYourPassword')" />
@@ -65,7 +65,7 @@
                     /></a>
                 </div>
                 <div class="accounts__etc">
-                    {{ $t('dontHaveAccount') }} <a href="/register">{{ $t('signup') }}</a>
+                    {{ $t('dontHaveAccount') }} <a :href="helper.langUrl($i18n.locale, '/register')">{{ $t('signup') }}</a>
                 </div>
             </div>
         </div>

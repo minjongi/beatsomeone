@@ -2,7 +2,7 @@
     <div class="title-content">
         <h4 class="title">
             <span>{{$t('messageYouReceived')}}</span>
-            <a class="more" href="/mypage#/message">more <img src="/assets/images/icon/chevron-right.png"/></a>
+            <a class="more" :href="helper.langUrl($i18n.locale, '/mypage#/message')">more <img src="/assets/images/icon/chevron-right.png"/></a>
         </h4>
         <div>
             <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 12px;">

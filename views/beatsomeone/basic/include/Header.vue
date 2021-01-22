@@ -2,11 +2,11 @@
   <div class="event-header">
     <header class="header">
       <div class="event-top">
-        <a href="/event"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/bn.jpg'"></a>
+        <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/bn.jpg'"></a>
       </div>
         <div class="wrap">
             <h1 class="header__logo">
-                <a href="/"><img src="/assets/images/logo.png" alt=""/></a>
+                <a :href="helper.langUrl($i18n.locale, '/')"><img src="/assets/images/logo.png" alt=""/></a>
             </h1>
             <div class="header__gnb">
                 <div class="header__search">
@@ -16,21 +16,20 @@
                     </div>
                 </div>
                 <nav class="header__nav">
-                    <a href=""></a>
-                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
-                    <a v-if="isCustomer" href="">{{ $t('freeBeats') }}</a>
-                    <a v-if="isSeller" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
-                    <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
-                    <a href="/login/logout" v-if="isLogin">{{ $t('logout') }}</a>
-                    <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
-                    <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/mypage/favorites')">{{ $t('favorite') }}</a>
+                    <a v-if="isCustomer && false" href="">{{ $t('freeBeats') }}</a>
+                    <a v-if="isSeller" :href="helper.langUrl($i18n.locale, '/mypage/regist_item')">{{ $t('registrationSources') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/mypage')" v-if="isLogin">{{ $t('mypage') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/login/logout')" v-if="isLogin">{{ $t('logout') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/login')" v-if="!isLogin">{{ $t('login') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/register')" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
                     <button v-if="!isLogin">
-                        <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('lang119') }}</a>
+                        <a :href="helper.langUrl($i18n.locale, '/register')" class="sale_signup" @click="signUpClick('seller')">{{ $t('lang119') }}</a>
                         <span class="tooltip">
                             {{ $t('lang120') }}
                         </span>
                     </button>
-                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
+                    <a :href="helper.langUrl($i18n.locale, '/cmall/cart')" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
                     <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                 </nav>
             </div>

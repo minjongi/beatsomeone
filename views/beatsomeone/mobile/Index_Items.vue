@@ -18,7 +18,7 @@
                 </div>
                 <button :data-action="'playAction' + item.cit_id " class="btn-play" @click="playAudio(item)">재생</button>
                 <div class="wave"></div>
-                <a :href="'/detail/' + item.cit_key + '#/'">
+                <a :href="helper.langUrl($i18n.locale, '/detail/' + item.cit_key + '#/')">
                   <figcaption>
                     <h3 class="playList__title">{{ subName }}</h3>
                     <div class="playList__bottom-info">
@@ -317,7 +317,7 @@ export default {
         // 해쉬 클릭
         clickHash(h) {
             const path = `/beatsomeone/sublist?search=${h}`;
-            window.location.href = path;
+            window.location.href = this.helper.langUrl(this.$i18n.locale, path);
         },
         clickShare(sns) {
             Http.post(`/beatsomeoneApi/increase_item_share_count`, {

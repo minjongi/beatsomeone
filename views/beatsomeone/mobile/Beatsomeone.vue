@@ -4,7 +4,7 @@
           <div class="noti-wrap"></div>
           <div class="noti-content">
             <div>
-              <a href="/event"><img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/1.png?v=1'"></a>
+              <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/1.png?v=1'"></a>
             </div>
             <div>
               <img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/2.png?v=1'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/3.png?v=1'" @click="closePopup()" style="width:50%;">
@@ -145,7 +145,7 @@
                             <div class="trending__slider">
                                 <div class="slider">
                                     <div class="trending__slide-item albumItem" v-for="(i,index) in listTrending" :key="index">
-                                      <a :href="'/detail/' + i.cit_key + '#/'">
+                                      <a :href="helper.langUrl($i18n.locale, '/detail/' + i.cit_key + '#/')">
                                         <button class="albumItem__cover">
                                           <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                                         </button>
@@ -171,7 +171,7 @@
                                     </article>
                                     <article class="testimonials__lists">
                                         <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
-                                            <a :href="'/video#/' + post.post_id">
+                                            <a :href="helper.langUrl($i18n.locale, '/video#/' + post.post_id)">
                                                 <div class="img" v-if="post.files.length === 1">
                                                     <img
                                                             :src="'/uploads/post/' + post.files[0].pfi_filename"
@@ -194,7 +194,7 @@
                                     </article>
                                     <div class="testimonials__btnbox">
                                         <a :href="moveStartSelling">{{ $t('startSelling') }}</a>
-                                        <a href="/beatsomeone/sublist" class="beats">{{ $t('browseBeats') }}</a>
+                                        <a :href="helper.langUrl($i18n.locale, '/beatsomeone/sublist')" class="beats">{{ $t('browseBeats') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -393,7 +393,7 @@
             },
             selectItem(i) {
                 const path = `/detail/${i}`;
-                window.location.href = path;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             getMainList() {
                 Http.get(

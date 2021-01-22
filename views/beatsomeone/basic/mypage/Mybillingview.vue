@@ -189,7 +189,7 @@ export default {
         this.descNoti =
             this.$t("depositWaitingStateSupportCaseMenuMsg") +
             " " +
-            '<a href="/mypage#/inquiry/">' +
+            '<a href="' + this.helper.langUrl(this.$i18n.locale, '/mypage#/inquiry/') + '">' +
             this.$t("shortcut") +
             "</a>";
       } else if (this.order.status === "order") {

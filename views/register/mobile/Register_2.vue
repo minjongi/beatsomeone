@@ -39,7 +39,7 @@
             </div>
 
             <div class="accounts__etc">
-                {{ $t('alreadyAccount') }} <a href="/login">{{ $t('login') }}</a>
+                {{ $t('alreadyAccount') }} <a :href="helper.langUrl($i18n.locale, '/login')">{{ $t('login') }}</a>
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@
                 window.gtag_report_conversion()
                 // let userInfo = this.$store.getters.getUserInfo;
                 // window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`;
-                window.location.href = `/register#/3`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/register#/3`);
                 // this.$router.push('/3');
             }
         },

@@ -1,7 +1,7 @@
 <template>
     <header class="header" :class="scrolled">
         <nav class="navbar navbar-expand navbar-dark">
-            <a href="/" class="navbar-brand">
+            <a :href="helper.langUrl($i18n.locale, '/')" class="navbar-brand">
                 <img src="/assets/images/logo.png" alt=""/>
             </a>
             <div class="navbar-collapse collapse">
@@ -29,11 +29,11 @@
             <div class="gnb__content">
                 <a class="gnb__close" href="javascript:;" @click="toggleSidebar"></a>
                 <div class="gnb__links">
-                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
-                    <a href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
-                    <a href="/mypage">{{ $t('mypage') }}</a>
-                    <a href="/login/logout?/">{{ $t('logout') }}</a>
-                    <a href="/cmall/cart" class="header__cart">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
+                    <a :href="helper.langUrl($i18n.locale, '/mypage/favorites')">{{ $t('favorite') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/mypage/regist_item')">{{ $t('registrationSources') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/mypage')">{{ $t('mypage') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/login/logout?/')">{{ $t('logout') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/cmall/cart')" class="header__cart">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
                 </div>
             </div>
         </nav>
@@ -88,7 +88,7 @@
                 //     return;
                 // }
                 const path = `/beatsomeone/sublist?genre=All Genre&search=${this.searchText ?? ''}`;
-                window.location.href = path;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             handleScroll (event) {
                 let t = $("html, body").scrollTop();

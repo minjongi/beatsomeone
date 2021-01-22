@@ -3,7 +3,7 @@
         <div class="wrap">
             <div class="footer__top">
                 <div class="footer__logo">
-                    <a href="/"><img src="@/assets_m/images/logo.png" alt=""/></a>
+                    <a :href="helper.langUrl($i18n.locale, '/')"><img src="@/assets_m/images/logo.png" alt=""/></a>
                 </div>
                 <div class="footer__sns sns">
                     <a href="https://www.instagram.com/beatsomeone" class="sns__insta"

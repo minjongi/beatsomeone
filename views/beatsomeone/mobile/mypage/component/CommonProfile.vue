@@ -27,7 +27,7 @@
           <img class="site" src="/assets/images/icon/position.png"/><div>{{ member.mem_address1 }}</div>
         </div>
         <div class="brandshop">
-          <img class="shop" src="/assets/images/icon/shop.png"/><a :href="'/brandshop/' + member.mem_nickname">{{ $t('goToBrandshop') }} ></a>
+          <img class="shop" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + member.mem_nickname)">{{ $t('goToBrandshop') }} ></a>
         </div>
       </div>
     </div>

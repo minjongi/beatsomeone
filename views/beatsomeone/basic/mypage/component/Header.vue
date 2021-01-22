@@ -2,7 +2,7 @@
     <header class="header" :class="scrolled">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
-                <a href="/" class="navbar-brand">
+                <a :href="helper.langUrl($i18n.locale, '/')" class="navbar-brand">
                     <img src="/assets/images/logo.png" alt=""/>
                 </a>
                 <div class="navbar-collapse collapse">
@@ -14,19 +14,19 @@
                     </div>
                     <ul class="navbar-nav ml-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="/mypage/favorites">{{ $t('favorite') }}</a>
+                            <a class="nav-link" :href="helper.langUrl($i18n.locale, '/mypage/favorites')">{{ $t('favorite') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
+                            <a class="nav-link" :href="helper.langUrl($i18n.locale, '/mypage/regist_item')">{{ $t('registrationSources') }}</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="/mypage">{{ $t('mypage') }}</a>
+                            <a class="nav-link" :href="helper.langUrl($i18n.locale, '/mypage')">{{ $t('mypage') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login/logout" v-if="is_member">{{ $t('logout') }}</a>
+                            <a class="nav-link" :href="helper.langUrl($i18n.locale, '/login/logout')" v-if="is_member">{{ $t('logout') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/cmall/cart" class="nav-link"><span class="fal fa-shopping-cart mr-1"></span>({{ $t('currencySymbol') + cartSum }})</a>
+                            <a :href="helper.langUrl($i18n.locale, '/cmall/cart')" class="nav-link"><span class="fal fa-shopping-cart mr-1"></span>({{ $t('currencySymbol') + cartSum }})</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
@@ -96,7 +96,7 @@
                 //     return;
                 // }
                 const path = `/beatsomeone/sublist?genre=All Genre&search=${this.searchText ?? ''}`;
-                window.location.href = path;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             toggleLocale() {
                 let locale = this.$i18n.locale === 'en' ? 'ko' : 'en'

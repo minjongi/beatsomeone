@@ -48,7 +48,7 @@
             sendMessage() {
                 if (this.member === false) {
                     alert('로그인이 필요합니다');
-                    window.location.href = "/login?url=" + window.location.href;
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, "/login?url=" + window.location.href);
                     return false;
                 }
                 let formData = new FormData();
@@ -57,7 +57,7 @@
                     .then(res => res.data)
                     .then(data => {
                         // console.log(data);
-                        window.location.href = '/mypage/#/message';
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/#/message');
                     })
                     .catch(error => {
                         alert(error.response.data.message);

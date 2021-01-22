@@ -167,7 +167,7 @@
                     } else {
                         alert('프로모션 멤버십이 등록되었습니다')
                     }
-                    window.location.href = '/'
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, '/')
                 },e => {
                     alert('처리중 오류가 발생하였습니다')
                 });

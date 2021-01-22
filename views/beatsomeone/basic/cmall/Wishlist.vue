@@ -181,7 +181,7 @@
                 this.$refs.surfer[index].playPause();
             },
             selectItem: function (i) {
-                window.location.href = `/detail/${i.cit_key}`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/detail/${i.cit_key}`);
             },
             togglePopup: function (item) {
                 this.$set(item, 'toggle_popup', true);

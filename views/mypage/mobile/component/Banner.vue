@@ -6,7 +6,7 @@
                     <h4 class="font-weight-bold text-center mb-4 section-title" v-html="$t('togetherWithBeatsomeone')"></h4>
                     <p class="text-center sub-title" v-html="$t('makeRelationshipWithPeopleMsg')"></p>
                     <div class="text-center">
-                        <a href="/mypage/upgrade" class="btn btn-yellow font-weight-bold px-5 round">{{$t('startSelling1')}}</a>
+                        <a :href="helper.langUrl($i18n.locale, '/mypage/upgrade')" class="btn btn-yellow font-weight-bold px-5 round">{{$t('startSelling1')}}</a>
                     </div>
                 </div>
             </div>

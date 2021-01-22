@@ -307,7 +307,7 @@ export default {
                     let tData = new FormData(); tData.append('value', this.info.group.mgr_monthly_download_limit);
                     axios.post('/membermodify/mem_remain_downloads_set', tData)
                     .then(res=>{
-                        window.location.href = '/mypage';
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage');
                     });
                 })
                 .catch(error => {
@@ -324,7 +324,7 @@ export default {
                     let tData = new FormData(); tData.append('value', this.info.group.mgr_monthly_download_limit);
                     axios.post('/membermodify/mem_remain_downloads_set', tData)
                     .then(res=>{
-                        window.location.href = '/mypage';
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage');
                     });
                 })
                 .catch(error => {

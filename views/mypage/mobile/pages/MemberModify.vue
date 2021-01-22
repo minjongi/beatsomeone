@@ -23,7 +23,7 @@
             <div>
                 <h5>
                     <span class="badge" :class="{'badge-success': member_group_name === 'seller_free', 'badge-primary': member_group_name === 'seller_platinum', 'badge-warning': member_group_name === 'seller_master'}">{{ $t(member_group_name) }}</span>
-                    <a href="/mypage/upgrade" class="ml-3 btn btn-warning rounded" style="width: unset;">Upgrade Now</a>
+                    <a :href="helper.langUrl($i18n.locale, '/mypage/upgrade')" class="ml-3 btn btn-warning rounded" style="width: unset;">Upgrade Now</a>
                 </h5>
             </div>
         </div>

@@ -2,7 +2,7 @@
     <div class="title-content">
         <div class="title">
             <div>{{$t('messageYouReceived')}}</div>
-            <button class="btn btn--glass" onclick='location.href = "/mypage#/message"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
+            <a :href="helper.langUrl($i18n.locale, '/mypage#/message')"><button class="btn btn--glass">more <img src="/assets/images/icon/chevron-right.png"/></button></a>
         </div>
         <div>
             <p v-if="data.length === 0" style="text-align: center; opacity: 0.7; font-size: 16px;">

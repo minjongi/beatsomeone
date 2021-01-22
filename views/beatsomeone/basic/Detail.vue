@@ -275,7 +275,7 @@
                 if (!this.isLogin) {
                     let yn = confirm(this.$t('loginAlert'));
                     if (yn === true) {
-                        window.location.href = '/login?url=' + window.location.href;
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
                     } else {
                         return;
                     }
@@ -424,7 +424,7 @@
             // 해쉬 클릭
             clickHash(h) {
                 const path = `/beatsomeone/sublist?search=${h}`;
-                window.location.href = path;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             // 링크 복사
             copyLinkToClipboard() {
@@ -463,7 +463,7 @@
                 if (!this.isLogin) {
                     let yn = confirm(this.$t('loginAlert'));
                     if (yn === true) {
-                        window.location.href = '/login?url=' + window.location.href;
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
                     } else {
                         return true;
                     }

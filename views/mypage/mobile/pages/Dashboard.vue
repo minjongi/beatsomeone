@@ -275,7 +275,7 @@
                 this.$router.push(page);
             },
             goToItemPage(cit_key) {
-                window.location.href = `/detail/${cit_key}`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/detail/${cit_key}`);
             },
             timeago(date) {
                 return timeago.format(date);

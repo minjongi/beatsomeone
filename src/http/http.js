@@ -2,6 +2,7 @@ import axios from 'axios';
 import log from './../logger';
 import _ from 'lodash';
 import $ from 'jquery';
+import Vuecookies from 'vue-cookies'
 
 export default {
     // Http request open count
@@ -126,9 +127,12 @@ export default {
                 .catch(err => {
                     this.indicator(-1);
 
+                    let defaultLocale = ''
                     switch (err.response.status) {
                         case 412:
-                            window.location.href = '/login';
+                            defaultLocale = Vuecookies.get('locale') || 'en'
+
+                            window.location.href = window.langUrl(defaultLocale, '/login');
                             break;
                     }
 

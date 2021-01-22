@@ -284,7 +284,7 @@
                 if (!this.isLogin) {
                     let yn = confirm(this.$t('loginAlert'));
                     if (yn === true) {
-                        window.location.href = '/login?url=' + window.location.href;
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
                     } else {
                         return;
                     }
@@ -459,7 +459,7 @@
                 if (!this.isLogin) {
                     let yn = confirm(this.$t('loginAlert'));
                     if (yn === true) {
-                        window.location.href = '/login?url=' + window.location.href;
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
                     } else {
                         return true;
                     }

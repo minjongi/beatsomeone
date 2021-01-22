@@ -144,9 +144,9 @@
                     <label for="privacy" class="checkbox" >
                         <input type="checkbox" hidden id="privacy" v-model="isCheckTos" />
                         <span></span> {{ $t('agreeToTermMsg') }}
-                        <a href="/register/terms" target="_blank">{{ $t('termsOfService') }}</a>
+                        <a :href="helper.langUrl($i18n.locale, '/register/terms')" target="_blank">{{ $t('termsOfService') }}</a>
                         &
-                        <a href="/register/policy" target="_blank">{{ $t('privacyPolicy') }}.</a>
+                        <a :href="helper.langUrl($i18n.locale, '/register/policy')" target="_blank">{{ $t('privacyPolicy') }}.</a>
                     </label>
                 </div>
                 <div class="accounts__btnbox border-none">

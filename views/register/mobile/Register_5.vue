@@ -94,7 +94,7 @@ export default {
                 let userInfo = this.$store.getters.getUserInfo;
                 if (!userInfo.group) {
                   alert(this.$t('lang144'))
-                  window.location.href = '/register'
+                  window.location.href = this.helper.langUrl(this.$i18n.locale, '/register')
                   return
                 }
 
@@ -118,12 +118,12 @@ export default {
                         window.gtag_report_conversion()
                         if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
                             alert(this.$t('successfullyRegistered'))
-                            window.location.href = '/'
+                            window.location.href = this.helper.langUrl(this.$i18n.locale, '/')
                             return
                         }
 
                         alert(this.$t('lang110'))
-                        window.location.href = `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, `/register/purchase?mgr_id=${userInfo.group.mgr_id}&billTerm=${userInfo.billTerm}`)
                     })
                     .catch(error => {
                         this.btnSubmitTitCode = 'signup'

@@ -1,10 +1,9 @@
 <template>
-
     <div>
         <header class="header">
             <div class="wrap">
                 <h1 class="header__logo">
-                    <a href="/"><img src="@/assets_m/images/logo.png" alt=""/></a>
+                    <a :href="helper.langUrl($i18n.locale, '/')"><img src="@/assets_m/images/logo.png" alt=""/></a>
                 </h1>
                 <div class="header__btnbox">
                     <a href="javascript:;" class="header__locale" v-if="!isShowSearchBox" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
@@ -42,20 +41,20 @@
             <div class="gnb__content">
                 <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
-                    <a href="/mypage/favorites">{{ $t('favorite') }}</a>
-                    <a v-if="isCustomer" href="">{{ $t('freeBeats') }}</a>
-                    <a v-if="isSeller" href="/mypage/regist_item">{{ $t('registrationSources') }}</a>
-                    <a href="/mypage" v-if="isLogin">{{ $t('mypage') }}</a>
-                    <a href="/login/logout?/" v-if="isLogin">{{ $t('logout') }}</a>
-                    <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
-                    <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/mypage/favorites')">{{ $t('favorite') }}</a>
+                    <a v-if="isCustomer && false" href="">{{ $t('freeBeats') }}</a>
+                    <a v-if="isSeller" :href="helper.langUrl($i18n.locale, '/mypage/regist_item')">{{ $t('registrationSources') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/mypage')" v-if="isLogin">{{ $t('mypage') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/login/logout')" v-if="isLogin">{{ $t('logout') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/login')" v-if="!isLogin">{{ $t('login') }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/register')" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
                     <button v-if="!isLogin">
-                        <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('lang119') }}</a>
+                        <a :href="helper.langUrl($i18n.locale, '/register')" class="sale_signup" @click="signUpClick('seller')">{{ $t('lang119') }}</a>
                         <span class="tooltip">
                              {{ $t('lang120') }}
                         </span>
                     </button>
-                    <a href="/cmall/cart" class="header__cart" v-if="isLogin">
+                    <a :href="helper.langUrl($i18n.locale, '/cmall/cart')" class="header__cart" v-if="isLogin">
                         {{ $t('cart')}}<br>
                         ({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})
                     </a>
@@ -182,25 +181,6 @@
               } else {
                 location.href = location.href.replace('/ko', '')
               }
-            },
-            moveAction(o) {
-                let url = null;
-                // 로그인시
-                if(this.userInfo) {
-                    switch(o) {
-                        case 'freeBeats': {
-                            url = this.userInfo.mem_usertype == 1 ? '무료비트URL수정필요' : '음원등록URL수정필요';
-                            break;
-                        }
-                    }
-                }
-                // 비로그인시
-                else {
-                    url = '무료비트URL수정필요';
-                }
-
-                // 이동
-                window.location.href = url;
             },
             signUpClick(state) {
                 localStorage.setItem("UserOffer", state);

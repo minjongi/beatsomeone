@@ -212,7 +212,7 @@ export default {
                     .then(res => res.data)
                     .then(data => {
                         console.log("&&&&-------------", data);
-                        window.location.href = '/cmall/billing';
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/cmall/billing');
                     })
                     .catch(error => {
                         console.error(error.response);

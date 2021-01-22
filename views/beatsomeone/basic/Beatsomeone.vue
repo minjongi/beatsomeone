@@ -4,7 +4,7 @@
       <div class="noti-wrap"></div>
       <div class="noti-content">
         <div>
-          <a href="/event"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/1.png?v=1'"></a>
+          <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/1.png?v=1'"></a>
         </div>
         <div>
           <img :src="'/assets/images/event/210110/' + $i18n.locale + '/2.png?v=1'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/3.png?v=1'" @click="closePopup()" style="width:50%;">
@@ -114,7 +114,7 @@
                 <div class="slider">
                   <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
                   <div v-for="(i,index) in listTrending" :key="index" class="trending__slide-item albumItem">
-                    <a :href="'/detail/' + i.cit_key + '#/'">
+                    <a :href="helper.langUrl($i18n.locale, '/detail/' + i.cit_key + '#/')">
                       <button class="albumItem__cover">
                         <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                       </button>
@@ -140,7 +140,7 @@
               </article>
               <article class="testimonials__lists">
                 <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
-                  <a :href="'/video#/' + post.post_id">
+                  <a :href="helper.langUrl($i18n.locale, '/video#/' + post.post_id)">
                     <div class="img">
                       <img :src="'/uploads/post/' + post.files[0].pfi_filename" alt=""/>
                       <button class="card--testimonials_play"></button>
@@ -154,7 +154,7 @@
               </article>
               <div class="testimonials__btnbox">
                 <a class="startSelling" :href="moveStartSelling">{{ $t('startSelling') }}</a>
-                <a href="/beatsomeone/sublist" class="beats">{{ $t('browseBeats') }}</a>
+                <a :href="helper.langUrl($i18n.locale, '/beatsomeone/sublist')" class="beats">{{ $t('browseBeats') }}</a>
               </div>
             </div>
             <div class="main__desc">
@@ -408,7 +408,7 @@
             selectItem(i) {
                 if (typeof (i) !== 'string') return
                 const path = `/detail/${i}`
-                window.location.href = path
+                window.location.href = this.helper.langUrl(this.$i18n.locale, path)
             },
             getMainList() {
                 var p = {
@@ -459,7 +459,7 @@
                 }, delay)
             },
             goToDetail(cit_key) {
-                window.location.href = '/detail/' + cit_key;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/detail/' + cit_key);
             },
             closeFooterBanner() {
               this.footerBanner = false

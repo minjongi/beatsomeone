@@ -53,10 +53,10 @@
                 });
             },
             doEdit(item) {
-                window.location.href = `/mypage/regist_item/${item.cit_id}`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/mypage/regist_item/${item.cit_id}`);
             },
             moveDetail(item) {
-                window.location.href = `/detail/${item.cit_key}`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/detail/${item.cit_key}`);
             },
 
         }
