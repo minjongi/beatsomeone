@@ -169,3 +169,13 @@ if ( ! function_exists('document_url')) {
 		return site_url(config_item('uri_segment_document') . '/' . $key);
 	}
 }
+
+/**
+ * 언어별 링크 반환
+ */
+if ( ! function_exists('lang_url')) {
+    function lang_url($url = '')
+    {
+        return ($_COOKIE['locale'] === 'ko' ? '/ko' : '') . $url;
+    }
+}

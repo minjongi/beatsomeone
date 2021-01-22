@@ -91,6 +91,7 @@ module.exports = {
                 Vue: ['vue/dist/vue.esm.js', 'default'],
                 Http: [path.join(__dirname, './src/http/http.js'), 'default'],
                 log: [path.join(__dirname, './src/logger.js'), 'default'],
+                Helper: [path.join(__dirname, './src/helper.js'), 'default'],
             }]);
 
         // config.module

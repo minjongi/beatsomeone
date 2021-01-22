@@ -6,6 +6,10 @@ Vue.component('v-select', vSelect);
 
 // i18n
 import i18n from '*/src/i18n/i18n';
+
+import helper from '*/src/helper'
+Vue.use(helper)
+
 import app from './Mypage.vue';
 import VueRouter from 'vue-router';
 import Dashboard from './Dashboard.vue';

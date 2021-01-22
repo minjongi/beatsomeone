@@ -170,17 +170,18 @@
                 if (!this.searchText) {
                     return;
                 }
-                // const path = `/beatsomeone/search?q=${this.searchText}`;
-                const path = `/beatsomeone/sublist?genre=All%20Genre&search=${this.searchText}`;
-                window.location.href = path;
+                const path = `/beatsomeone/sublist?search=${this.searchText}`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             enterClicked(){
                 this.search();
             },
             toggleLocale() {
-                let locale = this.$i18n.locale === 'en' ? 'ko' : 'en'
-                Vuecookies.set('locale', locale)
-                this.$i18n.locale = locale
+              if (this.$i18n.locale === 'en') {
+                location.href = location.href.replace(location.hostname, location.hostname + '/ko')
+              } else {
+                location.href = location.href.replace('/ko', '')
+              }
             },
             moveAction(o) {
                 let url = null;

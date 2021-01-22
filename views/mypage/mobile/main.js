@@ -3,6 +3,10 @@ import VueRouter from "vue-router";
 import "bootstrap";
 
 import i18n from '*/src/i18n/i18n';
+
+import helper from '*/src/helper'
+Vue.use(helper)
+
 import app from "./Main.vue";
 import Dashboard from "./pages/Dashboard";
 import MemberModify from "./pages/MemberModify";

@@ -5,6 +5,10 @@ import VueRouter from "vue-router";
 import "bootstrap";
 
 import i18n from '*/src/i18n/i18n';
+
+import helper from '*/src/helper'
+Vue.use(helper)
+
 import app from "./Upgrade.vue";
 import SelectGroup from "./pages/SelectGroup.vue";
 import PayGroup from "./pages/PayGroup.vue";

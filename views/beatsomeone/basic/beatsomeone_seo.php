@@ -38,7 +38,7 @@ foreach ($genre as $key => $val) {
                     <div class="main__media">
                         <div class="tab">
                             <?php foreach ($genre as $key => $val) { ?>
-                                <a href="/beatsomeone/sublist?genre=<?= urlencode($val) ?>">
+                                <a href="<?= lang_url('/beatsomeone/sublist?genre=' . urlencode($val)) ?>">
                                     <button><?= $genreName[$key] ?></button>
                                 </a>
                             <?php } ?>
@@ -77,7 +77,7 @@ foreach ($genre as $key => $val) {
                                         <div class="col name">
                                             <figure>
                                                 <span class="playList__cover"><img src="/uploads/cmallitem/<?= $item['thumb'] ?>" alt/></span>
-                                                <a href="/detail/<?= $item['cit_key'] ?>#/">
+                                                <a href="<?= lang_url('/detail/' . $item['cit_key']) ?>#/">
                                                     <figcaption class="pointer">
                                                         <h3 class="playList__title"><?= $item['cit_name'] ?></h3>
                                                         <span class="playList__by">by <?= $item['mem_nickname'] ?></span>
@@ -127,7 +127,7 @@ foreach ($genre as $key => $val) {
                                             $hashTag = explode(',', $item['hashTag']);
                                             foreach ($hashTag as $tag) {
                                                 ?>
-                                                <a href="/beatsomeone/sublist?search=<?= urlencode($tag) ?>">
+                                                <a href="<?= lang_url('/beatsomeone/sublist?search=' . urlencode($tag)) ?>">
                                                     <span><button><?= $tag ?></button></span>
                                                 </a>
                                             <?php } ?>
@@ -154,7 +154,7 @@ foreach ($genre as $key => $val) {
                                             <button @click="addCart"><?= lang('lang106') ?></button>
                                         </div>
                                         <div class="col utils" v-if="false">
-                                            <a href="/cmallact/download_sample/<?= $item['cde_id'] ?>" class="download"><?= lang('download') ?></a>
+                                            <a href="<?= lang_url('/cmallact/download_sample/' . $item['cde_id']) ?>" class="download"><?= lang('download') ?></a>
                                         </div>
                                         <div class="col more_shared">
                                             <button>
@@ -170,7 +170,7 @@ foreach ($genre as $key => $val) {
                                 </li>
                             <?php } ?>
                             <div class="playList__btnbox">
-                                <a class="playList__more" href="/beatsomeone/sublist"><?= lang('mainMore') ?></a>
+                                <a class="playList__more" href="<?= lang_url('/beatsomeone/sublist') ?>"><?= lang('mainMore') ?></a>
                             </div>
                         </div>
                     </div>
@@ -184,7 +184,7 @@ foreach ($genre as $key => $val) {
                             <?= lang('backgroundMusicMessage1') ?><br/>
                             <?= lang('backgroundMusicMessage2') ?>
                         </h2>
-                        <a class="startSelling" href="/register">
+                        <a class="startSelling" href="<?= lang_url('/register') ?>">
                             <?= lang('buyerLogin') ?>
                         </a>
                     </header>
@@ -193,7 +193,7 @@ foreach ($genre as $key => $val) {
                             <?= lang('bitTradingMessage1') ?><br/>
                             <?= lang('bitTradingMessage2') ?>
                         </h2>
-                        <a class="startSelling" href="/register">
+                        <a class="startSelling" href="<?= lang_url('/register') ?>">
                             <?= lang('lendOrSellMyBeat') ?>
                         </a>
                     </header>
@@ -204,7 +204,7 @@ foreach ($genre as $key => $val) {
                             <div class="slider">
                                 <?php foreach ($seoViewData['main_trending_list'] as $item) { ?>
                                     <div class="trending__slide-item albumItem">
-                                        <a href="/detail/<?= $item['cit_key'] ?>#/">
+                                        <a href="<?= lang_url('/detail/' . $item['cit_key']) ?>#/">
                                             <button class="albumItem__cover">
                                                 <img src="/uploads/cmallitem/<?= $item['thumb'] ?>" alt="<?= $item['cit_name'] ?>"/>
                                             </button>
@@ -232,7 +232,7 @@ foreach ($genre as $key => $val) {
                         <article class="testimonials__lists">
                             <?php foreach ($seoViewData['main_testimonials_list'] as $post) { ?>
                                 <figure class="card card--testimonials">
-                                    <a href="/video#/<?= $post['post_id'] ?>">
+                                    <a href="<?= lang_url('/video#/' . $post['post_id']) ?>">
                                         <div class="img">
                                             <img src="/uploads/post/<?= $post['post']['files'][0]['pfi_filename'] ?>" alt=""/>
                                             <button class="card--testimonials_play"></button>
@@ -246,8 +246,8 @@ foreach ($genre as $key => $val) {
                             <?php } ?>
                         </article>
                         <div class="testimonials__btnbox">
-                            <a class="startSelling" href="/register"><?= lang('startSelling') ?></a>
-                            <a href="/beatsomeone/sublist" class="beats"><?= lang('browseBeats') ?></a>
+                            <a class="startSelling" href="<?= lang_url('/register') ?>"><?= lang('startSelling') ?></a>
+                            <a href="<?= lang_url('/beatsomeone/sublist') ?>" class="beats"><?= lang('browseBeats') ?></a>
                         </div>
                     </div>
                     <div class="main__desc">
@@ -256,7 +256,7 @@ foreach ($genre as $key => $val) {
                             <?= lang('musicWorldMsg2') ?><br/>
                             <?= lang('areYouReady') ?>
                         </h2>
-                        <a class="startSelling" href="/register">
+                        <a class="startSelling" href="<?= lang_url('/register') ?>">
                             <?= lang('trustOurTeamMsg') ?>
                         </a>
                     </div>

@@ -93,7 +93,8 @@
       "Http": true,
       "Vue": true,
       "Amplitude": true,
-      "i18n": true
+      "i18n": true,
+      "Helper": true
     }
   },
   "browserslist": [

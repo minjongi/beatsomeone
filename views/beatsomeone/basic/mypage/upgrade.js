@@ -2,6 +2,10 @@ import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
 import i18n from '*/src/i18n/i18n';
+
+import helper from '*/src/helper'
+Vue.use(helper)
+
 import app from "./Upgrade.vue";
 import VueRouter from "vue-router";
 

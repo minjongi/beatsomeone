@@ -4,6 +4,9 @@ import vSelect from 'vue-select';
 // i18n
 import i18n from '*/src/i18n/i18n';
 
+import helper from '*/src/helper'
+Vue.use(helper)
+
 Vue.component('v-select', vSelect);
 
 Vue.config.productionTip = false;

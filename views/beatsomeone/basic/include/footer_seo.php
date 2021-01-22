@@ -24,13 +24,13 @@
                 <div class="row">
                     <ul>
                         <li>
-                            <a href="/" style="cursor:default;">BEAT SOMEONE</a>
+                            <a href="<?= lang_url('/') ?>" style="cursor:default;">BEAT SOMEONE</a>
                         </li>
                         <li>
-                            <a href="/register/terms" target="_blank"><?= lang('termsOfService') ?></a>
+                            <a href="<?= lang_url('/register/terms') ?>" target="_blank"><?= lang('termsOfService') ?></a>
                         </li>
                         <li>
-                            <a href="/register/policy" target="_blank"><?= lang('privacyPolicy') ?></a>
+                            <a href="<?= lang_url('/register/policy') ?>" target="_blank"><?= lang('privacyPolicy') ?></a>
                         </li>
                         <li>
                             <a href="http://dumdum.kr" target="_blank"><?= lang('aboutUs') ?></a>

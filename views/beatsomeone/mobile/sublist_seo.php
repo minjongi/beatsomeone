@@ -95,7 +95,7 @@ foreach ($trackType as $key => $val) {
                         <div class="topFive">
                             <?php foreach ($seoViewData['sublist_top_list'] as $val) { ?>
                                 <div class="trending__slide-item albumItem">
-                                    <a href="/detail/<?= $val['cit_key'] ?>#/">
+                                    <a href="<?= lang_url('/detail/' . $val['cit_key']) ?>#/">
                                         <button class="albumItem__cover">
                                             <img src="/uploads/cmallitem/<?= $val['thumb'] ?>" alt="<?= $val['cit_name'] ?>"/>
                                         </button>
@@ -157,7 +157,7 @@ foreach ($trackType as $key => $val) {
                                             </div>
                                             <button class="btn-play">재생</button>
                                             <div class="wave"></div>
-                                            <a href="/detail/<?= $item['cit_key'] ?>#/">
+                                            <a href="<?= lang_url('/detail/' . $item['cit_key']) ?>#/">
                                                 <figcaption>
                                                     <h3 class="playList__title"><?= $item['cit_name'] ?></h3>
                                                     <div class="playList__bottom-info">

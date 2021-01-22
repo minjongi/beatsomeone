@@ -163,7 +163,7 @@ class Beatsomeone extends CB_Controller
     /**
      * Detail 입니다
      */
-    public function detail($cit_key = '')
+    public function detail($cit_key = '', $cit_key1 = '')
     {
         log_message('debug', '$cit_key : ' . $cit_key);
         // 이벤트 라이브러리를 로딩합니다

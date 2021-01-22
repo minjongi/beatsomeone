@@ -4,6 +4,9 @@ import app from './cart.vue';
 // i18n
 import i18n from '*/src/i18n/i18n'
 
+import helper from '*/src/helper'
+Vue.use(helper)
+
 import cart_1 from "./cart";
 import cart_2 from "./cart2";
 import cart_3 from "./cart3";

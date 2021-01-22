@@ -25,7 +25,7 @@
                     <a href="/login" v-if="!isLogin">{{ $t('login') }}</a>
                     <a href="/register" v-if="!isLogin" @click="signUpClick('buyer')">{{ $t('signup') }}</a>
                     <button v-if="!isLogin">
-                         <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('lang119') }}</a>
+                        <a href="/register" class="sale_signup" @click="signUpClick('seller')">{{ $t('lang119') }}</a>
                         <span class="tooltip">
                             {{ $t('lang120') }}
                         </span>
@@ -106,13 +106,15 @@
                 // if(!this.searchText) {
                 //     return;
                 // }
-                const path = `/beatsomeone/sublist?genre=All Genre&search=${this.searchText ?? ''}`;
-                window.location.href = path;
+                const path = `/beatsomeone/sublist?search=${this.searchText ?? ''}`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             toggleLocale() {
-                let locale = this.$i18n.locale === 'en' ? 'ko' : 'en'
-                Vuecookies.set('locale', locale)
-                this.$i18n.locale = locale
+                if (this.$i18n.locale === 'en') {
+                  location.href = location.href.replace(location.hostname, location.hostname + '/ko')
+                } else {
+                  location.href = location.href.replace('/ko', '')
+                }
             },
             signUpClick(state) {
                 localStorage.setItem("UserOffer", state);

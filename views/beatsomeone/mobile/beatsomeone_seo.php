@@ -26,7 +26,7 @@ foreach ($genre as $key => $val) {
       <div class="noti-wrap"></div>
       <div class="noti-content">
         <div>
-          <a href="/event"><img src="/assets_m/images/event/210110/<?= $this->config->item('locale');?>/1.png?v=1"></a>
+          <a href="<?= lang_url('/event') ?>"><img src="/assets_m/images/event/210110/<?= $this->config->item('locale');?>/1.png?v=1"></a>
         </div>
         <div>
           <img src="'/assets_m/images/event/210110/<?= $this->config->item('locale');?>/2.png?v=1" style="width:50%;"><img :src="'/assets_m/images/event/210110/<?= $this->config->item('locale');?>/3.png?v=1'" style="width:50%;">
@@ -51,7 +51,7 @@ foreach ($genre as $key => $val) {
                         <div class="tab">
                             <div class="tab__scroll">
                                 <?php foreach ($genre as $key => $val) { ?>
-                                    <a href="/beatsomeone/sublist?genre=<?= urlencode($val) ?>">
+                                    <a href="<?= lang_url('/beatsomeone/sublist?genre=' . urlencode($val)) ?>">
                                         <button><?= $genreName[$key] ?></button>
                                     </a>
                                 <?php } ?>
@@ -104,7 +104,7 @@ foreach ($genre as $key => $val) {
                                                 </div>
                                                 <button class="btn-play">재생</button>
                                                 <div class="wave"></div>
-                                                <a href="/detail/<?= $item['cit_key'] ?>#/">
+                                                <a href="<?= lang_url('/detail/' . $item['cit_key']) ?>#/">
                                                     <figcaption>
                                                         <h3 class="playList__title"><?= $item['cit_name'] ?></h3>
                                                         <div class="playList__bottom-info">
@@ -138,7 +138,7 @@ foreach ($genre as $key => $val) {
                                 </li>
                             <?php } ?>
                             <div class="playList__btnbox">
-                                <a class="playList__more pointer" href="/beatsomeone/sublist?search=<?= urlencode($tag) ?>"><?= lang('mainMore') ?></a>
+                                <a class="playList__more pointer" href="<?= lang_url('/beatsomeone/sublist?search=' . urlencode($tag)) ?>"><?= lang('mainMore') ?></a>
                             </div>
                         </div>
                     </div>
@@ -151,7 +151,7 @@ foreach ($genre as $key => $val) {
                                 <br/>
                                 <?= lang('bitTradingMessage2') ?>
                             </h2>
-                            <a href="/register"><?= lang('lendOrSellMyBeat') ?></a>
+                            <a href="<?= lang_url('/register') ?>"><?= lang('lendOrSellMyBeat') ?></a>
                         </div>
                     </header>
                     <!-- 트렌딜 슬라이드 부분 -->
@@ -161,7 +161,7 @@ foreach ($genre as $key => $val) {
                             <div class="slider">
                                 <?php foreach ($seoViewData['main_trending_list'] as $item) { ?>
                                     <div class="trending__slide-item albumItem">
-                                        <a href="/detail/<?= $item['cit_key'] ?>#/">
+                                        <a href="<?= lang_url('/detail/' . $item['cit_key']) ?>#/">
                                             <button class="albumItem__cover">
                                                 <img src="/uploads/cmallitem/<?= $item['thumb'] ?>" alt="<?= $item['cit_name'] ?>"/>
                                             </button>
@@ -189,7 +189,7 @@ foreach ($genre as $key => $val) {
                                 <article class="testimonials__lists">
                                     <?php foreach ($seoViewData['main_testimonials_list'] as $post) { ?>
                                         <figure class="card card--testimonials">
-                                            <a href="/video#/<?= $post['post_id'] ?>">
+                                            <a href="<?= lang_url('/video#/' . $post['post_id']) ?>">
                                                 <div class="img">
                                                     <img src="/uploads/post/<?= $post['post']['files'][0]['pfi_filename'] ?>" alt=""/>
                                                     <button class="card--testimonials_play"></button>
@@ -203,8 +203,8 @@ foreach ($genre as $key => $val) {
                                     <?php } ?>
                                 </article>
                                 <div class="testimonials__btnbox">
-                                    <a href="/register"><?= lang('startSelling') ?></a>
-                                    <a href="/beatsomeone/sublist" class="beats"><?= lang('browseBeats') ?></a>
+                                    <a href="<?= lang_url('/register') ?>"><?= lang('startSelling') ?></a>
+                                    <a href="<?= lang_url('/beatsomeone/sublist') ?>" class="beats"><?= lang('browseBeats') ?></a>
                                 </div>
                             </div>
                         </div>
@@ -216,7 +216,7 @@ foreach ($genre as $key => $val) {
                                 <br/>
                                 <?= lang('areYouReady') ?>
                             </h2>
-                            <a href="/register"><?= lang('trustOurTeamMsg') ?></a>
+                            <a href="<?= lang_url('/register') ?>"><?= lang('trustOurTeamMsg') ?></a>
                         </div>
                     </div>
                     <?php $this->load->view('beatsomeone/mobile/include/footer_seo') ?>

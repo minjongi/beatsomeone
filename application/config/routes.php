@@ -92,3 +92,37 @@ $route[config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmal
 $route['brandshop/(:any)'] = "brandshop/shop/$1";
 $route['detail/(:any)'] = "beatsomeone/detail/$1";
 $route['notsupport'] = "beatsomeone/notsupport";
+
+
+$route['ko/' . config_item('uri_segment_board') . '/([a-zA-Z0-9_-]+)'] = "board_post/lists/$1";
+$route['ko/' . config_item('uri_segment_board') . '/ajax/([a-zA-Z0-9_-]+)'] = "board_post/ajax_lists/$1";
+if (strtoupper(config_item('uri_segment_post_type')) === 'B') {
+    $route['ko/([a-zA-Z0-9_-]+)/' . config_item('uri_segment_post') . '/([0-9]+)'] = "board_post/post/$2";
+} else if (strtoupper('ko/' . config_item('uri_segment_post_type')) === 'C') {
+    $route['ko/' . config_item('uri_segment_post') . '/([a-zA-Z0-9_-]+)/([0-9]+)'] = "board_post/post/$2";
+} else {
+    $route['ko/' . config_item('uri_segment_post') . '/([0-9]+)'] = "board_post/post/$1";
+    $route['ko/' . config_item('uri_segment_post') . '/ajax/([0-9]+)'] = "board_post/ajax_post/$1";
+}
+$route['ko/' . config_item('uri_segment_write') . '/([a-zA-Z0-9_-]+)'] = "board_write/write/$1";
+$route['ko/' . config_item('uri_segment_reply') . '/([0-9]+)'] = "board_write/reply/$1";
+$route['ko/' . config_item('uri_segment_modify') . '/([0-9]+)'] = "board_write/modify/$1";
+$route['ko/' . config_item('uri_segment_rss') . '/([a-zA-Z0-9_-]+)'] = "rss/index/$1";
+$route['ko/' . config_item('uri_segment_group') . '/([a-zA-Z0-9_-]+)'] = "group/index/$1";
+$route['ko/' . config_item('uri_segment_document') . '/([a-zA-Z0-9_-]+)'] = "document/index/$1";
+$route['ko/' . config_item('uri_segment_faq') . '/([a-zA-Z0-9_-]+)'] = "faq/index/$1";
+$route['ko/profile/([a-zA-Z0-9_-]+)'] = "profile/index/$1";
+$route['ko/print/([0-9]+)'] = "board_post/post/$1/print";
+$route['ko/sitemap\.xml'] = "sitemap";
+$route['ko/sitemap_([0-9_-]+)\.xml'] = "sitemap/board/$1";
+$route['ko/board_info/(:any)'] = "board_info/index/$1";
+
+$route['ko/' . config_item('uri_segment_cmall_item') . '/([a-zA-Z0-9_-]+)'] = "cmall/item/$1";
+$route['ko/' . config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmall/ajax_item/$1";
+
+$route['ko/brandshop/(:any)'] = "brandshop/shop/$1";
+$route['ko/detail/(:any)'] = "beatsomeone/detail/$1";
+$route['ko/notsupport'] = "beatsomeone/notsupport";
+
+$route['(\w{2})/(.*)'] = '$2';
+$route['(\w{2})'] = $route['default_controller'];

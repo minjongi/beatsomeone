@@ -5,6 +5,9 @@ import app from './Event.vue'
 // i18n
 import i18n from '*/src/i18n/i18n'
 
+import helper from '*/src/helper'
+Vue.use(helper)
+
 Vue.use(Vuex)
 
 Vue.config.productionTip = false;

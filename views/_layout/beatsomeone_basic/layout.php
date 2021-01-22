@@ -1,8 +1,5 @@
-<?php
-$this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view) . '";');
-?>
 <!DOCTYPE html>
-<html lang="en">
+<html xml:lang="<?= $this->config->item('lang') ?>" lang="<?= $this->config->item('lang') ?>">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +15,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
     <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
     <meta property="og:description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"/>
     <meta property="og:title" content="<?php echo html_escape(element('page_title', $layout)); ?>"/>
+    <link rel="alternate" href="<?= $this->config->item('alternateUrl') ?>" hreflang="<?= $this->config->item('lang') ?>"/>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -148,8 +146,7 @@ $this->managelayout->add_script('window.vm.$i18n = "' . element('cit_id', $view)
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJ6TSGL"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJ6TSGL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <?php /*if (empty($_COOKIE['mt-popup-close']) || $_COOKIE['mt-popup-close'] !== 'Y') { ?>
     <style>

@@ -2,10 +2,10 @@
     <header class="header">
         <div class="wrap">
             <h1 class="header__logo">
-                <a href="/"><img src="/assets_m/images/logo.png" alt=""/></a>
+                <a href="<?= lang_url('/') ?>"><img src="/assets_m/images/logo.png" alt=""/></a>
             </h1>
             <div class="header__btnbox">
-                <a href="javascript:;" class="header__locale"><?= $this->config->item('locale') == 'en' ? 'KOR' : 'ENG'?></a>
+                <a href="<?= $this->config->item('switchLangUrl') ?>" class="header__locale"><?= $this->config->item('locale') == 'en' ? 'KOR' : 'ENG'?></a>
                 <input type="text"
                        class="mo-header-input"
                        style="width: 175px;
@@ -36,10 +36,10 @@
         <div class="gnb__content">
             <a class="gnb__close">닫기</a>
             <div class="gnb__links">
-                <a href="/mypage/favorites"><?= lang('favorite') ?></a>
-                <a v-if="isSeller" href="/mypage/regist_item"><?= lang('registrationSources') ?></a>
-                <a href="/login"><?= lang('login') ?></a>
-                <a href="/register"><?= lang('signup') ?></a>
+                <a href="<?= lang_url('/mypage/favorites') ?>"><?= lang('favorite') ?></a>
+                <a v-if="isSeller" href="<?= lang_url('/mypage/regist_item') ?>"><?= lang('registrationSources') ?></a>
+                <a href="<?= lang_url('/login') ?>"><?= lang('login') ?></a>
+                <a href="<?= lang_url('/register') ?>"><?= lang('signup') ?></a>
             </div>
             <div v-html="banner_content" class="gnb__banner">
             </div>

@@ -187,7 +187,7 @@ foreach ($trackType as $key => $val) {
                         <div class="topFive">
                             <?php foreach ($seoViewData['sublist_top_list'] as $val) { ?>
                             <div class="trending__slide-item albumItem">
-                                <a href="/detail/<?= $val['cit_key'] ?>#/">
+                                <a href="<?= lang_url('/detail/' . $val['cit_key']) ?>#/">
                                     <button class="albumItem__cover">
                                         <img src="/uploads/cmallitem/<?= $val['thumb'] ?>" alt="<?= $val['cit_name'] ?>"/>
                                     </button>
@@ -224,7 +224,7 @@ foreach ($trackType as $key => $val) {
                                         <div class="col name">
                                             <figure>
                                                 <span class="playList__cover"><img src="/uploads/cmallitem/<?= $item['thumb'] ?>" alt/></span>
-                                                <a href="/detail/<?= $item['cit_key'] ?>#/">
+                                                <a href="<?= lang_url('/detail/' . $item['cit_key']) ?>#/">
                                                     <figcaption class="pointer">
                                                         <h3 class="playList__title"><?= $item['cit_name'] ?></h3>
                                                         <span class="playList__by">by <?= $item['mem_nickname'] ?></span>
@@ -274,7 +274,7 @@ foreach ($trackType as $key => $val) {
                                             $hashTag = explode(',', $item['hashTag']);
                                             foreach ($hashTag as $tag) {
                                                 ?>
-                                                <a href="/beatsomeone/sublist?search=<?= urlencode($tag) ?>">
+                                                <a href="<?= lang_url('/beatsomeone/sublist?search=' . urlencode($tag)) ?>">
                                                     <span><button><?= $tag ?></button></span>
                                                 </a>
                                             <?php } ?>
@@ -301,7 +301,7 @@ foreach ($trackType as $key => $val) {
                                             <button @click="addCart"><?= lang('lang106') ?></button>
                                         </div>
                                         <div class="col utils" v-if="false">
-                                            <a href="/cmallact/download_sample/<?= $item['cde_id'] ?>" class="download"><?= lang('download') ?></a>
+                                            <a href="<?= lang_url('/cmallact/download_sample/' . $item['cde_id']) ?>" class="download"><?= lang('download') ?></a>
                                         </div>
                                         <div class="col more_shared">
                                             <button>

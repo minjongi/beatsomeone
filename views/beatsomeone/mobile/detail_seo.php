@@ -87,7 +87,7 @@
                                             </div>
                                             <button class="btn-play">재생</button>
                                             <div class="wave"></div>
-                                            <a href="/detail/<?= $item['cit_key'] ?>#/">
+                                            <a href="<?= lang_url('/detail/' . $item['cit_key']) ?>#/">
                                                 <figcaption>
                                                     <h3 class="playList__title"><?= $item['cit_name'] ?></h3>
                                                     <div class="playList__bottom-info">

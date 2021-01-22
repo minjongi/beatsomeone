@@ -8,6 +8,9 @@ import app from './Register.vue';
 // i18n
 import i18n from '*/src/i18n/i18n'
 
+import helper from '*/src/helper'
+Vue.use(helper)
+
 import Register_1 from "./Register_1";
 import Register_2 from "./Register_2";
 import Register_3 from "./Register_3";

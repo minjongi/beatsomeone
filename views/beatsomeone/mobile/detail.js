@@ -8,6 +8,9 @@ import VueRouter  from 'vue-router';
 // i18n
 import i18n from '*/src/i18n/i18n'
 
+import helper from '*/src/helper'
+Vue.use(helper)
+
 import app from './Detail.vue';
 // register globally
 import infiniteScroll from 'vue-infinite-scroll'
