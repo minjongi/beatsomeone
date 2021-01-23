@@ -275,7 +275,7 @@ class BeatsomeoneApi extends CB_Controller
                     LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id
                     LEFT JOIN cb_cmall_wishlist ccw on cci.cit_id = ccw.cit_id AND ccw.mem_id = ?
                     LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
-                     " . $where;
+                     " . $where . " LIMIT 30";
         $similar_products = $this->db->query($sql, [$mem_id, $cit_id])->result_array();
 
         foreach ($similar_products as $idx => $product) {
