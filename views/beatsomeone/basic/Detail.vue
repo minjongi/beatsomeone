@@ -70,22 +70,20 @@
                         </div>
                     </div>
                     <div class="detail__comment">
-                        <form action>
-                            <div class="commentForm">
-                                <a href class="comment__user"></a>
-                                <input
-                                        type="text"
-                                        :placeholder="$t('writeComment')"
-                                        id="comment"
-                                        maxlength="200"
-                                        v-model="comment"
-                                        @click="checkLoggedIn"
-                                        @keydown.enter.prevent="sendComment"
-                                />
-                                <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
-                                <button @click.prevent="sendComment">{{ $t('send') }}</button>
-                            </div>
-                        </form>
+                        <div class="commentForm">
+                            <a href class="comment__user"></a>
+                            <input
+                                    type="text"
+                                    :placeholder="$t('writeComment')"
+                                    id="comment"
+                                    maxlength="200"
+                                    v-model="comment"
+                                    @click="checkLoggedIn"
+                                    @keydown.enter.prevent="sendComment"
+                            />
+                            <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
+                            <button @click.prevent="sendComment">{{ $t('send') }}</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,7 +130,7 @@
             return {
                 cit_key: null,
                 item: null,
-                comment: null,
+                comment: '',
                 music: null,
                 currentTab: 1,
                 purchaseTypeSelectorPopup: false,
@@ -162,7 +160,7 @@
                 ];
             },
             isLogin () {
-                return this.member !== false;
+                return !!this.member;
             }
         },
         created() {
@@ -275,15 +273,21 @@
             },
             // 코멘트 입력
             sendComment() {
-                if (!this.comment) return;
+                if (!this.checkLoggedIn()) {
+                  return
+                }
+                // if (!this.isLogin) {
+                //   let yn = confirm(this.$t('loginAlert'));
+                //   if (yn === true) {
+                //     window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
+                //   } else {
+                //     return;
+                //   }
+                // }
 
-                if (!this.isLogin) {
-                    let yn = confirm(this.$t('loginAlert'));
-                    if (yn === true) {
-                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
-                    } else {
-                        return;
-                    }
+                if (!this.comment.trim()) {
+                  alert(this.$t('writeComment'))
+                  return
                 }
 
                 const p = {
@@ -465,14 +469,15 @@
                 return (str.length > n) ? str.substr(0, n-1) + '...' : str;
             },
             checkLoggedIn() {
-                if (!this.isLogin) {
-                    let yn = confirm(this.$t('loginAlert'));
-                    if (yn === true) {
-                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
-                    } else {
-                        return true;
-                    }
-                }
+              if (this.isLogin) {
+                return true
+              }
+
+              let yn = confirm(this.$t('loginAlert'));
+              if (yn === true) {
+                  window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
+              }
+              return false
             }
         },
     };

@@ -116,24 +116,34 @@
         </p>
       </div>
     </div>
-    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en' && !footerBannerDisabled">
-      <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
-    </div>
+    <FooterBanner :footerBanner="footerBanner"/>
   </footer>
 </template>
 
 <script>
+import FooterBanner from "../component/FooterBanner"
+import Header from "*/views/beatsomeone/basic/include/Header";
+import Index_Items from "*/views/beatsomeone/basic/Index_Items";
+import MainPlayer from "*/vue/common/MainPlayer";
+import KeepAliveGlobal from "vue-keep-alive-global";
+
 export default {
   name: 'Footer',
+  components: {FooterBanner},
   props: {
     footerBannerDisabled: {
       type: Boolean,
       default: false
     }
   },
+  created() {
+    if (this.footerBannerDisabled !== true) {
+      this.footerBanner = true
+    }
+  },
   data: function () {
     return {
-      footerBanner: true
+      footerBanner: false
     }
   },
   methods: {

@@ -172,20 +172,18 @@
         </section>
       </div>
     </div>
-    <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en'">
-      <a href="http://wdmastering.com/" target="_blank"><img src="/assets/images/banner/wdmastering.png"></a>
-    </div>
+    <FooterBanner :footerBanner="footerBanner"/>
   </div>
 </template>
 
 <script>
-
     require('@/assets/js/function')
 
     import $ from "jquery";
     import axios from 'axios';
     import Header from "./include/Header"
     import Footer from "./include/Footer"
+    import FooterBanner from "./component/FooterBanner"
     import Index_Items from "./Index_Items"
     import {EventBus} from '*/src/eventbus'
     import Velocity from 'velocity-animate'
@@ -195,7 +193,7 @@
 
     export default {
         name: 'Index',
-        components: {Header, Footer, Index_Items, MainPlayer, KeepAliveGlobal},
+        components: {Header, Footer, FooterBanner, Index_Items, MainPlayer, KeepAliveGlobal},
         data: function () {
             return {
                 userInfo: null,

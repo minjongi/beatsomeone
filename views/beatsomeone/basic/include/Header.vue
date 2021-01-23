@@ -75,6 +75,7 @@
                 return Number(this.$store.getters.getCartSumD).toLocaleString(undefined, {minimumFractionDigits: 2});
             },
             isSeller() {
+              console.log(this.member_group_name)
                 return this.member_group_name.includes('seller')
             },
             isCustomer() {

@@ -6,7 +6,7 @@
                     <div>FAQ</div>
                 </div>
                 <div class="input_wrap line round" style="width:50%; margin:0 auto; padding:10px 20px;">
-                    <input type="text" :placeholder="$t('lang99') + '...'" style="font-size:16px;">
+                    <input type="text" v-model="skeyword" :placeholder="$t('lang99') + '...'" style="font-size:16px;" @keypress.enter="searchItems()">
                     <img src="/assets/images/icon/searchicon.png" style="margin:10px;" @click="searchItems"/>
                 </div>
             </div>
@@ -66,10 +66,6 @@
         },
         methods: {
             searchItems: function () {
-                if (this.skeyword.length < 2) {
-                    alert('2글자 이상으로 검색해 주세요');
-                    return;
-                }
                 axios.get(`/faq/faq?skeyword=${this.skeyword}`)
                     .then(res => res.data)
                     .then(data => {

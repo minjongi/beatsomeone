@@ -32,19 +32,19 @@
                                               v-on:enter="enter" v-on:leave="leave">
                                 <template v-for="item in list">
                                     <KeepAliveGlobal :key="item.cit_key">
-                                        <Index_Items :item="item" :hideFav="true" v-model="item.is_selected" :showCheck="true"
-                                                     :key="item.cit_key"></Index_Items>
+                                        <Index_Items :item="item" :hideFav="true" v-model="item.is_selected" :showCheck="true" :key="item.cit_key"></Index_Items>
                                     </KeepAliveGlobal>
                                 </template>
                             </transition-group>
                             <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
                         </div>
                     </div>
+                    <Footer :footerBannerDisabled="true"/>
                 </section>
             </div>
             <main-player></main-player>
         </div>
-        <Footer/>
+      <FooterBanner :footerBanner="footerBanner"/>
     </div>
 </template>
 
@@ -52,6 +52,7 @@
     require("@/assets/js/function");
     import Header from "../include/Header";
     import Footer from "../include/Footer";
+    import FooterBanner from "../component/FooterBanner"
     import Index_Items from "../Index_Items";
     import Velocity from "velocity-animate";
     import Loader from "*/vue/common/Loader";
@@ -63,6 +64,7 @@
         components: {
             Header,
             Footer,
+            FooterBanner,
             Index_Items,
             Loader,
             MainPlayer,
@@ -85,6 +87,7 @@
                 page: 1,
                 number_selected: 0,
                 checkedAll: false,
+                footerBanner: true
             };
         },
         created() {

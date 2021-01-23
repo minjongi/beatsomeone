@@ -257,6 +257,7 @@ class BeatsomeoneApi extends CB_Controller
         FROM cb_cmall_item cci
             LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id WHERE cci.cit_id = ?";
         $product = $this->db->query($sql, [$cit_id])->row_array();
+
         $hash_tag_string = $product['cim_value'];
         $hash_tags = explode(",", $hash_tag_string);
         $where = "";
@@ -276,6 +277,7 @@ class BeatsomeoneApi extends CB_Controller
                     LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
                      " . $where;
         $similar_products = $this->db->query($sql, [$mem_id, $cit_id])->result_array();
+
         foreach ($similar_products as $idx => $product) {
             $sql_detail = "SELECT * FROM cb_cmall_item_detail WHERE cit_id = ?";
             $details = $this->db->query($sql_detail, [$product['cit_id']])->result_array();
@@ -285,6 +287,8 @@ class BeatsomeoneApi extends CB_Controller
             }
             $similar_products[$idx]['detail'] = $details2;
             $similar_products[$idx]['thumb'] = cover_thumb_name($product['cit_file_1'], 'list');
+            $similar_products[$idx]['item_url'] = cmall_item_url($product['cit_key']);
+            $similar_products[$idx]['waveform'] = json_decode($product['waveform'], true);
         }
 
         $this->output->set_content_type('text/json');
