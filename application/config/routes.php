@@ -124,5 +124,8 @@ $route['ko/brandshop/(:any)'] = "brandshop/shop/$1";
 $route['ko/detail/(:any)'] = "beatsomeone/detail/$1";
 $route['ko/notsupport'] = "beatsomeone/notsupport";
 
-$route['(\w{2})/(.*)'] = '$2';
-$route['(\w{2})'] = $route['default_controller'];
+$route['(\ko|en)/(.*)'] = '$2';
+$route['(\ko|en)'] = $route['default_controller'];
+
+//$route['(\w{2})/(.*)'] = '$2';
+//$route['(\w{2})'] = $route['default_controller'];
