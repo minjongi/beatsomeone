@@ -5,31 +5,31 @@
             <div class="wrap">
                 <div class="detail__music">
                     <div class="detail__music-img">
-                        <img src="/uploads/cmallitem/<?= $item['cit_file_1'] ?>" alt/>
+                        <img src="/uploads/cmallitem/<?= $view['item']['cit_file_1'] ?>" alt="<?= $view['item']['cit_name'] ?>"/>
                     </div>
                     <div class="detail__music-info">
-                        <h2 class="title"><?= $item['cit_name'] ?></h2>
-                        <p class="singer"><?= $item['mem_nickname'] ?></p>
+                        <h2 class="title"><?= $view['item']['cit_name'] ?></h2>
+                        <p class="singer"><?= $view['item']['mem_nickname'] ?></p>
                         <div class="state">
-                            <span class="registed"><?= $item['cit_start_datetime'] ?></span>
-                            <div class="etc"><?= $item['info_content'] ?></div>
+                            <span class="registed"><?= $view['item']['cit_start_datetime'] ?></span>
+                            <div class="etc"><?= $view['item']['info_content'] ?></div>
                         </div>
                         <div class="utils">
                             <div class="utils__info">
                                 <a class="buy waves-effect">
                                     <span>
                                     <?php
-                                    if ($item['cit_lease_license_use'] == '1') {
-                                        $this->config->item('locale') == 'ko' ? $item['detail']['LEASE']['cde_price'] : $item['detail']['LEASE']['cde_price_d'];
+                                    if ($view['item']['cit_lease_license_use'] == '1') {
+                                        $this->config->item('locale') == 'ko' ? $view['item']['detail']['LEASE']['cde_price'] : $view['item']['detail']['LEASE']['cde_price_d'];
                                     } else {
-                                        $this->config->item('locale') == 'ko' ? $item['detail']['STEM']['cde_price'] : $item['detail']['STEM']['cde_price_d'];
+                                        $this->config->item('locale') == 'ko' ? $view['item']['detail']['STEM']['cde_price'] : $view['item']['detail']['STEM']['cde_price_d'];
                                     }
                                     ?>
                                     </span>
                                 </a>
-                                <span class="talk pointer"><?= $item['cit_review_count'] ?></span>
+                                <span class="talk pointer"><?= $view['item']['cit_review_count'] ?></span>
                                 <div class="share">
-                                    <span><?= $item['cit_share_count'] ?></span> /
+                                    <span><?= $view['item']['cit_share_count'] ?></span> /
                                     <span class="share pointer"><?= lang('lang107') ?></span> /
                                     <span class="share pointer"><?= lang('lang108') ?></span> /
                                     <span class="share pointer"><?= lang('lang109') ?></span>
@@ -38,13 +38,13 @@
                         </div>
                         <div class="utils" v-if="item" style="margin-top: 10px;">
                             <div class="tags">
-                                <?php if($item['cit_freebeat'] == '1') { ?>
+                                <?php if($view['item']['cit_freebeat'] == '1') { ?>
                                     <button style="color:#3873d3;"><?= lang('lang1') ?></button>
                                 <?php } ?>
-                                <?php if($item['cit_org_content'] == '1') { ?>
+                                <?php if($view['item']['cit_org_content'] == '1') { ?>
                                     <button style="color:#ffda2a;"><?= lang('lang2') ?></button>
                                 <?php } ?>
-                                <?php if($item['cit_officially_registered'] == '1') { ?>
+                                <?php if($view['item']['cit_officially_registered'] == '1') { ?>
                                     <button style="color:#fff;"><?= lang('lang3') ?></button>
                                 <?php } ?>
                             </div>

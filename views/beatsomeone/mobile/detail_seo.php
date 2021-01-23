@@ -6,14 +6,14 @@
                 <div class="detail__music">
                     <div class="detail__music-img">
                         <button class="btn-play amplitude-play-pause ">
-                            <img src="/uploads/cmallitem/<?= $item['cit_file_1'] ?>" alt=""/>
+                            <img src="/uploads/cmallitem/<?= $view['item']['cit_file_1'] ?>" alt="<?= $view['item']['cit_name'] ?>"/>
                         </button>
                     </div>
                     <div class="detail__music-info">
-                        <h2 class="title" style="font-weight: 600;"><?= $item['cit_name'] ?></h2>
+                        <h2 class="title" style="font-weight: 600;"><?= $view['item']['cit_name'] ?></h2>
                         <div class="state">
-                            <span class="state-singer"><?= $item['mem_nickname'] ?></span>
-                            <span class="registed"><?= $item['cit_start_datetime'] ?></span>
+                            <span class="state-singer"><?= $view['item']['mem_nickname'] ?></span>
+                            <span class="registed"><?= $view['item']['cit_start_datetime'] ?></span>
                         </div>
                         <div style="font-size: 12px; margin-top: 10px">
                             <span class="fa fa-share-alt"></span>
@@ -26,10 +26,10 @@
                                 <a class="buy waves-effect">
                                     <span>
                                     <?php
-                                    if ($item['cit_lease_license_use'] == '1') {
-                                        $this->config->item('locale') == 'ko' ? $item['detail']['LEASE']['cde_price'] : $item['detail']['LEASE']['cde_price_d'];
+                                    if ($view['item']['cit_lease_license_use'] == '1') {
+                                        $this->config->item('locale') == 'ko' ? $view['item']['detail']['LEASE']['cde_price'] : $view['item']['detail']['LEASE']['cde_price_d'];
                                     } else {
-                                        $this->config->item('locale') == 'ko' ? $item['detail']['STEM']['cde_price'] : $item['detail']['STEM']['cde_price_d'];
+                                        $this->config->item('locale') == 'ko' ? $view['item']['detail']['STEM']['cde_price'] : $view['item']['detail']['STEM']['cde_price_d'];
                                     }
                                     ?>
                                     </span>

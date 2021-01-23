@@ -6,7 +6,7 @@
                 <div class="wrap">
                     <div class="detail__music">
                         <div class="detail__music-img" v-if="item">
-                            <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt/>
+                            <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
                         </div>
                         <div class="detail__music-info">
                             <h2 class="title" v-if="item">{{ truncate(item.cit_name, 50) }}</h2>
