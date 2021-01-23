@@ -83,8 +83,12 @@
             };
         },
         mounted(){
-            let path = window.location.pathname;
-            this.cor_id = path.split('/')[3];
+            let params = window.location.pathname.split('/')
+            for (let key in params) {
+              if (params[key] === 'complete') {
+                this.cor_id = params[parseInt(key) + 1]
+              }
+            }
             axios.get(`/cmall/ajax_orderresult/${this.cor_id}`)
                 .then(res => res.data)
                 .then(data => {
