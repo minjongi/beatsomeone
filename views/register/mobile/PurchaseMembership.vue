@@ -302,7 +302,7 @@
                     .then(res => res.data)
                     .then(data => {
                         alert(data.message);
-                        window.location.href = '/mypage';
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage');
                     })
                     .catch(error => {
                         console.error(error);

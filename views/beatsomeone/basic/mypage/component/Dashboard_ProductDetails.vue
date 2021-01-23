@@ -2,7 +2,7 @@
     <div class="title-content">
         <div class="title">
             <div>{{ $t('lang53') }}</div>
-            <button class="btn btn--glass" onclick='location.href = "/mypage#/list_item"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
+            <button class="btn btn--glass" @click="goListItem()">more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div class="splitboard">
             <div class="blue">{{ data.total_product_count }}<span>Total</span></div>
@@ -31,7 +31,9 @@
 
         },
         methods: {
-
+          goListItem() {
+            window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage#/list_item')
+          }
         },
 
     }

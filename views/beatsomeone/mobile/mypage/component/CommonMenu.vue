@@ -36,7 +36,7 @@
         },
         methods: {
             goPage: function(page){
-                window.location.href = '/mypage/'+page;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/'+page);
             },
             goRoute: function (page) {
                 this.current = page
@@ -66,7 +66,7 @@
                 return p
             },
             goSellerReg() {
-                window.location.href = '/mypage/upgrade';
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade');
             }
         },
         computed: {

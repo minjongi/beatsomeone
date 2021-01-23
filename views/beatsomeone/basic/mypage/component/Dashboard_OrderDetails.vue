@@ -2,7 +2,7 @@
     <div class="title-content">
         <div class="title">
             <div>{{$t('orderDetails')}}</div>
-            <button class="btn btn--glass" onclick='location.href = "/mypage#/mybilling"'>more <img src="/assets/images/icon/chevron-right.png"/></button>
+            <button class="btn btn--glass" @click="goMyBilling()">more <img src="/assets/images/icon/chevron-right.png"/></button>
         </div>
         <div class="splitboard">
             <div class="green">{{ data.order_deposit_count }}<span>{{$t('waitingDeposit')}}</span></div>
@@ -29,6 +29,9 @@
         mounted() {
         },
         methods: {
+          goMyBilling() {
+            window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage#/mybilling')
+          }
         },
     }
 </script>

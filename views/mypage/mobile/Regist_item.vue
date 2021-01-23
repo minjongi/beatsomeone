@@ -346,7 +346,7 @@
                         }
                     )
                     alert(`${ this.cit_id ? '수정' : '등록'} 되었습니다`);
-                    window.location.href = `/mypage/regist_item/${ r.data }`
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, `/mypage/regist_item/${ r.data }`)
 
                 }, e=> {
                     alert(`${ this.cit_id ? '수정' : '등록'} 실패 하였습니다. 관리자에게 연락 주시기 바랍니다.`);

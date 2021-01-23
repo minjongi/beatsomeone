@@ -111,7 +111,7 @@
         },
         methods:{
             goPage: function(page){
-                window.location.href = '/mypage/'+page;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/'+page);
             },
             goInquiryview() {
                 this.$router.push({path: '/inquiryview'});

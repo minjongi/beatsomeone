@@ -305,7 +305,7 @@
                 return rst;
             },
             goPage: function(page){
-                window.location.href = '/mypage/'+page;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/'+page);
             },
             calcSeq: function(size, i){
                 return parseInt(size) - parseInt(i);
@@ -324,7 +324,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = 'https://beatsomeone.com/detail/'+key;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, 'https://beatsomeone.com/detail/'+key);
             },
             funcDateType: function(t){
                 if(this.dateType == t){

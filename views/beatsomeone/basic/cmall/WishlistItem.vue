@@ -82,7 +82,7 @@
                 this.$refs.surfer.playPause();
             },
             selectItem(i) {
-                window.location.href = `/detail/${i.cit_key}`;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/detail/${i.cit_key}`);
             },
             selected: function (event) {
                 this.$emit('selected', {

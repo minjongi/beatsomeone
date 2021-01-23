@@ -15,7 +15,7 @@
                 </p>
             </div>
             <div class="login accounts__defaultLayout">
-                <form action="/findaccount" method="post">
+                <form :action="helper.langUrl($i18n.locale, '/findaccount')" method="post">
                     <input type="hidden" name="findtype" value="findidpw" />
                     <div class="accounts__form">
                         <div class="row">

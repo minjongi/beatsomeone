@@ -531,6 +531,8 @@ if ( ! function_exists('redirect'))
 	 */
 	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
+        $uri = lang_url($uri);
+
 		if ( ! preg_match('#^(\w+:)?//#i', $uri))
 		{
 			$uri = site_url($uri);

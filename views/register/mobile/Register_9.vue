@@ -113,10 +113,10 @@ export default {
                     .then(data => {
                         if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
                             alert(this.$t('successfullyRegistered'));
-                            window.location.href = '/';
+                            window.location.href = this.helper.langUrl(this.$i18n.locale, '/');
                         } else {
                             alert(this.$t('lang110'));
-                            window.location.href = `/register/purchase?mgr_id=${mgrId}&billTerm=${billTerm}`;
+                            window.location.href = this.helper.langUrl(this.$i18n.locale, `/register/purchase?mgr_id=${mgrId}&billTerm=${billTerm}`);
                         }
                     })
                     .catch(error => {

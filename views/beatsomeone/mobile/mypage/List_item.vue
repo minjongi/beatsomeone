@@ -522,7 +522,7 @@ export default {
             this.popup_filter = idx;
         },
         goPage: function (page) {
-            window.location.href = "/mypage/" + page;
+            window.location.href = this.helper.langUrl(this.$i18n.locale, "/mypage/" + page);
         },
         goSearch: function (e) {
             this.ajaxItemList().then(() => {
@@ -812,7 +812,7 @@ export default {
         },
         productEditBtn: function (key) {
             console.log("productEditBtn:" + key);
-            window.location.href = "/mypage/regist_item/" + key;
+            window.location.href = this.helper.langUrl(this.$i18n.locale, "/mypage/regist_item/" + key);
         },
         isEmpty: function (str) {
             if (typeof str == "undefined" || str == null || str == "") return true;

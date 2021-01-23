@@ -343,7 +343,7 @@
               let url = '/register';
               if (!this.member) {
                 localStorage.setItem("UserOffer", "seller")
-                return url
+                return this.helper.langUrl(this.$i18n.locale, url)
               }
 
               if (this.member_group_name === 'buyer') {
@@ -353,7 +353,7 @@
               } else {
                 url = '/mypage/upgrade'
               }
-              return url
+              return this.helper.langUrl(this.$i18n.locale, url)
             },
         },
         methods: {

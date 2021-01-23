@@ -57,7 +57,7 @@
         methods: {
             selectItem() {
                 const path = `/detail/${this.item.cit_key}`;
-                window.location.href = path;
+                window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             timeago(date) {
                 return timeago.format(date);

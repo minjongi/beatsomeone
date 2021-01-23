@@ -161,26 +161,26 @@
                 });
             },
             updateUserName: function(d) {
-                log.debug('UPDATE USER NAME');
-                this.info.mem_userid = d;
-                EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
+                log.debug('UPDATE USER NAME')
+                this.info.mem_userid = d
+                EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info))
             },
             updateEmail: function(d) {
-                log.debug('UPDATE EMAIL');
-                this.info.mem_email = d;
-                EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
+                log.debug('UPDATE EMAIL')
+                this.info.mem_email = d
+                EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info))
             },
             updateUserInfo() {
                 Http.post('/BeatsomeoneMypageApi/updateUserInfo',this.info).then(r => {
-                    alert(this.$t('dashboard_profilemod_save_ok'));
-                    EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info));
+                    alert(this.$t('dashboard_profilemod_save_ok'))
+                    EventBus.$emit('Profilemod_Updated',_.cloneDeep(this.info))
                 });
             },
             moveDashboard() {
-              window.location.href = '/mypage';
+              window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage')
             },
             goToUpgrade() {
-                window.location.href = '/mypage/upgrade'
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade')
             }
 
 

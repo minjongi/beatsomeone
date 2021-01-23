@@ -127,10 +127,10 @@ export default {
             // }
         },
         goMain: function (e) {
-            window.location.href = '/';
+            window.location.href = this.helper.langUrl(this.$i18n.locale, '/');
         },
         goOrderHistory: function (e) {
-            window.location.href = '/mypage#/mybilling';
+            window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage#/mybilling');
         },
     },
     computed: {

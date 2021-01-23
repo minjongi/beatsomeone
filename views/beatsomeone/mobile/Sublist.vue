@@ -18,7 +18,7 @@
                             <swiper :options="swiperOption1">
                                 <swiper-slide v-for="(i,index) in listTop5" :key="index">
                                     <div class="trending__slide-item albumItem">
-                                      <a :href="`/detail/${i.cit_key}#/`">
+                                      <a :href="helper.langUrl($i18n.locale, `/detail/${i.cit_key}#/`)">
                                         <button class="albumItem__cover">
                                           <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                                         </button>
@@ -448,7 +448,7 @@ export default {
         },
         selectItem(i) {
             const path = `/detail/${i.cit_key}`;
-            window.location.href = path;
+            window.location.href = this.helper.langUrl(this.$i18n.locale, path);
         },
         getList() {
             const p = {

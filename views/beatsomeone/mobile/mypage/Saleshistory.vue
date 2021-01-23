@@ -290,7 +290,7 @@ export default {
                 })
         },
         goToDetailPage(cit_key) {
-            window.location.href = '/detail/' + cit_key;
+            window.location.href = this.helper.langUrl(this.$i18n.locale, '/detail/' + cit_key);
         },
         formatCitName: function (data, limitLth) {
             let rst;
@@ -352,7 +352,7 @@ export default {
             return moment(tDate).format('YYYY-MM-DD HH:mm:ss');
         },
         goPage: function (page) {
-            window.location.href = '/mypage/' + page;
+            window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/' + page);
         },
         goSearch: function () {
             this.ajaxSalesList().then(() => {

@@ -174,7 +174,7 @@ export default {
             axios.post('/cmall/ajax_orderstart', formData)
                 .then(res => res.data)
                 .then(data => {
-                    window.location.href = '/cmall/billing';
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, '/cmall/billing');
                 })
                 .catch(error => {
                     console.error(error.response);

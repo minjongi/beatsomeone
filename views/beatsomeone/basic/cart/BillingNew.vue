@@ -394,7 +394,7 @@
                 axios.post('/cmall/ajax_orderupdate', formData2)
                     .then(res => res.data)
                     .then(data => {
-                        window.location.href = "/cmall/complete/" + this.unique_id;
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
                     })
                     .catch(error => {
                         if (error.response) {
@@ -405,7 +405,7 @@
 
             },
             goBack: function () {
-                window.location.href = "/cmall/cart";
+                window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/cart");
             },
             goPay: function () {
                 window.AllatPay_Approval(document.fm1);
@@ -434,7 +434,7 @@
                     axios.post('/cmall/ajax_orderupdate', formData1)
                         .then(res => res.data)
                         .then(data => {
-                            window.location.href = "/cmall/complete/" + this.unique_id;
+                            window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
                         })
                         .catch(error => {
                             if (error.response) {
@@ -460,7 +460,7 @@
                 axios.post('/cmall/ajax_orderupdate', formData)
                     .then(res => res.data)
                     .then(data => {
-                        window.location.href = "/cmall/complete/" + this.unique_id;
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
                     })
                     .catch(error => {
                         alert(error.response.data.message);

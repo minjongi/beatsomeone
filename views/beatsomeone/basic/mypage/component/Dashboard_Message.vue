@@ -18,7 +18,7 @@
                                         <img v-if="message.mem_photo" :src="message.mem_photo" :alt="message.mem_nicname">
                                         <img v-else src="/assets/images/portrait.png">
                                     </span>
-                                    <figcaption class="pointer" onclick='location.href = `/mypage#/message/`'>
+                                    <figcaption class="pointer" @click="goMessage()">
                                         <h3 class="playList__title">{{ message.mem_nickname }}</h3>
                                         <span class="playList__by date">{{ message.nte_datetime }}</span>
                                     </figcaption>
@@ -57,7 +57,9 @@
 
         },
         methods: {
-
+          goMessage() {
+            window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage#/message/')
+          }
         },
 
     }

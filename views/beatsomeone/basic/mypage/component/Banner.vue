@@ -28,7 +28,7 @@
         },
         methods: {
             goToUpgrade() {
-                window.location.href = '/mypage/upgrade';
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade');
             }
         },
     }

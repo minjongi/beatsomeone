@@ -176,6 +176,16 @@ if ( ! function_exists('document_url')) {
 if ( ! function_exists('lang_url')) {
     function lang_url($url = '')
     {
-        return ($_COOKIE['locale'] === 'ko' ? '/ko' : '') . $url;
+        if (strpos($url, site_url()) === 0) {
+            $url = '/' .str_replace(site_url(), '', $url);
+        }
+        if (strpos($url, '/ko') === 0) {
+            $url = str_replace('/ko', '/', $url);
+        }
+        if ($_COOKIE['locale'] !== 'en') {
+            $url = '/' . $_COOKIE['locale'] . $url;
+        }
+
+        return $url;
     }
 }

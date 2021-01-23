@@ -365,13 +365,13 @@
                         .then(res => res.data)
                         .then(data => {
                             alert(data.message);
-                            window.location.href = '/mypage';
+                            window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage');
                         })
                         .catch(error => {
                             console.error(error);
                         })
                 } else {
-                    window.location.href = `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`;
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`);
                 }
             },
             fetchData() {

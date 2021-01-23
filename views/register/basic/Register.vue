@@ -19,7 +19,7 @@
         components: {Header, Footer},
         mounted() {
             if (this.$router.currentRoute.path !== '/' && window.location.search !== '?t=pr') {
-                window.location.href = '/register'
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/register')
             }
         },
     }

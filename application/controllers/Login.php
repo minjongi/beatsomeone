@@ -530,7 +530,7 @@ class Login extends CB_Controller
 			$url_after_logout = site_url($url_after_logout);
 		}
 		if (empty($url_after_logout)) {
-			$url_after_logout = $this->input->get_post('url') ? $this->input->get_post('url') : site_url();
+			$url_after_logout = $this->input->get_post('url') ? $this->input->get_post('url') : '/';
 		}
 
 		// 이벤트가 존재하면 실행합니다

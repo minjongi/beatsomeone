@@ -173,7 +173,7 @@ export default {
         },
         goToDetail() {
             console.log(this.product);
-            window.location.href = '/detail/' + this.product.cit_key
+            window.location.href = this.helper.langUrl(this.$i18n.locale, '/detail/' + this.product.cit_key)
         }
     },
     mounted() {

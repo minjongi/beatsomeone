@@ -587,7 +587,7 @@ export default {
             axios.post('/cmall/ajax_orderupdate', formData2)
                 .then(res => res.data)
                 .then(data => {
-                    window.location.href = "/cmall/complete/" + this.unique_id;
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
                 })
                 .catch(error => {
                     if (error.response) {
@@ -599,7 +599,7 @@ export default {
         },
 
         goBack: function () {
-            window.location.href = "/cmall/cart";
+            window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/cart");
         },
         goPay: function () {
             // 결제창 자동종료 체크 시작
@@ -626,7 +626,7 @@ export default {
                 axios.post('/cmall/ajax_orderupdate', formData1)
                     .then(res => res.data)
                     .then(data => {
-                        window.location.href = "/cmall/complete/" + this.unique_id;
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
                     })
                     .catch(error => {
                         if (error.response) {
@@ -652,7 +652,7 @@ export default {
             axios.post('/cmall/ajax_orderupdate', formData)
                 .then(res => res.data)
                 .then(data => {
-                    window.location.href = "/cmall/complete/" + this.unique_id;
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
                 })
                 .catch(error => {
                     alert("결제가 실패하였습니다.");

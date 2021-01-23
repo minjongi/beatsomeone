@@ -65,7 +65,6 @@
 
                 Http.post('/register/ajax_form_user',form).then(r => {
                     alert(this.$t('registerSuccess')) ;
-                    //window.location.href = '/';
                     this.$router.push({path: '/6'});
                 },e => {
                     alert(this.$t('registerFail'));

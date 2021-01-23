@@ -97,9 +97,8 @@
 
                 Http.post('/register/ajax_form_user',form).then(r => {
                     alert(this.$t('registerSuccess')) ;
-                    //window.location.href = '/';
                     if(this.info.userType == "user"){
-                        window.location.href = '/';
+                        window.location.href = this.helper.langUrl(this.$i18n.locale, '/');
                     }else{
                         this.$router.push({path: '/6'});
                     }
