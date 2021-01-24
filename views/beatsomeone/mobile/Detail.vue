@@ -149,7 +149,7 @@
                 ]
             },
             isLogin () {
-                return this.member !== false;
+                return !!this.member;
             }
         },
         mounted() {
@@ -159,7 +159,7 @@
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).id;
-            if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
+            if (window.member_group_name.indexOf('subscribe') !== -1) this.is_subscriber = true;
 
             let params = window.location.pathname.split('/')
             for (let key in params) {
@@ -209,7 +209,7 @@
                     'DETAIL : player_request_start': r,
                 })
 
-                if (this._uid != r._uid) {
+                if (this._uid !== r._uid) {
                     Amplitude.pause();
                     var bg = document.querySelector(".btn-play");
                     bg.classList.remove("amplitude-playing");
@@ -224,7 +224,7 @@
                     'DETAIL : main_player_play': r,
                 })
 
-                if (this._uid != r._uid) {
+                if (this._uid !== r._uid) {
                     Amplitude.pause();
                     var bg = document.querySelector(".btn-play");
                     bg.classList.remove("amplitude-playing");

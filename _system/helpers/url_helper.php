@@ -531,8 +531,8 @@ if ( ! function_exists('redirect'))
 	 */
 	function redirect($uri = '', $method = 'auto', $code = NULL)
 	{
-        if (
-            strpos($uri, 'http') !== 0 &&
+	    if (
+            strpos($uri, 'http') !== 0 ||
             (strpos($uri, 'http') === 0 && strpos($uri, site_url()) === 0)
         ) {
             $uri = lang_url($uri);

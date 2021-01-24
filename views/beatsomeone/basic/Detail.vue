@@ -182,16 +182,18 @@
         },
         mounted() {
             this.remainDownloadNumber();
+            this.member = window.member;
             this.member_group_name = window.member_group_name;
-            console.log("&*&*&*&*&*&*", window.member_group_name);
-            if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
+            if (this.member_group_name.indexOf('subscribe') !== -1){
+              this.is_subscriber = true;
+            }
 
             EventBus.$on("player_request_start", (r) => {
                 log.debug({
                     "DETAIL : player_request_start": r,
                 });
 
-                if (this._uid != r._uid) {
+                if (this._uid !== r._uid) {
                     this.music.pause();
                 }
             });
@@ -200,13 +202,13 @@
                 log.debug({
                     "DETAIL : main_player_play": r,
                 });
-                if (this._uid != r._uid) {
+                if (this._uid !== r._uid) {
                     this.music.pause();
                 }
             });
 
             EventBus.$on("player_request_start", (r) => {
-                if (this._uid != r._uid) {
+                if (this._uid !== r._uid) {
                     this.music.pause();
                 }
             });

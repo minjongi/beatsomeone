@@ -250,7 +250,7 @@
                             </div>
                             <div class="col n-option">
                                 <!-- Option -->
-                                <div class="option" v-if="item.detail.LEASE">
+                                <div class="option" v-if="item.detail.LEASE && item.cit_lease_license_use === '1'">
                                     <!-- BASIC LEASE LICENSE -->
                                     <!-- UNLIMITED STEMS LICENSE -->
                                     <div
@@ -300,7 +300,7 @@
                                     <!-- BASIC LEASE LICENSE -->
                                     <!-- UNLIMITED STEMS LICENSE -->
                                 </div>
-                                <div class="option" v-if="item.detail.STEM">
+                                <div class="option" v-if="item.detail.STEM && item.cit_mastering_license_use === '1'">
                                     <div
                                         class="n-box"
                                     >

@@ -183,7 +183,7 @@ if ( ! function_exists('lang_url')) {
             $url = str_replace('/ko/', '/', $url);
         }
         if ($_COOKIE['locale'] !== 'en') {
-            $url = '/' . $_COOKIE['locale'] . $url;
+            $url = '/' . $_COOKIE['locale'] . (strpos($url, '/') !== 0 ? '/' :'') .$url;
         }
 
         return $url;
