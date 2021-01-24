@@ -202,7 +202,7 @@ class Event extends CB_Controller
                 $sql_detail = "SELECT count(DISTINCT cde_id) cnt FROM cb_cmall_download_log WHERE mem_id = ?";
                 $data1 = $this->db->query($sql_detail, [$mem_id])->row_array();
 
-                if ($data1['cnt'] === 3) {
+                if (intval($data1['cnt']) === 3) {
                     $result = 'achieve';
                 } else {
                     $result = 'not_target';
