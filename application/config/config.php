@@ -138,28 +138,30 @@ $config['url_suffix'] = '';
 $validLocale = ['ko' => 'korean', 'en' => 'english'];
 $requestUri = explode('/', $_SERVER['REQUEST_URI']);
 
-$locale = 'en';
-if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === 0) {
-    if (!empty($requestUri[1]) && array_key_exists($requestUri[1], $validLocale)) {
-        $locale = $requestUri[1];
-    } else if (empty($_COOKIE['locale'])) {
-        $httpAcceptLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
-        if ($httpAcceptLanguage == 'ko' && empty($_SERVER['QUERY_STRING'])) {
-            setcookie('locale', 'ko', ['path' => '/']);
-            header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/ko' );
-            exit;
+if ($requestUri[1] !== 'social') {
+    $locale = 'en';
+    if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === 0) {
+        if (!empty($requestUri[1]) && array_key_exists($requestUri[1], $validLocale)) {
+            $locale = $requestUri[1];
+        } else if (empty($_COOKIE['locale'])) {
+            $httpAcceptLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
+            if ($httpAcceptLanguage == 'ko' && empty($_SERVER['QUERY_STRING'])) {
+                setcookie('locale', 'ko', ['path' => '/']);
+                header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/ko' );
+                exit;
+            }
         }
+    } else {
+        $locale = $_COOKIE['locale'] ?? 'en';
     }
-} else {
-    $locale = $_COOKIE['locale'] ?? 'en';
-}
 
-$config['language'] = $validLocale[$locale] ?? 'english';
-$config['locale'] = !empty($validLocale[$locale]) ? $locale : 'en';
-$config['switchLangUrl'] = $config['locale'] == 'ko' ? str_replace('/ko', '', $_SERVER['REQUEST_URI']) : '/ko' . $_SERVER['REQUEST_URI'];
-$config['alternateUrl'] = 'https://' . $_SERVER['HTTP_HOST'] . $config['switchLangUrl'];
-$config['lang'] = $config['locale'] == 'ko' ? 'ko-KR' : 'en-US';
-setcookie('locale', $config['locale'], ['path' => '/']);
+    $config['language'] = $validLocale[$locale] ?? 'english';
+    $config['locale'] = !empty($validLocale[$locale]) ? $locale : 'en';
+    $config['switchLangUrl'] = $config['locale'] == 'ko' ? str_replace('/ko', '', $_SERVER['REQUEST_URI']) : '/ko' . $_SERVER['REQUEST_URI'];
+    $config['alternateUrl'] = 'https://' . $_SERVER['HTTP_HOST'] . $config['switchLangUrl'];
+    $config['lang'] = $config['locale'] == 'ko' ? 'ko-KR' : 'en-US';
+    setcookie('locale', $config['locale'], ['path' => '/']);
+}
 
 /*
 |--------------------------------------------------------------------------

@@ -176,7 +176,9 @@ if ( ! function_exists('document_url')) {
 if ( ! function_exists('lang_url')) {
     function lang_url($url = '')
     {
+        $domain = '';
         if (strpos($url, site_url()) === 0) {
+            $domain = substr(site_url(), 0, -1);
             $url = '/' .str_replace(site_url(), '', $url);
         }
         if (strpos($url, '/ko/') === 0) {
@@ -186,6 +188,6 @@ if ( ! function_exists('lang_url')) {
             $url = '/' . $_COOKIE['locale'] . (strpos($url, '/') !== 0 ? '/' :'') .$url;
         }
 
-        return $url;
+        return $domain . $url;
     }
 }
