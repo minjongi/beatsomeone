@@ -12,7 +12,7 @@
                         </div>
 
                         <div class="detail__music-info">
-                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ truncate(item.cit_name, 15) }}</h2>
+                            <h2 class="title" style="font-weight: 600;" v-if="item.cit_name">{{ truncate(item.cit_name, 15) }}</h2>
 <!--                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>-->
                             <div class="state" v-if="item">
                                 <span class="state-singer" v-if="item">{{ item.mem_nickname }}</span>
@@ -35,10 +35,13 @@
                                         </span>
                                     </a>
                                     <a class="buy waves-effect" @click="addCart" href="javascript:;" v-else>
-                                        <span v-if="item.cit_lease_license_use === '1'">
+                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
                                             {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                         </span>
                                         <span v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
+                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
+                                        </span>
+                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1'">
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                     </a>
@@ -64,20 +67,22 @@
                     </div>
 
                     <div class="detail__comment">
-                        <div class="commentForm">
-                            <a href="" class="comment__user"></a>
-                            <input
-                                    type="text"
-                                    placeholder="Write a comment..."
-                                    id="comment"
-                                    maxlength="200"
-                                    v-model="comment"
-                                    @click="checkLoggedIn"
-                                    @keydown.enter.prevent="sendComment"
-                            />
-                            <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
-                            <button @click="sendComment">{{ $t('send') }}</button>
-                        </div>
+                        <form action="">
+                            <div class="commentForm">
+                                <a href="" class="comment__user"></a>
+                                <input
+                                        type="text"
+                                        placeholder="Write a comment..."
+                                        id="comment"
+                                        maxlength="200"
+                                        v-model="comment"
+                                        @click="checkLoggedIn"
+                                        @keydown.enter.prevent="sendComment"
+                                />
+                                <span id="commentLength">{{ comment ? comment.length : '0' }}/200</span>
+                                <button @click="sendComment">{{ $t('send') }}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -121,9 +126,8 @@
         components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
         data: function () {
             return {
-                cit_key: null,
-                item: null,
-                comment: '',
+                item: {},
+                comment: null,
                 music: null,
                 currentTab: 1,
                 playlist: null,
@@ -149,7 +153,7 @@
                 ]
             },
             isLogin () {
-                return !!this.member;
+                return this.member !== false;
             }
         },
         mounted() {
@@ -159,15 +163,12 @@
             this.currentTab = _.find(this.tabs, e => {
                 return e.path === this.$router.currentRoute.path;
             }).id;
-            if (window.member_group_name.indexOf('subscribe') !== -1) this.is_subscriber = true;
+            if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
 
-            let params = window.location.pathname.split('/')
-            for (let key in params) {
-              if (params[key] === 'detail') {
-                this.cit_key = params[parseInt(key) + 1]
-              }
-            }
-            axios.get(`/item/ajax/${this.cit_key}`)
+            let params = window.location.pathname.split('/');
+            let cit_key = params[1] === 'beatsomeone' ? params[3] : params[2];
+            // console.log(params);
+            axios.get(`/item/ajax/${cit_key}`)
                 .then(res => res.data)
                 .then(data => {
                     this.item = data;
@@ -280,13 +281,16 @@
             },
             // 코멘트 입력
             sendComment() {
-                if (!this.checkLoggedIn()) {
-                  return
-                }
 
-                if (!this.comment.trim()) {
-                  alert(this.$t('writeComment'))
-                  return
+                if (!this.comment) return;
+
+                if (!this.isLogin) {
+                    let yn = confirm(this.$t('loginAlert'));
+                    if (yn === true) {
+                        window.location.href = '/login?url=' + window.location.href;
+                    } else {
+                        return;
+                    }
                 }
 
                 // 코멘트 저장
@@ -455,15 +459,14 @@
                 }
             },
             checkLoggedIn() {
-                if (this.isLogin) {
-                  return true
+                if (!this.isLogin) {
+                    let yn = confirm(this.$t('loginAlert'));
+                    if (yn === true) {
+                        window.location.href = '/login?url=' + window.location.href;
+                    } else {
+                        return true;
+                    }
                 }
-
-                let yn = confirm(this.$t('loginAlert'));
-                if (yn === true) {
-                  window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
-                }
-                return false
             }
         },
 
