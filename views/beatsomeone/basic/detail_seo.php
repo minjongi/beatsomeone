@@ -149,7 +149,7 @@
                                             $hashTag = explode(',', $item['hashTag']);
                                             foreach ($hashTag as $tag) {
                                                 ?>
-                                                <a href="<?= lang_url('/beatsomeone/sublist?search=' . urlencode($tag)) ?>">
+                                                <a href="<?= lang_url('/sublist?search=' . urlencode($tag)) ?>">
                                                     <span><button><?= $tag ?></button></span>
                                                 </a>
                                             <?php } ?>

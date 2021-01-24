@@ -432,7 +432,7 @@
             },
             // 해쉬 클릭
             clickHash(h) {
-                const path = `/beatsomeone/sublist?search=${h}`;
+                const path = `/sublist?search=${h}`;
                 window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             // 링크 복사

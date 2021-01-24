@@ -369,7 +369,7 @@ export default {
             },
             // 해쉬 클릭
             clickHash(h) {
-                window.location.href = this.helper.langUrl(this.$i18n.locale, `/beatsomeone/sublist?search=${h}`);
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/sublist?search=${h}`);
             },
             // 공유 클릭
             clickShare(sns) {

@@ -106,7 +106,7 @@
                 // if(!this.searchText) {
                 //     return;
                 // }
-                const path = `/beatsomeone/sublist?search=${this.searchText ?? ''}`;
+                const path = `/sublist?search=${this.searchText ?? ''}`;
                 window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             toggleLocale() {

@@ -51,7 +51,7 @@ foreach ($genre as $key => $val) {
                         <div class="tab">
                             <div class="tab__scroll">
                                 <?php foreach ($genre as $key => $val) { ?>
-                                    <a href="<?= lang_url('/beatsomeone/sublist?genre=' . urlencode($val)) ?>">
+                                    <a href="<?= lang_url('/sublist?genre=' . urlencode($val)) ?>">
                                         <button><?= $genreName[$key] ?></button>
                                     </a>
                                 <?php } ?>
@@ -138,7 +138,7 @@ foreach ($genre as $key => $val) {
                                 </li>
                             <?php } ?>
                             <div class="playList__btnbox">
-                                <a class="playList__more pointer" href="<?= lang_url('/beatsomeone/sublist?search=' . urlencode($tag)) ?>"><?= lang('mainMore') ?></a>
+                                <a class="playList__more pointer" href="<?= lang_url('/sublist?search=' . urlencode($tag)) ?>"><?= lang('mainMore') ?></a>
                             </div>
                         </div>
                     </div>
@@ -204,7 +204,7 @@ foreach ($genre as $key => $val) {
                                 </article>
                                 <div class="testimonials__btnbox">
                                     <a href="<?= lang_url('/register') ?>"><?= lang('startSelling') ?></a>
-                                    <a href="<?= lang_url('/beatsomeone/sublist') ?>" class="beats"><?= lang('browseBeats') ?></a>
+                                    <a href="<?= lang_url('/sublist') ?>" class="beats"><?= lang('browseBeats') ?></a>
                                 </div>
                             </div>
                         </div>

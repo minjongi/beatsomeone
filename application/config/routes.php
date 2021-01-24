@@ -90,6 +90,7 @@ $route[config_item('uri_segment_cmall_item') . '/([a-zA-Z0-9_-]+)'] = "cmall/ite
 $route[config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmall/ajax_item/$1";
 
 $route['brandshop/(:any)'] = "brandshop/shop/$1";
+$route['sublist'] = "beatsomeone/sublist";
 $route['detail/(:any)'] = "beatsomeone/detail/$1";
 $route['notsupport'] = "beatsomeone/notsupport";
 
@@ -121,6 +122,7 @@ $route['ko/' . config_item('uri_segment_cmall_item') . '/([a-zA-Z0-9_-]+)'] = "c
 $route['ko/' . config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmall/ajax_item/$1";
 
 $route['ko/brandshop/(:any)'] = "brandshop/shop/$1";
+$route['ko/sublist'] = "beatsomeone/sublist";
 $route['ko/detail/(:any)'] = "beatsomeone/detail/$1";
 $route['ko/notsupport'] = "beatsomeone/notsupport";
 

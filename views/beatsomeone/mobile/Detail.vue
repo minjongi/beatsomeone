@@ -6,7 +6,7 @@
                 <div class="wrap">
                     <div class="detail__music">
                         <div class="detail__music-img">
-                            <button class="btn-play amplitude-play-pause " v-if="item">
+                            <button class="btn-play amplitude-play-pause " v-if="!!item.cit_file_1">
                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
                             </button>
                         </div>

@@ -194,7 +194,7 @@
                                     </article>
                                     <div class="testimonials__btnbox">
                                         <a :href="moveStartSelling">{{ $t('startSelling') }}</a>
-                                        <a :href="helper.langUrl($i18n.locale, '/beatsomeone/sublist')" class="beats">{{ $t('browseBeats') }}</a>
+                                        <a :href="helper.langUrl($i18n.locale, '/sublist')" class="beats">{{ $t('browseBeats') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -333,11 +333,11 @@
                 return list;
             },
             moreList() {
-              return '/beatsomeone/sublist?genre=' + encodeURIComponent(this.currentGenre)
+              return this.helper.langUrl(this.$i18n.locale, '/sublist?genre=' + encodeURIComponent(this.currentGenre))
             },
             moveStartBuyer() {
               localStorage.setItem("UserOffer", "buyer")
-              return '/register'
+              return this.helper.langUrl(this.$i18n.locale, '/register')
             },
             moveStartSelling() {
               let url = '/register';

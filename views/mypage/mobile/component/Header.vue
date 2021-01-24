@@ -87,7 +87,7 @@
                 // if(!this.searchText) {
                 //     return;
                 // }
-                const path = `/beatsomeone/sublist?genre=All Genre&search=${this.searchText ?? ''}`;
+                const path = `/sublist?genre=All Genre&search=${this.searchText ?? ''}`;
                 window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             handleScroll (event) {

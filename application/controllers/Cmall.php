@@ -134,7 +134,7 @@ class Cmall extends CB_Controller
 
     public function lists($category_id = '')
     {
-        redirect('/beatsomeone/sublist', 'location', 301);
+        redirect('/sublist', 'location', 301);
         return;
 
         // 이벤트 라이브러리를 로딩합니다
