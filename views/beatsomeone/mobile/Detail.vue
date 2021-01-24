@@ -1,12 +1,12 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" v-if="!!item.cit_id">
         <Header :is-login="isLogin"/>
         <div class="container detail">
             <div class="detail__header">
                 <div class="wrap">
                     <div class="detail__music">
                         <div class="detail__music-img">
-                            <button class="btn-play amplitude-play-pause " v-if="!!item.cit_file_1">
+                            <button class="btn-play amplitude-play-pause" v-if="!!item.cit_file_1">
                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
                             </button>
                         </div>

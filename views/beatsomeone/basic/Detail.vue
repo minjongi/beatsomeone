@@ -1,11 +1,11 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" v-if="!!item.cit_id">
         <Header/>
         <div class="container detail">
             <div class="detail__header">
                 <div class="wrap">
                     <div class="detail__music">
-                        <div class="detail__music-img" v-if="item">
+                        <div class="detail__music-img" v-if="item.cit_file_1">
                             <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
                         </div>
                         <div class="detail__music-info">
