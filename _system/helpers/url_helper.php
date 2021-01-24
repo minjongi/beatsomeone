@@ -529,11 +529,14 @@ if ( ! function_exists('redirect'))
 	 * @param	int	$code	HTTP Response status code
 	 * @return	void
 	 */
-	function redirect($uri = '', $method = 'auto', $code = NULL)
+	function redirect($uri = '', $method = 'auto', $code = NULL, $langDisabled = false)
 	{
 	    if (
-            strpos($uri, 'http') !== 0 ||
-            (strpos($uri, 'http') === 0 && strpos($uri, site_url()) === 0)
+            !$langDisabled &&
+            (
+                strpos($uri, 'http') !== 0 ||
+                (strpos($uri, 'http') === 0 && strpos($uri, site_url()) === 0)
+            )
         ) {
             $uri = lang_url($uri);
         }

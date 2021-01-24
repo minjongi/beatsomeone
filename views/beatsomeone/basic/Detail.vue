@@ -276,14 +276,6 @@
                 if (!this.checkLoggedIn()) {
                   return
                 }
-                // if (!this.isLogin) {
-                //   let yn = confirm(this.$t('loginAlert'));
-                //   if (yn === true) {
-                //     window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
-                //   } else {
-                //     return;
-                //   }
-                // }
 
                 if (!this.comment.trim()) {
                   alert(this.$t('writeComment'))
@@ -345,7 +337,7 @@
                     }
                 });
 
-                var url = `https://beatsomeone.com/detail/${this.item.cit_key}`;
+                var url = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
                 var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
 
                 var o;
@@ -439,7 +431,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = `https://beatsomeone.com/detail/${this.item.cit_key}`;
+                t.value = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
                 t.select();
                 document.execCommand("copy");
                 document.body.removeChild(t);

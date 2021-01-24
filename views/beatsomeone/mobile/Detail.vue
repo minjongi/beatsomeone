@@ -35,13 +35,10 @@
                                         </span>
                                     </a>
                                     <a class="buy waves-effect" @click="addCart" href="javascript:;" v-else>
-                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '0'">
+                                        <span v-if="item.cit_lease_license_use === '1'">
                                             {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                         </span>
                                         <span v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
-                                            {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
-                                        </span>
-                                        <span v-if="item.cit_lease_license_use === '1' && item.cit_mastering_license_use === '1'">
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                     </a>
@@ -128,7 +125,7 @@
             return {
                 cit_key: null,
                 item: {},
-                comment: null,
+                comment: '',
                 music: null,
                 currentTab: 1,
                 playlist: null,
@@ -327,8 +324,14 @@
             },
             // 코멘트 입력
             sendComment() {
+                if (!this.checkLoggedIn()) {
+                  return
+                }
 
-                if (!this.comment) return;
+                if (!this.comment.trim()) {
+                  alert(this.$t('writeComment'))
+                  return
+                }
 
                 if (!this.isLogin) {
                     let yn = confirm(this.$t('loginAlert'));
@@ -407,7 +410,7 @@
                     }
                 });
 
-                var url = `https://beatsomeone.com/detail/${this.item.cit_key}`;
+                var url = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
                 var txt = `${this.item.cit_name} / ${this.item.member.mem_nickname} / ${this.item.genre}`;
 
                 var o;
@@ -478,7 +481,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = `https://beatsomeone.com/detail/${this.item.cit_key}`;
+                t.value = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
                 t.select();
                 document.execCommand('copy');
                 document.body.removeChild(t);
@@ -505,14 +508,15 @@
                 }
             },
             checkLoggedIn() {
-                if (!this.isLogin) {
-                    let yn = confirm(this.$t('loginAlert'));
-                    if (yn === true) {
-                        window.location.href = '/login?url=' + window.location.href;
-                    } else {
-                        return true;
-                    }
-                }
+              if (this.isLogin) {
+                return true
+              }
+
+              let yn = confirm(this.$t('loginAlert'));
+              if (yn === true) {
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/login?url=' + window.location.href);
+              }
+              return false
             }
         },
 

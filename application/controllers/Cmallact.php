@@ -362,7 +362,7 @@ class Cmallact extends CB_Controller
         // 이벤트가 존재하면 실행합니다
         Events::trigger('after', $eventname);
 
-        redirect(site_url(config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $file)));
+        redirect(site_url(config_item('uploads_dir') . '/cmallitemdetail/' . element('cde_filename', $file)), 'auto', null, true);
     }
 
     /**
