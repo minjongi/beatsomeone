@@ -17,12 +17,15 @@ export default {
   data: function () {
     return {
       cookie: false,
+      member: null
     }
   },
   created() {
-    if (Vuecookies.get('FooterBanner-close') !== 'Y') {
+    this.member = window.member;
+    if (Vuecookies.get('FooterBanner-close') !== 'Y' && !this.member) {
       this.cookie = true
     }
+
   },
   methods: {
     closeFooterBanner() {

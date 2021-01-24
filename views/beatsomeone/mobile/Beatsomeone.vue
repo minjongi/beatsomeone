@@ -392,6 +392,7 @@
               if (isForever) {
                 Vuecookies.set('popup210124-close', 'Y', '1d')
               }
+              document.body.style.overflow = ''
               this.popup = false
             },
             openPopup1() {

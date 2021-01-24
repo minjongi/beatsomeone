@@ -20,6 +20,7 @@
     import Amplitude from 'amplitudejs';
     import { EventBus } from '*/src/eventbus';
     import $ from "jquery";
+    import axios from "axios";
 
     export default {
 
@@ -105,6 +106,15 @@
                         log.debug('카운트 증가 실패');
                     } else {
                         log.debug('카운트 증가 성공');
+                        axios.get('/event/chkAchieve')
+                          .then(res => {
+                            if (res.data === 'achieve') {
+                              alert(this.$t('lang154'))
+                            }
+                          })
+                          .catch(error => {
+                            console.error(error);
+                          })
                     }
                 });
             }

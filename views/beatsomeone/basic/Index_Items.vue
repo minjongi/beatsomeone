@@ -92,6 +92,7 @@ import {EventBus} from "*/src/eventbus";
 import $ from "jquery";
 import WaveSurfer from "wavesurfer.js";
 import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
+import axios from "axios";
 
 export default {
         components: {
@@ -364,6 +365,15 @@ export default {
                         log.debug("카운트 증가 실패");
                     } else {
                         log.debug("카운트 증가 성공");
+                        axios.get('/event/chkAchieve')
+                            .then(res => {
+                              if (res.data === 'achieve') {
+                                alert(this.$t('lang154'))
+                              }
+                            })
+                            .catch(error => {
+                              console.error(error);
+                            })
                     }
                 });
             },

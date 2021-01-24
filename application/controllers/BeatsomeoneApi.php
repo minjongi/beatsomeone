@@ -270,12 +270,15 @@ class BeatsomeoneApi extends CB_Controller
         }
         $where = "WHERE (".$where.") AND cci.cit_id != ?";
 
-        $sql = "SELECT cci.*, cm.mem_nickname, ccim.cim_value as hashTag, IF(cwi_id > 0, TRUE, FALSE) as is_wish
+        $sql = "SELECT cci.*, cm.mem_nickname, ccim.cim_value as hashTag, IF(cwi_id > 0, TRUE, FALSE) as is_wish,
+                    p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice, p.cde_id, p.cde_price,
+                    p.cde_price_d, p.cde_download, p.cde_id_2, p.cde_price_2, p.cde_price_d_2, p.cde_download_2, p.preview_cde_id
                 FROM cb_cmall_item cci
                     LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id
                     LEFT JOIN cb_cmall_wishlist ccw on cci.cit_id = ccw.cit_id AND ccw.mem_id = ?
                     LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
-                     " . $where . " LIMIT 30";
+                    LEFT JOIN cb_cmall_item_meta_v p on p.cit_id = cci.cit_id
+                    " . $where . " LIMIT 30";
         $similar_products = $this->db->query($sql, [$mem_id, $cit_id])->result_array();
 
         foreach ($similar_products as $idx => $product) {

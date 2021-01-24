@@ -413,12 +413,21 @@
             // 다운로드 증가
             increaseMusicCount() {
                 Http.post(`/beatsomeoneApi/increase_music_count`, {
-                    cde_id: this.item.cde_id,
+                    cde_id: this.item.detail.PREVIEW.cde_id,
                 }).then((r) => {
                     if (!r) {
                         log.debug("카운트 증가 실패");
                     } else {
                         log.debug("카운트 증가 성공");
+                        axios.get('/event/chkAchieve')
+                          .then(res => {
+                            if (res.data === 'achieve') {
+                              alert(this.$t('lang154'))
+                            }
+                          })
+                          .catch(error => {
+                            console.error(error);
+                          })
                     }
                 });
             },

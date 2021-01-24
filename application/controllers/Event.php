@@ -188,4 +188,31 @@ class Event extends CB_Controller
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
     }
+
+    public function chkAchieve()
+    {
+        if (!$this->member->item('mem_id')) {
+            $result = 'not_target';
+        } else {
+            $mem_id = $this->member->item('mem_id');
+            $sql_detail = "SELECT count(*) cnt FROM cb_member WHERE mem_register_datetime BETWEEN '2021-01-25 00:00:00' AND '2021-02-15 00:00:00' AND mem_id = ?";
+            $data = $this->db->query($sql_detail, [$mem_id])->row_array();
+
+            if ($data['cnt'] > 0) {
+                $sql_detail = "SELECT count(DISTINCT cde_id) cnt FROM cb_cmall_download_log WHERE mem_id = ?";
+                $data1 = $this->db->query($sql_detail, [$mem_id])->row_array();
+
+                if ($data1['cnt'] === 3) {
+                    $result = 'achieve';
+                } else {
+                    $result = 'not_target';
+                }
+            } else {
+                $result = 'not_target';
+            }
+        }
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
 }
