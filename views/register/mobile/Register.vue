@@ -20,7 +20,7 @@ export default {
     },
     mounted() {
         // 중간 리프레시 초기화
-        if (this.$router.currentRoute.path !== '/' && window.location.search !== '?t=pr') {
+        if (this.$router.currentRoute.path !== '/' && window.location.search !== '?t=pr' && window.location.search !== '?t=event') {
             this.$router.push({path: '/'});
         }
     },

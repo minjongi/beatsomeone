@@ -42,14 +42,15 @@
 .footer-banner {
   position: fixed;
   right: 15px;
+  left: 15px;
   bottom: 72px;
   z-index: 100000;
 
   .close {
     position: absolute;
-    width: 13px;
-    height: 13px;
-    margin: 3px 0 0 183px;
+    width: 22px;
+    height: 22px;
+    right: 0;
   }
 }
 

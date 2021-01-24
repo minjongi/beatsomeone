@@ -2,7 +2,7 @@
   <div class="footer-banner" v-if="footerBanner && cookie">
     <div class="close" @click="closeFooterBanner"></div>
     <a :href="helper.langUrl($i18n.locale, '/event/join')"><img
-        :src="'/assets/images/event/2101241/' + $i18n.locale + '/bn.png'"></a>
+        :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/bn.png'"></a>
   </div>
 </template>
 

@@ -211,6 +211,36 @@
                 billTerm: 'yearly',
               })
             }
+            if (window.location.search === '?t=event') {
+              localStorage.setItem("UserOffer", "seller");
+              localStorage.setItem('mgr_id', 2);
+              localStorage.setItem('bill_term', 'yearly');
+
+              this.$store.dispatch('setUserInfo', {
+                group: {
+                  mgr_commission: "30",
+                  mgr_datetime: "2020-12-31 14:52:15",
+                  mgr_description: "판매자(Free)",
+                  mgr_id: "2",
+                  mgr_is_default: "0",
+                  mgr_monthly_cost_d: "0.00",
+                  mgr_monthly_cost_w: "0",
+                  mgr_monthly_discount: "0",
+                  mgr_monthly_download_limit: null,
+                  mgr_monthly_msg_limit: "10",
+                  mgr_monthly_upload_limit: "10",
+                  mgr_order: "2",
+                  mgr_title: "seller_free",
+                  mgr_year_cost_d: "0.00",
+                  mgr_year_cost_w: "0",
+                  mgr_year_discount: "0",
+                  mgr_year_download_limit: null,
+                  mgr_year_msg_limit: "10",
+                  mgr_year_upload_limit: "10"
+                },
+                billTerm: 'yearly',
+              })
+            }
         },
         mounted() {
 

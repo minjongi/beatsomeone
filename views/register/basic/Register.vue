@@ -18,7 +18,7 @@
     export default {
         components: {Header, Footer},
         mounted() {
-            if (this.$router.currentRoute.path !== '/' && window.location.search !== '?t=pr') {
+            if (this.$router.currentRoute.path !== '/' && window.location.search !== '?t=pr' && window.location.search !== '?t=event') {
                 window.location.href = this.helper.langUrl(this.$i18n.locale, '/register')
             }
         },

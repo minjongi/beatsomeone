@@ -22,17 +22,6 @@ foreach ($genre as $key => $val) {
 }
 ?>
 <div>
-    <div v-if="popup">
-      <div class="noti-wrap"></div>
-      <div class="noti-content">
-        <div>
-          <a href="<?= lang_url('/event') ?>"><img src="/assets_m/images/event/210110/<?= $this->config->item('locale');?>/1.png?v=1"></a>
-        </div>
-        <div>
-          <img src="'/assets_m/images/event/210110/<?= $this->config->item('locale');?>/2.png?v=1" style="width:50%;"><img :src="'/assets_m/images/event/210110/<?= $this->config->item('locale');?>/3.png?v=1'" style="width:50%;">
-        </div>
-      </div>
-    </div>
     <div class="wrapper">
         <?php $this->load->view('beatsomeone/mobile/include/header_seo') ?>
         <div class="container">

@@ -637,6 +637,9 @@ export default {
         dashboard_Recently_notexists: '기간만료 예정 내역이 없습니다',
         upgrade: '업그레이드',
         dashboard_RecentlyListen_notexists: '최근 본 비트가 없습니다',
+        lang152: '이벤트 참여 가능합니다, 미리듣기를 3회 이상 들어보세요!',
+        lang153: '이벤트기간 내 신규가입자만 참여 가능합니다.',
+        lang154: '3곡 미리듣기 완료! 이벤트에 자동 응모 되었습니다.',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1275,5 +1278,8 @@ export default {
         dashboard_Recently_notexists: '기간만료 예정 내역이 없습니다',
         upgrade: 'Upgrade',
         dashboard_RecentlyListen_notexists: 'No recent checks',
+        lang152: 'You must listen to at least 3 previews to participate in the event.',
+        lang153: 'This event is only available to members who have signed up during the event period.',
+        lang154: 'You have completed 3 previews and entered the event!',
     } // en
 }

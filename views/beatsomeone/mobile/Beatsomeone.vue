@@ -11,6 +11,17 @@
             </div>
           </div>
         </div>
+        <div v-if="popup1">
+          <div class="noti-wrap"></div>
+          <div class="noti-content">
+            <div>
+              <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/1.png'"></a>
+            </div>
+            <div>
+              <img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/2.png'" @click="closePopup1(true)" style="width:50%;"><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/3.png'" @click="closePopup1()" style="width:50%;">
+            </div>
+          </div>
+        </div>
         <div class="wrapper">
             <Header :is-login="isLogin"></Header>
             <div class="container">
@@ -214,10 +225,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer-banner" v-if="footerBanner && $i18n.locale !== 'en'">
-          <div class="close" @click="closeFooterBanner"></div>
-          <a href="http://wdmastering.com/" target="_blank"><img src="/assets_m/images/banner/wdmastering.png"></a>
-        </div>
+        <FooterBanner :footerBanner="footerBanner"/>
         <main-player></main-player>
     </div>
 </template>
@@ -229,6 +237,7 @@
     import axios from 'axios';
     import Header from "./include/Header";
     import Footer from "./include/Footer";
+    import FooterBanner from "./component/FooterBanner"
     import Index_Items from "./Index_Items";
     import {EventBus} from "*/src/eventbus";
     import Velocity from "velocity-animate";
@@ -238,7 +247,7 @@
 
     export default {
         name: "Index",
-        components: {Header, Footer, Index_Items, MainPlayer, KeepAliveGlobal},
+        components: {Header, Footer, FooterBanner, Index_Items, MainPlayer, KeepAliveGlobal},
         data: function () {
             return {
                 userInfo: null,
@@ -253,6 +262,7 @@
                 member: false,
                 member_group_name: '',
                 popup: false,
+                popup1: false,
                 isOpenSubmenu: false,
                 footerBanner: true
             };
@@ -312,6 +322,9 @@
 
             if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
               this.openPopup()
+            }
+            if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
+              this.openPopup1()
             }
         },
         watch: {
@@ -380,6 +393,21 @@
                 Vuecookies.set('popup210124-close', 'Y', '1d')
               }
               this.popup = false
+            },
+            openPopup1() {
+              this.popup1 = true
+              document.body.style.overflow = 'hidden'
+              setTimeout(function () {
+                window.scrollTo(0, 0)
+              }, 1000)
+
+            },
+            closePopup1(isForever) {
+              if (isForever) {
+                Vuecookies.set('popup2101241-close', 'Y', '1d')
+              }
+              document.body.style.overflow = ''
+              this.popup1 = false
             },
             endVideoBG() {
                 const idx = Math.floor(Math.random() * 4) + 1;

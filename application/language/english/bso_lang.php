@@ -637,3 +637,6 @@ $lang['dashboard_profilemod_save_ok'] = 'Personal information has been modified.
 $lang['dashboard_Recently_notexists'] = '기간만료 예정 내역이 없습니다';
 $lang['upgrade'] = 'Upgrade';
 $lang['dashboard_RecentlyListen_notexists'] = 'No recent checks';
+$lang['lang152'] = 'You must listen to at least 3 previews to participate in the event.';
+$lang['lang153'] = 'This event is only available to members who have signed up during the event period.';
+$lang['lang154'] = 'You have completed 3 previews and entered the event!';

@@ -2,7 +2,7 @@
   <div class="event-header">
     <header class="header">
       <div class="event-top">
-        <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/bn.jpg'"></a>
+        <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/top_bn.png'"></a>
       </div>
         <div class="wrap">
             <h1 class="header__logo">

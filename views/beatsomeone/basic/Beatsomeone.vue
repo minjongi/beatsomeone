@@ -11,6 +11,17 @@
         </div>
       </div>
     </div>
+    <div v-if="popup1">
+      <div class="noti-wrap"></div>
+      <div class="noti-content">
+        <div>
+          <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/1.png'"></a>
+        </div>
+        <div>
+          <img :src="'/assets/images/event/2101241/' + $i18n.locale + '/2.png'" @click="closePopup1(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/3.png'" @click="closePopup1()" style="width:50%;cursor:pointer;">
+        </div>
+      </div>
+    </div>
     <Header :is-login="isLogin"></Header>
     <main-player></main-player>
     <div class="container">
@@ -220,6 +231,7 @@
                 member: null,
                 member_group_name: '',
                 popup: false,
+                popup1: false,
                 footerBanner: true
             }
         },
@@ -288,6 +300,9 @@
             }
             if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
               this.openPopup()
+            }
+            if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
+              this.openPopup1()
             }
         },
         computed: {
@@ -379,6 +394,21 @@
               }
               document.body.style.overflow = ''
               this.popup = false
+            },
+            openPopup1() {
+              this.popup1 = true
+              document.body.style.overflow = 'hidden'
+              setTimeout(function () {
+                window.scrollTo(0, 0)
+              }, 1000)
+
+            },
+            closePopup1(isForever) {
+              if (isForever) {
+                Vuecookies.set('popup2101241-close', 'Y', '1d')
+              }
+              document.body.style.overflow = ''
+              this.popup1 = false
             },
             endVideoBG() {
                 const idx = Math.floor(Math.random() * 4) + 1
