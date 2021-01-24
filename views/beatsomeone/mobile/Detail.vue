@@ -1,18 +1,18 @@
 <template>
-    <div class="wrapper" v-if="!!item.cit_id">
+    <div class="wrapper">
         <Header :is-login="isLogin"/>
         <div class="container detail">
             <div class="detail__header">
                 <div class="wrap">
                     <div class="detail__music">
                         <div class="detail__music-img">
-                            <button class="btn-play amplitude-play-pause" v-if="!!item.cit_file_1">
+                            <button class="btn-play amplitude-play-pause" v-if="item">
                                 <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
                             </button>
                         </div>
 
                         <div class="detail__music-info">
-                            <h2 class="title" style="font-weight: 600;" v-if="item.cit_name">{{ truncate(item.cit_name, 15) }}</h2>
+                            <h2 class="title" style="font-weight: 600;" v-if="item">{{ truncate(item.cit_name, 15) }}</h2>
 <!--                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>-->
                             <div class="state" v-if="item">
                                 <span class="state-singer" v-if="item">{{ item.mem_nickname }}</span>
@@ -101,8 +101,7 @@
         </div>
         <main-player></main-player>
         <Footer/>
-        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup"
-                              :item="item"></PurchaseTypeSelector>
+        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup" :item="item"></PurchaseTypeSelector>
     </div>
 </template>
 
@@ -122,7 +121,7 @@
         data: function () {
             return {
                 cit_key: null,
-                item: {},
+                item: null,
                 comment: '',
                 music: null,
                 currentTab: 1,

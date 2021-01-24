@@ -1,11 +1,11 @@
 <template>
-    <div class="wrapper" v-if="!!item.cit_id">
+    <div class="wrapper">
         <Header/>
         <div class="container detail">
             <div class="detail__header">
                 <div class="wrap">
                     <div class="detail__music">
-                        <div class="detail__music-img" v-if="item.cit_file_1">
+                        <div class="detail__music-img" v-if="item">
                             <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
                         </div>
                         <div class="detail__music-info">
@@ -184,16 +184,14 @@
             this.remainDownloadNumber();
             this.member = window.member;
             this.member_group_name = window.member_group_name;
-            if (this.member_group_name.indexOf('subscribe') !== -1){
-              this.is_subscriber = true;
-            }
+            if (this.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
 
             EventBus.$on("player_request_start", (r) => {
                 log.debug({
                     "DETAIL : player_request_start": r,
                 });
 
-                if (this._uid !== r._uid) {
+                if (this._uid != r._uid) {
                     this.music.pause();
                 }
             });
@@ -202,13 +200,13 @@
                 log.debug({
                     "DETAIL : main_player_play": r,
                 });
-                if (this._uid !== r._uid) {
+                if (this._uid != r._uid) {
                     this.music.pause();
                 }
             });
 
             EventBus.$on("player_request_start", (r) => {
-                if (this._uid !== r._uid) {
+                if (this._uid != r._uid) {
                     this.music.pause();
                 }
             });
