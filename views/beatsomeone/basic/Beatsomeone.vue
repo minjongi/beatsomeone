@@ -4,15 +4,14 @@
       <div class="noti-wrap"></div>
       <div class="noti-content">
         <div>
-          <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/1.png?v=1'"></a>
+          <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210124/' + $i18n.locale + '/1.png'"></a>
         </div>
         <div>
-          <img :src="'/assets/images/event/210110/' + $i18n.locale + '/2.png?v=1'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/3.png?v=1'" @click="closePopup()" style="width:50%;">
+          <img :src="'/assets/images/event/210124/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/event/210124/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;cursor:pointer;">
         </div>
       </div>
     </div>
     <Header :is-login="isLogin"></Header>
-
     <main-player></main-player>
     <div class="container">
       <div class="main">
@@ -225,7 +224,6 @@
             }
         },
         mounted() {
-
             // 메인페이지: 서브 앨범 슬라이드 이벤트
             $(".toggle-subList").on("click", function () {
                 var itemLength = $(this)
@@ -288,11 +286,14 @@
             if (this.member_group_name) {
               this.remainDownloadNumber();
             }
-            if (Vuecookies.get('popup-close') !== 'Y') {
+            if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
               this.openPopup()
             }
         },
         computed: {
+            isSeller() {
+              return this.member_group_name.includes('seller')
+            },
             listSortParamName() {
                 let idx = this.listSort.indexOf(this.param.sort) < 0 ? 0 : this.listSort.indexOf(this.param.sort)
                 return this.listSortName[idx]
@@ -364,7 +365,6 @@
                 localStorage.setItem('remain_download_num', res.data);
               });
             },
-
             openPopup() {
               this.popup = true
               document.body.style.overflow = 'hidden'
@@ -375,7 +375,7 @@
             },
             closePopup(isForever) {
               if (isForever) {
-                Vuecookies.set('popup-close', 'Y', '1d')
+                Vuecookies.set('popup210124-close', 'Y', '1d')
               }
               document.body.style.overflow = ''
               this.popup = false

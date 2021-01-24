@@ -2,10 +2,11 @@
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
         <div class="container sub event-content" style="position: relative;">
-          <div><img :src="'/assets/images/event/210124/' + $i18n.locale + '/p1.png'"></div>
-          <div><a :href="helper.langUrl($i18n.locale, '/mypage/regist_item')"><img :src="'/assets/images/event/210124/' + $i18n.locale + '/p2.png'"></a></div>
-          <div><img :src="'/assets/images/event/210124/' + $i18n.locale + '/p3.png'"></div>
-          <div><img :src="'/assets/images/event/210124/' + $i18n.locale + '/p4.png'"></div>
+          <div><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p1.png?v=1'"></div>
+          <div><a :href="helper.langUrl($i18n.locale, '/register?t=pr#/3')"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p2.png?v=1'"></a></div>
+          <div><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p3.png?v=1'"></div>
+          <div><a :href="helper.langUrl($i18n.locale, '/register?t=pr#/3')"><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p4.png?v=1'"></a></div>
+          <div><img :src="'/assets/images/event/210110/' + $i18n.locale + '/p5.png?v=1'"></div>
         </div>
         <Footer />
     </div>

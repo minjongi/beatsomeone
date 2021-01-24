@@ -4,10 +4,10 @@
           <div class="noti-wrap"></div>
           <div class="noti-content">
             <div>
-              <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/1.png?v=1'"></a>
+              <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/1.png'"></a>
             </div>
             <div>
-              <img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/2.png?v=1'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/210110/' + $i18n.locale + '/3.png?v=1'" @click="closePopup()" style="width:50%;">
+              <img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
             </div>
           </div>
         </div>
@@ -266,10 +266,6 @@
 
             // Testimonials List
             this.getTestimonialsList();
-
-            if (Vuecookies.get('popup-close') !== 'Y') {
-              this.popup = true
-            }
         },
         mounted() {
             // 메인페이지: 서브 앨범 슬라이드 이벤트
@@ -313,6 +309,10 @@
             if (this.member_group_name) {
                 this.remainDownloadNumber();
             }
+
+            if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
+              this.openPopup()
+            }
         },
         watch: {
             // 장르가 변경될 때
@@ -323,6 +323,9 @@
             },
         },
         computed: {
+            isSeller() {
+              return this.member_group_name.includes('seller')
+            },
             listGenreName() {
                 let list = [],
                     _self = this;
@@ -364,10 +367,17 @@
                     localStorage.setItem('remain_download_num', res.data);
                 });
             },
+            openPopup() {
+              this.popup = true
+              document.body.style.overflow = 'hidden'
+              setTimeout(function () {
+                window.scrollTo(0, 0)
+              }, 1000)
 
+            },
             closePopup(isForever) {
               if (isForever) {
-                Vuecookies.set('popup-close', 'Y', '1d')
+                Vuecookies.set('popup210124-close', 'Y', '1d')
               }
               this.popup = false
             },
