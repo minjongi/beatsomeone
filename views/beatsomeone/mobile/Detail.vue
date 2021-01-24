@@ -126,6 +126,7 @@
         components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
         data: function () {
             return {
+                cit_key: null,
                 item: {},
                 comment: null,
                 music: null,
@@ -156,6 +157,52 @@
                 return this.member !== false;
             }
         },
+
+
+
+        created() {
+          let params = window.location.pathname.split('/')
+          for (let key in params) {
+            if (params[key] === 'detail') {
+              this.cit_key = params[parseInt(key) + 1]
+            }
+          }
+          axios.get(`/item/ajax/${this.cit_key}`)
+              .then(res => res.data)
+              .then(data => {
+                this.item = data;
+                if (this.item.detail.PREVIEW) {
+                  Amplitude.init({
+                    "songs": [{
+                      "name": this.item.cit_name,
+                      "artist": this.item.musician,
+                      "url": `/cmallact/listen_preview/${this.item.detail.PREVIEW.cde_id}`,
+                    }],
+                    debug: true,
+                    callbacks: {
+                      play: () => {
+                        if (this.isIncreaseMusicCount === false) {
+                          this.increaseMusicCount()
+                          this.isIncreaseMusicCount = true
+                        }
+                        // console.log("MAIN played")
+                        //EventBus.$emit('index_items_stop_all_played', {'_uid':this._uid,'item':this.item});
+                        EventBus.$emit('stop_main_player', {'_uid': this._uid, 'item': this.item});
+                      },
+                      initialized: () => {
+                        //this.increaseMusicCount();
+                      }
+                    },
+                    waveforms: {
+                      sample_rate: 3000
+                    }
+                  });
+                }
+              })
+              .catch(error => {
+                console.error(error);
+              })
+        },
         mounted() {
             this.remainDownloadNumber();
             this.member = window.member;
@@ -165,44 +212,43 @@
             }).id;
             if (window.member_group_name.indexOf('subscribe') != -1) this.is_subscriber = true;
 
-            let params = window.location.pathname.split('/');
-            let cit_key = params[1] === 'beatsomeone' ? params[3] : params[2];
-            // console.log(params);
-            axios.get(`/item/ajax/${cit_key}`)
-                .then(res => res.data)
-                .then(data => {
-                    this.item = data;
-                    if (this.item.detail.PREVIEW) {
-                        Amplitude.init({
-                            "songs": [{
-                                "name": this.item.cit_name,
-                                "artist": this.item.musician,
-                                "url": `/cmallact/listen_preview/${this.item.detail.PREVIEW.cde_id}`,
-                            }],
-                            debug: true,
-                            callbacks: {
-                                play: () => {
-                                    if (this.isIncreaseMusicCount === false) {
-                                        this.increaseMusicCount()
-                                        this.isIncreaseMusicCount = true
-                                    }
-                                    // console.log("MAIN played")
-                                    //EventBus.$emit('index_items_stop_all_played', {'_uid':this._uid,'item':this.item});
-                                    EventBus.$emit('stop_main_player', {'_uid': this._uid, 'item': this.item});
-                                },
-                                initialized: () => {
-                                    //this.increaseMusicCount();
-                                }
-                            },
-                            waveforms: {
-                                sample_rate: 3000
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                })
+            // let params = window.location.pathname.split('/');
+            // let cit_key = params[1] === 'beatsomeone' ? params[3] : params[2];
+            // axios.get(`/item/ajax/${cit_key}`)
+            //     .then(res => res.data)
+            //     .then(data => {
+            //         this.item = data;
+            //         if (this.item.detail.PREVIEW) {
+            //             Amplitude.init({
+            //                 "songs": [{
+            //                     "name": this.item.cit_name,
+            //                     "artist": this.item.musician,
+            //                     "url": `/cmallact/listen_preview/${this.item.detail.PREVIEW.cde_id}`,
+            //                 }],
+            //                 debug: true,
+            //                 callbacks: {
+            //                     play: () => {
+            //                         if (this.isIncreaseMusicCount === false) {
+            //                             this.increaseMusicCount()
+            //                             this.isIncreaseMusicCount = true
+            //                         }
+            //                         // console.log("MAIN played")
+            //                         //EventBus.$emit('index_items_stop_all_played', {'_uid':this._uid,'item':this.item});
+            //                         EventBus.$emit('stop_main_player', {'_uid': this._uid, 'item': this.item});
+            //                     },
+            //                     initialized: () => {
+            //                         //this.increaseMusicCount();
+            //                     }
+            //                 },
+            //                 waveforms: {
+            //                     sample_rate: 3000
+            //                 }
+            //             });
+            //         }
+            //     })
+            //     .catch(error => {
+            //         console.error(error);
+            //     })
 
             EventBus.$on('player_request_start', r => {
 
