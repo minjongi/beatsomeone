@@ -6,8 +6,8 @@
                 <div class="wrap">
                     <div class="detail__music">
                         <div class="detail__music-img">
-                            <button class="btn-play amplitude-play-pause" v-if="item">
-                                <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
+                            <button class="btn-play amplitude-play-pause " v-if="item">
+                                <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
                             </button>
                         </div>
 
@@ -101,7 +101,8 @@
         </div>
         <main-player></main-player>
         <Footer/>
-        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup" :item="item"></PurchaseTypeSelector>
+        <PurchaseTypeSelector :purchaseTypeSelectorPopup.sync="purchaseTypeSelectorPopup"
+                              :item="item"></PurchaseTypeSelector>
     </div>
 </template>
 
@@ -208,7 +209,7 @@
                     'DETAIL : player_request_start': r,
                 })
 
-                if (this._uid !== r._uid) {
+                if (this._uid != r._uid) {
                     Amplitude.pause();
                     var bg = document.querySelector(".btn-play");
                     bg.classList.remove("amplitude-playing");
@@ -223,7 +224,7 @@
                     'DETAIL : main_player_play': r,
                 })
 
-                if (this._uid !== r._uid) {
+                if (this._uid != r._uid) {
                     Amplitude.pause();
                     var bg = document.querySelector(".btn-play");
                     bg.classList.remove("amplitude-playing");
