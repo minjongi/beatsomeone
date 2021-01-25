@@ -141,7 +141,7 @@
               </h2>
               <div class="topFive" v-if="!param.search">
                 <div class="trending__slide-item albumItem" v-for="(i,index) in listTop5" :key="index">
-                  <a :href="`/detail/${i.cit_key}#/`">
+                  <a :href="helper.langUrl($i18n.locale, `/detail/${i.cit_key}#/`)">
                     <button class="albumItem__cover">
                       <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name" />
                     </button>
