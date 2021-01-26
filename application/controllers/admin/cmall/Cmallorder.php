@@ -557,6 +557,7 @@ class Cmallorder extends CB_Controller
                                 }
 
                             } catch (Exception $exception) {
+                                alert('paypal 결제취소 중 오류가 발생하였습니다.\n' . $exception->getMessage());
                                 log_message('error', $exception->getMessage());
                             }
                         }
