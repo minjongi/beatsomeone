@@ -118,7 +118,7 @@
         <div class="sublist__content">
           <div class="row">
             <h2 class="section-title">
-              <div class="wrap">{{ $t('goToBrandshop') }} > {{ brand.mem_nickname }}</div>
+              <div class="wrap">{{ $t('goToBrandshop') }} {{ brand.mem_nickname }}</div>
             </h2>
           </div>
           <div class="row">

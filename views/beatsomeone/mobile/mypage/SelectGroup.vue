@@ -248,10 +248,6 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                  <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
-                  <td>{{ $t('lang141') }}</td>
-                </tr>
-                <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>{{ $t('unlimited') }}</td>
                 </tr>

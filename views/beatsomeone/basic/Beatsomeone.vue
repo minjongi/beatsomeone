@@ -301,9 +301,9 @@
             if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
               this.openPopup()
             }
-            if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
-              this.openPopup1()
-            }
+            // if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
+            //   this.openPopup1()
+            // }
         },
         computed: {
             isSeller() {

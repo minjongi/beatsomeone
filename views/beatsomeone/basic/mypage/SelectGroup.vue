@@ -135,12 +135,6 @@
                 </thead>
                 <tbody>
                 <tr>
-                  <td>{{ $t('lang138') }}<br/>{{ $t('lang139') }}</td>
-                  <td>{{ $t('lang140') }}</td>
-                  <td>{{ $t('lang140') }}</td>
-                  <td>{{ $t('lang141') }}</td>
-                </tr>
-                <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
                     <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
                     <td>{{ $t('unlimited') }}</td>

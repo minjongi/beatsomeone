@@ -117,7 +117,7 @@
           <div class="sublist__content">
             <div>
               <h2 class="section-title">
-                <span>{{ $t('goToBrandshop') }} > {{ brand.mem_nickname }}</span>
+                <span>{{ $t('goToBrandshop') }} {{ brand.mem_nickname }}</span>
                 <div class="sort">
                   <span>{{ $t('sortBy') }}</span>
                   <div class="custom-select">
