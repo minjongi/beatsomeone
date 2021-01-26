@@ -557,9 +557,15 @@ class Cmallorder extends CB_Controller
                                 }
 
                             } catch (Exception $exception) {
-                                $paypal_live_id = $this->cbconfig->item('pg_paypal_live_id');
-                                $paypal_live_secret = $this->cbconfig->item('pg_paypal_live_secret');
-                                alert('paypal 결제취소 중 오류가 발생하였습니다.\n' . $exception->getMessage() . '\n' . $paypal_live_id . '\n' . $paypal_live_secret);
+                                if ($is_test == '1') {
+                                    $paypal_id = $this->cbconfig->item('pg_paypal_sandbox_id');
+                                    $paypal_secret = $this->cbconfig->item('pg_paypal_sandbox_secret');
+                                } else {
+                                    $paypal_id = $this->cbconfig->item('pg_paypal_live_id');
+                                    $paypal_secret = $this->cbconfig->item('pg_paypal_live_secret');
+                                }
+
+                                alert('paypal 결제취소 중 오류가 발생하였습니다.\n' . $exception->getMessage() . '\n' . $paypal_id . '\n' . $paypal_secret . '\nis test : ' . $is_test);
                                 log_message('error', $exception->getMessage());
                             }
                         }
