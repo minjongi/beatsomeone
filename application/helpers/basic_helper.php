@@ -40,7 +40,7 @@ if ( ! function_exists('alert')) {
 			echo 'history.go(-1);';
 		}
 		if ($url) {
-			echo 'document.location.href="' . $url . '"';
+			echo 'document.location.href="' . lang_url($url) . '"';
 		}
 		echo '</script>';
 		exit;
