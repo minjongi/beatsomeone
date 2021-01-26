@@ -557,7 +557,9 @@ class Cmallorder extends CB_Controller
                                 }
 
                             } catch (Exception $exception) {
-                                alert('paypal 결제취소 중 오류가 발생하였습니다.\n' . $exception->getMessage());
+                                $paypal_live_id = $this->cbconfig->item('pg_paypal_live_id');
+                                $paypal_live_secret = $this->cbconfig->item('pg_paypal_live_secret');
+                                alert('paypal 결제취소 중 오류가 발생하였습니다.\n' . $exception->getMessage() . '\n' . $paypal_live_id . '\n' . $paypal_live_secret);
                                 log_message('error', $exception->getMessage());
                             }
                         }
@@ -644,19 +646,18 @@ class Cmallorder extends CB_Controller
 
     public function _get_paypal_api_context($is_test)
     {
+        if ($is_test == '1') {
+            $paypal_sandbox_id = $this->cbconfig->item('pg_paypal_sandbox_id');
+            $paypal_sandbox_secret = $this->cbconfig->item('pg_paypal_sandbox_secret');
+            return new ApiContext(new OAuthTokenCredential($paypal_sandbox_id, $paypal_sandbox_secret));
+        }
+
         $paypal_live_id = $this->cbconfig->item('pg_paypal_live_id');
         $paypal_live_secret = $this->cbconfig->item('pg_paypal_live_secret');
-
-        $paypal_sandbox_id = $this->cbconfig->item('pg_paypal_sandbox_id');
-        $paypal_sandbox_secret = $this->cbconfig->item('pg_paypal_sandbox_secret');
-        if ($is_test == '1') {
-            return new ApiContext(new OAuthTokenCredential($paypal_sandbox_id, $paypal_sandbox_secret));
-        } else {
-            $apiContext = new ApiContext(new OAuthTokenCredential($paypal_live_id, $paypal_live_secret));
-            $apiContext->setConfig(array(
-                'mode' => 'live'
-            ));
-            return $apiContext;
-        }
+        $apiContext = new ApiContext(new OAuthTokenCredential($paypal_live_id, $paypal_live_secret));
+        $apiContext->setConfig(array(
+            'mode' => 'live'
+        ));
+        return $apiContext;
     }
 }
