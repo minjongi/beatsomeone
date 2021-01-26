@@ -12,7 +12,7 @@ if (intval($c) > 4) {
                 alert(result_cd + ' +: ' + result_msg);
             } else {
                 fm1.allat_enc_data.value = enc_data;
-                fm1.action = 'https://qa.beatsomeone.com/pg/allat/subscribeM';
+                fm1.action = '" . site_url() . "pg/allat/subscribeM';
                 fm1.method = 'post';
                 fm1.target = '_self';
                 fm1.submit();
