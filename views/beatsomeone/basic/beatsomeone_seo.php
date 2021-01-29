@@ -232,7 +232,7 @@ foreach ($genre as $key => $val) {
                         <article class="testimonials__lists">
                             <?php foreach ($seoViewData['main_testimonials_list'] as $post) { ?>
                                 <figure class="card card--testimonials">
-                                    <a href="<?= lang_url('/video' . $post['post_id']) ?>">
+                                    <a href="<?= lang_url('/video#' . $post['post_id']) ?>">
                                         <div class="img">
                                             <img src="/uploads/post/<?= $post['post']['files'][0]['pfi_filename'] ?>" alt=""/>
                                             <button class="card--testimonials_play"></button>

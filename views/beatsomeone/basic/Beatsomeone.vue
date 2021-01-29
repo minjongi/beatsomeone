@@ -150,7 +150,7 @@
               </article>
               <article class="testimonials__lists">
                 <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
-                  <a :href="helper.langUrl($i18n.locale, '/video' + post.post_id)">
+                  <a :href="helper.langUrl($i18n.locale, '/video#' + post.post_id)">
                     <div class="img">
                       <img :src="'/uploads/post/' + post.files[0].pfi_filename" alt=""/>
                       <button class="card--testimonials_play"></button>
