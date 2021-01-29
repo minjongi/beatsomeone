@@ -4,9 +4,9 @@
             <a href="<?= lang_url('/event') ?>"><img src="/assets/images/event/210110/<?= $this->config->item('locale');?>/bn.jpg"></a>
         </div>
         <div class="wrap">
-            <h1 class="header__logo">
+            <div class="header__logo">
                 <a href="<?= lang_url('/') ?>"><img src="/assets/images/logo.png" alt=""/></a>
-            </h1>
+            </div>
             <div class="header__gnb">
                 <div class="header__search">
                     <div>

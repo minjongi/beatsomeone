@@ -124,7 +124,7 @@
                 <div class="slider">
                   <!--                                slider의 버그로 인해 Vue OnClick 이벤트가 새로 생성되는 Element 에서 인식되지 않는 문제가 있어 @click 을 사용하지 않고 직접 vm에서 메서드 호출 방식으로 변경 하였음-->
                   <div v-for="(i,index) in listTrending" :key="index" class="trending__slide-item albumItem">
-                    <a :href="helper.langUrl($i18n.locale, '/detail/' + i.cit_key + '#/')">
+                    <a :href="helper.langUrl($i18n.locale, '/detail/' + i.cit_key)">
                       <button class="albumItem__cover">
                         <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                       </button>
@@ -150,7 +150,7 @@
               </article>
               <article class="testimonials__lists">
                 <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
-                  <a :href="helper.langUrl($i18n.locale, '/video#/' + post.post_id)">
+                  <a :href="helper.langUrl($i18n.locale, '/video' + post.post_id)">
                     <div class="img">
                       <img :src="'/uploads/post/' + post.files[0].pfi_filename" alt=""/>
                       <button class="card--testimonials_play"></button>

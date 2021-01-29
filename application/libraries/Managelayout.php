@@ -137,6 +137,9 @@ class Managelayout extends CI_Controller
 		);
 
 		$page_title = element('page_title', $config) ? element('page_title', $config) : $CI->cbconfig->item('site_meta_title_default');
+        if ($CI->config->item('locale') === 'ko') {
+            $page_title = str_replace('beatsomeone', '비트썸원',  $page_title);
+        }
 		$meta_description = element('meta_description', $config) ? element('meta_description', $config) : $CI->cbconfig->item('site_meta_description_default');
 		$meta_keywords = element('meta_keywords', $config) ? element('meta_keywords', $config) : $CI->cbconfig->item('site_meta_keywords_default');
 		$meta_author = element('meta_author', $config) ? element('meta_author', $config) : $CI->cbconfig->item('site_meta_author_default');

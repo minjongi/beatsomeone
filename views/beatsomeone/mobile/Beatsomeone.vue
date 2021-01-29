@@ -156,7 +156,7 @@
                             <div class="trending__slider">
                                 <div class="slider">
                                     <div class="trending__slide-item albumItem" v-for="(i,index) in listTrending" :key="index">
-                                      <a :href="helper.langUrl($i18n.locale, '/detail/' + i.cit_key + '#/')">
+                                      <a :href="helper.langUrl($i18n.locale, '/detail/' + i.cit_key)">
                                         <button class="albumItem__cover">
                                           <img :src="'/uploads/cmallitem/' + i.thumb" :alt="i.cit_name"/>
                                         </button>
@@ -182,7 +182,7 @@
                                     </article>
                                     <article class="testimonials__lists">
                                         <figure class="card card--testimonials" v-for="(post, index) in listTestimonials" :key="index">
-                                            <a :href="helper.langUrl($i18n.locale, '/video#/' + post.post_id)">
+                                            <a :href="helper.langUrl($i18n.locale, '/video' + post.post_id)">
                                                 <div class="img" v-if="post.files.length === 1">
                                                     <img
                                                             :src="'/uploads/post/' + post.files[0].pfi_filename"

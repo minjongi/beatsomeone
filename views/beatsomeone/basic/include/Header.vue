@@ -5,9 +5,9 @@
         <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/top_bn.png'"></a>
       </div>
         <div class="wrap">
-            <h1 class="header__logo">
+            <div class="header__logo">
                 <a :href="helper.langUrl($i18n.locale, '/')"><img src="/assets/images/logo.png" alt=""/></a>
-            </h1>
+            </div>
             <div class="header__gnb">
                 <div class="header__search">
                     <div>

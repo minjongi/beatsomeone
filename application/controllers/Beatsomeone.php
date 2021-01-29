@@ -80,7 +80,6 @@ class Beatsomeone extends CB_Controller
             ))[0];
         }
 
-
         $view['view']['canonical'] = site_url();
 
         $member = $this->member->get_member();
@@ -213,7 +212,7 @@ class Beatsomeone extends CB_Controller
             $detailItem[] = 'STEM';
         }
 
-        $view['view']['canonical'] = site_url('detail/' . $view['view']['item']['cit_key'] . '#/');
+        $view['view']['canonical'] = site_url('detail/' . $view['view']['item']['cit_key']);
         $view['view']['item']['detail'] = [];
         foreach ($detail as $detailKey => $detailVal) {
             if (in_array($detailVal['cde_title'], $detailItem)) {

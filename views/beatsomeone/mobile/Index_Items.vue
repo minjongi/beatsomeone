@@ -18,7 +18,7 @@
                 </div>
                 <button :data-action="'playAction' + item.cit_id " class="btn-play" @click="playAudio(item)">재생</button>
                 <div class="wave"></div>
-                <a :href="helper.langUrl($i18n.locale, '/detail/' + item.cit_key + '#/')">
+                <a :href="helper.langUrl($i18n.locale, '/detail/' + item.cit_key)">
                   <figcaption>
                     <h3 class="playList__title">{{ subName }}</h3>
                     <div class="playList__bottom-info">

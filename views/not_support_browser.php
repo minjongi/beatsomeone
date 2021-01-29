@@ -148,7 +148,7 @@
 <div class="wrapper">
   <header class="header">
     <div class="wrap">
-      <h1 class="header__logo"><a href="/"><img src="/assets/images/logo.png" alt=""></a></h1>
+      <div class="header__logo"><a href="/"><img src="/assets/images/logo.png" alt=""></a></div>
     </div>
   </header>
   <div class="container">

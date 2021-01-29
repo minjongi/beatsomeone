@@ -2,9 +2,9 @@
     <div>
         <header class="header">
             <div class="wrap">
-                <h1 class="header__logo">
+                <div class="header__logo">
                     <a :href="helper.langUrl($i18n.locale, '/')"><img src="@/assets_m/images/logo.png" alt=""/></a>
-                </h1>
+                </div>
                 <div class="header__btnbox">
                     <a href="javascript:;" class="header__locale" v-if="!isShowSearchBox" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
                     <input type="text"

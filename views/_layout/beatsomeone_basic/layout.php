@@ -8,14 +8,15 @@
     <?php if (element('meta_description', $layout)) { ?><meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
     <?php if (element('meta_author', $layout)) { ?><meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
     <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
-    <?php if (element('canonical', $view)) { ?><link rel="canonical" href="<?php echo element('canonical', $view); ?>" /><?php } ?>
+    <link rel="canonical" href="<?php echo $this->config->item('canonicalUrl'); ?>" />
     <meta property="fb:app_id" content="<?php echo html_escape(element('facebook_app_id', $layout)); ?>"/>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
-    <meta property="og:url" content="<?php echo html_escape(element('og_url', $layout)); ?>"/>
+    <meta property="og:url" content="<?php echo $this->config->item('canonicalUrl'); ?>"/>
     <meta property="og:description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"/>
     <meta property="og:title" content="<?php echo html_escape(element('page_title', $layout)); ?>"/>
-    <link rel="alternate" href="<?= $this->config->item('alternateUrl') ?>" hreflang="<?= $this->config->item('lang') ?>"/>
+    <link rel="alternate" href="<?= $this->config->item('alternateUrlEn') ?>" hreflang="en-US"/>
+    <link rel="alternate" href="<?= $this->config->item('alternateUrlKo') ?>" hreflang="ko-KR"/>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
