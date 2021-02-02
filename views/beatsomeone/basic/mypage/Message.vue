@@ -35,7 +35,7 @@
                                     <div class="playList__item playList__item--title nowrap">
                                         <div class="portrait">
                                             <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portrait.png"/>
-                                            <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="portrait>
+                                            <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="portrait">
                                         </div>
                                         <div>
                                             <div>
