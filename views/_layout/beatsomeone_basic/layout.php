@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=1420">
     <title><?php echo html_escape(element('page_title', $layout)); ?></title>
     <?php if (element('meta_description', $layout)) { ?><meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
-    <?php if (element('meta_author', $layout)) { ?><meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
+    <meta name="author" content="<?php echo $this->config->item('author'); ?>">
     <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
     <link rel="canonical" href="<?php echo $this->config->item('canonicalUrl'); ?>" />
     <meta property="fb:app_id" content="<?php echo html_escape(element('facebook_app_id', $layout)); ?>"/>
@@ -169,7 +169,7 @@
         </div>
     </div>
 <?php } */ ?>
-<div id="app">
+<div id="app123">
     <?php if (!empty($seoView)) {
         $this->load->view($seoView);
     } ?>

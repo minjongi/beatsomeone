@@ -5,7 +5,7 @@
             <div class="nfavorites">
                 <div class="nfavorites__header">
                     <div class="wrap">
-                        <h2>FAVORITE</h2>
+                        <h2>{{ $t('favorite') }}</h2>
                     </div>
                 </div>
                 <section class="nfavorites__body">
@@ -13,13 +13,13 @@
                         <div class="left">
                             <label for="c2" class="checkbox nfavorites__checkbox">
                                 <input type="checkbox" hidden id="c2" v-model="checkedAll">
-                                <span style="margin-right: 5px;"></span> &nbsp; Select All({{ checkedCount }}/{{
+                                <span style="margin-right: 5px;"></span> {{ $t('selectAll') }}({{ checkedCount }}/{{
                                 list.length }})
                             </label>
                         </div>
                         <div class="right">
                             <button class="nfavorites__delete" @click="deleteItems" :disabled="checkedCount === 0">
-                                <i></i> Delete
+                                <i></i> {{$t('delete')}}
                             </button>
                         </div>
                     </div>

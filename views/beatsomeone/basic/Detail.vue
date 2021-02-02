@@ -141,14 +141,6 @@
             };
         },
         computed: {
-            releaseDt: function () {
-                if (!this.item) return null;
-                const t = new Date(Date.parse(this.item.cit_start_datetime));
-
-                return `${t.getFullYear()}.${("0" + (t.getMonth() + 1)).slice(-2)}.${(
-                    "0" + t.getDate()
-                ).slice(-2)}`;
-            },
             hashtag() {
                 return this.item.hashTag ? this.item.hashTag.split(",") : "";
             },

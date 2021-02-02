@@ -3,7 +3,7 @@
     <div class="wrap">
       <div class="footer__top">
         <div class="footer__logo">
-          <img src="/assets/images/logo.png" alt />
+          <img src="/assets/images/logo.png" alt="logo" />
         </div>
         <div class="footer__sns sns">
           <a href="https://www.instagram.com/beatsomeone" class="sns__insta" target="_blank">

@@ -87,7 +87,7 @@
                             <div class="col name">
                                 <figure style="min-width: unset;">
                                     <span class="playList__cover">
-                                        <img v-if="item.cit_file_1" class="cover" :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                        <img v-if="item.cit_file_1" class="cover" :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name">
                                         <img v-else class="cover" src="/assets/images/cover_default.png">
                                     </span>
                                 </figure>

@@ -6,7 +6,7 @@
             <div class="nfavorites">
                 <div class="nfavorites__header">
                     <div class="wrap">
-                        <h2>FAVORITE</h2>
+                        <h2>{{ $t('favorite') }}</h2>
                     </div>
                 </div>
                 <section class="nfavorites__body">
@@ -16,13 +16,13 @@
                                 <!-- Fix: checked 상태관리 -->
                                 <label class="checkbox nfavorites__checkbox">
                                     <input type="checkbox" hidden v-model="checkedAll">
-                                    <span style="margin-right: 5px;"></span> Select All({{ number_selected }}/{{ offset }})
+                                    <span style="margin-right: 5px;"></span> {{ $t('selectAll') }}({{ number_selected }}/{{ offset }})
                                 </label>
                             </div>
                             <div class="right">
                                 <!-- Fix: disabled 상태관리 -->
                                 <button class="nfavorites__delete" @click="deleteItems" :disabled="number_selected === 0">
-                                    <i></i> Delete
+                                    <i></i> {{$t('delete')}}
                                 </button>
                             </div>
                         </div>

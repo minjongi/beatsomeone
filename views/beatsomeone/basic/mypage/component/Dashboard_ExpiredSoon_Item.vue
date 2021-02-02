@@ -6,7 +6,7 @@
                     <span class="playList__cover">
                         <img
                                 :src="'/uploads/cmallitem/' + item.coverImg"
-                                alt=""
+                                :alt="item.cit_name"
                         />
                     </span>
                     <figcaption class="pointer" @click="selectItem">

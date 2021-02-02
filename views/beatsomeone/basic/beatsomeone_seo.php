@@ -221,7 +221,7 @@ foreach ($genre as $key => $val) {
                     <!-- 트렌드 슬라이드 끝 -->
                     <!-- 제휴 업체 로그 이미지  -->
                     <div class="alliance">
-                        <img src="/assets/images/alliance1.png" alt="" href="#" style="opacity: .3"/>
+                        <img src="/assets/images/alliance1.png" alt="alliance" href="#" style="opacity: .3"/>
                     </div>
                     <!-- 제휴업체 로그 이미지 끝 -->
                     <div class="testimonials">
@@ -234,7 +234,7 @@ foreach ($genre as $key => $val) {
                                 <figure class="card card--testimonials">
                                     <a href="<?= lang_url('/video#' . $post['post_id']) ?>">
                                         <div class="img">
-                                            <img src="/uploads/post/<?= $post['post']['files'][0]['pfi_filename'] ?>" alt=""/>
+                                            <img src="/uploads/post/<?= $post['post']['files'][0]['pfi_filename'] ?>" alt="<?= $post['post_title'] ?>"/>
                                             <button class="card--testimonials_play"></button>
                                         </div>
                                         <figcaption>

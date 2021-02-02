@@ -148,7 +148,7 @@
 <div class="wrapper">
   <header class="header">
     <div class="wrap">
-      <div class="header__logo"><a href="/"><img src="/assets/images/logo.png" alt=""></a></div>
+      <div class="header__logo"><a href="/"><img src="/assets/images/logo.png" alt="logo"></a></div>
     </div>
   </header>
   <div class="container">
@@ -159,7 +159,7 @@
   <footer class="footer">
     <div class="wrap">
       <div class="footer__top">
-        <div class="footer__logo"><img src="/assets/images/logo.png" alt=""></div>
+        <div class="footer__logo"><img src="/assets/images/logo.png" alt="logo"></div>
         <div class="footer__sns sns"><a href="https://www.instagram.com/beatsomeone" target="_blank" class="sns__insta"><img src="/assets/images/icon/instagram.png" alt="instagram"></a><a href="https://www.youtube.com/channel/UCkOZTgnHFgC0Cb04W0AJ1LQ" target="_blank" class="sns__insta"><img src="/assets/images/icon/youtube.png" alt="youtube"></a><a href="https://www.facebook.com/beatsomeone" target="_blank" class="sns__insta"><img src="/assets/images/icon/facebook.png" alt="facebook"></a><a href="https://twitter.com/beatsomeone1" target="_blank" class="sns__insta"><img src="/assets/images/icon/twitter.png" alt="twitter"></a></div>
       </div>
       <div class="footer__bottom"><p class="footer__copyright"> 서울특별시 마포구 와우산로1길 3-2, 3층(상수동, 스페이스 어반)<br/> 대표이사 김용환 | 사업자등록번호 112-86-01117 | 제2019-서울마포-2779호<br/> TEL 070.4323.0000 | EMAIL support@beatsomeone.com<br/><br/> copyright@beatsomeone 2020 .All Right reserved.<br/> (주)덤덤 </p></div>

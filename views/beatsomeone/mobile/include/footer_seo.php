@@ -2,7 +2,7 @@
     <div class="wrap">
         <div class="footer__top">
             <div class="footer__logo">
-                <a href="<?= lang_url('/') ?>"><img src="/assets_m/images/logo.png" alt=""/></a>
+                <a href="<?= lang_url('/') ?>"><img src="/assets_m/images/logo.png" alt="logo"/></a>
             </div>
             <div class="footer__sns sns">
                 <a href="https://www.instagram.com/beatsomeone" class="sns__insta"><img src="/assets_m/images/icon/instagram.png" alt="instagram"/></a>

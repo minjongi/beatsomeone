@@ -24,7 +24,7 @@
                             <div class="col-auto">
                                 <div class="mem-icon">
                                     <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portait.png"/>
-                                    <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
+                                    <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="portait">
                                 </div>
                             </div>
                             <div class="col">
@@ -44,7 +44,7 @@
                     <div class="col-auto">
                         <div class="mem-icon">
                             <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portait.png"/>
-                            <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
+                            <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="portait">
                         </div>
                     </div>
                     <div class="col">

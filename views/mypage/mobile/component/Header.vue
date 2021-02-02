@@ -2,7 +2,7 @@
     <header class="header" :class="scrolled">
         <nav class="navbar navbar-expand navbar-dark">
             <a :href="helper.langUrl($i18n.locale, '/')" class="navbar-brand">
-                <img src="/assets/images/logo.png" alt=""/>
+                <img src="/assets/images/logo.png" alt="logo"/>
             </a>
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav ml-auto">

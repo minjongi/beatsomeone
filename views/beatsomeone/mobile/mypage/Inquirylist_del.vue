@@ -19,7 +19,7 @@
                       'https://beatsomeone.com/uploads/member_photo/' +
                         mem_photo
                     "
-                    alt=""
+                    alt="logo"
                   />
                 </div>
                 <div class="info">

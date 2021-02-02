@@ -11,7 +11,7 @@
         <div class="login accounts__defaultLayout">
             <div class="accounts__btnbox border-none">
                 <button type="submit" class="btn btn--white" @click="doNext('email')">
-                    <img src="@/assets/images/icon/email.png" alt="" />
+                    <img src="@/assets/images/icon/email.png"/>
                     {{ $t('signupWithEmail') }}
                 </button>
             </div>

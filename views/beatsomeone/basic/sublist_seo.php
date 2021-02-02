@@ -90,7 +90,9 @@ foreach ($trackType as $key => $val) {
                                         <li class="filter__item">
                                             <label class="checkbox">
                                                 <input type="radio" name="filter" hidden/>
-                                                <?= $genreName[$key] ?>
+                                                <a href="<?= lang_url('/sublist?genre=' . urlencode($val)) ?>">
+                                                    <?= $genreName[$key] ?>
+                                                </a>
                                             </label>
                                         </li>
                                     <?php } ?>

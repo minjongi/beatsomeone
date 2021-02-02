@@ -30,7 +30,7 @@
                                     <div class="playList__item playList__item--title nowrap">
                                         <div class="portrait">
                                             <img v-if="isEmpty(m.mem_photo)" src="/assets/images/portrait.png"/>
-                                            <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="">
+                                            <img v-else :src="'/uploads/member_photo/' + m.mem_photo" alt="portrait">
                                         </div>
                                         <div style="max-width: calc(100% - 64px);">
                                             <div class="n-flex between">
@@ -58,7 +58,7 @@
                     <div class="head" style="position: relative;">
                         <div class="portrait">
                             <img v-if="isEmpty(mchatUserPhoto)" src="/assets/images/portrait.png"/>
-                            <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="">
+                            <img v-else :src="'/uploads/member_photo/' + mchatUserPhoto" alt="logo">
                         </div>
                         <div>
                             <div class="user">{{ mchatUser }}</div>

@@ -2,7 +2,7 @@
     <div class="information" v-if="info">
         <div class="information__thumb" >
             <img v-if="info.mem_photo" :src="'/uploads/member_photo/' + info.mem_photo">
-            <img v-if="!info.mem_photo" src="/assets/images/portrait.png" alt="">
+            <img v-if="!info.mem_photo" src="/assets/images/portrait.png" alt="portrait">
         </div>
         <div class="information__user">
             <h2 class="information__username">{{ info.mem_userid }}</h2>

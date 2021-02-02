@@ -88,7 +88,7 @@
                     @click="chkModifyAlert"
                   >
                     <div class="addAudioFile__icon">
-                      <img src="/assets/images/icon/note1.png" alt />
+                      <img src="/assets/images/icon/note1.png"/>
                     </div>
                     <div class="addAudioFile__info">
                       <FileUpload
@@ -119,7 +119,7 @@
                     style="margin-top: 10px;"
                   >
                     <div class="addAudioFile__icon">
-                      <img src="/assets/images/icon/note2.png" alt />
+                      <img src="/assets/images/icon/note2.png"/>
                     </div>
                     <div class="addAudioFile__info">
                       <FileUpload
@@ -152,7 +152,7 @@
                     @click="chkModifyAlert"
                   >
                     <div class="addAudioFile__icon">
-                      <img src="/assets/images/icon/note3.png" alt />
+                      <img src="/assets/images/icon/note3.png"/>
                     </div>
                     <div class="addAudioFile__info">
                       <FileUpload

@@ -5,13 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta property="fb:app_id" content="579999516228616"/>
   <title><?php echo html_escape(element('page_title', $layout)); ?></title>
-    <?php if (element('meta_description', $layout)) { ?>
-      <meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
-    <?php if (element('meta_author', $layout)) { ?>
-      <meta name="author" content="<?php echo html_escape(element('meta_author', $layout)); ?>"><?php } ?>
-    <?php if (element('favicon', $layout)) { ?>
-      <link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
-      <link rel="canonical" href="<?php echo $this->config->item('canonicalUrl'); ?>" />
+  <?php if (element('meta_description', $layout)) { ?><meta name="description" content="<?php echo html_escape(element('meta_description', $layout)); ?>"><?php } ?>
+  <meta name="author" content="<?php echo $this->config->item('author'); ?>">
+  <?php if (element('favicon', $layout)) { ?><link rel="shortcut icon" type="image/x-icon" href="<?php echo element('favicon', $layout); ?>" /><?php } ?>
+  <link rel="canonical" href="<?php echo $this->config->item('canonicalUrl'); ?>" />
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="<?php echo html_escape(element('og_image', $layout)); ?>"/>
   <meta property="og:url" content="<?php echo $this->config->item('canonicalUrl'); ?>"/>

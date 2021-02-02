@@ -6,7 +6,7 @@
       </div>
         <div class="wrap">
             <div class="header__logo">
-                <a :href="helper.langUrl($i18n.locale, '/')"><img src="/assets/images/logo.png" alt=""/></a>
+                <a :href="helper.langUrl($i18n.locale, '/')"><img src="/assets/images/logo.png" alt="logo"/></a>
             </div>
             <div class="header__gnb">
                 <div class="header__search">

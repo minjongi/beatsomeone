@@ -10,7 +10,7 @@
                                   :src="'/assets/images/cover_default.png'"
                                   alt
                               />
-                              <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt />
+                              <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" :alt="item.item.cit_name" />
                               <i v-if="item.item.is_new" class="label new">N</i>
                             </span>
                         <figcaption class="pointer">

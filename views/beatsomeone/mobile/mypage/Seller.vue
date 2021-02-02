@@ -84,7 +84,7 @@
                                 <div class="col name" style="width: 32px; margin-right: 16px;">
                                     <figure>
                                         <span class="playList__cover">
-                                            <img v-if="item.cit_file_1" class="cover" :src="'/uploads/cmallitem/' + item.cit_file_1" alt="">
+                                            <img v-if="item.cit_file_1" class="cover" :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name">
                                             <img v-else class="cover" src="/assets/images/cover_default.png">
 <!--                                            <i ng-if="item.isNew" class="label new">N</i>-->
                                         </span>

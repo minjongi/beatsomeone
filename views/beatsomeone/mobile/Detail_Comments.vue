@@ -4,8 +4,8 @@
         <div class="commentsbox__row" >
             <div class="comment" v-for="c in listComments" :key="c.cqa_id" v-if="listComments">
                 <div class="comment__author-img">
-                    <img v-if="!c.mem_photo" src="/assets/images/portrait.png" alt="">
-                    <img v-if="c.mem_photo" :src="c.mem_photo" alt="">
+                    <img v-if="!c.mem_photo" src="/assets/images/portrait.png" alt="portrait">
+                    <img v-if="c.mem_photo" :src="c.mem_photo" alt="portrait">
                 </div>
                 <div class="comment__content">
                     <div class="comment__info">

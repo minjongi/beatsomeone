@@ -171,7 +171,7 @@
                             <!-- 트렌드 슬라이드 끝 -->
                             <!-- 제휴 업체 로그 이미지  -->
                             <div class="alliance">
-                                <img src="@/assets_m/images/partner/partner-total1.png" alt href="#"/>
+                                <img src="@/assets_m/images/partner/partner-total1.png" alt="alliance" href="#"/>
                             </div>
                             <!-- 제휴업체 로그 이미지 끝 -->
                             <div class="testimonials">
@@ -186,13 +186,13 @@
                                                 <div class="img" v-if="post.files.length === 1">
                                                     <img
                                                             :src="'/uploads/post/' + post.files[0].pfi_filename"
-                                                            alt=""
+                                                            :alt="post.post_title"
                                                     />
                                                 </div>
                                                 <div class="img" v-else>
                                                     <img
                                                         :src="'/uploads/post/' + post.files[1].pfi_filename"
-                                                        alt=""
+                                                        :alt="post.post_title"
                                                     />
                                                 </div>
                                                 <figcaption>

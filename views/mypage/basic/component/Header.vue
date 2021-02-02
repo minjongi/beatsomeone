@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark mx-5">
             <div class="container">
                 <a :href="helper.langUrl($i18n.locale, '/')" class="navbar-brand">
-                    <img src="/assets/images/logo.png" alt=""/>
+                    <img src="/assets/images/logo.png" alt="logo"/>
                 </a>
                 <div class="navbar-collapse collapse">
                     <div class="header-search ml-auto">

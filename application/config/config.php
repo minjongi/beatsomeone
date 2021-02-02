@@ -164,11 +164,19 @@ if (!in_array($requestUri[1], $exceptUri)) {
 
     $config['language'] = $validLocale[$locale] ?? 'english';
     $config['locale'] = !empty($validLocale[$locale]) ? $locale : 'en';
-    $config['switchLangUrl'] = $config['locale'] == 'ko' ? str_replace('/ko', '', $_SERVER['REQUEST_URI']) : '/ko' . $_SERVER['REQUEST_URI'];
     $config['alternateUrlEn'] = 'https://' . $_SERVER['HTTP_HOST'] . str_replace('/ko', '', $_SERVER['REQUEST_URI']);
     $config['alternateUrlKo'] = 'https://' . $_SERVER['HTTP_HOST'] . '/ko' . str_replace('/ko', '', $_SERVER['REQUEST_URI']);
-    $config['canonicalUrl'] = $config['locale'] == 'ko' ? $config['alternateUrlKo'] : $config['alternateUrlEn'];
-    $config['lang'] = $config['locale'] == 'ko' ? 'ko-KR' : 'en-US';
+    if ($config['locale'] == 'ko') {
+        $config['switchLangUrl'] = str_replace('/ko', '', $_SERVER['REQUEST_URI']);
+        $config['canonicalUrl'] = $config['alternateUrlKo'];
+        $config['lang'] = 'ko-KR';
+        $config['author'] = '비트썸원';
+    } else {
+        $config['switchLangUrl'] = '/ko' . $_SERVER['REQUEST_URI'];
+        $config['canonicalUrl'] = $config['alternateUrlEn'];
+        $config['lang'] = 'en-US';
+        $config['author'] = 'beatsomeone';
+    }
     setcookie('locale', $config['locale'], time() + 86400 * 365, '/');
     $_COOKIE['locale'] = $config['locale'];
 }

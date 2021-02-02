@@ -5,7 +5,7 @@
         </div>
         <div class="wrap">
             <div class="header__logo">
-                <a href="<?= lang_url('/') ?>"><img src="/assets/images/logo.png" alt=""/></a>
+                <a href="<?= lang_url('/') ?>"><img src="/assets/images/logo.png" alt="logo"/></a>
             </div>
             <div class="header__gnb">
                 <div class="header__search">

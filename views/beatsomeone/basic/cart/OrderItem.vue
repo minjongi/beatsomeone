@@ -5,10 +5,10 @@
                 <figure>
                     <div class="playList__cover">
                         <img v-if="!item.item.cit_file_1"
-                             :src="'/assets/images/cover_default.png'" alt="">
+                             :src="'/assets/images/cover_default.png'" :alt="item.item.cit_name">
                         <img v-else
                              :src="'/uploads/cmallitem/' + item.item.cit_file_1"
-                             alt="">
+                             :alt="item.item.cit_name">
                         <i v-if="item.item.is_new"
                            class="label new">N</i>
                     </div>

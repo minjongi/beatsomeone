@@ -718,7 +718,7 @@ class BeatsomeoneApi extends CB_Controller
             $filedata = $this->upload->data();
 
             // 상세 정보 저장
-            $result['filename'] = str_replace(config_item('uploads_dir') . '/' . $baseDir . '/', '', $upload_path) . '/' . element('file_name', $filedata);
+            $result['filename'] = str_replace(config_item('uploads_dir') . '/' . $baseDir . '/', '', $upload_path) . element('file_name', $filedata);
             $result['originname'] = element('orig_name', $filedata);
             $result['filesize'] = intval(element('file_size', $filedata) * 1024);
             $result['type'] = str_replace('.', '', element('file_ext', $filedata));

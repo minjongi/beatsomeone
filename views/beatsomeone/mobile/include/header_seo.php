@@ -2,7 +2,7 @@
     <header class="header">
         <div class="wrap">
             <div class="header__logo">
-                <a href="<?= lang_url('/') ?>"><img src="/assets_m/images/logo.png" alt=""/></a>
+                <a href="<?= lang_url('/') ?>"><img src="/assets_m/images/logo.png" alt="logo"/></a>
             </div>
             <div class="header__btnbox">
                 <a href="<?= $this->config->item('switchLangUrl') ?>" class="header__locale"><?= $this->config->item('locale') == 'en' ? 'KOR' : 'ENG'?></a>

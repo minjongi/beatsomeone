@@ -266,8 +266,8 @@ class Beatsomeone extends CB_Controller
         /**
          * 레이아웃을 정의합니다
          */
-        $page_title = $this->cbconfig->item('site_meta_title_cmall');
-        $meta_description = $this->cbconfig->item('site_meta_description_cmall');
+//        $page_title = $this->cbconfig->item('site_meta_title_cmall');
+//        $meta_description = $this->cbconfig->item('site_meta_description_cmall');
         $meta_keywords = $this->cbconfig->item('site_meta_keywords_cmall');
         $meta_author = $this->cbconfig->item('site_meta_author_cmall');
         $page_name = $this->cbconfig->item('site_page_name_cmall');
@@ -287,7 +287,7 @@ class Beatsomeone extends CB_Controller
 
         // 타이틀 정의
         $page_title = 'Beatsomeone - ' . $view['view']['item']['cit_name'] . ' (' . $view['view']['item']['member']['mem_nickname'] . ')';
-        $meta_description = $page_title;
+        $meta_description = htmlspecialchars($view['view']['item']['cit_content']);
 
         $layoutconfig = array(
             'path' => 'beatsomeone',
@@ -2843,9 +2843,9 @@ class Beatsomeone extends CB_Controller
         $where = "";
         foreach ($hash_tags as $idx => $hash_tag) {
             if ($idx == 0) {
-                $where = "(cim_value LIKE '%,".$hash_tag. ",%' OR cim_value LIKE '".$hash_tag. ",%' OR cim_value LIKE '%,".$hash_tag. "')";
+                $where = "(cim_value LIKE '%," . $this->db->escape_like_str($hash_tag) . ",%' OR cim_value LIKE '" . $this->db->escape_like_str($hash_tag) . ",%' OR cim_value LIKE '%," . $this->db->escape_like_str($hash_tag) . "')";
             } else {
-                $where .= " OR (cim_value LIKE '%,".$hash_tag. ",%' OR cim_value LIKE '".$hash_tag. ",%' OR cim_value LIKE '%,".$hash_tag. "')";
+                $where .= " OR (cim_value LIKE '%," . $this->db->escape_like_str($hash_tag) . ",%' OR cim_value LIKE '" . $this->db->escape_like_str($hash_tag) . ",%' OR cim_value LIKE '%," . $this->db->escape_like_str($hash_tag) . "')";
             }
         }
         $where = "WHERE (".$where.") AND cci.cit_id != ?";

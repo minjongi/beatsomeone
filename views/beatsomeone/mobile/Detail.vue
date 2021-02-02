@@ -7,7 +7,7 @@
                     <div class="detail__music">
                         <div class="detail__music-img">
                             <button class="btn-play amplitude-play-pause " v-if="item">
-                                <img :src="'/uploads/cmallitem/' + item.cit_file_1" alt=""/>
+                                <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
                             </button>
                         </div>
 
@@ -18,7 +18,7 @@
                                 <span class="state-singer" v-if="item">{{ item.mem_nickname }}</span>
 <!--                                <span class="song">0{{ item.cde_download }}</span>-->
                                 <!--                                <span class="song">120</span>-->
-                                <span class="registed">{{ releaseDt }}</span>
+                                <span class="registed">{{ item.release_datetime }}</span>
                             </div>
                             <div style="font-size: 12px; margin-top: 10px">
                                 <span class="fa fa-share-alt"></span>
@@ -137,12 +137,6 @@
             }
         },
         computed: {
-            releaseDt: function () {
-                if (!this.item) return null;
-                const t = new Date(Date.parse(this.item.cit_start_datetime));
-
-                return `${t.getFullYear()}.${('0' + t.getMonth()).slice(-2)}.${('0' + t.getDate()).slice(-2)}`;
-            },
             tabs() {
                 return [
                     {path: "/", id: 1, title: this.$t("similarTrack")},
@@ -154,9 +148,6 @@
                 return this.member !== false;
             }
         },
-
-
-
         created() {
           let params = window.location.pathname.split('/')
           for (let key in params) {

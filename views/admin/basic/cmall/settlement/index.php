@@ -52,7 +52,7 @@
                             <td>
                                 <?php if (element('cit_file_1', $result)) { ?>
                                     <img src="<?php echo thumb_url('cmallitem', element('cit_file_1', $result), 80); ?>"
-                                         alt="" class="thumbnail mg0" style="width:80px;"/>
+                                         alt="<?php echo element('item_name', $result); ?>" class="thumbnail mg0" style="width:80px;"/>
                                 <?php } ?>
                             </td>
                             <td>

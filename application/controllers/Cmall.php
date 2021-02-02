@@ -575,6 +575,7 @@ class Cmall extends CB_Controller
             $popup,
             $writer_is_admin = true
         );
+        $data['release_datetime'] = date('Y.m.d', strtotime($data['cit_start_datetime']));
 
         $this->output->set_output(json_encode($data, JSON_UNESCAPED_UNICODE));
         return true;

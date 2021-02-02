@@ -15,7 +15,7 @@
                             <div class="col name">
                                 <figure>
                                     <span class="playList__cover profile">
-                                        <img v-if="message.mem_photo" :src="message.mem_photo" alt="">
+                                        <img v-if="message.mem_photo" :src="message.mem_photo" alt="portrait">
                                         <img v-else src="/assets/images/portrait.png">
                                     </span>
                                     <figcaption class="pointer" @click="goMessage()">

@@ -3,7 +3,7 @@
         <header class="header">
             <div class="wrap">
                 <div class="header__logo">
-                    <a :href="helper.langUrl($i18n.locale, '/')"><img src="@/assets_m/images/logo.png" alt=""/></a>
+                    <a :href="helper.langUrl($i18n.locale, '/')"><img src="@/assets_m/images/logo.png" alt="logo"/></a>
                 </div>
                 <div class="header__btnbox">
                     <a href="javascript:;" class="header__locale" v-if="!isShowSearchBox" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>

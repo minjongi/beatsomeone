@@ -6,7 +6,7 @@
                     <span class="playList__cover">
                         <img
                                 :src="'/uploads/cmallitem/' + item.coverImg"
-                                alt=""
+                                :alt="item.cit_name"
                         />
                         <i class="label new" v-if="item.is_new">N</i>
                     </span>
