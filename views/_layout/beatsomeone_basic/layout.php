@@ -169,7 +169,7 @@
         </div>
     </div>
 <?php } */ ?>
-<div id="app123">
+<div id="app">
     <?php if (!empty($seoView)) {
         $this->load->view($seoView);
     } ?>
