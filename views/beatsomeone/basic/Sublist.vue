@@ -171,13 +171,13 @@
                 >
                   <template v-for="item in randomList">
                     <KeepAliveGlobal :key="'randomList' + item.cit_key">
-                      <Index_Items :item="item" :key="'randomList' + item.cit_key" :disabledWave="true"></Index_Items>
+                      <Index_Items :item="item" :key="'randomList' + item.cit_key"></Index_Items>
                     </KeepAliveGlobal>
                   </template>
 
                   <template v-for="item in list">
                     <KeepAliveGlobal :key="item.cit_key">
-                      <Index_Items :item="item" :key="item.cit_key" :disabledWave="true"></Index_Items>
+                      <Index_Items :item="item" :key="item.cit_key"></Index_Items>
                     </KeepAliveGlobal>
                   </template>
                 </transition-group>
