@@ -1,5 +1,5 @@
 <template>
-    <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false"  v-if="list">
+    <div class="playList" v-if="list">
         <ul id="playList__list" class="playList__list">
             <transition-group
                     name="staggered-fade"
@@ -36,42 +36,18 @@
                 offset: 0,
                 list: null,
                 busy: false,
+                currentCitId: null
             }
         },
         watch: {
             item: function (n) {
-                this.getList();
+                if (!!n.cit_id && this.currentCitId !== n.cit_id) {
+                  this.currentCitId = n.cit_id
+                  this.getList()
+                }
             },
         },
         mounted() {
-
-
-            // 메인페이지: 서브 앨범 슬라이드 이벤트
-            $(".toggle-subList").on("click", function() {
-                var itemLength = $(this)
-                    .parents(".playList__itembox")
-                    .find(".subPlayList .playList__itembox").length;
-                $(this).toggleClass("active");
-                $(this)
-                    .parents(".playList__itembox")
-                    .toggleClass("is-show-children");
-
-                if ($(this).hasClass("active")) {
-                    // active 일때,
-                    $(this)
-                        .parents(".playList__itembox")
-                        .find(".subPlayList")
-                        .css("height", 90 * itemLength);
-                } else {
-                    // 지웟을때,
-                    $(this)
-                        .parents(".playList__itembox")
-                        .find(".subPlayList")
-                        .css("height", 0);
-                }
-            });
-
-            this.getList();
         },
         methods: {
             getList() {
@@ -87,18 +63,6 @@
                     this.busy = false;
                 });
             },
-            getListMore: _.debounce(function() {
-                const p = {
-                    limit: 10,
-                    offset: this.offset,
-                }
-                this.busy = true;
-                Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
-                    this.list = this.list.concat(r);
-                    this.offset = this.list.length;
-                    this.busy = false;
-                });
-            },1000),
             beforeEnter: function (el) {
                 el.style.opacity = 0
                 el.style.height = 0
@@ -119,7 +83,6 @@
                     Velocity(
                         el,
                         { opacity: 0, height: 0, 'margin-bottom': 0,  },
-
                         { complete: done }
                     )
                 }, delay)

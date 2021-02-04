@@ -281,21 +281,28 @@ class BeatsomeoneApi extends CB_Controller
                     " . $where . " LIMIT 30";
         $similar_products = $this->db->query($sql, [$mem_id, $cit_id])->result_array();
 
+        $citId = [];
+        $result = [];
         foreach ($similar_products as $idx => $product) {
+            if (in_array($product['cit_id'], $citId)) {
+                continue;
+            }
+            $citId[] = $product['cit_id'];
             $sql_detail = "SELECT * FROM cb_cmall_item_detail WHERE cit_id = ?";
             $details = $this->db->query($sql_detail, [$product['cit_id']])->result_array();
             $details2 = array();
             foreach ($details as $idx2 => $detail) {
                 $details2[$detail['cde_title']] = $detail;
             }
-            $similar_products[$idx]['detail'] = $details2;
-            $similar_products[$idx]['thumb'] = cover_thumb_name($product['cit_file_1'], 'list');
-            $similar_products[$idx]['item_url'] = cmall_item_url($product['cit_key']);
-            $similar_products[$idx]['waveform'] = json_decode($product['waveform'], true);
+            $product['detail'] = $details2;
+            $product['thumb'] = cover_thumb_name($product['cit_file_1'], 'list');
+            $product['item_url'] = cmall_item_url($product['cit_key']);
+            $product['waveform'] = json_decode($product['waveform'], true);
+            $result[] = $product;
         }
 
         $this->output->set_content_type('text/json');
-        $this->output->set_output(json_encode($similar_products));
+        $this->output->set_output(json_encode($result));
     }
 
     // 음반 기타정보 조회
