@@ -382,19 +382,6 @@ export default {
       this.getList();
       this.getTopList();
     }, 100),
-    addCart(item) {
-      // let detail_qty = {};
-      // detail_qty[this.item['cde_id']] = 1;
-      // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
-      //     if(!r) {
-      //         log.debug('장바구니 담기 실패');
-      //     } else {
-      //         EventBus.$emit('add_cart');
-      //         log.debug('장바구니 담기 성공');
-      //
-      //     }
-      // });
-    },
     selectItem(i) {
       const path = `/detail/${i.cit_key}`;
       window.location.href = this.helper.langUrl(this.$i18n.locale, path);

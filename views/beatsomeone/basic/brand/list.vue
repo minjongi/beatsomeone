@@ -135,12 +135,14 @@
                 </div>
               </h2>
             </div>
+            <div v-if="!list.length" style="text-align: center; padding: 30px 0; opacity: 0.7;">
+              {{ brand.mem_nickname }}님께서 등록한 비트가 없습니다.
+            </div>
             <div class="row">
               <div
                   class="playList"
                   v-infinite-scroll="loading"
                   infinite-scroll-immediate-check="false"
-                  v-if="randomList.length > 0"
               >
                 <transition-group
                     name="staggered-fade"
@@ -150,12 +152,6 @@
                     v-on:enter="enter"
                     v-on:leave="leave"
                 >
-                  <template v-for="item in randomList">
-                    <KeepAliveGlobal :key="'randomList' + item.cit_key">
-                      <Index_Items :item="item" :key="'randomList' + item.cit_key"></Index_Items>
-                    </KeepAliveGlobal>
-                  </template>
-
                   <template v-for="item in list">
                     <KeepAliveGlobal :key="item.cit_key">
                       <Index_Items :item="item" :key="item.cit_key"></Index_Items>
@@ -165,9 +161,6 @@
 
                 <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
               </div>
-                <div v-else style="text-align: center; padding: 30px 0; opacity: 0.7;">
-                    {{ brand.mem_nickname }}님께서 등록한 비트가 없습니다.
-                </div>
             </div>
           </div>
         </div>
@@ -359,31 +352,14 @@ export default {
   },
   methods: {
     loading() {
-      if (!this.randomList.length || this.randomList.length < 10) {
-        return false
-      }
-
       if (this.busy) return;
-      if (this.last_offset === this.offset) return;
+      if (this.last_offset > 0 && this.last_offset === this.offset) return;
       this.busy = true;
       this.getListMore();
     },
     updateAllList: _.debounce(function () {
       this.getList();
     }, 100),
-    addCart(item) {
-      // let detail_qty = {};
-      // detail_qty[this.item['cde_id']] = 1;
-      // Http.post( `/beatsomeoneApi/itemAction`,{stype: 'cart',cit_id:this.item.cit_id,chk_detail:[this.item.cde_id],detail_qty:detail_qty,}).then(r=> {
-      //     if(!r) {
-      //         log.debug('장바구니 담기 실패');
-      //     } else {
-      //         EventBus.$emit('add_cart');
-      //         log.debug('장바구니 담기 성공');
-      //
-      //     }
-      // });
-    },
     selectItem(i) {
       const path = `/detail/${i.cit_key}`;
       window.location.href = this.helper.langUrl(this.$i18n.locale, path);
@@ -392,7 +368,7 @@ export default {
       const p = {
         limit: 10,
         offset: 0,
-        sort: !this.param.sort || this.param.sort === "Sort By" ? "random" : this.param.sort,
+        sort: this.param.sort,
         genre: this.param.currentGenre,
         subgenre: this.param.currentSubgenres,
         bpmFr: this.param.currentBpmFr,
@@ -403,13 +379,9 @@ export default {
         brand_mem_id: this.brand.mem_id
       };
       Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
-        if (!this.param.sort || this.param.sort === "Sort By") {
-          this.randomList = r;
-        } else {
-          this.randomList = [];
-          this.list = r;
-          this.last_offset = this.offset;
-        }
+        this.list = r;
+        this.last_offset = this.offset;
+        this.offset = this.list.length;
       });
     },
     getListMore: _.debounce(function () {
