@@ -33,7 +33,13 @@
       }
     }
   }
-
+  .playList {
+    .playList__item {
+      .playList__title {
+        width: 215px;
+      }
+    }
+  }
   .col {
     &.favorite {
       width: 60px;
@@ -84,6 +90,16 @@
       }
       &.active .selected-option {
         border: none;
+      }
+    }
+  }
+
+  .brandshop-play-list {
+    &.playList {
+      .playList__item {
+        .playList__title {
+          width: 195px;
+        }
       }
     }
   }

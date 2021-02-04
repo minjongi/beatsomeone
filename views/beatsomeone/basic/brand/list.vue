@@ -140,7 +140,7 @@
             </div>
             <div class="row">
               <div
-                  class="playList"
+                  class="playList brandshop-play-list"
                   v-infinite-scroll="loading"
                   infinite-scroll-immediate-check="false"
               >
