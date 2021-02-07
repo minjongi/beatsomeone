@@ -150,8 +150,6 @@ if (!in_array($requestUri[1], $exceptUri)) {
                 header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/ko' );
                 exit;
             }
-        } else if (empty($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], site_url()) !== 0) {
-
         } else if (empty($_COOKIE['locale'])) {
             $httpAcceptLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
             if ($httpAcceptLanguage == 'ko' && empty($_SERVER['QUERY_STRING'])) {
