@@ -138,26 +138,36 @@ $config['url_suffix'] = '';
 $validLocale = ['ko' => 'korean', 'en' => 'english'];
 $requestUri = explode('/', $_SERVER['REQUEST_URI']);
 $exceptUri = ['social', 'pg'];
+
 if (!in_array($requestUri[1], $exceptUri)) {
-    $locale = $_COOKIE['locale'] ?? 'en';
+    $locale = 'en';
     if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === 0) {
         if (!empty($requestUri[1]) && array_key_exists($requestUri[1], $validLocale)) {
             $locale = $requestUri[1];
         } else if (empty($_SERVER['HTTP_REFERER'])) {
             $locale = $_COOKIE['locale'] ?? 'en';
-            if ($locale == 'ko' && empty($_SERVER['QUERY_STRING'])) {
-                setcookie('locale', 'ko', time() + 86400 * 365, '/');
-                header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/ko' );
+            if ($locale !== 'en' && empty($_SERVER['QUERY_STRING'])) {
+                setcookie('locale', $locale, time() + 86400 * 365, '/');
+                header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $locale );
                 exit;
             }
         } else if (empty($_COOKIE['locale'])) {
             $httpAcceptLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
-            if ($httpAcceptLanguage == 'ko' && empty($_SERVER['QUERY_STRING'])) {
-                setcookie('locale', 'ko', time() + 86400 * 365, '/');
-                header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/ko' );
+            if (array_key_exists($httpAcceptLanguage, $validLocale) !== 'en' && empty($_SERVER['QUERY_STRING'])) {
+                setcookie('locale', $httpAcceptLanguage, time() + 86400 * 365, '/');
+                header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $httpAcceptLanguage );
+                exit;
+            }
+        } else if (strpos($_SERVER['HTTP_REFERER'], $config['base_url']) !== 0) {
+            $locale = $_COOKIE['locale'] ?? 'en';
+            if ($locale !== 'en' && empty($_SERVER['QUERY_STRING'])) {
+                setcookie('locale', $locale, time() + 86400 * 365, '/');
+                header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $locale );
                 exit;
             }
         }
+    } else {
+        $locale = $_COOKIE['locale'] ?? 'en';
     }
 
     $config['language'] = $validLocale[$locale] ?? 'english';
