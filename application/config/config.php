@@ -63,7 +63,7 @@ $config['uri_segment_cmall_item'] ='item';  //Cmall item 페이지 주소
  */
 //$config['base_url'] = 'http://bso.dumdum.kr/';
 //$config['base_url'] = 'http://homestead.test';
-$config['base_url'] = 'http://192.168.0.182';
+//$config['base_url'] = 'http://192.168.0.182';
 $config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
 //if (empty($config['base_url'])) exit("&dollar;config&lsqb;&apos;base_url&apos;&rsqb;  need to be set up in application/config/config.php");  // base_url 의 값을 입력하신 후에는 여기 if 문 자체를 주석처리해도 좋습니다
 
@@ -143,7 +143,7 @@ if (!in_array($requestUri[1], $exceptUri)) {
     if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === 0) {
         if (!empty($requestUri[1]) && array_key_exists($requestUri[1], $validLocale)) {
             $locale = $requestUri[1];
-        } else if (empty($_SERVER['HTTP_REFERER'])) {
+        } else if (empty($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $config['base_url']) !== 0) {
             $locale = $_COOKIE['locale'] ?? 'en';
             if ($locale == 'ko' && empty($_SERVER['QUERY_STRING'])) {
                 setcookie('locale', 'ko', time() + 86400 * 365, '/');
