@@ -139,7 +139,7 @@ $validLocale = ['ko' => 'korean', 'en' => 'english'];
 $requestUri = explode('/', $_SERVER['REQUEST_URI']);
 $exceptUri = ['social', 'pg'];
 if (!in_array($requestUri[1], $exceptUri)) {
-    $locale = 'en';
+    $locale = $_COOKIE['locale'] ?? 'en';
     if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === 0) {
         if (!empty($requestUri[1]) && array_key_exists($requestUri[1], $validLocale)) {
             $locale = $requestUri[1];
@@ -150,7 +150,7 @@ if (!in_array($requestUri[1], $exceptUri)) {
                 header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/ko' );
                 exit;
             }
-        } else if (empty($_COOKIE['locale']) || strpos($_SERVER['HTTP_REFERER'], $config['base_url']) !== 0) {
+        } else if (empty($_COOKIE['locale'])) {
             $httpAcceptLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
             if ($httpAcceptLanguage == 'ko' && empty($_SERVER['QUERY_STRING'])) {
                 setcookie('locale', 'ko', time() + 86400 * 365, '/');
@@ -158,8 +158,6 @@ if (!in_array($requestUri[1], $exceptUri)) {
                 exit;
             }
         }
-    } else {
-        $locale = $_COOKIE['locale'] ?? 'en';
     }
 
     $config['language'] = $validLocale[$locale] ?? 'english';
