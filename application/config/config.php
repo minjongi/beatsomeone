@@ -143,7 +143,7 @@ if (!in_array($requestUri[1], $exceptUri)) {
     if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === 0) {
         if (!empty($requestUri[1]) && array_key_exists($requestUri[1], $validLocale)) {
             $locale = $requestUri[1];
-        } else if (empty($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], site_url()) !== 0) {
+        } else if (empty($_SERVER['HTTP_REFERER'])) {
             $locale = $_COOKIE['locale'] ?? 'en';
             if ($locale == 'ko' && empty($_SERVER['QUERY_STRING'])) {
                 setcookie('locale', 'ko', time() + 86400 * 365, '/');
@@ -157,8 +157,6 @@ if (!in_array($requestUri[1], $exceptUri)) {
                 header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/ko' );
                 exit;
             }
-        } else {
-            $locale = $_COOKIE['locale'] ?? 'en';
         }
     } else {
         $locale = $_COOKIE['locale'] ?? 'en';
