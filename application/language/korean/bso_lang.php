@@ -640,3 +640,4 @@ $lang['dashboard_RecentlyListen_notexists'] = '최근 본 비트가 없습니다
 $lang['lang152'] = '이벤트 참여 가능합니다, 미리듣기를 3회 이상 들어보세요!';
 $lang['lang153'] = '이벤트기간 내 신규가입자만 참여 가능합니다.';
 $lang['lang154'] = '3곡 미리듣기 완료! 이벤트에 자동 응모 되었습니다.';
+$lang['lang155'] = '무제한';

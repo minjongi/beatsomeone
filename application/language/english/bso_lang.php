@@ -640,3 +640,4 @@ $lang['dashboard_RecentlyListen_notexists'] = 'No recent checks';
 $lang['lang152'] = 'You must listen to at least 3 previews to participate in the event.';
 $lang['lang153'] = 'This event is only available to members who have signed up during the event period.';
 $lang['lang154'] = 'You have completed 3 previews and entered the event!';
+$lang['lang155'] = 'Unlimited';

@@ -180,9 +180,9 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
-                    <td>{{ $t('unlimited') }}</td>
-                    <td>{{ $t('unlimited') }}</td>
+                    <td>5 → {{ $t('lang155') }}(event)</td>
+                    <td>{{ $t('lang155') }}</td>
+                    <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -321,7 +321,7 @@
                 console.log('this si currentUserType_______', n);
                 this.plan = 'free';
                 if (n === 'seller') {
-                    this.billTerm = 'yearly'
+                    this.billTerm = 'monthly'
                     this.$nextTick(function () {
                         var bg = document.querySelector(".accounts__switch-bg");
                         // 월간

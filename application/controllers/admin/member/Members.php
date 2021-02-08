@@ -1291,6 +1291,7 @@ class Members extends CB_Controller
      */
     public function bulk_registration()
     {
+        ini_set('memoty_limit', '-1');
         set_time_limit(0);
         $file = $_FILES['bulk']['tmp_name'];
 

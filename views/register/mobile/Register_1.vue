@@ -80,7 +80,7 @@
 
                 <tr v-if="test">
                     <td>{{ $t('lang130') }}</td>
-                    <td>{{ $t('unlimited') }}</td>
+                    <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
                     <td>무료비트 다운로드</td>
@@ -142,7 +142,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
+                    <td>5 → {{ $t('lang155') }}(event)</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -200,7 +200,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>{{ $t('unlimited') }}</td>
+                    <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -257,7 +257,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>{{ $t('unlimited') }}</td>
+                    <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -274,7 +274,7 @@
                 <tr v-if="test">
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
-                        {{ $t('unlimited') }}
+                        {{ $t('lang155') }}
                     </td>
                 </tr>
                 <tr>
@@ -474,7 +474,7 @@
                 this.plan = 'free';
                 if (n === 'seller') {
                     this.plan = 'pro';
-                    this.billTerm = 'yearly';
+                    this.billTerm = 'monthly';
                     this.$nextTick(function () {
                         var bg = document.querySelector(".accounts__switch-bg");
                         // 월간

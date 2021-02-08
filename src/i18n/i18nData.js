@@ -640,6 +640,7 @@ export default {
         lang152: '이벤트 참여 가능합니다, 미리듣기를 3회 이상 들어보세요!',
         lang153: '이벤트기간 내 신규가입자만 참여 가능합니다.',
         lang154: '3곡 미리듣기 완료! 이벤트에 자동 응모 되었습니다.',
+        lang155: '무제한',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1281,5 +1282,6 @@ export default {
         lang152: 'You must listen to at least 3 previews to participate in the event.',
         lang153: 'This event is only available to members who have signed up during the event period.',
         lang154: 'You have completed 3 previews and entered the event!',
+        lang155: 'Unlimited',
     } // en
 }

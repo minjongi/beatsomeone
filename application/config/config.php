@@ -137,7 +137,7 @@ $config['url_suffix'] = '';
  */
 $validLocale = ['ko' => 'korean', 'en' => 'english'];
 $requestUri = explode('/', $_SERVER['REQUEST_URI']);
-$exceptUri = ['social', 'pg'];
+$exceptUri = ['social', 'pg', 'admin'];
 
 if (!in_array($requestUri[1], $exceptUri)) {
     $locale = 'en';
