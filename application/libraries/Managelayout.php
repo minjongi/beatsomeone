@@ -143,7 +143,7 @@ class Managelayout extends CI_Controller
             $page_title = 'beatsomeone : 비트썸원';
         }
 
-		$meta_description = element('meta_description', $config) ? element('meta_description', $config) : $CI->cbconfig->item('site_meta_description_default');
+		$meta_description = element('meta_description', $config) ? element('meta_description', $config) : $CI->config->item('meta_description_default');
 		$meta_keywords = element('meta_keywords', $config) ? element('meta_keywords', $config) : $CI->cbconfig->item('site_meta_keywords_default');
 		$meta_author = element('meta_author', $config) ? element('meta_author', $config) : $CI->cbconfig->item('site_meta_author_default');
 		$page_name = element('page_name', $config) ? element('page_name', $config) : $CI->cbconfig->item('site_page_name_default');
