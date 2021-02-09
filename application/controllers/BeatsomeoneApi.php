@@ -764,7 +764,7 @@ class BeatsomeoneApi extends CB_Controller
 
     // 카트 금액 합산 얻기
     public function getCartSum() {
-        if ($this->member->is_member()) {
+        if (!$this->member->is_member()) {
             return false;
         }
 
