@@ -256,7 +256,7 @@ export default {
         moodsEvil: 'Evil (사악한)',
         moodsGiddy: 'Giddy (어지러운)',
         moodsGloomy: 'Gloomy (우울한)',
-        moodsGroovy: 'Groovy (리등감)',
+        moodsGroovy: 'Groovy (리듬감)',
         moodsHappy: 'Happy (행복한)',
         moodsHyper: 'Hyper (들뜨는)',
         moodsKitsch: 'Kitsch (묘한 중독성)',
