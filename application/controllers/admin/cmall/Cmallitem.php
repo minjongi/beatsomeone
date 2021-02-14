@@ -1140,6 +1140,7 @@ class Cmallitem extends CB_Controller
             return;
         }
 
+        $this->load->library('Waveformlib');
         $this->load->library('excel/Spreadsheet_Excel_Reader');
 
         $this->spreadsheet_excel_reader->setOutputEncoding('UTF-8');
@@ -1175,6 +1176,8 @@ class Cmallitem extends CB_Controller
             'moods', //주 무드
             'bpm', //BPM
             'cit_content', //트랙 설명
+            'cit_org_content', //오리지널 체크
+            'cit_type5', //정기구독 체크
         ];
         $totalCount = 0;
         for ($i = 3; $i <= $sheets['numRows']; $i++) {
@@ -1182,6 +1185,12 @@ class Cmallitem extends CB_Controller
             foreach ($fieldList as $filedKey => $filedName) {
                 $itemData[$filedName] = empty($sheets['cells'][$i][$filedKey + 2]) ? '' : $sheets['cells'][$i][$filedKey + 2];
             }
+
+            $itemData['officially_registered'] = $itemData['officially_registered'] != 'Y' ? 0 : 1;
+            $itemData['freebeat'] = $itemData['freebeat'] != 'Y' ? 0 : 1;
+            $itemData['include_copyright_transfer'] = $itemData['include_copyright_transfer'] != 'Y' ? 0 : 1;
+            $itemData['cit_org_content'] = $itemData['cit_org_content'] != 'Y' ? 0 : 1;
+            $itemData['cit_type5'] = $itemData['cit_type5'] != 'Y' ? 0 : 1;
 
             $itemData['licenseLeaseUseYn'] = 1;
             $itemData['licenseStemUseYn'] = empty($itemData['licenseStemPriceKRW']) ? 0 : 1;
@@ -1218,6 +1227,7 @@ class Cmallitem extends CB_Controller
                 }
                 $itemData['hashTag'] = array_unique($tmpHashTag);
             }
+
             $cit_id = $this->Beatsomeone_model->merge_item($itemData);
 
             $fileupdate = array(
@@ -1234,7 +1244,12 @@ class Cmallitem extends CB_Controller
                 'cde_ip' => $itemData["ip"],
                 'cde_status' => 1,
             );
-            $file_id = $this->Cmall_item_detail_model->insert($fileupdate);
+            $this->Cmall_item_detail_model->insert($fileupdate);
+
+            $this->waveformlib->setWaveform($cit_id, 200);
+            $this->cmalllib->make_thumb(APPPATH . '../uploads/cmallitem/', $itemData['artwork']['filename'], 54, 54, 'list');
+            $this->cmalllib->make_thumb(APPPATH . '../uploads/cmallitem/', $itemData['artwork']['filename'], 200, 200, '200');
+
             $totalCount++;
         }
 
