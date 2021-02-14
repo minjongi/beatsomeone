@@ -559,7 +559,9 @@ class Beatsomeone_model extends CB_Model
                 'cit_mastering_license_use' => $p['licenseStemUseYn'],
                 'cit_freebeat' => $p['freebeat'],
                 'cit_include_copyright_transfer' => $p['include_copyright_transfer'],
-                'cit_officially_registered' => $p['officially_registered']
+                'cit_officially_registered' => $p['officially_registered'],
+                'cit_org_content' => $p['cit_org_content'],
+                'cit_type5' => $p['cit_type5'],
             );
             if (!empty($p["artwork"]['filename'])) {
                 $data["cit_file_1"] = $p["artwork"]['filename'];
@@ -672,7 +674,9 @@ class Beatsomeone_model extends CB_Model
                 'cit_mastering_license_use' => $p['licenseStemUseYn'],
                 'cit_freebeat' => $p['freebeat'],
                 'cit_include_copyright_transfer' => $p['include_copyright_transfer'],
-                'cit_officially_registered' => $p['officially_registered']
+                'cit_officially_registered' => $p['officially_registered'],
+                'cit_org_content' => $p['cit_org_content'],
+                'cit_type5' => $p['cit_type5'],
             );
             if (!empty($p["artwork"]['filename'])) {
                 $data["cit_file_1"] = $p["artwork"]['filename'];
