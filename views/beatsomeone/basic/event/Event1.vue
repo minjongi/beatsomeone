@@ -3,7 +3,7 @@
         <Header :is-login="isLogin"></Header>
         <div class="container sub event-content" style="position: relative;">
           <div><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/p1.png'"></div>
-          <div><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/p2.png'"></div>
+          <div><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/p2-1.png'"></div>
           <div><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/p3.png'"></div>
           <div style="position:fixed;bottom:0;left:50%;transform: translate(-50%, 0);"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/p_btn.png'" @click="goEvent()"></div>
         </div>

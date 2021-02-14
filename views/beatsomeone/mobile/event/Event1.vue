@@ -4,7 +4,7 @@
             <Header :is-login="isLogin"></Header>
             <div class="container sub event-content">
               <div><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/p1.png'"></div>
-              <div><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/p2.png'"></div>
+              <div><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/p2-1.png'"></div>
               <div><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/p3.png'"></div>
               <div style="position:fixed;bottom:0;width:100%;max-width:680px;"><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/p_btn.png'" @click="goEvent()"></div>
             </div>
