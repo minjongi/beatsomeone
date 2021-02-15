@@ -7,7 +7,7 @@
             <div class="accounts__case">
                 <label for="listen" class="case case--listen">
                     <input type="radio" name="case" id="listen" hidden :checked="currentUserType == 'buyer'"/>
-                    <div @click="currentUserType = 'buyer'">
+                    <div @click="setCurrentUserType('buyer')">
                         <span class="icon"></span>
                         <p>{{ $t ('listenAndBuyMusic1') }}<br/>{{ $t ('listenAndBuyMusic2') }}</p>
                     </div>
@@ -15,7 +15,7 @@
 
                 <label for="monetize" class="case case--monetize">
                     <input type="radio" name="case" id="monetize" hidden :checked="currentUserType == 'seller'"/>
-                    <div @click="currentUserType = 'seller'">
+                    <div @click="setCurrentUserType('seller')">
                         <span class="icon"></span>
                         <p>{{ $t('monetizeMyMusic1') }}<br/>{{ $t('monetizeMyMusic2') }}</p>
                     </div>
@@ -24,11 +24,11 @@
 
             <div class="accounts__switch" v-if="isMusician">
                 <span class="accounts__switch-bg" :class="billTerm == 'yearly' ? 'right' : ''"></span>
-                <label for="monthly" @click="billTerm = 'monthly'">
+                <label for="monthly" @click="setBillTerm('monthly')">
                     <input type="radio" id="monthly" hidden name="bill" :checked="billTerm == 'monthly'"/>
                     <span>{{ $t('billMonthly') }}</span>
                 </label>
-                <label for="yearly" @click="billTerm = 'yearly'">
+                <label for="yearly" @click="setBillTerm('yearly')">
                     <input type="radio" id="yearly" hidden name="bill" :checked="billTerm == 'yearly'"/>
                     <span>
                         {{ $t('billYearly') }}
@@ -54,14 +54,14 @@
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </th>
-                    <th v-if="test">
+                    <th>
                         <p>
                             {{ $t('lang128') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
                     </th>
-                    <th v-if="test">
+                    <th>
                         <p>
                             {{ $t('lang129') }}
                         </p>
@@ -71,7 +71,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-if="test">
+                <tr>
                     <td>{{ $t('downloadBackgroundMusic') }}</td>
                     <td> <span class="check">1</span></td>
                     <td>20건</td>
@@ -82,10 +82,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -94,10 +94,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -106,10 +106,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -118,10 +118,10 @@
                     <td>
                         <span class="check">O</span>
                     </td>
-                     <td v-if="test">
+                     <td>
                         <span class="check">O</span>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <span class="check">O</span>
                     </td>
                 </tr>
@@ -131,10 +131,10 @@
                     <td>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
-                    <td v-if="test">
+                    <td>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
@@ -208,7 +208,7 @@
                         {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
                     </td>
                 </tr>
-                <tr v-if="test">
+                <tr>
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         10<br>(1{{ $t('month') }})
@@ -274,7 +274,6 @@
                 subscribedCommon: {},
                 subscribedCreater: {},
                 buyerFree: {},
-                test: false
             }
         },
         filters: {
@@ -295,10 +294,6 @@
             this.billTerm = localStorage.getItem("bill_term") || this.billTerm
             this.currentUserType = localStorage.getItem("UserOffer") || this.currentUserType
             this.fetchData();
-
-            if (window.location.search === '?t=1') {
-              this.test = true
-            }
         },
         mounted() {
             var bg = document.querySelector(".accounts__switch-bg");
@@ -314,14 +309,14 @@
             //         bg.classList.add("right");
             //     }
             // });
-            localStorage.clear();
+            // localStorage.clear();
         },
         watch: {
             currentUserType(n) {
                 console.log('this si currentUserType_______', n);
                 this.plan = 'free';
                 if (n === 'seller') {
-                    this.billTerm = 'monthly'
+                    // this.billTerm = 'monthly'
                     this.$nextTick(function () {
                         var bg = document.querySelector(".accounts__switch-bg");
                         // 월간
@@ -341,6 +336,14 @@
             }
         },
         methods: {
+            setBillTerm(billTerm) {
+              localStorage.setItem('bill_term', billTerm)
+              this.billTerm = billTerm
+            },
+            setCurrentUserType(type) {
+              localStorage.setItem('UserOffer', type)
+              this.currentUserType = type
+            },
             doNext(group) {
                 let billTerm = this.currentUserType === 'buyer' ? 'monthly' : this.billTerm
                 this.$store.dispatch('setUserInfo', {

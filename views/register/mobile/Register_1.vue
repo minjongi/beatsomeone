@@ -9,7 +9,7 @@
                 <div class="accounts__case">
                     <label for="listen " class="case case--listen">
                         <input type="radio" name="case" id="listen " hidden :checked="currentUserType == 'buyer'"/>
-                        <div @click="currentUserType = 'buyer'">
+                        <div @click="setCurrentUserType('buyer')">
                             <span class="icon"></span>
                             <p>{{ $t ('listenAndBuyMusic1') }}<br />{{ $t ('listenAndBuyMusic2') }}</p>
                         </div>
@@ -17,7 +17,7 @@
 
                     <label for="monetize" class="case case--monetize">
                         <input type="radio" name="case" id="monetize" hidden :checked="currentUserType == 'seller'"/>
-                        <div @click="currentUserType = 'seller'">
+                        <div @click="setCurrentUserType('seller')">
                             <span class="icon"></span>
                             <p>{{ $t('monetizeMyMusic1') }}<br />{{ $t('monetizeMyMusic2') }}</p>
                         </div>
@@ -26,11 +26,11 @@
 
                 <div class="accounts__switch" v-if="isMusician">
                     <span class="accounts__switch-bg" :class="billTerm == 'yearly' ? 'right' : ''"></span>
-                    <label for="monthly" @click="billTerm = 'monthly'">
+                    <label for="monthly" @click="setBillTerm('monthly')">
                         <input type="radio" id="monthly" hidden name="bill" :checked="billTerm == 'monthly'"/>
                         <span>{{ $t('billMonthly') }}</span>
                     </label>
-                    <label for="yearly" @click="billTerm = 'yearly'">
+                    <label for="yearly" @click="setBillTerm('yearly')">
                         <input type="radio" id="yearly" hidden name="bill" :checked="billTerm == 'yearly'"/>
                         <span>
                             {{ $t('billYearly') }}
@@ -51,10 +51,10 @@
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
             </button> 
-            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician && test"  style="padding: 0 9px !important;">
+            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician"  style="padding: 0 9px !important;">
                 {{ $t('lang128') }}
             </button>
-             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician && test"  style="padding: 0 9px !important;">
+             <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician"  style="padding: 0 9px !important;">
                 {{ $t('lang129') }}
             </button>
         </div>
@@ -78,7 +78,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr v-if="test">
+                <tr>
                     <td>{{ $t('lang130') }}</td>
                     <td>{{ $t('lang155') }}</td>
                 </tr>
@@ -156,7 +156,7 @@
                         {{ sellerFreeGroup.mgr_commission }}%
                     </td>
                 </tr>
-                <tr v-if="test">
+                <tr>
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         10<br>(1{{ $t('month') }})
@@ -214,7 +214,7 @@
                         {{ sellerPlatinumGroup.mgr_commission }}%
                     </td>
                 </tr>
-                <tr v-if="test">
+                <tr>
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         20
@@ -271,7 +271,7 @@
                         {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
                     </td>
                 </tr>
-                <tr v-if="test">
+                <tr>
                     <td>{{ $t('personalChatFunction') }}</td>
                     <td>
                         {{ $t('lang155') }}
@@ -313,7 +313,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr v-if="test">
+                <tr>
                     <td>{{ $t('lang130') }}</td>
                     <td>20건</td>
                 </tr>
@@ -375,7 +375,7 @@
                 </colgroup>
                 <tbody>
 
-                <tr v-if="test">
+                <tr>
                     <td>{{ $t('lang130') }}</td>
                     <td>10건</td>
                 </tr>
@@ -442,7 +442,6 @@
                 selectedGroup: {},
                 subscribedCommon: {},
                 subscribedCreater: {},
-                test: false
             }
         },
         filters: {
@@ -461,10 +460,6 @@
             this.billTerm = localStorage.getItem("bill_term") || this.billTerm
             this.currentUserType = localStorage.getItem("UserOffer") || this.currentUserType
             this.fetchData();
-
-            if (window.location.search === '?t=1') {
-              this.test = true
-            }
         },
         mounted() {
             
@@ -496,6 +491,14 @@
             }
         },
         methods: {
+            setBillTerm(billTerm) {
+              localStorage.setItem('bill_term', billTerm)
+              this.billTerm = billTerm
+            },
+            setCurrentUserType(type) {
+              localStorage.setItem('UserOffer', type)
+              this.currentUserType = type
+            },
             doNext(group) {
                 let billTerm = this.currentUserType === 'buyer' ? 'monthly' : this.billTerm
                 this.$store.dispatch('setUserInfo', {
