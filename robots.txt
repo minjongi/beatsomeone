@@ -1,2 +1,4 @@
 User-agent: *
 Sitemap: https://beatsomeone.com/sitemap.xml
+Disallow: /post/
+Disallow: //event/join?*
