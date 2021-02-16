@@ -1933,4 +1933,26 @@ class BeatsomeoneApi extends CB_Controller
             $this->blockchainMint($val['cit_id']);
         }
     }
+
+    public function genWaveformData()
+    {
+        set_time_limit(0);
+
+        $this->load->model('Beatsomeone_model');
+        $this->load->library('Waveformlib');
+        $cit_id = $this->input->get('cit_id');
+        $idList = explode(',', $cit_id);
+
+        $total = 0;
+        foreach ($idList as $id) {
+            if (!trim($id)) {
+                continue;
+            }
+            echo 'id : ' . $id . '<br>';
+            $this->waveformlib->setWaveform(trim($id), 200);
+            $total++;
+        }
+
+        echo '처리완료 : ' . $total;
+    }
 }
