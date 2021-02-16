@@ -181,7 +181,7 @@ if (!in_array($requestUri[1], $exceptUri)) {
         $config['author'] = '비트썸원, beatsomeone';
         $config['meta_description_default'] = '비트썸원(beatsomeone)은 작곡가&비트메이커의 비트와 음악 라이선스를 구매 및 판매 할 수 있는 글로벌 마켓 입니다.';
     } else {
-        $config['switchLangUrl'] = '/ko' . $_SERVER['REQUEST_URI'];
+        $config['switchLangUrl'] = '/ko' . str_replace('/ko', '/', $_SERVER['REQUEST_URI']);
         $config['canonicalUrl'] = $config['alternateUrlEn'];
         $config['lang'] = 'en-US';
         $config['author'] = 'beatsomeone, 비트썸원';
