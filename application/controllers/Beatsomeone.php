@@ -146,10 +146,13 @@ class Beatsomeone extends CB_Controller
             'og_description' => $meta_description,
         );
 
-        $view['seoViewData']['main_list'] = $this->main_list();
-        $view['seoViewData']['main_trending_list'] = $this->main_trending_list();
-        $view['seoViewData']['main_testimonials_list'] = $this->main_testimonials_list();
-        $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/beatsomeone_seo' : 'beatsomeone/basic/beatsomeone_seo';
+        if ($this->agent->is_robot()) {
+            log_message('debug', 'ROBOT : ' . $this->agent->robot());
+            $view['seoViewData']['main_list'] = $this->main_list();
+            $view['seoViewData']['main_trending_list'] = $this->main_trending_list();
+            $view['seoViewData']['main_testimonials_list'] = $this->main_testimonials_list();
+            $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/beatsomeone_seo' : 'beatsomeone/basic/beatsomeone_seo';
+        }
 
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $view['layout']['facebook_app_id'] = $facebook_app_id;
@@ -310,9 +313,12 @@ class Beatsomeone extends CB_Controller
             'og_image' => site_url() . 'uploads/cmallitem/' . $view['view']['item']['cit_file_1'],
         );
 
-        $view['seoViewData']['detail_similartracks_list'] = $this->detail_similartracks_list($view['view']['item']['cit_id']);
-        $view['seoViewData']['hashTag'] = explode(',', $view['view']['item']['hashTag']);
-        $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/detail_seo' : 'beatsomeone/basic/detail_seo';
+        if ($this->agent->is_robot()) {
+            log_message('debug', 'ROBOT : ' . $this->agent->robot());
+            $view['seoViewData']['detail_similartracks_list'] = $this->detail_similartracks_list($view['view']['item']['cit_id']);
+            $view['seoViewData']['hashTag'] = explode(',', $view['view']['item']['hashTag']);
+            $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/detail_seo' : 'beatsomeone/basic/detail_seo';
+        }
 
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;
@@ -415,9 +421,12 @@ class Beatsomeone extends CB_Controller
             'page_name' => $page_name,
         );
 
-        $view['seoViewData']['sublist_top_list'] = $this->sublist_top_list();
-        $view['seoViewData']['sublist_list'] = $this->sublist_list();
-        $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/sublist_seo' : 'beatsomeone/basic/sublist_seo';
+        if ($this->agent->is_robot()) {
+            log_message('debug', 'ROBOT : ' . $this->agent->robot());
+            $view['seoViewData']['sublist_top_list'] = $this->sublist_top_list();
+            $view['seoViewData']['sublist_list'] = $this->sublist_list();
+            $view['seoView'] = $this->cbconfig->get_device_view_type() === 'mobile' ? 'beatsomeone/mobile/sublist_seo' : 'beatsomeone/basic/sublist_seo';
+        }
 
         $view['layout'] = $this->managelayout->front($layoutconfig, $this->cbconfig->get_device_view_type());
         $this->data = $view;

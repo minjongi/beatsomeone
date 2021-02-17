@@ -87,7 +87,8 @@ $browsers = array(
 	'amaya'			=> 'Amaya',
 	'IBrowse'		=> 'IBrowse',
 	'Maxthon'		=> 'Maxthon',
-	'Ubuntu'		=> 'Ubuntu Web Browser'
+	'Ubuntu'		=> 'Ubuntu Web Browser',
+    'Vivaldi'       => 'Vivaldi',
 );
 
 $mobiles = array(
@@ -210,5 +211,7 @@ $robots = array(
 	'curious george'	=> 'Curious George',
 	'ia_archiver'		=> 'Alexa Crawler',
 	'MJ12bot'		=> 'Majestic-12',
-	'Uptimebot'		=> 'Uptimebot'
+	'Uptimebot'		=> 'Uptimebot',
+    'Yeti'          => 'Naver',
+    'Daumoa'          => 'Daum',
 );
