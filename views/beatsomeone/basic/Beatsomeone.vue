@@ -298,9 +298,9 @@
             if (this.member_group_name) {
               this.remainDownloadNumber();
             }
-            if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
-              this.openPopup()
-            }
+            // if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
+            //   this.openPopup()
+            // }
             // if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
             //   this.openPopup1()
             // }
