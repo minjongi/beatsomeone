@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div v-if="popup">
-          <div class="noti-wrap"></div>
-          <div class="noti-content">
-            <div>
-              <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/1.png'"></a>
-            </div>
-            <div>
-              <img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">
-            </div>
-          </div>
-        </div>
+<!--        <div v-if="popup">-->
+<!--          <div class="noti-wrap"></div>-->
+<!--          <div class="noti-content">-->
+<!--            <div>-->
+<!--              <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/1.png'"></a>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
         <div v-if="popup1">
           <div class="noti-wrap"></div>
           <div class="noti-content">
