@@ -721,7 +721,6 @@ export default {
     },
     // 저장
     doSubmit() {
-        console.log(this.item.licenseLeasePriceUSD);
       if (this.processStatus) {
         return false;
       }

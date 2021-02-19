@@ -27,7 +27,7 @@
                 <p><i class="far fa-map-marker-alt mr-1"></i>{{ member.mem_address1 }}</p>
             </div>
             <div class="col text-center">
-                <p><i class="fas fa-store-alt mr-1"></i><a class="text-light" href="#">{{ $t('goToBrandshop') }} ></a></p>
+                <p><i class="fas fa-store-alt mr-1"></i><a class="text-light" href="#">{{ $t('goToBrandshop') }}</a></p>
             </div>
         </div>
     </div>

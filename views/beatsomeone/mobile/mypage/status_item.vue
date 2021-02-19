@@ -27,7 +27,7 @@
                                         <img class="site" src="/assets/images/icon/position.png"/><div>Seoul, South Korea</div>
                                     </div>
                                     <div class="brandshop">
-                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }} ></a>
+                                        <img class="shop" src="/assets/images/icon/shop.png"/><a href="#">{{ $t('goToBrandshop') }}</a>
                                     </div>
                                 </div>
                             </div>

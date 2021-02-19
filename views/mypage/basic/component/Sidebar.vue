@@ -22,7 +22,7 @@
             </h5>
             <p>
                 <span class="far fa-map-marker-alt mr-1"></span>{{ member.mem_address1 }} <br>
-                <span class="fas fa-store-alt mr-1"></span><a class="text-light" href="#">{{ $t('goToBrandshop') }} ></a>
+                <span class="fas fa-store-alt mr-1"></span><a class="text-light" href="#">{{ $t('goToBrandshop') }}</a>
             </p>
         </div>
         <div class="side-menu">

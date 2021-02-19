@@ -318,4 +318,10 @@
     .playList .playList__item .subject {
         color: white;
     }
+    .sub .search.condition {
+      width: 100%;
+      .filter {
+        display: flex;
+      }
+    }
 </style>

@@ -44,7 +44,7 @@
                 <div class="brandshop">
                   <img class="shop" src="/assets/images/icon/shop.png" /><a
                     href="#"
-                    >{{ $t('goToBrandshop') }} ></a
+                    >{{ $t('goToBrandshop') }}</a
                   >
                 </div>
               </div>

@@ -5,10 +5,6 @@
             <Dashboard_SettlementOverview :data="settlement_summary"></Dashboard_SettlementOverview>
         </div>
 
-        <div class="row" v-if="isSeller">
-            <Dashboard_Chart v-if="chart_data" :data="chart_data"></Dashboard_Chart>
-        </div>
-
         <div class="row double">
             <Dashboard_OrderDetails :data="order_summary"></Dashboard_OrderDetails>
             <Dashboard_ExpiredSoon :data="expired_soon_items"></Dashboard_ExpiredSoon>
@@ -35,7 +31,6 @@
     import Dashboard_OrderDetails from "./component/Dashboard_OrderDetails";
     import Dashboard_ExpiredSoon from "./component/Dashboard_ExpiredSoon";
     import Dashboard_ProductDetails from "./component/Dashboard_ProductDetails";
-    import Dashboard_Chart from "./component/Dashboard_Chart";
     import Dashboard_SettlementOverview from "./component/Dashboard_SettlementOverview";
 
     import Dashboard_RecentlyListen from "./component/Dashboard_RecentlyListen";
@@ -49,7 +44,6 @@
             Dashboard_RecentlyListen,
 
             Dashboard_SettlementOverview,
-            Dashboard_Chart,
             Dashboard_ProductDetails,
             Dashboard_ExpiredSoon,
             Dashboard_OrderDetails,
