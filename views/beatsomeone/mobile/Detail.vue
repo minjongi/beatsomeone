@@ -7,7 +7,7 @@
                     <div class="detail__music">
                         <div class="detail__music-img">
                             <button class="btn-play amplitude-play-pause " v-if="item">
-                                <img :src="'/uploads/cmallitem/' + item.cit_file_1" :alt="item.cit_name"/>
+                                <img :src="'/uploads/cmallitem/' + (!!item.cit_file_1 ? item.cit_file_1 : 'cover_default.png')" :alt="item.cit_name"/>
                             </button>
                         </div>
 

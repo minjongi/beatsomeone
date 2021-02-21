@@ -39,7 +39,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">트랙명</label>
                 <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control" name="cit_name" value="<?php echo set_value('cit_name', element('cit_name', element('data', $view))); ?>"/>
+                    <input type="text" class="form-control block" style="width:100%;" name="cit_name" value="<?php echo set_value('cit_name', element('cit_name', element('data', $view))); ?>"/>
                 </div>
             </div>
             <input type="hidden" class="form-control" name="cit_order" value="<?php echo set_value('cit_order', element('cit_order', element('data', $view))) ?? 0; ?>"/>
@@ -47,7 +47,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">태그</label>
                 <div class="col-sm-10 form-inline">
-                    <input type="text" class="form-control" name="info_content_7" value="<?php echo set_value('info_content_7', element('info_content_7', element('data', $view))); ?>"/>
+                    <input type="text" class="form-control" style="width:100%;" name="info_content_7" value="<?php echo set_value('info_content_7', element('info_content_7', element('data', $view))); ?>"/>
                 </div>
             </div>
 
@@ -372,6 +372,42 @@
             </div>
             <input type="hidden" class="form-control" name="cit_download_days" value="<?php echo set_value('cit_download_days', (int)element('cit_download_days', element('data', $view))); ?>"/>
         </div>
+
+
+
+        <div class="box-table-header">
+            <h4><a data-toggle="collapse" href="#cmalltab8" aria-expanded="true" aria-controls="cmalltab8">내부 태그</a></h4>
+            <a data-toggle="collapse" href="#cmalltab8" aria-expanded="true" aria-controls="cmalltab8"><i class="fa fa-chevron-up pull-right"></i></a>
+        </div>
+        <div class="collapse in" id="cmalltab8">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">유사한 곡명</label>
+                <div class="col-sm-10 form-inline">
+                    <input type="text" class="form-control" style="width:100%;" name="similar_song" value="<?php echo set_value('similar_song', element('similar_song', element('data', $view))); ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">유사한 가수</label>
+                <div class="col-sm-10 form-inline">
+                    <input type="text" class="form-control" style="width:100%;" name="similar_singer" value="<?php echo set_value('similar_singer', element('similar_singer', element('data', $view))); ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">유사한 뮤지션(작곡가/프로듀서/비트메이커)</label>
+                <div class="col-sm-10 form-inline">
+                    <input type="text" class="form-control" style="width:100%;" name="similar_musicians" value="<?php echo set_value('similar_musicians', element('similar_musicians', element('data', $view))); ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">기타 태그</label>
+                <div class="col-sm-10 form-inline">
+                    <input type="text" class="form-control" style="width:100%;" name="other_tags" value="<?php echo set_value('other_tags', element('other_tags', element('data', $view))); ?>"/>
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="box-table-header">
             <h4><a data-toggle="collapse" href="#cmalltab7" aria-expanded="true" aria-controls="cmalltab7">관련상품</a></h4>
             <a data-toggle="collapse" href="#cmalltab7" aria-expanded="true" aria-controls="cmalltab7"><i class="fa fa-chevron-up pull-right"></i></a>

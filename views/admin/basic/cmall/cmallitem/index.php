@@ -1,13 +1,63 @@
 <div class="box">
-	<div class="box-table">
-    <div>
-      <form action="/admin/cmall/cmallitem/bulk_registration" name="bulk-reg" id="bulk-reg" method="post" enctype="multipart/form-data">
-        <div style="display: inline-block">대량등록 : </div>
-        <div style="display: inline-block;border: 1px solid #DCDCDC;"><input type="file" name="bulk"></div>
-        <div style="display: inline-block"><input type="submit" value="등록하기"></div>
-      </form>
-    </div>
-		<?php
+    <div class="box-table">
+        <div>
+            <script>
+                function proc_search() {
+                    $('#fsearch1').submit();
+                }
+            </script>
+            <form name="fsearch1" id="fsearch1" action="<?php echo current_full_url(); ?>" method="get">
+                <div style="padding: 10px;">
+
+                </div>
+                <div class="box-search">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span style="border:1px solid #dcdcdc;padding: 10px;margin-right:10px;">
+                                <label>
+                                    <input type="radio" name="stype" value="" checked onclick="proc_search();"> 전체
+                                </label>
+                                <label>
+                                    <input type="radio" name="stype" value="free" <?= (element('stype', $view) == 'free') ? 'checked' : '' ?> onclick="proc_search();"> 무료비트
+                                </label>
+                                <label>
+                                    <input type="radio" name="stype" value="org" <?= (element('stype', $view) == 'org') ? 'checked' : '' ?> onclick="proc_search();"> 오리지널콘텐츠
+                                </label>
+                                <label>
+                                    <input type="radio" name="stype" value="subscribe" <?= (element('stype', $view) == 'subscribe') ? 'checked' : '' ?> onclick="proc_search();"> 정기구독
+                                </label>
+                            </span>
+                            <span style="border:1px solid #dcdcdc;padding: 10px;margin-right:10px;">
+                                <label>
+                                    <input type="checkbox" name="type1" value="1" <?= (element('type1', $view) == '1') ? 'checked' : '' ?> onclick="proc_search();"> 추천
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="type2" value="1" <?= (element('type2', $view) == '1') ? 'checked' : '' ?> onclick="proc_search();"> 인기
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="type3" value="1" <?= (element('type3', $view) == '1') ? 'checked' : '' ?> onclick="proc_search();"> 신상품
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="type5" value="1" <?= (element('type5', $view) == '1') ? 'checked' : '' ?> onclick="proc_search();"> 구독
+                                </label>
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-control" name="sfield">
+                                <?php echo element('search_option', $view); ?>
+                            </select>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="skeyword" value="<?php echo html_escape(element('skeyword', $view)); ?>" placeholder="Search for..."/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" name="search_submit" type="submit">검색!</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <?php
 		echo show_alert_message($this->session->flashdata('message'), '<div class="alert alert-auto-close alert-dismissible alert-info"><button type="button" class="close alertclose" >&times;</button>', '</div>');
 		$attributes = array('class' => 'form-inline', 'name' => 'flist', 'id' => 'flist');
 		echo form_open(current_full_url(), $attributes);
@@ -101,22 +151,12 @@
 				<?php echo $buttons; ?>
 			</div>
 		<?php echo form_close(); ?>
+        <div style="margin: 20px 0;">
+            <form action="/admin/cmall/cmallitem/bulk_registration" name="bulk-reg" id="bulk-reg" method="post" enctype="multipart/form-data">
+                <div style="display: inline-block">대량등록 :</div>
+                <div style="display: inline-block;border: 1px solid #DCDCDC;"><input type="file" name="bulk"></div>
+                <div style="display: inline-block"><input type="submit" value="등록하기"></div>
+            </form>
+        </div>
 	</div>
-	<form name="fsearch" id="fsearch" action="<?php echo current_full_url(); ?>" method="get">
-		<div class="box-search">
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3">
-					<select class="form-control" name="sfield" >
-						<?php echo element('search_option', $view); ?>
-					</select>
-					<div class="input-group">
-						<input type="text" class="form-control" name="skeyword" value="<?php echo html_escape(element('skeyword', $view)); ?>" placeholder="Search for..." />
-						<span class="input-group-btn">
-							<button class="btn btn-default btn-sm" name="search_submit" type="submit">검색!</button>
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
 </div>

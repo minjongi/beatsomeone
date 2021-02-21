@@ -583,6 +583,7 @@ class BeatsomeoneApi extends CB_Controller
         $this->load->library('upload');
 
         // Form Parse
+        $memInfo = $this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid, mem_nickname');
         $form = array(
             'cit_id' => $this->input->post('cit_id'),
             'cit_key' => $this->input->post('cit_key'),
@@ -612,7 +613,8 @@ class BeatsomeoneApi extends CB_Controller
             'cde_id_2' => $this->input->post('cde_id_2'),
             'cde_id_3' => $this->input->post('cde_id_3'),
             "mem_id" => $this->member->item('mem_id'),
-            "mem_userid" => element('mem_userid',$this->Member_model->get_by_memid($this->member->item('mem_id'), 'mem_userid')),
+            "mem_userid" => element('mem_userid', $memInfo),
+            "mem_nickname" => element('mem_nickname', $memInfo),
             "ip" => $this->input->ip_address(),
             'freebeat' => $this->input->post('freebeat'),
             'include_copyright_transfer' => $this->input->post('include_copyright_transfer'),
@@ -1952,6 +1954,57 @@ class BeatsomeoneApi extends CB_Controller
             $total++;
         }
 
+        echo '처리완료 : ' . $total;
+    }
+
+    public function genSearchData()
+    {
+        set_time_limit(0);
+
+        $this->load->model('Beatsomeone_model');
+        $items = $this->Beatsomeone_model->get_gen_search_data();
+
+        foreach ($items as $val) {
+            $infoContent6 = [];
+            $infoContent1 = [];
+            $infoContent4 = [];
+            $infoContent5 = [];
+            foreach ($this->config->item('validLocale') as $lang) {
+                $this->lang->load('bso_lang', $lang);
+                $infoContent6[] = lang('trackType' . str_replace('-', '', str_replace(' ', '', $val['trackType'])));
+                $infoContent1[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $val['genre'])));
+                $infoContent4[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $val['subgenre'])));
+                $infoContent5[] = lang('moods' . str_replace('-', '', str_replace(' ', '', $val['moods'])));
+            }
+            $infoContent6 = implode('|', array_unique($infoContent6));
+            $infoContent1 = implode('|', array_unique($infoContent1));
+            $infoContent4 = implode('|', array_unique($infoContent4));
+            $infoContent5 = implode('|', array_unique($infoContent5));
+
+            $searchData = gen_search_data([
+                $val['cit_name'],
+                $val['mem_nickname'],
+                $infoContent1,
+                $infoContent4,
+                $infoContent5,
+                $val['bpm'],
+                $infoContent6
+            ]);
+
+            $expandSearchData = gen_search_data([
+                $infoContent1,
+                $infoContent4,
+                $infoContent5,
+                $val['hashTag'],
+                $val['similar_song'],
+                $val['similar_singer'],
+                $val['similar_musicians'],
+                $val['other_tags']
+            ]);
+
+            $this->Beatsomeone_model->set_search_data($val['cit_id'], $searchData, $expandSearchData);
+            $total++;
+        }
         echo '처리완료 : ' . $total;
     }
 }

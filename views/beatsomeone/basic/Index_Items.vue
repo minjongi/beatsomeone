@@ -13,7 +13,7 @@
 
             <div class="col name">
                 <figure>
-                    <span class="playList__cover"><img :src="'/uploads/cmallitem/' + item.thumb" alt/><i class="label new" v-show="item.is_new === true">N</i></span>
+                    <span class="playList__cover"><img :src="'/uploads/cmallitem/' + (!!item.thumb ? item.thumb : 'cover_default.png')" alt/><i class="label new" v-show="item.is_new === true">N</i></span>
                     <a :href="helper.langUrl($i18n.locale, '/detail/' + item.cit_key)">
                       <figcaption class="pointer">
                         <h3 class="playList__title">{{ truncate(item.cit_name, 30) }}</h3>

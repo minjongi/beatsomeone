@@ -13,7 +13,7 @@
             <div class="col name">
               <figure>
                 <div class="playList__cover" @click="selectItem(item)">
-                  <img :src="'/uploads/cmallitem/' + item.thumb" alt/>
+                  <img :src="'/uploads/cmallitem/' + (!!item.thumb ? item.thumb : 'cover_default.png')" alt/>
                   <i v-if="item.is_new" class="label new">N</i>
                 </div>
                 <button :data-action="'playAction' + item.cit_id " class="btn-play" @click="playAudio(item)">재생</button>

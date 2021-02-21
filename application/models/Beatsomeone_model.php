@@ -238,7 +238,8 @@ class Beatsomeone_model extends CB_Model
 
         // search
         if ($search) {
-            $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
+//            $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
+            $this->db->where("cb_cmall_item.search_data like '%" . $search . "%'", null, false);
         }
 
         $genreWhere = [];
@@ -545,9 +546,67 @@ class Beatsomeone_model extends CB_Model
         $cit_id = null;
         $fileList = ['unTaggedFile' => 'LEASE', 'stemFile' => 'STEM', 'streamingFile' => 'TAGGED'];
 
+        $hashTag = '';
+        if (!empty($p['hashTag'])) {
+            $hashTag = implode(',', $p['hashTag']);
+            foreach ($p['hashTag'] as $tagName) {
+                $tmpData = $this->db->query("SELECT cht_id FROM cb_cmall_item_hash_tag WHERE tag_name = ?", $tagName)->row_array();
+                if (empty($tmpData['cht_id'])) {
+                    $this->db->insert('cmall_item_hash_tag', ['tag_name' => $tagName, 'tagged_count' => 1]);
+                    continue;
+                }
+
+                $this->db->where('cht_id', $tmpData['cht_id']);
+                $this->db->set('tagged_count', 'tagged_count + 1', false);
+                $this->db->update('cmall_item_hash_tag');
+            }
+        }
+
+        $infoContent6 = [];
+        $infoContent1 = [];
+        $infoContent4 = [];
+        $infoContent5 = [];
+        foreach ($this->config->item('validLocale') as $lang) {
+            $this->lang->load('bso_lang', $lang);
+            $infoContent6[] = lang('trackType' . str_replace('-', '', str_replace(' ', '', $p['trackType'])));
+            $infoContent1[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $p['genre'])));
+            $infoContent4[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $p['subgenre'])));
+            $infoContent5[] = lang('moods' . str_replace('-', '', str_replace(' ', '', $p['moods'])));
+        }
+        $infoContent6 = implode('|', array_unique($infoContent6));
+        $infoContent1 = implode('|', array_unique($infoContent1));
+        $infoContent4 = implode('|', array_unique($infoContent4));
+        $infoContent5 = implode('|', array_unique($infoContent5));
+
+        $searchData = gen_search_data([
+            $p['cit_name'],
+            $p['mem_nickname'],
+            $infoContent1,
+            $infoContent4,
+            $infoContent5,
+            $p['bpm'],
+            $infoContent6
+        ]);
+
+        $expandSearchData = gen_search_data([
+            $infoContent1,
+            $infoContent4,
+            $infoContent5,
+            $hashTag,
+        ]);
+
         // 만약 cit_id 존재 시 업데이트
         if(!empty($p["cit_id"])) {
             $cit_id = $p["cit_id"];
+            $itemInfo = $this->get_item($p);
+
+            $expandSearchData = gen_search_data([
+                trim($expandSearchData, '|'),
+                $itemInfo->similar_song,
+                $itemInfo->similar_singer,
+                $itemInfo->similar_musicians,
+                $itemInfo->other_tags
+            ]);
 
             // 상품 등록 (cmall_item)
             $data = array(
@@ -562,6 +621,8 @@ class Beatsomeone_model extends CB_Model
                 'cit_officially_registered' => $p['officially_registered'],
                 'cit_org_content' => $p['cit_org_content'],
                 'cit_type5' => $p['cit_type5'],
+                'search_data' => $searchData,
+                'expand_search_data' => $expandSearchData
             );
             if (!empty($p["artwork"]['filename'])) {
                 $data["cit_file_1"] = $p["artwork"]['filename'];
@@ -618,21 +679,7 @@ class Beatsomeone_model extends CB_Model
                 $this->db->insert('cmall_item_detail', $uploadFileData);
             }
 
-            $hashTag = '';
-            if (!empty($p['hashTag'])) {
-                $hashTag = implode(',', $p['hashTag']);
-                foreach ($p['hashTag'] as $tagName) {
-                    $tmpData = $this->db->query("SELECT cht_id FROM cb_cmall_item_hash_tag WHERE tag_name = ?", $tagName)->row_array();
-                    if (empty($tmpData['cht_id'])) {
-                        $this->db->insert('cmall_item_hash_tag', ['tag_name' => $tagName, 'tagged_count' => 1]);
-                        continue;
-                    }
 
-                    $this->db->where('cht_id', $tmpData['cht_id']);
-                    $this->db->set('tagged_count', 'tagged_count + 1', false);
-                    $this->db->update('cmall_item_hash_tag');
-                }
-            }
 
             // 메타 등록 (cmall_item_meta)
             $meta = array(
@@ -677,6 +724,8 @@ class Beatsomeone_model extends CB_Model
                 'cit_officially_registered' => $p['officially_registered'],
                 'cit_org_content' => $p['cit_org_content'],
                 'cit_type5' => $p['cit_type5'],
+                'search_data' => $searchData,
+                'expand_search_data' => $expandSearchData
             );
             if (!empty($p["artwork"]['filename'])) {
                 $data["cit_file_1"] = $p["artwork"]['filename'];
@@ -718,22 +767,6 @@ class Beatsomeone_model extends CB_Model
                 $uploadFileData['cde_status'] = 1;
 
                 $this->db->insert('cmall_item_detail', $uploadFileData);
-            }
-
-            $hashTag = '';
-            if (!empty($p['hashTag'])) {
-                $hashTag = implode(',', $p['hashTag']);
-                foreach ($p['hashTag'] as $tagName) {
-                    $tmpData = $this->db->query("SELECT cht_id FROM cb_cmall_item_hash_tag WHERE tag_name = ?", $tagName)->row_array();
-                    if (empty($tmpData['cht_id'])) {
-                        $this->db->insert('cmall_item_hash_tag', ['tag_name' => $tagName, 'tagged_count' => 1]);
-                        continue;
-                    }
-
-                    $this->db->where('cht_id', $tmpData['cht_id']);
-                    $this->db->set('tagged_count', 'tagged_count + 1', false);
-                    $this->db->update('cmall_item_hash_tag');
-                }
             }
 
             // 메타 등록 (cmall_item_meta)
@@ -1124,5 +1157,22 @@ class Beatsomeone_model extends CB_Model
     {
         $sql = "SELECT cit_id FROM cb_cmall_item WHERE extrincs = '' OR extrincs IS NULL ORDER BY cit_id ASC ";
         return $this->db->query($sql)->result_array();
+    }
+
+    public function get_gen_search_data()
+    {
+        $sql = "SELECT a.*, b.cit_name, b.similar_song, b.similar_singer, b.similar_musicians, b.other_tags, c.mem_nickname 
+                FROM cb_cmall_item_meta_v a
+                JOIN cb_cmall_item b ON a.cit_id = b.cit_id
+                LEFT JOIN cb_member c ON b.mem_id = c.mem_id";
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function set_search_data($citId, $searchData, $expandSearchData)
+    {
+        return $this->db->where('cit_id', $citId)
+            ->set('search_data', $searchData)
+            ->set('expand_search_data', $expandSearchData)
+            ->update('cmall_item');
     }
 }

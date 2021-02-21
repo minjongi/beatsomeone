@@ -81,6 +81,11 @@ class Cmallitem extends CB_Controller
 		$forder = $this->input->get('forder', null, 'desc');
 		$sfield = $this->input->get('sfield', null, '');
 		$skeyword = $this->input->get('skeyword', null, '');
+        $stype = $this->input->get('stype', null, '');
+        $type1 = $this->input->get('type1', null, '');
+        $type2 = $this->input->get('type2', null, '');
+        $type3 = $this->input->get('type3', null, '');
+        $type5 = $this->input->get('type5', null, '');
 
 		$per_page = admin_listnum();
 		$offset = ($page - 1) * $per_page;
@@ -93,8 +98,37 @@ class Cmallitem extends CB_Controller
 		$this->{$this->modelname}->allow_search_field = array('cit_id', 'cit_key', 'cit_name', 'cit_datetime', 'cit_updated_datetime', 'cit_content', 'cit_mobile_content', 'cit_price', 'mem_userid', 'mem_username', 'mem_email'); // 검색이 가능한 필드
 		$this->{$this->modelname}->search_field_equal = array('cit_id', 'cit_price'); // 검색중 like 가 아닌 = 검색을 하는 필드
 		$this->{$this->modelname}->allow_order_field = array('cit_id', 'cit_key', 'cit_order', 'cit_name', 'cit_datetime', 'cit_updated_datetime', 'cit_hit', 'cit_sell_count', 'cit_price'); // 정렬이 가능한 필드
+
+        $stypeField = [
+            'free' => 'cit_freebeat',
+            'org' => 'cit_org_content',
+            'subscribe' => 'cit_type5',
+        ];
+        $where = "";
+        if (!empty($stypeField[$stype])) {
+            $where .= $stypeField[$stype] . " = 1 ";
+        }
+
+        $typeOption = [];
+        if (!empty($type1)) {
+            $typeOption[] = 'cit_type1 = 1';
+        }
+        if (!empty($type2)) {
+            $typeOption[] = 'cit_type2 = 1';
+        }
+        if (!empty($type3)) {
+            $typeOption[] = 'cit_type3 = 1';
+        }
+        if (!empty($type5)) {
+            $typeOption[] = 'cit_type5 = 1';
+        }
+
+        if (!empty($typeOption)) {
+            $where .= ((empty($where)) ? "" : " AND ") . " (" . implode(' OR ', $typeOption) . ") ";
+        }
+
 		$result = $this->{$this->modelname}
-			->get_admin_list($per_page, $offset, '', '', $findex, $forder, $sfield, $skeyword);
+			->get_admin_list($per_page, $offset, $where, '', $findex, $forder, $sfield, $skeyword);
 
 		$list_num = $result['total_rows'] - ($page - 1) * $per_page;
 		if (element('list', $result)) {
@@ -169,7 +203,12 @@ class Cmallitem extends CB_Controller
 //            'cit_price' => '무드'
         ];
 
-		$view['view']['skeyword'] = ($sfield && array_key_exists($sfield, $search_option)) ? $skeyword : '';
+        $view['view']['stype'] = $stype;
+        $view['view']['type1'] = $type1;
+        $view['view']['type2'] = $type2;
+        $view['view']['type3'] = $type3;
+        $view['view']['type5'] = $type5;
+        $view['view']['skeyword'] = ($sfield && array_key_exists($sfield, $search_option)) ? $skeyword : '';
 		$view['view']['search_option'] = search_option($search_option, $sfield);
 		$view['view']['listall_url'] = admin_url($this->pagedir);
 		$view['view']['write_url'] = admin_url($this->pagedir . '/write');
@@ -843,6 +882,10 @@ class Cmallitem extends CB_Controller
                 'cit_include_copyright_transfer' => $this->input->post('cit_include_copyright_transfer', null, ''),
                 'cit_officially_registered' => $this->input->post('cit_officially_registered', null, ''),
                 'cit_org_content' => $this->input->post('cit_org_content', null, ''),
+                'similar_song' => $this->input->post('similar_song', null, ''),
+                'similar_singer' => $this->input->post('similar_singer', null, ''),
+                'similar_musicians' => $this->input->post('similar_musicians', null, ''),
+                'other_tags' => $this->input->post('other_tags', null, ''),
 			);
 
 			if($cit_status && !element('cit_start_datetime', $getdata)) {
@@ -874,11 +917,49 @@ class Cmallitem extends CB_Controller
 			$metadata['updated_mem_id'] = $this->member->item('mem_id');
 			$metadata['updated_ip_address'] = $this->input->ip_address();
 			$metadata['seller_mem_id'] = '';
+            $seller_mem_nickname = '';
 			if ($this->input->post('seller_mem_userid')) {
-				$mem = $this->Member_model->get_by_userid($this->input->post('seller_mem_userid'), 'mem_id');
+				$mem = $this->Member_model->get_by_userid($this->input->post('seller_mem_userid'), 'mem_id, mem_nickname');
 				$metadata['seller_mem_id'] = element('mem_id', $mem);
+                $seller_mem_nickname = element('mem_nickname', $mem);
 			}
 
+            $infoContent6 = [];
+            $infoContent1 = [];
+            $infoContent4 = [];
+            $infoContent5 = [];
+            foreach ($this->config->item('validLocale') as $lang) {
+                $this->lang->load('bso_lang', $lang);
+                $infoContent6[] = lang('trackType' . str_replace('-', '', str_replace(' ', '', $metadata['info_content_6'])));
+                $infoContent1[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $metadata['info_content_1'])));
+                $infoContent4[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $metadata['info_content_4'])));
+                $infoContent5[] = lang('moods' . str_replace('-', '', str_replace(' ', '', $metadata['info_content_5'])));
+            }
+            $infoContent6 = implode('|', array_unique($infoContent6));
+            $infoContent1 = implode('|', array_unique($infoContent1));
+            $infoContent4 = implode('|', array_unique($infoContent4));
+            $infoContent5 = implode('|', array_unique($infoContent5));
+
+            $updatedata['search_data'] = gen_search_data([
+                $updatedata['cit_name'],
+                $seller_mem_nickname,
+                $infoContent1,
+                $infoContent4,
+                $infoContent5,
+                $metadata['info_content_2'],
+                $infoContent6
+            ]);
+
+            $updatedata['expand_search_data'] = gen_search_data([
+                $infoContent1,
+                $infoContent4,
+                $infoContent5,
+                $metadata['info_content_7'],
+                $updatedata['similar_song'],
+                $updatedata['similar_singer'],
+                $updatedata['similar_musicians'],
+                $updatedata['other_tags']
+            ]);
 
 			/**
 			 * 게시물을 수정하는 경우입니다

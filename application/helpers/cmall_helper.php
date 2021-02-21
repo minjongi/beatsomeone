@@ -221,3 +221,21 @@ if (!function_exists('exists_inicis_cmall_order')) {
     }
 
 }
+
+if (!function_exists('gen_search_data')) {
+
+    function gen_search_data($data)
+    {
+        $search_data = [];
+        foreach ($data as $val) {
+            $val = str_replace(' ', '', $val);
+            if (empty($val)) {
+                continue;
+            }
+            $search_data[] = str_replace(',', '|', $val);
+        }
+
+        return empty($search_data) ? '' : '|' . implode('|', $search_data) . '|';
+    }
+
+}

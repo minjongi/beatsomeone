@@ -135,14 +135,14 @@ $config['url_suffix'] = '';
 /**
  * CiBoard 주 : 아래의 값은 변경하실 필요가 없습니다.
  */
-$validLocale = ['ko' => 'korean', 'en' => 'english'];
+$config['validLocale'] = ['ko' => 'korean', 'en' => 'english'];
 $requestUri = explode('/', $_SERVER['REQUEST_URI']);
 $exceptUri = ['social', 'pg'];
 
 if (!in_array($requestUri[1], $exceptUri)) {
     $locale = 'en';
     if (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === 0) {
-        if (!empty($requestUri[1]) && array_key_exists($requestUri[1], $validLocale)) {
+        if (!empty($requestUri[1]) && array_key_exists($requestUri[1], $config['validLocale'])) {
             $locale = $requestUri[1];
         } else if (empty($_SERVER['HTTP_REFERER'])) {
             $locale = $_COOKIE['locale'] ?? 'en';
@@ -153,7 +153,7 @@ if (!in_array($requestUri[1], $exceptUri)) {
             }
         } else if (empty($_COOKIE['locale'])) {
             $httpAcceptLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
-            if (array_key_exists($httpAcceptLanguage, $validLocale) !== 'en' && empty($_SERVER['QUERY_STRING'])) {
+            if (array_key_exists($httpAcceptLanguage, $config['validLocale']) !== 'en' && empty($_SERVER['QUERY_STRING'])) {
                 setcookie('locale', $httpAcceptLanguage, time() + 86400 * 365, '/');
                 header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $httpAcceptLanguage );
                 exit;
@@ -170,8 +170,8 @@ if (!in_array($requestUri[1], $exceptUri)) {
         $locale = $_COOKIE['locale'] ?? 'en';
     }
 
-    $config['language'] = $validLocale[$locale] ?? 'english';
-    $config['locale'] = !empty($validLocale[$locale]) ? $locale : 'en';
+    $config['language'] = $config['validLocale'][$locale] ?? 'english';
+    $config['locale'] = !empty($config['validLocale'][$locale]) ? $locale : 'en';
     $config['alternateUrlEn'] = 'https://' . $_SERVER['HTTP_HOST'] . str_replace('/ko', '', $_SERVER['REQUEST_URI']);
     $config['alternateUrlKo'] = 'https://' . $_SERVER['HTTP_HOST'] . '/ko' . str_replace('/ko', '', $_SERVER['REQUEST_URI']);
     if ($config['locale'] == 'ko') {
