@@ -10,12 +10,12 @@
                         </div>
                         <div class="detail__music-info">
                             <h2 class="title" v-if="item">{{ truncate(item.cit_name, 50) }}</h2>
-                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>
+                            <p class="singer" v-if="item">by {{ item.mem_nickname }}</p>
                             <div class="state" v-if="item">
 <!--                                <span class="song">{{ item.cde_download }}</span>-->
                                 <!--                                <span class="play">120</span>-->
                                 <span class="registed">{{ item.cit_start_datetime }}</span>
-                                <div class="etc" v-if="!!item.info_content" v-html="item.info_content"></div>
+                                <!-- <div class="etc" v-if="!!item.info_content" v-html="item.info_content"></div> -->
                             </div>
 
                             <div class="utils" v-if="item">
@@ -37,7 +37,7 @@
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
                                     <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.cit_review_count }}</span>
                                     <div class="share">
-                                        <span>{{ item.cit_share_count }}</span> /
+                                        <!-- <span>{{ item.cit_share_count }}</span> / -->
                                         <span class="share pointer" @click="clickShare('twitter')">{{ $t('lang107') }}</span> /
                                         <span class="share pointer" @click="clickShare('facebook')">{{ $t('lang108') }}</span> /
                                         <span class="share pointer" @click="copyLinkToClipboard">{{ $t('lang109') }}</span>
