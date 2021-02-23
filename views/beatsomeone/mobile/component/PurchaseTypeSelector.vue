@@ -12,6 +12,7 @@
                     </div>
                     <h3 style="word-break: break-all;">{{ item.cit_name }}</h3>
                     <p>{{ item.musician }}</p>
+                    <p>by {{ item.mem_nickname }}</p>
                 </div>
                 <div class="purchase-list">
                     <ul>
