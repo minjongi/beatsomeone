@@ -562,17 +562,11 @@ class Beatsomeone_model extends CB_Model
             }
         }
 
-        $infoContent6 = [];
-        $infoContent1 = [];
-        $infoContent4 = [];
-        $infoContent5 = [];
-        foreach ($this->config->item('validLocale') as $lang) {
-            $this->lang->load('bso_lang', $lang);
-            $infoContent6[] = lang('trackType' . str_replace('-', '', str_replace(' ', '', $p['trackType'])));
-            $infoContent1[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $p['genre'])));
-            $infoContent4[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $p['subgenre'])));
-            $infoContent5[] = lang('moods' . str_replace('-', '', str_replace(' ', '', $p['moods'])));
-        }
+        $infoContent6 = get_search_track_type($p['trackType']);
+        $infoContent1 = get_search_genre($p['genre']);
+        $infoContent4 = get_search_genre($p['subgenre']);
+        $infoContent5 = get_search_moods($p['moods']);
+
         $infoContent6 = implode('|', array_unique($infoContent6));
         $infoContent1 = implode('|', array_unique($infoContent1));
         $infoContent4 = implode('|', array_unique($infoContent4));

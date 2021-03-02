@@ -1965,17 +1965,11 @@ class BeatsomeoneApi extends CB_Controller
         $items = $this->Beatsomeone_model->get_gen_search_data();
 
         foreach ($items as $val) {
-            $infoContent6 = [];
-            $infoContent1 = [];
-            $infoContent4 = [];
-            $infoContent5 = [];
-            foreach ($this->config->item('validLocale') as $lang) {
-                $this->lang->load('bso_lang', $lang);
-                $infoContent6[] = lang('trackType' . str_replace('-', '', str_replace(' ', '', $val['trackType'])));
-                $infoContent1[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $val['genre'])));
-                $infoContent4[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $val['subgenre'])));
-                $infoContent5[] = lang('moods' . str_replace('-', '', str_replace(' ', '', $val['moods'])));
-            }
+            $infoContent6 = get_search_track_type($val['trackType']);
+            $infoContent1 = get_search_genre($val['genre']);
+            $infoContent4 = get_search_genre($val['subgenre']);
+            $infoContent5 = get_search_moods($val['moods']);
+
             $infoContent6 = implode('|', array_unique($infoContent6));
             $infoContent1 = implode('|', array_unique($infoContent1));
             $infoContent4 = implode('|', array_unique($infoContent4));

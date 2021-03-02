@@ -267,7 +267,7 @@ export default {
         moodsMajestic: 'Majestic (웅장한)',
         moodsMellow: 'Mellow (멜로)',
         moodsPeaceful: 'Peaceful (평화로운)',
-        moodsRebellious: 'Rebellious (방항적인)',
+        moodsRebellious: 'Rebellious (반항적인)',
         moodsRelaxed: 'Relaxed (편안한)',
         moodsSad: 'Sad (슬픈)',
         moodsSensual: 'Sensual (감각적)',

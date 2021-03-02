@@ -116,12 +116,10 @@
         </p>
       </div>
     </div>
-    <FooterBanner :footerBanner="footerBanner"/>
   </footer>
 </template>
 
 <script>
-import FooterBanner from "../component/FooterBanner"
 import Header from "*/views/beatsomeone/basic/include/Header";
 import Index_Items from "*/views/beatsomeone/basic/Index_Items";
 import MainPlayer from "*/vue/common/MainPlayer";
@@ -129,7 +127,7 @@ import KeepAliveGlobal from "vue-keep-alive-global";
 
 export default {
   name: 'Footer',
-  components: {FooterBanner},
+  components: {},
   props: {
     footerBannerDisabled: {
       type: Boolean,
