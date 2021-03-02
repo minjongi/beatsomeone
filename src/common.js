@@ -5,6 +5,7 @@ window.sortItem = [
 ];
 
 window.genre = [
+    'BGMSOUND',
     'Hip hop',
     'K-pop',
     'Pop',

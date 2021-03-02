@@ -87,7 +87,7 @@
                                     </KeepAliveGlobal>
                                 </template>
                             </transition-group>
-                            <div class="loader" style="margin-top: 50px;">
+                            <div v-if="busy" class="loader" style="margin-top: 50px;">
                               <div class="bar1"></div>
                               <div class="bar2"></div>
                               <div class="bar3"></div>
@@ -95,7 +95,6 @@
                               <div class="bar5"></div>
                               <div class="bar6"></div>
                             </div>
-
                         </div>
                     </div>
                 </div>

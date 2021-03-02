@@ -225,6 +225,7 @@ export default {
         enterUserAccount: '사용자 계정을 입력해 주세요',
         genreAllGenre: '모든 장르',
         genreAll: '전체',
+        genreBGMSOUND: 'BGM/SOUND',
         genreHiphop: 'Hip hop',
         genreKpop: 'K-pop',
         genrePop: 'Pop',
@@ -641,6 +642,7 @@ export default {
         lang153: '이벤트기간 내 신규가입자만 참여 가능합니다.',
         lang154: '3곡 미리듣기 완료! 이벤트에 자동 응모 되었습니다.',
         lang155: '무제한',
+        lang156: '정기구독 신청',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -867,6 +869,7 @@ export default {
         enterUserAccount: 'Please enter a user account',
         genreAllGenre: 'All Genre',
         genreAll: 'All',
+        genreBGMSOUND: 'BGM/SOUND',
         genreHiphop: 'Hip hop',
         genreKpop: 'K-pop',
         genrePop: 'Pop',
@@ -1283,5 +1286,6 @@ export default {
         lang153: 'This event is only available to members who have signed up during the event period.',
         lang154: 'You have completed 3 previews and entered the event!',
         lang155: 'Unlimited',
+        lang156: '정기구독 신청',
     } // en
 }
