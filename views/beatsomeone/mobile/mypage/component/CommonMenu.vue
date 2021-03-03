@@ -9,7 +9,8 @@
             <li :class="{'active':current === 'saleshistory'}" @click="goRoute('saleshistory')" v-if="isSeller">{{$t('salesHistory')}}</li>
             <li :class="{'active':current === 'message'}" @click="goRoute('message')" v-if="false">{{$t('chat')}}</li>
             <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-if="isSeller && false">{{$t('settlementHistory')}}</li>
-            <li :class="{'active':current === 'sellerregister'}" v-if="isCustomer" @click="goSellerReg">{{$t('sellerRegister')}}</li>
+            <li :class="{'active':current === 'sellerregister'}" v-if="isCustomer" @click="goUpgrade">{{$t('sellerRegister')}}</li>
+            <li :class="{'active':current === 'sellerregister'}" @click="goUpgrade('sub')">{{$t('lang156')}}</li>
             <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('support1')}}</li>
         </ul>
     </div>
@@ -65,9 +66,9 @@
                 }
                 return p
             },
-            goSellerReg() {
-                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade');
-            }
+            goUpgrade(type = null) {
+              window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade' + (type ? '?type=' + type : ''))
+            },
         },
         computed: {
             isSeller() {

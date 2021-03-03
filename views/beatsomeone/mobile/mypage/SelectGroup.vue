@@ -1,28 +1,11 @@
 <template>
     <div class="container accounts accounts--start">
         <div class="accounts__title">
-            <h1>{{ $t('doYouCreateBeats') }}<br />{{ $t('thenJoin') }}</h1>
+            <h1>{{ pageTitle }}</h1>
         </div>
 
         <div class="login accounts__defaultLayout">
             <form action="">
-                <div class="accounts__case">
-                    <label for="listen " class="case case--listen">
-                        <input type="radio" name="case" id="listen " hidden  @click="currentUserType = 'buyer'"/>
-                        <div>
-                            <span class="icon"></span>
-                            <p>{{ $t ('listenAndBuyMusic1') }}<br />{{ $t ('listenAndBuyMusic2') }}</p>
-                        </div>
-                    </label>
-
-                    <label for="monetize" class="case case--monetize">
-                        <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'seller'"/>
-                        <div>
-                            <span class="icon"></span>
-                            <p>{{ $t('monetizeMyMusic1') }}<br />{{ $t('monetizeMyMusic2') }}</p>
-                        </div>
-                    </label>
-                </div>
                 <div class="accounts__switch" v-if="isMusician">
                     <span class="accounts__switch-bg right"></span>
                     <label for="monthly" @click="billTerm = 'monthly'">
@@ -41,7 +24,7 @@
         </div>
 
         <div class="tab accounts__tab">
-            <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}">
+            <button data-target="plan-free" @click="plan = 'free'" :class="{'active':this.plan === 'free'}" style="padding: 0 9px !important;">
                 {{ $t('free') }}
             </button>
             <button data-target="plan-marketplace" @click="plan = 'marketplace'" :class="{'active':this.plan === 'marketplace'}" v-if="isMusician">
@@ -49,6 +32,12 @@
             </button>
             <button data-target="plan-pro" @click="plan = 'pro'" :class="{'active':this.plan === 'pro'}" v-if="isMusician">
                 {{ $t('master') }}
+            </button>
+            <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician"  style="padding: 0 9px !important;">
+              {{ $t('lang128') }}
+            </button>
+            <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician"  style="padding: 0 9px !important;">
+              {{ $t('lang129') }}
             </button>
         </div>
 
@@ -61,7 +50,7 @@
                     <h2><span>{{ $t('currencySymbol') }}</span> 0 <em>/mo</em></h2>
                 </div>
                 <div class="right">
-                    <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                    <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
                 </div>
             </div>
             <table>
@@ -106,7 +95,7 @@
                 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                        <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
                     </td>
                 </tr>
                 <!--                </tfoot>-->
@@ -123,7 +112,7 @@
                     <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? sellerFreeGroup.mgr_monthly_cost_d : sellerFreeGroup.mgr_monthly_cost_w }}</h2>
                 </div>
                 <div class="right">
-                    <a href="javascript:" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
+                    <a href="javascript:" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
                 </div>
             </div>
             <table>
@@ -134,7 +123,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
+                    <td>5 → {{ $t('lang155') }}(event)</td>
                 </tr>
                 <tr>
                     <td>{{ $t('uploadTrackStems') }}</td>
@@ -163,7 +152,7 @@
 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="javascript:" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
+                        <a href="javascript:" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
                     </td>
                 </tr>
 <!--                </tfoot>-->
@@ -286,6 +275,130 @@
             </table>
         </div>
 
+        <div class="accounts__plan-case" id="plan-subscribe_common"  v-if="!isMusician && plan === 'subscribe_common'">
+          <div class="accounts__plan-header">
+            <div class="left">
+              <p>
+                {{ $t('lang128') }}
+              </p>
+              <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>/mo</em></h2>
+            </div>
+            <div class="right">
+              <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
+            </div>
+          </div>
+          <table>
+            <colgroup>
+              <col width="" />
+              <col width="120" />
+            </colgroup>
+            <tbody>
+
+            <tr>
+              <td>{{ $t('lang130') }}</td>
+              <td>20건</td>
+            </tr>
+            <tr>
+              <td>무료비트 다운로드</td>
+              <td>
+                <span class="check">O</span>
+              </td>
+
+            </tr>
+            <tr>
+              <td>구매 음원 파일 저장</td>
+              <td>
+                <span class="check">O</span>
+              </td>
+
+            </tr>
+            <tr>
+              <td>구매 음원 라이센스 저장</td>
+              <td>
+                <span class="check">O</span>
+              </td>
+
+            </tr>
+            <tr>
+              <td>미리듣기 스트리밍 서비스</td>
+              <td>
+                <span class="check">O</span>
+              </td>
+
+            </tr>
+            <!--                <tfoot>-->
+            <tr>
+              <td colspan="2">
+                <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+              </td>
+            </tr>
+            <!--                </tfoot>-->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="accounts__plan-case" id="plan-subscribe_creater"  v-if="!isMusician && plan === 'subscribe_creater'">
+          <div class="accounts__plan-header">
+            <div class="left">
+              <p>
+                {{ $t('lang129') }}
+              </p>
+              <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}<em>/mo</em></h2>
+            </div>
+            <div class="right">
+              <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
+            </div>
+          </div>
+          <table>
+            <colgroup>
+              <col width="" />
+              <col width="120" />
+            </colgroup>
+            <tbody>
+
+            <tr>
+              <td>{{ $t('lang130') }}</td>
+              <td>10건</td>
+            </tr>
+            <tr>
+              <td>무료비트 다운로드</td>
+              <td>
+                <span class="check">O</span>
+              </td>
+
+            </tr>
+            <tr>
+              <td>구매 음원 파일 저장</td>
+              <td>
+                <span class="check">O</span>
+              </td>
+
+            </tr>
+            <tr>
+              <td>구매 음원 라이센스 저장</td>
+              <td>
+                <span class="check">O</span>
+              </td>
+
+            </tr>
+            <tr>
+              <td>미리듣기 스트리밍 서비스</td>
+              <td>
+                <span class="check">O</span>
+              </td>
+
+            </tr>
+            <!--                <tfoot>-->
+            <tr>
+              <td colspan="2">
+                <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+              </td>
+            </tr>
+            <!--                </tfoot>-->
+            </tbody>
+          </table>
+        </div>
+
     </div>
 </template>
 
@@ -307,7 +420,9 @@
                 sellerFreeGroup: {},
                 sellerPlatinumGroup: {},
                 sellerMasterGroup: {},
-                selectedGroup: {}
+                selectedGroup: {},
+                subscribedCommon: {},
+                subscribedCreater: {},
             }
         },
         filters: {
@@ -321,9 +436,23 @@
             isMusician: function () {
                 return this.currentUserType === this.userType[1];
             },
+            pageTitle() {
+              return this.currentUserType === 'buyer' ? this.$t('lang158') : this.$t('lang157')
+            }
         },
         created() {
-            this.currentUserType = this.userType[1];
+            const urlParams = new URLSearchParams(window.location.search)
+            const type = urlParams.get('type')
+
+            if (type === 'sub') {
+              this.currentUserType = this.userType[0]
+              this.billTerm = 'monthly'
+              this.plan = 'subscribe_creater'
+              this.planName = 'master'
+            } else {
+              this.currentUserType = this.userType[1]
+            }
+
             this.fetchData();
         },
         mounted() {
@@ -355,45 +484,34 @@
         methods: {
             doNext(group) {
                 if (group.mgr_title === 'seller_free' || group.mgr_title === 'buyer') {
-                    let formData = new FormData();
-                    formData.append('mgr_id', group.mgr_id);
-                    axios.post('/register/ajax_purchase', formData)
-                        .then(res => res.data)
-                        .then(data => {
-                            alert(data.message);
-                            window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage');
-                        })
-                        .catch(error => {
-                            console.error(error);
-                        })
-                } else {
-                    window.location.href = this.helper.langUrl(this.$i18n.locale, `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`);
+                    return
                 }
+                window.location.href = this.helper.langUrl(this.$i18n.locale, `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`);
             },
             fetchData() {
-                axios.get('/membergroup')
-                    .then(res => res.data)
-                    .then(data => {
-                        let list = Object.values(data);
-                        list.forEach(item => {
-                            if (item.mgr_title === 'buyer') {
-                                this.buyerGroup = item;
-                            } else if (item.mgr_title === 'seller_free') {
-                                this.sellerFreeGroup = item;
-                            } else if (item.mgr_title === 'seller_platinum') {
-                                this.sellerPlatinumGroup = item;
-                            } else if (item.mgr_title === 'seller_master') {
-                                this.sellerMasterGroup = item;
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-                // Http.post(`/beatsomeoneApi/get_register_plan_cost`).then(r => {
-                //     this.listPlan = r;
-                //     // this.disBill = this.listPlan[0].yearly_discount_pc;
-                // });
+              axios.get('/membergroup')
+                  .then(res => res.data)
+                  .then(data => {
+                    let list = Object.values(data);
+                    list.forEach(item => {
+                      if (item.mgr_title === 'buyer') {
+                        this.buyerGroup = item;
+                      } else if (item.mgr_title === 'seller_free') {
+                        this.sellerFreeGroup = item;
+                      } else if (item.mgr_title === 'seller_platinum') {
+                        this.sellerPlatinumGroup = item;
+                      } else if (item.mgr_title === 'seller_master') {
+                        this.sellerMasterGroup = item;
+                      } else if (item.mgr_title === 'subscribe_common'){
+                        this.subscribedCommon = item;
+                      } else if (item.mgr_title === 'subscribe_creater'){
+                        this.subscribedCreater = item;
+                      }
+                    });
+                  })
+                  .catch(error => {
+                    console.error(error);
+                  })
             },
         },
 

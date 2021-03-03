@@ -10,6 +10,7 @@
             <li :class="{'active':current === 'message'}" @click="goRoute('message')" v-if="false">{{$t('chat')}}</li>
             <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-if="false" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
             <li @click="goUpgrade()" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
+            <li @click="goUpgrade('sub')">{{$t('lang156')}}</li>
             <li :class="{'active':(current === 'inquiry' || current === 'faq')}" @click="openSubmenu($event)">{{$t('support1')}}
                 <ul class="menu">
                     <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
@@ -53,8 +54,8 @@
                 }
                 this.$router.push({path: p})
             },
-            goUpgrade() {
-                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade')
+            goUpgrade(type = null) {
+                window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade' + (type ? '?type=' + type : ''))
             },
             parseRoute(r) {
                 let p = null;

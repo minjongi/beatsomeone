@@ -379,10 +379,6 @@
                     .catch(error => {
                         console.error(error);
                     })
-                // Http.post(`/beatsomeoneApi/get_register_plan_cost`).then(r => {
-                //     this.listPlan = r;
-                //     // this.disBill = this.listPlan[0].yearly_discount_pc;
-                // });
             },
         },
 
