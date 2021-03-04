@@ -72,3 +72,13 @@ window.genLangCode = function(val) {
 window.langUrl = function(lang, url) {
     return (lang === 'ko' ? '/ko' : '') + url;
 }
+
+window.mobon_convType = ''
+window.mobon_productName = ''
+window.mobonConversion = function(convType, productName) {
+    window.mobon_convType = convType
+    window.mobon_productName = productName
+    let myScript = document.createElement('script');
+    myScript.setAttribute('src', '/src/mobon_conversion.js');
+    document.body.appendChild(myScript);
+}
