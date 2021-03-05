@@ -73,7 +73,7 @@
                 <tbody>
                 <tr>
                     <td>{{ $t('lang161') }}</td>
-                    <td> <span class="check">1</span></td>
+                    <td>0{{ $t('lang162') }}</td>
                     <td>10{{ $t('lang162') }}</td>
                     <td v-if="false">10{{ $t('lang162') }}</td>
                 </tr>

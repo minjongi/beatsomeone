@@ -56,7 +56,7 @@
                 <tbody>
                 <tr>
                   <td>{{ $t('lang161') }}</td>
-                  <td> <span class="check">1</span></td>
+                  <td>0{{ $t('lang162') }}</td>
                   <td>10{{ $t('lang162') }}</td>
                   <td v-if="false">10{{ $t('lang162') }}</td>
                 </tr>
@@ -141,7 +141,7 @@
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? sellerFreeGroup.mgr_monthly_cost_d : sellerFreeGroup.mgr_monthly_cost_w }}</h2>
-                        <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('upgrade') }}</a>
                     </th>
                     <th>
                         <p>
@@ -219,7 +219,7 @@
                 <tr>
                     <td></td>
                     <td>
-                        <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('upgrade') }}</a>
                     </td>
                     <td>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('upgrade') }}</a>

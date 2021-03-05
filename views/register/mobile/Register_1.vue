@@ -80,7 +80,7 @@
 
                 <tr>
                     <td>{{ $t('lang161') }}</td>
-                    <td>{{ $t('lang155') }}</td>
+                    <td>0{{ $t('lang162') }}</td>
                 </tr>
                 <tr>
                     <td>{{ $t('freeBeatDownload') }}</td>

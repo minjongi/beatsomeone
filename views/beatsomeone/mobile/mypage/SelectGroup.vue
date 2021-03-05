@@ -111,7 +111,7 @@
                     <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? sellerFreeGroup.mgr_monthly_cost_d : sellerFreeGroup.mgr_monthly_cost_w }}</h2>
                 </div>
                 <div class="right">
-                    <a href="javascript:" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
+                  <a href="javascript:" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
                 </div>
             </div>
             <table>
@@ -151,7 +151,7 @@
 <!--                <tfoot>-->
                 <tr>
                     <td colspan="2">
-                        <a href="javascript:" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
+                      <a href="javascript:" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
                     </td>
                 </tr>
 <!--                </tfoot>-->
