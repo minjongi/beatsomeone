@@ -39,12 +39,12 @@
                   </th>
                   <th>
                     <p>
-                      {{ $t('lang128') }}
+                      {{ $t('lang160') }}
                     </p>
                     <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
                     <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
                   </th>
-                  <th>
+                  <th v-if="false">
                     <p>
                       {{ $t('lang129') }}
                     </p>
@@ -55,10 +55,10 @@
                 </thead>
                 <tbody>
                 <tr>
-                  <td>{{ $t('downloadBackgroundMusic') }}</td>
+                  <td>{{ $t('lang161') }}</td>
                   <td> <span class="check">1</span></td>
-                  <td>20건</td>
-                  <td>10건</td>
+                  <td>10{{ $t('lang162') }}</td>
+                  <td v-if="false">10{{ $t('lang162') }}</td>
                 </tr>
                 <tr>
                   <td>{{ $t('freeBeatDownload') }}</td>
@@ -68,7 +68,7 @@
                   <td>
                     <span class="check">O</span>
                   </td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                 </tr>
@@ -80,7 +80,7 @@
                   <td>
                     <span class="check">O</span>
                   </td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                 </tr>
@@ -92,7 +92,7 @@
                   <td>
                     <span class="check">O</span>
                   </td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                 </tr>
@@ -104,7 +104,7 @@
                   <td>
                     <span class="check">O</span>
                   </td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                 </tr>
@@ -117,7 +117,7 @@
                   <td>
                     <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
                   </td>
-                  <td>
+                  <td v-if="false">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
                   </td>
                 </tr>

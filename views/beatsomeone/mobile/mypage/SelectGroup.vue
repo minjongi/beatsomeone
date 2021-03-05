@@ -34,9 +34,9 @@
                 {{ $t('master') }}
             </button>
             <button data-target="plan-subscribe_common" @click="plan = 'subscribe_common'" :class="{'active':this.plan === 'subscribe_common'}" v-if="!isMusician"  style="padding: 0 9px !important;">
-              {{ $t('lang128') }}
+              {{ $t('lang160') }}
             </button>
-            <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="!isMusician"  style="padding: 0 9px !important;">
+            <button data-target="plan-subscribe_creater" @click="plan = 'subscribe_creater'" :class="{'active':this.plan === 'subscribe_creater'}" v-if="false && !isMusician"  style="padding: 0 9px !important;">
               {{ $t('lang129') }}
             </button>
         </div>
@@ -61,36 +61,35 @@
                 <tbody>
 
                 <tr>
-                    <td>개인 메시지(채팅) 기능</td>
-                    <td>{{ $t('unlimited') }}</td>
+                  <td>{{ $t('lang161') }}</td>
+                  <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
-                    <td>무료비트 다운로드</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('freeBeatDownload') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
 
                 </tr>
                 <tr>
-                    <td>구매 음원 파일 저장</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('storePurchaseMusicFiles') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
 
                 </tr>
                 <tr>
-                    <td>구매 음원 라이센스 저장</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('purchaseSoundSourceLicenseStorage') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
 
                 </tr>
                 <tr>
-                    <td>미리듣기 스트리밍 서비스</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-
+                  <td>{{ $t('previewStreamingService') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <!--                <tfoot>-->
                 <tr>
@@ -122,32 +121,32 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>5 → {{ $t('lang155') }}(event)</td>
+                  <td>{{ $t('uploadTracksLimit') }}</td>
+                  <td>5 → {{ $t('lang155') }}(event)</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('uploadTrackStems') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('uploadTrackStems') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
-                    <td>
-                        {{ sellerFreeGroup.mgr_commission }}%
-                    </td>
+                  <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
+                  <td>
+                    {{ sellerFreeGroup.mgr_commission }}%
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('personalChatFunction') }}</td>
-                    <td>
-                        10<br>(1{{ $t('month') }})
-                    </td>
+                  <td>{{ $t('personalChatFunction') }}</td>
+                  <td>
+                    10<br>(1{{ $t('month') }})
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('salesStatistics') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('salesStatistics') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
 <!--                <tfoot>-->
                 <tr>
@@ -180,32 +179,32 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>{{ $t('unlimited') }}</td>
+                  <td>{{ $t('uploadTracksLimit') }}</td>
+                  <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('uploadTrackStems') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('uploadTrackStems') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
-                    <td>
-                        {{ sellerPlatinumGroup.mgr_commission }}%
-                    </td>
+                  <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
+                  <td>
+                    {{ sellerPlatinumGroup.mgr_commission }}%
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('personalChatFunction') }}</td>
-                    <td>
-                        20
-                    </td>
+                  <td>{{ $t('personalChatFunction') }}</td>
+                  <td>
+                    20
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('salesStatistics') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('salesStatistics') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
 <!--                <tfoot>-->
                 <tr>
@@ -237,32 +236,32 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>{{ $t('unlimited') }}</td>
+                  <td>{{ $t('uploadTracksLimit') }}</td>
+                  <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('uploadTrackStems') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('uploadTrackStems') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
-                    <td>
-                        {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
-                    </td>
+                  <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
+                  <td>
+                    {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('personalChatFunction') }}</td>
-                    <td>
-                        {{ $t('unlimited') }}
-                    </td>
+                  <td>{{ $t('personalChatFunction') }}</td>
+                  <td>
+                    {{ $t('lang155') }}
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('salesStatistics') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('salesStatistics') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
 <!--                <tfoot>-->
                 <tr>
@@ -279,7 +278,7 @@
           <div class="accounts__plan-header">
             <div class="left">
               <p>
-                {{ $t('lang128') }}
+                {{ $t('lang160') }}
               </p>
               <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>/mo</em></h2>
             </div>
@@ -295,32 +294,32 @@
             <tbody>
 
             <tr>
-              <td>{{ $t('lang130') }}</td>
-              <td>20건</td>
+              <td>{{ $t('lang161') }}</td>
+              <td>10{{ $t('lang162') }}</td>
             </tr>
             <tr>
-              <td>무료비트 다운로드</td>
+              <td>{{ $t('freeBeatDownload') }}</td>
               <td>
                 <span class="check">O</span>
               </td>
 
             </tr>
             <tr>
-              <td>구매 음원 파일 저장</td>
+              <td>{{ $t('storePurchaseMusicFiles') }}</td>
               <td>
                 <span class="check">O</span>
               </td>
 
             </tr>
             <tr>
-              <td>구매 음원 라이센스 저장</td>
+              <td>{{ $t('purchaseSoundSourceLicenseStorage') }}</td>
               <td>
                 <span class="check">O</span>
               </td>
 
             </tr>
             <tr>
-              <td>미리듣기 스트리밍 서비스</td>
+              <td>{{ $t('previewStreamingService') }}</td>
               <td>
                 <span class="check">O</span>
               </td>
@@ -357,32 +356,32 @@
             <tbody>
 
             <tr>
-              <td>{{ $t('lang130') }}</td>
-              <td>10건</td>
+              <td>{{ $t('lang161') }}</td>
+              <td>10{{ $t('lang162') }}</td>
             </tr>
             <tr>
-              <td>무료비트 다운로드</td>
+              <td>{{ $t('freeBeatDownload') }}</td>
               <td>
                 <span class="check">O</span>
               </td>
 
             </tr>
             <tr>
-              <td>구매 음원 파일 저장</td>
+              <td>{{ $t('storePurchaseMusicFiles') }}</td>
               <td>
                 <span class="check">O</span>
               </td>
 
             </tr>
             <tr>
-              <td>구매 음원 라이센스 저장</td>
+              <td>{{ $t('purchaseSoundSourceLicenseStorage') }}</td>
               <td>
                 <span class="check">O</span>
               </td>
 
             </tr>
             <tr>
-              <td>미리듣기 스트리밍 서비스</td>
+              <td>{{ $t('previewStreamingService') }}</td>
               <td>
                 <span class="check">O</span>
               </td>

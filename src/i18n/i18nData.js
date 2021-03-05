@@ -649,6 +649,9 @@ export default {
         seller_free: '판매자(Free)',
         seller_platinum: '판매자(Platinum)',
         seller_master: '판매자(Master)',
+        lang160: 'BGM/SOUND 정기구독',
+        lang161: 'BGM/SOUND 무료 다운로드',
+        lang162: '건',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1299,5 +1302,8 @@ export default {
         seller_free: 'Seller(Free)',
         seller_platinum: 'Seller(Platinum)',
         seller_master: 'Seller(Master)',
+        lang160: 'BGM/SOUND Membership',
+        lang161: 'BGM/SOUND FREE Downloads',
+        lang162: '',
     } // en
 }

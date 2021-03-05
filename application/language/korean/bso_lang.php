@@ -649,3 +649,6 @@ $lang['lang159'] = '이용중';
 $lang['seller_free'] = '판매자(Free)';
 $lang['seller_platinum'] = '판매자(Platinum)';
 $lang['seller_master'] = '판매자(Master)';
+$lang['lang160'] = 'BGM/SOUND 정기구독';
+$lang['lang161'] = 'BGM/SOUND 무료 다운로드';
+$lang['lang162'] = '건';

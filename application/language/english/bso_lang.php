@@ -649,3 +649,6 @@ $lang['lang159'] = 'In use';
 $lang['seller_free'] = 'Seller(Free)';
 $lang['seller_platinum'] = 'Seller(Platinum)';
 $lang['seller_master'] = 'Seller(Master)';
+$lang['lang160'] = 'BGM/SOUND Membership';
+$lang['lang161'] = 'BGM/SOUND FREE Downloads';
+$lang['lang162'] = '';
