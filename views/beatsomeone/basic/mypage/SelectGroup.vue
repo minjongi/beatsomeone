@@ -141,7 +141,7 @@
                             {{ $t('free') }}
                         </p>
                         <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? sellerFreeGroup.mgr_monthly_cost_d : sellerFreeGroup.mgr_monthly_cost_w }}</h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('upgrade') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('upgrade') }}</a>
                     </th>
                     <th>
                         <p>

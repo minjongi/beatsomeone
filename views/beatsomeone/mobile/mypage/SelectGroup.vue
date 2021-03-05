@@ -328,7 +328,7 @@
             <!--                <tfoot>-->
             <tr>
               <td colspan="2">
-                <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
               </td>
             </tr>
             <!--                </tfoot>-->
@@ -390,7 +390,7 @@
             <!--                <tfoot>-->
             <tr>
               <td colspan="2">
-                <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
+                <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
               </td>
             </tr>
             <!--                </tfoot>-->
@@ -482,10 +482,24 @@
         },
         methods: {
             doNext(group) {
-                if (group.mgr_title === 'seller_free' || group.mgr_title === 'buyer') {
-                    return
-                }
+              if (group.mgr_title === 'buyer') {
+                return
+              }
+              if (group.mgr_title === 'seller_free' || group.mgr_title === 'buyer') {
+                let formData = new FormData();
+                formData.append('mgr_id', group.mgr_id);
+                axios.post('/register/ajax_purchase', formData)
+                    .then(res => res.data)
+                    .then(data => {
+                      alert(data.message);
+                      window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage');
+                    })
+                    .catch(error => {
+                      console.error(error);
+                    })
+              } else {
                 window.location.href = this.helper.langUrl(this.$i18n.locale, `/register/purchase?mgr_id=${group.mgr_id}&billTerm=${this.billTerm}`);
+              }
             },
             fetchData() {
               axios.get('/membergroup')
