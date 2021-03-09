@@ -1,172 +1,59 @@
 <template>
-  <div class="wrapper">
-    <Header />
-
-    <div class="container sub">
-      <div class="sublist">
-        <div class="wrap">
-          <div class="sublist__filter">
-            <div class="row">
-              <div class="filter">
-                <h2 class="filter__title">{{ $t('filter') }}</h2>
-                <div class="filter__content">
-                  <ul class="filter__list">
-                    <li class="filter__item" v-for="(f,index) in listFilter" :key="index">
-                      <label :for="'fillter1'+index" class="checkbox">
-                        <input
-                            type="radio"
-                            name="filter"
-                            hidden
-                            :id="'fillter1'+index"
-                            :value="f"
-                            v-model="param.currentGenre"
-                        />
-                        <span></span>
-                        {{ listFilterName[index] }}
-                      </label>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="filter">
-                <h2 class="filter__title">{{ $t('subGenres') }}</h2>
-                <div class="filter__content" style="display: none;">
-                  <ul class="filter__list">
-                    <li class="filter__item" v-for="(f,index) in listSubgenres" :key="index">
-                      <label :for="'fillter2'+index" class="checkbox">
-                        <input
-                            type="radio"
-                            name="subgenres"
-                            hidden
-                            :id="'fillter2'+index"
-                            :value="f"
-                            v-model="param.currentSubgenres"
-                        />
-                        <span></span>
-                        {{ listSubgenresName[index] }}
-                      </label>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="filter">
-                <h2 class="filter__title folded">BPM</h2>
-                <div class="filter__content" style="display: none;">
-                  <div class="bpmRange">
-                    <input type="text" />
-                  </div>
-                  <div class="bpmRangeInfo">
-                    <input type="text" readonly id="bpm-start" v-model="param.currentBpmFr" />
-                    <span>-</span>
-                    <input type="text" readonly id="bpm-end" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="filter">
-                <h2 class="filter__title folded">{{ $t('moods') }}</h2>
-                <div class="filter__content" style="display: none;">
-                  <ul class="filter__list">
-                    <li class="filter__item" v-for="(f,index) in listMoods" :key="index">
-                      <label :for="'fillter3'+index" class="checkbox">
-                        <input
-                            type="radio"
-                            name="moods"
-                            hidden
-                            :id="'fillter3'+index"
-                            :value="f"
-                            v-model="param.currentMoods"
-                        />
-                        <span></span>
-                        {{ listMoodsName[index] }}
-                      </label>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="filter">
-                <h2 class="filter__title folded">{{ $t('trackType') }}</h2>
-                <div class="filter__content" style="display: none;">
-                  <ul class="filter__list">
-                    <li class="filter__item" v-for="(f,index) in listTrackType" :key="index">
-                      <label :for="'fillter4'+index" class="checkbox">
-                        <input
-                            type="radio"
-                            name="trackTypes"
-                            hidden
-                            :id="'fillter4'+index"
-                            :value="f"
-                            v-model="param.currentTrackType"
-                        />
-                        <span></span>
-                        {{ listTrackTypeName[index] }}
-                      </label>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+  <div class="wrapper ">
+    <div class="brand-section">
+      <Header />
+      <div class="container sub">
+        <div class="title"><div>BRAND SHOP</div></div>
+        <div class="brand-logo-section">
+          <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item"> 
+            <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.ban_image" :style="bannerStyle(item)"></a>
           </div>
-          <div class="sublist__content">
-            <div>
-              <h2 class="section-title">
-                <span>{{ $t('goToBrandshop') }} {{ brand.mem_nickname }}</span>
-                <div class="sort">
-                  <span>{{ $t('sortBy') }}</span>
-                  <div class="custom-select">
-                    <button class="selected-option">{{ listSortParamName }}</button>
-                    <div class="options">
-                      <button
-                          class="option"
-                          data-value
-                          v-for="(o,i) in listSort"
-                          :key="i"
-                          @click="param.sort = o;"
-                      >{{ listSortName[i] }}</button>
-                    </div>
-                  </div>
-                </div>
-              </h2>
+        </div>
+        <div class="header__search">
+            <div style="position: relative;">
+                <input type="text" v-model="searchText" @keyup.enter="search"/>
+                <button @click="search"></button>
             </div>
-            <div v-if="!list.length" style="text-align: center; padding: 30px 0; opacity: 0.7;">
-              {{ brand.mem_nickname }}님께서 등록한 비트가 없습니다.
-            </div>
-            <div class="row">
-              <div
-                  class="playList brandshop-play-list"
-                  v-infinite-scroll="loading"
-                  infinite-scroll-immediate-check="false"
-              >
-                <transition-group
-                    name="staggered-fade"
-                    tag="ul"
-                    v-bind:css="false"
-                    v-on:before-enter="beforeEnter"
-                    v-on:enter="enter"
-                    v-on:leave="leave"
-                >
-                  <template v-for="item in list">
-                    <KeepAliveGlobal :key="item.cit_key">
-                      <Index_Items :item="item" :key="item.cit_key"></Index_Items>
-                    </KeepAliveGlobal>
-                  </template>
-                </transition-group>
-
-                <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
+        </div>
+      </div>
+    </div>  
+    <div class="filter-section">
+      <div class="filter-alpa">
+        <div class="select-item" style="margin-right: 30px" :class="selectAl == 'All'?'select-item-click':''" @click="selectCapital('All')">A ~ Z</div>
+        <div v-for="(item, index) in selectAlBe" :key="index" >
+          <div class="select-item" :class="item==selectAl?'select-item-click':''" @click="selectCapital(item, index)">{{item}}</div>
+        </div>
+      </div>
+      <div v-for="(item,index1) in showSelectAlBe" :key="index1">
+        <div v-if="newMemberList[index1] != 0" class="filter-content"   >
+          <div class="filter-result" >
+            <div style="display: flex" >
+              <div  class="filter-result-col2 filter-result-alpa">
+                {{item}}
               </div>
-            </div>
+              <div class="filter-result-row">
+                <div v-for ="(member, index) in showNewMemberList[index1]" :key="index" class="filter-result-row3">
+                  <div class="filter-result-item content truncate-overflow">{{member.mem_nickname}}</div>
+                  <div class="filter-result-item-name">{{member.mem_address1}}</div>
+                </div>
+              </div>
+            </div>  
+            
           </div>
         </div>
       </div>
+      
+      <div>
+        <button class="button-top" @click="movePageTop">
+          <i class="fa fa-arrow-up"></i> TOP
+        </button>
+        
+      </div>
     </div>
-    <main-player></main-player>
+    
+  
+    
+    
     <Footer />
   </div>
 </template>
@@ -205,7 +92,11 @@ export default {
       randomList: [],
       offset: 0,
       last_offset: null,
+      selectAl: "All",
       busy: false,
+      searchText: "",
+      selectAlBe:['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
+      showSelectAlBe: [],
       param: {
         currentGenre: null,
         currentSubgenres: null,
@@ -216,35 +107,25 @@ export default {
         search: null,
         sort: "Sort By",
       },
+      brandList:[],
       brand: {
         mem_id: '',
         mem_userid: '',
         mem_username: '',
         mem_nickname: '',
-      }
+      },
+      newMemberList:[],
+      searchTextList: []
     };
   },
-  watch: {
-    // 검색조건 변경
-    param: {
-      deep: true,
-      handler(n, o) {
-        // log.debug({
-        //     'change param' : n,
-        // });
-        if (o) {
-          this.updateAllList();
-        }
-      },
-    },
-  },
+  
   created() {
     this.param.currentGenre = this.listFilter[0];
     this.param.currentSubgenres = this.listSubgenres[0];
     this.param.currentMoods = this.listMoods[0];
     this.param.currentTrackType = this.listTrackType[0];
-
-    this.updateAllList();
+    this.getBannerList();
+    this.getList();
   },
   mounted() {
     $(".filter__title").on("click", function () {
@@ -351,61 +232,84 @@ export default {
     },
   },
   methods: {
-    loading() {
-      if (this.busy) return;
-      if (this.last_offset > 0 && this.last_offset === this.offset) return;
-      this.busy = true;
-      this.getListMore();
-    },
-    updateAllList: _.debounce(function () {
-      this.getList();
-    }, 100),
-    selectItem(i) {
-      const path = `/detail/${i.cit_key}`;
-      window.location.href = this.helper.langUrl(this.$i18n.locale, path);
-    },
+    
+   
     getList() {
       const p = {
-        limit: 10,
-        offset: 0,
-        sort: this.param.sort,
-        genre: this.param.currentGenre,
-        subgenre: this.param.currentSubgenres,
-        bpmFr: this.param.currentBpmFr,
-        bpmTo: this.param.currentBpmTo,
-        moods: this.param.currentMoods,
-        trackType: this.param.currentTrackType,
-        search: this.param.search,
-        brand_mem_id: this.brand.mem_id
+        search_text: this.searchText,
       };
-      Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
-        this.list = r;
-        this.last_offset = this.offset;
-        this.offset = this.list.length;
+      Http.post(`/beatsomeoneApi/register_member`, p).then((r) => {
+        let tempMemberLIst = r
+          for (let i=0; i<this.selectAlBe.length; i++){
+            this.newMemberList[i] = []
+            Object.keys(tempMemberLIst).map(item=>{
+              if (tempMemberLIst[item].mem_nickname.charAt(0) == (this.selectAlBe[i]).toLowerCase()) { 
+                this.newMemberList[i].push(tempMemberLIst[item]);
+              }
+            })
+          }
+          this.showNewMemberList = _.cloneDeep(this.newMemberList);
+          this.showSelectAlBe = _.cloneDeep(this.selectAlBe);
       });
     },
-    getListMore: _.debounce(function () {
-      this.busy = true;
+    // getListMore: _.debounce(function () {
+    //   this.busy = true;
+    //   const p = {
+    //     limit: 10,
+    //     offset: this.offset,
+    //     sort: this.param.sort,
+    //     genre: this.param.currentGenre,
+    //     subgenre: this.param.currentSubgenres,
+    //     bpmFr: this.param.currentBpmFr,
+    //     bpmTo: this.param.currentBpmTo,
+    //     moods: this.param.currentMoods,
+    //     trackType: this.param.currentTrackType,
+    //     search: this.param.search,
+    //     brand_mem_id: this.brand.mem_id
+    //   };
+    //   Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
+    //     this.list = this.list.concat(r);
+    //     this.last_offset = this.offset;
+    //     this.offset = this.list.length;
+    //     this.busy = false;
+    //   });
+    // }, 1000),
+
+    getBannerList() {
       const p = {
-        limit: 10,
-        offset: this.offset,
-        sort: this.param.sort,
-        genre: this.param.currentGenre,
-        subgenre: this.param.currentSubgenres,
-        bpmFr: this.param.currentBpmFr,
-        bpmTo: this.param.currentBpmTo,
-        moods: this.param.currentMoods,
-        trackType: this.param.currentTrackType,
-        search: this.param.search,
-        brand_mem_id: this.brand.mem_id
+        ban_device:'pc',
+        limit: 10
       };
-      Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
-        this.list = this.list.concat(r);
-        this.last_offset = this.offset;
-        this.offset = this.list.length;
-        this.busy = false;
+      Http.post(`/beatsomeoneApi/banner_list`, p).then((r) => {
+        this.brandList = _.cloneDeep(r);
       });
-    }, 1000),
+    },
+    search(){
+      let kk = 0
+      let flag 
+      let tempNewMemberList = []
+       this.showNewMemberList = _.cloneDeep(this.newMemberList)
+      this.searchTextList = this.searchText.split(' ');
+      console.log('this is mem_nickname_________________!!! !!', this.searchTextList)
+      for (let i=0; i< this.showNewMemberList.length; i++){
+        if ( this.showNewMemberList[i].length != 0){
+          for (let j=0; j< this.showNewMemberList[i].length; j++){
+             flag = true
+            for (let k=0; k<this.searchTextList.length; k++){
+              kk =  this.showNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
+              if (kk >= 0){flag = false}
+            }
+            if (flag){
+              this.showNewMemberList[i].splice(j, 1);
+            }
+             console.log('this is mem_nickname_________________!!', tempNewMemberList, kk)
+          }
+        }
+        
+      }
+      console.log('this is mem_nickname', this.showNewMemberList)
+      this.showNewMemberList = _.cloneDeep(this.showNewMemberList)
+    },
     beforeEnter: function (el) {
       el.style.opacity = 0;
       el.style.height = 0;
@@ -431,6 +335,27 @@ export default {
         );
       }, delay);
     },
+    selectCapital(item, index){
+      this.selectAl = item
+       this.showNewMemberList = [];
+       this.showSelectAlBe = []
+      if (item == 'All'){
+        this.showNewMemberList = _.cloneDeep(this.newMemberList);
+        this.showSelectAlBe = _.cloneDeep(this.selectAlBe);
+      }else{
+        this.showNewMemberList[0] = _.cloneDeep(this.newMemberList[index]);
+        this.showSelectAlBe[0] = _.cloneDeep(this.selectAlBe[index]); 
+      }
+      
+    },
+    movePageTop(){
+      window.scrollTo(0, 0)
+    },
+    bannerStyle(item){
+      item.ban_width=='' ||  item.ban_width==0?item.ban_width ="100%":item.ban_width;
+      item.ban_height=='' ||  item.ban_height==0?item.ban_height ="100%":item.ban_height;
+      return "width:"+item.ban_width+"px; " +"height:"+item.ban_height+"px;";
+    }
   },
 };
 </script>
@@ -441,6 +366,7 @@ export default {
 
 <style scoped="scoped" lang="scss">
 @import "/assets/plugins/slick/slick.css";
+@import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
 @import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
 
 .albumItem {
@@ -456,5 +382,155 @@ export default {
       height: 100%;
     }
   }
+}
+.brand-section{
+  
+  background-image:url('/assets/images/banner/bannershop.png');
+  background-size: cover;
+  height: 854px;
+  background-position: 0 -90px;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid #ffffff;
+  margin: 0 50px;
+}
+.title{
+  font-size: 26px;
+  text-align: center;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+.brand-logo-section{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  
+}
+.brand-logo-item{
+  width: 18%;
+}
+.header__search {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  input {
+    width: 460px;
+    height: 47px;
+    color: #fff;
+    background: #292a2c;
+    border-radius: 2em;
+    font-size: 12px;
+    padding: 0 35px 0 10px;
+    transition: all 0.3s;
+    // &:focus {
+    //   width: 190px;
+    // }
+  }
+  button {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    background: url("/assets/images/icon/search.png") no-repeat center center;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+}
+.filter-section{
+  border-bottom: 1px solid #ffffff;
+  padding: 40px 0 60px;
+  margin: 0 50px;
+  position: relative;
+}
+.mark{
+  font-size: 30pt;
+  margin-right: 60px;
+}
+.filter-alpa{
+  display: flex;
+  font-size: 30pt;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+.select-item{
+  color: #a1a1a1;
+  padding: 0 10px;
+  cursor: pointer;
+}
+.select-item:hover{
+  color: #ffda2a;
+}
+.select-item-click{
+  color: #ffffff;
+}
+
+.filter-content{
+  border-top: 1px solid #525252;
+
+}
+.filter-result{
+  margin-top: 70px;
+  width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 30px;
+  
+}
+.filter-result-alpa{
+  font-size: 90pt;
+  margin-right: 30px; 
+  width: 77px;
+}
+.filter-result-item{
+  font-size: 16pt;
+  color: #ffffff;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+  word-break:break-all;
+  margin-bottom: 20px;
+}
+.filter-result-item-name{
+  font-size: 13pt;
+  color: #525252;
+  margin-bottom: 40px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+  word-break:break-all;
+  margin-bottom: 20px;  
+  height: 18px;
+}
+.filter-result-row{
+  
+  display: flex;
+  flex-wrap: wrap;
+  
+}
+.filter-result-row3{
+  width: 230px;
+  border-right:1px solid #525252;
+  padding-right: 50px;
+  padding-left: 40px;
+  height: fit-content;
+}
+.button-top{
+  border-radius: 100px;
+  border: 1px solid #ffffff;
+  height: 50px;
+  width: 140px;
+  color: #ffffff;
+  font-size: 16pt;
+  position: absolute;
+  left: calc( 50% - 70px );
+  bottom: -25px;
+  background-color: #000000;
 }
 </style>

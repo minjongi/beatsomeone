@@ -74,4 +74,15 @@ class Cmall_item_detail_model extends CB_Model
         $result = $this->db->get();
         return $result->row_array();
     }
+
+	public function get_register_member()
+    {
+		// $sql = 'SELECT DISTINCT mem_id FROM cb_cmall_item_detail';
+        // $this->db->select('*');
+		$this->db->distinct();
+		$this->db->select('mem_id');
+		$qry = $this->db->get($this->_table);
+		$result = $qry->result_array();
+        return $result;
+    }
 }
