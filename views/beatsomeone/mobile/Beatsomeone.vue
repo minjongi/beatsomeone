@@ -93,12 +93,14 @@
                                         <span> {{ $t('lang125') }}</span>
                                     </div>
                                 </span>
-
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_1.png"/>
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_2.png"/>
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_3.png"/>
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_4.png"/>
-                                <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_5.png"/>
+                                <div style="align-items: center; display:flex ">
+                                    <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_1.png"/>
+                                    <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_2.png"/>
+                                    <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_3.png"/>
+                                    <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_4.png"/>
+                                    <img style="margin-left: 5px; width:16px;" src="/assets/images/icon/icon_5.png"/>
+                                </div>
+                                
                             </div>
                             <!-- <div class="col more">
                 <button :class="{'js-active' : isOpenSubmenu}" @click="openSubmenu">{{ $t('more') }}</button>

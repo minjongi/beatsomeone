@@ -25,12 +25,14 @@
                                     <div class="parchase-btnbox">
                                         <a class="buy waves-effect free" @click="freeBuy(item.detail.LEASE)" href="javascript:;" 
                                             v-if="is_subscriber && item.cit_type5 === '1' && remainDownloadNumber() > 0">
-                                            <span>
+                                            <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}} (구독 잔여 {{remain_download_num}})</span>
+                                            <span v-else>
                                                 {{ formatPrice(0, 0, true) }} (구독 잔여 {{remainDownloadNumber()}})
                                             </span>
                                         </a>
                                         <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
-                                            <span>
+                                            <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}}</span>
+                                            <span v-else>
                                                 {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                             </span>
                                             <span v-if="is_subscriber && item.cit_type5 == '1'"> (구독 잔여 {{ remainDownloadNumber() }})</span>
@@ -92,7 +94,8 @@
                                     <div class="parchase-btnbox">
                                         <a class="buy waves-effect" @click="addCart(item.detail.STEM)"
                                            href="javascript:;">
-                                            <span>{{
+                                            <span v-if="item.cit_freebeat == 1 && item.detail.STEM.cde_price == 0">{{$t('free')}}</span>
+                                            <span v-else>{{
                                                     formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true)
                                                 }}</span>
                                         </a>

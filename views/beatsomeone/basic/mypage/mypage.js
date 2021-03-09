@@ -63,6 +63,7 @@ const router = new VueRouter({
         {path: '/inquiry/:post_id/edit', component: Inquiryenroll},
         {path: '/faq', component: Faq},
         {path: '/favorites', component: Favorites},
+
     ],
 });
 

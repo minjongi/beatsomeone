@@ -69,6 +69,15 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_output(json_encode($result));
     }
 
+    public function register_member()
+    {
+        $this->load->model('Cmall_item_detail_model');
+        $result = $this->Cmall_item_detail_model->get_register_member();
+        $this->load->model('Member_model');
+        $result_last = $this->Member_model->get_member_list($result);
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result_last));
+    }
     // Detail 조회
     public function detail_item()
     {
@@ -85,7 +94,21 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
     }
+    //Banner 리스트 조회
+    public function banner_list()
+    {
+        $this->load->model('Banner_model');
 
+        // DB Querying (장르별 Top 5)
+        $config = array(
+            'ban_device' => $this->input->post('ban_device'),
+            'limit' => $this->input->post('limit')
+        );
+        
+        $result = $this->Banner_model->get_banner_list($config);
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
     // 음악 다운로드 수 증가
     public function increase_music_count()
     {
@@ -252,7 +275,8 @@ class BeatsomeoneApi extends CB_Controller
     public function detail_similartracks_list($cit_id = '')
     {
         $mem_id = $this->member->item('mem_id') | 0;
-
+        $limit =  $this->input->post('limit');
+        $offset =  $this->input->post('offset');
         $sql = "SELECT *
         FROM cb_cmall_item cci
             LEFT JOIN (SELECT * FROM cb_cmall_item_meta WHERE cim_key='info_content_7') as ccim on cci.cit_id = ccim.cit_id WHERE cci.cit_id = ?";
@@ -278,7 +302,7 @@ class BeatsomeoneApi extends CB_Controller
                     LEFT JOIN cb_cmall_wishlist ccw on cci.cit_id = ccw.cit_id AND ccw.mem_id = ?
                     LEFT JOIN cb_member cm on cci.mem_id = cm.mem_id
                     LEFT JOIN cb_cmall_item_meta_v p on p.cit_id = cci.cit_id
-                    " . $where . " LIMIT 30";
+                    " . $where . " LIMIT ".$limit." OFFSET " .$offset;
         $similar_products = $this->db->query($sql, [$mem_id, $cit_id])->result_array();
 
         $citId = [];
@@ -1872,7 +1896,7 @@ class BeatsomeoneApi extends CB_Controller
             'content' => $result
         ]));
     }
-
+    
     private function blockchainMint($citId = 0)
     {
         $this->load->library('Blockchain');
