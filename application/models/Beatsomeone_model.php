@@ -36,10 +36,6 @@ class Beatsomeone_model extends CB_Model
         $bpm = element('bpm', $config);
         $sort = element('sort', $config);
         $voice = element('voice', $config);
-        log_message('debug','Genre : ' . element('genre', $config));
-        log_message('debug','Bpm : ' . $bpm);
-        log_message('debug','Sort : ' . $sort);
-        log_message('debug','Voice : ' . $voice);
 
         $where['cit_status'] = 1;
         $this->db->where('cit_start_datetime <= now()');
@@ -48,12 +44,16 @@ class Beatsomeone_model extends CB_Model
         $genre = element('genre', $config);
         $genreWhere = [];
         // Genre
-        if ($genre && $genre !== 'All Genre') {
-            $genreWhere[] = "p.genre = '" . $genre . "'";
-            $genreWhere[] = "p.subgenre = '" . $genre . "'";
-        }
-        if (!empty($genreWhere)) {
-            $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
+        if ($genre === 'BGMSOUND') {
+            $where['cmall_item.cit_type5'] = 1;
+        } else {
+            if ($genre && $genre !== 'All Genre') {
+                $genreWhere[] = "p.genre = '" . $genre . "'";
+                $genreWhere[] = "p.subgenre = '" . $genre . "'";
+            }
+            if (!empty($genreWhere)) {
+                $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
+            }
         }
 
         if ($bpm) {
@@ -244,14 +244,22 @@ class Beatsomeone_model extends CB_Model
 
         $genreWhere = [];
         // Genre
-        if ($genre && $genre !== 'All Genre') {
-            $genreWhere[] = "p.genre = '" . $genre . "'";
-            $genreWhere[] = "p.subgenre = '" . $genre . "'";
+        if ($genre === 'BGMSOUND') {
+            $where['cmall_item.cit_type5'] = 1;
+        } else {
+            if ($genre && $genre !== 'All Genre') {
+                $genreWhere[] = "p.genre = '" . $genre . "'";
+                $genreWhere[] = "p.subgenre = '" . $genre . "'";
+            }
         }
         // SubGenre
-        if ($subgenre && $subgenre !== 'All') {
-            $genreWhere[] = "p.genre = '" . $subgenre . "'";
-            $genreWhere[] = "p.subgenre = '" . $subgenre . "'";
+        if ($subgenre === 'BGMSOUND') {
+            $where['cmall_item.cit_type5'] = 1;
+        } else {
+            if ($subgenre && $subgenre !== 'All') {
+                $genreWhere[] = "p.genre = '" . $subgenre . "'";
+                $genreWhere[] = "p.subgenre = '" . $subgenre . "'";
+            }
         }
         if (!empty($genreWhere)) {
             $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
@@ -339,14 +347,22 @@ class Beatsomeone_model extends CB_Model
 
         $genreWhere = [];
         // Genre
-        if ($genre && $genre !== 'All Genre') {
-            $genreWhere[] = "p.genre = '" . $genre . "'";
-            $genreWhere[] = "p.subgenre = '" . $genre . "'";
+        if ($genre === 'BGMSOUND') {
+            $where['cmall_item.cit_type5'] = 1;
+        } else {
+            if ($genre && $genre !== 'All Genre') {
+                $genreWhere[] = "p.genre = '" . $genre . "'";
+                $genreWhere[] = "p.subgenre = '" . $genre . "'";
+            }
         }
         // SubGenre
-        if ($subgenre && $subgenre !== 'All') {
-            $genreWhere[] = "p.genre = '" . $subgenre . "'";
-            $genreWhere[] = "p.subgenre = '" . $subgenre . "'";
+        if ($subgenre === 'BGMSOUND') {
+            $where['cmall_item.cit_type5'] = 1;
+        } else {
+            if ($subgenre && $subgenre !== 'All') {
+                $genreWhere[] = "p.genre = '" . $subgenre . "'";
+                $genreWhere[] = "p.subgenre = '" . $subgenre . "'";
+            }
         }
         if (!empty($genreWhere)) {
             $this->db->where("(" . implode(' or ', $genreWhere) . ")", null, false);
@@ -562,17 +578,11 @@ class Beatsomeone_model extends CB_Model
             }
         }
 
-        $infoContent6 = [];
-        $infoContent1 = [];
-        $infoContent4 = [];
-        $infoContent5 = [];
-        foreach ($this->config->item('validLocale') as $lang) {
-            $this->lang->load('bso_lang', $lang);
-            $infoContent6[] = lang('trackType' . str_replace('-', '', str_replace(' ', '', $p['trackType'])));
-            $infoContent1[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $p['genre'])));
-            $infoContent4[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $p['subgenre'])));
-            $infoContent5[] = lang('moods' . str_replace('-', '', str_replace(' ', '', $p['moods'])));
-        }
+        $infoContent6 = get_search_track_type($p['trackType']);
+        $infoContent1 = get_search_genre($p['genre']);
+        $infoContent4 = get_search_genre($p['subgenre']);
+        $infoContent5 = get_search_moods($p['moods']);
+
         $infoContent6 = implode('|', array_unique($infoContent6));
         $infoContent1 = implode('|', array_unique($infoContent1));
         $infoContent4 = implode('|', array_unique($infoContent4));

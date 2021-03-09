@@ -44,7 +44,6 @@
             </div>
             <main-player></main-player>
         </div>
-      <FooterBanner :footerBanner="footerBanner"/>
     </div>
 </template>
 
@@ -52,7 +51,6 @@
     require("@/assets/js/function");
     import Header from "../include/Header";
     import Footer from "../include/Footer";
-    import FooterBanner from "../component/FooterBanner"
     import Index_Items from "../Index_Items";
     import Velocity from "velocity-animate";
     import Loader from "*/vue/common/Loader";
@@ -64,7 +62,6 @@
         components: {
             Header,
             Footer,
-            FooterBanner,
             Index_Items,
             Loader,
             MainPlayer,

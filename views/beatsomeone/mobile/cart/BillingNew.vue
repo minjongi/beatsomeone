@@ -673,25 +673,23 @@ export default {
             }
         },
         cor_point(val) {
-            if ((+val) < 0) {
-                alert('포인트은 0보다 커야 합니다.');
-                this.cor_point = 0;
-            }
-            if ((+val) > this.mem_point) {
-                alert('포인트가 충분하지 않습니다.');
-                this.cor_point = this.mem_point;
-            }
             if (this.$i18n.locale === 'en') {
-                if ((+val) > this.good_mny_d - 1) {
-                    alert('포인트가 유효하지 않습니다.');
-                    this.cor_point = 0;
-                }
-            } else {
-                if (200 > this.good_mny - (+val)) {
-                    alert('포인트가 유효하지 않습니다.');
-                    this.cor_point = 0;
-                }
+              alert(this.$t('lang163'))
+              this.cor_point = 0
             }
+
+            if ((+val) < 0) {
+              this.cor_point = 0
+            }
+
+            if (this.good_mny < val) {
+              this.cor_point = this.good_mny
+            }
+
+            if ((+val) > this.mem_point) {
+              this.cor_point = (this.good_mny <= this.mem_point) ? this.good_mny : this.mem_point;
+            }
+
             this.$set(this.allatForm, 'amt', this.good_mny - (+val));
         }
     }

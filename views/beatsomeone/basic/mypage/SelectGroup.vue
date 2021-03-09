@@ -1,26 +1,9 @@
 <template>
     <div class="container accounts accounts--start">
         <div class="accounts__title">
-            <h1>{{ $t('doYouCreateBeats') }}<br/>{{ $t('thenJoin') }}</h1>
+            <h1>{{ pageTitle }}</h1>
         </div>
         <div class="login accounts__defaultLayout">
-            <div class="accounts__case">
-                <label for="listen " class="case case--listen">
-                    <input type="radio" name="case" id="listen " hidden @click="currentUserType = 'buyer'"/>
-                    <div>
-                        <span class="icon"></span>
-                        <p>{{ $t ('listenAndBuyMusic1') }}<br/>{{ $t ('listenAndBuyMusic2') }}</p>
-                    </div>
-                </label>
-
-                <label for="monetize" class="case case--monetize">
-                    <input type="radio" name="case" id="monetize" hidden checked @click="currentUserType = 'seller'"/>
-                    <div>
-                        <span class="icon"></span>
-                        <p>{{ $t('monetizeMyMusic1') }}<br/>{{ $t('monetizeMyMusic2') }}</p>
-                    </div>
-                </label>
-            </div>
             <div class="accounts__switch" v-if="isMusician">
                 <span class="accounts__switch-bg right"></span>
                 <label for="monthly" @click="selectBillTerm('monthly')">
@@ -39,60 +22,106 @@
         <div class="accounts__plan-case" v-if="!isMusician">
             <table>
                 <colgroup>
-                    <col width="300"/>
-                    <col/>
+                  <col width="300"/>
+                  <col width="195"/>
+                  <col width="210"/>
+                  <col width="195"/>
                 </colgroup>
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>
-                        <p>
-                            {{ $t('free') }}
-                        </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
-                    </th>
+                  <th></th>
+                  <th>
+                    <p>
+                      {{ $t('free') }}
+                    </p>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? buyerGroup.mgr_monthly_cost_d : buyerGroup.mgr_monthly_cost_w }}</h2>
+                    <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
+                  </th>
+                  <th>
+                    <p>
+                      {{ $t('lang160') }}
+                    </p>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)" v-if="this.member_group_name !== 'subscribe_common'">{{ $t('getStarted') }}</a>
+                    <a href="javascript:;" class="btn btn--start" style="background-color: #999494;" v-else>{{ $t('lang159') }}</a>
+                  </th>
+                  <th v-if="false">
+                    <p>
+                      {{ $t('lang129') }}
+                    </p>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
+                  </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{ $t('personalChatFunction') }}</td>
-                    <td>{{ $t('unlimited') }}</td>
+                  <td>{{ $t('lang161') }}</td>
+                  <td>0{{ $t('lang162') }}</td>
+                  <td>10{{ $t('lang162') }}</td>
+                  <td v-if="false">10{{ $t('lang162') }}</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('freeBeatDownload') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-
+                  <td>{{ $t('freeBeatDownload') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td v-if="false">
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('storePurchaseMusicFiles') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-
+                  <td>{{ $t('storePurchaseMusicFiles') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td v-if="false">
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('purchaseSoundSourceLicenseStorage') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-
+                  <td>{{ $t('purchaseSoundSourceLicenseStorage') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td v-if="false">
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('previewStreamingService') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-
+                  <td>{{ $t('previewStreamingService') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td v-if="false">
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <!--                    <tfoot>-->
                 <tr>
-                    <td></td>
-                    <td>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('getStarted') }}</a>
-                    </td>
+                  <td></td>
+                  <td>
+                    <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
+                  </td>
+                  <td>
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)" v-if="this.member_group_name !== 'subscribe_common'">{{ $t('getStarted') }}</a>
+                    <a href="javascript:;" class="btn btn--start" style="background-color: #999494;" v-else>{{ $t('lang159') }}</a>
+                  </td>
+                  <td v-if="false">
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
+                  </td>
                 </tr>
                 <!--                    </tfoot>-->
                 </tbody>
@@ -135,64 +164,64 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{ $t('uploadTracksLimit') }}</td>
-                    <td>5 → 10(event)<br>(1{{ $t('month') }})</td>
-                    <td>{{ $t('unlimited') }}</td>
-                    <td>{{ $t('unlimited') }}</td>
+                  <td>{{ $t('uploadTracksLimit') }}</td>
+                  <td>5 → {{ $t('lang155') }}(event)</td>
+                  <td>{{ $t('lang155') }}</td>
+                  <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
-                    <td>{{ $t('uploadTrackStems') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('uploadTrackStems') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
-                    <td>
-                        {{ sellerFreeGroup.mgr_commission }}%
-                    </td>
-                    <td>
-                        {{ sellerPlatinumGroup.mgr_commission }}%
-                    </td>
-                    <td>
-                        {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
-                    </td>
+                  <td>{{ $t('beatsomeoneMarketplaceCommission') }}</td>
+                  <td>
+                    {{ sellerFreeGroup.mgr_commission }}%
+                  </td>
+                  <td>
+                    {{ sellerPlatinumGroup.mgr_commission }}%
+                  </td>
+                  <td>
+                    {{ sellerMasterGroup.mgr_commission }}%<br>({{ $t('revenueToSeller100') }})
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('personalChatFunction') }}</td>
-                    <td>
-                        10<br>(1{{ $t('month') }})
-                    </td>
-                    <td>
-                        20
-                    </td>
-                    <td>
-                        {{ $t('unlimited') }}
-                    </td>
+                  <td>{{ $t('personalChatFunction') }}</td>
+                  <td>
+                    10<br>(1{{ $t('month') }})
+                  </td>
+                  <td>
+                    20
+                  </td>
+                  <td>
+                    {{ $t('unlimited') }}
+                  </td>
                 </tr>
                 <tr>
-                    <td>{{ $t('salesStatistics') }}</td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
-                    <td>
-                        <span class="check">O</span>
-                    </td>
+                  <td>{{ $t('salesStatistics') }}</td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
+                  <td>
+                    <span class="check">O</span>
+                  </td>
                 </tr>
                 <!--                    <tfoot>-->
                 <tr>
                     <td></td>
                     <td>
-                        <a href="javascript:;" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('upgrade') }}</a>
+                        <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('upgrade') }}</a>
                     </td>
                     <td>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('upgrade') }}</a>
@@ -226,7 +255,10 @@
                 sellerFreeGroup: {},
                 sellerPlatinumGroup: {},
                 sellerMasterGroup: {},
-                selectedGroup: {}
+                selectedGroup: {},
+                subscribedCommon: {},
+                subscribedCreater: {},
+                member_group_name: ''
             }
         },
         filters: {
@@ -240,26 +272,24 @@
             isMusician: function () {
                 return this.currentUserType === this.userType[1];
             },
+            pageTitle() {
+              return this.currentUserType === 'buyer' ? this.$t('lang158') : this.$t('lang157')
+            }
         },
         created() {
-            this.currentUserType = this.userType[1];
-            window.billTerm = this.billTerm;
-            this.fetchData();
-        },
-        mounted() {
-            var bg = document.querySelector(".accounts__switch-bg");
-            // 월간
-            document.getElementById("monthly").addEventListener("change", function () {
-                if (this.checked === true) {
-                    bg.classList.remove("right");
-                }
-            });
-            // 연간
-            document.getElementById("yearly").addEventListener("change", function () {
-                if (this.checked === true) {
-                    bg.classList.add("right");
-                }
-            });
+            const urlParams = new URLSearchParams(window.location.search)
+            const type = urlParams.get('type')
+
+            if (type === 'sub') {
+              this.currentUserType = this.userType[0]
+              this.billTerm = 'monthly'
+            } else {
+              this.currentUserType = this.userType[1]
+            }
+
+            window.billTerm = this.billTerm
+            this.member_group_name = window.member_group_name
+            this.fetchData()
         },
         watch: {
             currentUserType(n) {
@@ -303,25 +333,29 @@
                 }
             },
             fetchData() {
-                axios.get('/membergroup')
-                    .then(res => res.data)
-                    .then(data => {
-                        let list = Object.values(data);
-                        list.forEach(item => {
-                            if (item.mgr_title === 'buyer') {
-                                this.buyerGroup = item;
-                            } else if (item.mgr_title === 'seller_free') {
-                                this.sellerFreeGroup = item;
-                            } else if (item.mgr_title === 'seller_platinum') {
-                                this.sellerPlatinumGroup = item;
-                            } else if (item.mgr_title === 'seller_master') {
-                                this.sellerMasterGroup = item;
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
+              axios.get('/membergroup')
+                  .then(res => res.data)
+                  .then(data => {
+                    let list = Object.values(data);
+                    list.forEach(item => {
+                      if (item.mgr_title === 'buyer') {
+                        this.buyerGroup = item;
+                      } else if (item.mgr_title === 'seller_free') {
+                        this.sellerFreeGroup = item;
+                      } else if (item.mgr_title === 'seller_platinum') {
+                        this.sellerPlatinumGroup = item;
+                      } else if (item.mgr_title === 'seller_master') {
+                        this.sellerMasterGroup = item;
+                      } else if (item.mgr_title === 'subscribe_common') {
+                        this.subscribedCommon = item;
+                      } else if (item.mgr_title === 'subscribe_creater') {
+                        this.subscribedCreater = item;
+                      }
+                    });
+                  })
+                  .catch(error => {
+                    console.error(error);
+                  })
             },
             selectBillTerm(term) {
                 window.billTerm = term;

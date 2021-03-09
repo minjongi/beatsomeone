@@ -11,17 +11,17 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-    <div v-if="popup1">
-      <div class="noti-wrap"></div>
-      <div class="noti-content">
-        <div>
-          <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/1.png'"></a>
-        </div>
-        <div>
-          <img :src="'/assets/images/event/2101241/' + $i18n.locale + '/2.png'" @click="closePopup1(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/3.png'" @click="closePopup1()" style="width:50%;cursor:pointer;">
-        </div>
-      </div>
-    </div>
+<!--    <div v-if="popup1">-->
+<!--      <div class="noti-wrap"></div>-->
+<!--      <div class="noti-content">-->
+<!--        <div>-->
+<!--          <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/1.png'"></a>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <img :src="'/assets/images/event/2101241/' + $i18n.locale + '/2.png'" @click="closePopup1(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/3.png'" @click="closePopup1()" style="width:50%;cursor:pointer;">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
     <Header :is-login="isLogin"></Header>
     <main-player></main-player>
     <div class="container">
@@ -182,7 +182,6 @@
         </section>
       </div>
     </div>
-    <FooterBanner :footerBanner="footerBanner"/>
   </div>
 </template>
 
@@ -193,7 +192,6 @@
     import axios from 'axios';
     import Header from "./include/Header"
     import Footer from "./include/Footer"
-    import FooterBanner from "./component/FooterBanner"
     import Index_Items from "./Index_Items"
     import {EventBus} from '*/src/eventbus'
     import Velocity from 'velocity-animate'
@@ -203,7 +201,7 @@
 
     export default {
         name: 'Index',
-        components: {Header, Footer, FooterBanner, Index_Items, MainPlayer, KeepAliveGlobal},
+        components: {Header, Footer, Index_Items, MainPlayer, KeepAliveGlobal},
         data: function () {
             return {
                 userInfo: null,
