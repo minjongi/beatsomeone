@@ -652,6 +652,7 @@ export default {
         lang160: 'BGM/SOUND 정기구독',
         lang161: 'BGM/SOUND 무료 다운로드',
         lang162: '건',
+        lang163: '죄송합니다. 포인트를 사용할 수 없습니다.',
     }, // ko
     en: {
         currencySymbol: '$',
@@ -1305,5 +1306,6 @@ export default {
         lang160: 'BGM/SOUND Membership',
         lang161: 'BGM/SOUND FREE Downloads',
         lang162: '',
+        lang163: 'Sorry, Currently unavailable point.',
     } // en
 }

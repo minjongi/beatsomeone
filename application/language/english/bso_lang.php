@@ -652,3 +652,4 @@ $lang['seller_master'] = 'Seller(Master)';
 $lang['lang160'] = 'BGM/SOUND Membership';
 $lang['lang161'] = 'BGM/SOUND FREE Downloads';
 $lang['lang162'] = '';
+$lang['lang163'] = 'Sorry, Currently unavailable point.';

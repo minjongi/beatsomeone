@@ -23,9 +23,9 @@
             <table>
                 <colgroup>
                   <col width="300"/>
-                  <col width="200"/>
-                  <col width="200"/>
-                  <col width="200"/>
+                  <col width="195"/>
+                  <col width="210"/>
+                  <col width="195"/>
                 </colgroup>
                 <thead>
                 <tr>
@@ -42,7 +42,8 @@
                       {{ $t('lang160') }}
                     </p>
                     <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>{{ $t('monthly') }}</em></h2>
-                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)" v-if="this.member_group_name !== 'subscribe_common'">{{ $t('getStarted') }}</a>
+                    <a href="javascript:;" class="btn btn--start" style="background-color: #999494;" v-else>{{ $t('lang159') }}</a>
                   </th>
                   <th v-if="false">
                     <p>
@@ -115,7 +116,8 @@
                     <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
                   </td>
                   <td>
-                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
+                    <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)" v-if="this.member_group_name !== 'subscribe_common'">{{ $t('getStarted') }}</a>
+                    <a href="javascript:;" class="btn btn--start" style="background-color: #999494;" v-else>{{ $t('lang159') }}</a>
                   </td>
                   <td v-if="false">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
@@ -256,6 +258,7 @@
                 selectedGroup: {},
                 subscribedCommon: {},
                 subscribedCreater: {},
+                member_group_name: ''
             }
         },
         filters: {
@@ -285,6 +288,7 @@
             }
 
             window.billTerm = this.billTerm
+            this.member_group_name = window.member_group_name
             this.fetchData()
         },
         watch: {

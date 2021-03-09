@@ -482,7 +482,7 @@
             },
             cor_point(val) {
                 if (this.$i18n.locale === 'en') {
-                  alert('USD 결제는 포인트를 사용할 수 없습니다.')
+                  alert(this.$t('lang163'))
                   this.cor_point = 0
                 }
 

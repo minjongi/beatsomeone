@@ -283,7 +283,8 @@
               <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>/mo</em></h2>
             </div>
             <div class="right">
-              <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
+              <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)" v-if="this.member_group_name !== 'subscribe_common'">{{ $t('getStarted') }}</a>
+              <a href="javascript:;" class="btn btn--start" style="background-color: #999494;" v-else>{{ $t('lang159') }}</a>
             </div>
           </div>
           <table>
@@ -328,7 +329,8 @@
             <!--                <tfoot>-->
             <tr>
               <td colspan="2">
-                <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
+                <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)" v-if="this.member_group_name !== 'subscribe_common'">{{ $t('getStarted') }}</a>
+                <a href="javascript:;" class="btn btn--start" style="background-color: #999494;" v-else>{{ $t('lang159') }}</a>
               </td>
             </tr>
             <!--                </tfoot>-->
@@ -422,6 +424,7 @@
                 selectedGroup: {},
                 subscribedCommon: {},
                 subscribedCreater: {},
+                member_group_name: ''
             }
         },
         filters: {
@@ -440,13 +443,14 @@
             }
         },
         created() {
+            this.member_group_name = window.member_group_name
             const urlParams = new URLSearchParams(window.location.search)
             const type = urlParams.get('type')
 
             if (type === 'sub') {
               this.currentUserType = this.userType[0]
               this.billTerm = 'monthly'
-              this.plan = 'subscribe_creater'
+              this.plan = 'subscribe_common'
               this.planName = 'master'
             } else {
               this.currentUserType = this.userType[1]
