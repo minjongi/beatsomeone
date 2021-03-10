@@ -228,7 +228,6 @@
                             <div class="row">
                                 <div class="col index">{{ calcSeq(myProduct_list.length, i) }}</div>
                                 <div class="col code">{{ item.cit_key }}</div>
-                                <div class="price" style="color: #ffda2a">{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</div>
                             </div>
 
                             <div class="row">
@@ -239,12 +238,11 @@
                                 </div>
 
                                 <div class="col pointer">
-                                    <h3 class="playList__title" v-html="truncate(item.cit_name,20)" style="font-weight: 300"></h3>
+                                    <h3 class="playList__title" v-html="truncate(item.cit_name,20)"></h3>
                                 </div>
 
                                 <!-- Comment -->
                                 <div class="col edit">
-                                   
                                     <button @click="productEditBtn(item.cit_id)" class="btn-edit">
                                         <img src="/assets/images/icon/edit.png"/>
                                     </button>
@@ -259,7 +257,7 @@
                                         class="n-box"
                                     >
                                         <div class="feature">
-                                            <!-- <div class="listen">
+                                            <div class="listen">
                                                 <div class="playbtn">
                                                     <button
                                                         class="btn-play"
@@ -268,9 +266,9 @@
                                                     >재생
                                                     </button>
                                                     <span class="timer">
-                                                        <span class="current">0:00 /</span>
-                                                        <span class="duration">0:00</span>
-                                                    </span>
+                          <span class="current">0:00 /</span>
+                          <span class="duration">0:00</span>
+                        </span>
                                                 </div>
                                             </div>
                                             <div
@@ -281,18 +279,18 @@
                                                     <span>{{ item.detail.LEASE.cde_quantity }}</span>
                                                     {{ $t('left') }}
                                                 </div>
-                                            </div> -->
-                                            
+                                            </div>
+                                            <div class="price">{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</div>
                                         </div>
                                         <div>
                                             <button class="playList__item--button">
-                                                <span class="option_fold">
-                                                <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
-                                                </span>
+                        <span class="option_fold">
+                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
+                        </span>
                                                 <div>
-                                                    <div class="title" style="margin-bottom: 3px" @click.self="toggleButton">{{ $t('lang23') }}
+                                                    <div class="title" @click.self="toggleButton">{{ $t('lang23') }}
                                                     </div>
-                                                    <p style="margin-top: 3px">{{ $t('lang24') }}</p>
+                                                    <p>{{ $t('lang24') }}</p>
                                                 </div>
                                                 <!-- <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div> -->
                                             </button>
@@ -307,7 +305,7 @@
                                         class="n-box"
                                     >
                                         <div class="feature">
-                                            <!-- <div class="listen">
+                                            <div class="listen">
                                                 <div class="playbtn">
                                                     <button
                                                         class="btn-play"
@@ -316,9 +314,9 @@
                                                     >재생
                                                     </button>
                                                     <span class="timer">
-                                                        <span data-v-27fa6da0 class="current">0:00 /</span>
-                                                        <span class="duration">0:00</span>
-                                                    </span>
+                          <span data-v-27fa6da0 class="current">0:00 /</span>
+                          <span class="duration">0:00</span>
+                        </span>
                                                 </div>
                                             </div>
                                             <div class="amount">
@@ -327,8 +325,8 @@
                                                     <span>{{ item.detail.STEM.cde_quantity }}</span>
                                                     {{ $t('left') }}
                                                 </div>
-                                            </div> -->
-                                            <!-- <div class="price">{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</div> -->
+                                            </div>
+                                            <div class="price">{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</div>
                                         </div>
                                         <div>
                                             <button class="playList__item--button">

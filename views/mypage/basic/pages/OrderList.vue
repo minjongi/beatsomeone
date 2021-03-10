@@ -13,20 +13,20 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="order-pane">
                 <div class="d-flex mb-3">
-                        <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                            <label class="btn active">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked> {{$t('all')}}
-                            </label>
-                            <label class="btn">
-                                <input type="radio" name="options" id="option2" autocomplete="off"> {{$t('months3')}}
-                            </label>
-                            <label class="btn">
-                                <input type="radio" name="options" id="option3" autocomplete="off"> {{$t('months6')}}
-                            </label>
-                            <label class="btn">
-                                <input type="radio" name="options" id="option4" autocomplete="off"> {{$t('year1')}}
-                            </label>
-                        </div>
+                    <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                        <label class="btn active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> {{$t('all')}}
+                        </label>
+                        <label class="btn">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> {{$t('months3')}}
+                        </label>
+                        <label class="btn">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> {{$t('months6')}}
+                        </label>
+                        <label class="btn">
+                            <input type="radio" name="options" id="option4" autocomplete="off"> {{$t('year1')}}
+                        </label>
+                    </div>
                     <div class="ml-auto">
                         <VueHotelDatepicker
                                 class="search-date"

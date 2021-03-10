@@ -447,7 +447,6 @@ $lang['detailSimilarTracksNotexists'] = 'Cannot find track of similar type';
 $lang['detailCommentsNotexists'] = 'There are no registered comments.';
 $lang['mainMore'] = 'Browse all Beat tracks';
 $lang['tryMasterPlanPromotion'] = 'Try the Master Plan as a promotion';
-$lang['free'] = 'FREE';
 $lang['lang1'] = 'FREE';
 $lang['lang2'] = 'Original';
 $lang['lang3'] = 'Copyright Registered';

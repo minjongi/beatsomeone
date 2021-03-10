@@ -613,8 +613,4 @@ class Banner extends CB_Controller
 
 		redirect($redirecturl);
 	}
-	public function getlist() {
-		$result = $this->{$this->modelname}->get();
-		var_dump($result);
-	}
 }

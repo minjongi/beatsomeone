@@ -99,7 +99,7 @@ export default {
             cartItems: [],
             totalPriceKr: 0,
             totalPriceEn: 0.0,
-            checkedAll: true,
+            checkedAll: false,
             cntSelectedItems: 0,
             msgEmptyCart: "There is no purchaseable list.",
         };
@@ -149,7 +149,7 @@ export default {
                 .then(data => {
                     this.cartItems = data;
                     this.cartItems.forEach(item => {
-                        this.$set(item, 'is_selected', true);
+                        this.$set(item, 'is_selected', false);
                     })
                 })
                 .catch(error => {

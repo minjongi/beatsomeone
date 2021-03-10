@@ -15,10 +15,10 @@
                             <h2 class="title" style="font-weight: 600;" v-if="item.cit_name">{{ truncate(item.cit_name, 15) }}</h2>
 <!--                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>-->
                             <div class="state" v-if="item">
-                                <div class="state-singer" v-if="item">{{ item.mem_nickname }}</div> <div style="display: flex; align-items: center;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
+                                <span class="state-singer" v-if="item">{{ item.mem_nickname }}</span>
 <!--                                <span class="song">0{{ item.cde_download }}</span>-->
                                 <!--                                <span class="song">120</span>-->
-                                <div style="margin-top: 10px" class="registed">{{ item.release_datetime }}</div>
+                                <span class="registed">{{ item.release_datetime }}</span>
                             </div>
                             <div style="font-size: 12px; margin-top: 10px">
                                 <span class="fa fa-share-alt"></span>
@@ -29,18 +29,16 @@
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a class="buy waves-effect free" @click="addCart" href="javascript:;" 
-                                        v-if="is_subscriber && item.cit_type5 === '1' && remainDownloadNumber() > 0">
-                                        <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}} (구독 잔여 {{remain_download_num}})</span>
-                                        <span v-else>
-                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{remainDownloadNumber()}})
+                                        v-if="is_subscriber && item.cit_type5 === '1' && remain_download_num > 0">
+                                        <span>
+                                            {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
                                         </span>
                                     </a>
                                     <a class="buy waves-effect" @click="addCart" href="javascript:;" v-else>
-                                        <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}}</span>
-                                        <span v-else-if="item.cit_lease_license_use === '1'">
+                                        <span v-if="item.cit_lease_license_use === '1'">
                                             {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                         </span>
-                                        <span v-else-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
+                                        <span v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                     </a>
@@ -303,7 +301,6 @@
                 //     .catch(error => {
                 //         console.error(error);
                 //     })
-                return this.remain_download_num
             },
             stop() {
                 Amplitude.pause();

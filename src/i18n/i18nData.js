@@ -40,7 +40,7 @@ export default {
         filter: '조건 검색',
         findingMusicMsg: '당신이 찾는 모든 사운드가 여기에,',
         firstName: '이름',
-        free: '무료',
+        free: 'FREE',
         freeBeats: '무료 음원',
         generalInfo: '일반 정보',
         getStarted: '시작하기',

@@ -5,40 +5,37 @@
                 <div class="info">
                     <div class="code">{{ item.item.cit_key }}</div>
                 </div>
-                <div class="edit" style="margin-right: 80px">
+                <div class="edit">
                     <div
                         class="download_status"
                         :class="getDownStatusColor(item.item)"
                     >{{ $t(funcDownStatus(item.item)) }}
                     </div>
                 </div>
-                <div class="price" style="color: #ffda2a;">
+                <div class="price" style="color: white;">
                     {{
                         formatPrice(item.itemdetail[0].cde_price, item.itemdetail[0].cde_price_d, pg)
                     }}
                 </div>
             </div>
 
-            <div class="name"  style="margin-right: 0; padding:0">
-                <div style="display:flex; justify-content: space-between; width: 100%;">
-                    <div style="display:flex;">
-                        <div class="playList__cover">
-                            <img
-                                v-if="!item.item.cit_file_1"
-                                :src="'/assets/images/cover_default.png'"
-                                alt
-                            />
-                            <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt/>
-                            <i v-if="item.item.is_new" class="label new">N</i>
-                        </div>
-                        <figcaption class="pointer">
-                            <h3 class="playList__title">{{ formatCitName(item.item.cit_name,25) }}</h3>
-                            <span class="playList__by">by {{ item.item.mem_nickname }}</span>
-                            <!-- <span style="margin-top: 5px; display: block;" v-if="item.item.bpm" class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
-                            <span style="margin-top: 5px; display: block;" v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span> -->
-                        </figcaption>
+            <div class="name">
+                <figure class="n-flex" style="margin-right: 0;">
+                    <div class="playList__cover">
+                        <img
+                            v-if="!item.item.cit_file_1"
+                            :src="'/assets/images/cover_default.png'"
+                            alt
+                        />
+                        <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt/>
+                        <i v-if="item.item.is_new" class="label new">N</i>
                     </div>
-                    
+                    <figcaption class="pointer">
+                        <h3 class="playList__title">{{ formatCitName(item.item.cit_name,25) }}</h3>
+                        <span class="playList__by">by {{ item.item.mem_nickname }}</span>
+                        <span style="margin-top: 5px; display: block;" v-if="item.item.bpm" class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }} | {{ item.item.bpm }}BPM</span>
+                        <span style="margin-top: 5px; display: block;" v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span>
+                    </figcaption>
 
                     <button v-if="item.item.possible_download === 1"
                             @click="downloadWithAxios(item.itemdetail[0])" class="btn-edit">
@@ -47,7 +44,7 @@
                     <button v-else class="btn-edit unable">
                         <img src="/assets/images/icon/down.png"/>
                     </button>
-                </div>
+                </figure>
             </div>
             <div class="col n-option">
                 <div class="option">

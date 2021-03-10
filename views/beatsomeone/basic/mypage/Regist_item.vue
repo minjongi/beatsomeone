@@ -744,19 +744,19 @@ export default {
         return false;
       }
 
-      // if (!this.item.unTaggedFile && !this.item.unTaggedFileName) {
-      //   alert(this.$t("registerSoundSource"));
-      //   return false;
-      // }
+      if (!this.item.unTaggedFile && !this.item.unTaggedFileName) {
+        alert(this.$t("registerSoundSource"));
+        return false;
+      }
 
-      // if (
-      //   this.item.licenseStemUseYn &&
-      //   !this.item.stemFile &&
-      //   !this.item.stemFileName
-      // ) {
-      //   alert(this.$t("attachStemsFile"));
-      //   return false;
-      // }
+      if (
+        this.item.licenseStemUseYn &&
+        !this.item.stemFile &&
+        !this.item.stemFileName
+      ) {
+        alert(this.$t("attachStemsFile"));
+        return false;
+      }
 
       if (!this.item.licenseLeaseUseYn && !this.item.licenseStemUseYn) {
         alert(this.$t("selectSalesType"));

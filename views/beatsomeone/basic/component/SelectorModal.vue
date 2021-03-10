@@ -24,10 +24,9 @@
                                             {{ detailItem.cde_type }}
                                         </p>
                                     </div>
-                                    {{detailItem}}
+
                                     <div class="parchase-btnbox">
                                         <button class="buy waves-effect" @click="addCart(detailItem)">
-                                           
                                             <span>{{ $t('currencySymbol') }} {{ $i18n.locale === 'en' ? formatPrice(detailItem.cde_price_d) : formatPrice(detailItem.cde_price) }}</span>
                                         </button>
                                     </div>

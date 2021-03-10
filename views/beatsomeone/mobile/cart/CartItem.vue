@@ -38,7 +38,9 @@
                     >
                         <img src="/assets_m/images/icon/buy_now.png" width="12" alt/>
                     </button>
-                    
+                    <div class="price 11221122" style="margin-top: 5px; font-size: 12px;">
+                        {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, item.isfree) }}
+                    </div>
                 </div>
             </div>
             <div class="n-flex">
@@ -47,53 +49,48 @@
                     <div class="option" v-if="item.detail[0].cde_title === 'LEASE'">
                         <div class="n-box">
                             <div>
-                                <!-- <div style="display:flex;"> -->
-                                    <button class="playList__item--button">
-                                        <span class="option_fold">
-                                            <img
-                                                src="/assets/images/icon/togglefold.png"
-                                                @click.self="toggleButton"
-                                            />
-                                        </span>
-                                        <div>
-                                            <div class="title" style="font-size: 12px;" @click.self="toggleButton">
-                                                {{ $t('lang23') }}
-                                            </div>
-                                            <div class="detail">{{ $t('lang24') }}</div>
+                                <button class="playList__item--button">
+                                  <span class="option_fold">
+                                    <img
+                                        src="/assets/images/icon/togglefold.png"
+                                        @click.self="toggleButton"
+                                    />
+                                  </span>
+                                    <div>
+                                        <div class="title" style="font-size: 12px;" @click.self="toggleButton">
+                                            {{ $t('lang23') }}
                                         </div>
-                                        <div class="price 11221122" style="margin-top: 5px; font-size: 12px;">
-                                            {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, item.isfree) }}
-                                        </div>
-                                    </button>
-                                   
-                                <!-- </div> -->
+                                        <div class="detail">{{ $t('lang24') }}</div>
+                                    </div>
+                                </button>
                                 <div class="option_item basic">
                                     <div class="purchase-description">
-                                        <p style="font-size:10px;">      
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info6.png" alt/>
                                             </i>
                                             {{$t('lang25')}}
                                         </p>
-                                         <p style="font-size:10px;">
+                                        <p></p>
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info1.png" alt/>
                                             </i>
                                             {{$t('lang26')}}
                                         </p>
-                                         <p style="font-size:10px;">
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info3.png" alt/>
                                             </i>
                                             {{$t('lang27')}}
                                         </p>
-                                        <p style="font-size:10px;">
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info2.png" alt/>
                                             </i>
                                             {{$t('lang28')}}
                                         </p>
-                                         <p style="font-size:10px;">
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info7.png" alt/>
                                             </i>
@@ -102,7 +99,6 @@
                                     </div>
                                 </div>
                             </div>
-                           
                         </div>
                     </div>
                     <div class="option basic" v-else-if="item.detail[0].cde_title === 'STEM'">
@@ -126,37 +122,37 @@
                                 </button>
                                 <div class="option_item unlimited">
                                     <div class="purchase-description">
-                                         <p style="font-size:10px;">
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info6.png" alt/>
                                             </i>
                                             {{ $t('lang33') }}
                                         </p>
-                                         <p style="font-size:10px;">
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info8.png"/>
                                             </i>
                                             {{$t('lang34')}}
                                         </p>
-                                         <p style="font-size:10px;">
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info9.png"/>
                                             </i>
                                             {{$t('lang35')}}
                                         </p>
-                                         <p style="font-size:10px;">
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info4.png"/>
                                             </i>
                                             {{$t('lang36')}}
                                         </p>
-                                        <p v-if="item.cit_include_copyright_transfer !== '1'" style="font-size:10px;">
+                                        <p v-if="item.cit_include_copyright_transfer !== '1'">
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info10.png"/>
                                             </i>
                                             {{$t('lang41')}}
                                         </p>
-                                        <p v-else style="font-size:10px;">
+                                        <p v-else>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info10.png"/>
                                             </i>

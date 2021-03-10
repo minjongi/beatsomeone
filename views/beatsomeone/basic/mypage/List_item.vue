@@ -272,15 +272,16 @@
                                         </div>
                                         <h3 class="playList__title" v-html="truncate(item.cit_name,50)"></h3>
                                         <span class="playList__by">by {{ item.mem_nickname }}</span>
-                                        <span class="playList__bpm" v-if="item.bpm">{{ getGenre(item.genre, item.subgenre) }} | {{ item.bpm }}BPM</span>
-                                        <span class="playList__bpm" v-else>{{ getGenre(item.genre, item.subgenre) }}</span>
+                                        <span
+                                            class="playList__bpm"
+                                        >{{ getGenre(item.genre, item.subgenre) }} | {{ item.bpm }}BPM</span>
                                     </figcaption>
                                 </figure>
                             </div>
                             <div class="col n-option">
                                 <div v-if="item.detail.LEASE && item.cit_lease_license_use === '1'">
                                     <div class="feature">
-                                        <!-- <div class="listen">
+                                        <div class="listen">
                                             <div class="playbtn">
                                                 <button
                                                     class="btn-play"
@@ -297,7 +298,7 @@
                                                 <span>{{ item.detail.LEASE.cde_quantity }}</span>
                                                 {{ $t('left') }}
                                             </div>
-                                        </div> -->
+                                        </div>
                                         <div class="price">
                                             {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                         </div>
@@ -322,7 +323,7 @@
                                 </div>
                                 <div v-if="item.detail.STEM && item.cit_mastering_license_use === '1'">
                                     <div class="feature">
-                                        <!-- <div class="listen">
+                                        <div class="listen">
                                             <div class="playbtn">
                                                 <button
                                                     class="btn-play"
@@ -332,14 +333,14 @@
                                                 </button>
                                                 <span class="timer"><span data-v-27fa6da0 class="current">0:00 /</span><span class="duration">0:00</span></span>
                                             </div>
-                                        </div> -->
-                                        <!-- <div class="amount">
+                                        </div>
+                                        <div class="amount">
                                             <img src="/assets/images/icon/cd.png"/>
                                             <div>
                                                 <span>{{ item.detail.STEM.cde_quantity }}</span>
                                                 {{ $t('left') }}
                                             </div>
-                                        </div> -->
+                                        </div>
                                         <div class="price">
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </div>

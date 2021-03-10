@@ -121,22 +121,4 @@ class Member_model extends CB_Model
 
 		return $result;
 	}
-
-	public function get_member_list($memId){
-		$filesCount = count($memId);
-		$k=0;
-		$data = [];
-        for($i = 0; $i < $filesCount; $i++) {
-			$this->db->from($this->_table);
-			$this->db->where('mem_id', $memId[$i]['mem_id']);
-			$qry = $this->db->get();
-			$result = $qry->result_array();
-
-			if ( $result != []){
-				$data[$k] = $result[0];
-			}
-			$k++;
-		}
-		return $data;
-	}
 }
