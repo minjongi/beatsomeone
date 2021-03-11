@@ -76,19 +76,13 @@
               </div>
               <div class="playList">
                 <!-- 아래 템플릿 문자열로 붙임 -->
-                <transition-group
-                    name="staggered-fade"
-                    tag="ul"
-                    v-bind:css="false"
-                    v-on:before-enter="beforeEnter"
-                    v-on:enter="enter"
-                    v-on:leave="leave">
+                <ul>
                   <template v-for="item in list">
                     <KeepAliveGlobal :key="item.cit_key">
                       <Index_Items :item="item" :key="item.cit_key"></Index_Items>
                     </KeepAliveGlobal>
                   </template>
-                </transition-group>
+                </ul>
                 <div class="playList__btnbox">
                   <a class="playList__more" :href="moreList" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
                 </div>
