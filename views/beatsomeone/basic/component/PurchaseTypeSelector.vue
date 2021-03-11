@@ -13,6 +13,7 @@
           <h3>{{ item.cit_name }}</h3>
           <p>by {{ item.mem_nickname }}</p>
         </div>
+
         <div class="purchase-list">
           <ul>
             <li
@@ -29,12 +30,12 @@
                   </div>
                   <div class="parchase-btnbox">
                     <a class="buy waves-effect" @click="freeBuy(item.detail.LEASE)" href="javascript:;" v-if="is_subscriber && item.cit_type5 === '1' && remainDownloadNumber() > 0">
-                      <span>
-                        {{ formatPrice(0, 0, true) }} (구독 잔여 {{ remainDownloadNumber() }})
-                      </span>
+                      <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}} (구독 잔여 {{ remainDownloadNumber() }})</span>
+                      <span v-else>{{ formatPrice(0, 0, true) }} (구독 잔여 {{ remainDownloadNumber() }})</span>
                     </a>
                     <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
-                      <span>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
+                      <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}}</span>
+                      <span v-else>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
                       <span v-if="is_subscriber && item.cit_type5 == '1'"> (구독 잔여 {{ remainDownloadNumber() }})</span>
                     </a>
                   </div>
@@ -95,7 +96,8 @@
 
                   <div class="parchase-btnbox">
                     <a class="buy waves-effect" @click="addCart(item.detail.STEM)" href="javascript:;">
-                      <span>{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</span>
+                      <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}}</span>
+                      <span v-else>{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</span>
                     </a>
                   </div>
                 </div>
@@ -186,6 +188,7 @@ export default {
   methods: {
     remainDownloadNumber() {
       this.remain_download_num = Number(localStorage.getItem("remain_download_num"));
+      console.log('this is remain_download_num', this.remain_download_num);
       return this.remain_download_num;
         // axios.get('/membermodify/mem_remain_downloads_get')
         //     .then(res=>{

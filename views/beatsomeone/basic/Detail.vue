@@ -10,34 +10,39 @@
                         </div>
                         <div class="detail__music-info">
                             <h2 class="title" v-if="item">{{ truncate(item.cit_name, 50) }}</h2>
-                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>
+                            <div style="display: flex; align-items: center;">
+                                 <p class="singer" v-if="item">by {{ item.mem_nickname }} </p> <div style="display: flex; align-items: center; margin-top: 10px;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
+                            </div>
+                           
                             <div class="state" v-if="item">
 <!--                                <span class="song">{{ item.cde_download }}</span>-->
                                 <!--                                <span class="play">120</span>-->
-                                <span class="registed">{{ item.cit_start_datetime }}</span>
-                                <div class="etc" v-if="!!item.info_content" v-html="item.info_content"></div>
+                                <span class="registed">{{ vt | dateFormatNowFilter("YYYY-MM-DD") }}</span>
+                                <!-- <div class="etc" v-if="!!item.info_content" v-html="item.info_content"></div> -->
                             </div>
 
                             <div class="utils" v-if="item">
                                 <div class="utils__info">
                                     <a class="buy waves-effect free" @click="addCart" href="javascript:;" 
                                         v-if="is_subscriber && item.cit_type5 === '1' && remain_download_num > 0">
-                                        <span>
+                                        <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}} (구독 잔여 {{remain_download_num}})</span>
+                                        <span v-else>
                                             {{ formatPrice(0, 0, true) }} (구독 잔여 {{remain_download_num}})
                                         </span>
                                     </a>
                                     <a class="buy waves-effect" @click="addCart" href="javascript:;" v-else>
-                                        <span v-if="item.cit_lease_license_use === '1'">
+                                        <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}}</span>
+                                        <span v-else-if="item.cit_lease_license_use === '1'">
                                             {{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}
                                         </span>
-                                        <span v-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
+                                        <span  v-else-if="item.cit_lease_license_use === '0' && item.cit_mastering_license_use === '1'">
                                             {{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}
                                         </span>
                                     </a>
                                     <!-- <span class="cart pointer" @click="addCart">{{ item.sell_cnt }}</span> -->
                                     <span class="talk pointer" @click="selectTab(tabs[1])">{{ item.cit_review_count }}</span>
                                     <div class="share">
-                                        <span>{{ item.cit_share_count }}</span> /
+                                        <!-- <span>{{ item.cit_share_count }}</span> / -->
                                         <span class="share pointer" @click="clickShare('twitter')">{{ $t('lang107') }}</span> /
                                         <span class="share pointer" @click="clickShare('facebook')">{{ $t('lang108') }}</span> /
                                         <span class="share pointer" @click="copyLinkToClipboard">{{ $t('lang109') }}</span>
@@ -123,6 +128,7 @@
     import PurchaseTypeSelector from "./component/PurchaseTypeSelector";
     import axios from 'axios';
     import WaveSurfer from 'wavesurfer.js'
+    var moment = require('moment');
 
     export default {
         components: {Header, Footer, MainPlayer, PurchaseTypeSelector},
@@ -137,7 +143,8 @@
                 isIncreaseMusicCount: false,
                 is_subscriber: false,
                 member_group_name: '',
-                remain_download_num: 0
+                remain_download_num: 0,
+                vt:''
             };
         },
         computed: {
@@ -166,7 +173,12 @@
                 .then(res => res.data)
                 .then(data => {
                     this.item = data;
-                    console.log('this is important', this.item);
+                    let temp_vt = new Date(this.item.cit_datetime);
+                    this.vt = moment(temp_vt).format('YYYY.MM.DD'); 
+                    // this.item.map((list)=>{
+                         
+                    // });
+                   console.log('this is important',   this.vt);
                 })
                 .catch(error => {
                     console.error(error);

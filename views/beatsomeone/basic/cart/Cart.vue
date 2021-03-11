@@ -103,7 +103,7 @@ export default {
             cartItems: [],
             totalPriceKr: 0,
             totalPriceEn: 0.0,
-            checkedAll: false,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                checkedAll: true,
             cntSelectedItems: 0,
             msgEmptyCart: "There is no purchaseable list.",
         };
@@ -155,7 +155,7 @@ export default {
                 .then(data => {
                     this.cartItems = data;
                     this.cartItems.forEach(item => {
-                        this.$set(item, 'is_selected', false);
+                        this.$set(item, 'is_selected', true);
                     })
                 })
                 .catch(error => {

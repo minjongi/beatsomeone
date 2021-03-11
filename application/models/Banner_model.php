@@ -40,7 +40,7 @@ class Banner_model extends CB_Model
 		if (strtolower($type) !== 'order') {
 			$type = 'random';
 		}
-
+		
 		$cachename = 'banner/banner-' . $position . '-' . $type . '-' . cdate('Y-m-d');
 
 		if ( ! $result = $this->cache->get($cachename)) {
@@ -63,13 +63,50 @@ class Banner_model extends CB_Model
 
 			$this->cache->save($cachename, $result, $this->cache_time);
 		}
-
+		
 		if ($type === 'random') {
 			shuffle($result);
 		}
 		if ($limit) {
 			$result = array_slice($result, 0, $limit);
 		}
+
+		return $result;
+	}
+
+	public function get_banner_list($config)
+	{
+		$ban_device = element('ban_device', $config);
+        $limit = element('limit', $config);
+
+		$cachename = 'banner/banner-' . $ban_device . '-' . cdate('Y-m-d');
+
+			$this->db->from($this->_table);
+			$this->db->group_start();
+			$this->db->where('ban_device', $ban_device);
+			$this->db->or_where('ban_device', 'all');
+			$this->db->group_end();
+			$this->db->where('ban_activated', 1);
+			$this->db->group_start();
+			$this->db->where(array('ban_start_date <=' => cdate('Y-m-d')));
+			$this->db->or_where(array('ban_start_date' => null));
+			$this->db->group_end();
+			$this->db->group_start();
+			$this->db->where('ban_end_date >=', cdate('Y-m-d'));
+//			$this->db->or_where('ban_end_date', '1000-01-01');
+//			$this->db->or_where(array('ban_end_date' => ''));
+			$this->db->or_where(array('ban_end_date' => null));
+			$this->db->group_end();
+			$this->db->order_by('ban_order', 'DESC');
+			$res = $this->db->get();
+			$result = $res->result_array();
+
+			$this->cache->save($cachename, $result, $this->cache_time);
+
+		if ($limit) {
+			$result = array_slice($result, 0, $limit);
+		}
+
 		return $result;
 	}
 }

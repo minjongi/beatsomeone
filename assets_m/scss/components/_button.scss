@@ -185,3 +185,21 @@
     }
   }
 }
+.button {
+  opacity: .3;
+  transition: .3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+div.btn {
+  text-align: center;
+
+  > * {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    margin: auto;
+  }
+}
