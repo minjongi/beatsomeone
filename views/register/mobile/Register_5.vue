@@ -115,6 +115,7 @@ export default {
                 axios.post('/register/form', formData)
                     .then(res => res.data)
                     .then(data => {
+                        window.mobonConversion('회원가입','회원가입')
                         window.gtag_report_conversion()
                         if (group.mgr_title === 'buyer' || group.mgr_title === 'seller_free') {
                             alert(this.$t('successfullyRegistered'))

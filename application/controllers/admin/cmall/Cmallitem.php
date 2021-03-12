@@ -924,17 +924,11 @@ class Cmallitem extends CB_Controller
                 $seller_mem_nickname = element('mem_nickname', $mem);
 			}
 
-            $infoContent6 = [];
-            $infoContent1 = [];
-            $infoContent4 = [];
-            $infoContent5 = [];
-            foreach ($this->config->item('validLocale') as $lang) {
-                $this->lang->load('bso_lang', $lang);
-                $infoContent6[] = lang('trackType' . str_replace('-', '', str_replace(' ', '', $metadata['info_content_6'])));
-                $infoContent1[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $metadata['info_content_1'])));
-                $infoContent4[] = lang('genre' . str_replace('-', '', str_replace(' ', '', $metadata['info_content_4'])));
-                $infoContent5[] = lang('moods' . str_replace('-', '', str_replace(' ', '', $metadata['info_content_5'])));
-            }
+            $infoContent6 = get_search_track_type($metadata['info_content_6']);
+            $infoContent1 = get_search_genre($metadata['info_content_1']);
+            $infoContent4 = get_search_genre($metadata['info_content_4']);
+            $infoContent5 = get_search_moods($metadata['info_content_5']);
+
             $infoContent6 = implode('|', array_unique($infoContent6));
             $infoContent1 = implode('|', array_unique($infoContent1));
             $infoContent4 = implode('|', array_unique($infoContent4));

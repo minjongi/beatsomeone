@@ -87,7 +87,7 @@
                                     </KeepAliveGlobal>
                                 </template>
                             </transition-group>
-                            <div class="loader" style="margin-top: 50px;">
+                            <div v-if="busy" class="loader" style="margin-top: 50px;">
                               <div class="bar1"></div>
                               <div class="bar2"></div>
                               <div class="bar3"></div>
@@ -95,7 +95,6 @@
                               <div class="bar5"></div>
                               <div class="bar6"></div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -313,30 +312,26 @@ export default {
 
         // BPM range
         if ($(".bpmRange").length) {
-            $(".bpmRange input").ionRangeSlider({
-                skin: "round",
-                type: "double",
-                min: 0,
-                max: 170,
-                from: 0,
-                to: 0,
-                onStart: (data) => {
-
-                    $("#bpm-start").val(0);
-                    $("#bpm-end").val(125);
-                    this.param.currentBpmFr = data.from_pretty;
-                    this.param.currentBpmTo = data.to_pretty;
-                },
-                onChange: (data) => {
-                    // log.debug({
-                    //     'rpm onChange':data,
-                    // })
-                    $("#bpm-start").val(data.from_pretty);
-                    $("#bpm-end").val(data.to_pretty);
-                    this.param.currentBpmFr = data.from_pretty;
-                    this.param.currentBpmTo = data.to_pretty;
-                }
-            });
+          $(".bpmRange input").ionRangeSlider({
+            skin: "round",
+            type: "double",
+            min: 0,
+            max: 170,
+            from: 0,
+            to: 0,
+            onStart: (data) => {
+              $("#bpm-start").val(data.from);
+              $("#bpm-end").val(data.to);
+              this.param.currentBpmFr = data.from;
+              this.param.currentBpmTo = data.to;
+            },
+            onChange: (data) => {
+              $("#bpm-start").val(data.from_pretty);
+              $("#bpm-end").val(data.to_pretty);
+              this.param.currentBpmFr = data.from_pretty;
+              this.param.currentBpmTo = data.to_pretty;
+            },
+          });
         }
 
         // 커스텀 셀렉트 옵션
@@ -353,7 +348,6 @@ export default {
         });
 
         this.updateAllList();
-
     },
     computed: {
         listFilterName() {
@@ -562,6 +556,8 @@ export default {
 <style lang="scss" scope="scope">
 @import '@/assets_m/scss/App.scss';
 @import "~swiper/swiper.scss";
+@import "/assets/plugins/rangeSlider/css/ion.rangeSlider.min.css";
+
 html, body {
     background: #111214;
 }

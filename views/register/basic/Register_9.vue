@@ -109,8 +109,8 @@
                     axios.post('/register/form', formData)
                         .then(res => res.data)
                         .then(data => {
-                            console.log('this is data_______', data);
-                            console.log(mgrId);
+                            window.mobonConversion('회원가입','회원가입')
+                            window.gtag_report_conversion()
                             if (mgrId === 0 || mgrId === 1) {
                                 alert(this.$t('successfullyRegistered'));
                                 window.location.href = this.helper.langUrl(this.$i18n.locale, '/');

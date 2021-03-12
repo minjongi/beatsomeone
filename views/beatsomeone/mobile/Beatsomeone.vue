@@ -11,17 +11,17 @@
 <!--            </div>-->
 <!--          </div>-->
 <!--        </div>-->
-        <div v-if="popup1">
-          <div class="noti-wrap"></div>
-          <div class="noti-content">
-            <div>
-              <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/1.png'"></a>
-            </div>
-            <div>
-              <img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/2.png'" @click="closePopup1(true)" style="width:50%;"><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/3.png'" @click="closePopup1()" style="width:50%;">
-            </div>
-          </div>
-        </div>
+<!--        <div v-if="popup1">-->
+<!--          <div class="noti-wrap"></div>-->
+<!--          <div class="noti-content">-->
+<!--            <div>-->
+<!--              <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/1.png'"></a>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/2.png'" @click="closePopup1(true)" style="width:50%;"><img :src="'/assets_m/images/event/2101241/' + $i18n.locale + '/3.png'" @click="closePopup1()" style="width:50%;">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="wrapper">
             <Header :is-login="isLogin"></Header>
             <div class="container">
@@ -227,7 +227,6 @@
                 </div>
             </div>
         </div>
-        <FooterBanner :footerBanner="footerBanner"/>
         <main-player></main-player>
     </div>
 </template>
@@ -239,7 +238,6 @@
     import axios from 'axios';
     import Header from "./include/Header";
     import Footer from "./include/Footer";
-    import FooterBanner from "./component/FooterBanner"
     import Index_Items from "./Index_Items";
     import {EventBus} from "*/src/eventbus";
     import Velocity from "velocity-animate";
@@ -249,7 +247,7 @@
 
     export default {
         name: "Index",
-        components: {Header, Footer, FooterBanner, Index_Items, MainPlayer, KeepAliveGlobal},
+        components: {Header, Footer, Index_Items, MainPlayer, KeepAliveGlobal},
         data: function () {
             return {
                 userInfo: null,
@@ -325,9 +323,9 @@
             // if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
             //   this.openPopup()
             // }
-            if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
-              this.openPopup1()
-            }
+            // if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
+            //   this.openPopup1()
+            // }
         },
         watch: {
             // 장르가 변경될 때

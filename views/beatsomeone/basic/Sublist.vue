@@ -286,18 +286,12 @@ export default {
         from: 0,
         to: 0,
         onStart: (data) => {
-          // log.debug({
-          //     'rpm onStart':data,
-          // })
           $("#bpm-start").val(data.from);
           $("#bpm-end").val(data.to);
           this.param.currentBpmFr = data.from;
           this.param.currentBpmTo = data.to;
         },
         onChange: (data) => {
-          // log.debug({
-          //   'rpm onChange':data,
-          // })
           $("#bpm-start").val(data.from_pretty);
           $("#bpm-end").val(data.to_pretty);
           this.param.currentBpmFr = data.from_pretty;

@@ -109,6 +109,7 @@
                             <!--테스트 여부-->
                             <input type="hidden" name="allat_test_yn" v-model="allatForm.test_yn" maxlength="1"/>
                             <input type="hidden" name="allat_card_yn" v-model="allatForm.card_yn" maxlength="1"/>
+                            <input type="hidden" name="allat_sell_mm" v-model="allatForm.sell_mm" maxlength="2"/>
                             <input type="hidden" name="allat_encode_type" value="U"/>
                         </form>
                         <p>
@@ -172,6 +173,7 @@
                     vbank_yn: "N",
                     encode_type: "U",
                     enc_data: "",
+                    sell_mm: '00'
                 },
                 orderNo: ''
             }

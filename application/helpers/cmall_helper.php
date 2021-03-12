@@ -239,3 +239,90 @@ if (!function_exists('gen_search_data')) {
     }
 
 }
+
+if (!function_exists('get_search_genre')) {
+
+    function get_search_genre($genre)
+    {
+        $searchData = [
+            'Hip hop' => ['Hip hop', '힙합'],
+            'K-pop' => ['K-pop', '케이팝'],
+            'Pop' => ['Pop', '팝'],
+            'R&B' => ['R&B', '알앤비', 'rnb'],
+            'Dance' => ['Dance', '댄스'],
+            'Rock' => ['Rock', '락'],
+            'Electronic' => ['Electronic', '일렉트로닉'],
+            'Jazz' => ['Jazz', '재즈'],
+            'Acoustic' => ['Acoustic', '어쿠스틱'],
+            'Indie' => ['Indie', '인디'],
+            'Reggae' => ['Reggae', '레게'],
+            'World' => ['World', '월드']
+        ];
+
+        return $searchData[$genre] ?? [];
+    }
+
+}
+
+if (!function_exists('get_search_moods')) {
+
+    function get_search_moods($moods)
+    {
+        $searchData = [
+            'Angry' => ['Angry', '화나는'],
+            'Annoyed' => ['Annoyed', '짜증나는'],
+            'Anxious' => ['Anxious', '불안한'],
+            'Bouncy' => ['Bouncy', '탄력적인'],
+            'Calm' => ['Calm', '차분한'],
+            'Chill' => ['Chill', '쿨한느낌'],
+            'Confident' => ['Confident', '자신감 충만'],
+            'Crazy' => ['Crazy', '미친느낌'],
+            'Dark' => ['Dark', '어두운'],
+            'Depressed' => ['Depressed', '침체'],
+            'Dirty' => ['Dirty', '지저분한'],
+            'Dope' => ['Dope', '중독성'],
+            'Energetic' => ['Energetic', '활동적인'],
+            'Enraged' => ['Enraged', '분노폭팔'],
+            'Evil' => ['Evil', '사악한'],
+            'Giddy' => ['Giddy', '어지러운'],
+            'Gloomy' => ['Gloomy', '우울한'],
+            'Groovy' => ['Groovy', '리등감'],
+            'Happy' => ['Happy', '행복한'],
+            'Hyper' => ['Hyper', '들뜨는'],
+            'Kitsch' => ['Kitsch', '묘한 중독성'],
+            'Lazy' => ['Lazy', '느긋한'],
+            'Lo-fi' => ['Lo-fi', '로퐈이'],
+            'Lonely' => ['Lonely', '외로움'],
+            'Loved' => ['Loved', '사랑'],
+            'Majestic' => ['Majestic', '웅장한'],
+            'Mellow' => ['Mellow', '멜로'],
+            'Peaceful' => ['Peaceful', '평화로운'],
+            'Rebellious' => ['Rebellious', '반항적인'],
+            'Relaxed' => ['Relaxed', '편안한'],
+            'Sad' => ['Sad', '슬픈'],
+            'Sensual' => ['Sensual', '감각적'],
+            'Scared' => ['Scared', '무서운'],
+            'Soulful' => ['Soulful', '소울풀']
+        ];
+
+        return $searchData[$moods] ?? [];
+    }
+
+}
+
+if (!function_exists('get_search_track_type')) {
+
+    function get_search_track_type($trackType)
+    {
+        $searchData = [
+            'Beats' => ['Beats', '음원'],
+            'Beats with chorus' => ['Beats with chorus', '음원 및 코러스'],
+            'Vocals' => ['Vocals', '보컬 포함'],
+            'Song reference' => ['Song reference', '노래 일부 포함'],
+            'Songs' => ['Songs', '노래']
+        ];
+
+        return $searchData[$trackType] ?? [];
+    }
+
+}
