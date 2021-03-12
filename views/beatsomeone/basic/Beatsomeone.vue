@@ -1,16 +1,16 @@
 <template>
   <div class="wrapper">
-    <div v-if="popup">
-      <div class="noti-wrap"></div>
-      <div class="noti-content">
-        <div>
-          <a :href="helper.langUrl($i18n.locale, '/register')"><img :src="'/assets/images/popup/210312/1.png'"></a>
-        </div>
-        <div>
-          <img :src="'/assets/images/popup/210312/2.png'" @click="closePopup(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/popup/210312//3.png'" @click="closePopup()" style="width:50%;cursor:pointer;">
-        </div>
-      </div>
-    </div>
+<!--    <div v-if="popup">-->
+<!--      <div class="noti-wrap"></div>-->
+<!--      <div class="noti-content">-->
+<!--        <div>-->
+<!--          <a :href="helper.langUrl($i18n.locale, '/register')"><img :src="'/assets/images/popup/210312/1.png'"></a>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <img :src="'/assets/images/popup/210312/2.png'" @click="closePopup(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/popup/210312//3.png'" @click="closePopup()" style="width:50%;cursor:pointer;">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 <!--    <div v-if="popup1">-->
 <!--      <div class="noti-wrap"></div>-->
 <!--      <div class="noti-content">-->
@@ -290,9 +290,9 @@
             if (this.member_group_name) {
               this.remainDownloadNumber();
             }
-            if (Vuecookies.get('popup210312-close') !== 'Y' && this.$i18n.locale !== 'en') {
-              this.openPopup()
-            }
+            // if (Vuecookies.get('popup210312-close') !== 'Y' && this.$i18n.locale !== 'en') {
+            //   this.openPopup()
+            // }
             // if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
             //   this.openPopup1()
             // }
