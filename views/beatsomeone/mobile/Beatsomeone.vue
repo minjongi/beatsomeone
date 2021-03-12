@@ -1,16 +1,16 @@
 <template>
     <div>
-<!--        <div v-if="popup">-->
-<!--          <div class="noti-wrap"></div>-->
-<!--          <div class="noti-content">-->
-<!--            <div>-->
-<!--              <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/1.png'"></a>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/event/210124/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div v-if="popup">
+          <div class="noti-wrap"></div>
+          <div class="noti-content">
+            <div>
+              <a :href="helper.langUrl($i18n.locale, '/register')"><img :src="'/assets_m/images/popup/210312/1.png'"></a>
+            </div>
+            <div>
+              <img :src="'/assets_m/images/popup/210312/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/popup/210312/3.png'" @click="closePopup()" style="width:50%;">
+            </div>
+          </div>
+        </div>
 <!--        <div v-if="popup1">-->
 <!--          <div class="noti-wrap"></div>-->
 <!--          <div class="noti-content">-->
@@ -320,9 +320,9 @@
                 this.remainDownloadNumber();
             }
 
-            // if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
-            //   this.openPopup()
-            // }
+            if (Vuecookies.get('popup210312-close') !== 'Y') {
+              this.openPopup()
+            }
             // if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
             //   this.openPopup1()
             // }
@@ -390,7 +390,7 @@
             },
             closePopup(isForever) {
               if (isForever) {
-                Vuecookies.set('popup210124-close', 'Y', '1d')
+                Vuecookies.set('popup210312-close', 'Y', '1d')
               }
               document.body.style.overflow = ''
               this.popup = false

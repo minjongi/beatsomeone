@@ -10,15 +10,16 @@
                         </div>
                         <div class="detail__music-info">
                             <h2 class="title" v-if="item">{{ truncate(item.cit_name, 50) }}</h2>
-                            <div style="display: flex; align-items: center;">
-                                 <p class="singer" v-if="item">by {{ item.mem_nickname }} </p> <div style="display: flex; align-items: center; margin-top: 10px;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
+                            <div style="display: flex; align-items: center;" v-if="item">
+                                 <p class="singer">by {{ item.mem_nickname }} </p> <div style="display: flex; align-items: center; margin-top: 10px;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
                             </div>
                            
                             <div class="state" v-if="item">
 <!--                                <span class="song">{{ item.cde_download }}</span>-->
                                 <!--                                <span class="play">120</span>-->
-                                <span class="registed">{{ vt | dateFormatNowFilter("YYYY-MM-DD") }}</span>
-                                <!-- <div class="etc" v-if="!!item.info_content" v-html="item.info_content"></div> -->
+                                <span class="registed">{{ vt }}</span>
+<!--                              | dateFormatNowFilter("YYYY-MM-DD")-->
+                              <!-- <div class="etc" v-if="!!item.info_content" v-html="item.info_content"></div> -->
                             </div>
 
                             <div class="utils" v-if="item">
