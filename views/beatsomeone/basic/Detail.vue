@@ -60,10 +60,10 @@
                                 </div>
                                 <div class="category" v-if="item" style="width: 100%;">
                                     <span
-                                            class="pointer"
-                                            v-for="(t,i) in hashtag"
-                                            :key="i"
-                                            @click="clickHash(t)"
+                                        class="pointer"
+                                        v-for="(t,i) in hashtag"
+                                        :key="i"
+                                        @click="clickHash(t)"
                                     >{{ t }}</span>
                                 </div>
                             </div>

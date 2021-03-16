@@ -97,10 +97,10 @@
                     </div>
                 </div>
             </div>
-            <p class="desc">
-                <img data-v-6049000a="" src="/assets/images/icon/info_blue.png">
-                <span>{{$t('depositWaitingStateSupportCaseMenuMsg')}} <a :href="helper.langUrl($i18n.locale, '/mypage#/inquiry/')">{{$t('shortcut')}}</a></span>
-            </p>
+            <div class="desc" style="display: flex; margin-top: 10px;">
+                <img src="/assets/images/icon/info_blue.png" style="height: 14px; margin-right:5px"/>
+                <div style="margin-top: 3px; font-size: 10px; color: #929292;">{{$t('depositWaitingStateSupportCaseMenuMsg')}} <a :href="helper.langUrl($i18n.locale, '/mypage#/inquiry/')" style="color:#ffffff ">{{$t('shortcut')}}</a></div>
+            </div>
         </div>
 
         <div class="n-flex n-btnbox">

@@ -285,9 +285,9 @@ export default {
       let kk = 0
       let flag 
       let tempNewMemberList = []
-       this.showNewMemberList = _.cloneDeep(this.newMemberList)
+      this.showNewMemberList = _.cloneDeep(this.newMemberList)
       this.searchTextList = this.searchText.split(' ');
-      console.log('this is mem_nickname_________________!!! !!', this.searchTextList)
+
       for (let i=0; i<this.showNewMemberList.length; i++){
         if ( this.showNewMemberList[i].length != 0){
           for (let j=0; j<this.showNewMemberList[i].length; j++){
@@ -297,7 +297,7 @@ export default {
               if (kk >= 0){flag = false}
             }
             if (flag){
-              this.showNewMemberList[i].splice(j, 1);
+              this.showNewMemberList[i].splice(j, 1);   
               console.log('this is mem_nickname_________________!!!!!!',flag,this.showNewMemberList[i].splice(j, 1), this.showNewMemberList[i], kk)
             } 
           }

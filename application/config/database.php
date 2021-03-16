@@ -86,6 +86,9 @@ $db['default'] = array(
 	'hostname' => '127.0.0.1',
     'username' => 'root',
     'password' => '',
+	// 'hostname' => '106.10.55.130',
+	// 'username' => 'dumdum',
+    // 'password' => 'Dumdum2020!!',
     'database' => 'beatsomeone',
 
 	'dbdriver' => 'mysqli',
