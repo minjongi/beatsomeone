@@ -99,14 +99,21 @@ class Banner_model extends CB_Model
 			$this->db->group_end();
 			$this->db->order_by('ban_order', 'DESC');
 			$res = $this->db->get();
+			
 			$result = $res->result_array();
+			foreach ( $result as $key => $val) {
+				if (element('ban_image', $val)) {
+					$result[$key]['thumb_url'] = thumb_url('banner', $val['ban_image']);
+				}
+			}
+			
 
 			$this->cache->save($cachename, $result, $this->cache_time);
 
 		if ($limit) {
 			$result = array_slice($result, 0, $limit);
 		}
-
+		
 		return $result;
 	}
 }

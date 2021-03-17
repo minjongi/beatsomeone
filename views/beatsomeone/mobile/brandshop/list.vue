@@ -7,7 +7,7 @@
         <div class="title"><div>BRAND SHOP</div></div>
         <div class="brand-logo-section">
           <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item" style="margin-right:10px;"> 
-            <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.ban_image" :style="bannerStyle(item)" style="max-width: none !important;"></a>
+            <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" :style="bannerStyle(item)" style="max-width: none !important;"></a>
           </div>
         </div>
         <div class="search">
@@ -33,13 +33,13 @@
        
       </div>
       <div v-for="(item,index1) in showSelectAlBe" :key="index1">
-        <div v-if="newMemberList[index1] != 0" class="filter-content">
+        <div v-if="showNewMemberList[index1].length != 0" class="filter-content">
           <div class="filter-result" >
               <div class="filter-result-col2 filter-result-alpa">
                 {{item}}
               </div>
               <div class="filter-result-row">
-                <div v-for ="(member, index) in showNewMemberList[index1]" :key="index" class="filter-result-row3" style="cursor:pointer" @click="memberBrand(member.mem_nickname)">
+                <div v-for ="(member, index) in showNewMemberList[index1]" :key="index" class="filter-result-row3" style="cursor:pointer">
                   <!-- <div class="filter-result-item content truncate-overflow">{{member.mem_nickname}}</div> -->
                   <a  class="filter-result-item content truncate-overflow" :href="helper.langUrl($i18n.locale, '/brandshop/' + member.mem_nickname)">{{member.mem_nickname}}</a>
                   <div class="filter-result-item-name">{{member.mem_address1}}</div>
@@ -72,7 +72,7 @@ import Velocity from "velocity-animate";
 import Loader from "*/vue/common/Loader";
 import MainPlayer from "@/vue/common/MainPlayer";
 import KeepAliveGlobal from "vue-keep-alive-global";
-
+import _ from "lodash";
 export default {
   components: {
     Header,
@@ -254,32 +254,10 @@ export default {
           this.showSelectAlBe = _.cloneDeep(this.selectAlBe);
       });
     },
-    // getListMore: _.debounce(function () {
-    //   this.busy = true;
-    //   const p = {
-    //     limit: 10,
-    //     offset: this.offset,
-    //     sort: this.param.sort,
-    //     genre: this.param.currentGenre,
-    //     subgenre: this.param.currentSubgenres,
-    //     bpmFr: this.param.currentBpmFr,
-    //     bpmTo: this.param.currentBpmTo,
-    //     moods: this.param.currentMoods,
-    //     trackType: this.param.currentTrackType,
-    //     search: this.param.search,
-    //     brand_mem_id: this.brand.mem_id
-    //   };
-    //   Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
-    //     this.list = this.list.concat(r);
-    //     this.last_offset = this.offset;
-    //     this.offset = this.list.length;
-    //     this.busy = false;
-    //   });
-    // }, 1000),
 
     getBannerList() {
       const p = {
-        ban_device:'pc',
+        ban_device:'mobile',
         limit: 10
       };
       Http.post(`/beatsomeoneApi/banner_list`, p).then((r) => {
@@ -290,27 +268,27 @@ export default {
       let kk = 0
       let flag 
       let tempNewMemberList = []
-       this.showNewMemberList = _.cloneDeep(this.newMemberList)
+      this.showNewMemberList = _.cloneDeep(this.newMemberList)
       this.searchTextList = this.searchText.split(' ');
-      console.log('this is mem_nickname_________________!!! !!', this.searchTextList)
-      for (let i=0; i< this.showNewMemberList.length; i++){
+
+      for (let i=0; i<this.showNewMemberList.length; i++){
         if ( this.showNewMemberList[i].length != 0){
-          for (let j=0; j< this.showNewMemberList[i].length; j++){
+          for (let j=0; j<this.showNewMemberList[i].length; j++){
              flag = true
             for (let k=0; k<this.searchTextList.length; k++){
               kk =  this.showNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
               if (kk >= 0){flag = false}
             }
             if (flag){
-              this.showNewMemberList[i].splice(j, 1);
-            }
-             console.log('this is mem_nickname_________________!!', tempNewMemberList, kk)
+              this.showNewMemberList[i].splice(j, 1);   
+              
+            } 
           }
         }
-        
       }
-      console.log('this is mem_nickname', this.showNewMemberList)
+      
       this.showNewMemberList = _.cloneDeep(this.showNewMemberList)
+      this.showSelectAlBe = _.cloneDeep(this.selectAlBe);
     },
     beforeEnter: function (el) {
       el.style.opacity = 0;
@@ -467,6 +445,7 @@ html, body {
   overflow: hidden;
   text-overflow: ellipsis;  
   word-break:break-all;
+  width: 70%;
 }
 
 

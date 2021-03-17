@@ -6,10 +6,10 @@
         <div class="title"><div>BRAND SHOP</div></div>
         <div class="brand-logo-section">
           <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item"> 
-            <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.ban_image" :style="bannerStyle(item)"></a>
+            <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" :style="bannerStyle(item)"></a>
           </div>
         </div>
-        <div class="header__search" style="margin-top: 60px">
+        <div class="header__search" style="margin-top: 60px; margin-bottom: 60px;">
             <div style="position: relative;">
                 <input type="text" v-model="searchText" @keyup.enter="search"/>
                 <button @click="search"></button>
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div v-for="(item,index1) in showSelectAlBe" :key="index1">
-        <div v-if="newMemberList[index1] != 0" class="filter-content">
+        <div v-if="showNewMemberList[index1].length != 0" class="filter-content">
           <div class="filter-result" >
             <div style="display: flex" >
               <div  class="filter-result-col2 filter-result-alpa">
@@ -66,6 +66,7 @@ import Velocity from "velocity-animate";
 import Loader from "*/vue/common/Loader";
 import MainPlayer from "@/vue/common/MainPlayer";
 import KeepAliveGlobal from "vue-keep-alive-global";
+import _ from 'lodash'
 
 export default {
   components: {
@@ -237,7 +238,9 @@ export default {
       };
       Http.post(`/beatsomeoneApi/register_member`, p).then((r) => {
         let tempMemberLIst = r
+        
           for (let i=0; i<this.selectAlBe.length; i++){
+            
             this.newMemberList[i] = []
             Object.keys(tempMemberLIst).map(item=>{
               if (tempMemberLIst[item].mem_nickname.charAt(0) == (this.selectAlBe[i]).toLowerCase()) { 
@@ -249,28 +252,6 @@ export default {
           this.showSelectAlBe = _.cloneDeep(this.selectAlBe);
       });
     },
-    // getListMore: _.debounce(function () {
-    //   this.busy = true;
-    //   const p = {
-    //     limit: 10,
-    //     offset: this.offset,
-    //     sort: this.param.sort,
-    //     genre: this.param.currentGenre,
-    //     subgenre: this.param.currentSubgenres,
-    //     bpmFr: this.param.currentBpmFr,
-    //     bpmTo: this.param.currentBpmTo,
-    //     moods: this.param.currentMoods,
-    //     trackType: this.param.currentTrackType,
-    //     search: this.param.search,
-    //     brand_mem_id: this.brand.mem_id
-    //   };
-    //   Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
-    //     this.list = this.list.concat(r);
-    //     this.last_offset = this.offset;
-    //     this.offset = this.list.length;
-    //     this.busy = false;
-    //   });
-    // }, 1000),
 
     getBannerList() {
       const p = {
@@ -279,6 +260,7 @@ export default {
       };
       Http.post(`/beatsomeoneApi/banner_list`, p).then((r) => {
         this.brandList = _.cloneDeep(r);
+        console.log('this is important', this.brandList)
       });
     },
     search(){
@@ -298,14 +280,15 @@ export default {
             }
             if (flag){
               this.showNewMemberList[i].splice(j, 1);   
-              console.log('this is mem_nickname_________________!!!!!!',flag,this.showNewMemberList[i].splice(j, 1), this.showNewMemberList[i], kk)
+             
             } 
           }
         }
       }
       
       this.showNewMemberList = _.cloneDeep(this.showNewMemberList)
-      console.log('this is mem_nickname', this.showNewMemberList)
+      this.showSelectAlBe = _.cloneDeep(this.selectAlBe);
+     
     },
     beforeEnter: function (el) {
       el.style.opacity = 0;
@@ -384,7 +367,7 @@ export default {
   
   background-image:url('/assets/images/banner/bannershop.png');
   background-size: cover;
-  height: 854px;
+  // height: 854px;
   background-position: 0 -90px;
   background-repeat: no-repeat;
   border-bottom: 1px solid #ffffff;
@@ -405,6 +388,7 @@ export default {
 }
 .brand-logo-item{
   width: 18%;
+  margin-bottom: 20px;
 }
 .header__search {
   position: relative;
