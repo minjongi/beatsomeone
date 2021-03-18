@@ -376,10 +376,11 @@
             openPopup() {
               this.popup = true
               document.body.style.overflow = 'hidden'
-              setTimeout(function () {
-                window.scrollTo(0, 0)
-              }, 1000)
-
+              window.onload = function () {
+                setTimeout(function () {
+                  window.scrollTo(0, 0)
+                }, 100)
+              }
             },
             closePopup(isForever) {
               if (isForever) {
@@ -391,10 +392,11 @@
             openPopup1() {
               this.popup1 = true
               document.body.style.overflow = 'hidden'
-              setTimeout(function () {
-                window.scrollTo(0, 0)
-              }, 1000)
-
+              window.onload = function () {
+                setTimeout(function () {
+                  window.scrollTo(0, 0)
+                }, 100)
+              }
             },
             closePopup1(isForever) {
               if (isForever) {
