@@ -232,5 +232,6 @@ export default {
     width: 32px;
     height: 32px;
     margin-right: 10px;
+    border-radius: 5px;
 }
 </style>

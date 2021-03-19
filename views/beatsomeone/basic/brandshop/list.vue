@@ -2,14 +2,14 @@
   <div class="wrapper ">
     <div class="brand-section">
       <Header />
-      <div class="container sub">
+      <div class="brand-container">
         <div class="title"><div>BRAND SHOP</div></div>
         <div class="brand-logo-section">
           <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item"> 
-            <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" :style="bannerStyle(item)"></a>
+             <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url"></a>
           </div>
         </div>
-        <div class="header__search" style="margin-top: 60px; margin-bottom: 60px;">
+        <div class="header__search">
             <div style="position: relative;">
                 <input type="text" v-model="searchText" @keyup.enter="search"/>
                 <button @click="search"></button>
@@ -19,7 +19,7 @@
     </div>  
     <div class="filter-section">
       <div class="filter-alpa">
-        <div class="select-item" style="margin-right: 30px" :class="selectAl == 'All'?'select-item-click':''" @click="selectCapital('All')">A ~ Z</div>
+        <div class="select-item" style="margin-right: 30px" :class="selectAl == 'All'?'select-item-click':''" @click="selectCapital('All')">A~Z</div>
         <div v-for="(item, index) in selectAlBe" :key="index" >
           <div class="select-item" :class="item==selectAl?'select-item-click':''" @click="selectCapital(item, index)">{{item}}</div>
         </div>
@@ -32,10 +32,10 @@
                 {{item}}
               </div>
               <div class="filter-result-row">
-                <div v-for ="(member, index) in showNewMemberList[index1]" :key="index" class="filter-result-row3">
-                  <!-- <div class="filter-result-item content truncate-overflow">{{member.mem_nickname}}</div> -->
-                  <a  class="filter-result-item content truncate-overflow" :href="helper.langUrl($i18n.locale, '/brandshop/' + member.mem_nickname)">{{member.mem_nickname}}</a>
-                  <div class="filter-result-item-name">{{member.mem_address1}}</div>
+                <div v-for ="(member, index) in showNewMemberList[index1]" :key="index" class="filter-result-row3" :style="(index+1)%3==1?'border: none':''">
+                  <!-- <div class="filter-result-item content truncate-overflow">{{member.mem_nickname}}</div> --> 
+                    <a  class="filter-result-item content truncate-overflow" :href="helper.langUrl($i18n.locale, '/brandshop/' + member.mem_nickname)">{{member.mem_nickname}}</a>
+                    <div class="filter-result-item-name">{{member.mem_address1}}</div>
                 </div>
               </div>
             </div>  
@@ -267,28 +267,28 @@ export default {
       let kk = 0
       let flag 
       let tempNewMemberList = []
-      this.showNewMemberList = _.cloneDeep(this.newMemberList)
+      this.selectAl = "All"
+      this.tempNewMemberList = _.cloneDeep(this.newMemberList)
+      let newList = []
       this.searchTextList = this.searchText.split(' ');
 
-      for (let i=0; i<this.showNewMemberList.length; i++){
-        if ( this.showNewMemberList[i].length != 0){
-          for (let j=0; j<this.showNewMemberList[i].length; j++){
-             flag = true
+      for (let i=0; i<this.tempNewMemberList.length; i++){
+        newList[i] = []
+        if ( this.tempNewMemberList[i].length != 0){
+          for (let j=0; j<this.tempNewMemberList[i].length; j++){         
+            flag = true
             for (let k=0; k<this.searchTextList.length; k++){
-              kk =  this.showNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
+              kk =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
               if (kk >= 0){flag = false}
             }
-            if (flag){
-              this.showNewMemberList[i].splice(j, 1);   
-             
+            if (!flag){
+              newList[i].push(this.tempNewMemberList[i][j]);   
             } 
           }
         }
       }
-      
-      this.showNewMemberList = _.cloneDeep(this.showNewMemberList)
+      this.showNewMemberList = _.cloneDeep(newList)
       this.showSelectAlBe = _.cloneDeep(this.selectAlBe);
-     
     },
     beforeEnter: function (el) {
       el.style.opacity = 0;
@@ -368,40 +368,53 @@ export default {
   background-image:url('/assets/images/banner/bannershop.png');
   background-size: cover;
   // height: 854px;
-  background-position: 0 -90px;
+  background-position: 0 -375px;
   background-repeat: no-repeat;
-  border-bottom: 1px solid #ffffff;
-  margin: 0 50px;
+  padding: 65px 35px 0;
+  
+  // margin: 0 50px;
+}
+.brand-container{
+  
+  
 }
 .title{
   font-size: 26px;
   text-align: center;
   padding-top: 32px;
   padding-bottom: 32px;
+  font-weight: bold;
 }
 .brand-logo-section{
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   width: 100%;
-  
 }
 .brand-logo-item{
-  width: 18%;
-  margin-bottom: 20px;
+  width: 20%;
+  padding: 15px;
+  height: 200px;
+  box-sizing: border-box;
+  img{
+    width: 100%;
+    height: 100%;
+  }
 }
 .header__search {
   position: relative;
   display: flex;
   justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 100px;
   input {
     width: 460px;
     height: 47px;
     color: #fff;
     background: #292a2c;
     border-radius: 2em;
-    font-size: 12px;
-    padding: 0 35px 0 10px;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0 35px 0 35px;
     transition: all 0.3s;
     // &:focus {
     //   width: 190px;
@@ -409,16 +422,17 @@ export default {
   }
   button {
     position: absolute;
-    right: 10px;
-    top: 15px;
+    right: 12px;
+    top: 11px;
     background: url("/assets/images/icon/search.png") no-repeat center center;
     background-size: cover;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
   }
 }
 .filter-section{
+  border-top: 1px solid #ffffff;
   border-bottom: 1px solid #ffffff;
   padding: 40px 0 60px;
   margin: 0 50px;
@@ -430,7 +444,7 @@ export default {
 }
 .filter-alpa{
   display: flex;
-  font-size: 30pt;
+  font-size: 26pt;
   align-items: center;
   justify-content: center;
   font-weight: 600;
@@ -438,7 +452,7 @@ export default {
 }
 .select-item{
   color: #a1a1a1;
-  padding: 0 10px;
+  padding: 0 8px;
   cursor: pointer;
 }
 .select-item:hover{
@@ -449,24 +463,27 @@ export default {
 }
 
 .filter-content{
-  border-top: 1px solid #525252;
+  border-top: 1px solid #1a1a1a;
 
 }
 .filter-result{
   margin-top: 70px;
-  width: 800px;
+  width: 1002px;
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 30px;
   
 }
 .filter-result-alpa{
-  font-size: 90pt;
+  font-size: 80pt;
   margin-right: 30px; 
+  font-weight: 600;
   width: 77px;
 }
 .filter-result-item{
-  font-size: 16pt;
+  font-size: 14pt;
+  font-weight: 600;
+  line-height: 1.2;
   color: #ffffff;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -474,7 +491,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;  
   word-break:break-all;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 .filter-result-item-name{
   font-size: 13pt;
@@ -496,11 +513,11 @@ export default {
   
 }
 .filter-result-row3{
-  width: 230px;
-  border-right:1px solid #525252;
+  width: 300px;
+  border-left:1px solid #838383;
   padding-right: 50px;
   padding-left: 40px;
-  height: fit-content;
+  height: 100px;
 }
 .button-top{
   border-radius: 100px;

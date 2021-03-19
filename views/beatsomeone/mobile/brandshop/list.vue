@@ -6,9 +6,12 @@
       <div class="container sub">
         <div class="title"><div>BRAND SHOP</div></div>
         <div class="brand-logo-section">
-          <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item" style="margin-right:10px;"> 
-            <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" :style="bannerStyle(item)" style="max-width: none !important;"></a>
+          <div class="brand-container" :style="brandLayout()">
+            <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item" style="margin-right:30px; margin-bottom:30px;"> 
+              <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" :style="bannerStyle(item)" style="max-width: none !important;"></a>
+            </div>
           </div>
+          
         </div>
         <div class="search">
             <div style="position: relative;">
@@ -20,21 +23,20 @@
     </div>
     <div class="filter-section">
       <div class="filter-alpa">
-        <div style="padding: 0 10px; border-right: 1px solid #525252;">
+        <div style="padding: 0 10px; border-right: 1px solid #1a1a1a;">
           <div v-for="(item, index) in selectAlBe" :key="index" >
-            <div v-if="index <=12" class="select-item" :class="item==selectAl?'select-item-click':''" @click="selectCapital(item, index)">{{item}}</div>
+            <div v-if="index<=12" class="select-item" :class="item==selectAl?'select-item-mobile-click':''" @click="selectCapital(item, index)">{{item}}</div>
           </div>
         </div>
         <div style="padding: 0 20px 0 10px">
            <div v-for="(item, index) in selectAlBe" :key="index" >
-              <div v-if="index >12" class="select-item" :class="item==selectAl?'select-item-click':''" @click="selectCapital(item, index)">{{item}}</div>
+              <div v-if="index >12" class="select-item" :class="item==selectAl?'select-item-mobile-click':''" @click="selectCapital(item, index)">{{item}}</div>
           </div>
-        </div>
-       
+        </div> 
       </div>
       <div v-for="(item,index1) in showSelectAlBe" :key="index1">
         <div v-if="showNewMemberList[index1].length != 0" class="filter-content">
-          <div class="filter-result" >
+          <div class="filter-result" :style="index1!=0?'border-top: 1px solid #1a1a1a;':''">
               <div class="filter-result-col2 filter-result-alpa">
                 {{item}}
               </div>
@@ -98,6 +100,7 @@ export default {
       selectAl: "All",
       busy: false,
       searchText: "",
+      imageWidth: "",
       selectAlBe:['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
       showSelectAlBe: [],
       param: {
@@ -268,26 +271,27 @@ export default {
       let kk = 0
       let flag 
       let tempNewMemberList = []
-      this.showNewMemberList = _.cloneDeep(this.newMemberList)
+      this.selectAl = "All"
+      this.tempNewMemberList = _.cloneDeep(this.newMemberList)
+      let newList = []
       this.searchTextList = this.searchText.split(' ');
 
-      for (let i=0; i<this.showNewMemberList.length; i++){
-        if ( this.showNewMemberList[i].length != 0){
-          for (let j=0; j<this.showNewMemberList[i].length; j++){
-             flag = true
+      for (let i=0; i<this.tempNewMemberList.length; i++){
+        newList[i] = []
+        if ( this.tempNewMemberList[i].length != 0){
+          for (let j=0; j<this.tempNewMemberList[i].length; j++){         
+            flag = true
             for (let k=0; k<this.searchTextList.length; k++){
-              kk =  this.showNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
+              kk =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
               if (kk >= 0){flag = false}
             }
-            if (flag){
-              this.showNewMemberList[i].splice(j, 1);   
-              
+            if (!flag){
+              newList[i].push(this.tempNewMemberList[i][j]);   
             } 
           }
         }
       }
-      
-      this.showNewMemberList = _.cloneDeep(this.showNewMemberList)
+      this.showNewMemberList = _.cloneDeep(newList)
       this.showSelectAlBe = _.cloneDeep(this.selectAlBe);
     },
     beforeEnter: function (el) {
@@ -333,9 +337,14 @@ export default {
     },
     bannerStyle(item){
       console.log('this is item___________!!!', item);
-      item.ban_width=='' ||  item.ban_width==0?item.ban_width ="100%":item.ban_width;
-      item.ban_height=='' ||  item.ban_height==0?item.ban_height ="100%":item.ban_height;
+      item.ban_width=='' ||  item.ban_width==0?item.ban_width ="200px":item.ban_width;
+      item.ban_height=='' ||  item.ban_height==0?item.ban_height ="140px":item.ban_height;
+      this.imageWidth = item.ban_width
       return "width:"+item.ban_width+"px; " +"height:"+item.ban_height+"px;";
+    },
+    brandLayout(){
+      let width = this.imageWidth*5+150
+      return "width:"+width+"px;"
     }
   },
 };
@@ -368,26 +377,31 @@ html, body {
 
 
 .brand-section{
-  
   background-image:url('/assets/images/banner/bannershop.png');
   background-size: cover;
   background-repeat: no-repeat;
   border-bottom: 1px solid #ffffff;
 }
+
 .title{
-  font-size: 19pt;
+  font-size: 17 pt;
   text-align: left;
   padding-top: 10px;
+  font-weight: bold;
   padding-bottom: 10px;
-  padding-left: 20px;
+  padding-left: 50px;
 }
 .brand-logo-section{
-  display: flex;
-  // flex-wrap: wrap;
+  padding-left: 50px;
+  padding-right: 20px;
   // justify-content: center;
   width: 100%;
-  overflow: auto;
-  
+  overflow: auto; 
+}
+.brand-container{
+  // width: 1400px;
+  display: flex;
+  flex-wrap: wrap;
 }
 .brand-logo-item{
   // width: 18%;
@@ -399,13 +413,14 @@ html, body {
    padding: 20px 0 30px 0;
   input {
     min-width: 320px;
-    width: 90%;
+    width: 100%;
     height: 47px;
     color: #fff;
     background: #292a2c;
     border-radius: 2em;
-    font-size: 12px;
-    padding: 0 35px 0 10px;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0 35px 0 35px;
     transition: all 0.3s;
     // &:focus {
     //   width: 190px;
@@ -423,21 +438,22 @@ html, body {
   }
 
 }
-  .filter-result{
-  margin-top: 40px;
+.filter-result{
   margin-right: auto;
   margin-left: auto;
-  margin-bottom: 20px;
-  padding: 0 20px;
+  margin-bottom: 50px;
+  padding: 50px 40px 0;
 
 }
 .filter-result-alpa{
   font-size: 60pt;
   margin-bottom: 10px; 
   width: 77px;
+  font-weight: 600;
 }
 .filter-result-item{
   font-size: 12pt;
+  line-height: 1.2;
   color: #ffffff;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -475,11 +491,11 @@ html, body {
 .filter-section{
   border-bottom: 1px solid #ffffff; 
   position: relative;
-  min-height: 435px;
+  min-height: 500px;
 }
 .button-top{
   border-radius: 100px;
-   border: 1px solid #ffffff;
+  border: 1px solid #ffffff;
   height: 30px;
   width: 130px;
   color: #ffffff;
@@ -490,7 +506,8 @@ html, body {
   background-color: #000000;
 }
 .select-item{
-  color: #a1a1a1;
+  color: #ffffff;
+  font-weight: 600;
   padding: 0 10px;
   cursor: pointer;
   font-size: 9pt;
@@ -502,10 +519,14 @@ html, body {
 .select-item-click{
   color: #ffffff;
 }
+.select-item-mobile-click{
+  color: #ffda2a;
+}
 .filter-alpa{
   position: absolute;
   display: flex;
   right: 0px;
+  top:50px;
 }
 .select-item1{
   color: #a1a1a1;
