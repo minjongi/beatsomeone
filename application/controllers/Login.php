@@ -238,7 +238,7 @@ class Login extends CB_Controller
 								$at_shop_id   = "dumdumfix";        //설정필요
 						
 								$at_fix_key        = $res_membership_purchase_log[0]['card_key'];   //카드키(최대 24자)
-								$at_sell_mm        = "01";   //할부개월값(최대  2자)
+								$at_sell_mm        = "00";   //할부개월값(최대  2자)
 								$at_amt            = $member_group[$i]['mgr_monthly_cost_w'];   //금액(최대 10자)
 
 								$at_shop_member_id = element('mem_id', $userinfo);   //회원ID(최대 20자)               : 쇼핑몰회원ID
