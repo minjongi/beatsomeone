@@ -79,12 +79,12 @@
                                             </label>
                                         </li>
                                         <!--
-                                                            <li class="filter__item">
-                                                                <label for="fillter2" class="checkbox">
-                                                                    <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
-                                                                    <span></span> Hip hop
-                                                                </label>
-                                                            </li>
+                                            <li class="filter__item">
+                                                <label for="fillter2" class="checkbox">
+                                                    <input type="radio" name="filter" hidden="hidden" id="fillter2" value="Hip hop">
+                                                    <span></span> Hip hop
+                                                </label>
+                                            </li>
                                         -->
                                     </ul>
                                 </div>
@@ -228,7 +228,7 @@
                             <div class="row">
                                 <div class="col index">{{ calcSeq(myProduct_list.length, i) }}</div>
                                 <div class="col code">{{ item.cit_key }}</div>
-                                <div class="price" style="color: #ffda2a">{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</div>
+                                <!-- <div class="price" style="color: #ffda2a">{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</div> -->
                             </div>
 
                             <div class="row">
@@ -294,6 +294,7 @@
                                                     </div>
                                                     <p style="margin-top: 3px">{{ $t('lang24') }}</p>
                                                 </div>
+                                                <div class="price" style="color: #ffda2a">{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</div>
                                                 <!-- <div class="price">{{ formatPrice(item.cde_price, item.cde_price_d, true) }}</div> -->
                                             </button>
                                             <ParchaseComponent :item="item" :type="'basic'"></ParchaseComponent>
@@ -328,13 +329,14 @@
                                                     {{ $t('left') }}
                                                 </div>
                                             </div> -->
+                                              
                                             <!-- <div class="price">{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</div> -->
                                         </div>
                                         <div>
                                             <button class="playList__item--button">
-                        <span class="option_fold">
-                          <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
-                        </span>
+                                                <span class="option_fold">
+                                                    <img src="/assets/images/icon/togglefold.png" @click.self="toggleButton"/>
+                                                </span>
                                                 <div>
                                                     <div class="title" @click.self="toggleButton">
                                                         {{ $t('lang30') }}
@@ -342,6 +344,7 @@
                                                     </div>
                                                     <p class="detail">{{ $t('lang15') }}<span class="copytransfer" v-if="item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span></p>
                                                 </div>
+                                                <div class="price" style="color: #ffda2a">{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</div>
                                             </button>
                                             <ParchaseComponent :item="item" :type="'mastering'"></ParchaseComponent>
                                         </div>
@@ -723,6 +726,7 @@ export default {
             return val;
         },
         calcTag: function (hashTag) {
+            if (hashTag==null) return
             let rst = "";
             let tags = hashTag.split(",");
             for (let i in tags) {

@@ -59,9 +59,9 @@
                         ({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})
                     </a>
                 </div>
-                <div v-html="banner_content" class="gnb__banner">
+                <!-- <div v-html="banner_content" class="gnb__banner">
 
-                </div>
+                </div> -->
 
 <!--                <a href="" class="gnb__banner">-->
 <!--                    <img src="@/assets_m/images/gnb-banner.png" alt="">-->

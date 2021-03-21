@@ -1,5 +1,5 @@
 <template>
-    <div class="playList" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="false" v-if="list">
+    <div class="playList" v-infinite-scroll="loading" infinite-scroll-immediate-check="false">
         <ul id="playList__list" class="playList__list">
             <transition-group
                     name="staggered-fade"
@@ -8,16 +8,24 @@
                     v-on:before-enter="beforeEnter"
                     v-on:enter="enter"
                     v-on:leave="leave">
-            <Index_Items v-for="(item,index) in list" :item="item" :key="item.cit_id"></Index_Items>
+            <Index_Items v-for="(item) in randomList" :item="item" :key="'randomList'+item.cit_id"></Index_Items>
+            <Index_Items v-for="(item) in list" :item="item" :key="item.cit_id"></Index_Items>
             </transition-group>
         </ul>
-        <div v-if="busy">
+        <!-- <div v-if="busy">
             <Loader key="loader" ></Loader>
+        </div> -->
+        <div class="loader" v-if="busy" style="margin-top: 40px;">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+            <div class="bar4"></div>
+            <div class="bar5"></div>
+            <div class="bar6"></div>
         </div>
-
-        <div v-if="list.length === 0" class="no-playLost__list">
+        <!-- <div v-if="list.length === 0" class="no-playLost__list">
             <p>{{ $t('detailSimilarTracksNotexists') }}</p>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -34,8 +42,11 @@
         data: function() {
             return {
                 offset: 0,
-                list: null,
+                list: [],
+                randomList: [],
                 busy: false,
+                currentCitId: null,
+                last_offset: null,
             }
         },
         watch: {
@@ -74,28 +85,38 @@
             this.getList();
         },
         methods: {
+            loading() {
+                if (!this.randomList.length || this.randomList.length < 10) {
+                    return false
+                }
+                if (this.busy) return;
+                if (this.last_offset === this.offset) return;
+                    this.busy = true;
+                    this.getListMore();
+            },
             getList() {
                 if(!this.item) return;
+                this.busy = true;
+                const p = {
+                    limit: 10,
+                    offset: this.offset,
+                }
+                Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
+                     this.randomList = r;
+                    this.offset = this.randomList.length;
+                    this.busy = false;
+                });
+            },
+            getListMore: _.debounce(function() {
                 this.busy = true;
                 const p = {
                     limit: 20,
                     offset: this.offset,
                 }
                 Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
-                    this.list = r;
-                    this.offset = this.list.length;
-                    this.busy = false;
-                });
-            },
-            getListMore: _.debounce(function() {
-                const p = {
-                    limit: 10,
-                    offset: this.offset,
-                }
-                this.busy = true;
-                Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
                     this.list = this.list.concat(r);
-                    this.offset = this.list.length;
+                    this.last_offset = this.offset;
+                    this.offset = this.list.length+this.randomList.length;
                     this.busy = false;
                 });
             },1000),

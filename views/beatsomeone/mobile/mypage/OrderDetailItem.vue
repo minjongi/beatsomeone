@@ -23,12 +23,13 @@
                 <div style="display:flex; justify-content: space-between; width: 100%;">
                     <div style="display:flex;">
                         <div class="playList__cover">
-                            <img
-                                v-if="!item.item.cit_file_1"
+                            <img 
+                               
                                 :src="'/assets/images/cover_default.png'"
                                 alt
+                                class="cover_image"
                             />
-                            <img v-else :src="'/uploads/cmallitem/' + item.item.cit_file_1" alt/>
+                         
                             <i v-if="item.item.is_new" class="label new">N</i>
                         </div>
                         <figcaption class="pointer">
@@ -54,8 +55,8 @@
                     <div class="n-box" v-if="item.itemdetail[0].cde_title === 'STEM'">
                         <div>
                             <button class="playList__item--button">
-                                                <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
-                                                                               @click.self="toggleButton"/></span>
+                                    <span class="option_fold"><img src="/assets/images/icon/togglefold.png"
+                                                                    @click.self="toggleButton"/></span>
                                 <div>
                                     <div class="title" @click.self="toggleButton">{{ $t('lang30') }}
                                     </div>
@@ -227,5 +228,10 @@ export default {
 </script>
 
 <style scoped>
-
+.cover_image{
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
 </style>

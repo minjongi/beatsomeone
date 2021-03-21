@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter  from 'vue-router'
 
 import i18n from '*/src/i18n/i18n';
-
 import helper from '*/src/helper'
 Vue.use(helper)
 

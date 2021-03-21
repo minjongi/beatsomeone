@@ -16,7 +16,6 @@
                         <Index_Items :item="item" :key="'randomList' + item.cit_id"></Index_Items>
                     </KeepAliveGlobal>
                 </template>
-                {{list}}
                 <template v-for="item in list">
                     <KeepAliveGlobal :key="item.cit_id">
                         <Index_Items :item="item" :key="item.cit_id"></Index_Items>
@@ -57,7 +56,7 @@
             return {
                 offset: 0,
                 list: [],
-                randomList: null,
+                randomList: [],
                 busy: false,
                 currentCitId: null,
                 last_offset: null,
@@ -72,17 +71,17 @@
             },
         },
         mounted() {
+            this.getList()
         },
         methods: {
             loading() {
                 if (!this.randomList.length || this.randomList.length < 10) {
                     return false
                 }
-                console.log('this si loading+++++++++')
                 if (this.busy) return;
                 if (this.last_offset === this.offset) return;
-                    this.busy = true;
-                    this.getListMore();
+                this.busy = true;
+                this.getListMore();
             },
             updateAllList: _.debounce(function () {
                 this.getList();

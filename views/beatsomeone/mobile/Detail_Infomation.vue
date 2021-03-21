@@ -6,8 +6,8 @@
                 <img v-if="!info.mem_photo" src="/assets/images/portrait.png" alt="portrait">
             </div>
             <div class="information__user">
-                <h2 class="information__username" style="position:relative;">{{ info.mem_userid }}<div class="user_border"></div></h2>
-                <p class="information__description" v-html="info.mem_profile_content"></p>
+                <h2 class="information__username">{{ info.mem_userid }}
+                <p class="information__description" v-html="info.mem_profile_content" style="position:relative;"></p><div class="user_border"></div></h2>
                 <p class="information__description" v-html="info.cit_content"></p>
 
                 <a href="javascript:;" @click="sendMessage" class="information__message" v-if="false">{{ $t('chat') }}</a>

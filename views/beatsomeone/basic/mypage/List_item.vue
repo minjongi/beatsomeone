@@ -732,6 +732,7 @@ export default {
             return val;
         },
         calcTag: function (hashTag) {
+            if (hashTag == null)return
             let rst = "";
             let tags = hashTag.split(",");
             tags.forEach(tag => {

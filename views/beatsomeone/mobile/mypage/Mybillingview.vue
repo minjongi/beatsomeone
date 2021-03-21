@@ -78,10 +78,10 @@
           </div>
         </div>
       </div>
-      <p class="desc" style="margin-top: 10px; font-size: 10px;">
-        <img src="/assets/images/icon/info_blue.png" style="height: 12px;"/>
-        <span v-html="descNoti"></span>
-      </p>
+      <div class="desc" style="display: flex; margin-top: 10px;">
+        <img src="/assets/images/icon/info_blue.png" style="height: 14px; margin-right:5px"/>
+        <div v-html="descNoti" style="margin-top: 3px; font-size: 10px; color: #929292;"></div>
+      </div>
     </div>
 
     <div class="n-flex n-btnbox">
@@ -176,7 +176,7 @@ export default {
         this.descNoti =
             this.$t("depositWaitingStateSupportCaseMenuMsg") +
             " " +
-            '<a href="' + this.helper.langUrl(this.$i18n.locale, '/mypage#/inquiry/') + '">' +
+            '<a href="' + this.helper.langUrl(this.$i18n.locale, '/mypage#/inquiry/')+'style="color: #ffffff"' + '">' +
             this.$t("shortcut") +
             "</a>";
       } else if (this.order.status === "order") {
