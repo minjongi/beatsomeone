@@ -403,8 +403,8 @@
               this.popup1 = false
             },
             endVideoBG() {
-                const idx = Math.floor(Math.random() * 4) + 1
-                this.videoBGPath = '/assets/video/mainbg/' + idx + '.mp4'
+                const idx = Math.floor(Math.random() * 5) + 1
+                this.videoBGPath = '/assets/video/mainbg/2103/' + idx + '.mp4'
                 this.$refs.videoBG.src = this.videoBGPath
                 this.$refs.videoBG.play()
             },

@@ -333,8 +333,6 @@ class BeatsomeoneApi extends CB_Controller
     public function get_item_infomation($cit_id = '')
     {
         $this->load->model('Beatsomeone_model');
-
-
         $config = array(
             'cit_id' => $cit_id,
         );
