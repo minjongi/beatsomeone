@@ -429,11 +429,12 @@ html, body {
   button {
     position: absolute;
     right: 10px;
-    top: 15px;
-    background: url("/assets/images/icon/search.png") no-repeat center center;
-    background-size: cover;
-    width: 20px;
-    height: 20px;
+    top: 12px;
+    background: url("/assets/images/icon/searchicon.png") no-repeat center center;
+    width: 25px;
+    height: 25px;
+    outline-style: none;
+    border: 0;
     cursor: pointer;
   }
 

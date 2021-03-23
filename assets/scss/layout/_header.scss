@@ -37,7 +37,7 @@
     }
     button {
       @include position($top: 0, $right: 5px);
-      background: url("/assets/images/icon/search.png") no-repeat center center;
+      background: url("/assets/images/icon/searchicon.png") no-repeat center center;
       width: 25px;
       height: 25px;
       cursor: pointer;

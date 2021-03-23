@@ -95,6 +95,7 @@ export default {
       searchText: "",
       selectAlBe:['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
       showSelectAlBe: [],
+      tempNewMemberList: [],
       param: {
         currentGenre: null,
         currentSubgenres: null,
@@ -279,7 +280,7 @@ export default {
             flag = true
             for (let k=0; k<this.searchTextList.length; k++){
               kk =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
-              if (kk >= 0){flag = false}
+              if (kk >= 0){flag = false} else {flag = true; break;} 
             }
             if (!flag){
               newList[i].push(this.tempNewMemberList[i][j]);   
@@ -370,7 +371,7 @@ export default {
   // height: 854px;
   background-position: 0 -375px;
   background-repeat: no-repeat;
-  padding: 65px 35px 0;
+  padding: 65px 35px 100px;
   
   // margin: 0 50px;
 }
@@ -393,7 +394,8 @@ export default {
 .brand-logo-item{
   width: 20%;
   padding: 15px;
-  height: 200px;
+  min-height: 250px;
+  height: auto;
   box-sizing: border-box;
   img{
     width: 100%;
@@ -405,7 +407,6 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 50px;
-  margin-bottom: 100px;
   input {
     width: 460px;
     height: 47px;
@@ -424,10 +425,11 @@ export default {
     position: absolute;
     right: 12px;
     top: 11px;
-    background: url("/assets/images/icon/search.png") no-repeat center center;
-    background-size: cover;
-    width: 24px;
-    height: 24px;
+    background: url("/assets/images/icon/searchicon.png") no-repeat center center;
+    width: 25px;
+    height: 25px;
+    outline-style: none;
+    border: 0;
     cursor: pointer;
   }
 }
