@@ -1,16 +1,16 @@
 <template>
   <div class="wrapper">
-<!--    <div v-if="popup">-->
-<!--      <div class="noti-wrap"></div>-->
-<!--      <div class="noti-content">-->
-<!--        <div>-->
-<!--          <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210124/' + $i18n.locale + '/1.png'"></a>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <img :src="'/assets/images/event/210124/' + $i18n.locale + '/2.png'" @click="closePopup(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/event/210124/' + $i18n.locale + '/3.png'" @click="closePopup()" style="width:50%;cursor:pointer;">-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div v-if="popup">
+      <div class="noti-wrap"></div>
+      <div class="noti-content">
+        <div>
+          <a @click="goEvent" style="cursor:pointer;"><img :src="'/assets/images/popup/210312/1.png'"></a>
+        </div>
+        <div>
+          <img :src="'/assets/images/popup/210312/2.png'" @click="closePopup(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/popup/210312//3.png'" @click="closePopup()" style="width:50%;cursor:pointer;">
+        </div>
+      </div>
+    </div>
 <!--    <div v-if="popup1">-->
 <!--      <div class="noti-wrap"></div>-->
 <!--      <div class="noti-content">-->
@@ -76,19 +76,13 @@
               </div>
               <div class="playList">
                 <!-- 아래 템플릿 문자열로 붙임 -->
-                <transition-group
-                    name="staggered-fade"
-                    tag="ul"
-                    v-bind:css="false"
-                    v-on:before-enter="beforeEnter"
-                    v-on:enter="enter"
-                    v-on:leave="leave">
+                <ul>
                   <template v-for="item in list">
                     <KeepAliveGlobal :key="item.cit_key">
                       <Index_Items :item="item" :key="item.cit_key"></Index_Items>
                     </KeepAliveGlobal>
                   </template>
-                </transition-group>
+                </ul>
                 <div class="playList__btnbox">
                   <a class="playList__more" :href="moreList" style="cursor: pointer !important;">{{ $t('mainMore') }}</a>
                 </div>
@@ -296,9 +290,9 @@
             if (this.member_group_name) {
               this.remainDownloadNumber();
             }
-            // if (Vuecookies.get('popup210124-close') !== 'Y' && this.isSeller) {
-            //   this.openPopup()
-            // }
+            if (Vuecookies.get('popup210312-close') !== 'Y' && this.$i18n.locale !== 'en' && this.member_group_name !== 'subscribe_common') {
+              this.openPopup()
+            }
             // if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
             //   this.openPopup1()
             // }
@@ -388,7 +382,7 @@
             },
             closePopup(isForever) {
               if (isForever) {
-                Vuecookies.set('popup210124-close', 'Y', '1d')
+                Vuecookies.set('popup210312-close', 'Y', '1d')
               }
               document.body.style.overflow = ''
               this.popup = false
@@ -490,10 +484,17 @@
             closeFooterBanner() {
               this.footerBanner = false
             },
+            goEvent() {
+              if (!!this.member && this.member_group_name !== 'subscribe_common') {
+                location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/upgrade?type=sub')
+              } else {
+                localStorage.setItem('UserOffer', 'buyer')
+                localStorage.setItem('plan', 'subscribe_common')
+                location.href = this.helper.langUrl(this.$i18n.locale, '/register')
+              }
+            }
         },
-
     }
-
 </script>
 
 <style lang="scss">
