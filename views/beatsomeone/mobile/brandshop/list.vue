@@ -283,7 +283,7 @@ export default {
             flag = true
             for (let k=0; k<this.searchTextList.length; k++){
               kk =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
-              if (kk >= 0){flag = false}
+              if (kk >= 0){flag = false} else {flag = true; break;} 
             }
             if (!flag){
               newList[i].push(this.tempNewMemberList[i][j]);   
