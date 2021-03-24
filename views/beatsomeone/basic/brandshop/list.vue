@@ -333,10 +333,22 @@ export default {
       window.scrollTo(0, 0)
     },
     bannerStyle(item){
-      item.ban_width=='' ||  item.ban_width==0?item.ban_width ="100%":item.ban_width;
-      item.ban_height=='' ||  item.ban_height==0?item.ban_height ="100%":item.ban_height;
-      return "width:"+item.ban_width+"px; " +"height:"+item.ban_height+"px;";
-    }
+      let height 
+      if (item.ban_width=='' || parseInt(item.ban_width)=="0"){
+        return "width:"+ "100% " +"height:"+"auto;";
+      }
+             
+      if (item.ban_height=='' || parseInt(item.ban_height)=="0"){
+        return "width:"+ "auto " +"height:"+"100%";
+      }
+      return "width:"+ item.ban_width+"px; " +"height:"+ item.ban_height+"px;";
+    
+    },
+    brandLayout(){
+      let width = parseInt(this.imageWidth)*5+150
+      return "width:"+width+"px;"
+    },
+
   },
 };
 </script>
