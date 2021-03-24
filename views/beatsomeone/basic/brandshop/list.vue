@@ -470,7 +470,7 @@ export default {
 }
 .filter-result{
   margin-top: 70px;
-  width: 1002px;
+  width: 1010px;
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 30px;
