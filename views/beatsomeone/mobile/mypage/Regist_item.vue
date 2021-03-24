@@ -630,6 +630,7 @@ export default {
       this.uploadInProgress[type] = false;
 
       if (!!data.code && data.code === "error") {
+        this.$refs[type + "ProgressBar"].style.width = "0%";
         alert("파일 업로드 실패\n파일 확인 후 다시 시도해 주세요");
         return false;
       }
@@ -639,6 +640,7 @@ export default {
     },
     progressUpload(type, e) {
       if (!e) {
+        this.$refs[type + "ProgressBar"].style.width = "0%";
         alert("파일 업로드중 오류가 발생하였습니다. 다시 시도해 주세요.");
         return false;
       }
@@ -660,7 +662,15 @@ export default {
       this.$refs["artworkImg"].src = "/uploads/cmallitem/" + this.item.artwork.filename;
     },
     chkHashTag() {
-      let hashTag = this.item.hashTag.split(",");
+      let reg = new RegExp("[!@#$%^&*().?\":{}|<>~/';]"),
+          hashTag = this.item.hashTag
+
+      if (reg.test(hashTag)) {
+        hashTag = hashTag.replace(reg, "");
+        this.item.hashTag = hashTag
+      }
+
+      hashTag = hashTag.split(",");
       if (hashTag.length <= 10) {
         this.$refs["hashTagCount"].innerText = hashTag.length;
         return false;

@@ -196,7 +196,7 @@ export default {
         notConditionOfCouponUse: '쿠폰 사용 조건이 아닙니다',
         enterSubject: '트랙명을 입력해 주세요',
         selectTrackType: '트랙 타입을 선택해 주세요',
-        selectReleaseDate: '거래 개시일을 선택해 주세요',
+        selectReleaseDate: '판매 개시일을 선택해 주세요',
         registerSoundSource: '음원을 등록해 주세요',
         selectSoundSource: '음원을 등록해 주세요',
         selectType: '장르를 선택해 주세요',

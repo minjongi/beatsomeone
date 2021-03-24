@@ -160,6 +160,316 @@
         .selected-option + .popup {
             margin-top: 0;
         }
+
+        .productList {
+            margin: 0 -16px;
+
+            ul {
+                > li {
+                    &:nth-child(3n + 1) {
+                        .playList__item {
+                            background-color: #1b1b1e;
+                            // border: 1px solid green;
+                        }
+                    }
+
+                    &:nth-child(3n + 2) {
+                        .playList__item {
+                            background-color: #2b2c30;
+                            // border: 1px solid red;
+                        }
+                    }
+
+                    &:nth-child(3n + 3) {
+                        .playList__item {
+                            background-color: #252629;
+                            // border: 1px solid yellow;
+                        }
+                    }
+
+                    .playList__item {
+                        padding: 16px;
+                        height: auto;
+                        display: block;
+
+                        .row {
+                            display: flex;
+
+                            .col {
+                                flex: auto;
+
+                                &.index {
+                                    flex: none;
+                                    width: 48px;
+                                    margin-right: 16px;
+                                    color: #ffda2a;
+                                    font-weight: bold;
+                                    font-size: 12px;
+                                }
+
+                                &.code {
+                                    font-size: 12px;
+                                    color: rgba(white, 0.3);
+                                }
+
+                                &.playList__cover {
+                                    width: 48px;
+                                    height: 48px;
+                                    border-radius: 4px;
+                                    overflow: hidden;
+                                    margin-right: 16px;
+                                    flex: none;
+
+                                    img {
+                                        width: 100%;
+                                        height: 100%;
+                                    }
+                                }
+
+                                .playList__title {
+                                    font-size: 14px;
+                                    line-height: 16px;
+                                    margin-bottom: 12px;
+                                }
+
+                                &.edit {
+                                    flex: none;
+                                }
+                            }
+                        }
+
+                        .btn-edit {
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 32px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            background-color: #4890ff;
+
+                            > img {
+                                width: 14px;
+                                height: 14px;
+                            }
+                        }
+
+                        .feature {
+                            display: flex;
+                            align-items: center;
+                            font-size: 12px;
+
+                            .playbtn {
+                                button {
+                                    margin-right: 12px;
+                                    text-indent: -9999px;
+                                    overflow: hidden;
+                                    background-image: url(/assets/images/icon/play.png);
+                                    background-repeat: no-repeat;
+                                    background-position: center;
+                                    width: 20px;
+                                    height: 20px;
+                                    background-size: auto 100%;
+                                    opacity: 0.3;
+                                    transition: all 0.3s ease;
+
+                                    &.playing {
+                                        background-image: url(/assets/images/icon/pause.png);
+                                    }
+
+                                    &.paused {
+                                        background-image: url(/assets/images/icon/play.png);
+                                    }
+                                }
+                            }
+
+                            .amount {
+                                margin-left: 18px;
+                                display: inherit;
+                                align-items: inherit;
+
+                                > img {
+                                    margin-right: 12px;
+                                }
+
+                                span {
+                                    color: #ffda2a;
+                                }
+                            }
+
+                            .price {
+                                margin-left: 18px;
+                            }
+                        }
+
+                        .genre {
+                            overflow: hidden;
+                            max-height: 52px;
+                            width: 100%;
+
+                            button {
+                                font-size: 12px;
+                                border: 1px solid rgba(white, 0.3);
+                                color: rgba(white, 0.3);
+                                padding: 0 8px;
+                                line-height: 20px;
+                                border-radius: 2em;
+                                margin: 2px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .pagination {
+                display: flex;
+                padding-top: 24px;
+                padding-bottom: 24px;
+                justify-content: center;
+                align-items: center;
+
+                button {
+                    padding: 0 12px;
+                    color: rgba(white, 0.7);
+                    font-size: 16px;
+                }
+
+                .active {
+                    color: #ffda2a;
+                }
+            }
+
+            .n-box {
+
+                .playList__item--button {
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+
+                    > div {
+                        flex: auto;
+                        text-align: left;
+                    }
+
+                    .option_fold {
+                        margin-right: 16px;
+                        flex: none;
+                    }
+
+                    .price {
+                        flex: none;
+                        color: #ffda2a;
+                        font-weight: bold;
+                        font-size: 12px;
+                        line-height: 14px;
+                    }
+
+                    .title {
+                        font-size: 14px;
+                        font-weight: bold;
+                        color: white;
+                    }
+
+                    .detail {
+                        background: initial;
+                        font-size: 10px;
+                        color: rgba(white, 0.3);
+                        margin-top: 5px;
+                        padding: 0;
+
+                        .copytransfer {
+                            font-size: 10px;
+                            color: #3873d3;
+                        }
+                    }
+
+                    p {
+                        font-size: 12px;
+                        text-align: left;
+                        color: rgba(white, 0.3);
+
+                        .copytransfer {
+                            font-size: 11px;
+                            color: #3873d3;
+                        }
+                    }
+                }
+
+                .option_fold {
+                    > img {
+                        opacity: 0.3;
+                        transition: 0.3s ease;
+                    }
+                }
+
+                .option_item {
+                    margin-top: 16px;
+                    visibility: hidden;
+                    height: 0;
+                    transition: height 0.3s ease;
+
+                    > div {
+                        line-height: 2em;
+                        font-size: 14px;
+                        padding-left: 28px;
+                        position: relative;
+
+                        .img-box {
+                            position: absolute;
+                            left: 0;
+                            top: 5px;
+                            width: 18px;
+                            height: 18px;
+                            display: flex;
+                            align-items: center;
+                        }
+
+                        .copybox {
+                            padding-left: 30px;
+
+                            span {
+                                display: block;
+                                font-size: 11px;
+                                color: #3873d3;
+                                margin-bottom: 5px;
+                                align-items: flex-start;
+                                line-height: 15px;
+                            }
+
+                            span:before {
+                                content: "*";
+                                font-size: 11px;
+                                color: #3873d3;
+                                margin-top: 2px;
+                                margin-right: 3px;
+                            }
+                        }
+                    }
+                }
+
+                &.active {
+                    margin-bottom: 24px;
+
+                    .option_fold {
+                        > img {
+                            transform: rotate(180deg);
+                            opacity: 1;
+                        }
+                    }
+
+                    .option_item {
+                        visibility: visible;
+
+                        &.basic {
+                            height: 168px;
+                        }
+
+                        &.unlimited {
+                            height: 170px;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .selected-option + .popup .tab_container {
@@ -323,310 +633,7 @@
         }
     }
 
-    .productList {
-        margin: 0 -16px;
 
-        ul {
-            > li {
-                &:nth-child(3n + 1) {
-                    .playList__item {
-                        background-color: #1b1b1e;
-                        // border: 1px solid green;
-                    }
-                }
-
-                &:nth-child(3n + 2) {
-                    .playList__item {
-                        background-color: #2b2c30;
-                        // border: 1px solid red;
-                    }
-                }
-
-                &:nth-child(3n + 3) {
-                    .playList__item {
-                        background-color: #252629;
-                        // border: 1px solid yellow;
-                    }
-                }
-
-                .playList__item {
-                    padding: 16px;
-                    height: auto;
-                    display: block;
-
-                    .row {
-                        display: flex;
-
-                        .col {
-                            flex: auto;
-
-                            &.index {
-                                flex: none;
-                                width: 48px;
-                                margin-right: 16px;
-                                color: #ffda2a;
-                                font-weight: bold;
-                                font-size: 12px;
-                            }
-
-                            &.code {
-                                font-size: 12px;
-                                color: rgba(white, 0.3);
-                            }
-
-                            &.playList__cover {
-                                width: 48px;
-                                height: 48px;
-                                border-radius: 4px;
-                                overflow: hidden;
-                                margin-right: 16px;
-                                flex: none;
-                            }
-
-                            .playList__title {
-                                font-size: 14px;
-                                line-height: 16px;
-                                margin-bottom: 12px;
-                            }
-
-                            &.edit {
-                                flex: none;
-                            }
-                        }
-                    }
-
-                    .btn-edit {
-                        width: 32px;
-                        height: 32px;
-                        border-radius: 32px;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        background-color: #4890ff;
-
-                        > img {
-                            width: 14px;
-                            height: 14px;
-                        }
-                    }
-
-                    .feature {
-                        display: flex;
-                        align-items: center;
-                        font-size: 12px;
-
-                        .playbtn {
-                            button {
-                                margin-right: 12px;
-                                text-indent: -9999px;
-                                overflow: hidden;
-                                background-image: url(/assets/images/icon/play.png);
-                                background-repeat: no-repeat;
-                                background-position: center;
-                                width: 20px;
-                                height: 20px;
-                                background-size: auto 100%;
-                                opacity: 0.3;
-                                transition: all 0.3s ease;
-
-                                &.playing {
-                                    background-image: url(/assets/images/icon/pause.png);
-                                }
-
-                                &.paused {
-                                    background-image: url(/assets/images/icon/play.png);
-                                }
-                            }
-                        }
-
-                        .amount {
-                            margin-left: 18px;
-                            display: inherit;
-                            align-items: inherit;
-
-                            > img {
-                                margin-right: 12px;
-                            }
-
-                            span {
-                                color: #ffda2a;
-                            }
-                        }
-
-                        .price {
-                            margin-left: 18px;
-                        }
-                    }
-
-                    .genre {
-                        overflow: hidden;
-                        max-height: 52px;
-                        width: 100%;
-
-                        button {
-                            font-size: 12px;
-                            border: 1px solid rgba(white, 0.3);
-                            color: rgba(white, 0.3);
-                            padding: 0 8px;
-                            line-height: 20px;
-                            border-radius: 2em;
-                            margin: 2px;
-                        }
-                    }
-                }
-            }
-        }
-
-        .pagination {
-            display: flex;
-            padding-top: 24px;
-            padding-bottom: 24px;
-            justify-content: center;
-            align-items: center;
-
-            button {
-                padding: 0 16px;
-                color: rgba(white, 0.7);
-                font-size: 16px;
-            }
-
-            .active {
-                color: #ffda2a;
-            }
-        }
-
-        .n-box {
-
-            .playList__item--button {
-                display: flex;
-                align-items: center;
-                width: 100%;
-
-                > div {
-                    flex: auto;
-                    text-align: left;
-                }
-
-                .option_fold {
-                    margin-right: 16px;
-                    flex: none;
-                }
-
-                .price {
-                    flex: none;
-                    color: #ffda2a;
-                    font-weight: bold;
-                    font-size: 12px;
-                    line-height: 14px;
-                }
-
-                .title {
-                    font-size: 14px;
-                    font-weight: bold;
-                    color: white;
-                }
-
-                .detail {
-                    background: initial;
-                    font-size: 10px;
-                    color: rgba(white, 0.3);
-                    margin-top: 5px;
-                    padding: 0;
-
-                    .copytransfer {
-                        font-size: 10px;
-                        color: #3873d3;
-                    }
-                }
-
-                p {
-                    font-size: 12px;
-                    text-align: left;
-                    color: rgba(white, 0.3);
-
-                    .copytransfer {
-                        font-size: 11px;
-                        color: #3873d3;
-                    }
-                }
-            }
-
-            .option_fold {
-                > img {
-                    opacity: 0.3;
-                    transition: 0.3s ease;
-                }
-            }
-
-            .option_item {
-                margin-top: 16px;
-                visibility: hidden;
-                height: 0;
-                transition: height 0.3s ease;
-
-                > div {
-                    line-height: 2em;
-                    font-size: 14px;
-                    padding-left: 28px;
-                    position: relative;
-
-                    .img-box {
-                        position: absolute;
-                        left: 0;
-                        top: 5px;
-                        width: 18px;
-                        height: 18px;
-                        display: flex;
-                        align-items: center;
-                    }
-
-                    .copybox {
-                        padding-left: 30px;
-
-                        span {
-                            display: block;
-                            font-size: 11px;
-                            color: #3873d3;
-                            margin-bottom: 5px;
-                            align-items: flex-start;
-                            line-height: 15px;
-                        }
-
-                        span:before {
-                            content: "*";
-                            font-size: 11px;
-                            color: #3873d3;
-                            margin-top: 2px;
-                            margin-right: 3px;
-                        }
-                    }
-                }
-            }
-
-            &.active {
-                margin-bottom: 24px;
-
-                .option_fold {
-                    > img {
-                        transform: rotate(180deg);
-                        opacity: 1;
-                    }
-                }
-
-                .option_item {
-                    visibility: visible;
-
-                    &.basic {
-                        height: 168px;
-                    }
-
-                    &.unlimited {
-                        height: 170px;
-                    }
-                }
-            }
-        }
-    }
 
     .options {
         border-bottom-left-radius: 8px;

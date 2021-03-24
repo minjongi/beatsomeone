@@ -364,7 +364,7 @@
                             </button>
 
                             <button
-                                v-for="n in makePageList(this.totalpage)"
+                                v-for="n in makePageList()"
                                 v-bind:key="n"
                                 :class="{ 'active': currPage === n }"
                                 @click="currPage = n"
@@ -520,8 +520,22 @@ export default {
             if (this.currPage == this.totalpage) return;
             this.currPage += 1;
         },
-        makePageList(n) {
-            return [...Array(n).keys()].map((x) => (x = x + 1));
+        makePageList() {
+          let pagination = [],
+              startPage = this.currPage - 2,
+              endPage = this.currPage + 2
+
+          if (startPage < 1) {
+            endPage += 1 - startPage
+            startPage = 1
+          }
+          endPage = (endPage > this.totalpage) ? this.totalpage : endPage
+
+          for (let iLoop = startPage; iLoop <= endPage; iLoop++) {
+            pagination.push(iLoop)
+          }
+
+          return pagination
         },
         setPopupFilter: function (idx) {
             this.popup_filter = idx;
@@ -575,17 +589,14 @@ export default {
             this.ajaxItemList().then(() => {
                 let list = [];
                 Object.assign(list, this.myProduct_list);
-                console.log(this.search_date_option);
                 if (this.isEmpty(this.start_date) || this.isEmpty(this.end_date)) {
                     this.myProduct_list = list;
                 } else if (this.search_date_option == 0) {
                     let rst = list.filter(this.callbackdateime);
                     this.myProduct_list = rst;
-                    console.log(rst);
                 } else if (this.search_date_option == 1) {
                     let rst = list.filter(this.callbackstartdateime);
                     this.myProduct_list = rst;
-                    console.log(rst);
                 }
                 this.calcTotalCnt = this.calcFuncTotalCnt();
                 this.calcSellingCnt = this.calcFuncSellingCnt();
@@ -611,7 +622,6 @@ export default {
             });
         },
         toggleGMT: function () {
-            console.log(this.GMT);
             if (this.GMT == 1) {
                 this.GMT = 0;
             } else {
@@ -640,7 +650,6 @@ export default {
         },
         checkInclude: function (g, sg, m, t) {
             if (0 < this.selectedGenre.length) {
-                console.log("selectedGenre:" + this.selectedGenre);
                 if (this.selectedGenre.length == 1) {
                     if (this.selectedGenre.includes(g) || this.selectedGenre.includes(sg))
                         return true;
@@ -655,11 +664,9 @@ export default {
                 }
             }
             if (0 < this.selectedMood.length) {
-                console.log("selectedMood:" + this.selectedMood);
                 if (this.selectedMood.includes(m)) return true;
             }
             if (0 < this.selectedTrackType.length) {
-                console.log("selectedTrackType:" + this.selectedTrackType);
                 if (this.selectedTrackType.includes(t)) return true;
             }
             return false;
@@ -678,7 +685,6 @@ export default {
                             item.trackType
                         )
                     );
-                    console.log(rst);
                     this.myProduct_list = rst;
                 });
             } else if (type == "Cancel") {
@@ -693,8 +699,6 @@ export default {
             this.GMT = 0;
         },
         goStartDate: function (e) {
-            console.log(this.search_date_option);
-            console.log(e.target.value);
             this.start_date = e.target.value;
 
             if (this.start_date == "" || this.end_date == "") {
@@ -704,8 +708,6 @@ export default {
             }
         },
         goEndDate: function (e) {
-            console.log(this.search_date_option);
-            console.log(e.target.value);
             this.end_date = e.target.value;
 
             if (this.start_date == "" || this.end_date == "") {
@@ -817,7 +819,6 @@ export default {
             return rst;
         },
         productEditBtn: function (key) {
-            console.log("productEditBtn:" + key);
             window.location.href = this.helper.langUrl(this.$i18n.locale, "/mypage/regist_item/" + key);
         },
         isEmpty: function (str) {
