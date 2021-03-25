@@ -43,7 +43,7 @@
               <div class="filter-result-row">
                 <div v-for ="(member, index) in showNewMemberList[index1]" :key="index" class="filter-result-row3" style="cursor:pointer">
                   <!-- <div class="filter-result-item content truncate-overflow">{{member.mem_nickname}}</div> -->
-                  <a  class="filter-result-item content truncate-overflow" :href="helper.langUrl($i18n.locale, '/brandshop/' + member.mem_nickname)">{{member.mem_nickname}}</a>
+                  <a  class="filter-result-item content truncate-overflow" style="margin-bottom:5px" :href="helper.langUrl($i18n.locale, '/brandshop/' + member.mem_nickname)">{{member.mem_nickname}}</a>
                   <div class="filter-result-item-name">{{member.mem_address1}}</div>
                 </div>
               </div> 
@@ -283,7 +283,7 @@ export default {
             flag = true
             for (let k=0; k<this.searchTextList.length; k++){
               kk =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
-              if (kk >= 0){flag = false}
+              if (kk >= 0){flag = false} else {flag = true; break;} 
             }
             if (!flag){
               newList[i].push(this.tempNewMemberList[i][j]);   
@@ -336,14 +336,14 @@ export default {
       window.scrollTo(0, 0)
     },
     bannerStyle(item){
-      console.log('this is item___________!!!', item);
-      item.ban_width=='' ||  item.ban_width==0?item.ban_width ="200px":item.ban_width;
-      item.ban_height=='' ||  item.ban_height==0?item.ban_height ="140px":item.ban_height;
-      this.imageWidth = item.ban_width
-      return "width:"+item.ban_width+"px; " +"height:"+item.ban_height+"px;";
+      let height 
+      if (item.ban_width=='' || parseInt(item.ban_width)=="0"){this.imageWidth ="200"}else{this.imageWidth = parseInt(item.ban_width)}
+      if (item.ban_height=='' || parseInt(item.ban_height)=="0"){height ="140"}else{height = parseInt(item.ban_height)}
+
+      return "width:"+ this.imageWidth+"px; " +"height:"+ height+"px;";
     },
     brandLayout(){
-      let width = this.imageWidth*5+150
+      let width = parseInt(this.imageWidth)*5+150
       return "width:"+width+"px;"
     }
   },
@@ -429,11 +429,12 @@ html, body {
   button {
     position: absolute;
     right: 10px;
-    top: 15px;
-    background: url("/assets/images/icon/search.png") no-repeat center center;
-    background-size: cover;
-    width: 20px;
-    height: 20px;
+    top: 12px;
+    background: url("/assets/images/icon/searchicon.png") no-repeat center center;
+    width: 25px;
+    height: 25px;
+    outline-style: none;
+    border: 0;
     cursor: pointer;
   }
 
