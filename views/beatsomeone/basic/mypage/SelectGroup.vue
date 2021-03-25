@@ -23,14 +23,14 @@
             <table>
                 <colgroup>
                   <col width="300"/>
-                  <col width="195"/>
+                  <col width="195" v-if="false"/>
                   <col width="210"/>
-                  <col width="195"/>
+                  <col width="195" v-if="false"/>
                 </colgroup>
                 <thead>
                 <tr>
                   <th></th>
-                  <th>
+                  <th v-if="false">
                     <p>
                       {{ $t('free') }}
                     </p>
@@ -57,13 +57,13 @@
                 <tbody>
                 <tr>
                   <td>{{ $t('lang161') }}</td>
-                  <td>0{{ $t('lang162') }}</td>
+                  <td v-if="false">0{{ $t('lang162') }}</td>
                   <td>10{{ $t('lang162') }}</td>
                   <td v-if="false">10{{ $t('lang162') }}</td>
                 </tr>
                 <tr>
                   <td>{{ $t('freeBeatDownload') }}</td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                   <td>
@@ -75,7 +75,7 @@
                 </tr>
                 <tr>
                   <td>{{ $t('storePurchaseMusicFiles') }}</td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                   <td>
@@ -87,7 +87,7 @@
                 </tr>
                 <tr>
                   <td>{{ $t('purchaseSoundSourceLicenseStorage') }}</td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                   <td>
@@ -99,7 +99,7 @@
                 </tr>
                 <tr>
                   <td>{{ $t('previewStreamingService') }}</td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                   <td>
@@ -112,7 +112,7 @@
                 <!--                    <tfoot>-->
                 <tr>
                   <td></td>
-                  <td>
+                  <td v-if="false">
                     <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
                   </td>
                   <td>

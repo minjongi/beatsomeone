@@ -233,6 +233,7 @@ export default {
       list: [],
       listTop5: null,
       randomList: null,
+      randomListCitId: [],
       offset: 0,
       last_offset: null,
       busy: false,
@@ -403,6 +404,12 @@ export default {
       Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
         if (!this.param.sort || this.param.sort === "Sort By") {
           this.randomList = r;
+
+          if (!!this.randomList && this.randomList.length) {
+            for(let iLoop = 0;iLoop < this.randomList.length;iLoop++) {
+              this.randomListCitId.push(this.randomList[iLoop].cit_id)
+            }
+          }
         } else {
           this.randomList = null;
           this.list = r;
@@ -424,8 +431,23 @@ export default {
         trackType: this.param.currentTrackType,
         search: this.param.search,
       };
+      let self = this
       Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
-        this.list = this.list.concat(r);
+        if (!r || !r.length) {
+          return
+        }
+
+        let moreList = []
+        if (this.randomListCitId.length) {
+            for(let iLoop = 0;iLoop < r.length;iLoop++) {
+              if (this.randomListCitId.indexOf(r[iLoop].cit_id) !== -1) {
+                continue
+              }
+              moreList.push(r[iLoop])
+            }
+        }
+
+        this.list = this.list.concat(moreList);
         this.last_offset = this.offset;
         this.offset = this.list.length;
         this.busy = false;

@@ -1,7 +1,7 @@
 <?php
 $this->managelayout->add_css('/dist/register.css');
 $this->managelayout->add_js('/dist/register.js');
-
+$this->managelayout->add_js('https://dnh523js9661q.cloudfront.net/apis/apTracker.v3.js?v=0413');
 $this->managelayout->add_script('window.vm.$children[0].$data.isLogin = ' . ($this->member->is_member() ? 'true' : 'false'));
 
 //if ($this->member->is_member()) {

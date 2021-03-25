@@ -95,6 +95,7 @@ export default {
       searchText: "",
       selectAlBe:['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
       showSelectAlBe: [],
+      tempNewMemberList: [],
       param: {
         currentGenre: null,
         currentSubgenres: null,
@@ -279,7 +280,7 @@ export default {
             flag = true
             for (let k=0; k<this.searchTextList.length; k++){
               kk =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
-              if (kk >= 0){flag = false}
+              if (kk >= 0){flag = false} else {flag = true; break;} 
             }
             if (!flag){
               newList[i].push(this.tempNewMemberList[i][j]);   
@@ -332,10 +333,22 @@ export default {
       window.scrollTo(0, 0)
     },
     bannerStyle(item){
-      item.ban_width=='' ||  item.ban_width==0?item.ban_width ="100%":item.ban_width;
-      item.ban_height=='' ||  item.ban_height==0?item.ban_height ="100%":item.ban_height;
-      return "width:"+item.ban_width+"px; " +"height:"+item.ban_height+"px;";
-    }
+      let height 
+      if (item.ban_width=='' || parseInt(item.ban_width)=="0"){
+        return "width:"+ "100% " +"height:"+"auto;";
+      }
+             
+      if (item.ban_height=='' || parseInt(item.ban_height)=="0"){
+        return "width:"+ "auto " +"height:"+"100%";
+      }
+      return "width:"+ item.ban_width+"px; " +"height:"+ item.ban_height+"px;";
+    
+    },
+    brandLayout(){
+      let width = parseInt(this.imageWidth)*5+150
+      return "width:"+width+"px;"
+    },
+
   },
 };
 </script>
@@ -370,7 +383,7 @@ export default {
   // height: 854px;
   background-position: 0 -375px;
   background-repeat: no-repeat;
-  padding: 65px 35px 0;
+  padding: 65px 35px 100px;
   
   // margin: 0 50px;
 }
@@ -393,7 +406,8 @@ export default {
 .brand-logo-item{
   width: 20%;
   padding: 15px;
-  height: 200px;
+  min-height: 250px;
+  height: auto;
   box-sizing: border-box;
   img{
     width: 100%;
@@ -405,7 +419,6 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 50px;
-  margin-bottom: 100px;
   input {
     width: 460px;
     height: 47px;
@@ -424,10 +437,11 @@ export default {
     position: absolute;
     right: 12px;
     top: 11px;
-    background: url("/assets/images/icon/search.png") no-repeat center center;
-    background-size: cover;
-    width: 24px;
-    height: 24px;
+    background: url("/assets/images/icon/searchicon.png") no-repeat center center;
+    width: 25px;
+    height: 25px;
+    outline-style: none;
+    border: 0;
     cursor: pointer;
   }
 }
@@ -468,7 +482,7 @@ export default {
 }
 .filter-result{
   margin-top: 70px;
-  width: 1002px;
+  width: 1010px;
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 30px;

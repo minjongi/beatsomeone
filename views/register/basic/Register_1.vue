@@ -291,8 +291,17 @@
 
         },
         created() {
+            const urlParams = new URLSearchParams(window.location.search)
+            const type = urlParams.get('t')
+
             this.billTerm = localStorage.getItem("bill_term") || this.billTerm
-            this.currentUserType = localStorage.getItem("UserOffer") || this.currentUserType
+            if (type === 'sub') {
+              this.currentUserType = 'buyer'
+              this.plan = 'subscribe_common'
+            } else {
+              this.currentUserType = localStorage.getItem("UserOffer") || this.currentUserType
+              this.plan = localStorage.getItem("plan") || this.plan
+            }
             this.fetchData();
         },
         mounted() {
