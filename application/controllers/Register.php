@@ -4771,7 +4771,7 @@ class Register extends CB_Controller
         if (!preg_match("/^([a-z0-9_])+$/i", $userid)) {
             $result = array(
                 'result' => 'no',
-                'reason' => lang('lang103'),
+                'reason' => lang('lang148'),
             );
             exit(json_encode($result));
         }
