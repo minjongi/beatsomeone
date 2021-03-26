@@ -1305,7 +1305,7 @@ export default {
         seller_master: 'Seller(Master)',
         lang160: 'BGM/SOUND Membership',
         lang161: 'BGM/SOUND FREE Downloads',
-        lang162: '',
+        lang162: 'stock',
         lang163: 'Sorry, Currently unavailable point.',
     } // en
 }
