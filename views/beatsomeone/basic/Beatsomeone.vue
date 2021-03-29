@@ -93,12 +93,12 @@
         <section class="main__section2">
           <div class="filter reverse"></div>
           <div class="wrap">
-            <header class="main__section2-title-login" v-if="false">
+            <header class="main__section2-title-login">
                 <h2>
                     {{ $t('backgroundMusicMessage1') }}<br/>
                     {{ $t('backgroundMusicMessage2') }}
                 </h2>
-                <a class="startSelling" :href="moveStartBuyer">
+                <a class="startSelling" @click="goSubscribe()">
                     {{ $t('buyerLogin') }}
                 </a>
             </header>
@@ -492,6 +492,11 @@
                 localStorage.setItem('plan', 'subscribe_common')
                 location.href = this.helper.langUrl(this.$i18n.locale, '/register')
               }
+            },
+            goSubscribe() {
+              localStorage.setItem('UserOffer', 'buyer')
+              localStorage.setItem('plan', 'subscribe_common')
+              location.href = this.helper.langUrl(this.$i18n.locale, '/register')
             }
         },
     }

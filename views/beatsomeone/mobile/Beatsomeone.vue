@@ -124,13 +124,13 @@
                         </div>
                     </section>
                     <section class="main__section2">
-                        <header class="main__section2-title1" v-if="false">
+                        <header class="main__section2-title1">
                             <div class="wrap">
                                 <h2>
-                                    {{ $t('lang126') }}<br/>
-                                    {{ $t('lang127') }}
+                                    {{ $t('backgroundMusicMessage1') }}<br/>
+                                    {{ $t('backgroundMusicMessage2') }}
                                 </h2>
-                                <a class="startSelling" :href="moveStartBuyer">
+                                <a class="startSelling" @click="goSubscribe()">
                                     {{ $t('buyerLogin') }}
                                 </a>
                             </div>
@@ -487,6 +487,11 @@
                 localStorage.setItem('plan', 'subscribe_common')
                 location.href = this.helper.langUrl(this.$i18n.locale, '/register')
               }
+            },
+            goSubscribe() {
+              localStorage.setItem('UserOffer', 'buyer')
+              localStorage.setItem('plan', 'subscribe_common')
+              location.href = this.helper.langUrl(this.$i18n.locale, '/register')
             }
         },
     };
