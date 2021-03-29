@@ -1115,9 +1115,7 @@ class BeatsomeoneApi extends CB_Controller
 
         $this->load->model('Unique_id_model');
         $unique_id = $this->Unique_id_model->get_id($this->input->ip_address());
-        if ($good_count > 0) {
-            $good_count .= ' 외 ' . $good_count . '건';
-        }
+        $good_count = get_item_count_title($good_count);
         $this->session->set_userdata(
             'unique_id',
             $unique_id

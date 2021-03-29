@@ -139,7 +139,7 @@
             },
             formatSub: function (data, size) {
                 if (1 < size) {
-                    return data + " 외 " + (size - 1) + "건";
+                    return data + ' ' + this.$t('lang164') + ' ' + (size - 1) + this.$t('lang162');
                 }
                 return data;
             },

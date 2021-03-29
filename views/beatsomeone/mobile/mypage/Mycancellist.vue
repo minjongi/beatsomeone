@@ -204,7 +204,7 @@
                     }
                 }
                 if (1 < size) {
-                    return title + " 외 " + (size - 1) + "건";
+                    return title + this.$t('lang164') + ' ' + (size - 1) + this.$t('lang162');
                 }
                 return title;
             },

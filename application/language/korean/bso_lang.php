@@ -653,3 +653,4 @@ $lang['lang160'] = 'BGM/SOUND 정기구독';
 $lang['lang161'] = 'BGM/SOUND 무료 다운로드';
 $lang['lang162'] = '건';
 $lang['lang163'] = '죄송합니다. 포인트를 사용할 수 없습니다.';
+$lang['lang164'] = '외';
