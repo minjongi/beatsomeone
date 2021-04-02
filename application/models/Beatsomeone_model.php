@@ -1138,6 +1138,16 @@ class Beatsomeone_model extends CB_Model
         return $rst->result_array();
     }
 
+    public function get_membership_purchase_log_for_allat()
+    {
+        $sql = "select * from (select *, row_number() over (partition by mem_id order by end_date desc) as lastNo from cb_member_membership_purchase_log) T";
+        $sql .= " where lastNo = 1 and pay_method='allat' and card_key != '' ";
+
+        $rst = $this->db->query($sql);
+
+        return $rst->result_array();
+    }
+
     public function update_membership_member($memId, $usertype)
     {
         $updateData = [

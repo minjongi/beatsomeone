@@ -64,6 +64,17 @@ class Member_group_model extends CB_Model
 		return $result;
 	}
 
+	public function get_by_title($title)
+	{
+		$data = $this->get_all_group();
+		foreach($data as $item) {
+			if ($item['mgr_title'] == $title) {
+				return $item;
+			}
+		}
+		return false;
+	}
+
 
 	public function update_group($data = '')
 	{
