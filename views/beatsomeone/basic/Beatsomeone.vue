@@ -93,12 +93,12 @@
         <section class="main__section2">
           <div class="filter reverse"></div>
           <div class="wrap">
-            <header class="main__section2-title-login" v-if="false">
+            <header class="main__section2-title-login">
                 <h2>
                     {{ $t('backgroundMusicMessage1') }}<br/>
                     {{ $t('backgroundMusicMessage2') }}
                 </h2>
-                <a class="startSelling" :href="moveStartBuyer">
+                <a class="startSelling" @click="goSubscribe()">
                     {{ $t('buyerLogin') }}
                 </a>
             </header>
@@ -403,8 +403,8 @@
               this.popup1 = false
             },
             endVideoBG() {
-                const idx = Math.floor(Math.random() * 4) + 1
-                this.videoBGPath = '/assets/video/mainbg/' + idx + '.mp4'
+                const idx = Math.floor(Math.random() * 5) + 1
+                this.videoBGPath = '/assets/video/mainbg/2103/' + idx + '.mp4'
                 this.$refs.videoBG.src = this.videoBGPath
                 this.$refs.videoBG.play()
             },
@@ -492,6 +492,11 @@
                 localStorage.setItem('plan', 'subscribe_common')
                 location.href = this.helper.langUrl(this.$i18n.locale, '/register')
               }
+            },
+            goSubscribe() {
+              localStorage.setItem('UserOffer', 'buyer')
+              localStorage.setItem('plan', 'subscribe_common')
+              location.href = this.helper.langUrl(this.$i18n.locale, '/register')
             }
         },
     }

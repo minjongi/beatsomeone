@@ -23,21 +23,23 @@
         props: ['item'],
         data: function () {
             return {
+                cit_id: null,
                 info: null,
                 member: false
             }
         },
         watch: {
             item: function (n) {
-                this.getList();
+              if (this.cit_id === n.cit_id) {
+                return
+              }
+              this.cit_id = n.cit_id
+              this.getList();
             },
         },
         created() {
             this.member = window.member;
             this.getList();
-        },
-        mounted() {
-
         },
         methods: {
             getList() {
@@ -57,7 +59,6 @@
                 axios.post('/note/ajax_write_empty', formData)
                     .then(res => res.data)
                     .then(data => {
-                        // console.log(data);
                         window.location.href = this.helper.langUrl(this.$i18n.locale, '/mypage/#/message');
                     })
                     .catch(error => {

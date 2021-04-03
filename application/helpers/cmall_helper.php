@@ -326,3 +326,29 @@ if (!function_exists('get_search_track_type')) {
     }
 
 }
+
+if (!function_exists('get_item_title')) {
+
+    function get_item_title($title, $itemCount)
+    {
+        if ($itemCount > 0) {
+            return $title . ' ' . lang('lang164') . ' ' . $itemCount . lang('lang162');
+        }
+
+        return $title;
+    }
+
+}
+
+if (!function_exists('get_item_count_title')) {
+
+    function get_item_count_title($itemCount)
+    {
+        if ($itemCount > 0) {
+            return lang('lang164') . ' ' . $itemCount . lang('lang162');
+        }
+
+        return $itemCount;
+    }
+
+}

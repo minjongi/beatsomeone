@@ -630,6 +630,7 @@ export default {
       this.uploadInProgress[type] = false;
 
       if (!!data.code && data.code === "error") {
+        this.$refs[type + "ProgressBar"].style.width = "0%";
         alert("파일 업로드 실패\n파일 확인 후 다시 시도해 주세요");
         return false;
       }
@@ -639,7 +640,8 @@ export default {
     },
     progressUpload(type, e) {
       if (!e) {
-        alert("파일 업로드중 서류가 발생하였습니다. 다시 시도해 주세요.");
+        this.$refs[type + "ProgressBar"].style.width = "0%";
+        alert("파일 업로드중 오류가 발생하였습니다. 다시 시도해 주세요.");
         return false;
       }
       this.$refs[type + "ProgressBar"].style.width = e + "%";
@@ -661,7 +663,15 @@ export default {
         "/uploads/cmallitem/" + this.item.artwork.filename;
     },
     chkHashTag() {
-      let hashTag = this.item.hashTag.split(",");
+      let reg = new RegExp("[!@#$%^&*().?\":{}|<>~/';]"),
+          hashTag = this.item.hashTag
+
+      if (reg.test(hashTag)) {
+        hashTag = hashTag.replace(reg, "");
+        this.item.hashTag = hashTag
+      }
+
+      hashTag = hashTag.split(",");
       if (hashTag.length <= 10) {
         this.$refs["hashTagCount"].innerText = hashTag.length;
         return false;
@@ -731,7 +741,7 @@ export default {
         alert(this.$t("enterSubject"));
         return false;
       }
-      if (this.item.cit_name > 100) {
+      if (this.item.cit_name.length > 100) {
         alert(this.$t("allowedCharLength100"));
         return false;
       }
@@ -744,19 +754,19 @@ export default {
         return false;
       }
 
-      // if (!this.item.unTaggedFile && !this.item.unTaggedFileName) {
-      //   alert(this.$t("registerSoundSource"));
-      //   return false;
-      // }
+      if (!this.item.unTaggedFile && !this.item.unTaggedFileName) {
+        alert(this.$t("registerSoundSource"));
+        return false;
+      }
 
-      // if (
-      //   this.item.licenseStemUseYn &&
-      //   !this.item.stemFile &&
-      //   !this.item.stemFileName
-      // ) {
-      //   alert(this.$t("attachStemsFile"));
-      //   return false;
-      // }
+      if (
+        this.item.licenseStemUseYn &&
+        !this.item.stemFile &&
+        !this.item.stemFileName
+      ) {
+        alert(this.$t("attachStemsFile"));
+        return false;
+      }
 
       if (!this.item.licenseLeaseUseYn && !this.item.licenseStemUseYn) {
         alert(this.$t("selectSalesType"));

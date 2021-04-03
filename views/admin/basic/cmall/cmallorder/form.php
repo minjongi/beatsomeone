@@ -38,6 +38,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>소계</th>
                             <th>포인트</th>
                             <th>다운로드기간</th>
+                            <th>판매자등급</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -154,6 +155,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         }
                                     }
                                     ?>
+                                </td>
+                                <td class="text-center">
+                                    <?php echo element('mgr_description', $detail); ?>
                                 </td>
                             </tr>
                             <?php

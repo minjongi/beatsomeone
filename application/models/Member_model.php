@@ -51,6 +51,16 @@ class Member_model extends CB_Model
 	}
 
 
+    public function get_by_nickname($nickname = '', $select = '')
+    {
+        if (empty($nickname)) {
+            return false;
+        }
+        $where = array('mem_nickname' => $nickname);
+        return $this->get_one('', $select, $where);
+    }
+
+
 	public function get_by_email($email = '', $select = '')
 	{
 		if (empty($email)) {
