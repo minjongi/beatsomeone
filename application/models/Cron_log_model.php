@@ -13,7 +13,7 @@ class Cron_log_model extends CB_Model
     public function cron_log()
     {
         $data = [
-            'created_at' => now()
+            'created_at' => date('Y-m-d H:i:s')
         ];
         $this->db->insert($this->_table, $data);
     }

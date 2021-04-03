@@ -6,24 +6,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @author redsunset
  */
 
-class cronjob extends CB_Controller
+class Cronjob extends CB_Controller
 {
-    protected $models = array('');
+    protected $models = array();
     protected $helpers = array('form', 'array');
 
-    function __contrunct()
+    function __construct()
     {
         parent::__construct();
 
         $this->load->library(array('pagination', 'querystring'));
     }
-    function cronjob()
+
+    public function index()
     {
-        // echo "cron job-------------1-----------\n";
+//         echo "cron job-------------1-----------\n";
+        include_once(FCPATH . 'plugin/pg/allat/subscribe/allatutil.php');
         $this->load->model(array('Cron_log_model', 'Member_group_model', 'Cmall_order_model', 'Member_group_member_model', 'Beatsomeone_model', 'Member_model'));
         $this->Cron_log_model->cron_log();
-
         $res_membership_purchase_logs = $this->Beatsomeone_model->get_membership_purchase_log_for_allat();
+
         foreach($res_membership_purchase_logs as $res_membership_purchase_log) {
             $end_date = $res_membership_purchase_log['end_date'];
             if (strtotime($end_date) < time()) {
@@ -32,23 +34,21 @@ class cronjob extends CB_Controller
                     $mem_id = $res_membership_purchase_log['mem_id'];
                     $userinfo = $this->Member_model->get_by_memid($mem_id);
                     $member_group = $this->Member_group_model->get_by_title($res_membership_purchase_log['plan_name']);
-                    include(FCPATH . 'plugin/pg/allat/subscribe/allatutil.php');
 
                     $at_enc       = "";
                     $at_data      = "";
                     $at_txt       = "";
-                
-                    echo time();
+
                     // 필수 항목
                     $at_cross_key = "11e9e1458ad968ccbc4db73c16c1341f";     //설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/helpinfo/hi_install_guide.jsp#shop]
                     $at_shop_id   = "dumdumfix";        //설정필요
-            
+
                     $at_fix_key        = $res_membership_purchase_log['card_key'];   //카드키(최대 24자)
                     $at_sell_mm        = "00";   //할부개월값(최대  2자)
                     $at_amt            = $member_group['mgr_monthly_cost_w'];   //금액(최대 10자)
 
                     $at_shop_member_id = element('mem_id', $userinfo);   //회원ID(최대 20자)               : 쇼핑몰회원ID
-                    $at_order_no       = time();   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
+                    $at_order_no       = time() . '_' . $res_membership_purchase_log['mmpl_id'];   //주문번호(최대 80자)             : 쇼핑몰 고유 주문번호
                     $at_product_cd     = $member_group['mgr_title'];   //상품코드(최대 1000자)           : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
                     $at_product_nm     = $member_group['mgr_title'];   //상품명(최대 1000자)             : 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개)
                     $at_cardcert_yn    = "N";   //카드인증여부(최대 1자)          : 인증(Y),인증사용않음(N),인증만사용(X)
@@ -59,7 +59,7 @@ class cronjob extends CB_Controller
                     $at_buyer_ip       = "Unknown";   //결제자 IP(최대15자) - BuyerIp를 넣을수 없다면 "Unknown"으로 세팅
                     $at_email_addr     = element('mem_email', $userinfo);   //결제자 이메일 주소(50자)
                     $at_bonus_yn       = "N";   //보너스포인트 사용여부(최대1자)  : 사용(Y), 사용않음(N)
-                
+
                     $at_enc = setValue($at_enc,"allat_card_key"         ,   $at_fix_key        );
                     $at_enc = setValue($at_enc,"allat_sell_mm"          ,   $at_sell_mm        );
                     $at_enc = setValue($at_enc,"allat_amt"              ,   $at_amt            );
@@ -80,21 +80,21 @@ class cronjob extends CB_Controller
                     $at_enc = setValue($at_enc,"allat_test_yn"          ,   "N"                );  //테스트 :Y, 서비스 :N
                     $at_enc = setValue($at_enc,"allat_opt_pin"          ,   "NOUSE"            );  //수정금지(올앳 참조 필드)
                     $at_enc = setValue($at_enc,"allat_opt_mod"          ,   "APP"              );  //수정금지(올앳 참조 필드)
-                
+
                     $at_data = "allat_shop_id=".$at_shop_id.
                                 "&allat_amt=".$at_amt.
                                 "&allat_enc_data=".$at_enc.
                                 "&allat_cross_key=".$at_cross_key;
-                
+
                     // 올앳 결제 서버와 통신 : ApprovalReq->통신함수, $at_txt->결과값
                     //----------------------------------------------------------------
                     $at_txt = ApprovalReq($at_data,"SSL");
-                
+
                     // 결제 결과 값 확인
                     //------------------
                     $REPLYCD   =getValue("reply_cd",$at_txt);        //결과코드
                     $REPLYMSG  =getValue("reply_msg",$at_txt);       //결과 메세지
-                
+
                     if( !strcmp($REPLYCD,"0000") ){
                         // reply_cd "0000" 일때만 성공
                         $ORDER_NO         =getValue("order_no",$at_txt);
@@ -109,7 +109,7 @@ class cronjob extends CB_Controller
                         $ZEROFEE_YN       =getValue("zerofee_yn",$at_txt);
                         $CERT_YN          =getValue("cert_yn",$at_txt);
                         $CONTRACT_YN      =getValue("contract_yn",$at_txt);
-                        
+
                         $termDays = ($res_membership_purchase_log['bill_term'] == 'yearly') ? '365' : '30';
                         $startDate = date('Y-m-d');
                         $endDate = date("Y-m-d", strtotime($startDate . '+ ' . $termDays . ' days'));
@@ -128,26 +128,26 @@ class cronjob extends CB_Controller
                         $downloaddata = array();
                         $downloaddata['mem_remain_downloads'] = $member_group['mgr_monthly_download_limit'];
                         $this->Member_model->update(element('mem_id', $userinfo), $downloaddata);
-                                        
-                        // echo "결과코드              : ".$REPLYCD."<br>";
-                        // echo "결과메세지            : ".$REPLYMSG."<br>";
-                        // echo "주문번호              : ".$ORDER_NO."<br>";
-                        // echo "승인금액              : ".$AMT."<br>";
-                        // echo "지불수단              : ".$PAY_TYPE."<br>";
-                        // echo "승인일시              : ".$APPROVAL_YMDHMS."<br>";
-                        // echo "거래일련번호          : ".$SEQ_NO."<br>";
-                        // echo "승인번호              : ".$APPROVAL_NO."<br>";
-                        // echo "카드ID                : ".$CARD_ID."<br>";
-                        // echo "카드명                : ".$CARD_NM."<br>";
-                        // echo "할부개월              : ".$SELL_MM."<br>";
-                        // echo "무이자여부            : ".$ZEROFEE_YN."<br>";   //무이자(Y),일시불(N)
-                        // echo "인증여부              : ".$CERT_YN."<br>";      //인증(Y),미인증(N)
-                        // echo "직가맹여부            : ".$CONTRACT_YN."<br>";  //3자가맹점(Y),대표가맹점(N)
+
+//                         echo "결과코드              : ".$REPLYCD.PHP_EOL;
+//                         echo "결과메세지            : ".$REPLYMSG.PHP_EOL;
+//                         echo "주문번호              : ".$ORDER_NO.PHP_EOL;
+//                         echo "승인금액              : ".$AMT.PHP_EOL;
+//                         echo "지불수단              : ".$PAY_TYPE.PHP_EOL;
+//                         echo "승인일시              : ".$APPROVAL_YMDHMS.PHP_EOL;
+//                         echo "거래일련번호          : ".$SEQ_NO.PHP_EOL;
+//                         echo "승인번호              : ".$APPROVAL_NO.PHP_EOL;
+//                         echo "카드ID                : ".$CARD_ID.PHP_EOL;
+//                         echo "카드명                : ".$CARD_NM.PHP_EOL;
+//                         echo "할부개월              : ".$SELL_MM.PHP_EOL;
+//                         echo "무이자여부            : ".$ZEROFEE_YN.PHP_EOL;   //무이자(Y),일시불(N)
+//                         echo "인증여부              : ".$CERT_YN.PHP_EOL;      //인증(Y),미인증(N)
+//                         echo "직가맹여부            : ".$CONTRACT_YN.PHP_EOL;  //3자가맹점(Y),대표가맹점(N)
                     }else{
                         // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
                         // reply_msg 는 실패에 대한 메세지
                         echo "결과코드  : ".$REPLYCD."<br>";
-                        echo "결과메세지: ".$REPLYMSG."<br>";
+                        echo "결과메세지: ".iconv('euckr', 'utf8', $REPLYMSG)."<br>";
                         var_dump($at_txt);
                     }
                 }
