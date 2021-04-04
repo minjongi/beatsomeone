@@ -6,8 +6,9 @@ window.sortItem = [
 
 window.genre = [
     'BGMSOUND',
-    'Hip hop',
+    'Free',
     'K-pop',
+    'Hip hop',
     'Pop',
     'R&B',
     'Dance',

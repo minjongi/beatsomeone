@@ -238,6 +238,7 @@ $lang['genreIndie'] = 'Indie';
 $lang['genreReggae'] = 'Reggae';
 $lang['genreWorld'] = 'World';
 $lang['genreFreeBeats'] = 'Free Beats';
+$lang['genreFree'] = 'FREE';
 $lang['moodsAll'] = 'All';
 $lang['moodsAngry'] = 'Angry';
 $lang['moodsAnnoyed'] = 'Annoyed';

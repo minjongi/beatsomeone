@@ -46,6 +46,8 @@ class Beatsomeone_model extends CB_Model
         // Genre
         if ($genre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($genre && $genre !== 'All Genre') {
                 $genreWhere[] = "p.genre = '" . $genre . "'";
@@ -246,6 +248,8 @@ class Beatsomeone_model extends CB_Model
         // Genre
         if ($genre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($genre && $genre !== 'All Genre') {
                 $genreWhere[] = "p.genre = '" . $genre . "'";
@@ -255,6 +259,8 @@ class Beatsomeone_model extends CB_Model
         // SubGenre
         if ($subgenre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($subgenre && $subgenre !== 'All') {
                 $genreWhere[] = "p.genre = '" . $subgenre . "'";
@@ -349,6 +355,8 @@ class Beatsomeone_model extends CB_Model
         // Genre
         if ($genre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($genre && $genre !== 'All Genre') {
                 $genreWhere[] = "p.genre = '" . $genre . "'";
@@ -358,6 +366,8 @@ class Beatsomeone_model extends CB_Model
         // SubGenre
         if ($subgenre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($subgenre && $subgenre !== 'All') {
                 $genreWhere[] = "p.genre = '" . $subgenre . "'";
@@ -594,7 +604,8 @@ class Beatsomeone_model extends CB_Model
             $infoContent4,
             $infoContent5,
             $p['bpm'],
-            $infoContent6
+            $infoContent6,
+            $hashTag,
         ]);
 
         $expandSearchData = gen_search_data([

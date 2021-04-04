@@ -238,6 +238,7 @@ $lang['genreIndie'] = 'Indie';
 $lang['genreReggae'] = 'Reggae';
 $lang['genreWorld'] = 'World';
 $lang['genreFreeBeats'] = '무료 음원';
+$lang['genreFree'] = 'FREE';
 $lang['moodsAll'] = '전체';
 $lang['moodsAngry'] = 'Angry (화나는)';
 $lang['moodsAnnoyed'] = 'Annoyed (짜증나는)';

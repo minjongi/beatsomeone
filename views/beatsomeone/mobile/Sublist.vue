@@ -245,6 +245,7 @@ export default {
             listTrackType: ['All types'].concat(window.trackType),
             offset: 0,
             last_offset: null,
+            last_data: false,
             list: [],
             listTop5: null,
             randomList: null,
@@ -400,6 +401,7 @@ export default {
 
             if (this.busy) return;
             if (this.last_offset === this.offset) return;
+            if (this.last_data) return;
             this.busy = true;
             this.getListMore();
         },
@@ -480,6 +482,11 @@ export default {
             });
         },
         getListMore: _.debounce(function () {
+            if (this.last_data) {
+              this.busy = false;
+              return
+            }
+
             this.busy = true;
             const p = {
                 limit: 10,
@@ -495,7 +502,10 @@ export default {
                 
             }
             Http.post(`/beatsomeoneApi/sublist_list`, p).then(r => {
+                this.busy = false;
+
                 if (!r || !r.length) {
+                  this.last_data = true
                   return
                 }
 
@@ -512,7 +522,6 @@ export default {
                 this.list = this.list.concat(moreList);
                 this.last_offset = this.offset;
                 this.offset = this.list.length;
-                this.busy = false;
             });
         }, 1000),
         getTopList() {
