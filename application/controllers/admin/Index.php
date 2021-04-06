@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * 관리자 메인 controller 입니다.
  */
-class Beatsomeone extends CB_Controller
+class Index extends CB_Controller
 {
 
 	/**
