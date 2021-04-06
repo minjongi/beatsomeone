@@ -1138,6 +1138,17 @@ class Beatsomeone_model extends CB_Model
         return $rst->result_array();
     }
 
+    public function cancel_subscribe($mem_id)
+    {
+        $sql = "update cb_member_membership_purchase_log ";
+        $sql .= "set card_key=null ";
+        $sql .= "where mem_id = ".$mem_id." ";
+        
+        $rst = $this->db->query($sql);
+
+        return $rst;
+
+    }
     public function update_membership_member($memId, $usertype)
     {
         $updateData = [

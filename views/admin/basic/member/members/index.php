@@ -75,6 +75,7 @@
                     <th>메일인증/공개/메일/쪽지/문자</th>
                     <th>승인</th>
                     <th>수정</th>
+                    <th>해지</th>
                     <th><input type="checkbox" name="chkall" id="chkall" /></th>
                 </tr>
                 </thead>
@@ -137,6 +138,7 @@
                             </td>
                             <td><?php echo element('mem_denied', $result) ? '<span class="label label-danger">차단</span>' : '승인'; ?></td>
                             <td><a href="<?php echo admin_url($this->pagedir); ?>/write/<?php echo element(element('primary_key', $view), $result); ?>?<?php echo $this->input->server('QUERY_STRING', null, ''); ?>" class="btn btn-outline btn-default btn-xs">수정</a></td>
+                            <td><a href="#" onclick="Cancel_Subscribe(<?php echo element(element('primary_key', $view), $result); ?>)" class="btn btn-outline btn-default btn-xs">해지</a></td>
                             <td><input type="checkbox" name="chk[]" class="list-chkbox" value="<?php echo element(element('primary_key', $view), $result); ?>" /></td>
                         </tr>
                         <?php
@@ -187,6 +189,13 @@
         return false;
     }
 
+    function Cancel_Subscribe(mem_id) {        
+        $.post(`/beatsomeoneApi/cancel_subscribe`, {mem_id: mem_id}).done(
+            function(r) {
+                alert("성공적으로 해지되었습니다.")
+            }
+        )
+    }
     $(document).on('click', '#export_to_excel', function(){
         exporturl = '<?php echo admin_url($this->pagedir . '/excel' . '?' . $this->input->server('QUERY_STRING', null, '')); ?>';
         document.location.href = exporturl;
