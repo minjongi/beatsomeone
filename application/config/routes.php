@@ -89,7 +89,6 @@ $route['board_info/(:any)'] = "board_info/index/$1";
 $route[config_item('uri_segment_cmall_item') . '/([a-zA-Z0-9_-]+)'] = "cmall/item/$1";
 $route[config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmall/ajax_item/$1";
 
-$route['beatsomeone'] = "brandshop/shop/beatsomeone";
 $route['brandshop/(:any)'] = "brandshop/shop/$1";
 $route['brandshop'] = "brandshop/integrate";
 $route['sublist'] = "index/sublist";
@@ -123,7 +122,6 @@ $route['ko/board_info/(:any)'] = "board_info/index/$1";
 $route['ko/' . config_item('uri_segment_cmall_item') . '/([a-zA-Z0-9_-]+)'] = "cmall/item/$1";
 $route['ko/' . config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmall/ajax_item/$1";
 
-$route['ko/beatsomeone'] = "brandshop/shop/beatsomeone";
 $route['ko/brandshop/(:any)'] = "brandshop/shop/$1";
 $route['ko/brandshop'] = "brandshop/integrate";
 $route['ko/sublist'] = "index/sublist";
