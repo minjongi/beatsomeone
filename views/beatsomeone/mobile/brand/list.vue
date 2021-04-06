@@ -146,7 +146,14 @@
               <div v-if="busy">
                 <Loader key="loader"></Loader>
               </div>
-
+              <div v-if="busy" class="loader" style="margin-top: 50px;">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+                <div class="bar4"></div>
+                <div class="bar5"></div>
+                <div class="bar6"></div>
+              </div>
             </div>
               <div v-else style="text-align: center; padding: 30px 0; opacity: 0.7;">
                   {{ brand.mem_nickname }}님께서 등록한 비트가 없습니다.

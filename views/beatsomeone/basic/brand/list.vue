@@ -159,7 +159,14 @@
                   </template>
                 </transition-group>
 
-                <Loader v-if="busy" key="loader" style="margin-top: 40px;"></Loader>
+                <div class="loader" v-if="busy" style="margin-top: 40px;">
+                  <div class="bar1"></div>
+                  <div class="bar2"></div>
+                  <div class="bar3"></div>
+                  <div class="bar4"></div>
+                  <div class="bar5"></div>
+                  <div class="bar6"></div>
+                </div>
               </div>
             </div>
           </div>

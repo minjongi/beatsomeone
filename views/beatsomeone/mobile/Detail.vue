@@ -15,7 +15,7 @@
                             <h2 class="title" style="font-weight: 600;" v-if="item.cit_name">{{ truncate(item.cit_name, 15) }}</h2>
 <!--                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>-->
                             <div class="state" v-if="item">
-                                <div class="state-singer" v-if="item">{{ item.mem_nickname }}</div> <div style="display: flex; align-items: center;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
+                                <div class="state-singer" v-if="item">{{ item.mem_nickname }}</div> <div style="display: flex; align-items: center;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
 <!--                                <span class="song">0{{ item.cde_download }}</span>-->
                                 <!--                                <span class="song">120</span>-->
                                 <div style="margin-top: 10px" class="registed">{{ item.release_datetime }}</div>

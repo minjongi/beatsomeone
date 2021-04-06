@@ -43,7 +43,7 @@
               <div class="filter-result-row">
                 <div v-for ="(member, index) in showNewMemberList[index1]" :key="index" class="filter-result-row3" style="cursor:pointer">
                   <!-- <div class="filter-result-item content truncate-overflow">{{member.mem_nickname}}</div> -->
-                  <a  class="filter-result-item content truncate-overflow" style="margin-bottom:5px" :href="helper.langUrl($i18n.locale, '/brandshop/' + member.mem_nickname)">{{member.mem_nickname}}</a>
+                  <a  class="filter-result-item content truncate-overflow" style="margin-bottom:5px" :href="helper.langUrl($i18n.locale, '/' + member.mem_nickname)">{{member.mem_nickname}}</a>
                   <div class="filter-result-item-name">{{member.mem_address1}}</div>
                 </div>
               </div> 

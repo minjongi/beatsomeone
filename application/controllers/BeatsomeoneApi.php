@@ -2004,6 +2004,7 @@ class BeatsomeoneApi extends CB_Controller
                 $val['bpm'],
                 $infoContent6,
                 $val['hashTag'],
+                $val['other_tags'],
             ]);
 
             $expandSearchData = gen_search_data([

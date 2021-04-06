@@ -620,6 +620,11 @@ class Beatsomeone_model extends CB_Model
             $cit_id = $p["cit_id"];
             $itemInfo = $this->get_item($p);
 
+            $searchData = gen_search_data([
+                trim($searchData, '|'),
+                $itemInfo->other_tags
+            ]);
+
             $expandSearchData = gen_search_data([
                 trim($expandSearchData, '|'),
                 $itemInfo->similar_song,

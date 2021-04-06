@@ -41,8 +41,8 @@
             <div class="gnb__content">
                 <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
+                    <a :href="helper.langUrl($i18n.locale, '/sublist?genre=Free')">{{ $t('freeBeats') }}</a>
                     <a :href="helper.langUrl($i18n.locale, '/mypage/favorites')">{{ $t('favorite') }}</a>
-                    <a v-if="isCustomer && false" href="">{{ $t('freeBeats') }}</a>
                     <a v-if="isSeller" :href="helper.langUrl($i18n.locale, '/mypage/regist_item')">{{ $t('registrationSources') }}</a>
                     <a :href="helper.langUrl($i18n.locale, '/mypage')" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a :href="helper.langUrl($i18n.locale, '/login/logout')" v-if="isLogin">{{ $t('logout') }}</a>

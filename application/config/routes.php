@@ -50,8 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-$route['default_controller'] = 'beatsomeone';
-$route['404_override'] = '';
+$route['default_controller'] = 'index';
+$route['404_override'] = 'Error404';
 
 $route[config_item('uri_segment_admin') . '/preview/adminshow/(.+)'] = "$1";
 
@@ -91,9 +91,9 @@ $route[config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmal
 
 $route['brandshop/(:any)'] = "brandshop/shop/$1";
 $route['brandshop'] = "brandshop/integrate";
-$route['sublist'] = "beatsomeone/sublist";
-$route['detail/(:any)'] = "beatsomeone/detail/$1";
-$route['notsupport'] = "beatsomeone/notsupport";
+$route['sublist'] = "index/sublist";
+$route['detail/(:any)'] = "index/detail/$1";
+$route['notsupport'] = "index/notsupport";
 
 
 $route['ko/' . config_item('uri_segment_board') . '/([a-zA-Z0-9_-]+)'] = "board_post/lists/$1";
@@ -124,9 +124,9 @@ $route['ko/' . config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)']
 
 $route['ko/brandshop/(:any)'] = "brandshop/shop/$1";
 $route['ko/brandshop'] = "brandshop/integrate";
-$route['ko/sublist'] = "beatsomeone/sublist";
-$route['ko/detail/(:any)'] = "beatsomeone/detail/$1";
-$route['ko/notsupport'] = "beatsomeone/notsupport";
+$route['ko/sublist'] = "index/sublist";
+$route['ko/detail/(:any)'] = "index/detail/$1";
+$route['ko/notsupport'] = "index/notsupport";
 
 $route['(\ko|en)/(.*)'] = '$2';
 $route['(\ko|en)'] = $route['default_controller'];

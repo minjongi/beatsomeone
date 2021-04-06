@@ -13,7 +13,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * Beatsomeone 페이지에 관한 controller 입니다.
  */
-class Beatsomeone extends CB_Controller
+class Index extends CB_Controller
 {
 
     /**

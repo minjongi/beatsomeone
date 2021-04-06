@@ -943,6 +943,7 @@ class Cmallitem extends CB_Controller
                 $metadata['info_content_2'],
                 $infoContent6,
                 $metadata['info_content_7'],
+                $updatedata['other_tags']
             ]);
 
             $updatedata['expand_search_data'] = gen_search_data([
