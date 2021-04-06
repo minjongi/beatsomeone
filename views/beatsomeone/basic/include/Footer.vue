@@ -49,6 +49,9 @@
               <li>
                 <a href="http://dumdum.kr" target="_blank">{{ $t('aboutUs') }}</a>
               </li>
+              <li>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSepRG1zgqh83JJlqr5SWGaJS73SknmnMRjXnyRzpJy6Hv2UYQ/viewform" target="_blank">{{ $t('lang165') }}</a>
+              </li>
             </ul>
           </div>
           <div class="row">

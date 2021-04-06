@@ -654,3 +654,4 @@ $lang['lang161'] = 'BGM/SOUND FREE Downloads';
 $lang['lang162'] = '';
 $lang['lang163'] = 'Sorry, Currently unavailable point.';
 $lang['lang164'] = '+';
+$lang['lang165'] = 'Contact Sponsor&Partnership';
