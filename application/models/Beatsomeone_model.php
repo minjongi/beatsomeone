@@ -511,14 +511,13 @@ class Beatsomeone_model extends CB_Model
         $where = array(
             'cb_c.cit_id = ' => $p['cit_id'],
         );
-        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
-        $this->db->join('cb_member as cm','m.cim_value = cm.mem_id','inner');
+//        $this->db->join('cb_cmall_item_meta as m','c.cit_id = m.cit_id AND m.cim_key = "seller_mem_id"','left');
+        $this->db->join('cb_member as cm','cb_c.mem_id = cm.mem_id','inner');
 
         $this->db->where($where);
         $this->db->select('cb_c.*, cm.mem_userid, cm.mem_email, cm.mem_username, cm.mem_nickname, cm.mem_photo, cm.mem_profile_content');
         $this->db->order_by('cit_id', 'desc');
         $qry = $this->db->get('cmall_item as cb_c');
-
         $result = $qry->first_row();
 
         return $result;
@@ -1149,6 +1148,16 @@ class Beatsomeone_model extends CB_Model
         return $rst;
 
     }
+    public function get_membership_purchase_log_for_allat()
+    {
+        $sql = "select * from (select *, row_number() over (partition by mem_id order by end_date desc) as lastNo from cb_member_membership_purchase_log) T";
+        $sql .= " where lastNo = 1 and pay_method='allat' and card_key != '' ";
+
+        $rst = $this->db->query($sql);
+
+        return $rst->result_array();
+    }
+
     public function update_membership_member($memId, $usertype)
     {
         $updateData = [

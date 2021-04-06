@@ -42,11 +42,13 @@ class Brandshop extends CB_Controller
 	}
 
     /**
-     * @param $userid
+     * @param $user_nickname
      */
-    public function shop($userid)
+    public function shop($user_nickname)
     {
-        $userinfo = $this->Member_model->get_by_userid($userid);
+//        $userinfo = $this->Member_model->get_by_userid($userid);
+        $userinfo = $this->Member_model->get_by_nickname($user_nickname);
+
         if (empty($userinfo)) {
             alert('잘못된 접근 입니다', '/');
             return;

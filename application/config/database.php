@@ -83,14 +83,13 @@ $query_builder = TRUE;
 */
 $db['default'] = array(
 	//'dsn'	=> 'mysql:host=localhost;dbname=yourdatabasenamehere',
-	'hostname' => '127.0.0.1',
+    'hostname' => '127.0.0.1',
     'username' => 'root',
     'password' => '',
-	// 'hostname' => '106.10.55.130',
-	// 'username' => 'dumdum',
+    // 'hostname' => '106.10.55.130',
+    // 'username' => 'dumdum',
     // 'password' => 'Dumdum2020!!',
     'database' => 'beatsomeone',
-
 	'dbdriver' => 'mysqli',
 	'dbprefix' => 'cb_',
 	'pconnect' => FALSE,

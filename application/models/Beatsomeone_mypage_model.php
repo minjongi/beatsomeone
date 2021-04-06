@@ -273,8 +273,8 @@ class Beatsomeone_mypage_model extends CB_Model
         $r = $this->db
             ->where($where)
             ->set('mem_userid', $mem_username)
+            ->set('mem_nickname', $mem_username)
             ->update('cb_member');
-
 
         return array( 'result' => $r);
     }

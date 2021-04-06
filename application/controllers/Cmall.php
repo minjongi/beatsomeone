@@ -1025,10 +1025,7 @@ class Cmall extends CB_Controller
         $this->load->model('Unique_id_model');
         $unique_id = $this->Unique_id_model->get_id($this->input->ip_address());
         $view['unique_id'] = $unique_id;
-        $view['good_name'] = $good_name;
-        if ($good_count > 0) {
-            $view['good_name'] .= ' 외 ' . $good_count . '건';
-        }
+        $view['good_name'] = get_item_title($good_name, $good_count);
         $this->session->set_userdata(
             'unique_id',
             $unique_id
@@ -1352,10 +1349,7 @@ class Cmall extends CB_Controller
         $this->load->model('Unique_id_model');
         $unique_id = $this->Unique_id_model->get_id($this->input->ip_address());
         $view['view']['unique_id'] = $unique_id;
-        $view['view']['good_name'] = $good_name;
-        if ($good_count > 0) {
-            $view['view']['good_name'] .= ' 외 ' . $good_count . '건';
-        }
+        $view['view']['good_name'] = get_item_title($good_name, $good_count);
         $this->session->set_userdata(
             'unique_id',
             $unique_id
