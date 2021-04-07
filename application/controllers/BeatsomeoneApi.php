@@ -78,6 +78,14 @@ class BeatsomeoneApi extends CB_Controller
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result_last));
     }
+
+    public function cancel_subscribe() 
+    {
+        $mem_id = $this->input->post('mem_id');
+        $this->load->model('Beatsomeone_model');
+        $result = $this->Beatsomeone_model->cancel_subscribe($mem_id);
+        echo $result;
+    }
     // Detail 조회
     public function detail_item()
     {
