@@ -372,13 +372,14 @@ export default {
   },
   methods: {
     loading() {
-      if (!this.randomList.length || this.randomList.length < 10) {
+      if (
+          (!!this.randomList && (!this.randomList.length || this.randomList.length < 10)) ||
+          this.busy ||
+          (this.last_offset === this.offset) ||
+          this.last_data
+      ) {
         return false
       }
-
-      if (this.busy) return;
-      if (this.last_offset === this.offset) return;
-      if (this.last_data) return;
       this.busy = true;
       this.getListMore();
     },
@@ -415,7 +416,6 @@ export default {
         } else {
           this.randomList = null;
           this.list = r;
-          this.last_offset = this.offset;
         }
       });
     },
