@@ -6,7 +6,7 @@
         <div class="title"><div>BRAND SHOP</div></div>
         <div class="brand-logo-section">
           <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item"> 
-             <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url"></a>
+             <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" :style="bannerStyle(item)"></a>
           </div>
         </div>
         <div class="header__search">
@@ -401,7 +401,9 @@ export default {
 .brand-logo-section{
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  max-width: 1420px;
+  min-width: 880px;
+  margin: auto;
 }
 .brand-logo-item{
   width: 20%;
