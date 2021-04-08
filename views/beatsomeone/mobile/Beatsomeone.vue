@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div v-if="popup">
-          <div class="noti-wrap"></div>
-          <div class="noti-content">
-            <div>
-              <a @click="goEvent" style="cursor:pointer;"><img :src="'/assets_m/images/popup/210312/1.png'"></a>
-            </div>
-            <div>
-              <img :src="'/assets_m/images/popup/210312/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/popup/210312/3.png'" @click="closePopup()" style="width:50%;">
-            </div>
-          </div>
-        </div>
+<!--        <div v-if="popup">-->
+<!--          <div class="noti-wrap"></div>-->
+<!--          <div class="noti-content">-->
+<!--            <div>-->
+<!--              <a @click="goEvent" style="cursor:pointer;"><img :src="'/assets_m/images/popup/210312/1.png'"></a>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <img :src="'/assets_m/images/popup/210312/2.png'" @click="closePopup(true)" style="width:50%;"><img :src="'/assets_m/images/popup/210312/3.png'" @click="closePopup()" style="width:50%;">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 <!--        <div v-if="popup1">-->
 <!--          <div class="noti-wrap"></div>-->
 <!--          <div class="noti-content">-->
@@ -313,9 +313,9 @@
                 this.remainDownloadNumber();
             }
 
-            if (Vuecookies.get('popup210312-close') !== 'Y' && this.$i18n.locale !== 'en' && this.member_group_name !== 'subscribe_common') {
-              this.openPopup()
-            }
+            // if (Vuecookies.get('popup210312-close') !== 'Y' && this.$i18n.locale !== 'en' && this.member_group_name !== 'subscribe_common') {
+            //   this.openPopup()
+            // }
             // if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
             //   this.openPopup1()
             // }
