@@ -39,7 +39,8 @@
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSepRG1zgqh83JJlqr5SWGaJS73SknmnMRjXnyRzpJy6Hv2UYQ/viewform" target="_blank" style="color:#ffffff;font-size:10px;">{{ $t('lang165') }}</a>
               </div>
                 <div class="footer__appLink">
-                  <a href="http://scan.beatsomeone.com" target="_blank" style="color:#ffffff;font-size:10px;">beatsomeone Blockchain Mornitoring System</a>
+<!--                  <a href="http://scan.beatsomeone.com" target="_blank" style="color:#ffffff;font-size:10px;">beatsomeone Blockchain Mornitoring System</a>-->
+                  <a onclick="alert('점검중 입니다')" style="cursor:pointer;">beatsomeone Blockchain Monitoring System</a>
                 </div>
                 <p class="footer__copyright">
                   {{ $t('lang131') }}<br/>
