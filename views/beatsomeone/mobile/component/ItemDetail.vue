@@ -31,7 +31,6 @@
                         <!-- {{$t('available60Days')}} -->
                         Profits from performances and can be used in broadcasting
                     </p>
-                    <p></p>
                     <p>
                         <i>
                             <img src="/assets/images/icon/parchase-info1.png" alt/>

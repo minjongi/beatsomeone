@@ -7,7 +7,6 @@
                 </i>
                 {{$t('lang25')}}
             </p>
-            <p></p>
             <p>
                 <i>
                     <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -40,7 +39,6 @@
                 </i>
                 {{ $t('lang33') }}
             </p>
-            <p></p>
             <p>
                 <i>
                     <img src="/assets/images/icon/parchase-info8.png" alt/>

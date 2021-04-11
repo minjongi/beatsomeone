@@ -47,7 +47,7 @@
                     class="download_period"
                 >
                   <span>
-                    {{ caclLeftDay(item.item.download_end_date) }} {{ $t('daysLeft') }}
+                    {{ viewLeftDay(item.item.download_end_date) }}
                     <br/>
                     (~ {{ item.item.download_end_date }})
                   </span>
@@ -172,6 +172,10 @@ export default {
             diff = Math.ceil(diff / (1000 * 3600 * 24));
             return diff;
         },
+        viewLeftDay: function (orderDate) {
+          let leftDay = this.caclLeftDay(orderDate)
+          return leftDay < 0 ? this.$t('expired') : leftDay + ' ' + this.$t('daysLeft')
+        }
     },
     mounted() {
         console.log(this.item);

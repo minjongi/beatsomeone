@@ -1200,7 +1200,8 @@ section[class*='section'] {
                 margin-bottom: 30px;
                 // max-height: 252px;
                 &.basic {
-                    height: 113px;
+                    //height: 113px;
+                    height: auto;
                 }
 
                 &.unlimited {
