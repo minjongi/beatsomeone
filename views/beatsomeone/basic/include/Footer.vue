@@ -55,8 +55,7 @@
             </ul>
           </div>
           <div class="row">
-<!--            <a href="http://scan.beatsomeone.com" target="_blank">beatsomeone Blockchain Monitoring System</a>-->
-            <a onclick="alert('점검중 입니다')" style="cursor:pointer;">beatsomeone Blockchain Monitoring System</a>
+            <a href="http://scan.beatsomeone.com" target="_blank">beatsomeone Blockchain Monitoring System</a>
           </div>
           <!--
                     <div class="row">
@@ -84,8 +83,8 @@
                         </ul>
                     </div>
           -->
-        </div>
-        <!--
+          </div>
+          <!--
                 <div class="footer__subscribe">
                     <h3>BEAT SOMEONE SOCIAL</h3>
                     <p>
