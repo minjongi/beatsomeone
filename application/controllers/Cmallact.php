@@ -242,7 +242,7 @@ class Cmallact extends CB_Controller
             return false;
         }
         $this->load->model(array('Cmall_download_log_model'));
-        if (element('cor_pay_type', $order) == 'FREE' || intval(element('is_free', $order)) == 1) {
+        if (intval(element('cit_type5', $item)) == 1 && (element('cor_pay_type', $order) == 'FREE' || intval(element('is_free', $order)) == 1)) {
             if ($this->Cmall_download_log_model->count_by(
                 array( 'cor_id' => element('cor_id', $order),
                     'cit_id' => element('cit_id', $itemdetail)

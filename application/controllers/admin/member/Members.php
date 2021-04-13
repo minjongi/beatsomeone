@@ -635,6 +635,7 @@ class Members extends CB_Controller
                 'mem_is_admin' => $mem_is_admin,
                 'mem_profile_content' => $this->input->post('mem_profile_content', null, ''),
                 'mem_adminmemo' => $this->input->post('mem_adminmemo', null, ''),
+                'mem_remain_downloads' => $this->input->post('mem_remain_downloads', null, ''),
             );
 
             $mem_id = $this->input->post($primary_key);
