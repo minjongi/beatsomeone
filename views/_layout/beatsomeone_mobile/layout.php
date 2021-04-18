@@ -17,6 +17,7 @@
   <link rel="alternate" href="<?= $this->config->item('alternateUrlEn') ?>" hreflang="en-US"/>
   <link rel="alternate" href="<?= $this->config->item('alternateUrlKo') ?>" hreflang="ko-KR"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="facebook-domain-verification" content="zy0a3qsjzuwutexw4ckvc6kg2altcm" />
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
