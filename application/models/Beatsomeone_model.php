@@ -231,7 +231,7 @@ class Beatsomeone_model extends CB_Model
         $brandMemId = element('brand_mem_id', $config);
 
         $where['cit_status'] = 1;
-        $this->db->where('cit_start_datetime <= now()');
+        $this->db->where('cit_start_datetime <= ', date('Y-m-d H:i:s'));
         $this->db->where('(cit_lease_license_use = 1 or cit_mastering_license_use = 1)');
 
         if (!empty($brandMemId)) {

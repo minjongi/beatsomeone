@@ -11,19 +11,19 @@
                     <img :src="'/assets_m/images/event/210422/page/2_1.png'">
                 </div>
                 <div>
-                    <a href="/detail/607e7dce42d1f" target="_blank"><img :src="'/assets/images/event/210422/page/2_2.png?v=1'" style="width:44.25%;"></a>
+                    <a :href="helper.langUrl($i18n.locale, '/detail/607e7dce42d1f')" target="_blank"><img :src="'/assets/images/event/210422/page/2_2.png?v=1'" style="width:44.25%;"></a>
                     <img :src="'/assets/images/event/210422/page/2_3.png?v=1'" style="width:55.75%;">
                 </div>
                 <div>
-                    <a href="/detail/607e81c16b93f" target="_blank"><img :src="'/assets/images/event/210422/page/2_4.png?v=1'" style="width:44.25%;"></a>
+                    <a :href="helper.langUrl($i18n.locale, '/detail/607e81c16b93f')" target="_blank"><img :src="'/assets/images/event/210422/page/2_4.png?v=1'" style="width:44.25%;"></a>
                     <img :src="'/assets/images/event/210422/page/2_5.png?v=1'" style="width:55.75%;">
                 </div>
                 <div>
-                    <a href="/detail/607e815e1b3b0" target="_blank"><img :src="'/assets/images/event/210422/page/2_6.png?v=1'" style="width:44.25%;"></a>
+                    <a :href="helper.langUrl($i18n.locale, '/detail/607e815e1b3b0')" target="_blank"><img :src="'/assets/images/event/210422/page/2_6.png?v=1'" style="width:44.25%;"></a>
                     <img :src="'/assets/images/event/210422/page/2_7.png?v=1'" style="width:55.75%;">
                 </div>
                 <div>
-                    <a href="/detail/607e81e88c2b2" target="_blank"><img :src="'/assets/images/event/210422/page/2_8.png?v=1'" style="width:44.25%;"></a>
+                    <a :href="helper.langUrl($i18n.locale, '/detail/607e81e88c2b2')" target="_blank"><img :src="'/assets/images/event/210422/page/2_8.png?v=1'" style="width:44.25%;"></a>
                     <img :src="'/assets/images/event/210422/page/2_9.png?v=1'" style="width:55.75%;">
                 </div>
                 <div><img :src="'/assets/images/event/210422/page/2_10.png?v=1'"></div>
