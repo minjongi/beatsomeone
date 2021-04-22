@@ -3,14 +3,31 @@
         <div class="wrapper">
             <Header :is-login="isLogin"></Header>
             <div class="container sub event-content">
-
                 <div><img :src="'/assets_m/images/event/210422/page/1_1.png?v=1'"></div>
                 <div style="position: relative;">
                     <div style="position: absolute;margin: 0 auto;">
                         <iframe style="width:86vw;height:48vw;margin: 0 7vw;" src="https://www.youtube.com/embed/oaChRzEqo24" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
-                    <img :src="'/assets_m/images/event/210422/page/1_2.png'">
+                    <img :src="'/assets_m/images/event/210422/page/2_1.png'">
                 </div>
+                <div>
+                    <a href="/detail/607e7dce42d1f" target="_blank"><img :src="'/assets/images/event/210422/page/2_2.png?v=1'" style="width:44.25%;"></a>
+                    <img :src="'/assets/images/event/210422/page/2_3.png?v=1'" style="width:55.75%;">
+                </div>
+                <div>
+                    <a href="/detail/607e81c16b93f" target="_blank"><img :src="'/assets/images/event/210422/page/2_4.png?v=1'" style="width:44.25%;"></a>
+                    <img :src="'/assets/images/event/210422/page/2_5.png?v=1'" style="width:55.75%;">
+                </div>
+                <div>
+                    <a href="/detail/607e815e1b3b0" target="_blank"><img :src="'/assets/images/event/210422/page/2_6.png?v=1'" style="width:44.25%;"></a>
+                    <img :src="'/assets/images/event/210422/page/2_7.png?v=1'" style="width:55.75%;">
+                </div>
+                <div>
+                    <a href="/detail/607e81e88c2b2" target="_blank"><img :src="'/assets/images/event/210422/page/2_8.png?v=1'" style="width:44.25%;"></a>
+                    <img :src="'/assets/images/event/210422/page/2_9.png?v=1'" style="width:55.75%;">
+                </div>
+                <div><img :src="'/assets/images/event/210422/page/2_10.png?v=1'"></div>
+
                 <div>
                     <img :src="'/assets_m/images/event/210422/page/2.png?v=1'" style="width:26.625%">
                     <a href="https://kyh.typeform.com/to/YMaXMWt9" target="_blank"><img :src="'/assets_m/images/event/210422/page/3.png?v=1'" style="width:47.25%"></a>

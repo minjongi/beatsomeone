@@ -2,10 +2,28 @@
     <div class="wrapper">
         <Header :is-login="isLogin"></Header>
         <div class="container sub event-content" style="position: relative;">
-            <div><img :src="'/assets/images/event/210422/page/1.png?v=1'"></div>
             <div style="position: absolute;left: 50%;margin-left: -340px;top:1420px;">
                 <iframe width="680" height="382" src="https://www.youtube.com/embed/oaChRzEqo24" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
+            <div><img :src="'/assets/images/event/210422/page/1_1.png?v=1'"></div>
+            <div><img :src="'/assets/images/event/210422/page/2_1.png?v=1'"></div>
+            <div>
+                <a href="/detail/607e7dce42d1f" target="_blank"><img :src="'/assets/images/event/210422/page/2_2.png?v=1'"></a>
+                <img :src="'/assets/images/event/210422/page/2_3.png?v=1'">
+            </div>
+            <div>
+                <a href="/detail/607e81c16b93f" target="_blank"><img :src="'/assets/images/event/210422/page/2_4.png?v=1'"></a>
+                <img :src="'/assets/images/event/210422/page/2_5.png?v=1'">
+            </div>
+            <div>
+                <a href="/detail/607e815e1b3b0" target="_blank"><img :src="'/assets/images/event/210422/page/2_6.png?v=1'"></a>
+                <img :src="'/assets/images/event/210422/page/2_7.png?v=1'">
+            </div>
+            <div>
+                <a href="/detail/607e81e88c2b2" target="_blank"><img :src="'/assets/images/event/210422/page/2_8.png?v=1'"></a>
+                <img :src="'/assets/images/event/210422/page/2_9.png?v=1'">
+            </div>
+            <div><img :src="'/assets/images/event/210422/page/2_10.png?v=1'"></div>
             <div>
                 <img :src="'/assets/images/event/210422/page/2.png?v=1'">
                 <a href="https://kyh.typeform.com/to/YMaXMWt9" target="_blank"><img :src="'/assets/images/event/210422/page/3.png?v=1'"></a>
