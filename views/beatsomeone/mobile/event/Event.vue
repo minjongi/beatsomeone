@@ -111,7 +111,7 @@
 
                     case 'kakao':
                         window.Kakao.Link.sendScrap({
-                            requestUrl: _url
+                            requestUrl: this.shareLink
                         });
                         return
 
