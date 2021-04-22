@@ -342,7 +342,7 @@
                     }
                 });
 
-                var url = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
+                var url = 'https://beatsomeone.com' + this.helper.langUrl(this.$i18n.locale, `/detail/${this.item.cit_key}`);
                 var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
 
                 var o;
@@ -445,7 +445,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
+                t.value = 'https://beatsomeone.com' + this.helper.langUrl(this.$i18n.locale, `/detail/${this.item.cit_key}`);
                 t.select();
                 document.execCommand("copy");
                 document.body.removeChild(t);

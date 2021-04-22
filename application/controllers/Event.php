@@ -41,6 +41,11 @@ class Event extends CB_Controller
 		}
 	}
 
+    public function sane()
+    {
+        $this->index();
+    }
+
 	/**
  * 컨텐츠몰 메인페이지입니다
  */
