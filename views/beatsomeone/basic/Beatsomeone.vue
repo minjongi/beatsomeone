@@ -4,7 +4,7 @@
       <div class="noti-wrap"></div>
       <div class="noti-content">
         <div>
-          <a :href="helper.langUrl($i18n.locale, '/event/sane')" style="cursor:pointer;"><img :src="'/assets/images/event/210422/1.png'"></a>
+          <a :href="helper.langUrl($i18n.locale, '/event/sane')" style="cursor:pointer;"><img :src="'/assets/images/event/210422/1.png?v=1'"></a>
         </div>
         <div>
           <img :src="'/assets/images/event/210422/2.png'" @click="closePopup(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/event/210422//3.png'" @click="closePopup()" style="width:50%;cursor:pointer;">
