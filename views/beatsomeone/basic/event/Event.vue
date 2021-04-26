@@ -5,39 +5,39 @@
             <div style="position: absolute;left: 50%;margin-left: -340px;top:1420px;">
                 <iframe width="680" height="382" src="https://www.youtube.com/embed/oaChRzEqo24" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div><img :src="'/assets/images/event/210422/page/1_1.png?v=1'"></div>
-            <div><img :src="'/assets/images/event/210422/page/2_1.png?v=1'"></div>
+            <div><img :src="'/assets/images/event/210422/page/1_1.png?v=2'"></div>
+            <div><img :src="'/assets/images/event/210422/page/2_1.png?v=2'"></div>
             <div>
-                <a :href="helper.langUrl($i18n.locale, '/detail/607e7dce42d1f')" target="_blank"><img :src="'/assets/images/event/210422/page/2_2.png?v=1'"></a>
-                <img :src="'/assets/images/event/210422/page/2_3.png?v=1'">
+                <a :href="helper.langUrl($i18n.locale, '/detail/607e7dce42d1f')" target="_blank"><img :src="'/assets/images/event/210422/page/2_2.png?v=2'"></a>
+                <img :src="'/assets/images/event/210422/page/2_3.png?v=2'">
             </div>
             <div>
-                <a :href="helper.langUrl($i18n.locale, '/detail/607e81c16b93f')" target="_blank"><img :src="'/assets/images/event/210422/page/2_4.png?v=1'"></a>
-                <img :src="'/assets/images/event/210422/page/2_5.png?v=1'">
+                <a :href="helper.langUrl($i18n.locale, '/detail/607e81c16b93f')" target="_blank"><img :src="'/assets/images/event/210422/page/2_4.png?v=2'"></a>
+                <img :src="'/assets/images/event/210422/page/2_5.png?v=2'">
             </div>
             <div>
-                <a :href="helper.langUrl($i18n.locale, '/detail/607e815e1b3b0')" target="_blank"><img :src="'/assets/images/event/210422/page/2_6.png?v=1'"></a>
-                <img :src="'/assets/images/event/210422/page/2_7.png?v=1'">
+                <a :href="helper.langUrl($i18n.locale, '/detail/607e815e1b3b0')" target="_blank"><img :src="'/assets/images/event/210422/page/2_6.png?v=2'"></a>
+                <img :src="'/assets/images/event/210422/page/2_7.png?v=2'">
             </div>
             <div>
-                <a :href="helper.langUrl($i18n.locale, '/detail/607e81e88c2b2')" target="_blank"><img :src="'/assets/images/event/210422/page/2_8.png?v=1'"></a>
-                <img :src="'/assets/images/event/210422/page/2_9.png?v=1'">
+                <a :href="helper.langUrl($i18n.locale, '/detail/607e81e88c2b2')" target="_blank"><img :src="'/assets/images/event/210422/page/2_8.png?v=2'"></a>
+                <img :src="'/assets/images/event/210422/page/2_9.png?v=2'">
             </div>
-            <div><img :src="'/assets/images/event/210422/page/2_10.png?v=1'"></div>
+            <div><img :src="'/assets/images/event/210422/page/2_10.png?v=2'"></div>
             <div>
-                <img :src="'/assets/images/event/210422/page/2.png?v=1'">
-                <a href="https://kyh.typeform.com/to/YMaXMWt9" target="_blank"><img :src="'/assets/images/event/210422/page/3.png?v=1'"></a>
-                <img :src="'/assets/images/event/210422/page/4.png?v=1'">
+                <img :src="'/assets/images/event/210422/page/2.png?v=2'">
+                <a href="https://kyh.typeform.com/to/YMaXMWt9" target="_blank"><img :src="'/assets/images/event/210422/page/3.png?v=2'"></a>
+                <img :src="'/assets/images/event/210422/page/4.png?v=2'">
             </div>
-            <div><img :src="'/assets/images/event/210422/page/5.png?v=1'"></div>
+            <div><img :src="'/assets/images/event/210422/page/5.png?v=2'"></div>
             <div>
-                <img :src="'/assets/images/event/210422/page/6.png?v=1'" style="height:118px;">
-                <img :src="'/assets/images/event/210422/page/7.png?v=1'" style="height:118px;cursor:pointer;" @click="clickShare('kakao')">
-                <img :src="'/assets/images/event/210422/page/8.png?v=1'" style="height:118px;cursor:pointer;" @click="clickShare('facebook')">
-                <img :src="'/assets/images/event/210422/page/9.png?v=1'" style="height:118px;cursor:pointer;" @click="copyLinkToClipboard">
-                <img :src="'/assets/images/event/210422/page/10.png?v=1'" style="height:118px;">
+                <img :src="'/assets/images/event/210422/page/6.png?v=2'" style="height:118px;">
+                <img :src="'/assets/images/event/210422/page/7.png?v=2'" style="height:118px;cursor:pointer;" @click="clickShare('kakao')">
+                <img :src="'/assets/images/event/210422/page/8.png?v=2'" style="height:118px;cursor:pointer;" @click="clickShare('facebook')">
+                <img :src="'/assets/images/event/210422/page/9.png?v=2'" style="height:118px;cursor:pointer;" @click="copyLinkToClipboard">
+                <img :src="'/assets/images/event/210422/page/10.png?v=2'" style="height:118px;">
             </div>
-            <div><img :src="'/assets/images/event/210422/page/11.png?v=1'"></div>
+            <div><img :src="'/assets/images/event/210422/page/11.png?v=2'"></div>
         </div>
         <Footer />
     </div>
