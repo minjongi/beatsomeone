@@ -1313,7 +1313,7 @@ export default {
         lang166: 'Started downloading Beat files, it may take more than 1~2 minutes depending on the capacity, so please wait a little longer!',
     }, // en
     jp: {
-        currencySymbol: '',
+        currencySymbol: '$',
         unlimited: '条件制限なし',
         month: 'か月',
         year: '年',
