@@ -58,19 +58,12 @@
                 </i>
                 {{$t('lang36')}}
             </p>
-            <p v-if="item.cit_include_copyright_transfer !== '1'">
+            <p>
                 <i>
                     <img src="/assets/images/icon/parchase-info10.png"/>
                 </i>
                 {{$t('lang41')}}
             </p>
-            <p v-else>
-                <i>
-                    <img src="/assets/images/icon/parchase-info10.png"/>
-                </i>
-                {{$t('lang42')}}
-            </p>
-
             <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
                 <span>{{ $t('lang21') }}</span>
                 <span>{{ $t('lang22') }}</span>

@@ -96,6 +96,42 @@ $route['detail/(:any)'] = "index/detail/$1";
 $route['notsupport'] = "index/notsupport";
 
 
+// en
+$route['en/' . config_item('uri_segment_board') . '/([a-zA-Z0-9_-]+)'] = "board_post/lists/$1";
+$route['en/' . config_item('uri_segment_board') . '/ajax/([a-zA-Z0-9_-]+)'] = "board_post/ajax_lists/$1";
+if (strtoupper(config_item('uri_segment_post_type')) === 'B') {
+    $route['en/([a-zA-Z0-9_-]+)/' . config_item('uri_segment_post') . '/([0-9]+)'] = "board_post/post/$2";
+} else if (strtoupper('en/' . config_item('uri_segment_post_type')) === 'C') {
+    $route['en/' . config_item('uri_segment_post') . '/([a-zA-Z0-9_-]+)/([0-9]+)'] = "board_post/post/$2";
+} else {
+    $route['en/' . config_item('uri_segment_post') . '/([0-9]+)'] = "board_post/post/$1";
+    $route['en/' . config_item('uri_segment_post') . '/ajax/([0-9]+)'] = "board_post/ajax_post/$1";
+}
+$route['en/' . config_item('uri_segment_write') . '/([a-zA-Z0-9_-]+)'] = "board_write/write/$1";
+$route['en/' . config_item('uri_segment_reply') . '/([0-9]+)'] = "board_write/reply/$1";
+$route['en/' . config_item('uri_segment_modify') . '/([0-9]+)'] = "board_write/modify/$1";
+$route['en/' . config_item('uri_segment_rss') . '/([a-zA-Z0-9_-]+)'] = "rss/index/$1";
+$route['en/' . config_item('uri_segment_group') . '/([a-zA-Z0-9_-]+)'] = "group/index/$1";
+$route['en/' . config_item('uri_segment_document') . '/([a-zA-Z0-9_-]+)'] = "document/index/$1";
+$route['en/' . config_item('uri_segment_faq') . '/([a-zA-Z0-9_-]+)'] = "faq/index/$1";
+$route['en/profile/([a-zA-Z0-9_-]+)'] = "profile/index/$1";
+$route['en/print/([0-9]+)'] = "board_post/post/$1/print";
+$route['en/sitemap\.xml'] = "sitemap";
+$route['en/sitemap_([0-9_-]+)\.xml'] = "sitemap/board/$1";
+$route['en/board_info/(:any)'] = "board_info/index/$1";
+
+$route['en/' . config_item('uri_segment_cmall_item') . '/([a-zA-Z0-9_-]+)'] = "cmall/item/$1";
+$route['en/' . config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmall/ajax_item/$1";
+
+$route['en/brandshop/(:any)'] = "brandshop/shop/$1";
+$route['en/brandshop'] = "brandshop/integrate";
+$route['en/sublist'] = "index/sublist";
+$route['en/detail/(:any)'] = "index/detail/$1";
+$route['en/notsupport'] = "index/notsupport";
+// en
+
+
+// ko
 $route['ko/' . config_item('uri_segment_board') . '/([a-zA-Z0-9_-]+)'] = "board_post/lists/$1";
 $route['ko/' . config_item('uri_segment_board') . '/ajax/([a-zA-Z0-9_-]+)'] = "board_post/ajax_lists/$1";
 if (strtoupper(config_item('uri_segment_post_type')) === 'B') {
@@ -127,9 +163,46 @@ $route['ko/brandshop'] = "brandshop/integrate";
 $route['ko/sublist'] = "index/sublist";
 $route['ko/detail/(:any)'] = "index/detail/$1";
 $route['ko/notsupport'] = "index/notsupport";
+// ko
 
-$route['(\ko|en)/(.*)'] = '$2';
-$route['(\ko|en)'] = $route['default_controller'];
+
+// jp
+$route['jp/' . config_item('uri_segment_board') . '/([a-zA-Z0-9_-]+)'] = "board_post/lists/$1";
+$route['jp/' . config_item('uri_segment_board') . '/ajax/([a-zA-Z0-9_-]+)'] = "board_post/ajax_lists/$1";
+if (strtoupper(config_item('uri_segment_post_type')) === 'B') {
+    $route['jp/([a-zA-Z0-9_-]+)/' . config_item('uri_segment_post') . '/([0-9]+)'] = "board_post/post/$2";
+} else if (strtoupper('jp/' . config_item('uri_segment_post_type')) === 'C') {
+    $route['jp/' . config_item('uri_segment_post') . '/([a-zA-Z0-9_-]+)/([0-9]+)'] = "board_post/post/$2";
+} else {
+    $route['jp/' . config_item('uri_segment_post') . '/([0-9]+)'] = "board_post/post/$1";
+    $route['jp/' . config_item('uri_segment_post') . '/ajax/([0-9]+)'] = "board_post/ajax_post/$1";
+}
+$route['jp/' . config_item('uri_segment_write') . '/([a-zA-Z0-9_-]+)'] = "board_write/write/$1";
+$route['jp/' . config_item('uri_segment_reply') . '/([0-9]+)'] = "board_write/reply/$1";
+$route['jp/' . config_item('uri_segment_modify') . '/([0-9]+)'] = "board_write/modify/$1";
+$route['jp/' . config_item('uri_segment_rss') . '/([a-zA-Z0-9_-]+)'] = "rss/index/$1";
+$route['jp/' . config_item('uri_segment_group') . '/([a-zA-Z0-9_-]+)'] = "group/index/$1";
+$route['jp/' . config_item('uri_segment_document') . '/([a-zA-Z0-9_-]+)'] = "document/index/$1";
+$route['jp/' . config_item('uri_segment_faq') . '/([a-zA-Z0-9_-]+)'] = "faq/index/$1";
+$route['jp/profile/([a-zA-Z0-9_-]+)'] = "profile/index/$1";
+$route['jp/print/([0-9]+)'] = "board_post/post/$1/print";
+$route['jp/sitemap\.xml'] = "sitemap";
+$route['jp/sitemap_([0-9_-]+)\.xml'] = "sitemap/board/$1";
+$route['jp/board_info/(:any)'] = "board_info/index/$1";
+
+$route['jp/' . config_item('uri_segment_cmall_item') . '/([a-zA-Z0-9_-]+)'] = "cmall/item/$1";
+$route['jp/' . config_item('uri_segment_cmall_item') . '/ajax/([a-zA-Z0-9_-]+)'] = "cmall/ajax_item/$1";
+
+$route['jp/brandshop/(:any)'] = "brandshop/shop/$1";
+$route['jp/brandshop'] = "brandshop/integrate";
+$route['jp/sublist'] = "index/sublist";
+$route['jp/detail/(:any)'] = "index/detail/$1";
+$route['jp/notsupport'] = "index/notsupport";
+// jp
+
+
+$route['(\ko|en|jp)/(.*)'] = '$2';
+$route['(\ko|en|jp)'] = $route['default_controller'];
 
 //$route['(\w{2})/(.*)'] = '$2';
 //$route['(\w{2})'] = $route['default_controller'];

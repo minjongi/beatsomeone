@@ -28,7 +28,7 @@
                                     <div class="parchase-btnbox">
                                         <button class="buy waves-effect" @click="addCart(detailItem)">
                                            
-                                            <span>{{ $t('currencySymbol') }} {{ $i18n.locale === 'en' ? formatPrice(detailItem.cde_price_d) : formatPrice(detailItem.cde_price) }}</span>
+                                            <span>{{ $t('currencySymbol') }} {{ $i18n.locale === 'ko' ? formatPrice(detailItem.cde_price) : formatPrice(detailItem.cde_price_d) }}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -88,10 +88,10 @@
                 this.$emit("update:togglePopup", false);
             },
             formatPrice: function (price) {
-                if (this.$i18n.locale === "en") {
-                    return Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
+                if (this.$i18n.locale === "ko") {
+                  return Number(price).toLocaleString("ko-KR", {minimumFractionDigits: 0});
                 } else {
-                    return Number(price).toLocaleString("ko-KR", {minimumFractionDigits: 0});
+                  return Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }
             },
             addCart: function (detailItem) {

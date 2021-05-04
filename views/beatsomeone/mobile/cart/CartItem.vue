@@ -150,19 +150,12 @@
                                             </i>
                                             {{$t('lang36')}}
                                         </p>
-                                        <p v-if="item.cit_include_copyright_transfer !== '1'" style="font-size:10px;">
+                                        <p style="font-size:10px;">
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info10.png"/>
                                             </i>
                                             {{$t('lang41')}}
                                         </p>
-                                        <p v-else style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info10.png"/>
-                                            </i>
-                                            {{$t('lang42')}}
-                                        </p>
-
                                         <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
                                             <span>{{ $t('lang21') }}</span>
                                             <span>{{ $t('lang22') }}</span>
@@ -209,30 +202,30 @@ export default {
             return (str.length > n) ? str.substr(0, n - 1) + '...' : str;
         },
         formatPrice: function (kr, en, isfree = '0') {
-            if (this.$i18n.locale === "en") {
-                if (isfree == '1') {
-                    return (
-                        "$ " +
-                        Number(0).toLocaleString(undefined, {minimumFractionDigits: 2})
-                    );
-                } {
-                    return (
-                        "$ " +
-                        Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                    );
-                }
+            if (this.$i18n.locale === "ko") {
+              if (isfree == '1') {
+                return (
+                    "₩ " +
+                    Number(0).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                );
+              } else {
+                return (
+                    "₩ " +
+                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                );
+              }
             } else {
-                if (isfree == '1') {
-                    return (
-                        "₩ " +
-                        Number(0).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                    );
-                } else {
-                    return (
-                        "₩ " +
-                        Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                    );
-                }
+              if (isfree == '1') {
+                return (
+                    "$ " +
+                    Number(0).toLocaleString(undefined, {minimumFractionDigits: 2})
+                );
+              } {
+                return (
+                    "$ " +
+                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+                );
+              }
             }
         },
         goBuy: function () {

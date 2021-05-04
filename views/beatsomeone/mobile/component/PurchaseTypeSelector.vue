@@ -136,19 +136,12 @@
                                         </i>
                                         {{ $t('lang36') }}
                                     </p>
-                                    <p v-if="item.cit_include_copyright_transfer !== '1'">
+                                    <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info10.png"/>
                                         </i>
                                         {{ $t('lang41') }}
                                     </p>
-                                    <p v-else>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info10.png"/>
-                                        </i>
-                                        {{ $t('lang42') }}
-                                    </p>
-
                                     <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
                                         <span>{{ $t('lang21') }}</span>
                                         <span>{{ $t('lang22') }}</span>
@@ -269,22 +262,22 @@ export default {
         },
         formatPrice: function (kr, en, simbol) {
             if (!simbol) {
-                if (this.$i18n.locale === "en") {
-                    return en;
+                if (this.$i18n.locale === "ko") {
+                  return kr;
                 } else {
-                    return kr;
+                  return en;
                 }
             }
-            if (this.$i18n.locale === "en") {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
+            if (this.$i18n.locale === "ko") {
+              return (
+                  "₩ " +
+                  Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+              );
             } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
+              return (
+                  "$ " +
+                  Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+              );
             }
         },
     },

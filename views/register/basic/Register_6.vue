@@ -194,22 +194,22 @@
                 return this.listPlan ? _.find(this.listPlan,{'plan':'PRO PAGE'}) : null;
             },
             proPlanMonthlyPrice: function() {
-                return this.$i18n.locale === 'en' ? this.proPlan.monthly_d : this.proPlan.monthly
+                return this.$i18n.locale === 'ko' ? this.proPlan.monthly : this.proPlan.monthly_d
             },
             proPlanYearlyPrice: function() {
-                return this.$i18n.locale === 'en' ? this.proPlan.yearly_d : this.proPlan.yearly
+                return this.$i18n.locale === 'ko' ? this.proPlan.yearly : this.proPlan.yearly_d
             },
             proPlanYearlyDiscountAmt: function() {
-                return this.$i18n.locale === 'en' ? this.proPlan.yearly_discount_amt_d : this.proPlan.yearly_discount_amt
+                return this.$i18n.locale === 'ko' ? this.proPlan.yearly_discount_amt : this.proPlan.yearly_discount_amt_d
             },
             marketplacePlanMonthlyPrice: function() {
-                return this.$i18n.locale === 'en' ? this.marketplacePlan.monthly_d : this.marketplacePlan.monthly
+                return this.$i18n.locale === 'ko' ? this.marketplacePlan.monthly : this.marketplacePlan.monthly_d
             },
             marketplacePlanYearlyPrice: function() {
-                return this.$i18n.locale === 'en' ? this.marketplacePlan.yearly_d : this.marketplacePlan.yearly
+                return this.$i18n.locale === 'ko' ? this.marketplacePlan.yearly : this.marketplacePlan.yearly_d
             },
             marketplacePlanYearlyDiscountAmt: function() {
-                return this.$i18n.locale === 'en' ? this.marketplacePlan.yearly_discount_amt_d : this.marketplacePlan.yearly_discount_amt
+                return this.$i18n.locale === 'ko' ? this.marketplacePlan.yearly_discount_amt : this.marketplacePlan.yearly_discount_amt_d
             },
         },
         created() {
@@ -325,7 +325,7 @@
                 }
                 this.promoValue = '';
 
-                this.payMethod = this.$i18n.locale === 'en' ? 3 : 0
+                this.payMethod = this.$i18n.locale !== 'ko' ? 3 : 0
             },
             goPay: function (e) {
                 if ((this.cost) <= 0) {
@@ -429,10 +429,10 @@
                 }
             },
             getPriceType: function () {
-                if (this.$i18n.locale === 'en') {
-                    return '$'
+                if (this.$i18n.locale === 'ko') {
+                  return '₩'
                 } else {
-                    return '₩'
+                  return '$'
                 }
             },
             paypalAuthorized: function (data) {
@@ -459,7 +459,7 @@
 
             localePrice(price) {
                 if (!price) return '';
-                let decimalPoint = this.$i18n.locale === 'en' ? 2 : 0
+                let decimalPoint = this.$i18n.locale !== 'ko' ? 2 : 0
                 return parseFloat(price.toString()).toFixed(decimalPoint);
             }
         },

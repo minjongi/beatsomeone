@@ -72,12 +72,10 @@ export default {
       return this.avatarStatus === AVATAR_SAVING;
     },
     memBio() {
-      if (this.$i18n.locale === 'en') {
-        return (this.member.mem_type ? this.member.mem_type + '<br/> ' : '') + (this.member.mem_firstname ?? '') + ' ' + (this.member.mem_lastname ?? '');
-      } else if (this.$i18n.locale === 'ko') {
+      if (this.$i18n.locale === 'ko') {
         return (this.member.mem_type ? this.member.mem_type + '<br/>' : '') + (this.member.mem_lastname ?? '') + ' ' + (this.member.mem_firstname ?? '');
       }
-      return '';
+      return (this.member.mem_type ? this.member.mem_type + '<br/> ' : '') + (this.member.mem_firstname ?? '') + ' ' + (this.member.mem_lastname ?? '');
     }
   },
   created() {

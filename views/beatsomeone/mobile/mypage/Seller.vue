@@ -183,18 +183,18 @@
 
                         <div class="n-flex between" v-if="false">
                             <span>VAT (10%)</span>
-                            <span class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.1).toLocaleString() : Number(total_money * 0.1).toLocaleString() }}</span>
+                            <span class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.1).toLocaleString() : Number(total_money_d * 0.1).toLocaleString() }}</span>
                         </div>
                     </div>
 
                     <div v-if="false">
                         <div class="n-flex between">
                             <span>Settlement<img src="/assets_m/images/icon/info.png"/></span>
-                            <span style="opacity:.7; font-weight:300;">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9).toLocaleString() : Number(total_money * 0.9).toLocaleString() }}</span>
+                            <span style="opacity:.7; font-weight:300;">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.9).toLocaleString() : Number(total_money_d * 0.9).toLocaleString() }}</span>
                         </div>
                         <div class="n-flex between">
                             <span>Fee (10%)<img src="/assets_m/images/icon/info.png"/></span>
-                            <span class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9 * 0.1).toLocaleString() : Number(total_money * 0.9 * 0.1).toLocaleString() }}</span>
+                            <span class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.9 * 0.1).toLocaleString() : Number(total_money_d * 0.9 * 0.1).toLocaleString() }}</span>
                         </div>
                     </div>
 

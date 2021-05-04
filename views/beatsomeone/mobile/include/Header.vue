@@ -6,9 +6,8 @@
                     <a :href="helper.langUrl($i18n.locale, '/')"><img src="@/assets_m/images/logo.png" alt="logo"/></a>
                 </div>
                 <div class="header__btnbox">
-                    <a href="javascript:;" class="header__locale" v-if="!isShowSearchBox" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                    <a href="javascript:;" class="header__locale" @click="toggleOpenMenu(true)">{{ localeMenuTit }}</a>
                     <input type="text"
-
                            v-if="isShowSearchBox"
                            v-model="searchText"
                            @keyup.enter="enterClicked()"
@@ -34,11 +33,8 @@
         <div class="gnb" v-if="isOpen">
             <div class="gnb__bg" ></div>
         </div>
-
-<!--        <transition name="slide-fade">-->
         <nav class="gnb" v-if="isOpen" >
-
-            <div class="gnb__content">
+            <div class="gnb__content" v-if="!isOpenLanguageSelector">
                 <a class="gnb__close" @click="toggleOpenMenu">닫기</a>
                 <div class="gnb__links">
                     <a :href="helper.langUrl($i18n.locale, '/sublist?genre=Free')">{{ $t('freeBeats') }}</a>
@@ -67,9 +63,15 @@
 <!--                    <img src="@/assets_m/images/gnb-banner.png" alt="">-->
 <!--                </a>-->
             </div>
-
+            <ul class="language-selector" v-if="isOpenLanguageSelector">
+              <li class="close">
+                <img src="/assets_m/images/icon/x.png" @click="toggleOpenMenu">
+              </li>
+              <li class="lang" @click="setLocale('en')">ENG</li>
+              <li class="lang" @click="setLocale('ko')">KOR</li>
+              <li class="lang" @click="setLocale('jp')">日本語</li>
+            </ul>
         </nav>
-<!--        </transition>-->
     </div>
 
 
@@ -89,6 +91,7 @@
                 searchText: null,
                 cartSum: 0,
                 isOpen: false,
+                isOpenLanguageSelector: false,
                 isShowSearchBox: false,
                 member_group_name: '',
                 banner_content: ''
@@ -115,8 +118,14 @@
                 })
         },
         computed: {
-            toggleLocaleMenuTit: function() {
-                return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
+            localeMenuTit: function() {
+              switch (this.$i18n.locale) {
+                case 'ko':
+                  return 'KOR'
+                case 'jp':
+                  return '日本語'
+              }
+              return 'ENG'
             },
             isSeller() {
                 return this.member_group_name.includes('seller')
@@ -140,9 +149,9 @@
                   this.userInfo = r[0];
               });
             },
-            toggleOpenMenu() {
-              this.isOpen = !this.isOpen;
-
+            toggleOpenMenu(languageSelector = false) {
+              this.isOpen = !this.isOpen
+              this.isOpenLanguageSelector = languageSelector === true
             },
             updateCartSum() {
                 axios.get('/beatsomeoneApi/getCartSum')
@@ -176,11 +185,14 @@
                 this.search();
             },
             toggleLocale() {
-              if (this.$i18n.locale === 'en') {
-                location.href = location.href.replace(location.hostname, location.hostname + '/ko')
+              if (this.$i18n.locale === 'ko') {
+                location.href = location.href.replace(location.hostname + '/ko', location.hostname + '/en')
               } else {
-                location.href = location.href.replace('/ko', '')
+                location.href = location.href.replace(location.hostname + '/' + this.$i18n.locale, location.hostname + '/ko')
               }
+            },
+            setLocale(locale) {
+                location.href = location.href.replace(location.hostname + '/' + this.$i18n.locale, location.hostname + '/' + locale)
             },
             signUpClick(state) {
                 localStorage.setItem("UserOffer", state);

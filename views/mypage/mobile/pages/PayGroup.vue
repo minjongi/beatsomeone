@@ -13,10 +13,10 @@
         </div>
         <div class="text-center" v-if="group">
             <h2>
-                <span>{{ $t('currencySymbol') }} {{ group.billTerm === 'monthly' ? ($i18n.locale === 'en' ? group.mgr_monthly_cost_d : group.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? group.mgr_year_cost_d : group.mgr_year_cost_w) }}</span>
+                <span>{{ $t('currencySymbol') }} {{ group.billTerm === 'monthly' ? ($i18n.locale === 'ko' ? group.mgr_monthly_cost_w : group.mgr_monthly_cost_d) : ($i18n.locale === 'ko' ? group.mgr_year_cost_w : group.mgr_year_cost_d) }}</span>
             </h2>
         </div>
-        <div v-if="$i18n.locale === 'en'">
+        <div v-if="$i18n.locale !== 'ko'">
             <div class="my-4">
                 <div class="checkout">
                     <div v-if="isEmptyPaypal === false">

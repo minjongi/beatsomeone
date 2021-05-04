@@ -782,22 +782,22 @@ export default {
         },
         formatPrice: function (kr, en, simbol) {
             if (!simbol) {
-                if (this.$i18n.locale === "en") {
-                    return en;
+                if (this.$i18n.locale === "ko") {
+                  return kr;
                 } else {
-                    return kr;
+                  return en;
                 }
             }
-            if (this.$i18n.locale === "en") {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
+            if (this.$i18n.locale === "ko") {
+              return (
+                  "₩ " +
+                  Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+              );
             } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
+              return (
+                  "$ " +
+                  Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+              );
             }
         },
         formatCitName: function (data, limitLth) {

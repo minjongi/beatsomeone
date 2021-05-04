@@ -68,7 +68,7 @@
         },
         computed: {
             toggleLocaleMenuTit: function() {
-                return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
+                return this.$i18n.locale !== 'ko' ? 'KOR' : 'ENG';
             },
             getCartSum() {
                 return this.$store.getters.getCartSum;
@@ -79,7 +79,7 @@
         },
         methods: {
             toggleLocale() {
-                let locale = this.$i18n.locale === 'en' ? 'ko' : 'en'
+                let locale = this.$i18n.locale !== 'ko' ? 'ko' : 'en'
                 Vuecookies.set('locale', locale)
                 this.$i18n.locale = locale
             },

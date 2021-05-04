@@ -1,3 +1,4 @@
+:q
 <template>
     <div class="modal" id="purchase" v-if="item.toggle_popup" @click.self="close">
         <div class="modal__content">
@@ -87,10 +88,10 @@
                 this.$emit("update:togglePopup", false);
             },
             formatPrice: function (price) {
-                if (this.$i18n.locale === "en") {
-                    return Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
+                if (this.$i18n.locale === "ko") {
+                  return Number(price).toLocaleString("ko-KR", {minimumFractionDigits: 0});
                 } else {
-                    return Number(price).toLocaleString("ko-KR", {minimumFractionDigits: 0});
+                  return Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }
             },
             addCart: function (detailItem) {

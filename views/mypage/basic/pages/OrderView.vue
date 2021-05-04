@@ -177,7 +177,7 @@
                                     0:00 / 0:00
                                 </p>
                                 <h6 class="text-warning">
-                                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'en' ? citem.itemdetail[0].cde_price_d : citem.itemdetail[0].cde_price }}
+                                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? citem.itemdetail[0].cde_price : citem.itemdetail[0].cde_price_d }}
                                 </h6>
                             </div>
                             <div class="col-auto">
@@ -421,7 +421,7 @@
                                         </div>
                                         <div class="col-auto text-right">
                                             <h5 class="text-warning font-weight-bold">
-                                                {{ $t('currencySymbol') }}{{ $i18n.locale === 'en' ? citem.itemdetail[0].cde_price_d : citem.itemdetail[0].cde_price }}
+                                                {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? citem.itemdetail[0].cde_price : citem.itemdetail[0].cde_price_d }}
                                             </h5>
                                         </div>
                                     </div>

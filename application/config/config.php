@@ -135,9 +135,10 @@ $config['url_suffix'] = '';
 /**
  * CiBoard 주 : 아래의 값은 변경하실 필요가 없습니다.
  */
-$config['validLocale'] = ['ko' => 'korean', 'en' => 'english'];
+$config['validLocale'] = ['ko' => 'korean', 'en' => 'english', 'jp' => 'japanese'];
+$config['localePath'] = ['ko' => 'ko', 'en' => 'en', 'ja' => 'jp'];
 $requestUri = explode('/', $_SERVER['REQUEST_URI']);
-$exceptUri = ['social', 'pg'];
+$exceptUri = ['social', 'pg', 'admin'];
 
 if (!in_array($requestUri[1], $exceptUri)) {
     $locale = 'en';
@@ -146,21 +147,21 @@ if (!in_array($requestUri[1], $exceptUri)) {
             $locale = $requestUri[1];
         } else if (empty($_SERVER['HTTP_REFERER'])) {
             $locale = $_COOKIE['locale'] ?? 'en';
-            if ($locale !== 'en' && empty($_SERVER['QUERY_STRING'])) {
+            if (empty($_SERVER['QUERY_STRING'])) {
                 setcookie('locale', $locale, time() + 86400 * 365, '/');
                 header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $locale );
                 exit;
             }
         } else if (empty($_COOKIE['locale'])) {
-            $httpAcceptLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
-            if (array_key_exists($httpAcceptLanguage, $config['validLocale']) !== 'en' && empty($_SERVER['QUERY_STRING'])) {
+            $httpAcceptLanguage = $config['localePath'][substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2)] ?? '';
+            if (array_key_exists($httpAcceptLanguage, $config['validLocale']) && empty($_SERVER['QUERY_STRING'])) {
                 setcookie('locale', $httpAcceptLanguage, time() + 86400 * 365, '/');
                 header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $httpAcceptLanguage );
                 exit;
             }
         } else if (strpos($_SERVER['HTTP_REFERER'], $config['base_url']) !== 0) {
             $locale = $_COOKIE['locale'] ?? 'en';
-            if ($locale !== 'en' && empty($_SERVER['QUERY_STRING'])) {
+            if (empty($_SERVER['QUERY_STRING'])) {
                 setcookie('locale', $locale, time() + 86400 * 365, '/');
                 header( 'Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $locale );
                 exit;
@@ -172,10 +173,19 @@ if (!in_array($requestUri[1], $exceptUri)) {
 
     $config['language'] = $config['validLocale'][$locale] ?? 'english';
     $config['locale'] = !empty($config['validLocale'][$locale]) ? $locale : 'en';
-    $config['alternateUrlEn'] = 'https://' . $_SERVER['HTTP_HOST'] . str_replace('/ko', '', $_SERVER['REQUEST_URI']);
-    $config['alternateUrlKo'] = 'https://' . $_SERVER['HTTP_HOST'] . '/ko' . str_replace('/ko', '', $_SERVER['REQUEST_URI']);
+    $config['alternateUrl'] = str_replace('/jp', '', str_replace('/ko', '', $_SERVER['REQUEST_URI']));
+    $config['alternateUrlEn'] = 'https://' . $_SERVER['HTTP_HOST'] . '/en' . $config['alternateUrl'];
+    $config['alternateUrlKo'] = 'https://' . $_SERVER['HTTP_HOST'] . '/ko' . $config['alternateUrl'];
+    $config['alternateUrlJp'] = 'https://' . $_SERVER['HTTP_HOST'] . '/jp' . $config['alternateUrl'];
+
     if ($config['locale'] == 'ko') {
-        $config['switchLangUrl'] = str_replace('/ko', '', $_SERVER['REQUEST_URI']);
+        $config['switchLangUrl'] = str_replace('/ko', 'en', $_SERVER['REQUEST_URI']);
+        $config['canonicalUrl'] = $config['alternateUrlKo'];
+        $config['lang'] = 'ko-KR';
+        $config['author'] = '비트썸원, beatsomeone';
+        $config['meta_description_default'] = '비트썸원(beatsomeone)은 작곡가&비트메이커의 비트와 음악 라이선스를 구매 및 판매 할 수 있는 글로벌 마켓 입니다.';
+    } else if ($config['locale'] == 'jp') {
+        $config['switchLangUrl'] = str_replace('/jp', 'en', $_SERVER['REQUEST_URI']);
         $config['canonicalUrl'] = $config['alternateUrlKo'];
         $config['lang'] = 'ko-KR';
         $config['author'] = '비트썸원, beatsomeone';

@@ -5,7 +5,7 @@ import Vuecookies from 'vue-cookies'
 
 Vue.use(VueI18n)
 
-let validLocale = {'ko':'Korean', 'en':'English'}
+let validLocale = {'ko':'Korean', 'en':'English', 'jp':'japanese'}
 let defaultLocale = Vuecookies.get('locale') || 'en'
 defaultLocale = Object.prototype.hasOwnProperty.call(validLocale, defaultLocale) ? defaultLocale : 'en'
 

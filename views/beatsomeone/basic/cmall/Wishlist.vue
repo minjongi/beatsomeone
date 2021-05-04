@@ -63,7 +63,7 @@
                                                 </div>
                                             </div>
                                             <div class="col price">
-                                                <span>{{ $t('currencySymbol') }} {{ $i18n.locale === 'en' ? item.detail[0].cde_price_d : item.detail[0].cde_price }}</span>
+                                                <span>{{ $t('currencySymbol') }} {{ $i18n.locale === 'ko' ? item.detail[0].cde_price : item.detail[0].cde_price_d }}</span>
                                             </div>
                                             <div class="col edit ml-auto">
                                                 <button class="btn btn--blue round"

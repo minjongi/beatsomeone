@@ -536,7 +536,8 @@ if ( ! function_exists('redirect'))
             (
                 strpos($uri, 'http') !== 0 ||
                 (strpos($uri, 'http') === 0 && strpos($uri, site_url()) === 0)
-            )
+            ) &&
+            strpos($uri, site_url() . 'admin') !== 0
         ) {
             $uri = lang_url($uri);
         }
