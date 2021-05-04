@@ -646,6 +646,7 @@ export default {
         lang36: 'Able to register commercial music copyrights',
         lang41: 'Sold exclusively to only one purchaser (share of ownership)',
         lang40: 'Detailed condition',
+        lang181: '데이터가 없습니다',
     }, // en
     ko: {
         currencySymbol: '￦',
@@ -1293,6 +1294,7 @@ export default {
         lang36: '상업적 음반/음원 발매 가능',
         lang41: '구매자 1명에게만 단독 판매 됨',
         lang40: '자세한 설명',
+        lang181: '데이터가 없습니다',
     }, // ko
     jp: {
         currencySymbol: '$',
@@ -1940,5 +1942,6 @@ export default {
         lang36: '商業的なアルバムと音源が発売可能',
         lang41: '1 人の購入者にのみ販売',
         lang40: '詳しい説明',
+        lang181: '데이터가 없습니다',
     } // jp
 }

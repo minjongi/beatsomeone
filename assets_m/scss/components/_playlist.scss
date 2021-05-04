@@ -26,6 +26,12 @@
     }
 
     .playList__item {
+        .playList__cover {
+            width: 48px;
+            height: 48px;
+            margin-right: 16px;
+        }
+
         @include flex();
         background: #1b1b1f;
         transition: all 0.3s;

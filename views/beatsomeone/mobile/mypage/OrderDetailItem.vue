@@ -23,14 +23,9 @@
                 <div style="display:flex; justify-content: space-between; width: 100%;">
                     <div style="display:flex;">
                         <div class="playList__cover">
-                            <img 
-                               
-                                :src="'/assets/images/cover_default.png'"
-                                alt
-                                class="cover_image"
-                            />
-                         
-                            <i v-if="item.item.is_new" class="label new">N</i>
+                          <img src="/assets/images/cover_default.png" :alt="item.item.cit_name" v-if="!item.item.cit_file_1"/>
+                          <img :src="'/uploads/cmallitem/' + item.item.cit_file_1" :alt="item.item.cit_name" v-else/>
+                          <i v-if="item.item.is_new" class="label new">N</i>
                         </div>
                         <figcaption class="pointer">
                             <h3 class="playList__title">{{ formatCitName(item.item.cit_name,25) }}</h3>
@@ -39,8 +34,6 @@
                             <span style="margin-top: 5px; display: block;" v-else class="playList__bpm">{{ getGenre(item.item.genre, item.item.subgenre) }}</span> -->
                         </figcaption>
                     </div>
-                    
-
                     <button v-if="item.item.possible_download === 1"
                             @click="downloadWithAxios(item.itemdetail[0])" class="btn-edit">
                         <img src="/assets/images/icon/down.png"/>
