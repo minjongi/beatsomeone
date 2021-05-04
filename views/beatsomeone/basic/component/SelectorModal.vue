@@ -57,12 +57,6 @@
                                         </i>
                                         {{$t('lang28')}}
                                     </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{$t('lang29')}}
-                                    </p>
                                 </div>
                                 <div class="parchase-dropdown">
                                     <button @click="toggleDescription(detailItem)">정보열람</button>

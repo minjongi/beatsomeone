@@ -70,12 +70,6 @@
                                         </i>
                                         {{ $t('lang28') }}
                                     </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{ $t('lang29') }}
-                                    </p>
                                 </div>
                                 <div class="parchase-dropdown" :ref="'purchaseDropdown' + item.detail.LEASE.cde_id"
                                      @click="openDesc(item.detail.LEASE.cde_id)">
@@ -142,11 +136,7 @@
                                         </i>
                                         {{ $t('lang41') }}
                                     </p>
-                                    <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
-                                        <span>{{ $t('lang21') }}</span>
-                                        <span>{{ $t('lang22') }}</span>
-                                    </div>
-                                    <div class="copybox" v-else>
+                                    <div class="copybox" v-if="item.cit_include_copyright_transfer === '1'">
                                         <span>{{ $t('lang43') }}</span>
                                     </div>
                                 </div>

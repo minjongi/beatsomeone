@@ -77,11 +77,12 @@ class _Common
 		$device_view_type = (get_cookie('device_view_type') === 'desktop' OR get_cookie('device_view_type') === 'mobile')
 				? get_cookie('device_view_type') : '';
 		if (empty($device_view_type)) {
-			$device_view_type = $detect->isMobile() ? 'mobile' : 'desktop';
+			$device_view_type = ($detect->isMobile() && !$detect->isTablet()) ? 'mobile' : 'desktop';
 		}
 		$CI->cbconfig->set_device_view_type($device_view_type);
 
-		$device_type = $detect->isMobile() ? 'mobile' : 'desktop';
+        $device_type = ($detect->isMobile() && !$detect->isTablet()) ? 'mobile' : 'desktop';
+
 		$CI->cbconfig->set_device_type($device_type);
 
 		if (get_cookie('autologin') && ! $CI->session->userdata('mem_id')) {

@@ -73,12 +73,6 @@
                                         </i>
                                         {{$t('lang28')}}
                                     </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{$t('lang29')}}
-                                    </p>
                                 </div>
                             </div>
                             <div v-if="citem.item.cit_lease_license_use === '1' && citem.item.cit_mastering_license_use === '0' ">
@@ -116,12 +110,6 @@
                                         </i>
                                         {{$t('lang28')}}
                                     </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{$t('lang29')}}
-                                    </p>
                                 </div>
                             </div>
                             <div v-if="citem.item.cit_lease_license_use === '0' && citem.item.cit_mastering_license_use === '1' ">
@@ -158,12 +146,6 @@
                                             <img src="/assets/images/icon/parchase-info2.png" alt/>
                                         </i>
                                         {{$t('lang28')}}
-                                    </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{$t('lang29')}}
                                     </p>
                                 </div>
                             </div>
@@ -323,12 +305,6 @@
                                                             </i>
                                                             {{$t('lang28')}}
                                                         </p>
-                                                        <p>
-                                                            <i>
-                                                                <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                                            </i>
-                                                            {{$t('lang29')}}
-                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div v-else-if="citem.item.cit_lease_license_use === '1' && citem.item.cit_mastering_license_use === '0' ">
@@ -366,12 +342,6 @@
                                                             </i>
                                                             {{$t('lang28')}}
                                                         </p>
-                                                        <p>
-                                                            <i>
-                                                                <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                                            </i>
-                                                            {{$t('lang29')}}
-                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div v-else-if="citem.item.cit_lease_license_use === '0' && citem.item.cit_mastering_license_use === '1' ">
@@ -408,12 +378,6 @@
                                                                 <img src="/assets/images/icon/parchase-info2.png" alt/>
                                                             </i>
                                                             {{$t('lang28')}}
-                                                        </p>
-                                                        <p>
-                                                            <i>
-                                                                <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                                            </i>
-                                                            {{$t('lang29')}}
                                                         </p>
                                                     </div>
                                                 </div>
