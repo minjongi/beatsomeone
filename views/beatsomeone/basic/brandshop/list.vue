@@ -6,7 +6,7 @@
         <div class="title"><div>BRAND SHOP</div></div>
         <div class="brand-logo-section">
           <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item"> 
-             <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" :style="bannerStyle(item)"></a>
+             <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url"></a>
           </div>
         </div>
         <div class="header__search">
@@ -20,7 +20,7 @@
     <div class="filter-section">
       <div class="filter-alpa">
         <div class="select-item" style="margin-right: 30px" :class="selectAl == 'All'?'select-item-click':''" @click="selectCapital('All')">A~Z</div>
-        <div v-for="(item, index) in selectAlBe" :key="index" >
+        <div v-for="(item, index) in selectAlBe" :key="  index" >
           <div class="select-item" :class="item==selectAl?'select-item-click':''" @click="selectCapital(item, index)">{{item}}</div>
         </div>
       </div>
@@ -231,8 +231,6 @@ export default {
     },
   },
   methods: {
-    
-   
     getList() {
       const p = {
         search_text: this.searchText,
@@ -265,7 +263,8 @@ export default {
       });
     },
     search(){
-      let kk = 0
+      let kk1 = 0
+      let kk2 = 0
       let flag 
       let tempNewMemberList = []
       this.selectAl = "All"
@@ -279,8 +278,9 @@ export default {
           for (let j=0; j<this.tempNewMemberList[i].length; j++){         
             flag = true
             for (let k=0; k<this.searchTextList.length; k++){
-              kk =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
-              if (kk >= 0){flag = false} else {flag = true; break;} 
+              kk1 =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k].toUpperCase());
+              kk2 =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k].toLowerCase());
+              if (kk1 >= 0 || kk2 >= 0){flag = false} else {flag = true; break;} 
             }
             if (!flag){
               newList[i].push(this.tempNewMemberList[i][j]);   
@@ -327,27 +327,26 @@ export default {
         this.showNewMemberList[0] = _.cloneDeep(this.newMemberList[index]);
         this.showSelectAlBe[0] = _.cloneDeep(this.selectAlBe[index]); 
       }
-      
     },
     movePageTop(){
       window.scrollTo(0, 0)
     },
-    bannerStyle(item){
-      let height 
-      if (item.ban_width=='' || parseInt(item.ban_width)=="0"){
-        return "width:"+ "100% " +"height:"+"auto;";
-      }
+    // bannerStyle(item){
+    //   let height 
+    //   if (item.ban_width=='' || parseInt(item.ban_width)=="0"){
+    //     return "width:"+ "100% " +"height:"+"auto;";
+    //   }
              
-      if (item.ban_height=='' || parseInt(item.ban_height)=="0"){
-        return "width:"+ "auto " +"height:"+"100%";
-      }
-      return "width:"+ item.ban_width+"px; " +"height:"+ item.ban_height+"px;";
+    //   if (item.ban_height=='' || parseInt(item.ban_height)=="0"){
+    //     return "width:"+ "auto " +"height:"+"100%";
+    //   }
+    //   return "width:"+ item.ban_width+"px; " +"height:"+ item.ban_height+"px;";
     
-    },
-    brandLayout(){
-      let width = parseInt(this.imageWidth)*5+150
-      return "width:"+width+"px;"
-    },
+    // },
+    // brandLayout(){
+    //   let width = parseInt(this.imageWidth)*5+150
+    //   return "width:"+width+"px;"
+    // },
 
   },
 };
@@ -406,10 +405,12 @@ export default {
   margin: auto;
 }
 .brand-logo-item{
-  width: 20%;
-  padding: 15px;
-  min-height: 250px;
-  height: auto;
+  width: 260px;
+  // padding: 15px;
+  min-height: 190px;
+  // margin-left: auto;
+  // margin-right: auto;
+  margin: 10px;
   box-sizing: border-box;
   img{
     width: 100%;

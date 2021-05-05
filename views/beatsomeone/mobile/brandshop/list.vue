@@ -6,9 +6,9 @@
       <div class="container sub">
         <div class="title"><div>BRAND SHOP</div></div>
         <div class="brand-logo-section">
-          <div class="brand-container" :style="brandLayout()">
-            <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item" style="margin-right:30px; margin-bottom:30px;"> 
-              <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" :style="bannerStyle(item)" style="max-width: none !important;"></a>
+          <div class="brand-container">
+            <div v-for="(item,index) in brandList" :key="index" class="brand-logo-item" style="width: 35.1vw; height: 25.67vw;"> 
+              <a v-bind:href ="item.ban_url" v-bind:target="item.ban_target"><img :src="item.thumb_url" style="max-width: none !important;"></a>
             </div>
           </div>
           
@@ -268,7 +268,8 @@ export default {
       });
     },
     search(){
-      let kk = 0
+      let kk1 = 0
+      let kk2 = 0
       let flag 
       let tempNewMemberList = []
       this.selectAl = "All"
@@ -282,8 +283,9 @@ export default {
           for (let j=0; j<this.tempNewMemberList[i].length; j++){         
             flag = true
             for (let k=0; k<this.searchTextList.length; k++){
-              kk =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k]);
-              if (kk >= 0){flag = false} else {flag = true; break;} 
+              kk1 =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k].toUpperCase());
+              kk2 =  this.tempNewMemberList[i][j].mem_nickname.indexOf(this.searchTextList[k].toLowerCase());
+              if (kk1 >= 0 || kk2 >= 0){flag = false} else {flag = true; break;} 
             }
             if (!flag){
               newList[i].push(this.tempNewMemberList[i][j]);   
@@ -335,17 +337,17 @@ export default {
     movePageTop(){
       window.scrollTo(0, 0)
     },
-    bannerStyle(item){
-      let height 
-      if (item.ban_width=='' || parseInt(item.ban_width)=="0"){this.imageWidth ="200"}else{this.imageWidth = parseInt(item.ban_width)}
-      if (item.ban_height=='' || parseInt(item.ban_height)=="0"){height ="140"}else{height = parseInt(item.ban_height)}
+    // bannerStyle(item){
+    //   let height 
+    //   if (item.ban_width=='' || parseInt(item.ban_width)=="0"){this.imageWidth ="200"}else{this.imageWidth = parseInt(item.ban_width)}
+    //   if (item.ban_height=='' || parseInt(item.ban_height)=="0"){height ="140"}else{height = parseInt(item.ban_height)}
 
-      return "width:"+ this.imageWidth+"px; " +"height:"+ height+"px;";
-    },
-    brandLayout(){
-      let width = parseInt(this.imageWidth)*5+150
-      return "width:"+width+"px;"
-    }
+    //   return "width:"+ this.imageWidth+"px; " +"height:"+ height+"px;";
+    // },
+    // brandLayout(){
+    //   let width = parseInt(this.imageWidth)*5+150
+    //   return "width:"+width+"px;"
+    // }
   },
 };
 </script>
@@ -392,19 +394,29 @@ html, body {
   padding-left: 50px;
 }
 .brand-logo-section{
-  padding-left: 50px;
-  padding-right: 20px;
+  padding-left: 5.4vw;
+  padding-right: 5.4vw;
   // justify-content: center;
   width: 100%;
   overflow: auto; 
 }
 .brand-container{
-  // width: 1400px;
+  width: 168vw;
   display: flex;
   flex-wrap: wrap;
 }
 .brand-logo-item{
-  // width: 18%;
+  // width: 260px;
+  // padding: 15px;
+  // min-height: 190px;
+  // margin-left: auto;
+  // margin-right: auto;
+  margin: 10px;
+  box-sizing: border-box;
+  img{
+    width: 100%;
+    height: 100%;
+  }
 }
 .search {
   position: relative;
