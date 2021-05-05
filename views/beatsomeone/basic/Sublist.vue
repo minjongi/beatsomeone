@@ -236,6 +236,7 @@ export default {
       randomListCitId: [],
       offset: 0,
       last_offset: null,
+      last_data: false,
       busy: false,
       param: {
         currentGenre: null,
@@ -371,12 +372,14 @@ export default {
   },
   methods: {
     loading() {
-      if (!this.randomList.length || this.randomList.length < 10) {
+      if (
+          (!!this.randomList && (!this.randomList.length || this.randomList.length < 10)) ||
+          this.busy ||
+          (this.last_offset === this.offset) ||
+          this.last_data
+      ) {
         return false
       }
-
-      if (this.busy) return;
-      if (this.last_offset === this.offset) return;
       this.busy = true;
       this.getListMore();
     },
@@ -413,11 +416,15 @@ export default {
         } else {
           this.randomList = null;
           this.list = r;
-          this.last_offset = this.offset;
         }
       });
     },
     getListMore: _.debounce(function () {
+      if (this.last_data) {
+        this.busy = false;
+        return
+      }
+
       this.busy = true;
       const p = {
         limit: 10,
@@ -433,7 +440,10 @@ export default {
       };
       let self = this
       Http.post(`/beatsomeoneApi/sublist_list`, p).then((r) => {
+        this.busy = false;
+
         if (!r || !r.length) {
+          this.last_data = true
           return
         }
 
@@ -450,7 +460,6 @@ export default {
         this.list = this.list.concat(moreList);
         this.last_offset = this.offset;
         this.offset = this.list.length;
-        this.busy = false;
       });
     }, 1000),
     getTopList() {

@@ -94,6 +94,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-2 control-label">무료다운로드 남은횟수</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="mem_remain_downloads" value="<?php echo set_value('mem_remain_downloads', element('mem_remain_downloads', element('data', $view))); ?>" />
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-2 control-label">유저타입</label>
             <div class="col-sm-10">
                 <?php

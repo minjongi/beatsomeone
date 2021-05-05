@@ -99,7 +99,6 @@
                                                                             </i>
                                                                             {{$t('lang25')}}
                                                                         </p>
-                                                                        <p></p>
                                                                         <p>
                                                                             <i>
                                                                                 <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -174,19 +173,12 @@
                                                                             </i>
                                                                             {{$t('lang36')}}
                                                                         </p>
-                                                                        <p v-if="product.cit_include_copyright_transfer !== '1'">
+                                                                        <p>
                                                                             <i>
                                                                                 <img src="/assets/images/icon/parchase-info10.png"/>
                                                                             </i>
                                                                             {{$t('lang41')}}
                                                                         </p>
-                                                                        <p v-else>
-                                                                            <i>
-                                                                                <img src="/assets/images/icon/parchase-info10.png"/>
-                                                                            </i>
-                                                                            {{$t('lang42')}}
-                                                                        </p>
-
                                                                         <div class="copybox" v-if="product.cit_include_copyright_transfer !== '1'">
                                                                             <span>{{ $t('lang21') }}</span>
                                                                             <span>{{ $t('lang22') }}</span>
@@ -529,22 +521,22 @@ export default {
     methods: {
         formatPrice: function (kr, en, symbol) {
             if (!symbol) {
-                if (this.$i18n.locale === "en") {
-                    return en;
+                if (this.$i18n.locale === "ko") {
+                  return kr;
                 } else {
-                    return kr;
+                  return en;
                 }
             }
-            if (this.$i18n.locale === "en") {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
+            if (this.$i18n.locale === "ko") {
+              return (
+                  "₩ " +
+                  Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+              );
             } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
+              return (
+                  "$ " +
+                  Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+              );
             }
         },
         truncate(str, n) {
@@ -579,7 +571,7 @@ export default {
         procFreebeatPay: function () {
             let formData2 = new FormData();
             formData2.append('pay_type', 'free');
-            formData2.append('cor_pg', (this.$i18n.locale === "en" ? 'paypal' : 'allat'));
+            formData2.append('cor_pg', (this.$i18n.locale === "ko" ? 'allat' : 'paypal'));
             formData2.append('unique_id', this.unique_id);
             formData2.append('good_mny', 0);
             formData2.append('cor_point', this.cor_point);
@@ -673,7 +665,7 @@ export default {
             }
         },
         cor_point(val) {
-            if (this.$i18n.locale === 'en') {
+            if (this.$i18n.locale !== 'ko') {
               alert(this.$t('lang163'))
               this.cor_point = 0
             }

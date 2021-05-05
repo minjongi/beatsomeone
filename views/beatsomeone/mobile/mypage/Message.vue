@@ -274,7 +274,7 @@
             },
             productEditBtn: function(key){
                 console.log("productEditBtn:" +key);
-                window.location.href = this.helper.langUrl(this.$i18n.locale, 'https://beatsomeone.com/detail/'+key);
+                window.location.href = 'https://beatsomeone.com' + this.helper.langUrl(this.$i18n.locale, '/detail/'+key);
             },
             funcDateType: function(t){
                 if(this.dateType == t){

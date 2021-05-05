@@ -33,26 +33,25 @@
                             <p>
                                 {{ $t('free') }}
                             </p>
-                            <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ?
-                                sellerFreeGroup.mgr_monthly_cost_d : sellerFreeGroup.mgr_monthly_cost_w }}</h2>
+                            <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'ko' ? sellerFreeGroup.mgr_monthly_cost_w : sellerFreeGroup.mgr_monthly_cost_d }}</h2>
                         </th>
                         <th>
                             <p>
                                 {{ $t('platinum') }}<br/>
                             </p>
-                            <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ?
-                                sellerPlatinumGroup.mgr_monthly_cost_d : sellerPlatinumGroup.mgr_monthly_cost_w) :
-                                ($i18n.locale === 'en' ? sellerPlatinumGroup.mgr_year_cost_d :
-                                sellerPlatinumGroup.mgr_year_cost_w) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em>
+                            <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'ko' ?
+                                sellerPlatinumGroup.mgr_monthly_cost_w : sellerPlatinumGroup.mgr_monthly_cost_d) :
+                                ($i18n.locale === 'ko' ? sellerPlatinumGroup.mgr_year_cost_w : sellerPlatinumGroup.mgr_year_cost_d
+                                ) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em>
                             </h2>
                         </th>
                         <th>
                             <p>
                                 {{ $t('master') }}<br/>
                             </p>
-                            <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ?
-                                sellerMasterGroup.mgr_monthly_cost_d : sellerMasterGroup.mgr_monthly_cost_w) : ($i18n.locale
-                                === 'en' ? sellerMasterGroup.mgr_year_cost_d : sellerMasterGroup.mgr_year_cost_w) }}<em>/{{
+                            <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'ko' ?
+                                sellerMasterGroup.mgr_monthly_cost_w : sellerMasterGroup.mgr_monthly_cost_d) : ($i18n.locale
+                                === 'ko' ? sellerMasterGroup.mgr_year_cost_w : sellerMasterGroup.mgr_year_cost_d) }}<em>/{{
                                 billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                         </th>
                     </tr>

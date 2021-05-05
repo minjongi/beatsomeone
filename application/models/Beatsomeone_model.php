@@ -46,6 +46,8 @@ class Beatsomeone_model extends CB_Model
         // Genre
         if ($genre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($genre && $genre !== 'All Genre') {
                 $genreWhere[] = "p.genre = '" . $genre . "'";
@@ -229,7 +231,7 @@ class Beatsomeone_model extends CB_Model
         $brandMemId = element('brand_mem_id', $config);
 
         $where['cit_status'] = 1;
-        $this->db->where('cit_start_datetime <= now()');
+        $this->db->where('cit_start_datetime <= ', date('Y-m-d H:i:s'));
         $this->db->where('(cit_lease_license_use = 1 or cit_mastering_license_use = 1)');
 
         if (!empty($brandMemId)) {
@@ -246,6 +248,8 @@ class Beatsomeone_model extends CB_Model
         // Genre
         if ($genre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($genre && $genre !== 'All Genre') {
                 $genreWhere[] = "p.genre = '" . $genre . "'";
@@ -255,6 +259,8 @@ class Beatsomeone_model extends CB_Model
         // SubGenre
         if ($subgenre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($subgenre && $subgenre !== 'All') {
                 $genreWhere[] = "p.genre = '" . $subgenre . "'";
@@ -349,6 +355,8 @@ class Beatsomeone_model extends CB_Model
         // Genre
         if ($genre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($genre && $genre !== 'All Genre') {
                 $genreWhere[] = "p.genre = '" . $genre . "'";
@@ -358,6 +366,8 @@ class Beatsomeone_model extends CB_Model
         // SubGenre
         if ($subgenre === 'BGMSOUND') {
             $where['cmall_item.cit_type5'] = 1;
+        } else if ($genre === 'Free') {
+            $where['cmall_item.cit_freebeat'] = 1;
         } else {
             if ($subgenre && $subgenre !== 'All') {
                 $genreWhere[] = "p.genre = '" . $subgenre . "'";
@@ -594,7 +604,8 @@ class Beatsomeone_model extends CB_Model
             $infoContent4,
             $infoContent5,
             $p['bpm'],
-            $infoContent6
+            $infoContent6,
+            $hashTag,
         ]);
 
         $expandSearchData = gen_search_data([
@@ -608,6 +619,11 @@ class Beatsomeone_model extends CB_Model
         if(!empty($p["cit_id"])) {
             $cit_id = $p["cit_id"];
             $itemInfo = $this->get_item($p);
+
+            $searchData = gen_search_data([
+                trim($searchData, '|'),
+                $itemInfo->other_tags
+            ]);
 
             $expandSearchData = gen_search_data([
                 trim($expandSearchData, '|'),

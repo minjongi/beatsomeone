@@ -31,7 +31,6 @@
                         <!-- {{$t('available60Days')}} -->
                         Profits from performances and can be used in broadcasting
                     </p>
-                    <p></p>
                     <p>
                         <i>
                             <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -94,22 +93,22 @@ export default {
         },
         formatPrice: function (kr, en, symbol) {
             if (!symbol) {
-                if (this.$i18n.locale === "en") {
-                    return en;
+                if (this.$i18n.locale === "ko") {
+                  return kr;
                 } else {
-                    return kr;
+                  return en;
                 }
             }
-            if (this.$i18n.locale === "en") {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
+            if (this.$i18n.locale === "ko") {
+              return (
+                  "₩ " +
+                  Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+              );
             } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
+              return (
+                  "$ " +
+                  Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+              );
             }
         },
     }

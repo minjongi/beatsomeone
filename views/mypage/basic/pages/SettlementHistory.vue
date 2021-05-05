@@ -84,7 +84,7 @@
                                 <hr>
                                 <div class="d-flex font-weight-bold mb-4">
                                     <span>{{ $t('totalRental') }}</span>
-                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_lease_money_d).toLocaleString() : Number(total_lease_money).toLocaleString() }}</span>
+                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_lease_money).toLocaleString() : Number(total_lease_money_d).toLocaleString() }}</span>
                                 </div>
                                 <div class="d-flex mb-4">
                                     <span> - {{ $t('rentAmount') }}</span>
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="d-flex font-weight-bold mb-4">
                                     <span>{{ $t('totalSales') }}</span>
-                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_sale_money_d).toLocaleString() : Number(total_sale_money).toLocaleString() }}</span>
+                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_sale_money).toLocaleString() : Number(total_sale_money_d).toLocaleString() }}</span>
                                 </div>
                                 <div class="d-flex mb-4">
                                     <span> - {{ $t('salesVolume') }}</span>
@@ -101,25 +101,25 @@
                                 <hr>
                                 <div class="d-flex font-weight-bold mb-4">
                                     <span>{{ $t('orderTotal') }}</span>
-                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d).toLocaleString() : Number(total_money).toLocaleString() }}</span>
+                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money).toLocaleString() : Number(total_money_d).toLocaleString() }}</span>
                                 </div>
                                 <div class="d-flex font-weight-bold mb-4">
                                     <span>{{ $t('vat', {percent: 10}) }}</span>
-                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.1).toLocaleString() : Number(total_money * 0.1).toLocaleString() }}</span>
+                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.1).toLocaleString() : Number(total_money_d * 0.1).toLocaleString() }}</span>
                                 </div>
                                 <hr>
                                 <div class="d-flex font-weight-bold mb-4">
                                     <span>{{ $t('settlement') }}</span>
-                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9).toLocaleString() : Number(total_money * 0.9).toLocaleString() }}</span>
+                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.9).toLocaleString() : Number(total_money_d * 0.9).toLocaleString() }}</span>
                                 </div>
                                 <div class="d-flex font-weight-bold mb-4">
                                     <span>{{ $t('fee', {percent: 10}) }}</span>
-                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9 * 0.1).toLocaleString() : Number(total_money * 0.9 * 0.1).toLocaleString() }}</span>
+                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.9 * 0.1).toLocaleString() : Number(total_money_d * 0.9 * 0.1).toLocaleString() }}</span>
                                 </div>
                                 <hr>
                                 <div class="d-flex font-weight-bold mb-4">
                                     <span class="h5">{{ $t('totalSettlement') }}</span>
-                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9 * 0.9).toLocaleString() : Number(total_money * 0.9 * 0.9).toLocaleString() }}</span>
+                                    <span class="ml-auto">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.9 * 0.9).toLocaleString() : Number(total_money_d * 0.9 * 0.9).toLocaleString() }}</span>
                                 </div>
                             </div>
                             <div class="col-6 pl-5">

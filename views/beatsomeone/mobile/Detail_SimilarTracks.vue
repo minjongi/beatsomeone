@@ -47,6 +47,7 @@
                 busy: false,
                 currentCitId: null,
                 last_offset: null,
+                last_data: false,
             }
         },
         watch: {
@@ -91,6 +92,7 @@
                 }
                 if (this.busy) return;
                 if (this.last_offset === this.offset) return;
+                if (this.last_data) return;
                     this.busy = true;
                     this.getListMore();
             },
@@ -102,18 +104,26 @@
                     offset: this.offset,
                 }
                 Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
-                     this.randomList = r;
+                    this.randomList = r;
                     this.offset = this.randomList.length;
                     this.busy = false;
                 });
             },
             getListMore: _.debounce(function() {
+                if (this.last_data) {
+                  this.busy = false;
+                  return
+                }
+
                 this.busy = true;
                 const p = {
                     limit: 20,
                     offset: this.offset,
                 }
                 Http.post(`/beatsomeoneApi/detail_similartracks_list/${this.item.cit_id}`,p).then(r=> {
+                    if (!r || !r.length) {
+                      this.last_data = true
+                    }
                     this.list = this.list.concat(r);
                     this.last_offset = this.offset;
                     this.offset = this.list.length+this.randomList.length;

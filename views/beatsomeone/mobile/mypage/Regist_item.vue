@@ -396,10 +396,6 @@
                     <br />· {{ $t('lang19') }}
                     <br />· {{ $t('lang20') }}
                   </p>
-                  <div class="copybox">
-                    <span>{{ $t('lang21') }}</span>
-                    <span>{{ $t('lang22') }}</span>
-                  </div>
                 </div>
               </div>
             </div>

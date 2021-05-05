@@ -53,7 +53,6 @@
                                             </i>
                                             {{$t('lang25')}}
                                         </p>
-                                        <p></p>
                                         <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -71,12 +70,6 @@
                                                 <img src="/assets/images/icon/parchase-info2.png" alt/>
                                             </i>
                                             {{$t('lang28')}}
-                                        </p>
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                            </i>
-                                            {{$t('lang29')}}
                                         </p>
                                     </div>
                                 </div>
@@ -128,24 +121,13 @@
                                             </i>
                                             {{$t('lang36')}}
                                         </p>
-                                        <p v-if="item.item.cit_include_copyright_transfer !== '1'">
+                                        <p>
                                             <i>
                                                 <img src="/assets/images/icon/parchase-info10.png"/>
                                             </i>
                                             {{$t('lang41')}}
                                         </p>
-                                        <p v-else>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info10.png"/>
-                                            </i>
-                                            {{$t('lang42')}}
-                                        </p>
-
-                                        <div class="copybox" v-if="item.item.cit_include_copyright_transfer !== '1'">
-                                            <span>{{ $t('lang21') }}</span>
-                                            <span>{{ $t('lang22') }}</span>
-                                        </div>
-                                        <div class="copybox" v-else>
+                                        <div class="copybox" v-if="item.item.cit_include_copyright_transfer === '1'">
                                             <span>{{ $t('lang43') }}</span>
                                         </div>
                                     </div>
@@ -176,12 +158,11 @@ export default {
             return (str.length > n) ? str.substr(0, n-1) + '...' : str;
         },
         formatPrice: function (kr, en) {
-            if (this.$i18n.locale === "en") {//this.pg === 'paypal'
-                return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
+            if (this.$i18n.locale === "ko") {//this.pg === 'paypal'
+              return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
             } else { // if (this.pg === 'allat')
-                return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+              return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
             }
-
         },
         toggleButton: function (e) {
             if (

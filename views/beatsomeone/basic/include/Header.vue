@@ -1,10 +1,9 @@
 <template>
-  <div>
-<!--    class="event-header"-->
+  <div class="event-header">
     <header class="header">
-<!--      <div class="event-top">-->
-<!--        <a :href="helper.langUrl($i18n.locale, '/event/join')"><img :src="'/assets/images/event/2101241/' + $i18n.locale + '/top_bn.png'"></a>-->
-<!--      </div>-->
+      <div class="event-top">
+        <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210422/top_bn.png?v=1'"></a>
+      </div>
         <div class="wrap">
             <div class="header__logo">
                 <a :href="helper.langUrl($i18n.locale, '/')"><img src="/assets/images/logo.png" alt="logo"/></a>
@@ -17,8 +16,8 @@
                     </div>
                 </div>
                 <nav class="header__nav">
+                    <a :href="helper.langUrl($i18n.locale, '/sublist?genre=Free')">{{ $t('freeBeats') }}</a>
                     <a :href="helper.langUrl($i18n.locale, '/mypage/favorites')">{{ $t('favorite') }}</a>
-                    <a v-if="isCustomer && false" href="">{{ $t('freeBeats') }}</a>
                     <a v-if="isSeller" :href="helper.langUrl($i18n.locale, '/mypage/regist_item')">{{ $t('registrationSources') }}</a>
                     <a :href="helper.langUrl($i18n.locale, '/mypage')" v-if="isLogin">{{ $t('mypage') }}</a>
                     <a :href="helper.langUrl($i18n.locale, '/login/logout')" v-if="isLogin">{{ $t('logout') }}</a>
@@ -30,8 +29,17 @@
                             {{ $t('lang120') }}
                         </span>
                     </button>
-                    <a :href="helper.langUrl($i18n.locale, '/cmall/cart')" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})</a>
-                    <a href="javascript:;" @click="toggleLocale()">{{ toggleLocaleMenuTit }}</a>
+                    <a :href="helper.langUrl($i18n.locale, '/cmall/cart')" class="header__cart" v-if="isLogin">({{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? getCartSum : getCartSumD }})</a>
+                    <div class="language-selector">
+                      <div class="custom-select">
+                        <button class="selected-option">{{ localeMenuTit }}</button>
+                        <div class="options">
+                          <button class="option" @click="setLocale('en')">ENG</button>
+                          <button class="option" @click="setLocale('ko')">KOR</button>
+                          <button class="option" @click="setLocale('jp')">日本語</button>
+                        </div>
+                      </div>
+                    </div>
                 </nav>
             </div>
         </div>
@@ -44,6 +52,7 @@
     import Vuecookies from 'vue-cookies';
     import axios from 'axios';
     import { mapGetters, mapActions } from 'vuex';
+    import $ from "jquery";
 
     export default {
         name: 'Header',
@@ -64,10 +73,26 @@
             this.updateCartSum();
             this.member_group_name = window.member_group_name;
             this.member = window.member;
+
+            $(".language-selector .custom-select, .language-selector .custom-select .options").on("mouseover", function () {
+              $(this).addClass("active")
+              $(this).find(".options").show()
+            })
+
+            $(".language-selector .custom-select, .language-selector .custom-select .options").on("mouseout", function () {
+              $(this).removeClass("active")
+              $(this).find(".options").hide()
+            })
         },
         computed: {
-            toggleLocaleMenuTit: function() {
-                return this.$i18n.locale === 'en' ? 'KOR' : 'ENG';
+            localeMenuTit: function() {
+              switch (this.$i18n.locale) {
+                case 'ko':
+                  return 'KOR'
+                case 'jp':
+                  return '日本語'
+              }
+              return 'ENG'
             },
             getCartSum() {
                 return Number(this.$store.getters.getCartSum).toLocaleString('ko-KR', {minimumFractionDigits: 0});
@@ -111,11 +136,14 @@
                 window.location.href = this.helper.langUrl(this.$i18n.locale, path);
             },
             toggleLocale() {
-                if (this.$i18n.locale === 'en') {
-                  location.href = location.href.replace(location.hostname, location.hostname + '/ko')
+                if (this.$i18n.locale === 'ko') {
+                  location.href = location.href.replace(location.hostname + '/ko', location.hostname + '/en')
                 } else {
-                  location.href = location.href.replace('/ko', '')
+                  location.href = location.href.replace(location.hostname + '/' + this.$i18n.locale, location.hostname + '/ko')
                 }
+            },
+            setLocale(locale) {
+              location.href = location.href.replace(location.hostname + '/' + this.$i18n.locale, location.hostname + '/' + locale)
             },
             signUpClick(state) {
                 localStorage.setItem("UserOffer", state);

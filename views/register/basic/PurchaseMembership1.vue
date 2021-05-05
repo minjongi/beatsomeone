@@ -21,11 +21,11 @@
                     <span>{{
                             $t('currencySymbol')
                         }} {{
-                            info.billTerm === 'monthly' ? ($i18n.locale === 'en' ? info.group.mgr_monthly_cost_d : info.group.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? info.group.mgr_year_cost_d : info.group.mgr_year_cost_w)
+                            info.billTerm === 'monthly' ? ($i18n.locale === 'ko' ? info.group.mgr_monthly_cost_w : info.group.mgr_monthly_cost_d) : ($i18n.locale === 'ko' ? info.group.mgr_year_cost_w : info.group.mgr_year_cost_d)
                         }}</span>
                 </h2>
             </div>
-            <div v-if="$i18n.locale === 'en'">
+            <div v-if="$i18n.locale !== 'ko'">
                 <div class="accounts__payments">
                     <div class="accounts__btnbox">
                         <div style="margin: 0 auto;" v-if="isEmptyPaypal === false">

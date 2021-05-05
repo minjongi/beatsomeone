@@ -181,12 +181,16 @@ if ( ! function_exists('lang_url')) {
             $domain = substr(site_url(), 0, -1);
             $url = '/' .str_replace(site_url(), '', $url);
         }
+
         if (strpos($url, '/ko/') === 0) {
             $url = str_replace('/ko/', '/', $url);
+        } else if (strpos($url, '/jp/') === 0) {
+            $url = str_replace('/jp/', '/', $url);
+        } else if (strpos($url, '/en/') === 0) {
+            $url = str_replace('/en/', '/', $url);
         }
-        if ($_COOKIE['locale'] !== 'en') {
-            $url = '/' . $_COOKIE['locale'] . (strpos($url, '/') !== 0 ? '/' :'') .$url;
-        }
+
+        $url = '/' . $_COOKIE['locale'] . (strpos($url, '/') !== 0 ? '/' :'') .$url;
 
         return $domain . $url;
     }

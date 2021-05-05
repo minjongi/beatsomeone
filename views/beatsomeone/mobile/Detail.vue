@@ -15,7 +15,7 @@
                             <h2 class="title" style="font-weight: 600;" v-if="item.cit_name">{{ truncate(item.cit_name, 15) }}</h2>
 <!--                            <p class="singer" v-if="item">{{ item.mem_nickname }}</p>-->
                             <div class="state" v-if="item">
-                                <div class="state-singer" v-if="item">{{ item.mem_nickname }}</div> <div style="display: flex; align-items: center;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
+                                <div class="state-singer" v-if="item">{{ item.mem_nickname }}</div> <div style="display: flex; align-items: center;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
 <!--                                <span class="song">0{{ item.cde_download }}</span>-->
                                 <!--                                <span class="song">120</span>-->
                                 <div style="margin-top: 10px" class="registed">{{ item.release_datetime }}</div>
@@ -413,7 +413,7 @@
                     }
                 });
 
-                var url = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
+                var url = 'https://beatsomeone.com' + this.helper.langUrl(this.$i18n.locale, `/detail/${this.item.cit_key}`);
                 var txt = `${this.item.cit_name} / ${this.item.member.mem_nickname} / ${this.item.genre}`;
 
                 var o;
@@ -484,7 +484,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
+                t.value = 'https://beatsomeone.com' + this.helper.langUrl(this.$i18n.locale, `/detail/${this.item.cit_key}`);
                 t.select();
                 document.execCommand('copy');
                 document.body.removeChild(t);
@@ -492,22 +492,22 @@
             },
             formatPrice: function (kr, en, simbol) {
                 if (!simbol) {
-                    if (this.$i18n.locale === "en") {
-                        return en;
+                    if (this.$i18n.locale === "ko") {
+                      return kr;
                     } else {
-                        return kr;
+                      return en;
                     }
                 }
-                if (this.$i18n.locale === "en") {
-                    return (
-                        "$ " +
-                        Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                    );
+                if (this.$i18n.locale === "ko") {
+                  return (
+                      "₩ " +
+                      Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                  );
                 } else {
-                    return (
-                        "₩ " +
-                        Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                    );
+                  return (
+                      "$ " +
+                      Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+                  );
                 }
             },
             checkLoggedIn() {

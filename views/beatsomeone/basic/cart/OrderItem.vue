@@ -87,11 +87,11 @@ export default {
             return rst;
         },
         formatPrice: function (kr, en) {
-            if (this.$i18n.locale === "en") {
-                return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
+            if (this.$i18n.locale === "ko") {
+              return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
             }
             else {
-                return '₩ ' + Number(kr).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+              return '$ ' + Number(en).toLocaleString(undefined, {minimumFractionDigits: 2});
             }
         },
         toggleButton: function (e) {

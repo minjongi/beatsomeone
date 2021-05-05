@@ -111,10 +111,10 @@
         },
         methods:{
             formatPrice: function(price, simbol){
-                if (this.$i18n.locale === "en") { //this.order.cor_pg === 'paypal'
-                    return '$ ' + Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
+                if (this.$i18n.locale === "ko") { //this.order.cor_pg === 'paypal'
+                  return '₩ ' + Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
                 } else { //if (this.order.cor_pg === 'allat')
-                    return '₩ ' + Number(price).toLocaleString('ko-KR', {minimumFractionDigits: 0});
+                  return '$ ' + Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
                 }
             },
             goMain: function(e){

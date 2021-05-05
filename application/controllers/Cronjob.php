@@ -153,7 +153,6 @@ class Cronjob extends CB_Controller
                 }
             }
         }
-
     }
 }
 ?>

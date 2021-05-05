@@ -6,8 +6,9 @@ window.sortItem = [
 
 window.genre = [
     'BGMSOUND',
-    'Hip hop',
+    'Free',
     'K-pop',
+    'Hip hop',
     'Pop',
     'R&B',
     'Dance',
@@ -70,7 +71,7 @@ window.genLangCode = function(val) {
 }
 
 window.langUrl = function(lang, url) {
-    return (lang === 'ko' ? '/ko' : '') + url;
+    return '/' + lang + url;
 }
 
 window.mobon_convType = ''

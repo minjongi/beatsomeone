@@ -4,10 +4,10 @@
       <div class="noti-wrap"></div>
       <div class="noti-content">
         <div>
-          <a @click="goEvent" style="cursor:pointer;"><img :src="'/assets/images/popup/210312/1.png'"></a>
+          <a :href="helper.langUrl($i18n.locale, '/event/sane')" style="cursor:pointer;"><img :src="'/assets/images/event/210422/1.png?v=1'"></a>
         </div>
         <div>
-          <img :src="'/assets/images/popup/210312/2.png'" @click="closePopup(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/popup/210312//3.png'" @click="closePopup()" style="width:50%;cursor:pointer;">
+          <img :src="'/assets/images/event/210422/2.png'" @click="closePopup(true)" style="width:50%;cursor:pointer;"><img :src="'/assets/images/event/210422//3.png'" @click="closePopup()" style="width:50%;cursor:pointer;">
         </div>
       </div>
     </div>
@@ -290,7 +290,7 @@
             if (this.member_group_name) {
               this.remainDownloadNumber();
             }
-            if (Vuecookies.get('popup210312-close') !== 'Y' && this.$i18n.locale !== 'en' && this.member_group_name !== 'subscribe_common') {
+            if (Vuecookies.get('popup210422-close') !== 'Y') {
               this.openPopup()
             }
             // if (Vuecookies.get('popup2101241-close') !== 'Y' && !this.member) {
@@ -382,7 +382,7 @@
             },
             closePopup(isForever) {
               if (isForever) {
-                Vuecookies.set('popup210312-close', 'Y', '1d')
+                Vuecookies.set('popup210422-close', 'Y', '1d')
               }
               document.body.style.overflow = ''
               this.popup = false
@@ -528,5 +528,4 @@
             transform: translate(-50%, -50%);
         }
     }
-
 </style>

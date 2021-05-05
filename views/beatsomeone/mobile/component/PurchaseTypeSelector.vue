@@ -52,7 +52,6 @@
                                         </i>
                                         {{ $t('lang25') }}
                                     </p>
-                                    <p></p>
                                     <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -70,12 +69,6 @@
                                             <img src="/assets/images/icon/parchase-info2.png" alt/>
                                         </i>
                                         {{ $t('lang28') }}
-                                    </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{ $t('lang29') }}
                                     </p>
                                 </div>
                                 <div class="parchase-dropdown" :ref="'purchaseDropdown' + item.detail.LEASE.cde_id"
@@ -137,24 +130,13 @@
                                         </i>
                                         {{ $t('lang36') }}
                                     </p>
-                                    <p v-if="item.cit_include_copyright_transfer !== '1'">
+                                    <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info10.png"/>
                                         </i>
                                         {{ $t('lang41') }}
                                     </p>
-                                    <p v-else>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info10.png"/>
-                                        </i>
-                                        {{ $t('lang42') }}
-                                    </p>
-
-                                    <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
-                                        <span>{{ $t('lang21') }}</span>
-                                        <span>{{ $t('lang22') }}</span>
-                                    </div>
-                                    <div class="copybox" v-else>
+                                    <div class="copybox" v-if="item.cit_include_copyright_transfer === '1'">
                                         <span>{{ $t('lang43') }}</span>
                                     </div>
                                 </div>
@@ -270,22 +252,22 @@ export default {
         },
         formatPrice: function (kr, en, simbol) {
             if (!simbol) {
-                if (this.$i18n.locale === "en") {
-                    return en;
+                if (this.$i18n.locale === "ko") {
+                  return kr;
                 } else {
-                    return kr;
+                  return en;
                 }
             }
-            if (this.$i18n.locale === "en") {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
+            if (this.$i18n.locale === "ko") {
+              return (
+                  "₩ " +
+                  Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+              );
             } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
+              return (
+                  "$ " +
+                  Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+              );
             }
         },
     },

@@ -11,7 +11,7 @@
                         <div class="detail__music-info">
                             <h2 class="title" v-if="item">{{ truncate(item.cit_name, 50) }}</h2>
                             <div style="display: flex; align-items: center;" v-if="item">
-                                 <p class="singer">by {{ item.mem_nickname }} </p> <div style="display: flex; align-items: center; margin-top: 10px;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
+                                 <p class="singer">by {{ item.mem_nickname }} </p> <div style="display: flex; align-items: center; margin-top: 10px;"><img class="shop" style="padding-left: 20px;" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/' + item.mem_nickname)">{{ $t('goToBrandshop') }}</a></div>
                             </div>
                            
                             <div class="state" v-if="item">
@@ -342,7 +342,7 @@
                     }
                 });
 
-                var url = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
+                var url = 'https://beatsomeone.com' + this.helper.langUrl(this.$i18n.locale, `/detail/${this.item.cit_key}`);
                 var txt = `${this.item.cit_name} / ${this.item.musician} / ${this.item.genre}`;
 
                 var o;
@@ -445,7 +445,7 @@
             copyLinkToClipboard() {
                 var t = document.createElement("textarea");
                 document.body.appendChild(t);
-                t.value = this.helper.langUrl(this.$i18n.locale, `https://beatsomeone.com/detail/${this.item.cit_key}`);
+                t.value = 'https://beatsomeone.com' + this.helper.langUrl(this.$i18n.locale, `/detail/${this.item.cit_key}`);
                 t.select();
                 document.execCommand("copy");
                 document.body.removeChild(t);
@@ -453,22 +453,22 @@
             },
             formatPrice: function (kr, en, simbol) {
                 if (!simbol) {
-                    if (this.$i18n.locale === "en") {
-                        return en;
+                    if (this.$i18n.locale === "ko") {
+                      return kr;
                     } else {
-                        return kr;
+                      return en;
                     }
                 }
-                if (this.$i18n.locale === "en") {
-                    return (
-                        "$ " +
-                        Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                    );
+                if (this.$i18n.locale === "ko") {
+                  return (
+                      "₩ " +
+                      Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+                  );
                 } else {
-                    return (
-                        "₩ " +
-                        Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                    );
+                  return (
+                      "$ " +
+                      Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
+                  );
                 }
             },
             truncate(str, n) {

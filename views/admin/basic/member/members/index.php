@@ -1,13 +1,22 @@
 <div class="box">
     <div class="box-table">
-        <div style="margin-bottom: 20px;">
-            <form action="/admin/member/members/bulk_registration" name="bulk-reg" id="bulk-reg" method="post" enctype="multipart/form-data">
-                <div style="display: inline-block">대량등록 : </div>
-                <div style="display: inline-block;border: 1px solid #DCDCDC;"><input type="file" name="bulk"></div>
-                <div style="display: inline-block"><input type="submit" value="등록하기"></div>
-                <div style="display: inline-block;margin-left: 5px;"><a href="/assets/data/member_reg_sample.xls" target="_blank">[샘플다운로드]</a></div>
-            </form>
-        </div>
+        <form name="fsearch" id="fsearch" action="<?php echo current_full_url(); ?>" method="get">
+            <div class="box-search">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <select class="form-control" name="sfield" >
+                            <?php echo element('search_option', $view); ?>
+                        </select>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="skeyword" value="<?php echo html_escape(element('skeyword', $view)); ?>" placeholder="Search for..." />
+                            <span class="input-group-btn">
+							<button class="btn btn-default btn-sm" name="search_submit" type="submit">검색!</button>
+						</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
         <?php
         $memUserType = [
             1 => '일반회원',
@@ -161,24 +170,15 @@
             <?php echo $buttons; ?>
         </div>
         <?php echo form_close(); ?>
-    </div>
-    <form name="fsearch" id="fsearch" action="<?php echo current_full_url(); ?>" method="get">
-        <div class="box-search">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <select class="form-control" name="sfield" >
-                        <?php echo element('search_option', $view); ?>
-                    </select>
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="skeyword" value="<?php echo html_escape(element('skeyword', $view)); ?>" placeholder="Search for..." />
-                        <span class="input-group-btn">
-							<button class="btn btn-default btn-sm" name="search_submit" type="submit">검색!</button>
-						</span>
-                    </div>
-                </div>
-            </div>
+        <div style="margin-bottom: 20px;">
+            <form action="/admin/member/members/bulk_registration" name="bulk-reg" id="bulk-reg" method="post" enctype="multipart/form-data">
+                <div style="display: inline-block">대량등록 : </div>
+                <div style="display: inline-block;border: 1px solid #DCDCDC;"><input type="file" name="bulk"></div>
+                <div style="display: inline-block"><input type="submit" value="등록하기"></div>
+                <div style="display: inline-block;margin-left: 5px;"><a href="/assets/data/member_reg_sample.xls" target="_blank">[샘플다운로드]</a></div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 <script type="text/javascript">

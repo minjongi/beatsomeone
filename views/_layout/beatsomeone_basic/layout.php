@@ -17,6 +17,7 @@
     <meta property="og:title" content="<?php echo html_escape(element('page_title', $layout)); ?>"/>
     <link rel="alternate" href="<?= $this->config->item('alternateUrlEn') ?>" hreflang="en-US"/>
     <link rel="alternate" href="<?= $this->config->item('alternateUrlKo') ?>" hreflang="ko-KR"/>
+    <meta name="facebook-domain-verification" content="zy0a3qsjzuwutexw4ckvc6kg2altcm" />
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -130,14 +131,14 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10001;
-            max-width: 330px;
+            max-width: 550px;
             width: 100%;
         }
 
         .noti-content img {
             display: block;
             float:left;
-            max-width: 330px;
+            max-width: 550px;
             width: 100%;
             margin: 0;
             padding: 0;

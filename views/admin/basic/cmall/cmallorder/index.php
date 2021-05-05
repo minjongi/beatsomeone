@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             if (element('cor_pg', $result) === 'paypal') {
                                 $currency_symbol = '$';
                                 $total_money = number_format(element('cor_total_money', $result), 2);
-                            } elseif (element('cor_pg', $result) === 'allat') {
+                            } else {
                                 $currency_symbol = '₩';
                                 $total_money = number_format(element('cor_total_money', $result));
                             }

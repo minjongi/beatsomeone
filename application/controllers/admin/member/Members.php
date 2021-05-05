@@ -635,6 +635,7 @@ class Members extends CB_Controller
                 'mem_is_admin' => $mem_is_admin,
                 'mem_profile_content' => $this->input->post('mem_profile_content', null, ''),
                 'mem_adminmemo' => $this->input->post('mem_adminmemo', null, ''),
+                'mem_remain_downloads' => $this->input->post('mem_remain_downloads', null, ''),
             );
 
             $mem_id = $this->input->post($primary_key);
@@ -1124,7 +1125,6 @@ class Members extends CB_Controller
      */
     public function excel()
     {
-
         // 이벤트 라이브러리를 로딩합니다
         $eventname = 'event_admin_member_members_excel';
         $this->load->event($eventname);
@@ -1173,7 +1173,7 @@ class Members extends CB_Controller
                     'mem_id' => element('mem_id', $val),
                 );
                 $result['list'][$key]['member_group_member'] = $this->Member_group_member_model->get('', '', $where, '', 0, 'mgm_id', 'ASC');
-                $mgroup = '';
+                $mgroup = [];
                 if ($result['list'][$key]['member_group_member']) {
                     foreach ($result['list'][$key]['member_group_member'] as $mk => $mv) {
                         if (element('mgr_id', $mv)) {

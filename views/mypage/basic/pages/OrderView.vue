@@ -55,7 +55,6 @@
                                         </i>
                                         {{$t('lang25')}}
                                     </p>
-                                    <p></p>
                                     <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -73,12 +72,6 @@
                                             <img src="/assets/images/icon/parchase-info2.png" alt/>
                                         </i>
                                         {{$t('lang28')}}
-                                    </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{$t('lang29')}}
                                     </p>
                                 </div>
                             </div>
@@ -99,7 +92,6 @@
                                         </i>
                                         {{$t('lang25')}}
                                     </p>
-                                    <p></p>
                                     <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -117,12 +109,6 @@
                                             <img src="/assets/images/icon/parchase-info2.png" alt/>
                                         </i>
                                         {{$t('lang28')}}
-                                    </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{$t('lang29')}}
                                     </p>
                                 </div>
                             </div>
@@ -143,7 +129,6 @@
                                         </i>
                                         {{$t('lang25')}}
                                     </p>
-                                    <p></p>
                                     <p>
                                         <i>
                                             <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -162,12 +147,6 @@
                                         </i>
                                         {{$t('lang28')}}
                                     </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                        </i>
-                                        {{$t('lang29')}}
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -180,7 +159,7 @@
                                     0:00 / 0:00
                                 </p>
                                 <h6 class="text-warning">
-                                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'en' ? citem.itemdetail[0].cde_price_d : citem.itemdetail[0].cde_price }}
+                                    {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? citem.itemdetail[0].cde_price : citem.itemdetail[0].cde_price_d }}
                                 </h6>
                             </div>
                             <div class="col-auto">
@@ -308,7 +287,6 @@
                                                             </i>
                                                             {{$t('lang25')}}
                                                         </p>
-                                                        <p></p>
                                                         <p>
                                                             <i>
                                                                 <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -326,12 +304,6 @@
                                                                 <img src="/assets/images/icon/parchase-info2.png" alt/>
                                                             </i>
                                                             {{$t('lang28')}}
-                                                        </p>
-                                                        <p>
-                                                            <i>
-                                                                <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                                            </i>
-                                                            {{$t('lang29')}}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -352,7 +324,6 @@
                                                             </i>
                                                             {{$t('lang25')}}
                                                         </p>
-                                                        <p></p>
                                                         <p>
                                                             <i>
                                                                 <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -370,12 +341,6 @@
                                                                 <img src="/assets/images/icon/parchase-info2.png" alt/>
                                                             </i>
                                                             {{$t('lang28')}}
-                                                        </p>
-                                                        <p>
-                                                            <i>
-                                                                <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                                            </i>
-                                                            {{$t('lang29')}}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -396,7 +361,6 @@
                                                             </i>
                                                             {{$t('lang25')}}
                                                         </p>
-                                                        <p></p>
                                                         <p>
                                                             <i>
                                                                 <img src="/assets/images/icon/parchase-info1.png" alt/>
@@ -415,19 +379,13 @@
                                                             </i>
                                                             {{$t('lang28')}}
                                                         </p>
-                                                        <p>
-                                                            <i>
-                                                                <img src="/assets/images/icon/parchase-info7.png" alt/>
-                                                            </i>
-                                                            {{$t('lang29')}}
-                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-auto text-right">
                                             <h5 class="text-warning font-weight-bold">
-                                                {{ $t('currencySymbol') }}{{ $i18n.locale === 'en' ? citem.itemdetail[0].cde_price_d : citem.itemdetail[0].cde_price }}
+                                                {{ $t('currencySymbol') }}{{ $i18n.locale === 'ko' ? citem.itemdetail[0].cde_price : citem.itemdetail[0].cde_price_d }}
                                             </h5>
                                         </div>
                                     </div>

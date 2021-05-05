@@ -2010,7 +2010,9 @@ class BeatsomeoneApi extends CB_Controller
                 $infoContent4,
                 $infoContent5,
                 $val['bpm'],
-                $infoContent6
+                $infoContent6,
+                $val['hashTag'],
+                $val['other_tags'],
             ]);
 
             $expandSearchData = gen_search_data([
@@ -2021,7 +2023,7 @@ class BeatsomeoneApi extends CB_Controller
                 $val['similar_song'],
                 $val['similar_singer'],
                 $val['similar_musicians'],
-                $val['other_tags']
+                $val['other_tags'],
             ]);
 
             $this->Beatsomeone_model->set_search_data($val['cit_id'], $searchData, $expandSearchData);

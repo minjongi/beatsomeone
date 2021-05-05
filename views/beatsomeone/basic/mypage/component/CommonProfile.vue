@@ -25,7 +25,7 @@
           <div>{{ member.mem_address1 }}</div>
         </div>
         <div class="brandshop">
-          <img class="shop" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/brandshop/' + member.mem_nickname)">{{ $t('goToBrandshop') }}</a>
+          <img class="shop" src="/assets/images/icon/shop.png"/><a :href="helper.langUrl($i18n.locale, '/' + member.mem_nickname)">{{ $t('goToBrandshop') }}</a>
         </div>
       </div>
     </div>
@@ -72,12 +72,10 @@ export default {
       return this.avatarStatus === AVATAR_SAVING;
     },
     memBio() {
-      if (this.$i18n.locale === 'en') {
-        return (this.member.mem_type ? this.member.mem_type + '<br/> ' : '') + (this.member.mem_firstname ?? '') + ' ' + (this.member.mem_lastname ?? '');
-      } else if (this.$i18n.locale === 'ko') {
+      if (this.$i18n.locale === 'ko') {
         return (this.member.mem_type ? this.member.mem_type + '<br/>' : '') + (this.member.mem_lastname ?? '') + ' ' + (this.member.mem_firstname ?? '');
       }
-      return '';
+      return (this.member.mem_type ? this.member.mem_type + '<br/> ' : '') + (this.member.mem_firstname ?? '') + ' ' + (this.member.mem_lastname ?? '');
     }
   },
   created() {

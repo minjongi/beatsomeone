@@ -25,12 +25,6 @@
                 </i>
                 {{$t('lang28')}}
             </p>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info7.png" alt/>
-                </i>
-                {{$t('lang29')}}
-            </p>
         </div>
         <div class="purchase-description" v-else>
             <p>
@@ -57,23 +51,13 @@
                 </i>
                 {{$t('lang36')}}
             </p>
-            <p v-if="item.cit_include_copyright_transfer !== '1'">
+            <p>
                 <i>
                     <img src="/assets/images/icon/parchase-info10.png" alt/>
                 </i>
                 {{$t('lang41')}}
             </p>
-            <p v-else>
-                <i>
-                    <img src="/assets/images/icon/parchase-info10.png" alt/>
-                </i>
-                {{$t('lang42')}}
-            </p>
-            <div class="copybox" v-if="item.cit_include_copyright_transfer !== '1'">
-                <span>{{ $t('lang21') }}</span>
-                <span>{{ $t('lang22') }}</span>
-            </div>
-            <div class="copybox" v-else>
+            <div class="copybox" v-if="item.cit_include_copyright_transfer === '1'">
                 <span>{{ $t('lang43') }}</span>
             </div>
         </div>

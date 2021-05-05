@@ -17,10 +17,10 @@
             </div>
             <div class="accounts__plan-price" v-if="member.group">
                 <h2>
-                    <span>{{ $t('currencySymbol') }} {{ member.billTerm === 'monthly' ? ($i18n.locale === 'en' ? member.group.mgr_monthly_cost_d : member.group.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? member.group.mgr_year_cost_d : member.group.mgr_year_cost_w) }}</span>
+                    <span>{{ $t('currencySymbol') }} {{ member.billTerm === 'monthly' ? ($i18n.locale === 'ko' ? member.group.mgr_monthly_cost_w : member.group.mgr_monthly_cost_d) : ($i18n.locale === 'ko' ? member.group.mgr_year_cost_w : member.group.mgr_year_cost_d) }}</span>
                 </h2>
             </div>
-            <div v-if="$i18n.locale === 'en'">
+            <div v-if="$i18n.locale !== 'ko'">
                 <div class="accounts__payments">
                     <div class="accounts__btnbox">
                         <div style="margin: 0 auto;" v-if="isEmptyPaypal === false">

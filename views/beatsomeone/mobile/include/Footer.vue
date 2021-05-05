@@ -35,6 +35,9 @@
                     /></a>
                 </div>
                 -->
+              <div class="footer__appLink mb-15">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSepRG1zgqh83JJlqr5SWGaJS73SknmnMRjXnyRzpJy6Hv2UYQ/viewform" target="_blank" style="color:#ffffff;font-size:10px;">{{ $t('lang165') }}</a>
+              </div>
                 <div class="footer__appLink">
                   <a href="http://scan.beatsomeone.com" target="_blank" style="color:#ffffff;font-size:10px;">beatsomeone Blockchain Mornitoring System</a>
                 </div>

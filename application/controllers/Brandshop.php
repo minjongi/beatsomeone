@@ -46,9 +46,7 @@ class Brandshop extends CB_Controller
      */
     public function shop($user_nickname)
     {
-//        $userinfo = $this->Member_model->get_by_userid($userid);
         $userinfo = $this->Member_model->get_by_nickname($user_nickname);
-
         if (empty($userinfo)) {
             alert('잘못된 접근 입니다', '/');
             return;
@@ -71,7 +69,7 @@ class Brandshop extends CB_Controller
         $view['view']['brand']['mem_userid'] = $userinfo['mem_userid'];
         $view['view']['brand']['mem_username'] = $userinfo['mem_username'];
         $view['view']['brand']['mem_nickname'] = $userinfo['mem_nickname'];
-        $view['view']['canonical'] = site_url('brand/' . $userid);
+        $view['view']['canonical'] = site_url('/' . $userinfo['mem_nickname']);
 
         /**
          * 레이아웃을 정의합니다

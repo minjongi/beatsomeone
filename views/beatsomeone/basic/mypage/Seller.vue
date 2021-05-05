@@ -159,11 +159,11 @@
                         </div>
                         <div style="justify-content: space-between; max-width: unset;" v-if="false">
                             <div class="title">VAT (10%)</div>
-                            <div class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.1).toLocaleString() : Number(total_money * 0.1).toLocaleString() }}</div>
+                            <div class="red">- {{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.1).toLocaleString() : Number(total_money_d * 0.1).toLocaleString() }}</div>
                         </div>
                         <div v-if="false" style="padding-top:30px; margin-top:20px; border-top:1px solid rgba(255,255,255,.3); justify-content: space-between; max-width: unset;">
                             <div class="title">Settlement</div>
-                            <div style="opacity:.7; font-weight:300;">{{ $t('currencySymbol') }} {{ $i18n.locale == 'en' ? Number(total_money_d * 0.9).toLocaleString() : Number(total_money * 0.9).toLocaleString() }}</div>
+                            <div style="opacity:.7; font-weight:300;">{{ $t('currencySymbol') }} {{ $i18n.locale == 'ko' ? Number(total_money * 0.9).toLocaleString() : Number(total_money_d * 0.9).toLocaleString() }}</div>
                         </div>
                         <div style="justify-content: space-between; max-width: unset;">
                             <div class="title">Fee</div>

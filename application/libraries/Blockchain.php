@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Blockchain {
-    private $url = 'http://121.133.140.199:4003';
+    private $url = 'http://210.222.42.61:4003';
     private $address = '5C5W6PAsJJr8891RrekVbYAVjpZd7HSVcrZ4b7xvKkqJuGxB';
     private $password = '123';
 
