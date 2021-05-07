@@ -1,76 +1,23 @@
 <template>
     <div class="option_item basic">
-        <div class="purchase-description" v-if="type === 'basic'">
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info6.png" alt/>
-                </i>
-                {{$t('lang25')}}
-            </p>
-            <p></p>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info1.png" alt/>
-                </i>
-                {{$t('lang26')}}
-            </p>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info3.png" alt/>
-                </i>
-                {{$t('lang27')}}
-            </p>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info2.png" alt/>
-                </i>
-                {{$t('lang28')}}
-            </p>
-        </div>
-        <div class="purchase-description" v-else>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info6.png" alt/>
-                </i>
-                {{ $t('lang33') }}
-            </p>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info8.png"/>
-                </i>
-                {{$t('lang34')}}
-            </p>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info9.png"/>
-                </i>
-                {{$t('lang35')}}
-            </p>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info4.png"/>
-                </i>
-                {{$t('lang36')}}
-            </p>
-            <p>
-                <i>
-                    <img src="/assets/images/icon/parchase-info10.png"/>
-                </i>
-                {{$t('lang41')}}
-            </p>
-            <div class="copybox" v-if="item.cit_include_copyright_transfer === '1'">
-                <span>{{ $t('lang43') }}</span>
-            </div>
-        </div>
+      <PurchaseDescLease v-if="type === 'basic'"/>
+      <PurchaseDescMastering v-else :includeCopyrightTransfer="item.cit_include_copyright_transfer"/>
     </div>
 </template>
 <script>
-    export default {
-        props: ['item', 'type'],
-        data: function () {
-            return {};
-        },
-    };
+import PurchaseDescLease from "./PurchaseDescLease"
+import PurchaseDescMastering from "./PurchaseDescMastering"
+
+export default {
+  components: {
+    PurchaseDescLease,
+    PurchaseDescMastering
+  },
+  props: ['item', 'type'],
+  data: function () {
+    return {};
+  },
+};
 </script>
 
 <style scoped="scoped" lang="scss">

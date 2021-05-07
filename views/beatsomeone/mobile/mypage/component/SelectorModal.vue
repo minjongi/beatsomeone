@@ -25,39 +25,13 @@
                                             {{ detailItem.cde_type }}
                                         </p>
                                     </div>
-
                                     <div class="parchase-btnbox">
                                         <button class="buy waves-effect" @click="addCart(detailItem)">
                                             <span>{{ $t('currencySymbol') }} {{ $i18n.locale === 'en' ? formatPrice(detailItem.cde_price_d) : formatPrice(detailItem.cde_price) }}</span>
                                         </button>
                                     </div>
                                 </div>
-                                <div class="purchase-description" v-show="detailItem.toggleDesc">
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info6.png" alt/>
-                                        </i>
-                                        {{$t('lang25')}}
-                                    </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info1.png" alt/>
-                                        </i>
-                                        {{$t('lang26')}}
-                                    </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info3.png" alt/>
-                                        </i>
-                                        {{$t('lang27')}}
-                                    </p>
-                                    <p>
-                                        <i>
-                                            <img src="/assets/images/icon/parchase-info2.png" alt/>
-                                        </i>
-                                        {{$t('lang28')}}
-                                    </p>
-                                </div>
+                                <PurchaseDescLease v-show="detailItem.toggleDesc"/>
                                 <div class="parchase-dropdown">
                                     <button @click="toggleDescription(detailItem)">정보열람</button>
                                     <span>{{ $t('lang40') }}</span>
@@ -72,52 +46,54 @@
 </template>
 
 <script>
-    import axios from 'axios';
+import PurchaseDescLease from "../../component/PurchaseDescLease"
+import PurchaseDescMastering from "../../component/PurchaseDescMastering"
+import axios from 'axios';
 
-    export default {
-        name: "SelectorModal",
-        props: ["item"],
-        methods: {
-            close() {
-                this.$emit("update:togglePopup", false);
-            },
-            formatPrice: function (price) {
-                if (this.$i18n.locale === "ko") {
-                  return Number(price).toLocaleString("ko-KR", {minimumFractionDigits: 0});
-                } else {
-                  return Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
-                }
-            },
-            addCart: function (detailItem) {
-                console.log(this.item, detailItem);
-                let formData = new FormData();
-                formData.append('stype', 'cart');
-                formData.append('cit_id', this.item.cit_id);
-                formData.append('chk_detail[]', detailItem.cde_id);
-                formData.append(`detail_qty[${detailItem.cde_id}]`, 1);
-                axios.post(`/item/${this.item.cit_key}`, formData)
-                    .then(res => res.data)
-                    .then(data => {
-                        window.location.reload();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            },
-            toggleDescription: function (detailItem) {
-                this.$set(detailItem, 'toggleDesc', !detailItem.toggleDesc);
-            }
-        },
-        computed: {
-            albumThumb() {
-                return !this.item.cit_file_1
-                    ? "/assets/images/no_190x190.png"
-                    : "/uploads/cmallitem/" + this.item.cit_file_1;
-            },
-        },
+export default {
+  components: {
+    PurchaseDescLease,
+    PurchaseDescMastering
+  },
+  name: "SelectorModal",
+  props: ["item"],
+  methods: {
+    close() {
+      this.$emit("update:togglePopup", false);
+    },
+    formatPrice: function (price) {
+      if (this.$i18n.locale === "ko") {
+        return Number(price).toLocaleString("ko-KR", {minimumFractionDigits: 0});
+      } else {
+        return Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
+      }
+    },
+    addCart: function (detailItem) {
+      console.log(this.item, detailItem);
+      let formData = new FormData();
+      formData.append('stype', 'cart');
+      formData.append('cit_id', this.item.cit_id);
+      formData.append('chk_detail[]', detailItem.cde_id);
+      formData.append(`detail_qty[${detailItem.cde_id}]`, 1);
+      axios.post(`/item/${this.item.cit_key}`, formData)
+          .then(res => res.data)
+          .then(data => {
+            window.location.reload();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    },
+    toggleDescription: function (detailItem) {
+      this.$set(detailItem, 'toggleDesc', !detailItem.toggleDesc);
     }
+  },
+  computed: {
+    albumThumb() {
+      return !this.item.cit_file_1
+          ? "/assets/images/no_190x190.png"
+          : "/uploads/cmallitem/" + this.item.cit_file_1;
+    },
+  },
+}
 </script>
-
-<style scoped>
-
-</style>

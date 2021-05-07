@@ -40,31 +40,8 @@
                     </a>
                   </div>
                 </div>
-                <div class="purchase-description" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info6.png" alt/>
-                    </i>
-                    {{$t('lang25')}}
-                  </p>
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info1.png" alt/>
-                    </i>
-                    {{$t('lang26')}}
-                  </p>
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info3.png" alt/>
-                    </i>
-                    {{$t('lang27')}}
-                  </p>
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info2.png" alt/>
-                    </i>
-                    {{$t('lang28')}}
-                  </p>
+                <div class="dp-none" :ref="'purchaseDesc' + item.detail.LEASE.cde_id">
+                  <PurchaseDescLease/>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.LEASE.cde_id)">
                   <button :ref="'purchaseBtn' + item.detail.LEASE.cde_id">정보열람</button>
@@ -86,7 +63,6 @@
                             v-if="item.cit_include_copyright_transfer === '1'">{{ $t('lang32') }}</span>
                     </p>
                   </div>
-
                   <div class="parchase-btnbox">
                     <a class="buy waves-effect" @click="addCart(item.detail.STEM)" href="javascript:;">
                       <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}}</span>
@@ -94,41 +70,8 @@
                     </a>
                   </div>
                 </div>
-
-                <div class="purchase-description" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info6.png" alt/>
-                    </i>
-                    {{ $t('lang33') }}
-                  </p>
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info8.png"/>
-                    </i>
-                    {{$t('lang34')}}
-                  </p>
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info9.png"/>
-                    </i>
-                    {{$t('lang35')}}
-                  </p>
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info4.png"/>
-                    </i>
-                    {{$t('lang36')}}
-                  </p>
-                  <p>
-                    <i>
-                      <img src="/assets/images/icon/parchase-info10.png"/>
-                    </i>
-                    {{$t('lang41')}}
-                  </p>
-                  <div class="copybox" v-if="item.cit_include_copyright_transfer === '1'">
-                    <span>{{ $t('lang43') }}</span>
-                  </div>
+                <div class="dp-none" :ref="'purchaseDesc' + item.detail.STEM.cde_id">
+                  <PurchaseDescMastering :includeCopyrightTransfer="item.cit_include_copyright_transfer"/>
                 </div>
                 <div class="parchase-dropdown" @click="openDesc(item.detail.STEM.cde_id)">
                   <button :ref="'purchaseBtn' + item.detail.STEM.cde_id">정보열람</button>
@@ -144,10 +87,14 @@
 </template>
 
 <script>
-import {EventBus} from "*/src/eventbus";
-import $ from "jquery";
-import axios from 'axios';
+import PurchaseDescLease from "./PurchaseDescLease"
+import PurchaseDescMastering from "./PurchaseDescMastering"
+
 export default {
+  components: {
+    PurchaseDescLease,
+    PurchaseDescMastering
+  },
   props: ["purchaseTypeSelectorPopup", "item"],
   mounted() {
     // this.member_group_name = window.member_group_name;

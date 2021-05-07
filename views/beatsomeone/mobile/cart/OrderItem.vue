@@ -46,32 +46,7 @@
                                     </div>
                                 </button>
                                 <div class="option_item basic">
-                                    <div class="purchase-description">
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info6.png" alt/>
-                                            </i>
-                                            {{$t('lang25')}}
-                                        </p>
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info1.png" alt/>
-                                            </i>
-                                            {{$t('lang26')}}
-                                        </p>
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info3.png" alt/>
-                                            </i>
-                                            {{$t('lang27')}}
-                                        </p>
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info2.png" alt/>
-                                            </i>
-                                            {{$t('lang28')}}
-                                        </p>
-                                    </div>
+                                  <PurchaseDescLease/>
                                 </div>
                             </div>
                         </div>
@@ -96,41 +71,7 @@
                                     </div>
                                 </button>
                                 <div class="option_item unlimited">
-                                    <div class="purchase-description">
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info6.png" alt/>
-                                            </i>
-                                            {{ $t('lang33') }}
-                                        </p>
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info8.png"/>
-                                            </i>
-                                            {{$t('lang34')}}
-                                        </p>
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info9.png"/>
-                                            </i>
-                                            {{$t('lang35')}}
-                                        </p>
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info4.png"/>
-                                            </i>
-                                            {{$t('lang36')}}
-                                        </p>
-                                        <p>
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info10.png"/>
-                                            </i>
-                                            {{$t('lang41')}}
-                                        </p>
-                                        <div class="copybox" v-if="item.item.cit_include_copyright_transfer === '1'">
-                                            <span>{{ $t('lang43') }}</span>
-                                        </div>
-                                    </div>
+                                  <PurchaseDescMastering :includeCopyrightTransfer="item.item.cit_include_copyright_transfer"/>
                                 </div>
                             </div>
                         </div>
@@ -143,12 +84,16 @@
 
 <script>
 import ItemDetail from "../component/ItemDetail";
+import PurchaseDescLease from "../component/PurchaseDescLease"
+import PurchaseDescMastering from "../component/PurchaseDescMastering"
 
 export default {
     name: "OrderItem",
     props: ['item', 'pg'],
     components: {
-        ItemDetail
+        ItemDetail,
+        PurchaseDescLease,
+        PurchaseDescMastering
     },
     mounted() {
         console.log(this.item);

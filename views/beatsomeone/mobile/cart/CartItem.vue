@@ -68,32 +68,7 @@
                                    
                                 <!-- </div> -->
                                 <div class="option_item basic">
-                                    <div class="purchase-description">
-                                        <p style="font-size:10px;">      
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info6.png" alt/>
-                                            </i>
-                                            {{$t('lang25')}}
-                                        </p>
-                                         <p style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info1.png" alt/>
-                                            </i>
-                                            {{$t('lang26')}}
-                                        </p>
-                                         <p style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info3.png" alt/>
-                                            </i>
-                                            {{$t('lang27')}}
-                                        </p>
-                                        <p style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info2.png" alt/>
-                                            </i>
-                                            {{$t('lang28')}}
-                                        </p>
-                                    </div>
+                                  <PurchaseDescLease/>
                                 </div>
                             </div>
                            
@@ -119,41 +94,7 @@
                                     </div>
                                 </button>
                                 <div class="option_item unlimited">
-                                    <div class="purchase-description">
-                                         <p style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info6.png" alt/>
-                                            </i>
-                                            {{ $t('lang33') }}
-                                        </p>
-                                         <p style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info8.png"/>
-                                            </i>
-                                            {{$t('lang34')}}
-                                        </p>
-                                         <p style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info9.png"/>
-                                            </i>
-                                            {{$t('lang35')}}
-                                        </p>
-                                         <p style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info4.png"/>
-                                            </i>
-                                            {{$t('lang36')}}
-                                        </p>
-                                        <p style="font-size:10px;">
-                                            <i>
-                                                <img src="/assets/images/icon/parchase-info10.png"/>
-                                            </i>
-                                            {{$t('lang41')}}
-                                        </p>
-                                        <div class="copybox" v-if="item.cit_include_copyright_transfer === '1'">
-                                            <span>{{ $t('lang43') }}</span>
-                                        </div>
-                                    </div>
+                                  <PurchaseDescMastering :includeCopyrightTransfer="item.cit_include_copyright_transfer"/>
                                 </div>
                             </div>
                         </div>
@@ -167,12 +108,16 @@
 <script>
 import axios from "axios";
 import ItemDetail from "../component/ItemDetail";
+import PurchaseDescLease from "../component/PurchaseDescLease"
+import PurchaseDescMastering from "../component/PurchaseDescMastering"
 
 export default {
     name: "CartItem",
     props: ['item', "value"],
     components: {
         ItemDetail,
+        PurchaseDescLease,
+        PurchaseDescMastering
     },
     computed: {
         checked: {
@@ -256,7 +201,7 @@ export default {
     margin-bottom: 5px !important;
     display: flex;
     align-items: flex-start;
-    font-size: 14px;
+    font-size: 10px;
     line-height: 20px;
 
     i {
