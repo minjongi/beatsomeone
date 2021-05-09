@@ -312,9 +312,6 @@ class Index extends CB_Controller
             'og_description' => $meta_description,
             'og_image' => site_url() . 'uploads/cmallitem/' . $view['view']['item']['cit_file_1'],
         );
-//
-//        print_r($layoutconfig);
-//        exit;
 
         if ($this->agent->is_robot()) {
             log_message('debug', 'ROBOT : ' . $this->agent->robot());
