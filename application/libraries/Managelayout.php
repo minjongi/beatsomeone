@@ -137,10 +137,9 @@ class Managelayout extends CI_Controller
 		);
 
 //		$page_title = element('page_title', $config) ? element('page_title', $config) : $CI->cbconfig->item('site_meta_title_default');
-        if ($CI->config->item('locale') === 'ko') {
-            $page_title = '비트썸원 : beatsomeone';
-        } else {
-            $page_title = 'beatsomeone : 비트썸원';
+        $page_title = element('page_title', $config);
+        if (empty($page_title)) {
+            $page_title = ($CI->config->item('locale') === 'ko') ? '비트썸원 : beatsomeone' : 'beatsomeone : 비트썸원';
         }
 
 		$meta_description = element('meta_description', $config) ? element('meta_description', $config) : $CI->config->item('meta_description_default');
