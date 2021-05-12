@@ -1,9 +1,10 @@
 <template>
-  <div class="event-header">
+<!--  class="event-header"-->
+  <div>
     <header class="header">
-      <div class="event-top">
-        <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210422/top_bn.png?v=1'"></a>
-      </div>
+<!--      <div class="event-top">-->
+<!--        <a :href="helper.langUrl($i18n.locale, '/event')"><img :src="'/assets/images/event/210422/top_bn.png?v=1'"></a>-->
+<!--      </div>-->
         <div class="wrap">
             <div class="header__logo">
                 <a :href="helper.langUrl($i18n.locale, '/')"><img src="/assets/images/logo.png" alt="logo"/></a>
