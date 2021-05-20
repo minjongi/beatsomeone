@@ -192,6 +192,16 @@ class Cmall_order_model extends CB_Model
         return $return;
     }
 
+    public function payco_log_insert($data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+
+        $return = $this->db->insert('payco_log', $data);
+        return $return;
+    }
+
     public function get_order_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
     {
         $where .= " and (cmall_order.status = 'order' or cmall_order.status = 'deposit')";

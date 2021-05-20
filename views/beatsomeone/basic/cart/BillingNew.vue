@@ -46,34 +46,52 @@
                                     <div class="title-content">
                                         <div class="title">{{$t('payMethod')}}</div>
                                         <div v-if="currentLocale === 'ko'">
-                                            <label class="checkbox" for="method1">
-                                                <input
-                                                        type="radio"
-                                                        name="method"
-                                                        id="method1"
-                                                        hidden="hidden"
-                                                        :value="1"
-                                                        v-model="pay_type"
-                                                />
-                                                <div class="btn btn--yellow" style="height:48px">
-                                                    <div class="icon credit"></div>
-                                                    <div style="font-size:14px;">{{$t('creditCard')}}</div>
-                                                </div>
+                                          <div>
+                                            <label class="checkbox" for="method1" style="margin-bottom: 10px;">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method1"
+                                                  hidden="hidden"
+                                                  :value="1"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div class="icon credit"></div>
+                                                <div style="font-size:14px;">{{$t('creditCard')}}</div>
+                                              </div>
                                             </label>
+                                            <label class="checkbox" for="method4" v-if="paycoTester()">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method4"
+                                                  hidden="hidden"
+                                                  :value="3"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <!--                                                <div class="icon paypal"></div>-->
+                                                <div style="font-size:14px;" id="payco_btn_type_A1">PAYCO</div>
+                                              </div>
+                                            </label>
+                                          </div>
+                                          <div>
                                             <label class="checkbox" for="method2">
-                                                <input
-                                                        type="radio"
-                                                        name="method"
-                                                        id="method2"
-                                                        hidden="hidden"
-                                                        :value="2"
-                                                        v-model="pay_type"
-                                                />
-                                                <div class="btn btn--yellow" style="height:48px">
-                                                    <div class="icon wire"></div>
-                                                    <div style="font-size:14px;">{{$t('realtimeBankTransfer')}}</div>
-                                                </div>
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method2"
+                                                  hidden="hidden"
+                                                  :value="2"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div class="icon wire"></div>
+                                                <div style="font-size:14px;">{{$t('realtimeBankTransfer')}}</div>
+                                              </div>
                                             </label>
+                                          </div>
                                         </div>
                                         <div v-if="currentLocale === 'en'">
                                             <label class="checkbox" for="method3">
@@ -183,19 +201,9 @@
                 <!--회원ID-->
                 <input type="hidden" name="allat_pmember_id" v-model="allatForm.pmember_id" maxlength="20"/>
                 <!--상품코드-->
-                <input
-                        type="hidden"
-                        name="allat_product_cd"
-                        v-model="allatForm.product_cd"
-                        maxlength="1000"
-                />
+                <input type="hidden" name="allat_product_cd" v-model="allatForm.product_cd" maxlength="1000"/>
                 <!--상품명-->
-                <input
-                        type="hidden"
-                        name="allat_product_nm"
-                        v-model="good_name"
-                        maxlength="1000"
-                />
+                <input type="hidden" name="allat_product_nm" v-model="good_name" maxlength="1000"/>
                 <!--결제자성명-->
                 <input type="hidden" name="allat_buyer_nm" v-model="allatForm.buyer_nm" maxlength="20"/>
                 <!--수취인성명-->
@@ -363,6 +371,10 @@
             this.$set(this.allatForm, 'recp_nm', mem_name);
         },
         methods: {
+            paycoTester: function () {
+              console.log(this.member.mem_userid)
+              return this.member.mem_userid === 'paycotest'
+            },
             formatPrice: function (kr, en, symbol) {
                 if (!symbol) {
                     if (this.$i18n.locale === "ko") {
@@ -402,12 +414,38 @@
                         }
                         console.error(error);
                     });
-
             },
             goBack: function () {
                 window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/cart");
             },
+            paycoReserve: function () {
+              let formData = new FormData();
+              formData.append('customerOrderNumber', this.allatForm.order_no);
+              formData.append('cartNo', this.allatForm.order_no);
+              formData.append('orderQuantity', 1);
+              formData.append('productUnitPrice', this.allatForm.amt);
+              formData.append('productUnitPaymentPrice', this.allatForm.amt);
+              formData.append('productName', this.allatForm.product_nm);
+              formData.append('sellerOrderProductReferenceKey', this.allatForm.product_cd);
+
+              axios.post('/pg/payco/reserve', formData)
+                  .then(res => res.data)
+                  .then(data => {
+                    window.open(data.result.orderSheetUrl, 'popupPayco', 'top=100, left=300, width=727px, height=512px, resizble=no, scrollbars=yes');
+                  })
+                  .catch(error => {
+                    if (error.response) {
+                      alert('오류가 발생하였습니다');
+                    }
+                    console.error(error);
+                  });
+            },
             goPay: function () {
+                if (this.pay_type === 3) {
+                  this.paycoReserve()
+                  return
+                }
+
                 window.AllatPay_Approval(document.fm1);
                 // 결제창 자동종료 체크 시작
                 window.AllatPay_Closechk_Start();
@@ -444,7 +482,24 @@
                         });
                 }
             },
+            procCompletePayco: function (code, msg, data) {
+              let formData = new FormData();
+              formData.append('pay_type', 'payco');
+              formData.append('unique_id', this.unique_id);
+              formData.append('good_mny', this.good_mny);
+              formData.append('cor_point', this.cor_point);
+              formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
+              formData.append('payco_data', data);
 
+              axios.post('/cmall/ajax_orderupdate', formData)
+                  .then(res => res.data)
+                  .then(data => {
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
+                  })
+                  .catch(error => {
+                    alert(error.response.data.message);
+                  });
+            },
             paypalAuthorized: function (data) {
             },
             paypalCompleted: function (data) {

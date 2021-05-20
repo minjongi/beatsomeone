@@ -152,7 +152,7 @@
                                                 />
                                                 <div class="btn btn--yellow" style="height:48px">
                                                     <div class="icon credit"></div>
-                                                    <div style="font-size:14px;">{{ $t('creditCard') }}</div>
+                                                    <div style="font-size:12px;">{{ $t('creditCard') }}</div>
                                                 </div>
                                             </label>
                                             <label class="checkbox" for="method2">
@@ -166,8 +166,21 @@
                                                 />
                                                 <div class="btn btn--yellow" style="height:48px">
                                                     <div class="icon wire"></div>
-                                                    <div style="font-size:14px;">{{ $t('realtimeBankTransfer') }}</div>
+                                                    <div style="font-size:12px;">{{ $t('realtimeBankTransfer') }}</div>
                                                 </div>
+                                            </label>
+                                            <label class="checkbox" for="method4" v-if="paycoTester()">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method4"
+                                                  hidden="hidden"
+                                                  :value="3"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div style="font-size:14px;">PAYCO</div>
+                                              </div>
                                             </label>
                                         </div>
                                         <div v-if="currentLocale === 'en'" class="n-flex">
@@ -454,6 +467,10 @@ export default {
         this.$set(this.allatForm, 'recp_nm', mem_name);
     },
     methods: {
+        paycoTester: function () {
+          console.log(this.member.mem_userid)
+          return this.member.mem_userid === 'paycotest'
+        },
         formatPrice: function (kr, en, symbol) {
             if (!symbol) {
                 if (this.$i18n.locale === "ko") {
@@ -524,11 +541,38 @@ export default {
                 });
 
         },
-
         goBack: function () {
             window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/cart");
         },
+        paycoReserve: function () {
+          let formData = new FormData();
+          formData.append('customerOrderNumber', this.allatForm.order_no);
+          formData.append('cartNo', this.allatForm.order_no);
+          formData.append('orderQuantity', 1);
+          formData.append('productUnitPrice', this.allatForm.amt);
+          formData.append('productUnitPaymentPrice', this.allatForm.amt);
+          formData.append('productName', this.allatForm.product_nm);
+          formData.append('sellerOrderProductReferenceKey', this.allatForm.product_cd);
+
+          axios.post('/pg/payco/reserve', formData)
+              .then(res => res.data)
+              .then(data => {
+                // document.location.href = data.result.orderSheetUrl;
+                window.open(data.result.orderSheetUrl, 'popupPayco');
+              })
+              .catch(error => {
+                if (error.response) {
+                  alert('오류가 발생하였습니다');
+                }
+                console.error(error);
+              });
+        },
         goPay: function () {
+            if (this.pay_type === 3) {
+              this.paycoReserve()
+              return
+            }
+
             // 결제창 자동종료 체크 시작
             window.Allat_Mobile_Approval(document.fm1, 0, 0);
         },
@@ -563,7 +607,24 @@ export default {
                     });
             }
         },
+        procCompletePayco: function (code, msg, data) {
+          let formData = new FormData();
+          formData.append('pay_type', 'payco');
+          formData.append('unique_id', this.unique_id);
+          formData.append('good_mny', this.good_mny);
+          formData.append('cor_point', this.cor_point);
+          formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
+          formData.append('payco_data', data);
 
+          axios.post('/cmall/ajax_orderupdate', formData)
+              .then(res => res.data)
+              .then(data => {
+                window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
+              })
+              .catch(error => {
+                alert(error.response.data.message);
+              });
+        },
         paypalAuthorized: function (data) {
         },
         paypalCompleted: function (data) {

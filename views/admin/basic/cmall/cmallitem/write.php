@@ -97,6 +97,15 @@
                     <div class="help-inline">체크를 해제하시면 상품 리스트에서 사라지며, 구매할 수 없습니다.</div>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">접근권한설정</label>
+                <div class="col-sm-10">
+                    <label for="cit_status" class="checkbox-inline">
+                        <input type="checkbox" name="view_permission_type" id="view_permission_type" value="all" <?php echo set_checkbox('view_permission_type', '1', (element('view_permission_type', element('data', $view)) ? true : false)); ?> /> 접근허용
+                    </label>
+                    <div class="help-inline">체크를 하면 비공개일 경우에도 상세페이지 직접 접근하여 사용할 수 있습니다</div>
+                </div>
+            </div>
             <div class="collapse in" id="cmalltab6">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">트랙 표지 이미지</label>

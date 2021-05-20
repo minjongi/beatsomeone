@@ -2160,7 +2160,7 @@ class Cmall extends CB_Controller
                 }
             }
 
-            if ($this->input->post('pay_type') === 'allat') {
+            if (in_array($this->input->post('pay_type'), ['allat', 'payco'])) {
                 if ($item_cct_price != $good_mny + $cor_point) {
                     $this->output->set_status_header('400');
                     $this->output->set_output(json_encode([
@@ -2368,6 +2368,29 @@ class Cmall extends CB_Controller
                 $dt->setTimezone($kstTimezone);
                 $create_time = $dt->format("Y-m-d H:i:s");
                 $insertdata['cor_approve_datetime'] = $create_time;
+            } elseif ($this->input->post('pay_type') === 'payco') {
+                $paycoData = $_POST["payco_data"];
+                if (empty($paycoData)) {
+                    $this->output->set_status_header('400');
+                    return false;
+                }
+
+                $paycoData = json_decode($paycoData, true);
+                $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+                $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+                $insertdata['cor_total_money'] = $item_cct_price;
+                $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
+                $insertdata['cor_deposit'] = 0;
+                $insertdata['cor_cash'] = $paycoData["result"]["totalPaymentAmt"];
+                $insertdata['cor_pg'] = 'payco';
+                $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
+                $insertdata['cor_pay_type'] = 'payco';
+                $insertdata['cor_status'] = 1;
+                $dt = new DateTime($paypalData['create_time']);
+                $kstTimezone = new DateTimeZone('Asia/Seoul');
+                $dt->setTimezone($kstTimezone);
+                $create_time = $dt->format("Y-m-d H:i:s");
+                $insertdata['cor_approve_datetime'] = $create_time;
             } else {
                 $this->output->set_status_header('400');
                 $this->output->set_output(json_encode([
@@ -2470,7 +2493,7 @@ class Cmall extends CB_Controller
         } else {
             $this->output->set_status_header('500');
             $this->output->set_output(json_encode([
-                'message' => '주문이 디비에 입력되지 않았습니다.'
+                'message' => '처리중 오류가 발생하였습니다. 고객센터로 문의해 주시기 바랍니다.'
             ], JSON_UNESCAPED_UNICODE));
             return false;
         }

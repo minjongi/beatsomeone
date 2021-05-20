@@ -82,7 +82,6 @@ class _Common
 		$CI->cbconfig->set_device_view_type($device_view_type);
 
         $device_type = ($detect->isMobile() && !$detect->isTablet()) ? 'mobile' : 'desktop';
-
 		$CI->cbconfig->set_device_type($device_type);
 
 		if (get_cookie('autologin') && ! $CI->session->userdata('mem_id')) {
