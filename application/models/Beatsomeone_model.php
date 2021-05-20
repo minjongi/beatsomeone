@@ -1221,4 +1221,11 @@ class Beatsomeone_model extends CB_Model
             ->set('expand_search_data', $expandSearchData)
             ->update('cmall_item');
     }
+
+    public function get_order_count($cdeId)
+    {
+        return $this->db
+            ->query("SELECT count(*) AS cnt FROM cb_cmall_order_detail WHERE cod_status = 'order' AND cde_id = ?", $cdeId)
+            ->row_array()['cnt'];
+    }
 }

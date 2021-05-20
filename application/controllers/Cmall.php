@@ -2464,6 +2464,7 @@ class Cmall extends CB_Controller
                         'cde_id' => element('cde_id', $val),
                     );
                     $this->Cmall_cart_model->delete_where($deletewhere);
+                    $this->chkSoldOut(element('cit_id', $val));
                 }
             }
         } else {
@@ -2494,6 +2495,45 @@ class Cmall extends CB_Controller
         return true;
     }
 
+    public function chkSoldOut($citId)
+    {
+        $this->load->model(['Cmall_item_model', 'Cmall_item_detail_model', 'Beatsomeone_model']);
+        $itemDetail = $this->Cmall_item_detail_model->get_all_detail($citId);
+        foreach ($itemDetail as $key => $val) {
+            if (!in_array($val['cde_title'], ['LEASE', 'STEM'])) {
+                continue;
+            }
+
+            $orderCnt = $this->Beatsomeone_model->get_order_count($val['cde_id']);
+            if ($orderCnt < $val['cde_quantity']) {
+                continue;
+            }
+
+            if ($val['cde_title'] === 'LEASE') {
+                $update = ['cit_lease_license_use' => 0];
+            } else {
+                $update = ['cit_mastering_license_use' => 0];
+            }
+
+            $this->Cmall_item_model->update($citId, $update);
+        }
+
+        $item = $this->Cmall_item_model->get_one($citId);
+        if (empty($item['cit_lease_license_use']) && empty($item['cit_mastering_license_use'])) {
+            $this->Cmall_item_model->update($citId, ['cit_status' => 0]);
+        }
+    }
+
+    public function procSoldOut()
+    {
+        set_time_limit(0);
+        $this->load->model('Cmall_item_model');
+        $items = $this->Cmall_item_model->all_item();
+
+        foreach ($items as $item) {
+            $this->chkSoldOut($item['cit_id']);
+        }
+    }
 
     public function orderlist()
     {
