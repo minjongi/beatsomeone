@@ -341,7 +341,7 @@ class Allat extends CB_Controller
         
             // 필수 항목
             $at_fix_key        = $FIX_KEY;   //카드키(최대 24자)
-            $at_sell_mm        = "01";   //할부개월값(최대  2자)
+            $at_sell_mm        = "00";   //할부개월값(최대  2자)
             $at_amt            = $_POST["allat_amt"];   //금액(최대 10자)
             // $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
             // $at_registry_no    = $REGISTRY_NO;   //주민번호(최대 13자리)           : szBusinessType=0 일경우
@@ -551,7 +551,7 @@ class Allat extends CB_Controller
 
         $at_cross_key      = "11e9e1458ad968ccbc4db73c16c1341f";   //CrossKey값(최대200자)
         $at_fix_key        = "dumdu_1000045072";   //카드키(최대 24자)
-        $at_sell_mm        = "01";   //할부개월값(최대  2자)
+        $at_sell_mm        = "00";   //할부개월값(최대  2자)
         $at_amt            = "33000";   //금액(최대 10자)
         $at_business_type  = "0";   //결제자 카드종류(최대 1자)       : 개인(0),법인(1)
         $at_registry_no    = "810325-1070611"; // "810325";   //주민번호(최대 13자리)           : szBusinessType=0 일경우 810325-1070611
