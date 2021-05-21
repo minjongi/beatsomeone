@@ -194,7 +194,10 @@ class Index extends CB_Controller
         );
         $view['view']['item'] = $this->Beatsomeone_model->get_detail($where)[0];
 
-        if (empty($view['view']['item'])) {
+        if (
+            empty($view['view']['item']) ||
+            (empty($view['view']['item']['cit_status']) && empty($view['view']['item']['view_permission_type']))
+        ) {
             alert('잘못된 접근입니다.', '/');
         }
 

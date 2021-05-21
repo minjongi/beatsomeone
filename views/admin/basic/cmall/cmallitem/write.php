@@ -100,8 +100,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">접근권한설정</label>
                 <div class="col-sm-10">
-                    <label for="cit_status" class="checkbox-inline">
-                        <input type="checkbox" name="view_permission_type" id="view_permission_type" value="all" <?php echo set_checkbox('view_permission_type', '1', (element('view_permission_type', element('data', $view)) ? true : false)); ?> /> 접근허용
+                    <label for="view_permission_type" class="checkbox-inline">
+                        <input type="checkbox" name="view_permission_type" id="view_permission_type" value="all" <?php echo set_checkbox('view_permission_type', 'all', (element('view_permission_type', element('data', $view)) ? true : false)); ?> /> 접근허용
                     </label>
                     <div class="help-inline">체크를 하면 비공개일 경우에도 상세페이지 직접 접근하여 사용할 수 있습니다</div>
                 </div>

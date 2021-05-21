@@ -886,6 +886,7 @@ class Cmallitem extends CB_Controller
                 'similar_singer' => $this->input->post('similar_singer', null, ''),
                 'similar_musicians' => $this->input->post('similar_musicians', null, ''),
                 'other_tags' => $this->input->post('other_tags', null, ''),
+                'view_permission_type' => $this->input->post('view_permission_type', null, ''),
 			);
 
 			if($cit_status && !element('cit_start_datetime', $getdata)) {
