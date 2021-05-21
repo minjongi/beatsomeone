@@ -486,7 +486,7 @@
               let formData = new FormData();
               formData.append('pay_type', 'payco');
               formData.append('unique_id', this.unique_id);
-              formData.append('good_mny', this.good_mny);
+              formData.append('good_mny', this.allatForm.amt);
               formData.append('cor_point', this.cor_point);
               formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
               formData.append('payco_data', data);
