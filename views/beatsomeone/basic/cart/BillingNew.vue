@@ -71,8 +71,10 @@
                                                   v-model="pay_type"
                                               />
                                               <div class="btn btn--yellow" style="height:48px">
-                                                <!--                                                <div class="icon paypal"></div>-->
-                                                <div style="font-size:14px;" id="payco_btn_type_A1">PAYCO</div>
+                                                <div style="font-size:14px;" id="payco_btn_type_A1">
+                                                  <img src="/assets/images/payco_white_unselect@1x.png" v-show="pay_type !== 3">
+                                                  <img src="/assets/images/payco_black_select@1x.png" v-show="pay_type === 3">
+                                                </div>
                                               </div>
                                             </label>
                                           </div>
@@ -92,6 +94,10 @@
                                               </div>
                                             </label>
                                           </div>
+                                        </div>
+                                        <div class="payco-desc" v-show="pay_type === 3">
+                                          PAYCO는 온/오프라인 쇼핑은 물론 송금, 멤버십 적립까지 가능한 통합 서비스입니다.<br/>
+                                          - 지원카드: 모든 국내 신용/체크카드
                                         </div>
                                         <div v-if="currentLocale === 'en'">
                                             <label class="checkbox" for="method3">
@@ -321,7 +327,6 @@
                 .then(res => res.data)
                 .then(data => {
                     this.orderProducts = data.data;
-                    console.log("&&&&&&&&", data.unique_id);
                     this.good_mny = 0;
                     this.good_mny_d = 0;
                     let product_cds = [];
@@ -372,7 +377,6 @@
         },
         methods: {
             paycoTester: function () {
-              console.log(this.member.mem_userid)
               return this.member.mem_userid === 'paycotest'
             },
             formatPrice: function (kr, en, symbol) {
@@ -427,6 +431,7 @@
               formData.append('productUnitPaymentPrice', this.allatForm.amt);
               formData.append('productName', this.allatForm.product_nm);
               formData.append('sellerOrderProductReferenceKey', this.allatForm.product_cd);
+              formData.append('orderChannel', 'PC');
 
               axios.post('/pg/payco/reserve', formData)
                   .then(res => res.data)
@@ -483,6 +488,11 @@
                 }
             },
             procCompletePayco: function (code, msg, data) {
+              if (code !== '0') {
+                alert(msg)
+                return
+              }
+
               let formData = new FormData();
               formData.append('pay_type', 'payco');
               formData.append('unique_id', this.unique_id);
@@ -580,5 +590,12 @@
         height: auto !important;
         margin-top: 20px !important;
         margin-bottom: 0 !important;
+    }
+
+    .payco-desc {
+      font-size: 14px;
+      padding-top: 10px;
+      line-height: 1.4;
+      word-break: keep-all;
     }
 </style>

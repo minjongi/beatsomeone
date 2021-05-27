@@ -662,6 +662,7 @@ export default {
         lang179: 'If you want to get all copyright transfer, need to contact the customer center.',
         lang180: 'Buyer owns all copyrights!',
         lang181: '데이터가 없습니다',
+        payco: 'PAYCO',
     }, // en
     ko: {
         currencySymbol: '￦',
@@ -1325,6 +1326,7 @@ export default {
         lang179: '저작권의 100%양도를 원하는 경우 고객센터를 통해 문의 필요',
         lang180: '구매자가 저작권 100% 소유!',
         lang181: '데이터가 없습니다',
+        payco: 'PAYCO',
     }, // ko
     jp: {
         currencySymbol: '$',
@@ -1988,5 +1990,6 @@ export default {
         lang179: '著作権の100%譲渡を希望する場合は、顧客センターまでお問い合わせください。',
         lang180: '購入者が著作権100%所有！',
         lang181: '데이터가 없습니다',
+        payco: 'PAYCO',
     } // jp
 }

@@ -145,6 +145,8 @@ export default {
                 return 'realtimeBankTransfer';
             } else if (this.order.cor_pay_type === 'paypal') {
                 return 'paypal';
+            } else if (this.order.cor_pay_type === 'payco') {
+              return 'payco';
             } else {
                 return '';
             }

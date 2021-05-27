@@ -131,7 +131,9 @@
                 } else if (this.order.cor_pay_type === 'ABANK') {
                     return 'realtimeBankTransfer';
                 } else if (this.order.cor_pay_type === 'paypal') {
-                    return 'paypal';
+                  return 'paypal';
+                } else if (this.order.cor_pay_type === 'payco') {
+                    return 'payco';
                 } else {
                     return '';
                 }

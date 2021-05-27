@@ -61,6 +61,7 @@ class Payco extends CB_Controller
         //--------------------------------------------------------------------------------------------------------------------------
 
         //	$AppWebPath = "http://xxx.xxx.xxx.xxx/php/easypay/pay2/";
+//        $this->payInfo['AppWebPath'] = "https://beatsomeone.com/pg/payco/";
         $this->payInfo['AppWebPath'] = "https://beatsomeone.com/pg/payco/";
 
         //--------------------------------------------------------------------------------------------------------------------------
@@ -432,10 +433,9 @@ class Payco extends CB_Controller
         $returnUrlParam                = $returnUrlParamArrayJSON;
         //Write_Log("payco_reserve.php is Called - returnUrlParam : $returnUrlParam");
 
-
         $nonBankbookDepositInformUrl	= $this->payInfo['AppWebPath'].'bankbook.php';								    //무통장입금완료통보 URL
         $orderMethod					= "EASYPAY";																// (필수) 주문유형(=결재유형) - 체크아웃형 : CHECKOUT - 간편결제형+가맹점 id 로그인 : EASYPAY_F , 간편결제형+가맹점 id 비로그인(PAYCO 회원구매) : EASYPAY
-        $orderChannel					= "PC";																		// 주문채널 ( default : PC / MOBILE )
+        $orderChannel					= $_REQUEST["orderChannel"] ?? "PC";								        // 주문채널 ( default : PC / MOBILE )
         $inAppYn						= "N";																		// 인앱결제 여부( Y/N ) ( default = N )
         $individualCustomNoInputYn		= "N"	;																	// 개인통관고유번호 입력 여부 ( Y/N ) ( default = N )
         $orderSheetUiType				= "GRAY";																	// 주문서 UI 타입 선택 ( 선택 가능값 : RED / GRAY )

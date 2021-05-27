@@ -179,7 +179,10 @@
                                                   v-model="pay_type"
                                               />
                                               <div class="btn btn--yellow" style="height:48px">
-                                                <div style="font-size:14px;">PAYCO</div>
+                                                <div style="font-size:14px;">
+                                                  <img src="/assets/images/payco_white_unselect@1x.png" v-show="pay_type !== 3">
+                                                  <img src="/assets/images/payco_black_select@1x.png" v-show="pay_type === 3">
+                                                </div>
                                               </div>
                                             </label>
                                         </div>
@@ -198,8 +201,11 @@
                                                 </div>
                                             </label>
                                         </div>
+                                      <div class="payco-desc" v-show="pay_type === 3">
+                                        PAYCO는 온/오프라인 쇼핑은 물론 송금, 멤버십 적립까지 가능한 통합 서비스입니다.<br/>
+                                        - 지원카드: 모든 국내 신용/체크카드
+                                      </div>
                                     </div>
-
                                     <div class="title-content">
                                         <div div class="title">{{ $t('point') }}</div>
                                         <div class="n-flex">
@@ -608,6 +614,11 @@ export default {
             }
         },
         procCompletePayco: function (code, msg, data) {
+          if (code !== '0') {
+            alert(msg)
+            return
+          }
+
           let formData = new FormData();
           formData.append('pay_type', 'payco');
           formData.append('unique_id', this.unique_id);
@@ -615,6 +626,7 @@ export default {
           formData.append('cor_point', this.cor_point);
           formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
           formData.append('payco_data', data);
+          formData.append('orderChannel', 'MOBILE');
 
           axios.post('/cmall/ajax_orderupdate', formData)
               .then(res => res.data)
@@ -710,5 +722,12 @@ export default {
         line-height: 20px;
         height: 20px;
     }
+}
+
+.payco-desc {
+  font-size: 13px;
+  padding-top: 10px;
+  line-height: 1.5;
+  word-break: keep-all;
 }
 </style>
