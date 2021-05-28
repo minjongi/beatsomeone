@@ -11,7 +11,7 @@
             <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-if="isSeller && false">{{$t('settlementHistory')}}</li>
             <li :class="{'active':current === 'sellerregister'}" v-if="isCustomer" @click="goUpgrade">{{$t('sellerRegister')}}</li>
             <li :class="{'active':current === 'sellerregister'}" @click="goUpgrade('sub')">{{$t('lang156')}}</li>
-            <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('support1')}}</li>
+            <li :class="{'active':current === 'faq'}" @click="goRoute('faq')">FAQ</li>
         </ul>
     </div>
 

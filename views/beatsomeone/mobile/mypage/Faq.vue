@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="row" style="margin-bottom:20px;">
+        <div class="row" style="margin-bottom:20px;" v-if="false">
             <div class="main__media board inquirylist">
                 <div class="tab" style="height:48px;">
                     <div @click="goPage('/inquiry')">{{$t('supportCase')}}</div>
@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-bottom:20px;">
+        <div class="row" style="margin-bottom:20px;" v-if="false">
 
             <div class="search-wrap">
                 <div class="input_wrap line round">

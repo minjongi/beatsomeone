@@ -15,8 +15,8 @@
             <Dashboard_RecentlyListen :data="recently_listen_items"></Dashboard_RecentlyListen>
         </div>
 
-        <div class="row double" style="margin-bottom:100px;">
-            <Dashboard_Message :data="messages" v-if="false"></Dashboard_Message>
+        <div class="row double" style="margin-bottom:100px;" v-if="false">
+            <Dashboard_Message :data="messages"></Dashboard_Message>
             <Dashboard_SupportCase :data="inquiries"></Dashboard_SupportCase>
         </div>
     </div>

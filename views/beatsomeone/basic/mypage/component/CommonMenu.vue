@@ -11,12 +11,13 @@
             <li :class="{'active':current === 'seller'}" @click="goRoute('seller')" v-if="false" v-show="groupType == 'SELLER'">{{$t('settlementHistory')}}</li>
             <li @click="goUpgrade()" v-show="groupType == 'CUSTOMER'">{{$t('sellerRegister')}}</li>
             <li @click="goUpgrade('sub')">{{$t('lang156')}}</li>
-            <li :class="{'active':(current === 'inquiry' || current === 'faq')}" @click="openSubmenu($event)">{{$t('support1')}}
-                <ul class="menu">
-                    <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('supportCase')}}</li>
-                    <li :class="{'active':current === 'faq'}" @click="goRoute('faq')">FAQ</li>
-                </ul>
-            </li>
+            <li :class="{'active':current === 'faq'}" @click="goRoute('faq')">FAQ</li>
+<!--            <li :class="{'active':(current === 'inquiry' || current === 'faq')}" @click="openSubmenu($event)">{{$t('support1')}}-->
+<!--                <ul class="menu">-->
+<!--                    <li :class="{'active':current === 'inquiry'}" @click="goRoute('inquiry')">{{$t('supportCase')}}</li>-->
+<!--                    <li :class="{'active':current === 'faq'}" @click="goRoute('faq')">FAQ</li>-->
+<!--                </ul>-->
+<!--            </li>-->
         </ul>
     </div>
 </template>
