@@ -6,6 +6,9 @@
           <img src="/assets/images/logo.png" alt="logo" />
         </div>
         <div class="footer__sns sns">
+          <a href="https://post.naver.com/beatsomeone" class="sns__insta" target="_blank">
+            <img src="/assets/images/icon/naver.png" alt="naver" />
+          </a>
           <a href="https://www.instagram.com/beatsomeone" class="sns__insta" target="_blank">
             <img src="/assets/images/icon/instagram.png" alt="instagram" />
           </a>

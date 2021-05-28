@@ -5,6 +5,7 @@
                 <a href="<?= lang_url('/') ?>"><img src="/assets_m/images/logo.png" alt="logo"/></a>
             </div>
             <div class="footer__sns sns">
+                <a href="https://post.naver.com/beatsomeone" class="sns__insta"><img src="/assets_m/images/icon/naver.png" alt="naver"/></a>
                 <a href="https://www.instagram.com/beatsomeone" class="sns__insta"><img src="/assets_m/images/icon/instagram.png" alt="instagram"/></a>
                 <a href="https://www.youtube.com/channel/UCkOZTgnHFgC0Cb04W0AJ1LQ" class="sns__insta"><img src="/assets_m/images/icon/youtube.png" alt="youtube"/></a>
                 <a href="https://www.facebook.com/beatsomeone" class="sns__insta"><img src="/assets_m/images/icon/facebook.png" alt="youtube"/></a>
