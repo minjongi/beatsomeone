@@ -180,8 +180,8 @@
                                               />
                                               <div class="btn btn--yellow" style="height:48px">
                                                 <div style="font-size:14px;">
-                                                  <img src="/assets/images/payco_white_unselect@1x.png" v-show="pay_type !== 3">
-                                                  <img src="/assets/images/payco_black_select@1x.png" v-show="pay_type === 3">
+                                                  <img src="/assets/images/payco_white_unselect@3x.png" class="payco-logo" v-show="pay_type !== 3">
+                                                  <img src="/assets/images/payco_black_select@3x.png" class="payco-logo" v-show="pay_type === 3">
                                                 </div>
                                               </div>
                                             </label>
@@ -559,6 +559,7 @@ export default {
           formData.append('productUnitPaymentPrice', this.allatForm.amt);
           formData.append('productName', this.allatForm.product_nm);
           formData.append('sellerOrderProductReferenceKey', this.allatForm.product_cd);
+          formData.append('orderChannel', 'MOBILE');
 
           axios.post('/pg/payco/reserve', formData)
               .then(res => res.data)
@@ -626,7 +627,6 @@ export default {
           formData.append('cor_point', this.cor_point);
           formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
           formData.append('payco_data', data);
-          formData.append('orderChannel', 'MOBILE');
 
           axios.post('/cmall/ajax_orderupdate', formData)
               .then(res => res.data)
@@ -729,5 +729,9 @@ export default {
   padding-top: 10px;
   line-height: 1.5;
   word-break: keep-all;
+}
+
+.payco-logo {
+  max-width: 70px;
 }
 </style>

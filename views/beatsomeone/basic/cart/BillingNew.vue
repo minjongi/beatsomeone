@@ -72,8 +72,8 @@
                                               />
                                               <div class="btn btn--yellow" style="height:48px">
                                                 <div style="font-size:14px;" id="payco_btn_type_A1">
-                                                  <img src="/assets/images/payco_white_unselect@1x.png" v-show="pay_type !== 3">
-                                                  <img src="/assets/images/payco_black_select@1x.png" v-show="pay_type === 3">
+                                                  <img src="/assets/images/payco_white_unselect@3x.png" class="payco-logo" v-show="pay_type !== 3">
+                                                  <img src="/assets/images/payco_black_select@3x.png" class="payco-logo" v-show="pay_type === 3">
                                                 </div>
                                               </div>
                                             </label>
@@ -597,5 +597,9 @@
       padding-top: 10px;
       line-height: 1.4;
       word-break: keep-all;
+    }
+
+    .payco-logo {
+      max-width: 70px;
     }
 </style>

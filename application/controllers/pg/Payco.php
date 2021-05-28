@@ -62,7 +62,7 @@ class Payco extends CB_Controller
 
         //	$AppWebPath = "http://xxx.xxx.xxx.xxx/php/easypay/pay2/";
 //        $this->payInfo['AppWebPath'] = "https://beatsomeone.com/pg/payco/";
-        $this->payInfo['AppWebPath'] = "https://beatsomeone.com/pg/payco/";
+        $this->payInfo['AppWebPath'] = "https://mvp.beatsomeone.com/pg/payco/";
 
         //--------------------------------------------------------------------------------------------------------------------------
         // 운영/개발 설정
@@ -192,7 +192,7 @@ class Payco extends CB_Controller
                 $this->Cmall_order_model->payco_log_insert($params);
 
                 $returnResult['code'] = $Read_Data["code"];
-                $returnResult['message'] = '주문이 정상적으로 완료되었습니다';
+                $returnResult['message'] = ($Read_Data["code"] == '0') ? '주문이 정상적으로 완료되었습니다' : $Read_Data['message'];
                 $returnResult['data'] = $Result;
             }
             catch ( Exception $e )

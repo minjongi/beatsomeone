@@ -286,6 +286,7 @@ class Member extends CI_Controller
 	 */
 	public function archive_to_dormant($mem_id = 0)
 	{
+	    return true;
 		$mem_id = (int) $mem_id;
 		if (empty($mem_id) OR $mem_id < 1) {
 			return false;
@@ -324,6 +325,7 @@ class Member extends CI_Controller
 	 */
 	public function recover_from_dormant($mem_id = 0)
 	{
+	    return true;
 		$mem_id = (int) $mem_id;
 		if (empty($mem_id) OR $mem_id < 1) {
 			return false;

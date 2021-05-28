@@ -172,11 +172,8 @@ export default {
     formatPr: function (m, price) {
       if (m === 'paypal') {
         return '$' + this.formatNumberEn(price);
-      } else if (m === 'allat') {
-        return '₩' + this.formatNumber(price);
-      } else {
-        return ''
       }
+      return '₩' + this.formatNumber(price);
     },
     formatNumber(n) {
       return Number(n).toLocaleString(undefined, {minimumFractionDigits: 0});
@@ -246,7 +243,7 @@ export default {
   },
   computed: {
     paymentMethod() {
-      if (this.order.cor_pay_type === '3D' || this.order.cor_pay_type === 'NOR') {
+      if (this.order.cor_pay_type === '3D' || this.order.cor_pay_type === 'NOR' || this.order.cor_pay_type === 'payco') {
         return 'creditCard'
       } else if (this.order.cor_pay_type === 'ABANK') {
         return 'realtimeBankTransfer';
