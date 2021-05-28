@@ -61,8 +61,8 @@ class Payco extends CB_Controller
         //--------------------------------------------------------------------------------------------------------------------------
 
         //	$AppWebPath = "http://xxx.xxx.xxx.xxx/php/easypay/pay2/";
-//        $this->payInfo['AppWebPath'] = "https://beatsomeone.com/pg/payco/";
-        $this->payInfo['AppWebPath'] = "https://mvp.beatsomeone.com/pg/payco/";
+        $this->payInfo['AppWebPath'] = "https://beatsomeone.com/pg/payco/";
+//        $this->payInfo['AppWebPath'] = "https://mvp.beatsomeone.com/pg/payco/";
 
         //--------------------------------------------------------------------------------------------------------------------------
         // 운영/개발 설정
