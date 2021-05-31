@@ -44,6 +44,8 @@ class Cmallorder extends CB_Controller
      */
     protected $helpers = array('form', 'array', 'cmall');
 
+    private $payInfo = [];
+
     function __construct()
     {
         parent::__construct();
@@ -475,6 +477,121 @@ class Cmallorder extends CB_Controller
     //                        echo "결과메세지		: ".$REPLYMSG."<br>";
                                 alert($REPLYCD . ':' . $REPLYMSG);
                             }
+                        } elseif ($pg == 'payco') {
+                            //--------------------------------------------------------------------------------
+                            // PAYCO 주문 취소 페이지 샘플 ( PHP )
+                            // payco_cancel.php
+                            // 2015-03-25	PAYCO기술지원 <dl_payco_ts@nhnent.com>
+                            //--------------------------------------------------------------------------------
+
+                            //--------------------------------------------------------------------------------
+                            // 이 문서는 json 형태의 데이터를 반환합니다.
+                            //--------------------------------------------------------------------------------
+                            header('Content-type: text/html; charset: UTF-8');
+                            include("application/libraries/pg/payco/payco_util.php");
+                            $this->payco_info();
+
+                            $paycoLog = $this->{$this->modelname}->get_payco_log_by_cor_id($cor_id);
+                            if (empty($paycoLog)) {
+                                alert('페이코 결제취소 중 오류가 발생하였습니다.');
+                            }
+                            $paycoLogRawData = json_decode($paycoLog['raw_data'], true);
+
+                            //---------------------------------------------------------------------------------
+                            // 가맹점 주문 번호로 상품 불러오기
+                            // DB에 연결해서 가맹점 주문 번호로 해당 상품 목록을 불러옵니다.
+                            //---------------------------------------------------------------------------------
+                            $resultValue = array();	//결과 리턴용 JSON 변수 선언
+
+                            $orderCertifyKey				= $paycoLogRawData['result']["orderCertifyKey"];							// 주문완료통보시 내려받은 인증값
+                            $cancelTotalAmt					= $paycoLogRawData['result']["totalOrderAmt"];							// 총 주문 금액
+                            $requestMemo					= '결제취소';								// 취소처리 요청메모
+
+                            $orderNo						= $paycoLogRawData['result']["orderNo"];									// 주문번호
+                            $totalCancelTaxfreeAmt			= $paycoLogRawData['result']['paymentDetails'][0]["taxfreeAmt"];					// 총 취소할 면세금액
+                            $totalCancelTaxableAmt			= $paycoLogRawData['result']['paymentDetails'][0]["taxableAmt"];					// 총 취소할 과세금액
+                            $totalCancelVatAmt				= $paycoLogRawData['result']['paymentDetails'][0]["vatAmt"];						// 총 취소할 부가세
+                            $totalCancelPossibleAmt			= $paycoLogRawData['result']['paymentDetails'][0]["paymentAmt"];					// 총 취소가능금액(현재기준): 취소가능금액 검증(취소요청 전 취소할수있는 총금액)
+
+                            //----------------------------------------------------------------------------------
+                            // 상품정보 변수 선언 및 초기화
+                            //----------------------------------------------------------------------------------
+                            Global $cpId, $productId;
+
+                            //-----------------------------------------------------------------------------------
+                            // 취소 내역을 담을 JSON OBJECT를 선언합니다.
+                            //-----------------------------------------------------------------------------------
+                            $cancelOrder = array();
+
+                            //---------------------------------------------------------------------------------
+                            // 설정한 주문정보 변수들로 Json String 을 작성합니다.
+                            //---------------------------------------------------------------------------------
+
+                            $cancelOrder["sellerKey"]				= $this->payInfo['sellerKey'];							//가맹점 코드. payco_config.php 에 설정
+                            $cancelOrder["orderCertifyKey"]			= $orderCertifyKey;						//주문완료통보시 내려받은 인증값
+                            $cancelOrder["requestMemo"]				= urlencode($requestMemo);				//취소처리 요청메모
+                            $cancelOrder["cancelTotalAmt"]			= $cancelTotalAmt;						//주문서의 총 금액을 입력합니다. (전체취소, 부분취소 전부다)
+//                            $cancelOrder["orderProducts"]			= $orderProducts;						//위에서 작성한 상품목록과 배송비상품을 입력
+
+                            $cancelOrder["orderNo"]					= $orderNo;								// 주문번호
+                            $cancelOrder["totalCancelTaxfreeAmt"]	= $totalCancelTaxfreeAmt;				// 총 취소할 면세금액
+                            $cancelOrder["totalCancelTaxableAmt"]	= $totalCancelTaxableAmt;				// 총 취소할 과세금액
+                            $cancelOrder["totalCancelVatAmt"]		= $totalCancelVatAmt;					// 총 취소할 부가세
+                            $cancelOrder["totalCancelPossibleAmt"]	= $totalCancelPossibleAmt;				// 총 취소가능금액(현재기준): 취소가능금액 검증
+                            //---------------------------------------------------------------------------------
+                            // 주문 결제 취소 가능 여부 API 호출 ( JSON 데이터로 호출 )
+                            //---------------------------------------------------------------------------------
+                            $Result = payco_cancel($this->payInfo['URL_cancel'], urldecode(stripslashes(json_encode($cancelOrder))));
+                            $cancelResult = json_decode($Result, treu);
+                            if (empty($cancelResult['code']) || $cancelResult['code'] != 0) {
+                                alert('페이코 결제취소 중 오류가 발생하였습니다.\n' . $cancelResult['message'] . '(' . $cancelResult['code'] . ')');
+                            }
+
+                            $params = array();
+                            $params['code'] = $cancelResult['code'];
+                            $params['message'] = $cancelResult['message'];
+                            $params['order_no'] = $cancelResult['result']['orderNo'];
+                            $params['amt'] = $cancelResult['result']['totalCancelPaymentAmt'];
+                            $params['complete_ymdt'] = $cancelResult['result']['cancelYmdt'];
+                            $params['raw_data'] = $Result;
+                            $this->{$this->modelname}->payco_log_insert($params);
+
+                            $origin_cor_status = $order['cor_status'];
+                            $refund_price = intval($params['amt']);
+                            $refund_point = intval($order['cor_point']);
+                            $refund_datetime = DateTime::createFromFormat("YmdHis", $cancelResult['result']['cancelYmdt']);
+
+                            $updatedata = array();
+                            $updatedata['status'] = 'cancel';
+                            $updatedata['cor_refund_datetime'] = $refund_datetime->format("Y-m-d H:i:s");
+                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                $updatedata['cor_cancel_datetime'] = $refund_datetime->format("Y-m-d H:i:s");
+                                $updatedata['cor_refund_price'] = $refund_price;
+                                $updatedata['cor_refund_point'] = $refund_point;
+                                $updatedata['cor_status'] = 2;
+                            }
+
+                            $where = array(
+                                'cor_id' => $cor_id,
+                            );
+                            $this->Cmall_order_model->update('', $updatedata, $where);
+
+                            if ($origin_cor_status == '1' || $origin_cor_status == '0') { // 관리자 취소
+                                $this->db->query("UPDATE cb_cmall_order_detail SET cod_status='cancel' WHERE cor_id=?", [$cor_id]);
+                            }
+
+                            if ($refund_point > 0) {
+                                $this->db->query("INSERT INTO cb_point (mem_id, poi_datetime, poi_content, poi_point, poi_type, poi_related_id, poi_action) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+                                    $order['mem_id'],
+                                    cdate('Y-m-d H:i:s'),
+                                    cdate('Y-m-d H:i:s') . ' 주문취소',
+                                    $refund_point,
+                                    'refund',
+                                    $order['mem_id'],
+                                    $order['mem_id'] . '-' . $cor_id
+                                ]);
+                                $this->db->query("UPDATE cb_member SET mem_point=mem_point+? WHERE mem_id=?", [$refund_point, $order['mem_id']]);
+                            }
                         } elseif ($pg == 'paypal') {
                             $is_test = $order['is_test'];
                             $sql = "SELECT * FROM cb_paypal_log WHERE invoice_number=?";
@@ -665,5 +782,84 @@ class Cmallorder extends CB_Controller
             'mode' => 'live'
         ));
         return $apiContext;
+    }
+
+    public function payco_info()
+    {
+        //----------------------------------------------------------------------------------------------------------------------
+        // 캐릭터셋 지정
+        //-----------------------------------------------------------------------------------------------------------------------
+        // header("charset=utf8");
+
+        //-----------------------------------------------------------------------------------------------------------------------
+        //
+        // 환경변수 선언
+        //
+        //------------------------------------------------------------------------------------------------------------------------
+        // 가맹점 코드 선언 ( 가맹점 수정 부분 )
+        //------------------------------------------------------------------------------------------------------------------------
+
+        $this->payInfo['sellerKey'] = "V4MTUT";                                    //(필수) 가맹점 코드 - 파트너센터에서 알려주는 값으로, 초기 연동 시 PAYCO에서 쇼핑몰에 값을 전달한다.
+        $this->payInfo['cpId'] = "V4MTUT";                                    //(필수) 상점ID, 30자 이내
+        $this->payInfo['productId'] = "V4MTUT_EASYP";                                    //(필수) 상품ID, 50자 이내
+        $this->payInfo['deliveryId'] = "DELIVERY_PROD";                                    //(필수) 배송비상품ID, 50자 이내
+        $this->payInfo['deliveryReferenceKey'] = "DV0001";                                    //(필수) 가맹점에서 관리하는 배송비상품 연동 키, 100자 이내, 고정
+
+        //-------------------------------------------------------------------------------------------------------------------------
+        // 가맹점 API 가 호출 당할 경우 도메인 또는 아이피 셋팅하기 위한 변수 ( 도메인이 있을 경우 도메인을 셋팅하시면 됩니다. )
+        // 용도 : serviceUrl 및 returnUrl, nonBankbookDepositInformUrl 용.
+        // API 호출시 http:// 부터 경로를 전체적으로 써줘야 HttpRequest 통신시 오류발생 안함.
+        //--------------------------------------------------------------------------------------------------------------------------
+
+        //	$AppWebPath = "http://xxx.xxx.xxx.xxx/php/easypay/pay2/";
+        $this->payInfo['AppWebPath'] = "https://beatsomeone.com/pg/payco/";
+//        $this->payInfo['AppWebPath'] = "https://mvp.beatsomeone.com/pg/payco/";
+
+        //--------------------------------------------------------------------------------------------------------------------------
+        // 운영/개발 설정
+        // Log 사용 여부 설정
+        //---------------------------------------------------------------------------------------------------------------------------
+        $this->payInfo['appMode'] = "REAL";        // REAL - 실서버 운영, TEST - 개발(테스트)
+        $this->payInfo['LogUse'] = false;            // Log 사용 여부 ( True = 사용, False = 미사용 )
+
+        //---------------------------------------------------------------------------------------------------------------------------
+        // API 주소 설정 ( 상단 appMode 에 따라 테스트와 실서버로 분기됩니다. )
+        //--------------------------------------------------------------------------------------------------------------------------
+        if ($this->payInfo['appMode'] == "TEST") {
+            $this->payInfo['URL_reserve'] = "https://alpha-api-bill.payco.com/outseller/order/reserve";
+            $this->payInfo['URL_approval'] = "https://alpha-api-bill.payco.com/outseller/payment/approval";
+            $this->payInfo['URL_cancel_check'] = "https://alpha-api-bill.payco.com/outseller/order/cancel/checkAvailability";
+            $this->payInfo['URL_cancel'] = "https://alpha-api-bill.payco.com/outseller/order/cancel";
+            $this->payInfo['URL_upstatus'] = "https://alpha-api-bill.payco.com/outseller/order/updateOrderProductStatus";
+            $this->payInfo['URL_cancelMileage'] = "https://alpha-api-bill.payco.com/outseller/order/cancel/partMileage";
+            $this->payInfo['URL_checkUsability'] = "https://alpha-api-bill.payco.com/outseller/code/checkUsability";
+            $this->payInfo['URL_detailForVerify'] = "https://alpha-api-bill.payco.com/outseller/payment/approval/getDetailForVerify"; // alpha(개발) 결제상세 조회(검증용)API URL
+        } else {
+            $this->payInfo['URL_reserve'] = "https://api-bill.payco.com/outseller/order/reserve";
+            $this->payInfo['URL_approval'] = "https://api-bill.payco.com/outseller/payment/approval";
+            $this->payInfo['URL_cancel_check'] = "https://api-bill.payco.com/outseller/order/cancel/checkAvailability";
+            $this->payInfo['URL_cancel'] = "https://api-bill.payco.com/outseller/order/cancel";
+            $this->payInfo['URL_upstatus'] = "https://api-bill.payco.com/outseller/order/updateOrderProductStatus";
+            $this->payInfo['URL_cancelMileage'] = "https://api-bill.payco.com/outseller/order/cancel/partMileage";
+            $this->payInfo['URL_checkUsability'] = "https://api-bill.payco.com/outseller/code/checkUsability";
+            $this->payInfo['URL_detailForVerify'] = "https://api-bill.payco.com/outseller/payment/approval/getDetailForVerify";      // (운영)결제상세 조회(검증용)API URL
+        }
+
+        //--------------------------------------------------------------------------------------------------------------------------
+        // 로그 파일 선언
+        //--------------------------------------------------------------------------------------------------------------------------
+        $todate = str_replace("-", "", date("Y-m-d"));
+        $Write_LogFile = "log" . DIRECTORY_SEPARATOR . "Payco_Log_" . $todate . "_php.txt";
+
+        //--------------------------------------------------------------------------------------------------------------------------
+        // 접속 브라우저 확인
+        //--------------------------------------------------------------------------------------------------------------------------
+        if (preg_match('/(iPhone|iPod|iPad|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mni|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson|LG|SAMSUNG|Samsung)/i', $_SERVER['HTTP_USER_AGENT'])) {
+            $this->payInfo['isMobile'] = 0;
+            // echo "모바일 웹 브라우저 입니다.";
+        } else {
+            // echo "웹 브라우저 입니다.";
+            $this->payInfo['isMobile'] = 1;
+        }
     }
 }

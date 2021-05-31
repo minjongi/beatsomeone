@@ -202,6 +202,16 @@ class Cmall_order_model extends CB_Model
         return $return;
     }
 
+    public function get_payco_log_by_cor_id($cor_id)
+    {
+        if (empty($cor_id)) {
+            return [];
+        }
+
+        $sql = "SELECT * FROM cb_payco_log WHERE cor_id = ?";
+        return $this->db->query($sql, [$cor_id])->row_array();
+    }
+
     public function get_order_list($limit = '', $offset = '', $where = '', $like = '', $findex = '', $forder = '', $sfield = '', $skeyword = '', $sop = 'OR')
     {
         $where .= " and (cmall_order.status = 'order' or cmall_order.status = 'deposit')";

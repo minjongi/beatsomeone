@@ -462,10 +462,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     // });
   
                 } else {
-                    if (pg == 'paypal') {
-                        $('#frmorderform').submit();
-                    } else if (pg == 'allat') {
+                    if (pg == 'allat') {
                         Allat_Plus_Api(document.fm);
+                    } else {
+                        $('#frmorderform').submit();
                     }
                 }
             }

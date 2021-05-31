@@ -188,6 +188,8 @@ class Payco extends CB_Controller
                 $params['order_no'] = $Read_Data["result"]["orderNo"];
                 $params['amt'] = $Read_Data["result"]["totalPaymentAmt"];
                 $params['complete_ymdt'] = $Read_Data["result"]['paymentCompleteYmdt'];
+                $params['order_certify_key'] = $Read_Data["result"]["orderCertifyKey"];
+                $params['cor_id'] = $Read_Data["result"]["sellerOrderReferenceKey"];
                 $params['raw_data'] = $Result;
                 $this->Cmall_order_model->payco_log_insert($params);
 
@@ -203,7 +205,7 @@ class Payco extends CB_Controller
                 $cancelOrder["orderCertifyKey"] = $detailForVerify_Read_Data["result"]["orderCertifyKey"];                        // 주문완료통보시 내려받은 인증값
                 $cancelOrder["cancelTotalAmt"] = $detailForVerify_Read_Data["result"]["totalPaymentAmt"];                        // PAYCO 주문서의 총 금액을 입력합니다. (전체취소, 부분취소 전부다)
 
-                $cancel_Result = payco_cancel(stripslashes(json_encode($cancelOrder)));
+                $cancel_Result = payco_cancel($this->payInfo['URL_cancel'], stripslashes(json_encode($cancelOrder)));
                 $returnResult['code'] = '9999';
                 $returnResult['message'] = 'DB 저장오류 발생하여 결제취소 되었습니다';
                 //exit(json_encode($returnResult));
