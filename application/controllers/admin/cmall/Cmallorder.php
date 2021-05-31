@@ -543,7 +543,7 @@ class Cmallorder extends CB_Controller
                             //---------------------------------------------------------------------------------
                             $Result = payco_cancel($this->payInfo['URL_cancel'], urldecode(stripslashes(json_encode($cancelOrder))));
                             $cancelResult = json_decode($Result, treu);
-                            if (empty($cancelResult['code']) || $cancelResult['code'] != 0) {
+                            if (!isset($cancelResult['code']) || $cancelResult['code'] != 0) {
                                 alert('페이코 결제취소 중 오류가 발생하였습니다.\n' . $cancelResult['message'] . '(' . $cancelResult['code'] . ')');
                             }
 
