@@ -61,7 +61,7 @@
                                                 <div style="font-size:14px;">{{$t('creditCard')}}</div>
                                               </div>
                                             </label>
-                                            <label class="checkbox" for="method4" v-if="paycoTester()">
+                                            <label class="checkbox" for="method4">
                                               <input
                                                   type="radio"
                                                   name="method"
@@ -376,9 +376,6 @@
             this.$set(this.allatForm, 'recp_nm', mem_name);
         },
         methods: {
-            paycoTester: function () {
-              return this.member.mem_userid === 'paycotest'
-            },
             formatPrice: function (kr, en, symbol) {
                 if (!symbol) {
                     if (this.$i18n.locale === "ko") {

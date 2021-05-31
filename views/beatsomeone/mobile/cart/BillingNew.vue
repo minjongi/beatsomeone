@@ -169,7 +169,7 @@
                                                     <div style="font-size:12px;">{{ $t('realtimeBankTransfer') }}</div>
                                                 </div>
                                             </label>
-                                            <label class="checkbox" for="method4" v-if="paycoTester()">
+                                            <label class="checkbox" for="method4">
                                               <input
                                                   type="radio"
                                                   name="method"
@@ -473,10 +473,6 @@ export default {
         this.$set(this.allatForm, 'recp_nm', mem_name);
     },
     methods: {
-        paycoTester: function () {
-          console.log(this.member.mem_userid)
-          return this.member.mem_userid === 'paycotest'
-        },
         formatPrice: function (kr, en, symbol) {
             if (!symbol) {
                 if (this.$i18n.locale === "ko") {
