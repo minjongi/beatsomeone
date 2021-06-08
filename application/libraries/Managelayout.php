@@ -138,14 +138,17 @@ class Managelayout extends CI_Controller
 
 //		$page_title = element('page_title', $config) ? element('page_title', $config) : $CI->cbconfig->item('site_meta_title_default');
         $page_title = element('page_title', $config);
-        if (empty($page_title) || $page_title == '비트썸원 : beatsomeone') {
-            $page_title = ($CI->config->item('locale') === 'ko') ? '비트썸원 : beatsomeone' : 'beatsomeone : 비트썸원';
-        }
 
 		$meta_description = element('meta_description', $config) ? element('meta_description', $config) : $CI->config->item('meta_description_default');
 		$meta_keywords = element('meta_keywords', $config) ? element('meta_keywords', $config) : $CI->cbconfig->item('site_meta_keywords_default');
 		$meta_author = element('meta_author', $config) ? element('meta_author', $config) : $CI->cbconfig->item('site_meta_author_default');
 		$page_name = element('page_name', $config) ? element('page_name', $config) : $CI->cbconfig->item('site_page_name_default');
+
+        $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
+        if (empty($page_title) || $page_title == 'beatsomeone - 비트썸원 : beatsomeone') {
+
+            $page_title = ($CI->config->item('locale') === 'ko') ? '비트썸원 : beatsomeone' : 'beatsomeone : 비트썸원';
+        }
 
         $data['page_title'] = $page_title = str_replace($searchconfig, $replaceconfig, $page_title);
 		$data['meta_description'] = $meta_description = str_replace($searchconfig, $replaceconfig, $meta_description);
