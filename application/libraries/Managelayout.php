@@ -138,7 +138,7 @@ class Managelayout extends CI_Controller
 
 //		$page_title = element('page_title', $config) ? element('page_title', $config) : $CI->cbconfig->item('site_meta_title_default');
         $page_title = element('page_title', $config);
-        if (empty($page_title)) {
+        if (empty($page_title) || $page_title == '비트썸원 : beatsomeone') {
             $page_title = ($CI->config->item('locale') === 'ko') ? '비트썸원 : beatsomeone' : 'beatsomeone : 비트썸원';
         }
 
