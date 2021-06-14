@@ -241,7 +241,7 @@ class Beatsomeone_model extends CB_Model
         // search
         if ($search) {
 //            $this->db->where("(p.hashtag like '%".$search."%' OR cb_cmall_item.cit_name like '%".$search."%' OR p.musician like '%".$search."%')",null,false);
-            $this->db->where("cb_cmall_item.search_data like '%" . $search . "%'", null, false);
+            $this->db->where("cb_cmall_item.search_data like '%" . str_replace(' ', '', $search) . "%'", null, false);
         }
 
         $genreWhere = [];

@@ -901,7 +901,7 @@ class Cmall extends CB_Controller
                 $result[$key]['detail'] = $this->Cmall_cart_model->get_cart_detail($mem_id, element('cit_id', $val));
             }
         }
-
+        $result = filterFreebeat($result);
         $this->output->set_output(json_encode($result));
     }
 
@@ -1020,7 +1020,7 @@ class Cmall extends CB_Controller
                 $session_cct_id[] = element('cct_id', $val);
             }
         }
-        $view['data'] = $result;
+        $view['data'] = filterFreebeat($result);
 
         $this->load->model('Unique_id_model');
         $unique_id = $this->Unique_id_model->get_id($this->input->ip_address());
@@ -3084,6 +3084,7 @@ class Cmall extends CB_Controller
                 }
             }
         }
+        $result['list'] = filterFreebeat($result['list']);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));

@@ -352,3 +352,25 @@ if (!function_exists('get_item_count_title')) {
     }
 
 }
+
+if (!function_exists('filterFreebeat')) {
+    function filterFreebeat($list) {
+        foreach ($list as $key => $val) {
+            if ($val['cit_freebeat'] == 1) {
+                $list[$key]['cde_price'] = 0;
+                $list[$key]['cde_price_d'] = 0;
+                $list[$key]['cde_price_2'] = 0;
+                $list[$key]['cde_price_d_2'] = 0;
+
+                if (!empty($list[$key]['detail'])) {
+                    foreach ($list[$key]['detail'] as $dKey => $dVal) {
+                        $list[$key]['detail'][$dKey]['cde_price'] = 0;
+                        $list[$key]['detail'][$dKey]['cde_price_d'] = 0;
+                    }
+
+                }
+            }
+        }
+        return $list;
+    }
+}

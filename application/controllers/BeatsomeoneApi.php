@@ -63,7 +63,7 @@ class BeatsomeoneApi extends CB_Controller
                 $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
             }
         }
-        $result = $this->filterFreebeat($result);
+        $result = filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -214,7 +214,45 @@ class BeatsomeoneApi extends CB_Controller
                 $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
             }
         }
-        $result = $this->filterFreebeat($result);
+        $result = filterFreebeat($result);
+
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
+
+
+    // sublist 목록 조회
+    public function sublist_list1()
+    {
+        $this->load->model(array('Beatsomeone_model', 'Cmall_item_meta_model', 'Cmall_item_detail_model'));
+
+        $config = array(
+            'limit' =>  $this->input->get('limit') ,
+            'offset' =>  $this->input->get('offset') ,
+            'sort' =>  $this->input->get('sort') ,
+            'search' =>  $this->input->get('search') ,
+            'genre' =>  $this->input->get('genre') ,
+            'subgenre' =>  $this->input->get('subgenre') ,
+            'bpmFr' =>  $this->input->get('bpmFr') ,
+            'bpmTo' =>  $this->input->get('bpmTo') ,
+            'moods' =>  $this->input->get('moods') ,
+            'trackType' =>  $this->input->get('trackType') ,
+            'mem_id' => $this->member->item('mem_id'),
+            'brand_mem_id' => $this->input->get('brand_mem_id'),
+        );
+
+        $result = $this->Beatsomeone_model->get_sublist_list($config);
+        foreach ($result as $key => $val) {
+            $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], 'list');
+            $result[$key]['item_url'] = cmall_item_url(element('cit_key', $val));
+            $result[$key]['waveform'] = json_decode(element('waveform', $val), true);
+            $result[$key]['meta'] = $this->Cmall_item_meta_model->get_all_meta(element('cit_id', $val));
+            $itemdetails = $this->Cmall_item_detail_model->get_all_detail(element('cit_id', $val));
+            foreach ($itemdetails as $itemdetail) {
+                $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
+            }
+        }
+        $result = filterFreebeat($result);
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
@@ -237,7 +275,7 @@ class BeatsomeoneApi extends CB_Controller
             'limit' => $this->input->post('limit') ,
         );
         $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
-        $result = $this->filterFreebeat($result);
+        $result = filterFreebeat($result);
 
         foreach ($result as $key => $val) {
             $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], '200');
@@ -245,18 +283,6 @@ class BeatsomeoneApi extends CB_Controller
 
         $this->output->set_content_type('text/json');
         $this->output->set_output(json_encode($result));
-    }
-
-    public function filterFreebeat($list) {
-        foreach ($list as $key => $val) {
-            if ($val['cit_freebeat'] == 1) {
-                $list[$key]['cde_price'] = 0;
-                $list[$key]['cde_price_d'] = 0;
-                $list[$key]['cde_price_2'] = 0;
-                $list[$key]['cde_price_d_2'] = 0;
-            }
-        }
-        return $list;
     }
 
     // 연관음반 추가 대상 조회

@@ -2736,7 +2736,7 @@ class Index extends CB_Controller
                 $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
             }
         }
-        return $this->filterFreebeat($result);
+        return filterFreebeat($result);
     }
 
     public function filterFreebeat($list) {
@@ -2795,7 +2795,7 @@ class Index extends CB_Controller
             'limit' => $this->input->get('limit') ?? 5,
         );
         $result = $this->Beatsomeone_model->get_sublist_top5_list($config);
-        $result = $this->filterFreebeat($result);
+        $result = filterFreebeat($result);
 
         foreach ($result as $key => $val) {
             $result[$key]['thumb'] = cover_thumb_name($val['cit_file_1'], '200');
@@ -2835,7 +2835,7 @@ class Index extends CB_Controller
                 $result[$key]['detail'][$itemdetail['cde_title']] = $itemdetail;
             }
         }
-        return $this->filterFreebeat($result);
+        return filterFreebeat($result);
     }
 
     // detail similar tracks 조회
