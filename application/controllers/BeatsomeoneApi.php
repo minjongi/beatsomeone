@@ -848,7 +848,7 @@ class BeatsomeoneApi extends CB_Controller
         $s_d = 0;
         foreach($result as $v) {
 //            log_message('debug','ITEM : '. print_r($v,true));
-            if (element('isfree', $v) != "1") {
+            if (element('cit_freebeat', $v) != "1") {
                 $s += element('cit_price', $v);
 
                 foreach (element('detail', $v) as $d) {
