@@ -3963,7 +3963,6 @@ class Cmall extends CB_Controller
                          LEFT JOIN cb_cmall_item as ci ON cod.cit_id = ci.cit_id
                          LEFT JOIN cb_cmall_item_detail as cid ON cid.cde_id = cod.cde_id
                          LEFT JOIN cb_member as m ON m.mem_id = ci.mem_id
-                         LEFT JOIN cb_cmall_download_log cdl ON co.cor_id = cdl.cor_id
                 WHERE ci.mem_id = ? AND co.cor_datetime >= ? AND co.cor_datetime <=? AND cod.cod_status LIKE ?
                 ORDER BY co.cor_datetime " . $forder;
 

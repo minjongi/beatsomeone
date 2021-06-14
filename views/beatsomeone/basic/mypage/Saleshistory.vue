@@ -320,7 +320,13 @@ export default {
             this.currPage += 1;
         },
         makePageList(n) {
-            return [...Array(n).keys()].map(x => x = x + 1);
+            let startPage = (Math.floor((this.currPage - 1) / 10)) * 10 + 1,
+                page = []
+
+            for (let iLoop = startPage; iLoop < startPage + 10; iLoop++) {
+              page.push(iLoop)
+            }
+            return page;
         },
         funcStatus(s) {
             if (s === 'deposit') {
