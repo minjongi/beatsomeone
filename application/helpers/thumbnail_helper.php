@@ -541,6 +541,10 @@ if ( ! function_exists('is_animated_gif')) {
 if ( ! function_exists('cover_thumb_name')) {
     function cover_thumb_name ($filename, $marker)
     {
+        if (empty($filename)) {
+            return '';
+        }
+
         $fileInfo = explode('.', $filename);
         return $fileInfo[0] . '_' . $marker . '.' . $fileInfo[1];
     }
