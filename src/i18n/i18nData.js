@@ -663,6 +663,8 @@ export default {
         lang180: 'Buyer owns all copyrights!',
         lang181: '데이터가 없습니다',
         payco: 'PAYCO',
+        allat: 'ALLAT',
+        payletter: 'PAYLETTER',
     }, // en
     ko: {
         currencySymbol: '￦',
@@ -1327,6 +1329,8 @@ export default {
         lang180: '구매자가 저작권 100% 소유!',
         lang181: '데이터가 없습니다',
         payco: 'PAYCO',
+        allat: '올앳',
+        payletter: '페이레터',
     }, // ko
     jp: {
         currencySymbol: '$',
@@ -1991,5 +1995,7 @@ export default {
         lang180: '購入者が著作権100%所有！',
         lang181: '데이터가 없습니다',
         payco: 'PAYCO',
+        allat: 'ALLAT',
+        payletter: 'PAYLETTER',
     } // jp
 }

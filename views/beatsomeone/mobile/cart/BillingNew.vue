@@ -522,7 +522,7 @@ export default {
                 //
             }
         },
-        procFreebeatPay: function () {
+        procFreebeatPay: function (amt = 0) {
             let formData2 = new FormData();
             formData2.append('pay_type', 'free');
             formData2.append('cor_pg', (this.$i18n.locale === "ko" ? 'allat' : 'paypal'));
@@ -542,6 +542,14 @@ export default {
                     console.error(error);
                 });
 
+        },
+        procAllPointPay: function () {
+          if (parseInt(this.allatForm.amt) > parseInt(this.cor_point)) {
+            return false
+          }
+
+          this.procFreebeatPay(this.allatForm.amt)
+          return true
         },
         goBack: function () {
             window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/cart");
@@ -571,6 +579,10 @@ export default {
               });
         },
         goPay: function () {
+            if (this.procAllPointPay()) {
+              return
+            }
+
             if (this.pay_type === 3) {
               this.paycoReserve()
               return

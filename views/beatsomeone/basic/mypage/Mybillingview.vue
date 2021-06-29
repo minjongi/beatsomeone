@@ -65,7 +65,8 @@
         <div class="tab">
           <div>
             <div class="title">{{ $t('payMethod1') }}</div>
-            <div>{{ $t(order.cor_pg) }}</div>
+            <div v-if="(order.cor_total_money - order.cor_point) <= 0">{{ $t('point') }}</div>
+            <div v-else>{{ $t(order.cor_pg) }}</div>
           </div>
           <div>
             <div class="title">{{ $t('payMethodDetail') }}</div>
@@ -82,7 +83,7 @@
           </div>
           <div class="total">
             <div>{{ $t('payTotal') }}</div>
-            <div>{{ formatPr(order.cor_pg, order.cor_total_money - order.cor_point) }}</div>
+            <div>{{ order.cor_total_money > 0 ? formatPr(order.cor_pg, order.cor_total_money - order.cor_point) : formatPr(order.cor_pg, 0) }}</div>
           </div>
         </div>
       </div>

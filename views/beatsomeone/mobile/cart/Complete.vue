@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="n-flex between total">
                                         <div>{{$t('payTotal')}}</div>
-                                        <div>{{ formatPrice(order.cor_total_money - order.cor_point) }}</div>
+                                        <div>{{ order.cor_total_money > 0 ? formatPrice(order.cor_total_money - order.cor_point) : formatPrice(0) }}</div>
                                     </div>                           
                                 </div>
                             </div>
