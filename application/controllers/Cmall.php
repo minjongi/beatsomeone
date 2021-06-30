@@ -2391,6 +2391,22 @@ class Cmall extends CB_Controller
                 $dt->setTimezone($kstTimezone);
                 $create_time = $dt->format("Y-m-d H:i:s");
                 $insertdata['cor_approve_datetime'] = $create_time;
+            } elseif ($this->input->post('pay_type') === 'payletter') {
+                $insertdata['cor_datetime'] = date('Y-m-d H:i:s');
+                $insertdata['mem_realname'] = $this->input->post('mem_realname', null, '');
+                $insertdata['cor_total_money'] = $item_cct_price;
+                $insertdata['cor_cash_request'] = $this->input->post('good_mny', null, 0);
+                $insertdata['cor_deposit'] = 0;
+                $insertdata['cor_cash'] = $this->input->post('good_mny', null, 0);
+                $insertdata['cor_pg'] = 'payletter';
+                $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
+                $insertdata['cor_pay_type'] = 'payletter';
+                $insertdata['cor_status'] = 1;
+                $dt = new DateTime();
+                $kstTimezone = new DateTimeZone('Asia/Seoul');
+                $dt->setTimezone($kstTimezone);
+                $create_time = $dt->format("Y-m-d H:i:s");
+                $insertdata['cor_approve_datetime'] = $create_time;
             } else {
                 $this->output->set_status_header('400');
                 $this->output->set_output(json_encode([

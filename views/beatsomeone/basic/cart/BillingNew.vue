@@ -95,24 +95,83 @@
                                             </label>
                                           </div>
                                         </div>
-                                        <div class="payco-desc" v-show="pay_type === 3">
+                                        <div class="payco-desc" v-if="pay_type === 3">
                                           PAYCO는 온/오프라인 쇼핑은 물론 송금, 멤버십 적립까지 가능한 통합 서비스입니다.<br/>
                                           - 지원카드: 모든 국내 신용/체크카드
                                         </div>
                                         <div v-if="currentLocale === 'en'">
-                                            <label class="checkbox" for="method3">
-                                                <input
-                                                        type="radio"
-                                                        name="method"
-                                                        id="method3"
-                                                        hidden="hidden"
-                                                        checked
-                                                />
-                                                <div class="btn btn--yellow" style="height:48px">
-                                                    <div class="icon paypal"></div>
-                                                    <div style="font-size:14px;">PayPal</div>
-                                                </div>
+                                          <div>
+                                            <label class="checkbox" for="method3" style="margin-bottom: 10px;">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method3"
+                                                  hidden="hidden"
+                                                  :value="4"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div class="icon paypal"></div>
+                                                <div style="font-size:14px;">PayPal</div>
+                                              </div>
                                             </label>
+                                            <label class="checkbox" for="method6" v-if="member.mem_userid === 'paycotest'">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method6"
+                                                  hidden="hidden"
+                                                  :value="6"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div style="font-size:14px;">WechatPay</div>
+                                              </div>
+                                            </label>
+                                          </div>
+                                          <div>
+                                            <label class="checkbox" for="method5" style="margin-bottom: 10px;" v-if="member.mem_userid === 'paycotest'">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method5"
+                                                  hidden="hidden"
+                                                  :value="5"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div style="font-size:14px;">Credit Card</div>
+                                              </div>
+                                            </label>
+                                            <label class="checkbox" for="method7" v-if="member.mem_userid === 'paycotest'">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method7"
+                                                  hidden="hidden"
+                                                  :value="7"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div style="font-size:14px;">Alipay</div>
+                                              </div>
+                                            </label>
+                                          </div>
+                                        </div>
+                                        <div v-if="currentLocale === 'jp'">
+                                          <label class="checkbox" for="method8" v-if="member.mem_userid === 'paycotest'">
+                                            <input
+                                                type="radio"
+                                                name="method"
+                                                id="method8"
+                                                hidden="hidden"
+                                                :value="8"
+                                                v-model="pay_type"
+                                            />
+                                            <div class="btn btn--yellow" style="height:48px">
+                                              <div style="font-size:14px;">Credit Card</div>
+                                            </div>
+                                          </label>
                                         </div>
                                     </div>
 
@@ -167,9 +226,8 @@
                                     style="width:50%; margin:30px auto 100px;"
                                     v-if="currentLocale === 'en'"
                             >
-                                <button class="btn btn--gray mr-3" style="height:47px;" @click="goBack">{{$t('back')}}
-                                </button>
-                                <PayPal v-if="isEmptyPaypal === false"
+                                <button class="btn btn--gray mr-3" style="height:47px;" @click="goBack">{{$t('back')}}</button>
+                                <PayPal v-if="isEmptyPaypal === false && pay_type === 4"
                                         :env="pg_paypal_env"
                                         currency="USD"
                                         locale="en_US"
@@ -181,6 +239,15 @@
                                         @payment-completed="paypalCompleted"
                                         @payment-cancelled="paypalCancelled"
                                 ></PayPal>
+                                <button v-if="pay_type !== 4" type="submit" class="btn btn--submit" @click="goPayletter">{{$t('pay')}}</button>
+                            </div>
+                            <div
+                                class="btnbox col"
+                                style="width:50%; margin:30px auto 100px;"
+                                v-if="currentLocale === 'jp'"
+                            >
+                              <button class="btn btn--gray" @click="goBack">{{$t('back')}}</button>
+                              <button type="submit" class="btn btn--submit" @click="goPayletter">{{$t('pay')}}</button>
                             </div>
                         </div>
                         <div v-else>
@@ -282,6 +349,10 @@
                     size: "large",
                     shape: "rect",
                 },
+                payletter: {
+                  currency: 'USD',
+                  pg_info: 'PLCreditCard'
+                },
                 isEmptyPaypal: true,
                 unique_id: '',
                 good_name: '',
@@ -374,6 +445,12 @@
             }
             this.$set(this.allatForm, 'recp_addr', address);
             this.$set(this.allatForm, 'recp_nm', mem_name);
+
+            if (this.$i18n.locale === "en") {
+              this.pay_type = 4
+            } else if (this.$i18n.locale === "jp") {
+              this.pay_type = 8
+            }
         },
         methods: {
             formatPrice: function (kr, en, symbol) {
@@ -426,6 +503,47 @@
             },
             goBack: function () {
                 window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/cart");
+            },
+            goPayletter: function () {
+              switch (this.pay_type) {
+                case 5:
+                  this.payletter.currency = 'USD'
+                  this.payletter.pg_info = 'PLCreditCard'
+                  break
+                case 6:
+                  this.payletter.currency = 'USD'
+                  this.payletter.pg_info = 'WeChatPayQRCodePayment'
+                  break
+                case 7:
+                  this.payletter.currency = 'USD'
+                  this.payletter.pg_info = 'ICBAlipay'
+                  break
+                case 8:
+                  this.payletter.currency = 'JPY'
+                  this.payletter.pg_info = 'PLCreditCard'
+                  break
+              }
+
+              let formData = new FormData();
+              formData.append('currency', this.payletter.currency);
+              formData.append('order_no', this.allatForm.order_no);
+              formData.append('amt', this.total_money_d);
+              formData.append('pmember_id', this.allatForm.pmember_id);
+              formData.append('recp_addr', this.allatForm.recp_addr);
+              formData.append('pg_info', this.payletter.pg_info);
+
+              axios.post('/pg/payletter/payment', formData)
+                  .then(res => res.data)
+                  .then(data => {
+                    console.log(data)
+                    window.open(data.online_url, 'payletter', 'width=762,height=500,scrollbars=1');
+                  })
+                  .catch(error => {
+                    if (error.response) {
+                      alert(error.response.data.message);
+                    }
+                    console.error(error);
+                  });
             },
             paycoReserve: function () {
               let formData = new FormData();
@@ -509,6 +627,23 @@
               formData.append('cor_point', this.cor_point);
               formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
               formData.append('payco_data', data);
+
+              axios.post('/cmall/ajax_orderupdate', formData)
+                  .then(res => res.data)
+                  .then(data => {
+                    window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
+                  })
+                  .catch(error => {
+                    alert(error.response.data.message);
+                  });
+            },
+            procCompletePayletter: function () {
+              let formData = new FormData();
+              formData.append('pay_type', 'payletter');
+              formData.append('unique_id', this.unique_id);
+              formData.append('good_mny', this.total_money_d);
+              formData.append('cor_point', this.cor_point);
+              formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
 
               axios.post('/cmall/ajax_orderupdate', formData)
                   .then(res => res.data)

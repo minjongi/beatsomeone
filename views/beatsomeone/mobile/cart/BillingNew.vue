@@ -645,6 +645,23 @@ export default {
                 alert(error.response.data.message);
               });
         },
+        procCompletePayletter: function () {
+          let formData = new FormData();
+          formData.append('pay_type', 'payletter');
+          formData.append('unique_id', this.unique_id);
+          formData.append('good_mny', this.total_money_d);
+          formData.append('cor_point', this.cor_point);
+          formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
+
+          axios.post('/cmall/ajax_orderupdate', formData)
+              .then(res => res.data)
+              .then(data => {
+                window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);
+              })
+              .catch(error => {
+                alert(error.response.data.message);
+              });
+        },
         paypalAuthorized: function (data) {
         },
         paypalCompleted: function (data) {

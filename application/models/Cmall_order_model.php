@@ -202,6 +202,16 @@ class Cmall_order_model extends CB_Model
         return $return;
     }
 
+    public function payletter_log_insert($data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+
+        $return = $this->db->insert('payco_log', $data);
+        return $return;
+    }
+
     public function get_payco_log_by_cor_id($cor_id)
     {
         if (empty($cor_id)) {

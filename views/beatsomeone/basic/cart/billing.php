@@ -13,5 +13,9 @@
     function payco_result_submit(code, msg, data) {
         vm.$children[0].procCompletePayco(code, msg, data);
     }
+
+    function payletter_result_submit() {
+        vm.$children[0].procCompletePayletter();
+    }
 </script>
 
