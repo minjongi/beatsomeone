@@ -2090,6 +2090,34 @@ class Cmall extends CB_Controller
         redirect('cmall/orderresult/' . $cor_id);
     }
 
+    public function ajax_orderupdate_payletter()
+    {
+        $this->load->model('Cmall_order_model');
+        $cor_id = $this->session->userdata('unique_id');
+
+
+        $waitCount = 0;
+        while ($waitCount < 2) {
+            $payletter_log = $this->Cmall_order_model->get_payletter_log_by_cor_id($cor_id);
+            if (!empty($payletter_log)) {
+                break;
+            }
+            $waitCount++;
+            sleep(1);
+        }
+
+        if (empty($payletter_log)) {
+            $this->output->set_content_type('text/json');
+            $this->output->set_status_header('500');
+            $this->output->set_output(json_encode([
+                'message' => '처리중 오류가 발생하였습니다. 고객센터로 문의해 주시기 바랍니다.'
+            ], JSON_UNESCAPED_UNICODE));
+            return false;
+        }
+
+        $this->ajax_orderupdate();
+    }
+
     /**
      * 주문 AJAX 업데이트 함수입니다
      */
@@ -2386,7 +2414,7 @@ class Cmall extends CB_Controller
                 $insertdata['is_test'] = $this->cbconfig->item('use_pg_test');
                 $insertdata['cor_pay_type'] = 'payco';
                 $insertdata['cor_status'] = 1;
-                $dt = new DateTime($paypalData['create_time']);
+                $dt = new DateTime();
                 $kstTimezone = new DateTimeZone('Asia/Seoul');
                 $dt->setTimezone($kstTimezone);
                 $create_time = $dt->format("Y-m-d H:i:s");

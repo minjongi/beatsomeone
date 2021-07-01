@@ -351,7 +351,7 @@
                 },
                 payletter: {
                   currency: 'USD',
-                  pg_info: 'PLCreditCard'
+                  pg_info: 'PLCreditCardMpi'
                 },
                 isEmptyPaypal: true,
                 unique_id: '',
@@ -508,7 +508,7 @@
               switch (this.pay_type) {
                 case 5:
                   this.payletter.currency = 'USD'
-                  this.payletter.pg_info = 'PLCreditCard'
+                  this.payletter.pg_info = 'PLCreditCardMpi'
                   break
                 case 6:
                   this.payletter.currency = 'USD'
@@ -520,7 +520,7 @@
                   break
                 case 8:
                   this.payletter.currency = 'JPY'
-                  this.payletter.pg_info = 'PLCreditCard'
+                  this.payletter.pg_info = 'PLCreditCardMpi'
                   break
               }
 
@@ -645,7 +645,7 @@
               formData.append('cor_point', this.cor_point);
               formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
 
-              axios.post('/cmall/ajax_orderupdate', formData)
+              axios.post('/cmall/ajax_orderupdate_payletter', formData)
                   .then(res => res.data)
                   .then(data => {
                     window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/complete/" + this.unique_id);

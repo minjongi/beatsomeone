@@ -80,6 +80,31 @@ class Payletter extends CB_Controller
 
         $strRetMsg       = $_POST['retmsg'];            //--Result message
 
+        $params = [
+            'storeid' => $strStoreID,
+            'countrycode' => $strCountryCode,
+            'currency' => $strCurrency,
+            'storeorderno' => $strStoreOrderNo,
+            'payamt' => $strPayAmt,
+            'payerid' => $strPayerId,
+            'payeremail' => $strPayerEmail,
+            'servicename' => $strServiceName,
+            'custom' => $strCustom,
+            'payinfo' => $strPayInfo,
+            'pginfo' => $strPgInfo,
+            'timestamp' => $strTimeStamp,
+            'hash' => $strHash,
+            'notifytype' => $strNotifyType,
+            'paytoken' => $strPayToken,
+            'trantime' => $strTranTime,
+            'poqtoken' => $strPOQToken,
+            'cardkind' => $strCardKind,
+            'cardno' => $strCardNo,
+            'retcode' => $strRetCode,
+            'retmsg' => $strRetMsg,
+        ];
+        $this->Cmall_order_model->allat_log_insert($params);
+
         //-----------------------------------------------------------------------------------------------------------------
         //1. Check retcode
         //-----------------------------------------------------------------------------------------------------------------
@@ -120,30 +145,30 @@ class Payletter extends CB_Controller
             //--Refer to the guide document NotifyType
         }
 
-        $params = [
-            'storeid' => $strStoreID,
-            'countrycode' => $strCountryCode,
-            'currency' => $strCurrency,
-            'storeorderno' => $strStoreOrderNo,
-            'payamt' => $strPayAmt,
-            'payerid' => $strPayerId,
-            'payeremail' => $strPayerEmail,
-            'servicename' => $strServiceName,
-            'custom' => $strCustom,
-            'payinfo' => $strPayInfo,
-            'pginfo' => $strPgInfo,
-            'timestamp' => $strTimeStamp,
-            'hash' => $strHash,
-            'notifytype' => $strNotifyType,
-            'paytoken' => $strPayToken,
-            'trantime' => $strTranTime,
-            'poqtoken' => $strPOQToken,
-            'cardkind' => $strCardKind,
-            'cardno' => $strCardNo,
-            'retcode' => $strRetCode,
-            'retmsg' => $strRetMsg,
-        ];
-        $this->Cmall_order_model->allat_log_insert($params);
+//        $params = [
+//            'storeid' => $strStoreID,
+//            'countrycode' => $strCountryCode,
+//            'currency' => $strCurrency,
+//            'storeorderno' => $strStoreOrderNo,
+//            'payamt' => $strPayAmt,
+//            'payerid' => $strPayerId,
+//            'payeremail' => $strPayerEmail,
+//            'servicename' => $strServiceName,
+//            'custom' => $strCustom,
+//            'payinfo' => $strPayInfo,
+//            'pginfo' => $strPgInfo,
+//            'timestamp' => $strTimeStamp,
+//            'hash' => $strHash,
+//            'notifytype' => $strNotifyType,
+//            'paytoken' => $strPayToken,
+//            'trantime' => $strTranTime,
+//            'poqtoken' => $strPOQToken,
+//            'cardkind' => $strCardKind,
+//            'cardno' => $strCardNo,
+//            'retcode' => $strRetCode,
+//            'retmsg' => $strRetMsg,
+//        ];
+//        $this->Cmall_order_model->allat_log_insert($params);
 
         //--If successful, make sure that html and other code other than <RESULT>OK</RESULT> are not exposed on the page.
         //--If it is not <RESULT>OK</RESULT>, the notification is considered to have failed, and notifications are resent every 5 minutes, up to 10 times.

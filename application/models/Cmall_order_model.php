@@ -202,6 +202,16 @@ class Cmall_order_model extends CB_Model
         return $return;
     }
 
+    public function get_payco_log_by_cor_id($cor_id)
+    {
+        if (empty($cor_id)) {
+            return [];
+        }
+
+        $sql = "SELECT * FROM cb_payco_log WHERE cor_id = ?";
+        return $this->db->query($sql, [$cor_id])->row_array();
+    }
+
     public function payletter_log_insert($data)
     {
         if (empty($data)) {
@@ -212,13 +222,13 @@ class Cmall_order_model extends CB_Model
         return $return;
     }
 
-    public function get_payco_log_by_cor_id($cor_id)
+    public function get_payletter_log_by_cor_id($cor_id)
     {
         if (empty($cor_id)) {
             return [];
         }
 
-        $sql = "SELECT * FROM cb_payco_log WHERE cor_id = ?";
+        $sql = "SELECT * FROM cb_payletter_log WHERE storeorderno = ?";
         return $this->db->query($sql, [$cor_id])->row_array();
     }
 
