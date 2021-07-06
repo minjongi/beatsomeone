@@ -1062,6 +1062,8 @@ class Cmallitem extends CB_Controller
 					$cde_price = element($pkey, $this->input->post('cde_price_update')) ? element($pkey, $this->input->post('cde_price_update')) : 0;
 					$cde_status = element($pkey, $this->input->post('cde_status_update')) ? 1 : 0;
                     $cde_price_d = element($pkey, $this->input->post('cde_price_d_update')) ? element($pkey, $this->input->post('cde_price_d_update')) : 0;
+                    $cde_price_jpy = element($pkey, $this->input->post('cde_price_jpy_update')) ? element($pkey, $this->input->post('cde_price_jpy_update')) : 0;
+                    $cde_price_cny = element($pkey, $this->input->post('cde_price_cny_update')) ? element($pkey, $this->input->post('cde_price_cny_update')) : 0;
                     $cde_quantity = element($pkey, $this->input->post('cde_quantity_update')) ? element($pkey, $this->input->post('cde_quantity_update')) : 0;
 
 					$update = array(
@@ -1069,6 +1071,8 @@ class Cmallitem extends CB_Controller
 						'cde_price' => $cde_price,
 						'cde_status' => $cde_status,
                         'cde_price_d' => $cde_price_d,
+                        'cde_price_jpy' => $cde_price_jpy,
+                        'cde_price_cny' => $cde_price_cny,
                         'cde_quantity' => $cde_quantity,
 					);
 					$this->Cmall_item_detail_model->update($pkey, $update);

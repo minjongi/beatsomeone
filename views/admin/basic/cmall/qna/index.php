@@ -26,7 +26,7 @@
 								<th><a href="<?php echo element('cre_id', element('sort', $view)); ?>">번호</a></th>
 								<th><a href="<?php echo element('cit_name', element('sort', $view)); ?>">상품명</a></th>
 								<th><a href="<?php echo element('cit_key', element('sort', $view)); ?>">상품코드</a></th>
-								<th><a href="<?php echo element('cqa_title', element('sort', $view)); ?>">문의제목</a></th>
+								<th><a href="<?php echo element('cqa_title', element('sort', $view)); ?>">코멘트</a></th>
 								<th>작성자</th>
 								<th>일시</th>
 								<th>답변자</th>
@@ -45,7 +45,7 @@
 								<td><?php echo number_format(element('num', $result)); ?></td>
 								<td><a href="<?php echo goto_url(cmall_item_url(element('cit_key', $result))); ?>" target="_blank"><?php echo html_escape(element('cit_name', $result)); ?></a></td>
 								<td><a href="<?php echo goto_url(cmall_item_url(element('cit_key', $result))); ?>" target="_blank"><?php echo html_escape(element('cit_key', $result)); ?></a></td>
-								<td><?php echo html_escape(element('cqa_title', $result)); ?></td>
+								<td><?php echo html_escape(element('cqa_content', $result)); ?></td>
 								<td><?php echo element('display_name', $result); ?> <?php if (element('mem_userid', $result)) { ?> ( <a href="?sfield=cmall_qna.mem_id&amp;skeyword=<?php echo element('mem_id', $result); ?>"><?php echo html_escape(element('mem_userid', $result)); ?></a> ) <?php } ?></td>
 								<td><?php echo display_datetime(element('cqa_datetime', $result), 'full'); ?></td>
 								<td><?php echo element('reply_display_name', $result) ? element('reply_display_name', $result) : '<span class="text-danger">답변하지 않음</span>'; ?></td>

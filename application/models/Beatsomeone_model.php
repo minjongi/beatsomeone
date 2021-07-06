@@ -503,9 +503,9 @@ class Beatsomeone_model extends CB_Model
 
         $this->db->where($where);
         $select = 'cmall_item.*, p.genre, p.bpm, p.musician, p.subgenre, p.moods, p.trackType, p.hashTag, p.voice ';
-        $select .= ',p.cde_id, p.cde_price,p.cde_price_d, p.cde_download, p.cde_originname, p.cde_quantity ';
-        $select .= ',p.cde_id_2, p.cde_price_2,p.cde_price_d_2, p.cde_download_2, p.cde_originname_2, p.cde_quantity_2 ';
-        $select .= ',p.cde_id_3, p.cde_price_3,p.cde_price_d_3, p.cde_download_3, p.cde_originname_3, p.cde_quantity_3 ';
+        $select .= ',p.cde_id, p.cde_price,p.cde_price_d,p.cde_price_jpy,p.cde_price_cny, p.cde_download, p.cde_originname, p.cde_quantity ';
+        $select .= ',p.cde_id_2, p.cde_price_2,p.cde_price_d_2, p.cde_price_jpy_2, p.cde_price_cny_2, p.cde_download_2, p.cde_originname_2, p.cde_quantity_2 ';
+        $select .= ',p.cde_id_3, p.cde_price_3,p.cde_price_d_3, p.cde_price_jpy_3, p.cde_price_cny_3, p.cde_download_3, p.cde_originname_3, p.cde_quantity_3 ';
         $this->db->select($select);
         $qry = $this->db->get('cmall_item');
 
@@ -661,16 +661,22 @@ class Beatsomeone_model extends CB_Model
                     $cde_id = $p['cde_id'] ?? null;
                     $uploadFileData['cde_price'] = $p['licenseLeasePriceKRW'];
                     $uploadFileData['cde_price_d'] = $p['licenseLeasePriceUSD'];
+                    $uploadFileData['cde_price_jpy'] = $p['licenseLeasePriceJPY'];
+                    $uploadFileData['cde_price_cny'] = $p['licenseLeasePriceCNY'];
                     $uploadFileData['cde_quantity'] = $p['licenseLeaseQuantity'];
                 } else if ($fileType === 'stemFile') {
                     $cde_id = $p['cde_id_2'] ?? null;
                     $uploadFileData['cde_price'] = $p['licenseStemPriceKRW'];
                     $uploadFileData['cde_price_d'] = $p['licenseStemPriceUSD'];
+                    $uploadFileData['cde_price_jpy'] = $p['licenseStemPriceJPY'];
+                    $uploadFileData['cde_price_cny'] = $p['licenseStemPriceCNY'];
                     $uploadFileData['cde_quantity'] = $p['licenseStemQuantity'];
                 } else if ($fileType === 'streamingFile') {
                     $cde_id = $p['cde_id_3'] ?? null;
                     $uploadFileData['cde_price'] = 0;
                     $uploadFileData['cde_price_d'] = 0;
+                    $uploadFileData['cde_price_jpy'] = 0;
+                    $uploadFileData['cde_price_cny'] = 0;
                     $uploadFileData['cde_quantity'] = 0;
                 }
 

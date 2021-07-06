@@ -183,7 +183,8 @@
                                 <th>첨부파일</th>
                                 <th>KRW금액</th>
                                 <th>USD금액</th>
-                                <th>판매수량</th>
+                                <th>JPY금액</th>
+                                <th>CNY금액</th>
                                 <th>사용여부</th>
                             </tr>
                             </thead>
@@ -215,9 +216,10 @@
                                                 <span class="ct_file_name"></span>
                                             <?php } ?>
                                         </td>
-                                        <td><input type="number" class="form-control" name="cde_price_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_price', $detail); ?>"/>원</td>
-                                        <td>$<input type="number" step="0.01" class="form-control" name="cde_price_d_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (float)element('cde_price_d', $detail); ?>"/></td>
-                                        <td><input type="number" class="form-control" name="cde_quantity_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_quantity', $detail); ?>"/>개</td>
+                                        <td><input type="number" class="form-control" name="cde_price_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (int)element('cde_price', $detail); ?>"/></td>
+                                        <td><input type="number" step="0.01" class="form-control" name="cde_price_d_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (float)element('cde_price_d', $detail); ?>"/></td>
+                                        <td><input type="number" step="0.01" class="form-control" name="cde_price_jpy_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (float)element('cde_price_jpy', $detail); ?>"/></td>
+                                        <td><input type="number" step="0.01" class="form-control" name="cde_price_cny_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="<?php echo (float)element('cde_price_cny', $detail); ?>"/></td>
                                         <td><input type="checkbox" name="cde_status_update[<?php echo html_escape(element('cde_id', $detail)); ?>]" value="1" <?php echo (element('cde_status', $detail)) ? ' checked="checked" ' : ''; ?> class="cde_status"/></td>
                                     </tr>
                                     <?php

@@ -42,6 +42,12 @@
                                 <div>
                                     <input type="number" name="m_monthly_d" class="form-control" value="<?php echo set_value('m_monthly_d', element('monthly_d', element('data', $view)[0])); ?>" />$
                                 </div>
+                                <div>
+                                    <input type="number" name="m_monthly_jpy" class="form-control" value="<?php echo set_value('m_monthly_jpy', element('monthly_jpy', element('data', $view)[0])); ?>" />JPY
+                                </div>
+                                <div>
+                                    <input type="number" name="m_monthly_cny" class="form-control" value="<?php echo set_value('m_monthly_cny', element('monthly_cny', element('data', $view)[0])); ?>" />CNY
+                                </div>
                             </td>
                             <td>
                                 <div>
@@ -49,6 +55,12 @@
                                 </div>
                                 <div>
                                     <input type="number" name="m_yearly_d" class="form-control" value="<?php echo set_value('m_yearly_d', element('yearly_d', element('data', $view)[0])); ?>" />$
+                                </div>
+                                <div>
+                                    <input type="number" name="m_yearly_jpy" class="form-control" value="<?php echo set_value('m_yearly_jpy', element('yearly_jpy', element('data', $view)[0])); ?>" />JPY
+                                </div>
+                                <div>
+                                    <input type="number" name="m_yearly_cny" class="form-control" value="<?php echo set_value('m_yearly_cny', element('yearly_cny', element('data', $view)[0])); ?>" />CNY
                                 </div>
                             </td>
                             <td>
@@ -62,6 +74,12 @@
                                 </div>
                                 <div>
                                     <input type="number" name="m_yearly_discount_amt_d" class="form-control" value="<?php echo set_value('m_yearly_discount_amt_d', element('yearly_discount_amt_d', element('data', $view)[0])); ?>" />$
+                                </div>
+                                <div>
+                                    <input type="number" name="m_yearly_discount_amt_jpy" class="form-control" value="<?php echo set_value('m_yearly_discount_amt_jpy', element('yearly_discount_amt_jpy', element('data', $view)[0])); ?>" />JPY
+                                </div>
+                                <div>
+                                    <input type="number" name="m_yearly_discount_amt_cny" class="form-control" value="<?php echo set_value('m_yearly_discount_amt_cny', element('yearly_discount_amt_cny', element('data', $view)[0])); ?>" />CNY
                                 </div>
                             </td>
 						</tr>
@@ -77,6 +95,12 @@
                                 <div>
                                     <input type="number" name="p_monthly_d" class="form-control" value="<?php echo set_value('p_monthly_d', element('monthly_d', element('data', $view)[1])); ?>" />$
                                 </div>
+                                <div>
+                                    <input type="number" name="p_monthly_jpy" class="form-control" value="<?php echo set_value('p_monthly_jpy', element('monthly_jpy', element('data', $view)[1])); ?>" />$
+                                </div>
+                                <div>
+                                    <input type="number" name="p_monthly_cny" class="form-control" value="<?php echo set_value('p_monthly_cny', element('monthly_cny', element('data', $view)[1])); ?>" />$
+                                </div>
                             </td>
                             <td>
                                 <div>
@@ -84,6 +108,12 @@
                                 </div>
                                 <div>
                                     <input type="number" name="p_yearly_d" class="form-control" value="<?php echo set_value('p_yearly_d', element('yearly_d', element('data', $view)[1])); ?>" />$
+                                </div>
+                                <div>
+                                    <input type="number" name="p_yearly_jpy" class="form-control" value="<?php echo set_value('p_yearly_jpy', element('yearly_jpy', element('data', $view)[1])); ?>" />$
+                                </div>
+                                <div>
+                                    <input type="number" name="p_yearly_cny" class="form-control" value="<?php echo set_value('p_yearly_cny', element('yearly_cny', element('data', $view)[1])); ?>" />$
                                 </div>
                             </td>
                             <td>
@@ -97,6 +127,12 @@
                                 </div>
                                 <div>
                                     <input type="number" name="p_yearly_discount_amt_d" class="form-control" value="<?php echo set_value('p_yearly_discount_amt_d', element('yearly_discount_amt_d', element('data', $view)[1])); ?>" />$
+                                </div>
+                                <div>
+                                    <input type="number" name="p_yearly_discount_amt_jpy" class="form-control" value="<?php echo set_value('p_yearly_discount_amt_jpy', element('yearly_discount_amt_jpy', element('data', $view)[1])); ?>" />$
+                                </div>
+                                <div>
+                                    <input type="number" name="p_yearly_discount_amt_cny" class="form-control" value="<?php echo set_value('p_yearly_discount_amt_cny', element('yearly_discount_amt_cny', element('data', $view)[1])); ?>" />$
                                 </div>
                             </td>
                         </tr>
