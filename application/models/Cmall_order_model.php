@@ -218,7 +218,7 @@ class Cmall_order_model extends CB_Model
             return false;
         }
 
-        $return = $this->db->insert('payco_log', $data);
+        $return = $this->db->insert('payletter_log', $data);
         return $return;
     }
 

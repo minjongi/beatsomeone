@@ -103,7 +103,7 @@ class Payletter extends CB_Controller
             'retcode' => $strRetCode,
             'retmsg' => $strRetMsg,
         ];
-        $this->Cmall_order_model->allat_log_insert($params);
+        $this->Cmall_order_model->payletter_log_insert($params);
 
         //-----------------------------------------------------------------------------------------------------------------
         //1. Check retcode
@@ -168,7 +168,7 @@ class Payletter extends CB_Controller
 //            'retcode' => $strRetCode,
 //            'retmsg' => $strRetMsg,
 //        ];
-//        $this->Cmall_order_model->allat_log_insert($params);
+//        $this->Cmall_order_model->payletter_log_insert($params);
 
         //--If successful, make sure that html and other code other than <RESULT>OK</RESULT> are not exposed on the page.
         //--If it is not <RESULT>OK</RESULT>, the notification is considered to have failed, and notifications are resent every 5 minutes, up to 10 times.
@@ -226,6 +226,7 @@ class Payletter extends CB_Controller
         $pginfo = $_POST["pg_info"] ?? '';
         $returnUrl = base_url() . 'pg/payletter/return';
         $notiUrl = base_url() . 'pg/payletter/approval';
+        $servicename = 'beatsomeone';
 
         $strRequestContent = "storeid=" . $strStoreID .         //--Store ID
             "&currency=" . $currency .                          //--Currency Code
@@ -235,6 +236,7 @@ class Payletter extends CB_Controller
             "&payeremail=" . $payeremail .                      //--Payer Email
             "&returnurl=" . $returnUrl .                        //--URL to return after payment processing
             "&notiurl=" . $notiUrl .                            //--URL to receive payment success result
+            "&servicename=" . $servicename .                    //--URL to receive payment success result
             "&pginfo=" . $pginfo;                               //--Payment Request PG Information
 
         //----------------------------------------------------------------------------------------------------------------------------
