@@ -3243,7 +3243,7 @@ class Mypage extends CB_Controller
         $where = [
             'cmall_item_show_history.mem_id' => $mem_id
         ];
-        $recently_listen_items = $this->Cmall_item_show_history_model->get_list(6, '', $where, '', 'show_dt', 'desc');
+        $recently_listen_items = $this->Cmall_item_show_history_model->get_list(12, '', $where, '', 'show_dt', 'desc');
 
         $where = array(
             'recv_mem_id' => $mem_id,

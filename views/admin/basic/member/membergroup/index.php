@@ -61,18 +61,37 @@
                             <div class="col-sm-1">
                                 <div class="input-group">
                                     <input type="text" class="form-control"
-                                           name="mgr_monthly_cost_d[<?php echo element('mgr_id', $result); ?>]"
-                                           value="<?php echo html_escape(element('mgr_monthly_cost_d', $result)); ?>"/>
-                                    <span class="input-group-addon">$</span>
-                                </div>
-                                <div class="input-group">
-                                    <input type="text" class="form-control"
                                            name="mgr_monthly_cost_w[<?php echo element('mgr_id', $result); ?>]"
                                            value="<?php echo html_escape(element('mgr_monthly_cost_w', $result)); ?>"/>
                                     <span class="input-group-addon">원</span>
                                 </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           name="mgr_monthly_cost_d[<?php echo element('mgr_id', $result); ?>]"
+                                           value="<?php echo html_escape(element('mgr_monthly_cost_d', $result)); ?>"/>
+                                    <span class="input-group-addon">$</span>
+                                </div>
+
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           name="mgr_monthly_cost_jpy[<?php echo element('mgr_id', $result); ?>]"
+                                           value="<?php echo html_escape(element('mgr_monthly_cost_jpy', $result)); ?>"/>
+                                    <span class="input-group-addon">JPY</span>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           name="mgr_monthly_cost_cny[<?php echo element('mgr_id', $result); ?>]"
+                                           value="<?php echo html_escape(element('mgr_monthly_cost_cny', $result)); ?>"/>
+                                    <span class="input-group-addon">CNY</span>
+                                </div>
                             </div>
                             <div class="col-sm-1">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           name="mgr_year_cost_w[<?php echo element('mgr_id', $result); ?>]"
+                                           value="<?php echo html_escape(element('mgr_year_cost_w', $result)); ?>"/>
+                                    <span class="input-group-addon">원</span>
+                                </div>
                                 <div class="input-group">
                                     <input type="text" class="form-control"
                                            name="mgr_year_cost_d[<?php echo element('mgr_id', $result); ?>]"
@@ -81,12 +100,17 @@
                                 </div>
                                 <div class="input-group">
                                     <input type="text" class="form-control"
-                                           name="mgr_year_cost_w[<?php echo element('mgr_id', $result); ?>]"
-                                           value="<?php echo html_escape(element('mgr_year_cost_w', $result)); ?>"/>
-                                    <span class="input-group-addon">원</span>
+                                           name="mgr_year_cost_jpy[<?php echo element('mgr_id', $result); ?>]"
+                                           value="<?php echo html_escape(element('mgr_year_cost_jpy', $result)); ?>"/>
+                                    <span class="input-group-addon">JPY</span>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           name="mgr_year_cost_cny[<?php echo element('mgr_id', $result); ?>]"
+                                           value="<?php echo html_escape(element('mgr_year_cost_cny', $result)); ?>"/>
+                                    <span class="input-group-addon">CNY</span>
                                 </div>
                             </div>
-
                             <div class="col-sm-1">
                                 <label>월 할인율</label>
                                 <input type="text" class="form-control"

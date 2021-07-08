@@ -17,7 +17,7 @@
             </div>
             <div class="accounts__plan-price" v-if="info.group">
                 <h2>
-                    <span>{{ $t('currencySymbol') }} {{ info.billTerm === 'monthly' ? ($i18n.locale === 'en' ? info.group.mgr_monthly_cost_d : info.group.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? info.group.mgr_year_cost_d : info.group.mgr_year_cost_w) }}</span>
+                    <span>{{ $t('currencySymbol') }} {{ info.billTerm === 'monthly' ? info.group[costKey('mgr_monthly_cost')] : info.group[costKey('mgr_year_cost')] }}</span>
                 </h2>
             </div>
             <div v-if="$i18n.locale !== 'ko'">
@@ -216,6 +216,18 @@
             this.$set(this.allatForm, 'amt', (+this.amount_w));
         },
         methods: {
+            costKey(key) {
+              return key + '_' + this.currencyCode()
+            },
+            currencyCode() {
+              switch (this.$i18n.locale) {
+                case 'ko':
+                  return 'w'
+                case 'jp':
+                  return 'jpy'
+              }
+              return 'd'
+            },
             isEmptyObject: function (data) {
                 return Object.keys(data).length === 0;
             },

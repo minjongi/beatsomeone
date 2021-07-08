@@ -303,17 +303,13 @@
                   </div>
                   <div class="row row--inner">
                     <span class="col">
-                      <p>{{ $t('inventoryQuantity') }}</p>
+                      <div class="input">
+                        <NumberInput placeholder="JPY 540.00" v-model="item.licenseLeasePriceJPY" />
+                      </div>
                     </span>
                     <span class="col">
                       <div class="input">
-                        <input
-                          type="number"
-                          placeholder="0"
-                          v-model.number="item.licenseLeaseQuantity"
-                          ref="licenseLeaseQuantity"
-                          @input="onlyNumber($event, 'licenseLeaseQuantity')"
-                        />
+                        <NumberInput placeholder="CNY 32.00" v-model="item.licenseLeasePriceCNY" />
                       </div>
                     </span>
                   </div>
@@ -363,20 +359,13 @@
                   </div>
                   <div class="row row--inner">
                     <span class="col">
-                      <p class="possible-sell" v-html="$t('availableQuantityForSale')"></p>
+                      <div class="input">
+                        <NumberInput v-model="item.licenseStemPriceJPY" placeholder="JPY 33000.00" />
+                      </div>
                     </span>
                     <span class="col">
                       <div class="input">
-                        <input
-                          type="number"
-                          placeholder="1"
-                          readonly
-                          min="0"
-                          class="disabled"
-                          v-model.number="item.licenseStemQuantity"
-                          ref="licenseStemQuantity"
-                          @input="onlyNumber($event, 'licenseStemQuantity')"
-                        />
+                        <NumberInput v-model="item.licenseStemPriceCNY" placeholder="CNY 1900.00" />
                       </div>
                     </span>
                   </div>
@@ -485,10 +474,14 @@ export default {
         licenseLeaseUseYn: false,
         licenseLeasePriceKRW: "",
         licenseLeasePriceUSD: "",
-        licenseLeaseQuantity: "",
+        licenseLeasePriceJPY: "",
+        licenseLeasePriceCNY: "",
+        licenseLeaseQuantity: 99999,
         licenseStemUseYn: false,
         licenseStemPriceKRW: "",
         licenseStemPriceUSD: "",
+        licenseStemPriceJPY: "",
+        licenseStemPriceCNY: "",
         licenseStemQuantity: 1,
         genre: "",
         subgenre: "",
@@ -689,10 +682,14 @@ export default {
         r.data.licenseLeaseUseYn = r.data.cit_lease_license_use == 1 ? true : false;
         r.data.licenseLeasePriceKRW = r.data.cde_price;
         r.data.licenseLeasePriceUSD = r.data.cde_price_d;
+        r.data.licenseLeasePriceJPY = r.data.cde_price_jpy;
+        r.data.licenseLeasePriceCNY = r.data.cde_price_cny;
         r.data.licenseLeaseQuantity = r.data.cde_quantity;
         r.data.licenseStemUseYn = r.data.cit_mastering_license_use == 1 ? true : false;
         r.data.licenseStemPriceKRW = r.data.cde_price_2;
         r.data.licenseStemPriceUSD = r.data.cde_price_d_2;
+        r.data.licenseStemPriceJPY = r.data.cde_price_jpy_2;
+        r.data.licenseStemPriceCNY = r.data.cde_price_cny_2;
         r.data.licenseStemQuantity = 1;
         r.data.unTaggedFileName = r.data.cde_originname;
         r.data.stemFileName = r.data.cde_originname_2;

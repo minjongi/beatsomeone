@@ -115,7 +115,7 @@
                                                 <div style="font-size:14px;">PayPal</div>
                                               </div>
                                             </label>
-                                            <label class="checkbox" for="method6" v-if="member.mem_userid === 'paycotest'">
+                                            <label class="checkbox" for="method6">
                                               <input
                                                   type="radio"
                                                   name="method"
@@ -130,7 +130,7 @@
                                             </label>
                                           </div>
                                           <div>
-                                            <label class="checkbox" for="method5" style="margin-bottom: 10px;" v-if="member.mem_userid === 'paycotest'">
+                                            <label class="checkbox" for="method5" style="margin-bottom: 10px;">
                                               <input
                                                   type="radio"
                                                   name="method"
@@ -143,7 +143,7 @@
                                                 <div style="font-size:14px;">Credit Card</div>
                                               </div>
                                             </label>
-                                            <label class="checkbox" for="method7" v-if="member.mem_userid === 'paycotest'">
+                                            <label class="checkbox" for="method7">
                                               <input
                                                   type="radio"
                                                   name="method"
@@ -159,7 +159,7 @@
                                           </div>
                                         </div>
                                         <div v-if="currentLocale === 'jp'">
-                                          <label class="checkbox" for="method8" v-if="member.mem_userid === 'paycotest'">
+                                          <label class="checkbox" for="method8">
                                             <input
                                                 type="radio"
                                                 name="method"
@@ -508,7 +508,7 @@
               switch (this.pay_type) {
                 case 5:
                   this.payletter.currency = 'USD'
-                  this.payletter.pg_info = 'PLCreditCardMpi'
+                  this.payletter.pg_info = 'PLCreditCard'
                   break
                 case 6:
                   this.payletter.currency = 'USD'

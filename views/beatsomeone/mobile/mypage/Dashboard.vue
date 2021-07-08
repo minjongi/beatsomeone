@@ -1,10 +1,6 @@
 <template>
 
     <div v-if="member">
-        <div class="row" v-if="isSeller">
-            <Dashboard_SettlementOverview :data="settlement_summary"></Dashboard_SettlementOverview>
-        </div>
-
         <div class="row double">
             <Dashboard_OrderDetails :data="order_summary"></Dashboard_OrderDetails>
             <Dashboard_ExpiredSoon :data="expired_soon_items"></Dashboard_ExpiredSoon>

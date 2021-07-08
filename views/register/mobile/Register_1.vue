@@ -126,7 +126,7 @@
                     <p>
                         {{ $t('free') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'en' ? sellerFreeGroup.mgr_monthly_cost_d : sellerFreeGroup.mgr_monthly_cost_w }}</h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ sellerFreeGroup[costKey('mgr_monthly_cost')] }}</h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
@@ -183,8 +183,7 @@
                     <p>
                         {{ $t('platinum') }}<br />
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ? sellerPlatinumGroup.mgr_monthly_cost_d : sellerPlatinumGroup.mgr_monthly_cost_w) :
-                        ($i18n.locale === 'en' ? sellerPlatinumGroup.mgr_year_cost_d : sellerPlatinumGroup.mgr_year_cost_w) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? sellerPlatinumGroup[costKey('mgr_monthly_cost')] : sellerPlatinumGroup[costKey('mgr_year_cost')] }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('getStarted') }}</a>
@@ -241,7 +240,7 @@
                     <p>
                         {{ $t('master') }}<br />
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ? sellerMasterGroup.mgr_monthly_cost_d : sellerMasterGroup.mgr_monthly_cost_w) : ($i18n.locale === 'en' ? sellerMasterGroup.mgr_year_cost_d : sellerMasterGroup.mgr_year_cost_w) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? sellerMasterGroup[costKey('mgr_monthly_cost')] : sellerMasterGroup[costKey('mgr_year_cost')] }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(sellerMasterGroup)">{{ $t('getStarted') }}</a>
@@ -298,7 +297,7 @@
                     <p>
                         {{ $t('lang160') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCommon.mgr_monthly_cost_d : subscribedCommon.mgr_monthly_cost_w }}<em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ subscribedCommon[costKey('mgr_monthly_cost')] }}<em>/mo</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)">{{ $t('getStarted') }}</a>
@@ -360,7 +359,7 @@
                     <p>
                         {{ $t('lang129') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'en' ? subscribedCreater.mgr_monthly_cost_d : subscribedCreater.mgr_monthly_cost_w }}<em>/mo</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span> {{ subscribedCreater[costKey('mgr_monthly_cost')] }}<em>/mo</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
@@ -498,6 +497,18 @@
             }
         },
         methods: {
+            costKey(key) {
+              return key + '_' + this.currencyCode()
+            },
+            currencyCode() {
+              switch (this.$i18n.locale) {
+                case 'ko':
+                  return 'w'
+                case 'jp':
+                  return 'jpy'
+              }
+              return 'd'
+            },
             setBillTerm(billTerm) {
               localStorage.setItem('bill_term', billTerm)
               this.billTerm = billTerm

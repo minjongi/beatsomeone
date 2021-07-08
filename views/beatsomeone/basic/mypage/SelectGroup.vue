@@ -34,14 +34,14 @@
                     <p>
                       {{ $t('free') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'ko' ? buyerGroup.mgr_monthly_cost_w : buyerGroup.mgr_monthly_cost_d }}</h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ buyerGroup[costKey('mgr_monthly_cost')] }}</h2>
                     <a href="javascript:;" class="btn btn--start" style="background-color: #999494;">{{ $t('lang159') }}</a>
                   </th>
                   <th>
                     <p>
                       {{ $t('lang160') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'ko' ? subscribedCommon.mgr_monthly_cost_w : subscribedCommon.mgr_monthly_cost_d }}<em>{{ $t('monthly') }}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ subscribedCommon[costKey('mgr_monthly_cost')] }}<em>{{ $t('monthly') }}</em></h2>
                     <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)" v-if="this.member_group_name !== 'subscribe_common'">{{ $t('getStarted') }}</a>
                     <a href="javascript:;" class="btn btn--start" style="background-color: #999494;" v-else>{{ $t('lang159') }}</a>
                   </th>
@@ -49,7 +49,7 @@
                     <p>
                       {{ $t('lang129') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'ko' ? subscribedCreater.mgr_monthly_cost_w : subscribedCreater.mgr_monthly_cost_d }}<em>{{ $t('monthly') }}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ subscribedCreater[costKey('mgr_monthly_cost')] }}<em>{{ $t('monthly') }}</em></h2>
                     <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
                   </th>
                 </tr>
@@ -132,7 +132,7 @@
                 <colgroup>
                     <col width="300"/>
                     <col width="200"/>
-                    <col width="200"/>
+                    <col width="200" v-if="false"/>
                     <col width="200"/>
                 </colgroup>
                 <thead>
@@ -142,22 +142,21 @@
                         <p>
                             {{ $t('free') }}
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'ko' ? sellerFreeGroup.mgr_monthly_cost_w : sellerFreeGroup.mgr_monthly_cost_d }}</h2>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ sellerFreeGroup[costKey('mgr_monthly_cost')] }}</h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('upgrade') }}</a>
                     </th>
-                    <th>
+                    <th v-if="false">
                         <p>
                             {{ $t('platinum') }}<br/>
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'ko' ? sellerPlatinumGroup.mgr_monthly_cost_w : sellerPlatinumGroup.mgr_monthly_cost_d) :
-                            ($i18n.locale === 'ko' ? sellerPlatinumGroup.mgr_year_cost_w : sellerPlatinumGroup.mgr_year_cost_d) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? sellerPlatinumGroup[costKey('mgr_monthly_cost')] : sellerPlatinumGroup[costKey('mgr_year_cost')] }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('upgrade') }}</a>
                     </th>
                     <th>
                         <p>
                             {{ $t('master') }}<br/>
                         </p>
-                        <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'ko' ? sellerMasterGroup.mgr_monthly_cost_w : sellerMasterGroup.mgr_monthly_cost_d) : ($i18n.locale === 'ko' ? sellerMasterGroup.mgr_year_cost_w : sellerMasterGroup.mgr_year_cost_d) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
+                        <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? sellerMasterGroup[costKey('mgr_monthly_cost')] : sellerMasterGroup[costKey('mgr_year_cost')] }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(sellerMasterGroup)">{{ $t('upgrade') }}</a>
                     </th>
                 </tr>
@@ -166,7 +165,7 @@
                 <tr>
                   <td>{{ $t('uploadTracksLimit') }}</td>
                   <td>5 → {{ $t('lang155') }}(event)</td>
-                  <td>{{ $t('lang155') }}</td>
+                  <td v-if="false">{{ $t('lang155') }}</td>
                   <td>{{ $t('lang155') }}</td>
                 </tr>
                 <tr>
@@ -174,7 +173,7 @@
                   <td>
                     <span class="check">O</span>
                   </td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                   <td>
@@ -186,7 +185,7 @@
                   <td>
                     {{ sellerFreeGroup.mgr_commission }}%
                   </td>
-                  <td>
+                  <td v-if="false">
                     {{ sellerPlatinumGroup.mgr_commission }}%
                   </td>
                   <td>
@@ -198,7 +197,7 @@
                   <td>
                     10<br>(1{{ $t('month') }})
                   </td>
-                  <td>
+                  <td v-if="false">
                     20
                   </td>
                   <td>
@@ -210,7 +209,7 @@
                   <td>
                     <span class="check">O</span>
                   </td>
-                  <td>
+                  <td v-if="false">
                     <span class="check">O</span>
                   </td>
                   <td>
@@ -223,7 +222,7 @@
                     <td>
                         <a href="javascript:;" class="btn btn--start" @click="doNext(buyerGroup)">{{ $t('upgrade') }}</a>
                     </td>
-                    <td>
+                    <td v-if="false">
                         <a href="javascript:;" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('upgrade') }}</a>
                     </td>
                     <td>
@@ -315,6 +314,18 @@
             }
         },
         methods: {
+            costKey(key) {
+              return key + '_' + this.currencyCode()
+            },
+            currencyCode() {
+              switch (this.$i18n.locale) {
+                  case 'ko':
+                    return 'w'
+                  case 'jp':
+                    return 'jpy'
+              }
+              return 'd'
+            },
             doNext(group) {
                 if (group.mgr_title === 'seller_free' || group.mgr_title === 'buyer') {
                     let formData = new FormData();

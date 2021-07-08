@@ -311,14 +311,21 @@
                   </div>
                   <div class="row row--inner">
                     <span class="col">
-                      <p>{{ $t('inventoryQuantity') }}</p>
+                      <div class="input">
+                        <input
+                            type="number"
+                            placeholder="JPY 540.00"
+                            v-model="item.licenseLeasePriceJPY"
+                        />
+                      </div>
                     </span>
                     <span class="col">
                       <div class="input">
                         <input
-                                type="number"
-                                placeholder="0"
-                                v-model="item.licenseLeaseQuantity"/>
+                            type="number"
+                            placeholder="CNY 32.00"
+                            v-model="item.licenseLeasePriceCNY"
+                        />
                       </div>
                     </span>
                   </div>
@@ -372,18 +379,20 @@
                   </div>
                   <div class="row row--inner">
                     <span class="col">
-                      <p
-                        style="display:flex;align-items:center;height: 55px;line-height:1.25em" v-html="$t('availableQuantityForSale')"
-                      ></p>
+                      <div class="input">
+                        <input
+                            type="number"
+                            placeholder="JPY 33000.00"
+                            v-model="item.licenseStemPriceJPY"
+                        />
+                      </div>
                     </span>
                     <span class="col">
                       <div class="input">
                         <input
-                          type="number"
-                          placeholder="1"
-                          readonly
-                          class="disabled"
-                          v-model="item.licenseStemQuantity"
+                            type="number"
+                            placeholder="CNY 1900.00"
+                            v-model="item.licenseStemPriceCNY"
                         />
                       </div>
                     </span>
@@ -499,10 +508,14 @@ export default {
         licenseLeaseUseYn: "",
         licenseLeasePriceKRW: "",
         licenseLeasePriceUSD: "",
+        licenseLeasePriceJPY: "",
+        licenseLeasePriceCNY: "",
         licenseLeaseQuantity: "",
         licenseStemUseYn: "",
         licenseStemPriceKRW: "",
         licenseStemPriceUSD: "",
+        licenseStemPriceJPY: "",
+        licenseStemPriceCNY: "",
         licenseStemQuantity: 1,
         genre: "",
         subgenre: "",

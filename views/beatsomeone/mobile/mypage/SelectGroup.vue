@@ -108,7 +108,7 @@
                     <p>
                         {{ $t('free') }}
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ $i18n.locale === 'ko' ? sellerFreeGroup.mgr_monthly_cost_w : sellerFreeGroup.mgr_monthly_cost_d }}</h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ sellerFreeGroup[costKey('mgr_monthly_cost')] }}</h2>
                 </div>
                 <div class="right">
                   <a href="javascript:" class="btn btn--start" @click="doNext(sellerFreeGroup)">{{ $t('getStarted') }}</a>
@@ -165,8 +165,7 @@
                     <p>
                         {{ $t('platinum') }}<br />
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'en' ? sellerPlatinumGroup.mgr_monthly_cost_d : sellerPlatinumGroup.mgr_monthly_cost_w) :
-                        ($i18n.locale === 'ko' ? sellerPlatinumGroup.mgr_year_cost_w : sellerPlatinumGroup.mgr_year_cost_d) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? sellerPlatinumGroup[costKey('mgr_monthly_cost')] : sellerPlatinumGroup[costKey('mgr_year_cost')] }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:" class="btn btn--start" @click="doNext(sellerPlatinumGroup)">{{ $t('getStarted') }}</a>
@@ -223,7 +222,7 @@
                     <p>
                         {{ $t('master') }}<br />
                     </p>
-                    <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? ($i18n.locale === 'ko' ? sellerMasterGroup.mgr_monthly_cost_w : sellerMasterGroup.mgr_monthly_cost_d) : ($i18n.locale === 'ko' ? sellerMasterGroup.mgr_year_cost_w : sellerMasterGroup.mgr_year_cost_d) }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
+                    <h2><span>{{ $t('currencySymbol') }}</span>{{ billTerm === 'monthly' ? sellerMasterGroup[costKey('mgr_monthly_cost')] : sellerMasterGroup[costKey('mgr_year_cost')] }}<em>/{{ billTerm === 'monthly' ? $t('lang46') : $t('lang47')}}</em></h2>
                 </div>
                 <div class="right">
                     <a href="javascript:" class="btn btn--start" @click="doNext(sellerMasterGroup)">{{ $t('getStarted') }}</a>
@@ -280,7 +279,7 @@
               <p>
                 {{ $t('lang160') }}
               </p>
-              <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'ko' ? subscribedCommon.mgr_monthly_cost_w : subscribedCommon.mgr_monthly_cost_d }}<em>/mo</em></h2>
+              <h2><span>{{ $t('currencySymbol') }}</span> {{ subscribedCommon[costKey('mgr_monthly_cost')] }}<em>/mo</em></h2>
             </div>
             <div class="right">
               <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCommon)" v-if="this.member_group_name !== 'subscribe_common'">{{ $t('getStarted') }}</a>
@@ -344,7 +343,7 @@
               <p>
                 {{ $t('lang129') }}
               </p>
-              <h2><span>{{ $t('currencySymbol') }}</span> {{ $i18n.locale === 'ko' ? subscribedCreater.mgr_monthly_cost_w : subscribedCreater.mgr_monthly_cost_d }}<em>/mo</em></h2>
+              <h2><span>{{ $t('currencySymbol') }}</span> {{ subscribedCreater[costKey('mgr_monthly_cost')] }}<em>/mo</em></h2>
             </div>
             <div class="right">
               <a href="javascript:;" class="btn btn--start" @click="doNext(subscribedCreater)">{{ $t('getStarted') }}</a>
@@ -485,6 +484,18 @@
             }
         },
         methods: {
+            costKey(key) {
+              return key + '_' + this.currencyCode()
+            },
+            currencyCode() {
+              switch (this.$i18n.locale) {
+                case 'ko':
+                  return 'w'
+                case 'jp':
+                  return 'jpy'
+              }
+              return 'd'
+            },
             doNext(group) {
               if (group.mgr_title === 'buyer') {
                 return

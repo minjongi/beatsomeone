@@ -1333,7 +1333,7 @@ export default {
         payletter: '페이레터',
     }, // ko
     jp: {
-        currencySymbol: '$',
+        currencySymbol: '￥',
         unlimited: '条件制限なし',
         month: 'か月',
         year: '年',

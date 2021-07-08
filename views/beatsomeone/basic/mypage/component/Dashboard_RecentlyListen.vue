@@ -53,7 +53,8 @@
 <style scoped="scoped" lang="scss">
     .albumItem {
         width: 163px;
-        margin-right: 20px;
+        margin-right: 18px;
+        margin-bottom: 20px;
         padding: 0;
 
         .albumItem__cover {
