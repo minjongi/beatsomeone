@@ -2061,4 +2061,12 @@ class BeatsomeoneApi extends CB_Controller
         }
         echo '처리완료 : ' . $total;
     }
+
+    public function get_exchange_rate()
+    {
+        $this->load->model('Beatsomeone_model');
+        $result = $this->Beatsomeone_model->get_exchange_rate();
+        $this->output->set_content_type('text/json');
+        $this->output->set_output(json_encode($result));
+    }
 }

@@ -296,6 +296,8 @@
                           type="number"
                           placeholder="KRW 5500"
                           v-model="item.licenseLeasePriceKRW"
+                          @input="setPrice()"
+                          :readonly="$i18n.locale !== 'ko'"
                         />
                       </div>
                     </span>
@@ -305,6 +307,8 @@
                           type="number"
                           placeholder="USD 5.00"
                           v-model="item.licenseLeasePriceUSD"
+                          @input="setPrice()"
+                          :readonly="$i18n.locale !== 'en'"
                         />
                       </div>
                     </span>
@@ -316,6 +320,8 @@
                             type="number"
                             placeholder="JPY 540.00"
                             v-model="item.licenseLeasePriceJPY"
+                            @input="setPrice()"
+                            :readonly="$i18n.locale !== 'jp'"
                         />
                       </div>
                     </span>
@@ -325,6 +331,8 @@
                             type="number"
                             placeholder="CNY 32.00"
                             v-model="item.licenseLeasePriceCNY"
+                            @input="setPrice()"
+                            :readonly="$i18n.locale !== 'cn'"
                         />
                       </div>
                     </span>
@@ -364,6 +372,8 @@
                           type="number"
                           placeholder="KRW 330000"
                           v-model="item.licenseStemPriceKRW"
+                          @input="setPrice()"
+                          :readonly="$i18n.locale !== 'ko'"
                         />
                       </div>
                     </span>
@@ -373,6 +383,8 @@
                           type="number"
                           placeholder="USD 280.00"
                           v-model="item.licenseStemPriceUSD"
+                          @input="setPrice()"
+                          :readonly="$i18n.locale !== 'en'"
                         />
                       </div>
                     </span>
@@ -384,6 +396,8 @@
                             type="number"
                             placeholder="JPY 33000.00"
                             v-model="item.licenseStemPriceJPY"
+                            @input="setPrice()"
+                            :readonly="$i18n.locale !== 'jp'"
                         />
                       </div>
                     </span>
@@ -393,6 +407,8 @@
                             type="number"
                             placeholder="CNY 1900.00"
                             v-model="item.licenseStemPriceCNY"
+                            @input="setPrice()"
+                            :readonly="$i18n.locale !== 'cn'"
                         />
                       </div>
                     </span>
@@ -544,6 +560,12 @@ export default {
       listMoods: window.moods,
       listTrackType: window.trackType,
       regLimit: 10,
+      exchangeRate: {
+        krw: 0,
+        usd: 0,
+        jpy: 0,
+        cny: 0
+      }
     };
   },
   watch: {
@@ -597,7 +619,39 @@ export default {
       return list;
     },
   },
+  created() {
+    this.getExchangeRate()
+  },
   methods: {
+    getExchangeRate() {
+      Http.get('/beatsomeoneApi/get_exchange_rate').then((r) => {
+        this.exchangeRate = r.data;
+      });
+    },
+    setPrice() {
+      if (this.$i18n.locale === "en") {
+        this.item.licenseLeasePriceKRW = Math.ceil(this.item.licenseLeasePriceUSD * this.exchangeRate.krw / this.exchangeRate.usd)
+        this.item.licenseStemPriceKRW = Math.ceil(this.item.licenseStemPriceUSD * this.exchangeRate.krw / this.exchangeRate.usd)
+        this.item.licenseLeasePriceJPY = parseFloat(this.item.licenseLeasePriceUSD * this.exchangeRate.jpy / this.exchangeRate.usd).toFixed(2)
+        this.item.licenseStemPriceJPY = parseFloat(this.item.licenseStemPriceUSD * this.exchangeRate.jpy / this.exchangeRate.usd).toFixed(2)
+        this.item.licenseLeasePriceCNY = Math.ceil(this.item.licenseLeasePriceUSD * this.exchangeRate.cny / this.exchangeRate.usd)
+        this.item.licenseStemPriceCNY = Math.ceil(this.item.licenseStemPriceUSD * this.exchangeRate.cny / this.exchangeRate.usd)
+      } else if (this.$i18n.locale === "jp") {
+        this.item.licenseLeasePriceKRW = Math.ceil(this.item.licenseLeasePriceJPY * this.exchangeRate.krw / this.exchangeRate.jpy)
+        this.item.licenseStemPriceKRW = Math.ceil(this.item.licenseStemPriceJPY * this.exchangeRate.krw / this.exchangeRate.jpy)
+        this.item.licenseLeasePriceUSD = parseFloat(this.item.licenseLeasePriceJPY * this.exchangeRate.usd / this.exchangeRate.jpy).toFixed(2)
+        this.item.licenseStemPriceUSD = parseFloat(this.item.licenseStemPriceJPY * this.exchangeRate.usd / this.exchangeRate.jpy).toFixed(2)
+        this.item.licenseLeasePriceCNY = Math.ceil(this.item.licenseLeasePriceJPY * this.exchangeRate.cny / this.exchangeRate.jpy)
+        this.item.licenseStemPriceCNY = Math.ceil(this.item.licenseStemPriceJPY * this.exchangeRate.cny / this.exchangeRate.jpy)
+      } else {
+        this.item.licenseLeasePriceUSD = parseFloat(this.item.licenseLeasePriceKRW * this.exchangeRate.usd / this.exchangeRate.krw).toFixed(2)
+        this.item.licenseStemPriceUSD = parseFloat(this.item.licenseStemPriceKRW * this.exchangeRate.usd / this.exchangeRate.krw).toFixed(2)
+        this.item.licenseLeasePriceJPY = Math.ceil(this.item.licenseLeasePriceKRW * this.exchangeRate.jpy / this.exchangeRate.krw)
+        this.item.licenseStemPriceJPY = Math.ceil(this.item.licenseStemPriceKRW * this.exchangeRate.jpy / this.exchangeRate.krw)
+        this.item.licenseLeasePriceCNY = Math.ceil(this.item.licenseLeasePriceKRW * this.exchangeRate.cny / this.exchangeRate.krw)
+        this.item.licenseStemPriceCNY = Math.ceil(this.item.licenseStemPriceKRW * this.exchangeRate.cny / this.exchangeRate.krw)
+      }
+    },
     chkModifyAlert() {
       if (this.cit_id) {
         alert(this.$t("notPossibleModifyMusicFileMsg"));

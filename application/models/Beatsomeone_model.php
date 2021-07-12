@@ -1234,4 +1234,10 @@ class Beatsomeone_model extends CB_Model
             ->query("SELECT count(*) AS cnt FROM cb_cmall_order_detail WHERE cod_status = 'order' AND cde_id = ?", $cdeId)
             ->row_array()['cnt'];
     }
+
+    public function get_exchange_rate()
+    {
+        $sql = "SELECT krw, usd, jpy, cny FROM cb_exchange_rate WHERE er_id = 1";
+        return $this->db->query($sql)->row_array();
+    }
 }

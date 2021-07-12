@@ -288,7 +288,8 @@
                           placeholder="KRW 5500"
                           v-model.number="item.licenseLeasePriceKRW"
                           ref="licenseLeasePriceKRW"
-                          @input="onlyNumber($event, 'licenseLeasePriceKRW')"
+                          @input="onlyNumber($event, 'licenseLeasePriceKRW');setPrice()"
+                          :readonly="$i18n.locale !== 'ko'"
                         />
                       </div>
                     </span>
@@ -297,19 +298,19 @@
                         <label class="checkbox"></label>
                       </div>
                       <div class="input">
-                        <NumberInput placeholder="USD 5.00" v-model="item.licenseLeasePriceUSD" />
+                        <NumberInput placeholder="USD 5.00" v-model="item.licenseLeasePriceUSD" @input="setPrice()" :readonly="$i18n.locale !== 'en'"/>
                       </div>
                     </span>
                   </div>
                   <div class="row row--inner">
                     <span class="col">
                       <div class="input">
-                        <NumberInput placeholder="JPY 540.00" v-model="item.licenseLeasePriceJPY" />
+                        <NumberInput placeholder="JPY 540.00" v-model="item.licenseLeasePriceJPY" @input="setPrice()" :readonly="$i18n.locale !== 'jp'"/>
                       </div>
                     </span>
                     <span class="col">
                       <div class="input">
-                        <NumberInput placeholder="CNY 32.00" v-model="item.licenseLeasePriceCNY" />
+                        <NumberInput placeholder="CNY 32.00" v-model="item.licenseLeasePriceCNY" @input="setPrice()" :readonly="$i18n.locale !== 'cn'"/>
                       </div>
                     </span>
                   </div>
@@ -340,7 +341,8 @@
                           placeholder="KRW 330000"
                           v-model.number="item.licenseStemPriceKRW"
                           ref="licenseStemPriceKRW"
-                          @input="onlyNumber($event, 'licenseStemPriceKRW')"
+                          @input="onlyNumber($event, 'licenseStemPriceKRW');setPrice()"
+                          :readonly="$i18n.locale !== 'ko'"
                         />
                       </div>
                     </span>
@@ -353,19 +355,19 @@
                         </label>
                       </div>
                       <div class="input">
-                          <NumberInput v-model="item.licenseStemPriceUSD" placeholder="USD 280.00" />
+                          <NumberInput v-model="item.licenseStemPriceUSD" placeholder="USD 280.00" @input="setPrice()" :readonly="$i18n.locale !== 'en'" />
                       </div>
                     </span>
                   </div>
                   <div class="row row--inner">
                     <span class="col">
                       <div class="input">
-                        <NumberInput v-model="item.licenseStemPriceJPY" placeholder="JPY 33000.00" />
+                        <NumberInput v-model="item.licenseStemPriceJPY" placeholder="JPY 33000.00" @input="setPrice()" :readonly="$i18n.locale !== 'jp'" />
                       </div>
                     </span>
                     <span class="col">
                       <div class="input">
-                        <NumberInput v-model="item.licenseStemPriceCNY" placeholder="CNY 1900.00" />
+                        <NumberInput v-model="item.licenseStemPriceCNY" placeholder="CNY 1900.00" @input="setPrice()" :readonly="$i18n.locale !== 'cn'" />
                       </div>
                     </span>
                   </div>
@@ -454,7 +456,7 @@ import("vue-datetime/dist/vue-datetime.css");
 
 export default {
   components: {
-      NumberInput,
+    NumberInput,
     Header,
     Footer,
     FileUpload,
@@ -512,6 +514,12 @@ export default {
       releaseDate: false,
       processStatus: false,
       regLimit: 10,
+      exchangeRate: {
+        krw: 0,
+        usd: 0,
+        jpy: 0,
+        cny: 0
+      }
     };
   },
   watch: {
@@ -574,7 +582,39 @@ export default {
       return list;
     },
   },
+  created() {
+    this.getExchangeRate()
+  },
   methods: {
+    getExchangeRate() {
+      Http.get('/beatsomeoneApi/get_exchange_rate').then((r) => {
+        this.exchangeRate = r.data;
+      });
+    },
+    setPrice() {
+      if (this.$i18n.locale === "en") {
+        this.item.licenseLeasePriceKRW = Math.ceil(this.item.licenseLeasePriceUSD * this.exchangeRate.krw / this.exchangeRate.usd)
+        this.item.licenseStemPriceKRW = Math.ceil(this.item.licenseStemPriceUSD * this.exchangeRate.krw / this.exchangeRate.usd)
+        this.item.licenseLeasePriceJPY = parseFloat(this.item.licenseLeasePriceUSD * this.exchangeRate.jpy / this.exchangeRate.usd).toFixed(2)
+        this.item.licenseStemPriceJPY = parseFloat(this.item.licenseStemPriceUSD * this.exchangeRate.jpy / this.exchangeRate.usd).toFixed(2)
+        this.item.licenseLeasePriceCNY = Math.ceil(this.item.licenseLeasePriceUSD * this.exchangeRate.cny / this.exchangeRate.usd)
+        this.item.licenseStemPriceCNY = Math.ceil(this.item.licenseStemPriceUSD * this.exchangeRate.cny / this.exchangeRate.usd)
+      } else if (this.$i18n.locale === "jp") {
+        this.item.licenseLeasePriceKRW = Math.ceil(this.item.licenseLeasePriceJPY * this.exchangeRate.krw / this.exchangeRate.jpy)
+        this.item.licenseStemPriceKRW = Math.ceil(this.item.licenseStemPriceJPY * this.exchangeRate.krw / this.exchangeRate.jpy)
+        this.item.licenseLeasePriceUSD = parseFloat(this.item.licenseLeasePriceJPY * this.exchangeRate.usd / this.exchangeRate.jpy).toFixed(2)
+        this.item.licenseStemPriceUSD = parseFloat(this.item.licenseStemPriceJPY * this.exchangeRate.usd / this.exchangeRate.jpy).toFixed(2)
+        this.item.licenseLeasePriceCNY = Math.ceil(this.item.licenseLeasePriceJPY * this.exchangeRate.cny / this.exchangeRate.jpy)
+        this.item.licenseStemPriceCNY = Math.ceil(this.item.licenseStemPriceJPY * this.exchangeRate.cny / this.exchangeRate.jpy)
+      } else {
+        this.item.licenseLeasePriceUSD = parseFloat(this.item.licenseLeasePriceKRW * this.exchangeRate.usd / this.exchangeRate.krw).toFixed(2)
+        this.item.licenseStemPriceUSD = parseFloat(this.item.licenseStemPriceKRW * this.exchangeRate.usd / this.exchangeRate.krw).toFixed(2)
+        this.item.licenseLeasePriceJPY = Math.ceil(this.item.licenseLeasePriceKRW * this.exchangeRate.jpy / this.exchangeRate.krw)
+        this.item.licenseStemPriceJPY = Math.ceil(this.item.licenseStemPriceKRW * this.exchangeRate.jpy / this.exchangeRate.krw)
+        this.item.licenseLeasePriceCNY = Math.ceil(this.item.licenseLeasePriceKRW * this.exchangeRate.cny / this.exchangeRate.krw)
+        this.item.licenseStemPriceCNY = Math.ceil(this.item.licenseStemPriceKRW * this.exchangeRate.cny / this.exchangeRate.krw)
+      }
+    },
     chkModifyAlert() {
       if (this.cit_id) {
         alert(this.$t("notPossibleModifyMusicFileMsg"));
