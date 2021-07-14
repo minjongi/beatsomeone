@@ -830,7 +830,6 @@ class BeatsomeoneApi extends CB_Controller
         }
 
         $this->load->model('Cmall_cart_model');
-        $param =& $this->querystring;
         $findex = 'cmall_item.cit_id';
         $forder = 'desc';
 
@@ -845,26 +844,27 @@ class BeatsomeoneApi extends CB_Controller
                     ->get_cart_detail($mem_id, element('cit_id', $val));
             }
         }
-//        log_message('debug','$result : '. print_r($result,true));
-//
-//        $vs = $this->cmalllib->get_my_cart(1000);
         $s = 0;
         $s_d = 0;
+        $s_jpy = 0;
+        $s_cny = 0;
         foreach($result as $v) {
-//            log_message('debug','ITEM : '. print_r($v,true));
             if (element('cit_freebeat', $v) != "1") {
                 $s += element('cit_price', $v);
 
                 foreach (element('detail', $v) as $d) {
                     $s += element('cde_price', $d);
                     $s_d += element('cde_price_d', $d);
-    //                log_message('debug','DETAIL : '. print_r($d,true));
+                    $s_jpy += element('cde_price_jpy', $d);
+                    $s_cny += element('cde_price_cny', $d);
                 }
             }
         }
         echo json_encode([
             's' => $s,
-            's_d' => $s_d
+            's_d' => $s_d,
+            's_jpy' => $s_jpy,
+            's_cny' => $s_cny
         ]);
         return false;
     }

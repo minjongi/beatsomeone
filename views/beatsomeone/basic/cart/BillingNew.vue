@@ -197,7 +197,10 @@
                                 <div class="tab">
                                     <div>
                                         <div class="title">{{$t('paySubtotal')}}</div>
-                                        <div>{{ formatPrice(good_mny, good_mny_d, true) }}</div>
+                                        <div>
+                                          {{ $t('currencySymbol') }}
+                                          {{ total_money }}
+                                        </div>
                                     </div>
                                     <div>
                                         <div class="title">{{$t('points')}}</div>
@@ -207,7 +210,10 @@
                                         <div>{{$t('payTotal2')}}</div>
                                         <!--                                        <div>{{ formatPrice(totalPriceKr - usePoint, totalPriceEn - usePoint, true) }}-->
                                         <!--                                        </div>-->
-                                        <div>{{ formatPrice(good_mny - cor_point, good_mny_d - cor_point, true) }}</div>
+                                        <div>
+                                          {{ $t('currencySymbol') }}
+                                          {{ total_money_pay }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -323,6 +329,8 @@
                 mem_point: 0,
                 good_mny: 0,
                 good_mny_d: 0,
+                good_mny_jpy: 0,
+                good_mny_cny: 0,
                 freebeatPay: false,
                 allatForm: {
                     shop_id: "",
@@ -372,7 +380,29 @@
             },
             total_money_d() {
                 return Number(this.good_mny_d - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false});
-            }
+            },
+            total_money() {
+                if (this.$i18n.locale === "en") {
+                  return Number(this.good_mny_d).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+                } else if (this.$i18n.locale === "jp") {
+                  return Number(this.good_mny_jpy).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+                } else if (this.$i18n.locale === "cn") {
+                  return Number(this.good_mny_cny).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+                }
+
+                return Number(this.good_mny).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+            },
+            total_money_pay() {
+              if (this.$i18n.locale === "en") {
+                return Number(this.good_mny_d - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+              } else if (this.$i18n.locale === "jp") {
+                return Number(this.good_mny_jpy - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+              } else if (this.$i18n.locale === "cn") {
+                return Number(this.good_mny_cny - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+              }
+
+              return Number(this.good_mny - this.cor_point).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+            },
         },
         mounted() {
             axios.get('/payment/pg_config')
@@ -400,10 +430,14 @@
                     this.orderProducts = data.data;
                     this.good_mny = 0;
                     this.good_mny_d = 0;
+                    this.good_mny_jpy = 0;
+                    this.good_mny_cny = 0;
                     let product_cds = [];
                     let product_nms = [];
                     this.orderProducts.forEach(item => {
                         if (item.isfree == 0) {
+                            this.good_mny_jpy += (+item.detail[0].cde_price_jpy);
+                            this.good_mny_cny += (+item.detail[0].cde_price_cny);
                             this.good_mny_d += (+item.detail[0].cde_price_d);
                             this.good_mny += (+item.detail[0].cde_price);
                         }
@@ -527,7 +561,7 @@
               let formData = new FormData();
               formData.append('currency', this.payletter.currency);
               formData.append('order_no', this.allatForm.order_no);
-              formData.append('amt', this.total_money_d);
+              formData.append('amt', this.total_money_pay);
               formData.append('pmember_id', this.allatForm.pmember_id);
               formData.append('recp_addr', this.allatForm.recp_addr);
               formData.append('pg_info', this.payletter.pg_info);
@@ -641,7 +675,7 @@
               let formData = new FormData();
               formData.append('pay_type', 'payletter');
               formData.append('unique_id', this.unique_id);
-              formData.append('good_mny', this.total_money_d);
+              formData.append('good_mny', this.total_money_pay);
               formData.append('cor_point', this.cor_point);
               formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
 

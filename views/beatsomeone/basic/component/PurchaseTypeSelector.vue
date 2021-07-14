@@ -35,7 +35,10 @@
                     </a>
                     <a class="buy waves-effect" @click="addCart(item.detail.LEASE)" href="javascript:;" v-else>
                       <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}}</span>
-                      <span v-else>{{ formatPrice(item.detail.LEASE.cde_price, item.detail.LEASE.cde_price_d, true) }}</span>
+                      <span v-else>
+                        {{ $t('currencySymbol') }}
+                        {{ formatPrice(item.detail.LEASE) }}
+                      </span>
                       <span v-if="is_subscriber && item.cit_type5 == '1'"> (구독 잔여 {{ remainDownloadNumber() }})</span>
                     </a>
                   </div>
@@ -66,7 +69,10 @@
                   <div class="parchase-btnbox">
                     <a class="buy waves-effect" @click="addCart(item.detail.STEM)" href="javascript:;">
                       <span v-if="item.cit_freebeat == 1 && item.detail.LEASE.cde_price == 0">{{$t('free')}}</span>
-                      <span v-else>{{ formatPrice(item.detail.STEM.cde_price, item.detail.STEM.cde_price_d, true) }}</span>
+                      <span v-else>
+                        {{ $t('currencySymbol') }}
+                        {{ formatPrice(item.detail.STEM) }}
+                      </span>
                     </a>
                   </div>
                 </div>
@@ -178,25 +184,16 @@ export default {
     close() {
       this.$emit("update:purchaseTypeSelectorPopup", false);
     },
-    formatPrice: function (kr, en, simbol) {
-      if (!simbol) {
-        if (this.$i18n.locale === "ko") {
-          return kr;
-        } else {
-          return en;
-        }
+    formatPrice: function (detail) {
+      if (this.$i18n.locale === "en") {
+        return Number(detail.cde_price_d).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+      } else if (this.$i18n.locale === "jp") {
+        return Number(detail.cde_price_jpy).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+      } else if (this.$i18n.locale === "cn") {
+        return Number(detail.cde_price_cny).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
       }
-      if (this.$i18n.locale === "ko") {
-        return (
-            "₩ " +
-            Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-        );
-      } else {
-        return (
-            "$ " +
-            Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-        );
-      }
+
+      return Number(detail.cde_price).toLocaleString("ko-KR", {minimumFractionDigits: 0})
     },
   },
 };

@@ -62,59 +62,7 @@ const router = new VueRouter({
     ],
 });
 
-const store = new Vuex.Store({
-    state: {
-        cartSum: 0,
-        cartSumD: 0,
-        refundObj: {},
-        accountSetting: {
-            bank_name: '',
-            account_number: '',
-            recipient: ''
-        }
-    },
-    mutations: {
-        ADD_MONEY(state, payload) {
-            state.cartSum = state.cartSum + payload.money;
-            state.cartSumD = state.cartSumD + payload.money_d;
-        },
-        SET_REFUND_DATA(state, payload) {
-            state.refundObj = payload;
-        },
-        SET_ACCOUNT_SETTING(state, payload) {
-            state.accountSetting.bank_name = payload.bank_name;
-            state.accountSetting.account_number = payload.account_number;
-            state.accountSetting.recipient = payload.recipient;
-        }
-    },
-    getters: {
-        getCartSum(state) {
-            return state.cartSum;
-        },
-        getCartSumD(state) {
-            return state.cartSumD;
-        },
-        getRefundData(state) {
-            return state.refundObj;
-        },
-        getAccountSetting(state) {
-            return state.accountSetting;
-        }
-    },
-    actions: {
-        // moneyObject: {money: 0, money_d: 0}
-        addMoney(context, moneyObject) {
-            context.commit('ADD_MONEY', moneyObject);
-        },
-        setRefundData(context, refundObj) {
-            context.commit('SET_REFUND_DATA', refundObj);
-        },
-        setAccountSetting(context, accountSetting) {
-            context.commit('SET_ACCOUNT_SETTING', accountSetting);
-        },
-    }
-});
-
+import store from '*/vue/common/store'
 
 window.vm = new Vue({
     i18n,

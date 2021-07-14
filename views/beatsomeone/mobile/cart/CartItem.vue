@@ -61,8 +61,9 @@
                                             </div>
                                             <div class="detail">{{ $t('lang24') }}</div>
                                         </div>
-                                        <div class="price 11221122" style="margin-top: 5px; font-size: 12px;">
-                                            {{ formatPrice(item.detail[0].cde_price, item.detail[0].cde_price_d, item.isfree) }}
+                                        <div class="price" style="margin-top: 5px; font-size: 12px;">
+                                          {{ $t('currencySymbol') }}
+                                          {{ formatPrice(item.detail[0], item.isfree) }}
                                         </div>
                                     </button>
                                    
@@ -136,32 +137,20 @@ export default {
         truncate(str, n) {
             return (str.length > n) ? str.substr(0, n - 1) + '...' : str;
         },
-        formatPrice: function (kr, en, isfree = '0') {
-            if (this.$i18n.locale === "ko") {
-              if (isfree == '1') {
-                return (
-                    "₩ " +
-                    Number(0).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
-              } else {
-                return (
-                    "₩ " +
-                    Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-                );
-              }
-            } else {
-              if (isfree == '1') {
-                return (
-                    "$ " +
-                    Number(0).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
-              } {
-                return (
-                    "$ " +
-                    Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-                );
-              }
-            }
+        formatPrice: function (detail, isfree = '0') {
+          if (isfree == '1') {
+            return 0
+          }
+
+          if (this.$i18n.locale === "en") {
+            return Number(detail.cde_price_d).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          } else if (this.$i18n.locale === "jp") {
+            return Number(detail.cde_price_jpy).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          } else if (this.$i18n.locale === "cn") {
+            return Number(detail.cde_price_cny).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          }
+
+          return Number(detail.cde_price).toLocaleString("ko-KR", {minimumFractionDigits: 0})
         },
         goBuy: function () {
             let formData = new FormData();

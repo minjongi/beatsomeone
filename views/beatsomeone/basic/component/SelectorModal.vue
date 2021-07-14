@@ -27,8 +27,7 @@
                                     {{detailItem}}
                                     <div class="parchase-btnbox">
                                         <button class="buy waves-effect" @click="addCart(detailItem)">
-                                           
-                                            <span>{{ $t('currencySymbol') }} {{ $i18n.locale === 'ko' ? formatPrice(detailItem.cde_price) : formatPrice(detailItem.cde_price_d) }}</span>
+                                            <span>{{ $t('currencySymbol') }} {{ formatPrice(detailItem) }}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -60,12 +59,16 @@ export default {
     close() {
       this.$emit("update:togglePopup", false);
     },
-    formatPrice: function (price) {
-      if (this.$i18n.locale === "ko") {
-        return Number(price).toLocaleString("ko-KR", {minimumFractionDigits: 0});
-      } else {
-        return Number(price).toLocaleString(undefined, {minimumFractionDigits: 2});
+    formatPrice: function (detail) {
+      if (this.$i18n.locale === "en") {
+        return Number(detail.cde_price_d).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+      } else if (this.$i18n.locale === "jp") {
+        return Number(detail.cde_price_jpy).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+      } else if (this.$i18n.locale === "cn") {
+        return Number(detail.cde_price_cny).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
       }
+
+      return Number(detail.cde_price).toLocaleString("ko-KR", {minimumFractionDigits: 0})
     },
     addCart: function (detailItem) {
       console.log(this.item, detailItem);

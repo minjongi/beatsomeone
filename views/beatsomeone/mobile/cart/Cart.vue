@@ -70,7 +70,10 @@
             <div class="wrap">
                 <div class="n-flex between">
                     <div class="total">{{ $t('estimatedPaymentAmount') }}</div>
-                    <div class="price">{{ formatPrice(totalPriceKr, totalPriceEn) }}</div>
+                    <div class="price">
+                      {{ $t('currencySymbol') }}
+                      {{ total_amount }}
+                    </div>
                 </div>
                 <div>
                     <button class="btn btn--submit" @click="goOrder">{{ $t('payOrder') }}</button>
@@ -99,6 +102,8 @@ export default {
             cartItems: [],
             totalPriceKr: 0,
             totalPriceEn: 0.0,
+            totalPriceJPY: 0.0,
+            totalPriceCNY: 0.0,
             checkedAll: true,
             cntSelectedItems: 0,
             msgEmptyCart: "There is no purchaseable list.",
@@ -107,11 +112,26 @@ export default {
     mounted() {
         this.getCart();
     },
+    computed: {
+      total_amount() {
+        if (this.$i18n.locale === "en") {
+          return Number(this.totalPriceEn).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+        } else if (this.$i18n.locale === "jp") {
+          return Number(this.totalPriceJPY).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+        } else if (this.$i18n.locale === "cn") {
+          return Number(this.totalPriceCNY).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+        }
+
+        return Number(this.totalPriceKr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+      }
+    },
     watch: {
         checkedAll(val) {
             this.cntSelectedItems = 0;
             this.totalPriceKr = 0;
             this.totalPriceEn = 0.0;
+            this.totalPriceJPY = 0.0;
+            this.totalPriceCNY = 0.0;
             this.cartItems.forEach(item => {
                 this.$set(item, 'is_selected', val);
                 if (val === true) {
@@ -119,6 +139,8 @@ export default {
                     if (item.detail[0].isfree == 0) {
                         this.totalPriceKr += (+item.detail[0].cde_price);
                         this.totalPriceEn += (+item.detail[0].cde_price_d);
+                        this.totalPriceJPY += (+item.detail[0].cde_price_jpy);
+                        this.totalPriceCNY += (+item.detail[0].cde_price_cny);
                     }
                 }
             })
@@ -129,12 +151,16 @@ export default {
                 this.cntSelectedItems = 0;
                 this.totalPriceKr = 0;
                 this.totalPriceEn = 0.0;
+                this.totalPriceJPY = 0.0;
+                this.totalPriceCNY = 0.0;
                 items.forEach(item => {
                     if (item.is_selected === true) {
                         this.cntSelectedItems++;
                         if (item.detail[0].isfree == 0) {
                             this.totalPriceKr += (+item.detail[0].cde_price);
                             this.totalPriceEn += (+item.detail[0].cde_price_d);
+                            this.totalPriceJPY += (+item.detail[0].cde_price_jpy);
+                            this.totalPriceCNY += (+item.detail[0].cde_price_cny);
                         }
                     }
                 })

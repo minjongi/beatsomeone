@@ -42,52 +42,7 @@ const router = new VueRouter({
     }
 });
 
-const store = new Vuex.Store({
-    state: {
-        cartSum: 0,
-        cartSumD: 0,
-        userInfo: {}
-
-    },
-    mutations: {
-        ADD_MONEY(state, payload) {
-            state.cartSum = state.cartSum + payload.money;
-            state.cartSumD = state.cartSumD + payload.money_d;
-        },
-        SET_USER_INFO(state, payload) {
-            state.userInfo = payload
-        },
-        SET_USER_Offer(state, offer){
-            state.userOffer = offer
-        }
-    },
-    getters: {
-        getCartSum(state) {
-            return state.cartSum;
-        },
-        getCartSumD(state) {
-            return state.cartSumD;
-        },
-        getUserInfo(state) {
-            return state.userInfo;
-        },
-        getUserOffer(state) {
-            return state.userOffer;
-        }
-    },
-    actions: {
-        // moneyObject: {money: 0, money_d: 0}
-        addMoney(context, moneyObject) {
-            context.commit('ADD_MONEY', moneyObject);
-        },
-        setUserInfo(context, userInfo) {
-            context.commit('SET_USER_INFO', userInfo);
-        },
-        setUserOffer(context, userOffer) {
-            context.commit('SET_USER_Offer', userOffer);
-        }
-    }
-});
+import store from '*/vue/common/store'
 
 window.vm = new Vue({
     i18n,

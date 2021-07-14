@@ -52,7 +52,7 @@
                     </button>
                     <a :href="helper.langUrl($i18n.locale, '/cmall/cart')" class="header__cart" v-if="isLogin">
                         {{ $t('cart')}}<br>
-                        ({{ $t('currencySymbol') }}{{ $i18n.locale == 'en' ? getCartSumD : getCartSum }})
+                        ({{ $t('currencySymbol') }}{{ getCartSum }})
                     </a>
                 </div>
                 <!-- <div v-html="banner_content" class="gnb__banner">
@@ -137,10 +137,15 @@
                 return this.userInfo !== false;
             },
             getCartSum() {
-                return Number(this.$store.getters.getCartSum).toLocaleString('ko-KR', {minimumFractionDigits: 0});
-            },
-            getCartSumD() {
-                return Number(this.$store.getters.getCartSumD).toLocaleString(undefined, {minimumFractionDigits: 2});
+              if (this.$i18n.locale === "en") {
+                return Number(this.$store.getters.getCartSumD).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+              } else if (this.$i18n.locale === "jp") {
+                return Number(this.$store.getters.getCartSumJPY).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+              } else if (this.$i18n.locale === "cn") {
+                return Number(this.$store.getters.getCartSumCNY).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+              }
+
+              return Number(this.$store.getters.getCartSum).toLocaleString("ko-KR", {minimumFractionDigits: 0})
             },
         },
         methods: {
@@ -159,9 +164,13 @@
                     .then(data => {
                         this.cartSum = data.s;
                         this.cartSumD = data.s_d;
+                        this.cartSumJPY = data.s_jpy;
+                        this.cartSumCNY = data.s_cny;
                         this.$store.dispatch('addMoney', {
                             money: data.s,
                             money_d: data.s_d,
+                            money_jpy: data.s_jpy,
+                            money_cny: data.s_cny,
                         })
                     })
                     .catch(error => {

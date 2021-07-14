@@ -65,9 +65,9 @@
                                                     </figure>
                                                 </div>
                                                 <div class="edit" style="text-align: right">
-                                                    <div class="price 11221122" style="font-size: 12px;">
-                                                        {{ product.isfree == '0' ? formatPrice(product.detail[0].cde_price, product.detail[0].cde_price_d, true) :
-                                                            formatPrice(0, 0, true) }}
+                                                    <div class="price" style="font-size: 12px;">
+                                                      {{ $t('currencySymbol') }}
+                                                      {{ formatPrice(product.detail[0], product.isfree) }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -132,7 +132,10 @@
                         <div class="row fluid">
                             <div class="n-flex between subtotal-box">
                                 <div class="title">{{ $t('paySubtotal') }}</div>
-                                <div>{{ formatPrice(good_mny, good_mny_d, true) }}</div>
+                                <div>
+                                  {{ $t('currencySymbol') }}
+                                  {{ total_money }}
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -186,21 +189,89 @@
                                               </div>
                                             </label>
                                         </div>
-                                        <div v-if="currentLocale === 'en'" class="n-flex">
+                                        <div v-if="currentLocale === 'en'">
+                                          <div class="n-flex" style="margin-bottom: 10px;">
                                             <label class="checkbox" for="method3">
-                                                <input
-                                                    type="radio"
-                                                    name="method2"
-                                                    id="method3"
-                                                    hidden="hidden"
-                                                    checked
-                                                />
-                                                <div class="btn btn--yellow" style="height:48px">
-                                                    <div class="icon paypal"></div>
-                                                    <div style="font-size:14px;">PayPal</div>
-                                                </div>
+                                              <input
+                                                  type="radio"
+                                                  name="method2"
+                                                  id="method3"
+                                                  hidden="hidden"
+                                                  :value="4"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div class="icon paypal"></div>
+                                                <div style="font-size:14px;">PayPal</div>
+                                              </div>
                                             </label>
+
+                                            <label class="checkbox" for="method6">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method6"
+                                                  hidden="hidden"
+                                                  :value="6"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div class="icon credit"></div>
+                                                <div style="font-size:12px;">WechatPay</div>
+                                              </div>
+                                            </label>
+                                          </div>
+                                          <div class="n-flex">
+                                            <label class="checkbox" for="method5">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method5"
+                                                  hidden="hidden"
+                                                  :value="5"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div class="icon wire"></div>
+                                                <div style="font-size:12px;">{{ $t('creditCard') }}</div>
+                                              </div>
+                                            </label>
+                                            <label class="checkbox" for="method7">
+                                              <input
+                                                  type="radio"
+                                                  name="method"
+                                                  id="method7"
+                                                  hidden="hidden"
+                                                  :value="7"
+                                                  v-model="pay_type"
+                                              />
+                                              <div class="btn btn--yellow" style="height:48px">
+                                                <div class="icon credit"></div>
+                                                <div style="font-size:12px;">Alipay</div>
+                                              </div>
+                                            </label>
+                                          </div>
                                         </div>
+
+                                      <div v-if="currentLocale === 'jp'">
+                                        <div class="n-flex">
+                                          <label class="checkbox" for="method8">
+                                            <input
+                                                type="radio"
+                                                name="method"
+                                                id="method8"
+                                                hidden="hidden"
+                                                :value="8"
+                                                v-model="pay_type"
+                                            />
+                                            <div class="btn btn--yellow" style="height:48px">
+                                              <div class="icon wire"></div>
+                                              <div style="font-size:12px;">{{ $t('creditCard') }}</div>
+                                            </div>
+                                          </label>
+                                        </div>
+                                      </div>
+
                                       <div class="payco-desc" v-show="pay_type === 3">
                                         PAYCO는 온/오프라인 쇼핑은 물론 송금, 멤버십 적립까지 가능한 통합 서비스입니다.<br/>
                                         - 지원카드: 모든 국내 신용/체크카드
@@ -229,7 +300,10 @@
                             <div class="tab">
                                 <div class="n-flex between">
                                     <div class="title">{{ $t('paySubtotal') }}</div>
-                                    <div>{{ formatPrice(good_mny, good_mny_d, true) }}</div>
+                                    <div>
+                                      {{ $t('currencySymbol') }}
+                                      {{ total_money }}
+                                    </div>
                                 </div>
                                 <div class="n-flex between">
                                     <div class="title">{{$t('points')}}</div>
@@ -237,7 +311,10 @@
                                 </div>
                                 <div class="n-flex between total">
                                     <div>{{ $t('payTotal2') }}</div>
-                                    <div>{{ formatPrice(good_mny - cor_point, good_mny_d - cor_point, true) }}</div>
+                                    <div>
+                                      {{ $t('currencySymbol') }}
+                                      {{ total_money_pay }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -248,7 +325,7 @@
                             </div>
                             <div class="btnbox" v-if="currentLocale === 'en'">
                                 <div>
-                                    <PayPal v-if="isEmptyPaypal === false"
+                                    <PayPal v-if="isEmptyPaypal === false && pay_type === 4"
                                             :env="pg_paypal_env"
                                             currency="USD"
                                             locale="en_US"
@@ -260,11 +337,20 @@
                                             @payment-completed="paypalCompleted"
                                             @payment-cancelled="paypalCancelled"
                                     ></PayPal>
+                                    <button v-if="pay_type !== 4" type="submit" class="btn btn--submit" @click="goPayletter">{{$t('pay')}}</button>
                                 </div>
                                 <div>
                                     <button class="btn btn--gray" @click="goBack">{{ $t('back') }}</button>
                                 </div>
                             </div>
+                          <div class="btnbox" v-if="currentLocale === 'jp'">
+                            <div>
+                              <button type="submit" class="btn btn--submit" @click="goPayletter">{{$t('pay')}}</button>
+                            </div>
+                            <div>
+                              <button class="btn btn--gray" @click="goBack">{{ $t('back') }}</button>
+                            </div>
+                          </div>
                         </div>
                         <div class="row" v-else>
                             <div class="btnbox n-flex">
@@ -353,6 +439,8 @@ export default {
             mem_point: 0,
             good_mny: 0,
             good_mny_d: 0,
+            good_mny_jpy: 0,
+            good_mny_cny: 0,
             freebeatPay: false,
             allatForm: {
                 shop_id: "",
@@ -379,6 +467,10 @@ export default {
                 size: "large",
                 shape: "rect",
             },
+            payletter: {
+              currency: 'USD',
+              pg_info: 'PLCreditCardMpi'
+            },
             isEmptyPaypal: true,
             unique_id: '',
             good_name: '',
@@ -398,7 +490,29 @@ export default {
         },
         total_money_d() {
             return Number(this.good_mny_d - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false});
-        }
+        },
+        total_money() {
+          if (this.$i18n.locale === "en") {
+            return Number(this.good_mny_d).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          } else if (this.$i18n.locale === "jp") {
+            return Number(this.good_mny_jpy).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          } else if (this.$i18n.locale === "cn") {
+            return Number(this.good_mny_cny).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          }
+
+          return Number(this.good_mny).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+        },
+        total_money_pay() {
+          if (this.$i18n.locale === "en") {
+            return Number(this.good_mny_d - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          } else if (this.$i18n.locale === "jp") {
+            return Number(this.good_mny_jpy - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          } else if (this.$i18n.locale === "cn") {
+            return Number(this.good_mny_cny - this.cor_point).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          }
+
+          return Number(this.good_mny - this.cor_point).toLocaleString("ko-KR", {minimumFractionDigits: 0})
+        },
     },
     mounted() {
         axios.get('/payment/pg_config')
@@ -426,10 +540,14 @@ export default {
                 this.orderProducts = data.data;
                 this.good_mny = 0;
                 this.good_mny_d = 0;
+                this.good_mny_jpy = 0;
+                this.good_mny_cny = 0;
                 let product_cds = [];
                 let product_nms = [];
                 this.orderProducts.forEach(item => {
                     if (item.isfree == 0) {
+                        this.good_mny_jpy += (+item.detail[0].cde_price_jpy);
+                        this.good_mny_cny += (+item.detail[0].cde_price_cny);
                         this.good_mny_d += (+item.detail[0].cde_price_d);
                         this.good_mny += (+item.detail[0].cde_price);
                     }
@@ -471,27 +589,28 @@ export default {
         }
         this.$set(this.allatForm, 'recp_addr', address);
         this.$set(this.allatForm, 'recp_nm', mem_name);
+
+        if (this.$i18n.locale === "en") {
+          this.pay_type = 4
+        } else if (this.$i18n.locale === "jp") {
+          this.pay_type = 8
+        }
     },
     methods: {
-        formatPrice: function (kr, en, symbol) {
-            if (!symbol) {
-                if (this.$i18n.locale === "ko") {
-                  return kr;
-                } else {
-                  return en;
-                }
-            }
-            if (this.$i18n.locale === "ko") {
-              return (
-                  "₩ " +
-                  Number(kr).toLocaleString("ko-KR", {minimumFractionDigits: 0})
-              );
-            } else {
-              return (
-                  "$ " +
-                  Number(en).toLocaleString(undefined, {minimumFractionDigits: 2})
-              );
-            }
+        formatPrice: function (detail, isfree) {
+          if (isfree == '1') {
+            return 0
+          }
+
+          if (this.$i18n.locale === "en") {
+            return Number(detail.cde_price_d).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          } else if (this.$i18n.locale === "jp") {
+            return Number(detail.cde_price_jpy).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          } else if (this.$i18n.locale === "cn") {
+            return Number(detail.cde_price_cny).toLocaleString('en-US', {minimumFractionDigits: 2, useGrouping: false})
+          }
+
+          return Number(detail.cde_price).toLocaleString("ko-KR", {minimumFractionDigits: 0})
         },
         truncate(str, n) {
             return (str.length > n) ? str.substr(0, n-1) + '...' : str;
@@ -553,6 +672,47 @@ export default {
         },
         goBack: function () {
             window.location.href = this.helper.langUrl(this.$i18n.locale, "/cmall/cart");
+        },
+        goPayletter: function () {
+          switch (this.pay_type) {
+            case 5:
+              this.payletter.currency = 'USD'
+              this.payletter.pg_info = 'PLCreditCard'
+              break
+            case 6:
+              this.payletter.currency = 'USD'
+              this.payletter.pg_info = 'WeChatPayQRCodePayment'
+              break
+            case 7:
+              this.payletter.currency = 'USD'
+              this.payletter.pg_info = 'ICBAlipay'
+              break
+            case 8:
+              this.payletter.currency = 'JPY'
+              this.payletter.pg_info = 'PLCreditCardMpi'
+              break
+          }
+
+          let formData = new FormData();
+          formData.append('currency', this.payletter.currency);
+          formData.append('order_no', this.allatForm.order_no);
+          formData.append('amt', this.total_money);
+          formData.append('pmember_id', this.allatForm.pmember_id);
+          formData.append('recp_addr', this.allatForm.recp_addr);
+          formData.append('pg_info', this.payletter.pg_info);
+
+          axios.post('/pg/payletter/payment', formData)
+              .then(res => res.data)
+              .then(data => {
+                console.log(data)
+                window.open(data.online_url, 'payletter', 'width=762,height=500,scrollbars=1');
+              })
+              .catch(error => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+                console.error(error);
+              });
         },
         paycoReserve: function () {
           let formData = new FormData();
@@ -649,7 +809,7 @@ export default {
           let formData = new FormData();
           formData.append('pay_type', 'payletter');
           formData.append('unique_id', this.unique_id);
-          formData.append('good_mny', this.total_money_d);
+          formData.append('good_mny', this.total_money);
           formData.append('cor_point', this.cor_point);
           formData.append('mem_realname', this.member.mem_firstname + this.member.mem_lastname);
 
